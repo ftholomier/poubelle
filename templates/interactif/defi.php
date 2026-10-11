@@ -37,7 +37,7 @@ $i18n = [
             <input id="df-email" name="email" type="email" maxlength="120" required autocomplete="email" placeholder="<?= e(t('prenom@exemple.fr')) ?>">
             <?php endif; ?>
             <label for="df-name"><?= e(t('Votre pseudo')) ?></label>
-            <input id="df-name" name="name" maxlength="20" minlength="2" required autocomplete="nickname" placeholder="<?= e(t('ex. Lionceau25')) ?>">
+            <input id="df-name" name="name" maxlength="20" minlength="2" required autocomplete="nickname" placeholder="<?= e(t(club('ex. {nickname_sg}25'))) ?>">
             <button type="submit" class="qbtn"><?= e(t('Jouer pour le classement')) ?></button>
             <p class="ql__err" data-df-err role="alert" hidden></p>
             <p class="ql__hint"><?= e($account ? t('Ce pseudo sera aussi le vôtre au championnat du club-house.') : t('Pas de mot de passe : un lien sécurisé, envoyé à votre e-mail, garde votre place sur ce téléphone et vous la rend sur un autre. C’est le même compte que le carnet du supporter et le championnat du club-house.')) ?></p>

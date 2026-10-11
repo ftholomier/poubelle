@@ -15,7 +15,7 @@
       </form>
       <div class="chips">
         <a class="chip" href="<?= e(url('/matchs/')) ?>"><?= e(t('Matchs')) ?></a>
-        <a class="chip" href="<?= e(url('/nos-lions/')) ?>"><?= e(t('Nos Lions')) ?></a>
+        <a class="chip" href="<?= e(url('/nos-lions/')) ?>"><?= e(t(club_text('nos_lions', 'Nos joueurs'))) ?></a>
         <a class="chip" href="<?= e(url('/supporters/')) ?>"><?= e(t('Supporters')) ?></a>
         <a class="chip" href="<?= e(url('/infrastructures/')) ?>"><?= e(t('Infrastructures')) ?></a>
         <a class="chip" href="<?= e(url('/symboles/')) ?>"><?= e(t('Symboles')) ?></a>

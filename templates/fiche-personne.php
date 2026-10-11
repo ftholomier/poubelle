@@ -108,7 +108,7 @@ $rowsHtml = function (array $list, bool $coach) {
             <?php foreach ($cardRows as [$k, $v]): ?>
               <span class="pcard__row"><span><?= e($k) ?></span><b><?= e($v) ?></b></span>
             <?php endforeach; ?>
-            <span class="pcard__foot"><?= $cardNo ? e(t('Carte n° {n}', ['n' => $cardNo])) . ' · ' : '' ?><?= e(t('Collection Nos Lions')) ?></span>
+            <span class="pcard__foot"><?= $cardNo ? e(t('Carte n° {n}', ['n' => $cardNo])) . ' · ' : '' ?><?= e(t(club_text('collection', 'Collection du musée'))) ?></span>
           </span>
         </span>
       </button>
@@ -119,7 +119,7 @@ $rowsHtml = function (array $list, bool $coach) {
         <?php foreach ($crumbs as $c): ?><a href="<?= e($c['href']) ?>"><?= e($c['label']) ?></a><span aria-hidden="true">/</span><?php endforeach; ?>
         <span aria-current="page"><?= e($name) ?></span>
       </nav>
-      <span class="phero__kicker"><?= e(t('Nos Lions')) ?> · <?= e($roleLabel) ?><?= $years ? ' · ' . e($years) : '' ?></span>
+      <span class="phero__kicker"><?= e(t(club_text('nos_lions', 'Nos joueurs'))) ?> · <?= e($roleLabel) ?><?= $years ? ' · ' . e($years) : '' ?></span>
       <h1 class="phero__name<?= mb_strlen($first . $last . ($last ? '' : $name)) > 28 ? ' phero__name--long' : '' ?>" style="--chars:<?= max(4, ...array_map('mb_strlen', preg_split('/[\s-]+/u', $first . ' ' . ($last ?: $name)) ?: [''])) ?>"><?php if ($first !== ''): ?><?= e($first) ?><br><?php endif; ?><span><?= e($last ?: $name) ?></span></h1>
       <?php if (!empty($p['nickname'])): ?><p class="phero__nick">« <?= e($p['nickname']) ?> »</p><?php endif; ?>
       <?php $bigShown = array_values(array_filter($big, fn ($b) => $b['v'] !== '' && $b['v'] !== '–' && $b['v'] !== '0'));

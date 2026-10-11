@@ -13,7 +13,7 @@ $strips = array_chunk($photos, 6, true);
     <?php if (!$photos): ?><p class="wempty"><?= e(t('Aucune photo pour ce choix : essayez une autre décennie ou un autre photographe.')) ?></p><?php endif; ?>
     <?php foreach ($strips as $s => $strip): ?>
       <div class="pc__strip" style="--r:<?= random_int(-5, 5) / 10 ?>deg">
-        <span class="pc__brand" aria-hidden="true">◀ 400 · SOCHAUX RÉTRO · <?= sprintf('%02d', $s + 1) ?></span>
+        <span class="pc__brand" aria-hidden="true">◀ 400 · <?= e(mb_strtoupper(\App\Core\Club::s('site'))) ?> · <?= sprintf('%02d', $s + 1) ?></span>
         <div class="pc__frames">
           <?php foreach ($strip as $i => $p): ?>
             <figure class="pc__frame">

@@ -8,14 +8,14 @@ use App\Services\Chiffres;
 $pad = fn (int $n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
 // Compteur animé seulement pour les nombres entiers (pas les scores, rangs ou décimales).
 $countable = fn (string $v) => (bool) preg_match('/^\d{1,3}(?:[\x{00A0}\x{202F} ,]\d{3})*$/u', $v);
-$first = $scope['careers_from'] ?? 1929;
+$first = $scope['careers_from'] ?? ((int) \App\Core\Club::s('founded') + 1);
 ?>
 <section class="rhead chead">
   <div class="wrap rhead__inner">
     <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><a href="<?= e(url('/matchs/')) ?>"><?= e(t('Matchs')) ?></a><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('Les chiffres')) ?></span></nav>
     <span class="eyebrow eyebrow--lg" style="color:var(--navy)"><?= e(t('{n} chiffres · calculés automatiquement', ['n' => $count])) ?></span>
     <h1 class="rhead__title"><?= e(t('Les chiffres')) ?><br><?= e(t('{sigle_de}')) ?></h1>
-    <p class="chead__lead"><?= e(t('De {y} à aujourd’hui, {n} statistiques tirées de toute la mémoire du musée : les carrières saison par saison, les matchs racontés minute par minute et les fiches des Lions.', ['y' => $first, 'n' => $count])) ?></p>
+    <p class="chead__lead"><?= e(t(club_text('chiffres_lead', 'De {y} à aujourd’hui, {n} statistiques tirées de toute la mémoire du musée : les carrières saison par saison, les matchs racontés minute par minute et les fiches des joueurs.'), ['y' => $first, 'n' => $count])) ?></p>
     <?php if (!empty($audio)): ?><div class="hero-actions" style="margin-top:0"><?= \App\Core\View::partial('partials/audio-button', ['audio' => $audio, 'navy' => true]) ?></div><?php endif; ?>
     <dl class="chead__scope">
       <div><dt><?= e(Chiffres::num((int) $scope['careers'])) ?></dt><dd><?= e(t('carrières détaillées saison par saison')) ?></dd></div>
@@ -81,7 +81,7 @@ $first = $scope['careers_from'] ?? 1929;
         <p><?= e(t('Les temps forts minute par minute : passes décisives, buts de la tête, remontadas, penaltys arrêtés. Seuls les matchs dont le récit retrouve le score final sont pris en compte.')) ?></p>
       </div>
       <div>
-        <h3><?= e(t('Fiches des Lions')) ?></h3>
+        <h3><?= e(t(club_text('chiffres_fiches', 'Fiches des joueurs'))) ?></h3>
         <p><?= e(t('Dates et lieux de naissance, tailles, pied fort et formation au club. Une date de naissance invraisemblable est ignorée.')) ?></p>
       </div>
     </div>

@@ -6,7 +6,7 @@
 
 use App\Services\Search;
 
-$types = ['personne' => t('Nos Lions'), 'match' => t('Matchs'), 'article' => t('Articles'), 'page' => t('Pages'), 'objet' => t('Objets'), 'moment' => t('Moments')];
+$types = ['personne' => t(club_text('nos_lions', 'Nos joueurs')), 'match' => t('Matchs'), 'article' => t('Articles'), 'page' => t('Pages'), 'objet' => t('Objets'), 'moment' => t('Moments')];
 $all = array_sum($r['counts']);
 ?>
 <section class="mhead">
@@ -45,7 +45,7 @@ $all = array_sum($r['counts']);
   <?php if ($q === ''): ?>
     <div class="mempty">
       <span class="mempty__t"><?= e(t('Que cherchez-vous ?')) ?></span>
-      <span><?= e(t('Essayez « Bonal », « 2007 », « Coupe de France 1988 » ou le nom d’un joueur.')) ?></span>
+      <span><?= e(t(club_text('recherche', 'Essayez « {stadium_short} », « Coupe de France » ou le nom d’un joueur.', 'exemples'))) ?></span>
     </div>
   <?php elseif (!$r['items']): ?>
     <div class="mempty">

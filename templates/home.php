@@ -63,7 +63,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
     <div class="hfind__box">
       <form class="searchbar searchbar--xl" action="<?= e(url('/recherche/')) ?>" method="get" role="search">
         <label class="sr-only" for="q-home"><?= e(t('Rechercher')) ?></label>
-        <input id="q-home" type="search" name="q" placeholder="<?= e(t('Ex. Sochaux – Nantes 1988, Genghini, Bonal, Coupe de France…')) ?>">
+        <input id="q-home" type="search" name="q" placeholder="<?= e(t(club_text('recherche_accueil', 'Ex. un adversaire, un joueur, {stadium_short}, Coupe de France…', 'exemples'))) ?>">
         <button type="submit"><?= e(t('Chercher')) ?></button>
       </form>
       <div class="hfind__links">
@@ -109,7 +109,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
       <?php endif; ?>
       <div class="hcard hcard--cent">
         <span class="hcard__k"><?= e(t('Le centenaire')) ?> · <?= e(date_fr(\App\Core\Club::s('founded_date'))) ?> → <?= e(date_fr($centenary)) ?></span>
-        <span class="hcard__t hcard__t--s"><?= e(t('Cent ans de lion.')) ?> <?= e(t('Aidez-nous à tout sauver.')) ?></span>
+        <span class="hcard__t hcard__t--s"><?= e(t(club_text('cent_ans', 'Cent ans d’histoire.'))) ?> <?= e(t('Aidez-nous à tout sauver.')) ?></span>
         <?= countdown_html($centenary) ?>
         <span class="row gap-8" style="flex-wrap:wrap">
           <a class="btn btn--navy btn--sm" href="<?= e(url('/faire-un-don/')) ?>">♥ <?= e(t('Faire un don')) ?></a>

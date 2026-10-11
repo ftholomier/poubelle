@@ -6,7 +6,7 @@
     <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('Interactif')) ?></span></nav>
     <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('Jouer, explorer, participer')) ?></span>
     <h1 class="mhead__title"><?= e(t('Interactif')) ?></h1>
-    <p class="mhead__intro"><?= e(t('Le musée se visite aussi en jouant : cartes à collectionner, quiz, carte du monde des Lions, frise, vote du centenaire…')) ?></p>
+    <p class="mhead__intro"><?= e(t(club_text('interactif_intro', 'Le musée se visite aussi en jouant : cartes à collectionner, quiz, carte du monde, frise, vote du centenaire…'))) ?></p>
   </div>
 </section>
 <div class="wrap ilanding">

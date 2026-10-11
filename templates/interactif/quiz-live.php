@@ -34,7 +34,7 @@ $champ = url('/interactif/quiz-live/championnat/');
         <?php endif; ?>
         <div class="ql__namebox" data-ql-namebox<?= $me ? ' hidden' : '' ?>>
           <label for="ql-name"><?= e(t('Votre pseudo')) ?></label>
-          <input id="ql-name" name="name" maxlength="20" minlength="2" autocomplete="nickname"<?= $me ? '' : ' required' ?> placeholder="<?= e(t('ex. Lionceau25')) ?>">
+          <input id="ql-name" name="name" maxlength="20" minlength="2" autocomplete="nickname"<?= $me ? '' : ' required' ?> placeholder="<?= e(t(club('ex. {nickname_sg}25'))) ?>">
           <?php if ($account && !$me): ?><p class="ql__hint"><?= e(t('Ce sera aussi votre pseudo au championnat du club-house.')) ?></p><?php endif; ?>
         </div>
         <?php if (!$account): ?>

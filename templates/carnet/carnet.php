@@ -35,7 +35,7 @@ $public = $c['public'] ? \App\Services\Carnet::publicUrl($c) : '';
       <p class="cnnote"><?= e(t('Ouvrez une page publique, sous un pseudo : seuls vos matchs et votre bilan y apparaissent, jamais votre e-mail. Le pseudo figure aussi sur votre carte.')) ?></p>
       <form class="cnpub" data-cn-public>
         <label for="cn-pseudo"><?= e(t('Pseudo')) ?></label>
-        <input id="cn-pseudo" name="pseudo" maxlength="30" value="<?= e($c['pseudo']) ?>" placeholder="<?= e(t('ex. Lionceau88')) ?>">
+        <input id="cn-pseudo" name="pseudo" maxlength="30" value="<?= e($c['pseudo']) ?>" placeholder="<?= e(t(club('ex. {nickname_sg}88'))) ?>">
         <label class="cncheck"><input type="checkbox" name="on" <?= $c['public'] ? 'checked' : '' ?>> <?= e(t('Page publique ouverte')) ?></label>
         <button class="btn btn--navy btn--sm" type="submit"><?= e(t('Enregistrer')) ?></button>
         <p class="cnmail__msg" data-cn-msg role="status"><?php if ($public): ?><a href="<?= e($public) ?>" target="_blank" rel="noopener"><?= e(t('Voir ma page publique')) ?> ↗</a><?php endif; ?></p>

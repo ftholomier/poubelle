@@ -5,7 +5,7 @@ $tiers = ['legende' => t('Légende'), 'classique' => t('Classique'), 'actuel' =>
 <section class="wrap ahead2">
   <div class="stack" style="gap:16px">
     <span class="eyebrow eyebrow--lg"><?= e(t("L'album du centenaire")) ?></span>
-    <h1 class="h-xl ahead2__title"><?= e(t('Collectionnez')) ?><br><?= e(t('les Lions')) ?></h1>
+    <h1 class="h-xl ahead2__title"><?= e(t('Collectionnez')) ?><br><?= e(t(club_text('album_h', 'les joueurs'))) ?></h1>
     <p class="lead" style="max-width:44ch"><?= e(t("Chaque fiche visitée débloque sa carte. Un sans-faute au quiz en offre une rare. Pas de compte : votre album est gardé dans ce navigateur.")) ?></p>
   </div>
   <div class="abox" data-album-box>

@@ -11,6 +11,16 @@ $fam = function (string $c): string {
     };
 };
 $fams = ['championnats' => 'Championnats', 'coupes' => 'Coupes nationales', 'europe' => 'Europe', 'jeunes' => 'Jeunes', 'tournois' => 'Coupes et tournois amicaux'];
+// Époques du filtre, à partir de l'année de fondation : 1928-1959, 1960-1989, Depuis 1990 pour Sochaux.
+$eraChips = [];
+$eraFrom = (int) \App\Core\Club::s('founded') ?: 1900;
+foreach ([1960, 1990] as $eraCut) {
+    if ($eraCut > $eraFrom) {
+        $eraChips[] = [$eraFrom, $eraCut - 1, $eraFrom . '-' . ($eraCut - 1)];
+        $eraFrom = $eraCut;
+    }
+}
+$eraChips[] = [$eraFrom, 2100, 'Depuis ' . $eraFrom];
 ?>
 <section class="rhead">
   <div class="wrap rhead__inner">
@@ -25,7 +35,7 @@ $fams = ['championnats' => 'Championnats', 'coupes' => 'Coupes nationales', 'eur
   <div class="wrap rfilters__inner">
     <div class="stack" style="gap:6px"><span class="rfilters__l"><?= e(t('Résultat')) ?></span><div class="rfilters__chips"><button type="button" class="rchip is-on" data-st="">Tout</button><button type="button" class="rchip" data-st="win"><?= e(t('Gagnés')) ?></button><button type="button" class="rchip" data-st="lost"><?= e(t('Finales et places')) ?></button></div></div>
     <div class="stack" style="gap:6px"><span class="rfilters__l"><?= e(t('Compétition')) ?></span><div class="rfilters__chips"><button type="button" class="rchip is-on" data-fam="">Toutes</button><?php foreach ($fams as $k => $l): ?><button type="button" class="rchip" data-fam="<?= e($k) ?>"><?= e(t($l)) ?></button><?php endforeach; ?></div></div>
-    <div class="stack" style="gap:6px"><span class="rfilters__l"><?= e(t('Époque')) ?></span><div class="rfilters__chips"><button type="button" class="rchip is-on" data-era="">Toutes</button><?php foreach ([[1928, 1959, '1928-1959'], [1960, 1989, '1960-1989'], [1990, 2100, 'Depuis 1990']] as [$a, $b, $l]): ?><button type="button" class="rchip" data-era="<?= $a ?>-<?= $b ?>"><?= e(t($l)) ?></button><?php endforeach; ?></div></div>
+    <div class="stack" style="gap:6px"><span class="rfilters__l"><?= e(t('Époque')) ?></span><div class="rfilters__chips"><button type="button" class="rchip is-on" data-era="">Toutes</button><?php foreach ($eraChips as [$a, $b, $l]): ?><button type="button" class="rchip" data-era="<?= $a ?>-<?= $b ?>"><?= e(t($l)) ?></button><?php endforeach; ?></div></div>
   </div>
 </div>
 <div class="wrap rbody pal">
@@ -51,7 +61,7 @@ $fams = ['championnats' => 'Championnats', 'coupes' => 'Coupes nationales', 'eur
     </div>
   </section>
   <?php endforeach; ?>
-  <p class="muted small"><?= e(t('Palmarès de référence (d’après Wikipédia et FCSM Story) complété automatiquement par les finales des fiches matchs. Une erreur, un trophée oublié ? Écrivez-nous.')) ?> <a href="<?= e(url('/contact/')) ?>"><?= e(t('Contact')) ?></a></p>
+  <p class="muted small"><?= e(t(club_text('palmares_source', 'Palmarès de référence (d’après Wikipédia) complété automatiquement par les finales des fiches matchs. Une erreur, un trophée oublié ? Écrivez-nous.'))) ?> <a href="<?= e(url('/contact/')) ?>"><?= e(t('Contact')) ?></a></p>
 </div>
 <style>
 .pal{display:flex;flex-direction:column;gap:40px;padding-bottom:60px}

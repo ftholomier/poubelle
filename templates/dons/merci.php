@@ -15,7 +15,7 @@ $share = base_url() . url('/faire-un-don/');
   <div class="wrap dmerci__in">
     <?php if ($state === 'ok'): ?>
       <span class="eyebrow eyebrow--lg"><?= e(t('Don confirmé')) ?><?= ($don['mode'] ?? '') === 'test' ? ' · ' . e(t('mode test')) : '' ?></span>
-      <h1 class="dmerci__title"><?= e(t('Merci,')) ?> <span class="yellow"><?= e($first ?: t('Lionceau')) ?> !</span></h1>
+      <h1 class="dmerci__title"><?= e(t('Merci,')) ?> <span class="yellow"><?= e($first ?: t(club('{nickname_sg}'))) ?> !</span></h1>
       <p class="dhero__lead"><?= e(t('Votre don de {montant} aide {site} à préserver l’histoire {sigle_de} avant ses 100 ans.', ['montant' => $amount])) ?></p>
       <dl class="dmerci__facts">
         <div><dt><?= e(t('Montant')) ?></dt><dd><?= e($amount) ?></dd></div>

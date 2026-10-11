@@ -22,7 +22,7 @@ $after = [
     <div class="cwizard cwizard--done">
       <div class="cwizard__body cthanks">
         <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="106" height="120" class="is-in">
-        <b><?= e(t('Merci, Lionceau !')) ?></b>
+        <b><?= e(t(club('Merci, {nickname_sg} !'))) ?></b>
         <p><?= e(t('Votre contribution est dans la file de validation. Vous recevrez un e-mail dès sa publication.')) ?></p>
         <span class="cticket"><?= e(t('N° de suivi')) ?> · <?= e($ticket) ?></span>
         <a class="cform__send" href="<?= e(url('/contribuer/')) ?>#formulaire"><?= e(t('Proposer autre chose')) ?></a>

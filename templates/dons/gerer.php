@@ -57,7 +57,7 @@ $base = url('/faire-un-don/gerer/' . $token . '/');
       <input type="hidden" name="action" value="wall">
       <span class="dstep2__title"><?= e(t('Le mur des donateurs')) ?></span>
       <label class="ccheck"><input type="checkbox" name="wall" value="1"<?= !empty($don['wall']) ? ' checked' : '' ?>> <span><?= e(t('Afficher mon nom sur le mur des donateurs')) ?></span></label>
-      <label class="cfield"><span><?= e(t('Nom affiché')) ?></span><input name="wall_name" maxlength="40" value="<?= e($don['wall_name'] ?? '') ?>" placeholder="<?= e(t('ex. Famille M., Un Lionceau depuis 1981')) ?>"></label>
+      <label class="cfield"><span><?= e(t('Nom affiché')) ?></span><input name="wall_name" maxlength="40" value="<?= e($don['wall_name'] ?? '') ?>" placeholder="<?= e(t(club_text('don_mur', 'ex. Famille M., supporters de toujours', 'exemples'))) ?>"></label>
       <?php if (!empty($don['wall_hidden'])): ?><p class="dcard__closed"><?= e(t('Ce nom a été masqué par l’équipe du musée.')) ?></p><?php endif; ?>
       <button type="submit" class="dcta dcta--sm"><?= e(t('Enregistrer')) ?></button>
       <p class="dcard__rgpd"><?= e(t('Pour toute question sur votre don ou pour exercer vos droits sur vos données :')) ?> <a href="<?= e(url('/contact/') . '?objet=autre') ?>"><?= e(t('nous écrire')) ?></a></p>

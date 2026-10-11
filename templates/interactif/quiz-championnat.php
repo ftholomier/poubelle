@@ -56,7 +56,7 @@ $current = $season === QuizChampionship::season();
             <input id="qc-email" name="email" type="email" maxlength="120" required autocomplete="email" placeholder="<?= e(t('prenom@exemple.fr')) ?>">
             <?php endif; ?>
             <label for="qc-name"><?= e(t('Votre pseudo')) ?></label>
-            <div class="cnmail__row"><input id="qc-name" name="name" maxlength="20" minlength="2" autocomplete="nickname" placeholder="<?= e(t('ex. Lionceau25')) ?>"><button class="btn btn--yellow" type="submit"><?= e($account ? t('Enregistrer') : t('Recevoir mon lien')) ?></button></div>
+            <div class="cnmail__row"><input id="qc-name" name="name" maxlength="20" minlength="2" autocomplete="nickname" placeholder="<?= e(t(club('ex. {nickname_sg}25'))) ?>"><button class="btn btn--yellow" type="submit"><?= e($account ? t('Enregistrer') : t('Recevoir mon lien')) ?></button></div>
             <p class="cnmail__msg" data-qc-msg role="status"></p>
           </form>
           <?php if (!$account): ?><p class="cnnote"><?= e(t('Pas de mot de passe : un lien sécurisé, envoyé à votre e-mail, garde votre place sur votre téléphone. Déjà inscrit ? Mettez la même adresse : un nouveau lien vous est envoyé. C’est le même compte que le carnet du supporter ; votre adresse ne sert qu’à cela.')) ?></p><?php endif; ?>

@@ -13,7 +13,7 @@ $i = 0;
 <article class="lj">
   <header class="lj__mast">
     <p class="lj__top"><span><?= e(t('Journal photographique du musée {site}')) ?></span><span><?= e(t('Une édition unique, tirée pour vous')) ?></span></p>
-    <p class="lj__title" aria-hidden="true"><?= e(t('Le Lion illustré')) ?></p>
+    <p class="lj__title" aria-hidden="true"><?= e(t(\App\Front\Walls::walls()['journal'][1])) ?></p>
     <p class="lj__line"><span><?= e(ucfirst(date_fr(date('Y-m-d'), true))) ?></span><span><?= e(t('N°')) ?> <?= number_format((int) $number, 0, ',', ' ') ?></span><?php if ($special !== ''): ?><span class="lj__special"><?= e(t('Édition spéciale')) ?> : <?= e($special) ?></span><?php endif; ?><span><?= e(t('Gratuit')) ?></span></p>
   </header>
   <?php if (!$lead): ?><p class="wempty"><?= e(t('Aucune photo pour ce choix : essayez une autre décennie ou un autre photographe.')) ?></p><?php else: ?>

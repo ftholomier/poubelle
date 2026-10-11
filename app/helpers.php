@@ -431,3 +431,13 @@ function stadium_key(): string
 {
     return (string) preg_replace('/^stade-/', '', slugify(\App\Core\Club::s('stadium_full')));
 }
+
+/**
+ * Texte rédigé propre au club (config/clubs/<id>/<fichier>.php, clé $key), sinon $neutral
+ * (musée neuf). À passer ensuite à t() pour la traduction.
+ */
+function club_text(string $key, string $neutral, string $file = 'libelles'): string
+{
+    $c = \App\Core\Club::content($file, []);
+    return is_array($c) && isset($c[$key]) ? (string) $c[$key] : $neutral;
+}

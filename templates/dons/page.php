@@ -110,7 +110,7 @@ $i18n = [
           </div>
         <?php endif; ?>
         <label class="ccheck"><input type="checkbox" name="wall" value="1" data-wall<?= $o('wall') ? ' checked' : '' ?>> <span><?= e(t('Afficher mon nom sur le mur des donateurs')) ?></span></label>
-        <label class="cfield" data-wall-field<?= $o('wall') ? '' : ' hidden' ?>><span><?= e(t('Nom affiché')) ?></span><input name="wall_name" maxlength="40" value="<?= e($o('wall_name')) ?>" placeholder="<?= e(t('ex. Famille M., Un Lionceau depuis 1981')) ?>"></label>
+        <label class="cfield" data-wall-field<?= $o('wall') ? '' : ' hidden' ?>><span><?= e(t('Nom affiché')) ?></span><input name="wall_name" maxlength="40" value="<?= e($o('wall_name')) ?>" placeholder="<?= e(t(club_text('don_mur', 'ex. Famille M., supporters de toujours', 'exemples'))) ?>"></label>
         <?php if (count($methods) > 1): ?>
           <fieldset class="dmethods">
             <legend><?= e(t('Moyen de paiement')) ?></legend>
@@ -123,7 +123,7 @@ $i18n = [
         <?php endif; ?>
       </div>
       <button type="submit" class="dcta" data-cta>♥ <?= e(t('Je donne')) ?> <span data-cta-amount><?= (int) $amount ?></span> €<span data-cta-month<?= $freq === 'month' ? '' : ' hidden' ?>><?= e(t(' / mois')) ?></span></button>
-      <div class="dthanks" data-thanks role="status" hidden><?= e(t('Merci, Lionceau ! ♥ Redirection vers le paiement sécurisé…')) ?></div>
+      <div class="dthanks" data-thanks role="status" hidden><?= e(t(club('Merci, {nickname_sg} ! ♥ Redirection vers le paiement sécurisé…'))) ?></div>
       <span class="dcard__safe"><?= e(t('Paiement sécurisé')) ?> · <?= e($receipts ? t('reçu envoyé par e-mail') : t('confirmation envoyée par e-mail')) ?></span>
       <p class="dcard__rgpd"><?= e(t('Vos coordonnées servent uniquement à traiter votre don et à vous écrire à son sujet. Elles ne sont jamais cédées.')) ?> <a href="<?= e(url('/confidentialite/')) ?>"><?= e(t('Confidentialité')) ?></a></p>
       <?php else: ?>

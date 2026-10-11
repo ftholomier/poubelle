@@ -4,13 +4,21 @@
  * $admin (administrateur connecté seulement) : l'erreur et les réglages du serveur à revoir.
  */
 $admin = $admin ?? null;
+// Nom et logo du musée (profil du club), sans rien laisser échouer ici.
+try {
+    $site = \App\Core\Club::s('site');
+    $logo = \App\Core\Club::s('logo_png');
+} catch (\Throwable $e) {
+    $site = $logo = '';
+}
+$h = fn (string $v) => htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
 ?><!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Un petit incident technique | Sochaux Rétro</title>
+<title>Un petit incident technique<?= $site !== '' ? ' | ' . $h($site) : '' ?></title>
 <link rel="stylesheet" href="/assets/css/fonts.css">
 <style>
 body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0E1F4D;color:#F3EDDF;font-family:'Newsreader',Georgia,serif;padding:24px;box-sizing:border-box}
@@ -23,7 +31,7 @@ a{display:inline-block;align-self:flex-start;background:#F6C400;color:#0E1F4D;pa
 </head>
 <body>
 <main>
-  <img src="/assets/img/logo-sochaux-retro.png" alt="Sochaux Rétro">
+  <?php if ($logo !== ''): ?><img src="<?= $h($logo) ?>" alt="<?= $h($site) ?>"><?php endif; ?>
   <h1>Arrêt de jeu</h1>
   <p>Un petit incident technique nous empêche d'afficher cette page. L'équipe a été prévenue ; réessayez dans quelques instants.</p>
   <p lang="en"><em>A technical issue prevented this page from loading. Please try again shortly.</em></p>
