@@ -21,6 +21,7 @@ $here = \App\Admin\Favorites::here($meta);
 <link rel="icon" href="<?= e(\App\Core\Club::s('favicon')) ?>" type="image/png">
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('admin/admin.css') ?>">
+<?= \App\Core\Club::themeCss() ?>
 </head>
 <body data-idle="<?= Auth::idleLimit() ?>">
 <?php $compact = ($_COOKIE['bo_nav'] ?? '') === 'compact'; ?>

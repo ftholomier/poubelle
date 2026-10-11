@@ -23,7 +23,7 @@ final class Account extends Base
 
     public static function login(Request $req): Response
     {
-        if (!Auth::users()) {
+        if (!Auth::allUsers()) {
             return Response::redirect('/admin/premier-acces');
         }
         $back = self::safeReturn($req->str('r'));
@@ -49,7 +49,8 @@ final class Account extends Base
     /** Création du premier compte administrateur (seulement si aucun compte n'existe). */
     public static function setup(Request $req): Response
     {
-        if (Auth::users()) {
+        // Premier compte de toute l'installation seulement (un nouveau musée n'ouvre pas ce formulaire).
+        if (Auth::allUsers()) {
             return Response::redirect('/admin/connexion');
         }
         if (!is_file(self::SETUP)) {
@@ -133,6 +134,28 @@ final class Account extends Base
             $sent = true; // même réponse que le compte existe ou non
         }
         return self::html('admin/auth/forgot', ['sent' => $sent], ['bare' => true, 'title' => 'Mot de passe oublié']);
+    }
+
+    /** Bascule vers le back-office d'un autre musée (même compte, sans se reconnecter). */
+    public static function switchTo(Request $req): Response
+    {
+        $club = (string) ($req->post['club'] ?? '');
+        $url = Auth::switchUrl($club);
+        if ($url === null) {
+            return self::html('admin/message', ['title' => 'Accès refusé', 'text' => 'Votre compte n’a pas accès à ce musée.', 'back' => '/admin'], ['title' => 'Accès refusé']);
+        }
+        Activity::log(Auth::actor(), 'est passé au musée ' . (string) (Club::all()[$club]['site'] ?? $club), null);
+        return Response::redirect($url);
+    }
+
+    /** Arrivée par jeton de bascule : session ouverte sur ce musée, ou page de connexion. */
+    public static function arrive(Request $req, string $token): Response
+    {
+        if (Auth::consumeSwitch($token)) {
+            Activity::log(Auth::actor(), 'est arrivé depuis un autre musée', null);
+            return Response::redirect('/admin');
+        }
+        return Response::redirect('/admin/connexion');
     }
 
     public static function logout(Request $req): Response

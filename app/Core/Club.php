@@ -108,6 +108,27 @@ final class Club
         return array_map('strval', array_filter(self::$profile, 'is_scalar'));
     }
 
+    /**
+     * Contenu rédigé propre au club (frise, quiz, textes de départ, CGV…) : fichier
+     * config/clubs/<id>/<nom>.php, qui renvoie un tableau ou un texte. Absent pour un musée neuf :
+     * $default (vide), et le module concerné s'efface ou affiche « bientôt ».
+     */
+    public static function content(string $name, mixed $default = []): mixed
+    {
+        static $cache = [];
+        $file = APP_ROOT . '/config/clubs/' . self::current() . '/' . basename($name) . '.php';
+        if (!array_key_exists($file, $cache)) {
+            $cache[$file] = is_file($file) ? require $file : null;
+        }
+        return $cache[$file] ?? $default;
+    }
+
+    /** Mention « musée indépendant et non officiel » (clé « disclaimer » du profil, sinon texte type). */
+    public static function disclaimer(): string
+    {
+        return t((string) self::get('disclaimer', 'Notre site est un musée indépendant et non officiel réalisé par des passionnés. Ce site n’est pas affilié, associé, ni approuvé par {club_le}.'));
+    }
+
     /** Couleur de la charte (« navy », « yellow »…), en hexadécimal. */
     public static function color(string $name): string
     {

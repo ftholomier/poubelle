@@ -17,6 +17,7 @@
  *   php bin/console.php audio [secondes]       fiches audio : envoie et range les traitements groupés (voix et résumés IA)
  *   php bin/console.php controle         contrôle complet (comme le bouton « Contrôler maintenant » de l'écran Qualité)
  *   php bin/console.php controle-reference ["libellé"]  réécrit la référence livrée (anomalies déjà connues des données du dépôt)
+ *   php bin/console.php superadmin <email>   donne au compte l'accès à tous les musées (bascule de l'un à l'autre)
  *   php bin/console.php club-creer <id>  prépare les dossiers d'un nouveau musée (profil config/clubs/<id>.php)
  *
  * Plusieurs musées : ajouter --club=<id> à n'importe quelle commande (club historique par défaut),
@@ -50,6 +51,19 @@ $cmd = $argv[1] ?? 'help';
 $t0 = microtime(true);
 
 switch ($cmd) {
+    case 'superadmin':
+        $u = null;
+        foreach (\App\Core\Auth::allUsers() as $x) {
+            $u = $x['email'] === mb_strtolower(trim((string) ($argv[2] ?? ''))) ? $x : $u;
+        }
+        if (!$u) {
+            fwrite(STDERR, "Compte introuvable\n");
+            exit(1);
+        }
+        \App\Core\Auth::update($u['id'], ['clubs' => ['*' => 'admin'] + ($u['clubs'] ?? [\App\Core\Club::DEFAULT => $u['role'] ?? 'user'])]);
+        echo "{$u['email']} a maintenant accès à tous les musées.\n";
+        break;
+
     case 'club-creer':
         $id = basename((string) ($argv[2] ?? ''));
         if ($id === '' || !is_file(APP_ROOT . "/config/clubs/$id.php")) {

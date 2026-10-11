@@ -8,6 +8,7 @@
 <link rel="icon" href="<?= e(\App\Core\Club::s('favicon')) ?>" type="image/png">
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('admin/admin.css') ?>">
+<?= \App\Core\Club::themeCss() ?>
 </head>
 <body>
 <main class="auth">

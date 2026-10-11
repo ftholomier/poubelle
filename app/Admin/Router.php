@@ -45,6 +45,8 @@ final class Router
         $public->any('/admin/premier-acces', fn ($q) => Account::setup($q));
         $public->any('/admin/invitation/{token}', fn ($q, $token) => Account::invitation($q, $token));
         $public->any('/admin/mot-de-passe-oublie', fn ($q) => Account::forgot($q));
+        // Arrivée depuis le back-office d'un autre musée (jeton de bascule à usage unique).
+        $public->get('/admin/jeton/{token}', fn ($q, $token) => Account::arrive($q, $token));
         $res = $public->dispatch(new Request($req->method, $path, $req->query, $req->post, $req->files, $req->server, $req->body));
         if ($res instanceof Response) {
             return $res;
@@ -71,6 +73,7 @@ final class Router
 
         $r = new CoreRouter();
         $r->post('/admin/deconnexion', fn ($q) => Account::logout($q));
+        $r->post('/admin/basculer', fn ($q) => Account::switchTo($q));
         // Inactivité : activité signalée par le navigateur (saisie sans enregistrement), déconnexion au bout du délai
         $r->post('/admin/api/actif', fn ($q) => Account::stillHere($q));
         $r->post('/admin/api/inactif', fn ($q) => Account::idleLogout($q));

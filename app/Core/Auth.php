@@ -17,7 +17,10 @@ final class Auth
     /** Empreinte Argon2id factice (mêmes paramètres que les vraies) : même durée de vérification pour un compte inconnu. */
     private const DUMMY_HASH = '$argon2id$v=19$m=65536,t=4,p=1$MjVLejNYQ0gzVzk4aDEvOA$bOH79MHUVu2kAO80P/xQ/PanfGsyFL2q7L0/D1X5ZRs';
 
-    private const FILE = STORAGE_PATH . '/users.json';
+    // Comptes communs à tous les musées (fichier du musée historique) ; chaque compte liste ses
+    // musées et son rôle dans chacun (« clubs » : id du club → rôle, « * » = tous les musées).
+    private const FILE = APP_ROOT . '/storage/users.json';
+    private const SSO_DIR = APP_ROOT . '/storage/sso';
     public const ROLES = ['admin' => 'Administrateur', 'user' => 'Utilisateur'];
 
     /** Droits refusés au niveau « utilisateur ». */
@@ -35,7 +38,87 @@ final class Auth
     /** @return array<string,array> par id */
     public static function users(): array
     {
+        $out = [];
+        foreach (self::allUsers() as $id => $u) {
+            if (($role = self::roleIn($u, CLUB_ID)) !== null) {
+                $out[$id] = ['role' => $role] + $u;
+                $out[$id]['role'] = $role;
+            }
+        }
+        return $out;
+    }
+
+    /** Tous les comptes, tous musées confondus (rôle d'origine). @return array<string,array> */
+    public static function allUsers(): array
+    {
         return JsonStore::read(self::FILE, []) ?? [];
+    }
+
+    /** Rôle du compte dans un musée (null : pas d'accès). Ancien compte sans « clubs » : musée historique. */
+    public static function roleIn(array $u, string $club): ?string
+    {
+        $clubs = $u['clubs'] ?? [Club::DEFAULT => $u['role'] ?? 'user'];
+        $r = $clubs[$club] ?? $clubs['*'] ?? null;
+        return isset(self::ROLES[$r]) ? $r : null;
+    }
+
+    /** Musées accessibles au compte : id → rôle. @return array<string,string> */
+    public static function clubsOf(array $u): array
+    {
+        $out = [];
+        foreach (array_keys(Club::all()) as $id) {
+            if (($r = self::roleIn($u, $id)) !== null) {
+                $out[$id] = $r;
+            }
+        }
+        return $out;
+    }
+
+    /** Super-administrateur : accès à tous les musées (« clubs » : « * »). */
+    public static function isSuper(?array $u = null): bool
+    {
+        $u ??= self::user();
+        return $u !== null && isset(self::allUsers()[$u['id']]['clubs']['*']);
+    }
+
+    /**
+     * Bascule vers un autre musée (autre domaine, donc autre session) : jeton à usage unique,
+     * valable 60 secondes, posé dans le dossier commun. Renvoie l'adresse d'arrivée, ou null.
+     */
+    public static function switchUrl(string $club): ?string
+    {
+        $u = self::user();
+        $profile = Club::all()[$club] ?? null;
+        if (!$u || !$profile || self::roleIn(self::allUsers()[$u['id']] ?? [], $club) === null) {
+            return null;
+        }
+        is_dir(self::SSO_DIR) || mkdir(self::SSO_DIR, 0700, true);
+        foreach (glob(self::SSO_DIR . '/*.json') ?: [] as $f) {
+            if (filemtime($f) < time() - 120) {
+                @unlink($f);
+            }
+        }
+        $token = bin2hex(random_bytes(24));
+        file_put_contents(self::SSO_DIR . '/' . hash('sha256', $token) . '.json', json_encode(['uid' => $u['id'], 'club' => $club, 'exp' => time() + 60, 'ufp' => self::fingerprint($u)]), LOCK_EX);
+        return rtrim((string) ($profile['base_url'] ?? ''), '/') . '/admin/jeton/' . $token;
+    }
+
+    /** Arrivée par jeton de bascule : connecte le compte sur ce musée si tout concorde. */
+    public static function consumeSwitch(string $token): bool
+    {
+        if (!preg_match('/^[a-f0-9]{48}$/', $token)) {
+            return false;
+        }
+        $f = self::SSO_DIR . '/' . hash('sha256', $token) . '.json';
+        $d = is_file($f) ? json_decode((string) file_get_contents($f), true) : null;
+        @unlink($f);
+        $u = is_array($d) ? (self::users()[(string) ($d['uid'] ?? '')] ?? null) : null;
+        if (!$u || ($d['club'] ?? '') !== CLUB_ID || (int) ($d['exp'] ?? 0) < time() || ($u['status'] ?? '') !== 'active'
+            || !hash_equals((string) ($d['ufp'] ?? ''), self::fingerprint($u))) {
+            return false;
+        }
+        self::login($u);
+        return true;
     }
 
     private static function saveUsers(array $users): void
@@ -198,8 +281,16 @@ final class Auth
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new RuntimeException('Adresse e-mail invalide.');
         }
-        if (self::findByEmail($email)) {
-            throw new RuntimeException('Un compte existe déjà avec cette adresse.');
+        // Compte déjà ouvert sur un autre musée : on lui donne simplement accès à celui-ci.
+        foreach (self::allUsers() as $other) {
+            if ($other['email'] === $email) {
+                if (self::roleIn($other, CLUB_ID) !== null) {
+                    throw new RuntimeException('Un compte existe déjà avec cette adresse.');
+                }
+                $clubs = ($other['clubs'] ?? [Club::DEFAULT => $other['role'] ?? 'user']) + [CLUB_ID => isset(self::ROLES[$role]) ? $role : 'user'];
+                self::update($other['id'], ['clubs' => $clubs]);
+                return self::users()[$other['id']];
+            }
         }
         if ($password !== null && mb_strlen($password) < 10) {
             throw new RuntimeException('Le mot de passe doit contenir au moins 10 caractères.');
@@ -209,6 +300,7 @@ final class Auth
             'email' => $email,
             'name' => trim($name) ?: $email,
             'role' => isset(self::ROLES[$role]) ? $role : 'user',
+            'clubs' => [CLUB_ID => isset(self::ROLES[$role]) ? $role : 'user'],
             'password' => $password !== null ? password_hash($password, PASSWORD_ARGON2ID) : null,
             'status' => $password !== null ? 'active' : 'invited',
             'invite' => null,
@@ -227,16 +319,38 @@ final class Auth
     {
         JsonStore::update(self::FILE, function ($all) use ($id, $changes) {
             if (isset($all[$id])) {
+                // Le rôle changé depuis un musée ne vaut que pour ce musée.
+                if (isset($changes['role'])) {
+                    $u = $all[$id];
+                    $clubs = $u['clubs'] ?? [Club::DEFAULT => $u['role'] ?? 'user'];
+                    if (!isset($clubs['*'])) {
+                        $clubs[CLUB_ID] = $changes['role'];
+                    }
+                    $changes['clubs'] = $clubs;
+                    if (CLUB_ID !== Club::DEFAULT) {
+                        unset($changes['role']);
+                    }
+                }
                 $all[$id] = array_merge($all[$id], $changes);
             }
             return $all;
         }, []);
     }
 
+    /** Retire le compte de ce musée ; il n'est supprimé que s'il n'a plus accès à aucun musée. */
     public static function delete(string $id): void
     {
         JsonStore::update(self::FILE, function ($all) use ($id) {
-            unset($all[$id]);
+            if (!isset($all[$id])) {
+                return $all;
+            }
+            $clubs = $all[$id]['clubs'] ?? [Club::DEFAULT => $all[$id]['role'] ?? 'user'];
+            unset($clubs[CLUB_ID]);
+            if ($clubs) {
+                $all[$id]['clubs'] = $clubs;
+            } else {
+                unset($all[$id]);
+            }
             return $all;
         }, []);
     }

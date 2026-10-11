@@ -10,6 +10,7 @@ use App\Admin\Help;
 <title>Guide du back-office · <?= e(\App\Core\Club::s('site')) ?></title>
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('admin/aide.css') ?>">
+<?= \App\Core\Club::themeCss() ?>
 </head>
 <body class="aide-print">
 <section class="pcover">
