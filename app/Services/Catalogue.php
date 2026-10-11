@@ -145,9 +145,9 @@ final class Catalogue
         $c = trim((string) ($it['credit'] ?? ''));
         return $c !== '' ? $c : match ($it['rights'] ?? '') {
             'peugeot' => 'Archives Peugeot',
-            'club' => 'Archives FCSM / Sochaux Rétro',
+            'club' => club('Archives {sigle} / {site}'),
             'presse' => trim((string) ($it['publication'] ?? '')) ?: 'Presse de l’époque',
-            default => 'Archives Sochaux Rétro',
+            default => club('Archives {site}'),
         };
     }
 
@@ -173,7 +173,7 @@ final class Catalogue
         foreach (Index::all() as $e) {
             $t = $e['type'] ?? '';
             if ($t === 'match' && $date && ($md = (string) ($e['m']['date'] ?? '')) !== '' && abs(strtotime($md) - strtotime($date)) <= 2 * 86400
-                && (preg_match('/sochaux/i', Names::ascii((string) $e['m']['home'] . ' ' . $e['m']['away'])))) {
+                && Club::isUs(Names::ascii((string) $e['m']['home'] . ' ' . $e['m']['away']))) {
                 $opp = Names::ascii((string) ($m['opponent'] ?? ''));
                 $eOpp = Names::ascii((string) ($e['m']['sh'] ? $e['m']['away'] : $e['m']['home']));
                 $same = $opp === '' || self::common($opp, $eOpp);

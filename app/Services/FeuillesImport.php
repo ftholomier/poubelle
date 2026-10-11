@@ -296,7 +296,7 @@ final class FeuillesImport
         $x['goals_text'] = $goals;
         $x['goals'] = [];
         foreach ((array) ($s['goals_by_team'] ?? []) as $g) {
-            $x['goals'][] = ['team' => self::isSochaux((string) $g['team']) ? 'Sochaux' : self::club($opp), 'scorers' => trim(preg_replace('/\s*,\s*/u', ', ', preg_replace('/\s*\(/u', ' (', (string) $g['text']) ?? '') ?? '')];
+            $x['goals'][] = ['team' => self::isSochaux((string) $g['team']) ? Club::team() : self::club($opp), 'scorers' => trim(preg_replace('/\s*,\s*/u', ', ', preg_replace('/\s*\(/u', ' (', (string) $g['text']) ?? '') ?? '')];
         }
         if (!$x['goals'] && $goals !== '') {
             $x['goals'][] = ['team' => 'Buts', 'scorers' => $goals];
@@ -375,7 +375,7 @@ final class FeuillesImport
             $add('date', date('d/m/Y', strtotime($s['date'])), $m['date'] ? date('d/m/Y', strtotime((string) $m['date'])) : '');
         }
         if ($sh !== $home) {
-            $add('info', 'Selon la feuille de match, Sochaux jouait ' . ($home ? 'à domicile' : 'à l’extérieur') . ' (' . $s['home'] . ' – ' . $s['away'] . ($s['place'] ? ', à ' . $s['place'] : '') . ').', '');
+            $add('info', club('Selon la feuille de match, {team} jouait ') . ($home ? 'à domicile' : 'à l’extérieur') . ' (' . $s['home'] . ' – ' . $s['away'] . ($s['place'] ? ', à ' . $s['place'] : '') . ').', '');
         }
         if (!empty($s['spectators'])) {
             $now = (int) ($m['spectators'] ?? 0);
@@ -412,7 +412,7 @@ final class FeuillesImport
 
     private static function isSochaux(string $n): bool
     {
-        return (bool) preg_match('/sochaux/iu', Names::ascii($n));
+        return Club::isUs(Names::ascii($n));
     }
 
     /** Mots communs aux deux noms de club (sans les mots génériques). */
@@ -427,7 +427,7 @@ final class FeuillesImport
     private static function club(string $n): string
     {
         $n = trim(preg_replace('/\s*\(/u', ' (', $n) ?? $n);
-        return self::isSochaux($n) ? 'Sochaux' : $n;
+        return self::isSochaux($n) ? Club::team() : $n;
     }
 
     /** [compétition, libellé, code] au format du musée. */
@@ -477,7 +477,7 @@ final class FeuillesImport
 
     private static function intro(array $x, string $opp, int $us, int $them, string $place): string
     {
-        $res = $us > $them ? "Victoire sochalienne $us à $them" : ($us < $them ? "Défaite $us à $them" : "Match nul $us partout");
+        $res = $us > $them ? club("Victoire {gentile}ne $us à $them") : ($us < $them ? "Défaite $us à $them" : "Match nul $us partout");
         $comp = $x['competition'] === 'Amical' ? 'match amical' : mb_strtolower($x['competition_label'] ?: $x['competition']);
         return $res . ' face à ' . self::club($opp) . ($place !== '' ? ' à ' . $place : '') . ', le ' . date_fr($x['date']) . ' (' . $comp . ').';
     }

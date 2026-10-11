@@ -78,7 +78,7 @@ final class Notifications
             }
         }
         $b = rtrim((string) Settings::get('general.base_url', ''), '/');
-        return preg_match('#^https://#', $b) ? $b : 'https://musee.fcsochauxretro.com';
+        return preg_match('#^https://#', $b) ? $b : Club::s('base_url');
     }
 
     // ------------------------------------------------------------------ abonnés
@@ -623,7 +623,7 @@ final class Notifications
         if (Settings::get('app.push_defi', true) && (int) date('G', $now) >= $hour && (int) date('G', $now) < $hour + 2 && !isset($done['defi:' . $day])) {
             $out[] = ['defi:' . $day, 'defi', self::bilingual(fn ($l) => [
                 'title' => $l === 'en' ? 'Today’s challenge is on' : 'Le défi du jour est en ligne',
-                'body' => $l === 'en' ? 'Ten questions on FCSM history, the same for everyone. One try: how far up the table will you go?' : 'Dix questions sur l’histoire du FCSM, les mêmes pour tout le monde. Un seul essai : jusqu’où monterez-vous au classement ?',
+                'body' => $l === 'en' ? club('Ten questions on {sigle} history, the same for everyone. One try: how far up the table will you go?') : club('Dix questions sur l’histoire {sigle_de}, les mêmes pour tout le monde. Un seul essai : jusqu’où monterez-vous au classement ?'),
                 'url' => url('/interactif/defi/'),
             ]), ['ttl' => 12 * 3600, 'urgency' => 'low']];
         }

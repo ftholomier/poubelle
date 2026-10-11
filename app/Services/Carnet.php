@@ -174,16 +174,16 @@ final class Carnet
         if ($quiz !== null) {
             $link .= '?quiz=' . rawurlencode($quiz);
             $html = '<p>' . e(t('Bonjour,')) . '</p>'
-                . '<p>' . e(t('Voici votre lien personnel Sochaux Rétro. Ouvrez-le sur le téléphone avec lequel vous jouez : il garde votre place aux classements du quiz (championnat du club-house, défi du jour), sous votre pseudo. Il ouvre aussi votre carnet du supporter. Gardez-le pour vous.')) . '</p>'
+                . '<p>' . e(t('Voici votre lien personnel {site}. Ouvrez-le sur le téléphone avec lequel vous jouez : il garde votre place aux classements du quiz (championnat du club-house, défi du jour), sous votre pseudo. Il ouvre aussi votre carnet du supporter. Gardez-le pour vous.')) . '</p>'
                 . '<p style="margin:24px 0"><a href="' . e($link) . '" style="background:#F6C400;color:#0E1F4D;padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Valider sur ce téléphone')) . '</a></p>'
                 . '<p style="font-size:13px;color:#555">' . e(t('Nouveau téléphone, ou lien perdu ? Redemandez un lien depuis la page du championnat, avec la même adresse.')) . ' ' . e(t('Vous n’avez rien demandé ? Ignorez ce message : sans ce lien, personne ne peut ouvrir le carnet.')) . '</p>';
-            return Mailer::send($c['email'], t('Votre place aux classements du quiz Sochaux Rétro'), Mailer::layout(t('Quiz Sochaux Rétro'), $html));
+            return Mailer::send($c['email'], t('Votre place aux classements du quiz {site}'), Mailer::layout(t('Quiz {site}'), $html));
         }
         $html = '<p>' . e(t('Bonjour,')) . '</p>'
-            . '<p>' . e(t('Voici le lien personnel de votre carnet du supporter Sochaux Rétro : il l’ouvre sur n’importe quel téléphone ou ordinateur. Gardez-le pour vous.')) . '</p>'
+            . '<p>' . e(t('Voici le lien personnel de votre carnet du supporter {site} : il l’ouvre sur n’importe quel téléphone ou ordinateur. Gardez-le pour vous.')) . '</p>'
             . '<p style="margin:24px 0"><a href="' . e($link) . '" style="background:#F6C400;color:#0E1F4D;padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Ouvrir mon carnet')) . '</a></p>'
             . '<p style="font-size:13px;color:#555">' . e(t('Vous n’avez rien demandé ? Ignorez ce message : sans ce lien, personne ne peut ouvrir le carnet.')) . '</p>';
-        return Mailer::send($c['email'], t('Votre carnet du supporter Sochaux Rétro'), Mailer::layout(t('Votre carnet du supporter'), $html));
+        return Mailer::send($c['email'], t('Votre carnet du supporter {site}'), Mailer::layout(t('Votre carnet du supporter'), $html));
     }
 
     public static function confirm(string $id): void
@@ -397,7 +397,7 @@ final class Carnet
         $s = $c['matches'] ? self::stats(array_keys($c['matches'])) : null;
         $m = $s ? ($s['best'] ?? $s['first']) : null;
         if (!$m) {
-            return ['title' => $title, 'body' => t('Tout le musée Sochaux Rétro vous souhaite une belle journée.'), 'url' => url('/carnet/')];
+            return ['title' => $title, 'body' => t('Tout le musée {site} vous souhaite une belle journée.'), 'url' => url('/carnet/')];
         }
         $body = t('Pour fêter ça, votre plus beau souvenir au stade : {m}, le {d}.', ['m' => $score($m), 'd' => date_fr((string) $m['date'])]);
         return ['title' => $title, 'body' => $body, 'url' => url((string) $m['path'])];
@@ -700,7 +700,7 @@ final class Carnet
             ['m10', '10', t('10 matchs'), t('Dix matchs vus au stade.'), $s['n'] >= 10],
             ['m50', '50', t('50 matchs'), t('Un habitué des tribunes.'), $s['n'] >= 50],
             ['m100', '100', t('Centurion'), t('Cent matchs vus au stade.'), $s['n'] >= 100],
-            ['bonal25', 'B', t('Pilier de Bonal'), t('25 matchs à domicile.'), $s['home'] >= 25],
+            ['bonal25', 'B', t('Pilier de {stadium_short}'), t('25 matchs à domicile.'), $s['home'] >= 25],
             ['deplacement', '→', t('Supporter en déplacement'), t('Un match à l’extérieur.'), $s['away'] >= 1],
             ['globe', '✈', t('Globe-trotteur'), t('Dix matchs à l’extérieur.'), $s['away'] >= 10],
             ['coupe', '🏆', t('Soirée de coupe'), t('Un match de coupe.'), $has(fn ($x) => stripos((string) $x['comp'], 'coupe') !== false)],

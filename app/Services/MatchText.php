@@ -362,7 +362,7 @@ final class MatchText
     private static function isSochaux(string $name): bool
     {
         static $seen = [];
-        return $seen[$name] ??= str_contains(Names::ascii($name), 'sochaux');
+        return $seen[$name] ??= Club::isUs(Names::ascii($name));
     }
 
     /** Club du référentiel désignant ce nom (nom ou variante, à l'espace près), sinon null. */

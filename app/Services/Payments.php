@@ -178,7 +178,7 @@ final class Payments
         }
         $product = $plans[$mode]['product'] ?? null;
         if (!$product) {
-            $p = self::paypal('POST', '/v1/catalogs/products', ['name' => 'Don mensuel ' . Settings::get('donations.org_name', 'Sochaux Rétro'), 'type' => 'SERVICE', 'category' => 'NONPROFIT']);
+            $p = self::paypal('POST', '/v1/catalogs/products', ['name' => 'Don mensuel ' . Settings::get('donations.org_name', Club::s('site')), 'type' => 'SERVICE', 'category' => 'NONPROFIT']);
             $product = $p['id'];
         }
         $value = number_format($cents / 100, 2, '.', '');

@@ -618,7 +618,7 @@ final class Chiffres
             return array_values(array_map(fn ($g) => $g['min'], array_filter($seq, fn ($g) => !$g['us'])));
         }
         foreach ($m['goals'] ?? [] as $g) {
-            if (preg_match('/sochaux/iu', (string) ($g['team'] ?? ''))) {
+            if (Club::isUs((string) ($g['team'] ?? ''))) {
                 continue;
             }
             // « 45+1' » compte pour la 45e minute (et non la 1re).
@@ -637,7 +637,7 @@ final class Chiffres
     {
         $n = 0;
         foreach ($m['goals'] ?? [] as $g) {
-            if (preg_match('/sochaux/iu', (string) ($g['team'] ?? ''))) {
+            if (Club::isUs((string) ($g['team'] ?? ''))) {
                 $n += preg_match_all('/c\s*\.?\s*s\s*\.?\s*c|contre son camp/iu', (string) ($g['scorers'] ?? ''));
             }
         }
@@ -994,8 +994,8 @@ final class Chiffres
             $out['matchs-d1'] = self::stat('matchs-d1', self::num($m), self::unit($m, 'match', 'matchs'), t('Le plus de matchs en première division'),
                 t('{span}, en Division 1 et en Ligue 1.', ['span' => ucfirst($span($car[$p['id']]))]), [$p], 'carrieres', self::more($r, $goals));
         }
-        foreach ([['cent-buts', 'g', 100, 'Le club des 100 buts', 'Le seul Lionceau à avoir marqué 100 buts officiels ou plus.', 'Les seuls Lionceaux à avoir marqué 100 buts officiels ou plus.'],
-            ['trois-cents', 'm', 300, 'Le cercle des 300 matchs', 'Le seul Lionceau à avoir disputé 300 matchs officiels ou plus.', 'Les Lionceaux qui ont disputé 300 matchs officiels ou plus.']] as [$key, $f, $min, $label, $one, $many]) {
+        foreach ([['cent-buts', 'g', 100, 'Le club des 100 buts', 'Le seul Lionceau à avoir marqué 100 buts officiels ou plus.', club('Les seuls {nickname} à avoir marqué 100 buts officiels ou plus.')],
+            ['trois-cents', 'm', 300, 'Le cercle des 300 matchs', 'Le seul Lionceau à avoir disputé 300 matchs officiels ou plus.', club('Les {nickname} qui ont disputé 300 matchs officiels ou plus.')]] as [$key, $f, $min, $label, $one, $many]) {
             $v = array_map(fn ($k) => $k[$f], array_filter($car, fn ($k) => $k[$f] >= $min));
             if ($r = self::rank($v, 30)) {
                 $out[$key] = self::stat($key, self::num(count($r)), self::unit(count($r), 'joueur', 'joueurs'), t($label),
@@ -1019,7 +1019,7 @@ final class Chiffres
         if ($r = $top(fn ($k) => $k['by']['europe']['m'] ?? 0)) {
             [$p, $m] = $r[0];
             $out['matchs-europe'] = self::stat('matchs-europe', self::num($m), self::unit($m, 'match européen', 'matchs européens'), t('L’Européen'),
-                t('Le plus de matchs de coupe d’Europe sous le maillot sochalien.'), [$p], 'carrieres', self::more($r, $goals));
+                t('Le plus de matchs de coupe d’Europe sous le maillot {gentile}.'), [$p], 'carrieres', self::more($r, $goals));
         }
         $out['buteur-cdl'] = $compTop('buteur-cdl', 'cdl', 'Le roi de la Coupe de la Ligue', 'En {m} matchs de Coupe de la Ligue.');
         return $out;
@@ -1102,7 +1102,7 @@ final class Chiffres
         }
         if ($r = self::rank($sub, 4)) {
             $out['joker'] = self::stat('joker', self::num($r[0][1]), self::unit($r[0][1], 'but en sortant du banc', 'buts en sortant du banc'), t('Le meilleur joker'),
-                t('{t} buts sochaliens ont été marqués par des remplaçants entrés en jeu.', ['t' => self::num(array_sum($sub))]), [$r[0][0]], 'matchs', self::more($r, fn ($v) => self::num($v)));
+                t('{t} buts {gentile}s ont été marqués par des remplaçants entrés en jeu.', ['t' => self::num(array_sum($sub))]), [$r[0][0]], 'matchs', self::more($r, fn ($v) => self::num($v)));
         }
         // Série de matchs consécutifs (joués par le joueur) avec au moins un but.
         $best = null;
@@ -1164,7 +1164,7 @@ final class Chiffres
         }
         if ($r = self::rank($opener, 4)) {
             $out['ouvreur'] = self::stat('ouvreur', self::num($r[0][1]), self::unit($r[0][1], 'fois', 'fois'), t('L’ouvreur'),
-                t('Le plus souvent auteur du premier but sochalien d’un match.'), [$r[0][0]], 'matchs', self::more($r, fn ($v) => self::num($v)));
+                t('Le plus souvent auteur du premier but {gentile} d’un match.'), [$r[0][0]], 'matchs', self::more($r, fn ($v) => self::num($v)));
         }
         $diff = [];
         foreach ($c['apps'] as $a) {
@@ -1174,7 +1174,7 @@ final class Chiffres
         }
         if ($diff) {
             $out['buteurs-differents'] = self::stat('buteurs-differents', self::num(count($diff)), t('buteurs différents'), t('Tous buteurs'),
-                t('Joueurs sochaliens ayant marqué au moins un but dans les matchs officiels racontés.'));
+                t('Joueurs {gentile}s ayant marqué au moins un but dans les matchs officiels racontés.'));
         }
         // Buts de la tête (récits des buts sochaliens).
         $head = $tot = 0;
@@ -1188,12 +1188,12 @@ final class Chiffres
         }
         if ($tot >= 50) {
             $out['tete'] = self::stat('tete', self::pct($head / $tot), t('des buts'), t('De la tête'),
-                t('{h} buts sochaliens sur {t} racontés ont été marqués de la tête.', ['h' => self::num($head), 't' => self::num($tot)]), [], 'recits');
+                t('{h} buts {gentile}s sur {t} racontés ont été marqués de la tête.', ['h' => self::num($head), 't' => self::num($tot)]), [], 'recits');
         }
         $csc = array_sum(array_column($c['X'], 'csc'));
         if ($csc > 0) {
             $out['csc'] = self::stat('csc', self::num($csc), self::unit($csc, 'but contre son camp', 'buts contre leur camp'), t('Le coup de pouce'),
-                t('Marqués par des adversaires… pour Sochaux.'));
+                t('Marqués par des adversaires… pour {team}.'));
         }
         // Saison au plus grand nombre de buteurs différents.
         $bs = [];
@@ -1208,7 +1208,7 @@ final class Chiffres
             arsort($bs);
             $s = array_key_first($bs);
             $out['saison-buteurs'] = self::stat('saison-buteurs', self::num($bs[$s]), t('buteurs différents'), t('La saison aux mille buteurs'),
-                t('En {s}, le record de buteurs sochaliens différents sur une saison.', ['s' => $s]));
+                t('En {s}, le record de buteurs {gentile}s différents sur une saison.', ['s' => $s]));
         }
         return $out;
     }
@@ -1238,7 +1238,7 @@ final class Chiffres
             $x = $O[$g[0]];
             $out['but-rapide'] = self::stat('but-rapide', self::nth($g[2]), t('minute'), t('Le but le plus rapide'),
                 t('Contre {opp}, le {date}.', ['opp' => self::opp($x), 'date' => date_fr($x['date'])])
-                . ($k > 1 ? ' ' . t('{k} buts sochaliens ont été marqués dès la {m} minute.', ['k' => $k, 'm' => self::nth($g[2])]) : ''),
+                . ($k > 1 ? ' ' . t('{k} buts {gentile}s ont été marqués dès la {m} minute.', ['k' => $k, 'm' => self::nth($g[2])]) : ''),
                 [$g[1] ? self::person((int) $g[1]) : null, self::match($x)]);
             // But le plus tardif.
             $late = $goals;
@@ -1257,7 +1257,7 @@ final class Chiffres
             arsort($per);
             $mf = array_key_first($per);
             $out['minute-fetiche'] = self::stat('minute-fetiche', self::nth((int) $mf), t('minute'), t('La minute fétiche'),
-                t('{n} buts sochaliens marqués à cette minute précise, temps additionnel non compris.', ['n' => $per[$mf]]));
+                t('{n} buts {gentile}s marqués à cette minute précise, temps additionnel non compris.', ['n' => $per[$mf]]));
             // Répartition dans le temps réglementaire.
             $reg = array_filter($goals, fn ($g) => $g[2] <= 90);
             $tot = max(1, count($reg));
@@ -1265,11 +1265,11 @@ final class Chiffres
             $startQ = count(array_filter($reg, fn ($g) => $g[2] <= 15));
             $second = count(array_filter($reg, fn ($g) => $g[2] >= 46));
             $out['dernier-quart'] = self::stat('dernier-quart', self::pct($endQ / $tot), t('des buts'), t('Le dernier quart d’heure'),
-                t('{n} buts sochaliens sur {t} marqués après la 75e minute, temps additionnel compris.', ['n' => self::num($endQ), 't' => self::num($tot)]));
+                t('{n} buts {gentile}s sur {t} marqués après la 75e minute, temps additionnel compris.', ['n' => self::num($endQ), 't' => self::num($tot)]));
             $out['premier-quart'] = self::stat('premier-quart', self::pct($startQ / $tot), t('des buts'), t('Les départs canon'),
-                t('{n} buts sochaliens marqués dans le premier quart d’heure.', ['n' => self::num($startQ)]));
-            $out['seconde-periode'] = self::stat('seconde-periode', self::pct($second / $tot), t('des buts'), t('Les Lions de la seconde période'),
-                t('{n} buts sochaliens marqués après la pause, contre {f} avant.', ['n' => self::num($second), 'f' => self::num($tot - $second)]));
+                t('{n} buts {gentile}s marqués dans le premier quart d’heure.', ['n' => self::num($startQ)]));
+            $out['seconde-periode'] = self::stat('seconde-periode', self::pct($second / $tot), t('des buts'), t('Les {mascot}s de la seconde période'),
+                t('{n} buts {gentile}s marqués après la pause, contre {f} avant.', ['n' => self::num($second), 'f' => self::num($tot - $second)]));
         }
 
         // Déroulé des matchs racontés minute par minute.
@@ -1303,7 +1303,7 @@ final class Chiffres
             $x = $O[$mid];
             $w = $rem[$mid]['worst'];
             $out['remontada'] = self::stat('remontada', self::num($w), self::unit($w, 'but de retard effacé', 'buts de retard effacés'), t('La plus belle remontada'),
-                t('Mené de {w} buts, Sochaux s’impose {s} contre {opp}, le {date}.', ['w' => $w, 's' => self::score($x), 'opp' => self::opp($x), 'date' => date_fr($x['date'])]),
+                t('Mené de {w} buts, {team} s’impose {s} contre {opp}, le {date}.', ['w' => $w, 's' => self::score($x), 'opp' => self::opp($x), 'date' => date_fr($x['date'])]),
                 [self::match($x)], 'recits');
             $out['remontadas'] = self::stat('remontadas', self::num(count($rem)), self::unit(count($rem), 'victoire après avoir été mené', 'victoires après avoir été mené'), t('Les remontadas'),
                 t('Sur {t} matchs officiels racontés minute par minute.', ['t' => self::num(count($flow))]), [], 'recits');
@@ -1322,11 +1322,11 @@ final class Chiffres
             uksort($lateDraws, fn ($a, $b) => strcmp($O[$b]['date'], $O[$a]['date']));
             $x = $O[array_key_first($lateDraws)];
             $out['egalisation-tardive'] = self::stat('egalisation-tardive', self::num(count($lateDraws)), self::unit(count($lateDraws), 'nul arraché', 'nuls arrachés'), t('L’égalisation sur le fil'),
-                t('Matchs nuls sauvés par une égalisation sochalienne après la 85e minute. Le dernier : contre {opp}, le {date}.', ['opp' => self::opp($x), 'date' => date_fr($x['date'])]),
+                t('Matchs nuls sauvés par une égalisation {gentile}ne après la 85e minute. Le dernier : contre {opp}, le {date}.', ['opp' => self::opp($x), 'date' => date_fr($x['date'])]),
                 [self::match($x)], 'recits');
         }
         // Quand Sochaux marque le premier / encaisse le premier.
-        foreach ([[true, 'ouverture', 'Quand Sochaux marque le premier'], [false, 'mene', 'Quand Sochaux encaisse le premier']] as [$first, $key, $label]) {
+        foreach ([[true, 'ouverture', club('Quand {team} marque le premier')], [false, 'mene', club('Quand {team} encaisse le premier')]] as [$first, $key, $label]) {
             $l = array_filter($flow, fn ($f) => $f['first'] === $first);
             if (count($l) >= 20) {
                 $r = self::record(array_map(fn ($mid) => $O[$mid], array_keys($l)));
@@ -1342,7 +1342,7 @@ final class Chiffres
             $x = $O[$mid];
             $l = $lost[$mid]['lead'];
             $out['avance-perdue'] = self::stat('avance-perdue', self::num($l), self::unit($l, 'but d’avance', 'buts d’avance'), t('L’avance envolée'),
-                t('Sochaux menait de {l} buts et s’incline {s} contre {opp}, le {date}.', ['l' => $l, 's' => self::score($x), 'opp' => self::opp($x), 'date' => date_fr($x['date'])]),
+                t('{team} menait de {l} buts et s’incline {s} contre {opp}, le {date}.', ['l' => $l, 's' => self::score($x), 'opp' => self::opp($x), 'date' => date_fr($x['date'])]),
                 [self::match($x)], 'recits');
         }
         return $out;
@@ -1518,12 +1518,12 @@ final class Chiffres
         $out = array_filter([
             'invincibilite' => self::runStat($c, 'invincibilite', 'La plus longue invincibilité', 'match sans défaite', 'matchs sans défaite', fn ($x) => $res($x) && $x['result'] !== 'D'),
             'victoires' => self::runStat($c, 'victoires', 'La plus longue série de victoires', 'victoire de suite', 'victoires de suite', fn ($x) => $x['result'] === 'V'),
-            'bonal-invaincu' => self::runStat($c, 'bonal-invaincu', 'Bonal imprenable', 'match sans défaite à Bonal', 'matchs sans défaite à Bonal', fn ($x) => $res($x) && $x['result'] !== 'D', $bonal),
+            'bonal-invaincu' => self::runStat($c, 'bonal-invaincu', club('{stadium_short} imprenable'), club('match sans défaite {stadium_a}'), club('matchs sans défaite {stadium_a}'), fn ($x) => $res($x) && $x['result'] !== 'D', $bonal),
             'exterieur-invaincu' => self::runStat($c, 'exterieur-invaincu', 'Les globe-trotters', 'match sans défaite à l’extérieur', 'matchs sans défaite à l’extérieur', fn ($x) => $res($x) && $x['result'] !== 'D', fn ($x) => !$x['sh']),
             'buts-consecutifs' => self::runStat($c, 'buts-consecutifs', 'Toujours au moins un but', 'match de suite en marquant', 'matchs de suite en marquant', fn ($x) => (int) $x['us'] > 0),
             'defaites' => self::runStat($c, 'defaites', 'La plus longue série de défaites', 'défaite de suite', 'défaites de suite', fn ($x) => $x['result'] === 'D'),
             'sans-victoire' => self::runStat($c, 'sans-victoire', 'La plus longue disette', 'match sans victoire', 'matchs sans victoire', fn ($x) => $res($x) && $x['result'] !== 'V'),
-            'bonal-victoires' => self::runStat($c, 'bonal-victoires', 'Bonal en feu', 'victoire de suite à Bonal', 'victoires de suite à Bonal', fn ($x) => $x['result'] === 'V', $bonal),
+            'bonal-victoires' => self::runStat($c, 'bonal-victoires', club('{stadium_short} en feu'), club('victoire de suite {stadium_a}'), club('victoires de suite {stadium_a}'), fn ($x) => $x['result'] === 'V', $bonal),
             'nuls' => self::runStat($c, 'nuls', 'Le temps des nuls', 'match nul de suite', 'matchs nuls de suite', fn ($x) => $x['result'] === 'N'),
             'muet' => self::runStat($c, 'muet', 'La panne sèche', 'match de suite sans marquer', 'matchs de suite sans marquer', fn ($x) => $x['us'] !== null && (int) $x['us'] === 0),
             'exterieur-disette' => self::runStat($c, 'exterieur-disette', 'Les voyages sans victoire', 'déplacement sans victoire', 'déplacements sans victoire', fn ($x) => $res($x) && $x['result'] !== 'V', fn ($x) => !$x['sh']),
@@ -1577,7 +1577,7 @@ final class Chiffres
             t('Le score final le plus fréquent des matchs officiels racontés.'));
         $w10 = $freq['1-0'] ?? 0;
         if ($w10) {
-            $out['un-zero'] = self::stat('un-zero', self::num($w10), self::unit($w10, 'victoire 1-0', 'victoires 1-0'), t('Le 1-0 à la sochalienne'),
+            $out['un-zero'] = self::stat('un-zero', self::num($w10), self::unit($w10, 'victoire 1-0', 'victoires 1-0'), t('Le 1-0 à la {gentile}ne'),
                 t('Soit {p} des victoires officielles racontées.', ['p' => self::pct($w10 / max(1, $r['v']))]));
         }
         $out['moyenne'] = self::stat('moyenne', self::num($r['gf'] / $r['m'], 2), self::unit($r['gf'] / $r['m'], 'but marqué par match', 'buts marqués par match'), t('Les buts par match'),
@@ -1654,7 +1654,7 @@ final class Chiffres
         }
         if ($r = self::rank($assists, 4)) {
             $out['passeur'] = self::stat('passeur', self::num($r[0][1]), self::unit($r[0][1], 'passe décisive', 'passes décisives'), t('Le meilleur passeur'),
-                t('Passes, centres et corners décisifs cités dans les récits des buts sochaliens.'), [$r[0][0]], 'recits', self::more($r, fn ($v) => self::num($v)));
+                t('Passes, centres et corners décisifs cités dans les récits des buts {gentile}s.'), [$r[0][0]], 'recits', self::more($r, fn ($v) => self::num($v)));
         }
         arsort($duos);
         foreach ($duos as $k => $n) {
@@ -1933,16 +1933,16 @@ final class Chiffres
         if ($home) {
             $l = array_values($home);
             usort($l, fn ($a, $b) => $b['spectators'] <=> $a['spectators']);
-            $out['affluence-bonal'] = self::stat('affluence-bonal', self::num($l[0]['spectators']), t('spectateurs'), t('Bonal plein à craquer'),
-                $line($l[0]) . ' ' . t('Le record des matchs officiels racontés à Bonal.'), [self::match($l[0])]);
+            $out['affluence-bonal'] = self::stat('affluence-bonal', self::num($l[0]['spectators']), t('spectateurs'), t('{stadium_short} plein à craquer'),
+                $line($l[0]) . ' ' . t('Le record des matchs officiels racontés {stadium_a}.'), [self::match($l[0])]);
             $tot = array_sum(array_column($home, 'spectators'));
-            $out['moyenne-bonal'] = self::stat('moyenne-bonal', self::num($tot / count($home)), t('spectateurs par match'), t('La moyenne à Bonal'),
+            $out['moyenne-bonal'] = self::stat('moyenne-bonal', self::num($tot / count($home)), t('spectateurs par match'), t('La moyenne {stadium_a}'),
                 t('Sur {m} matchs officiels à domicile dont l’affluence est connue.', ['m' => self::num(count($home))]));
-            $out['spectateurs'] = self::stat('spectateurs', self::num($tot), t('spectateurs à Bonal'), t('Le peuple jaune et bleu'),
-                t('Cumul des affluences des matchs officiels racontés à Bonal.'));
+            $out['spectateurs'] = self::stat('spectateurs', self::num($tot), t('spectateurs {stadium_a}'), t('Le peuple {colors}'),
+                t('Cumul des affluences des matchs officiels racontés {stadium_a}.'));
             // Meilleure saison et meilleure décennie de public.
-            foreach ([['saison-public', 'season', 'La saison des foules', 'Moyenne à Bonal en {k}, la meilleure des saisons racontées.'],
-                ['decennie-public', 'decade', 'La décennie des foules', 'Moyenne à Bonal dans les {k}.']] as [$key, $f, $label, $text]) {
+            foreach ([['saison-public', 'season', 'La saison des foules', club('Moyenne {stadium_a} en {k}, la meilleure des saisons racontées.')],
+                ['decennie-public', 'decade', 'La décennie des foules', club('Moyenne {stadium_a} dans les {k}.')]] as [$key, $f, $label, $text]) {
                 $g = [];
                 foreach ($home as $x) {
                     if ($x[$f] !== null && ($f !== 'season' || in_array($x['season'], $c['full'], true))) {
@@ -1962,12 +1962,12 @@ final class Chiffres
             usort($l, fn ($a, $b) => $a['spectators'] <=> $b['spectators']);
             $x = $l[0];
             $out['affluence-faible'] = self::stat('affluence-faible', self::num($x['spectators']), t('spectateurs'), t('L’intimité'),
-                t('La plus faible affluence connue à Bonal en match officiel. {line}', ['line' => $line($x)]), [self::match($x)]);
+                t('La plus faible affluence connue {stadium_a} en match officiel. {line}', ['line' => $line($x)]), [self::match($x)]);
         }
         $bon = array_filter($O, fn ($x) => $x['sh'] && $x['stade'] === self::BONAL && $x['result']);
         if ($bon) {
             $r = self::record($bon);
-            $out['bilan-bonal'] = self::stat('bilan-bonal', self::pct($r['v'] / $r['m']), t('de victoires à Bonal'), t('La forteresse'),
+            $out['bilan-bonal'] = self::stat('bilan-bonal', self::pct($r['v'] / $r['m']), t('de victoires {stadium_a}'), t('La forteresse'),
                 ucfirst(self::vnd($r)) . ' ' . t('en {m} matchs officiels à domicile.', ['m' => self::num($r['m'])]));
         }
         $stades = [];
@@ -1982,7 +1982,7 @@ final class Chiffres
         }
         if ($stades) {
             $out['stades'] = self::stat('stades', self::num(count($stades)), t('stades différents'), t('Le tour de France des stades'),
-                t('Où Sochaux a disputé au moins un match officiel raconté, Bonal compris.'));
+                t('Où {team} a disputé au moins un match officiel raconté, {stadium_short} compris.'));
         }
         if ($away) {
             arsort($away);
@@ -2068,7 +2068,7 @@ final class Chiffres
             arsort($dates);
             $k = array_key_first($dates);
             $out['date-fetiche'] = self::stat('date-fetiche', self::dayMonth($k), self::unit($dates[$k], '{n} match', '{n} matchs', ['n' => $dates[$k]]), t('La date fétiche'),
-                t('Le jour de l’année où Sochaux a disputé le plus de matchs officiels racontés.'));
+                t('Le jour de l’année où {team} a disputé le plus de matchs officiels racontés.'));
         }
         $dec = [];
         foreach ($O as $x) {
@@ -2193,7 +2193,7 @@ final class Chiffres
         if ($h) {
             $r = self::rank($h, 3);
             $out['geant'] = self::stat('geant', self::num($r[0][1] / 100, 2), self::unit($r[0][1] / 100, 'mètre', 'mètres'), t('Le géant'),
-                t('Le plus grand des {n} Lionceaux dont la taille est connue.', ['n' => self::num(count($h))]), [$r[0][0]], 'fiches', self::more($r, fn ($v) => self::num($v / 100, 2)));
+                t('Le plus grand des {n} {nickname} dont la taille est connue.', ['n' => self::num(count($h))]), [$r[0][0]], 'fiches', self::more($r, fn ($v) => self::num($v / 100, 2)));
             $r = self::rank($h, 3, true);
             $out['petit'] = self::stat('petit', self::num($r[0][1] / 100, 2), self::unit($r[0][1] / 100, 'mètre', 'mètres'), t('Le plus petit gabarit'),
                 t('La preuve que le football n’est pas qu’une affaire de taille.'), [$r[0][0]], 'fiches', self::more($r, fn ($v) => self::num($v / 100, 2)));
@@ -2207,7 +2207,7 @@ final class Chiffres
         $fc = array_filter($players, fn ($p) => isset(self::FRANCHE_COMTE[$p['dept']]));
         if ($fc) {
             $doubs = count(array_filter($fc, fn ($p) => $p['dept'] === '25'));
-            $out['enfants-du-pays'] = self::stat('enfants-du-pays', self::num(count($fc)), t('Lionceaux nés en Franche-Comté'), t('Les enfants du pays'),
+            $out['enfants-du-pays'] = self::stat('enfants-du-pays', self::num(count($fc)), t('{nickname} nés en Franche-Comté'), t('Les enfants du pays'),
                 t('Dont {d} dans le Doubs, sur les fiches dont le lieu de naissance est connu.', ['d' => $doubs]), [], 'fiches');
         }
         $countries = [];
@@ -2220,12 +2220,12 @@ final class Chiffres
         if (count($countries) >= 3) {
             arsort($countries);
             $abroad = array_slice(array_filter($countries, fn ($k) => $k !== 'France', ARRAY_FILTER_USE_KEY), 0, 3, true);
-            $out['pays'] = self::stat('pays', self::num(count($countries)), t('pays de naissance'), t('Le monde en jaune et bleu'),
+            $out['pays'] = self::stat('pays', self::num(count($countries)), t('pays de naissance'), t('Le monde en {colors}'),
                 t('Après la France, en tête : {list}.', ['list' => implode(', ', array_map(fn ($k, $n) => t($k) . " ($n)", array_keys($abroad), $abroad))]), [], 'fiches');
         }
         $formed = count(array_filter($players, fn ($p) => $p['formed']));
         if ($formed) {
-            $out['formes'] = self::stat('formes', self::num($formed), t('joueurs formés au club'), t('Made in Sochaux'),
+            $out['formes'] = self::stat('formes', self::num($formed), t('joueurs formés au club'), t('Made in {team}'),
                 t('Sur {n} fiches de joueurs : le centre de formation en chiffres.', ['n' => self::num(count($players))]), [], 'fiches');
         }
         $names = [];
@@ -2239,12 +2239,12 @@ final class Chiffres
             arsort($names);
             $k = array_key_first($names);
             $out['prenom'] = self::stat('prenom', $k, self::unit($names[$k], '{n} joueur', '{n} joueurs', ['n' => $names[$k]]), t('Le prénom le plus porté'),
-                t('Chez les Lionceaux, devant {list}.', ['list' => implode(', ', array_map(fn ($k, $n) => "$k ($n)", array_slice(array_keys($names), 1, 3), array_slice($names, 1, 3)))]), [], 'fiches');
+                t('Chez les {nickname}, devant {list}.', ['list' => implode(', ', array_map(fn ($k, $n) => "$k ($n)", array_slice(array_keys($names), 1, 3), array_slice($names, 1, 3)))]), [], 'fiches');
         }
         $intl = count(array_filter($players, fn ($p) => $p['intl']));
         if ($intl) {
             $out['internationaux'] = self::stat('internationaux', self::num($intl), t('internationaux'), t('Les internationaux'),
-                t('Joueurs passés par Sochaux et sélectionnés en équipe nationale, toutes catégories et tous pays confondus.'), [], 'fiches');
+                t('Joueurs passés par {team} et sélectionnés en équipe nationale, toutes catégories et tous pays confondus.'), [], 'fiches');
         }
         $cities = [];
         foreach ($players as $p) {
@@ -2256,7 +2256,7 @@ final class Chiffres
             arsort($cities);
             $k = array_key_first($cities);
             $out['ville'] = self::stat('ville', $k, self::unit($cities[$k], '{n} joueur', '{n} joueurs', ['n' => $cities[$k]]), t('La ville natale la plus représentée'),
-                t('Le berceau le plus fréquent des Lionceaux.'), [], 'fiches');
+                t('Le berceau le plus fréquent des {nickname}.'), [], 'fiches');
         }
         return $out;
     }

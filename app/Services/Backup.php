@@ -82,7 +82,7 @@ final class Backup
                 }
             }
         }
-        $zip->setArchiveComment('Sochaux Rétro · ' . date('c') . ' · ' . $count . ' fichiers');
+        $zip->setArchiveComment(club('{site} · ') . date('c') . ' · ' . $count . ' fichiers');
         if (!$zip->close()) {
             @unlink($file);
             return ['error' => 'Écriture de l’archive impossible (espace disque ?).'];

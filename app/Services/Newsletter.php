@@ -167,7 +167,7 @@ final class Newsletter
             . '<tr><td style="padding:0;border-bottom:3px solid #F6C400;line-height:0">' . ($img ? '<a href="' . $href . '"><img src="' . e($base . $img) . '" width="252" alt="' . e(t('La boutique du musée')) . '" style="display:block;width:100%;height:auto;border:0"></a>' : '') . '</td></tr>'
             . '<tr><td height="' . self::CARD_TEXT . '" valign="top" style="padding:12px 14px 14px;height:' . self::CARD_TEXT . 'px;vertical-align:top">'
             . '<span style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:12px;font-weight:700;letter-spacing:1px;padding:3px 7px">' . e(t('Boutique du musée')) . '</span>'
-            . '<div style="' . $H . ';font-size:23px;line-height:1.08;color:#FFFFFF;margin:10px 0 6px">' . e(t('Portez l’histoire du FCSM')) . '</div>'
+            . '<div style="' . $H . ';font-size:23px;line-height:1.08;color:#FFFFFF;margin:10px 0 6px">' . e(t('Portez l’histoire {sigle_de}')) . '</div>'
             . '<div style="font-family:Georgia,serif;font-size:14px;line-height:1.45;color:#F3EDDF;margin:0 0 12px">' . e(t('Posters de vos matchs, maillots, mugs, le livre des récits… à personnaliser. Chaque achat fait vivre le musée.')) . '</div>'
             . '<a href="' . $href . '" style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:14px;font-weight:700;letter-spacing:1px;text-decoration:none;padding:8px 12px">' . e(t('Découvrir la boutique')) . ' →</a>'
             . '</td></tr></table>';
@@ -179,7 +179,7 @@ final class Newsletter
         $name = 'boutique-v1.jpg';
         $dest = PUBLIC_PATH . '/media/lettre/' . $name;
         $font = APP_DIR . '/Resources/fonts/BigShouldersDisplay-Black.ttf';
-        $logo = PUBLIC_PATH . '/assets/img/logo-sochaux-retro.png';
+        $logo = PUBLIC_PATH . Club::s('logo_png');
         if (!is_file($dest)) {
             if (!is_file($font) || !function_exists('imagettftext')) {
                 return null;
@@ -324,7 +324,7 @@ final class Newsletter
                 $l = isset($state['html'][$s['lang'] ?? '']) ? $s['lang'] : 'fr';
                 I18n::set($l);
                 $unsub = base_url() . url('/newsletter/desinscription/' . $token . '/');
-                $body = NewsletterStats::personalize((string) ($state['html'][$l] ?? reset($state['html'])), $state['week'], $token) . '<p style="font-size:12px;color:#3A4A75;margin-top:24px;text-align:center">' . e(t('Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là » de Sochaux Rétro.')) . '<br><a href="' . e($unsub) . '" style="color:#3A4A75">' . e(t('Se désinscrire')) . '</a></p>';
+                $body = NewsletterStats::personalize((string) ($state['html'][$l] ?? reset($state['html'])), $state['week'], $token) . '<p style="font-size:12px;color:#3A4A75;margin-top:24px;text-align:center">' . e(t('Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là » {site_de}.')) . '<br><a href="' . e($unsub) . '" style="color:#3A4A75">' . e(t('Se désinscrire')) . '</a></p>';
                 $ok = Mailer::send((string) $s['email'], (string) ($state['subject'][$l] ?? reset($state['subject'])), $body, null, [], ['List-Unsubscribe' => '<' . $unsub . '>', 'List-Unsubscribe-Post' => 'List-Unsubscribe=One-Click']);
                 I18n::set($prev);
                 $state[$ok ? 'sent' : 'failed']++;

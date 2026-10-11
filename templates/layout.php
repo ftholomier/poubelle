@@ -15,7 +15,7 @@ $meta = Site::meta($page, $path);
 $lang = I18n::lang();
 $chat = empty($page['no_chat']) && \App\Services\Rag::enabled();
 ?><!DOCTYPE html>
-<html lang="<?= e($lang) ?>" data-app="<?= Settings::get('app.enabled', true) ? '1' : '0' ?>">
+<html lang="<?= e($lang) ?>" data-app="<?= Settings::get('app.enabled', true) ? '1' : '0' ?>" data-site="<?= e(\App\Core\Club::s('site')) ?>" data-team="<?= e(\App\Core\Club::team()) ?>" data-founded="<?= e(\App\Core\Club::s('founded')) ?>">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

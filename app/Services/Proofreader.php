@@ -460,12 +460,12 @@ final class Proofreader
             . "- « explication » : en français, une phrase courte et claire pour un non-spécialiste.\n"
             . "Réponds uniquement en JSON : {\"corrections\":[…]}. S'il n'y a aucune faute : {\"corrections\":[]}.";
         if ($lang === 'en') {
-            return "Tu relis des textes en anglais britannique du musée en ligne du FC Sochaux-Montbéliard (club de football français fondé en 1928).\n"
+            return club("Tu relis des textes en anglais britannique du musée en ligne {club_de} (club de football français fondé en {founded}).\n")
                 . "Signale uniquement les fautes certaines : orthographe, fautes de frappe, accords, formes verbales, confusions (its/it's, their/there, lose/loose…), mot manquant ou en trop, ponctuation fautive, majuscule manquante.\n"
                 . "Ne signale pas : le style, le choix des mots, les variantes britanniques ou américaines, la typographie (apostrophes, guillemets, tirets), les noms propres (joueurs, clubs, stades, villes, journaux), les chiffres, scores, dates et minutes (33'), les sigles du football. Dans le doute, ne signale rien.\n"
                 . $common;
         }
-        return "Tu es correcteur professionnel pour le musée en ligne du FC Sochaux-Montbéliard (club de football fondé en 1928). Des historiens bénévoles rédigent des fiches de matchs, de joueurs, d'objets et de moments du club. Relève leurs fautes pour qu'ils puissent les corriger.\n\n"
+        return club("Tu es correcteur professionnel pour le musée en ligne {club_de} (club de football fondé en {founded}). Des historiens bénévoles rédigent des fiches de matchs, de joueurs, d'objets et de moments du club. Relève leurs fautes pour qu'ils puissent les corriger.\n\n")
             . "Signale uniquement les fautes certaines :\n"
             . "- orthographe d'usage et fautes de frappe ;\n"
             . "- accords (genre, nombre, participes passés), conjugaison, homophones (a/à, et/est, ou/où, ces/ses, ce/se, son/sont, on/ont, leur/leurs, quand/quant, -er/-é…) ;\n"
@@ -879,7 +879,7 @@ final class Proofreader
         $p = $doc['personne'] ?? [];
         $add('personne.subtitle', $p['subtitle'] ?? '', 'Sous-titre');
         $add('personne.position', $p['position'] ?? '', 'Poste');
-        foreach (['honours' => 'Palmarès', 'then' => 'Après Sochaux'] as $k => $l) {
+        foreach (['honours' => 'Palmarès', 'then' => club('Après {team}')] as $k => $l) {
             foreach ($p[$k] ?? [] as $i => $v) {
                 $add("personne.$k.$i", $v, "$l › ligne " . ($i + 1));
             }

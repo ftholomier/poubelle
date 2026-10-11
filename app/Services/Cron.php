@@ -142,7 +142,7 @@ final class Cron
                 }
                 // « Les chiffres du FCSM » recalculés d'avance : le visiteur n'attend pas.
                 $n = Chiffres::warm();
-                return $n ? trim(($done ? $done . ' ; ' : '') . 'les 100 chiffres du FCSM recalculés') : $done;
+                return $n ? trim(($done ? $done . ' ; ' : '') . club('les 100 chiffres {sigle_de} recalculés')) : $done;
 
             case 'audience':
                 $n = Stats::aggregate();

@@ -23,7 +23,7 @@ final class Mailer
             self::log($to, $subject, false, 'adresse d’expédition non réglée');
             return false;
         }
-        $fromName = (string) Settings::get('mail.from_name', 'Sochaux Rétro');
+        $fromName = (string) Settings::get('mail.from_name', Club::s('site'));
         $boundary = 'sr' . bin2hex(random_bytes(12));
         $alt = 'alt' . bin2hex(random_bytes(8));
         $text = trim(html_entity_decode(strip_tags(preg_replace(['#<br\s*/?>#i', '#</p>#i', '#</h\d>#i', '#<li>#i'], ["\n", "\n\n", "\n\n", '• '], $html)), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
@@ -71,7 +71,7 @@ final class Mailer
     /** Gabarit HTML aux couleurs du musée. */
     public static function layout(string $title, string $html): string
     {
-        $site = e((string) Settings::get('general.site_name', 'Sochaux Rétro'));
+        $site = e((string) Settings::get('general.site_name', Club::s('site')));
         $base = base_url();
         if (str_starts_with($html, Newsletter::MARK)) {
             return self::letter($title, $html, $site, $base);
@@ -80,7 +80,7 @@ final class Mailer
             . '<body style="margin:0;background:#E8DFC9;font-family:Georgia,serif;color:#0E1F4D">'
             . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#E8DFC9;padding:24px 0"><tr><td align="center">'
             . '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#FFFDF6;border:2px solid #0E1F4D">'
-            . '<tr><td style="background:#1F3FA8;padding:18px 24px;color:#F3EDDF"><img src="' . e($base) . '/assets/img/logo-sochaux-retro.png" alt="" height="48" style="vertical-align:middle;margin-right:12px">'
+            . '<tr><td style="background:#1F3FA8;padding:18px 24px;color:#F3EDDF"><img src="' . e($base) . Club::s('logo_png') . '" alt="" height="48" style="vertical-align:middle;margin-right:12px">'
             . '<span style="font-family:Arial Narrow,Arial,sans-serif;font-weight:bold;font-size:22px;text-transform:uppercase;letter-spacing:1px;vertical-align:middle">' . $site . '</span></td></tr>'
             . '<tr><td style="padding:24px;font-size:17px;line-height:1.55">' . $html . '</td></tr>'
             . '<tr><td style="padding:12px 24px;background:#E8DFC9;font-size:12px;color:#3A4A75;text-align:center">' . $site . ' · <a href="' . e($base) . '/" style="color:#1F3FA8">' . e(preg_replace('#^https?://#', '', $base)) . '</a></td></tr>'
@@ -99,10 +99,10 @@ final class Mailer
             . '<body style="margin:0;background:#0E1F4D;font-family:Georgia,serif;color:#0E1F4D">'
             . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0E1F4D;padding:20px 0"><tr><td align="center">'
             . '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%">'
-            . '<tr><td style="padding:0"><a href="' . e($base) . '/"><img src="' . e($base) . '/assets/img/newsletter-entete.gif?v=' . @filemtime(PUBLIC_PATH . '/assets/img/newsletter-entete.gif') . '" width="600" alt="' . e(t('Ce jour-là · la lettre de Sochaux Rétro')) . '" style="display:block;width:100%;max-width:600px;height:auto;border:0;background:#0E1F4D;color:#F6C400"></a></td></tr>'
+            . '<tr><td style="padding:0"><a href="' . e($base) . '/"><img src="' . e($base) . '/assets/img/newsletter-entete.gif?v=' . @filemtime(PUBLIC_PATH . '/assets/img/newsletter-entete.gif') . '" width="600" alt="' . e(t('Ce jour-là · la lettre {site_de}')) . '" style="display:block;width:100%;max-width:600px;height:auto;border:0;background:#0E1F4D;color:#F6C400"></a></td></tr>'
             . '<tr><td class="nl-pad" style="background:#F3EDDF;padding:26px 24px 30px;font-size:17px;line-height:1.55">' . substr($html, strlen(Newsletter::MARK)) . '</td></tr>'
             . '<tr><td style="background:#0E1F4D;border-top:6px solid #F6C400;padding:18px 24px;text-align:center"><a href="' . e($base) . '/" style="' . $D . ';color:#F6C400;font-size:18px;font-weight:700;letter-spacing:2px;text-decoration:none">' . $site . '</a>'
-            . '<div style="font-size:12px;color:#B9C3E0;margin-top:4px">' . e(t('Le musée de l’histoire du FC Sochaux-Montbéliard')) . '</div></td></tr>'
+            . '<div style="font-size:12px;color:#B9C3E0;margin-top:4px">' . e(t('Le musée de l’histoire {club_de}')) . '</div></td></tr>'
             . '</table></td></tr></table></body></html>';
     }
 

@@ -598,7 +598,7 @@ final class QuizLive
         $tries = 0;
         while (count($set) < 4 && $tries++ < 60) {
             $d = $y + mt_rand(-9, 9);
-            if ($d !== $y && $d >= 1928 && $d <= (int) date('Y') && !in_array((string) $d, $taken, true)) {
+            if ($d !== $y && $d >= (int) Club::s('founded') && $d <= (int) date('Y') && !in_array((string) $d, $taken, true)) {
                 $set[(string) $d] = true;
             }
         }
@@ -617,9 +617,9 @@ final class QuizLive
         }
         shuffle($opps);
         $verb = match ($m['result']) {
-            'V' => t('Le {d}, le FCSM bat quel adversaire {s} ({c}) ?', ['d' => self::when($m), 's' => $m['us'] . '–' . $m['them'], 'c' => self::compLabel($m)]),
-            'D' => t('Le {d}, le FCSM s’incline {s} face à quel adversaire ({c}) ?', ['d' => self::when($m), 's' => $m['us'] . '–' . $m['them'], 'c' => self::compLabel($m)]),
-            default => t('Le {d}, le FCSM fait match nul {s} face à quel adversaire ({c}) ?', ['d' => self::when($m), 's' => $m['us'] . '–' . $m['them'], 'c' => self::compLabel($m)]),
+            'V' => t('Le {d}, {sigle_le} bat quel adversaire {s} ({c}) ?', ['d' => self::when($m), 's' => $m['us'] . '–' . $m['them'], 'c' => self::compLabel($m)]),
+            'D' => t('Le {d}, {sigle_le} s’incline {s} face à quel adversaire ({c}) ?', ['d' => self::when($m), 's' => $m['us'] . '–' . $m['them'], 'c' => self::compLabel($m)]),
+            default => t('Le {d}, {sigle_le} fait match nul {s} face à quel adversaire ({c}) ?', ['d' => self::when($m), 's' => $m['us'] . '–' . $m['them'], 'c' => self::compLabel($m)]),
         };
         return ['q' => $verb, 'a' => array_merge([(string) $m['opp']], array_slice($opps, 0, 3)), 'c' => 0, 'fact' => self::fact($m)];
     }
@@ -653,8 +653,8 @@ final class QuizLive
             return null;
         }
         $q = count($goal) > 1
-            ? t('Lequel de ces joueurs a marqué pour le FCSM lors de {f} {s} ({d}) ?', ['f' => self::fixture($m), 's' => self::score($m), 'd' => self::when($m)])
-            : t('Qui a marqué pour le FCSM lors de {f} {s} ({d}) ?', ['f' => self::fixture($m), 's' => self::score($m), 'd' => self::when($m)]);
+            ? t('Lequel de ces joueurs a marqué pour {sigle_le} lors de {f} {s} ({d}) ?', ['f' => self::fixture($m), 's' => self::score($m), 'd' => self::when($m)])
+            : t('Qui a marqué pour {sigle_le} lors de {f} {s} ({d}) ?', ['f' => self::fixture($m), 's' => self::score($m), 'd' => self::when($m)]);
         return ['q' => $q, 'a' => array_merge([(string) $p['title']], array_slice($others, 0, 3)), 'c' => 0, 'fact' => self::fact($m)];
     }
 }

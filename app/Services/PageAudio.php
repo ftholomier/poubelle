@@ -320,7 +320,7 @@ final class PageAudio
         $max = FicheAudio::maxWords();
         $min = rtrim(rtrim(number_format(FicheAudio::maxMinutes(), 1, $en ? '.' : ',', ''), '0'), '.,');
         $system = $en
-            ? "You are a historian of FC Sochaux-Montbéliard and a passionate storyteller. You tell, out loud, a page of the online museum Sochaux Rétro: $subject. This page is calculated from the museum’s match pages; the data below give its figures and its highlights. Your script will be read by a synthetic voice.\n"
+            ? club("You are a historian of {club} and a passionate storyteller. You tell, out loud, a page of the online museum {site}: $subject. This page is calculated from the museum’s match pages; the data below give its figures and its highlights. Your script will be read by a synthetic voice.\n")
                 . "Bring it to life, as if you were telling it to supporters gathered around you:\n"
                 . "- a hook that makes people want to listen;\n"
                 . "- an introduction that sets out the subject and the era;\n"
@@ -328,12 +328,12 @@ final class PageAudio
                 . "- a conclusion that puts things in perspective and leaves a strong image.\n"
                 . "Rules:\n"
                 . "- only facts found in the data: never invent a figure, a date, a name or an anecdote; do not recite every number, pick the most telling ones and tell them;\n"
-                . "- the figures cover the matches recorded in the museum: say \"the museum holds…\" rather than \"Sochaux played in all…\";\n"
+                . club("- the figures cover the matches recorded in the museum: say \"the museum holds…\" rather than \"{team} played in all…\";\n")
                 . "- real sentences, varied and well punctuated, with natural transitions; paragraphs separated by a blank line; no list, no title, no emoji, no stage directions;\n"
                 . "- write for the ear: scores as \"3–1\", clear dates (\"on 11 June 1988\");\n"
                 . "- at most $max words (about $min minutes); the length follows the richness of the data;\n"
                 . "- in English. Answer with the script only."
-            : "Tu es historien du FC Sochaux-Montbéliard et conteur passionné. Tu racontes à voix haute une page du musée en ligne Sochaux Rétro : $subject. Cette page est calculée à partir des fiches de matchs du musée ; les données ci-dessous en donnent les chiffres et les moments marquants. Ton texte sera lu par une voix de synthèse.\n"
+            : club("Tu es historien {club_de} et conteur passionné. Tu racontes à voix haute une page du musée en ligne {site} : $subject. Cette page est calculée à partir des fiches de matchs du musée ; les données ci-dessous en donnent les chiffres et les moments marquants. Ton texte sera lu par une voix de synthèse.\n")
                 . "Fais-la revivre, comme si tu la racontais à des supporters réunis autour de toi :\n"
                 . "– une accroche qui donne envie d’écouter ;\n"
                 . "– une introduction qui pose le sujet et l’époque ;\n"
@@ -341,7 +341,7 @@ final class PageAudio
                 . "– une conclusion qui met en perspective et laisse une image forte.\n"
                 . "Règles :\n"
                 . "– uniquement des faits présents dans les données : n’invente rien, ni chiffre, ni date, ni nom, ni anecdote ; ne récite pas tous les chiffres, choisis les plus parlants et raconte-les ;\n"
-                . "– les chiffres portent sur les matchs fichés dans le musée : dis « le musée compte… » plutôt que « Sochaux a joué en tout… » ;\n"
+                . club("– les chiffres portent sur les matchs fichés dans le musée : dis « le musée compte… » plutôt que « {team} a joué en tout… » ;\n")
                 . "– de vraies phrases, variées et bien ponctuées, avec des transitions naturelles ; paragraphes séparés par une ligne vide ; ni liste, ni titre, ni émoji, ni indication de mise en scène ;\n"
                 . "– écris pour l’oreille : scores « 3 à 1 », dates claires (« le 11 juin 1988 ») ;\n"
                 . "– au plus $max mots (environ $min minutes) ; la longueur suit la richesse des données ;\n"
@@ -354,23 +354,23 @@ final class PageAudio
     {
         return match ($f['page'] ?? '') {
             'face-à-face' => $en
-                ? ["the head-to-head between Sochaux and {$f['adversaire']}, all their meetings recorded in the museum", 'what the record says about this rivalry, the first meeting, the big matches (wide wins, painful defeats, crowds, finals), the scorers, the streaks, the latest chapter']
-                : ["le face-à-face entre Sochaux et {$f['adversaire']}, toutes leurs rencontres fichées dans le musée", 'ce que dit le bilan de ce duel, la première rencontre, les grands matchs (larges victoires, défaites marquantes, affluences, finales), les buteurs, les séries, le dernier épisode'],
+                ? [club("the head-to-head between {team} and {$f['adversaire']}, all their meetings recorded in the museum"), 'what the record says about this rivalry, the first meeting, the big matches (wide wins, painful defeats, crowds, finals), the scorers, the streaks, the latest chapter']
+                : [club("le face-à-face entre {team} et {$f['adversaire']}, toutes leurs rencontres fichées dans le musée"), 'ce que dit le bilan de ce duel, la première rencontre, les grands matchs (larges victoires, défaites marquantes, affluences, finales), les buteurs, les séries, le dernier épisode'],
             'saison' => $en
-                ? ["the {$f['saison']} season of FC Sochaux-Montbéliard", 'the context (division, coach), the league and cup campaigns, the big matches, the men (scorers, most used players), what the season review tells']
-                : ["la saison {$f['saison']} du FC Sochaux-Montbéliard", 'le contexte (division, entraîneur), le parcours en championnat et en coupe, les grands matchs, les hommes (buteurs, joueurs les plus utilisés), ce que raconte le bilan de la saison'],
+                ? [club("the {$f['saison']} season of {club}"), 'the context (division, coach), the league and cup campaigns, the big matches, the men (scorers, most used players), what the season review tells']
+                : [club("la saison {$f['saison']} {club_de}"), 'le contexte (division, entraîneur), le parcours en championnat et en coupe, les grands matchs, les hommes (buteurs, joueurs les plus utilisés), ce que raconte le bilan de la saison'],
             'bilan d’une compétition' => $en
-                ? ["the record of Sochaux in the {$f['compétition']}", 'the record, the runs season after season, the finals and the great exploits, the painful defeats, the scorers']
-                : ["le bilan de Sochaux en {$f['compétition']}", 'le bilan, les parcours saison après saison, les finales et les exploits, les défaites marquantes, les buteurs'],
+                ? [club("the record of {team} in the {$f['compétition']}"), 'the record, the runs season after season, the finals and the great exploits, the painful defeats, the scorers']
+                : [club("le bilan de {team} en {$f['compétition']}"), 'le bilan, les parcours saison après saison, les finales et les exploits, les défaites marquantes, les buteurs'],
             'bilan dans un stade' => $en
-                ? ["the record of Sochaux at {$f['stade']}", 'what this ground means, the record, the great nights, the crowds, the best years']
-                : ["le bilan de Sochaux au {$f['stade']}", 'ce que représente ce stade, le bilan, les grandes soirées, les affluences, les années fastes'],
+                ? [club("the record of {team} at {$f['stade']}"), 'what this ground means, the record, the great nights, the crowds, the best years']
+                : [club("le bilan de {team} au {$f['stade']}"), 'ce que représente ce stade, le bilan, les grandes soirées, les affluences, les années fastes'],
             'livre des records' => $en
-                ? ["a ranking of the Sochaux record book: {$f['classement']} ({$f['portée']})", 'who leads the ranking and what these figures mean, then the names that follow']
-                : ["un classement du livre des records du FCSM : {$f['classement']} ({$f['portée']})", 'qui domine le classement et ce que représentent ces chiffres, puis les noms qui suivent'],
+                ? [club("a ranking of the {team} record book: {$f['classement']} ({$f['portée']})"), 'who leads the ranking and what these figures mean, then the names that follow']
+                : [club("un classement du livre des records {sigle_de} : {$f['classement']} ({$f['portée']})"), 'qui domine le classement et ce que représentent ces chiffres, puis les noms qui suivent'],
             default => $en
-                ? ["Sochaux in numbers, {$f['statistiques']} statistics calculated since 1929", 'a journey chapter by chapter through the most striking figures, with the names and dates behind them']
-                : ["les chiffres du FCSM, {$f['statistiques']} statistiques calculées depuis 1929", 'un parcours chapitre par chapitre à travers les chiffres les plus marquants, avec les noms et les dates qui les accompagnent'],
+                ? [club("{team} in numbers, {$f['statistiques']} statistics calculated since 1929"), 'a journey chapter by chapter through the most striking figures, with the names and dates behind them']
+                : [club("les chiffres {sigle_de}, {$f['statistiques']} statistiques calculées depuis 1929"), 'un parcours chapitre par chapitre à travers les chiffres les plus marquants, avec les noms et les dates qui les accompagnent'],
         };
     }
 
@@ -585,14 +585,14 @@ final class PageAudio
                 : (!empty($x['sh']) ? (($x['stade'] ?? '') === 'auguste-bonal' ? 'à domicile, au stade Auguste-Bonal' : 'à domicile') : 'à l’extérieur'),
             'score' => $x['us'] === null || $x['us'] === '' ? null
                 : $x['home'] . ' ' . (!empty($x['sh']) ? $x['us'] : $x['them']) . '-' . (!empty($x['sh']) ? $x['them'] : $x['us']) . ' ' . $x['away'],
-            'résultat' => ['V' => 'victoire de Sochaux', 'N' => 'match nul', 'D' => 'défaite de Sochaux'][$x['result'] ?? ''] ?? null,
+            'résultat' => ['V' => club('victoire de {team}'), 'N' => 'match nul', 'D' => club('défaite de {team}')][$x['result'] ?? ''] ?? null,
         ];
         $extra = mb_strtolower((string) ($x['extra'] ?? ''));
         if (preg_match('/\ba\.?\s?p\b|prol/u', $extra)) {
             $f['prolongation'] = 'oui';
         }
         if (str_contains($extra, 'tab') && preg_match('/(\d+)\s*-\s*(\d+)/', $extra, $m)) {
-            $f['tirs au but'] = 'remportés par ' . (($x['result'] ?? '') === 'V' ? 'Sochaux' : $x['opp']) . ', ' . max((int) $m[1], (int) $m[2]) . '-' . min((int) $m[1], (int) $m[2]);
+            $f['tirs au but'] = 'remportés par ' . (($x['result'] ?? '') === 'V' ? Club::team() : $x['opp']) . ', ' . max((int) $m[1], (int) $m[2]) . '-' . min((int) $m[1], (int) $m[2]);
         }
         if (($x['spectators'] ?? 0) > 0) {
             $f['spectateurs'] = (int) $x['spectators'];
@@ -658,8 +658,8 @@ final class PageAudio
             'adversaire' => $name,
             'matchs fichés dans le musée' => (int) $t['count'],
             'période' => self::year($chrono[0]) . '-' . self::year($last),
-            'résultats de Sochaux' => self::vndFacts((int) $t['V'], (int) $t['N'], (int) $t['D']),
-            'buts' => ['marqués par Sochaux' => (int) $t['gf'], 'encaissés par Sochaux' => (int) $t['ga']],
+            club('résultats de {team}') => self::vndFacts((int) $t['V'], (int) $t['N'], (int) $t['D']),
+            'buts' => [club('marqués par {team}') => (int) $t['gf'], club('encaissés par {team}') => (int) $t['ga']],
             'à domicile' => $home ? self::vndFacts(...self::vnd($home)) : null,
             'à l’extérieur' => $away ? self::vndFacts(...self::vnd($away)) : null,
             'compétitions' => $v['comps'] ?? [],
@@ -668,7 +668,7 @@ final class PageAudio
             'plus large victoire' => self::matchFacts($best, true),
             'plus lourde défaite' => self::matchFacts($worst, true),
             'plus forte affluence' => self::matchFacts($crowd),
-            'meilleurs buteurs sochaliens' => self::scorerFacts(array_column($chrono, 'id'), 5),
+            club('meilleurs buteurs {gentile}s') => self::scorerFacts(array_column($chrono, 'id'), 5),
             'plus longue série sans défaite' => $run ? ['matchs' => $run['n'], 'du' => $run['from']['date'], 'au' => $run['to']['date']] : null,
             'tous les matchs' => count($chrono) <= 80 ? array_map([self::class, 'line'], $chrono) : null,
         ], fn ($x) => $x !== null && $x !== []);
@@ -746,8 +746,8 @@ final class PageAudio
             'compétition' => Mosaic::COMPS[$key][0],
             'matchs fichés dans le musée' => (int) $t['count'],
             'période' => self::year($chrono[0]) . '-' . self::year($chrono[count($chrono) - 1]),
-            'résultats de Sochaux' => self::vndFacts((int) $t['V'], (int) $t['N'], (int) $t['D']),
-            'buts' => ['marqués par Sochaux' => (int) $t['gf'], 'encaissés par Sochaux' => (int) $t['ga']],
+            club('résultats de {team}') => self::vndFacts((int) $t['V'], (int) $t['N'], (int) $t['D']),
+            'buts' => [club('marqués par {team}') => (int) $t['gf'], club('encaissés par {team}') => (int) $t['ga']],
             'saison par saison' => $seasons,
             'finales' => $finals ? array_map(fn ($x) => self::matchFacts($x, true), array_slice($finals, 0, 8)) : null,
             'premier match' => self::matchFacts($chrono[0], true),
@@ -755,7 +755,7 @@ final class PageAudio
             'plus large victoire' => self::matchFacts($best, true),
             'plus lourde défaite' => self::matchFacts($worst, true),
             'plus forte affluence' => self::matchFacts($crowd),
-            'meilleurs buteurs sochaliens' => self::scorerFacts(array_column($chrono, 'id'), 6),
+            club('meilleurs buteurs {gentile}s') => self::scorerFacts(array_column($chrono, 'id'), 6),
         ], fn ($x) => $x !== null && $x !== []);
     }
 
@@ -774,18 +774,18 @@ final class PageAudio
         ksort($decades);
         return array_filter([
             'page' => 'bilan dans un stade',
-            'stade' => $key === 'auguste-bonal' ? 'stade Auguste-Bonal, à Montbéliard : le stade du FC Sochaux-Montbéliard' : $name,
+            'stade' => $key === 'auguste-bonal' ? club('stade Auguste-Bonal, à Montbéliard : le stade {club_de}') : $name,
             'matchs fichés dans le musée' => (int) $t['count'],
             'période' => self::year($chrono[0]) . '-' . self::year($chrono[count($chrono) - 1]),
-            'résultats de Sochaux' => self::vndFacts((int) $t['V'], (int) $t['N'], (int) $t['D']),
-            'buts' => ['marqués par Sochaux' => (int) $t['gf'], 'encaissés par Sochaux' => (int) $t['ga']],
+            club('résultats de {team}') => self::vndFacts((int) $t['V'], (int) $t['N'], (int) $t['D']),
+            'buts' => [club('marqués par {team}') => (int) $t['gf'], club('encaissés par {team}') => (int) $t['ga']],
             'décennie par décennie' => $decades,
             'premier match fiché' => self::matchFacts($chrono[0], true),
             'dernier match' => self::matchFacts($chrono[count($chrono) - 1], true),
             'plus large victoire' => self::matchFacts($best, true),
             'plus lourde défaite' => self::matchFacts($worst, true),
             'plus forte affluence' => self::matchFacts($crowd, true),
-            'meilleurs buteurs sochaliens' => self::scorerFacts(array_column($chrono, 'id'), 5),
+            club('meilleurs buteurs {gentile}s') => self::scorerFacts(array_column($chrono, 'id'), 5),
             'tous les matchs' => count($chrono) <= 40 ? array_map([self::class, 'line'], $chrono) : null,
         ], fn ($x) => $x !== null && $x !== []);
     }
@@ -827,7 +827,7 @@ final class PageAudio
                 $out[] = ['chapitre' => (string) $ch['title'], 'présentation' => (string) ($ch['intro'] ?? ''), 'chiffres' => $stats];
             }
         }
-        return $out ? ['page' => 'les chiffres du FCSM', 'statistiques' => $count, 'chapitres' => $out] : null;
+        return $out ? ['page' => club('les chiffres {sigle_de}'), 'statistiques' => $count, 'chapitres' => $out] : null;
     }
 
     // ------------------------------------------------------------------ récits automatiques
@@ -848,26 +848,26 @@ final class PageAudio
 
         if ($n === 1) {
             return self::forPage([[
-                $en ? "Sochaux and $name have met only once, " . self::on($first, $en) . ', ' . self::inComp($first, $en) . ': ' . self::result($first, $en) . '.'
-                    : "Sochaux et $name ne se sont affrontés qu’une seule fois, " . self::on($first, $en) . ', ' . self::inComp($first, $en) . ' : ' . self::result($first, $en) . '.',
+                $en ? club("{team} and $name have met only once, ") . self::on($first, $en) . ', ' . self::inComp($first, $en) . ': ' . self::result($first, $en) . '.'
+                    : club("{team} et $name ne se sont affrontés qu’une seule fois, ") . self::on($first, $en) . ', ' . self::inComp($first, $en) . ' : ' . self::result($first, $en) . '.',
                 $en ? 'A single chapter, to relive in its match page.' : 'Un chapitre unique, à revivre dans sa fiche de match.',
             ]], $en);
         }
 
         $intro = [];
         if ($n >= 30) {
-            $intro[] = $en ? "Between Sochaux and $name, it is a long story: $n meetings, from $y1 to $y2." : "Entre Sochaux et $name, c’est une longue histoire : $n rencontres, de $y1 à $y2.";
+            $intro[] = $en ? club("Between {team} and $name, it is a long story: $n meetings, from $y1 to $y2.") : club("Entre {team} et $name, c’est une longue histoire : $n rencontres, de $y1 à $y2.");
         } elseif ($n >= 10) {
-            $intro[] = $en ? "Sochaux and $name have faced each other $n times, from $y1 to $y2." : "Sochaux et $name se sont affrontés $n fois, de $y1 à $y2.";
+            $intro[] = $en ? club("{team} and $name have faced each other $n times, from $y1 to $y2.") : club("{team} et $name se sont affrontés $n fois, de $y1 à $y2.");
         } else {
-            $intro[] = $en ? "Sochaux and $name have crossed paths only $n times" . ($y1 === $y2 ? ", in $y1." : ", between $y1 and $y2.")
-                : "Sochaux et $name ne se sont croisés que $n fois" . ($y1 === $y2 ? ", en $y1." : ", entre $y1 et $y2.");
+            $intro[] = $en ? club("{team} and $name have crossed paths only $n times") . ($y1 === $y2 ? ", in $y1." : ", between $y1 and $y2.")
+                : club("{team} et $name ne se sont croisés que $n fois") . ($y1 === $y2 ? ", en $y1." : ", entre $y1 et $y2.");
         }
         $rec = self::record($V, $N, $D, $en, true);
         $intro[] = match (self::trend($V, $N, $D)) {
-            'domine' => $en ? "And the record leans clearly towards Sochaux: $rec." : "Et le bilan penche nettement du côté des Lionceaux : $rec.",
-            'subit' => $en ? "$name have often hurt Sochaux: $rec." : "$name a souvent fait souffrir les Sochaliens : $rec.",
-            'favorable' => $en ? "The record favours Sochaux: $rec." : "Le bilan est favorable aux Lionceaux : $rec.",
+            'domine' => $en ? club("And the record leans clearly towards {team}: $rec.") : club("Et le bilan penche nettement du côté des {nickname} : $rec."),
+            'subit' => $en ? club("$name have often hurt {team}: $rec.") : club("$name a souvent fait souffrir les {gentile_pl} : $rec."),
+            'favorable' => $en ? club("The record favours {team}: $rec.") : club("Le bilan est favorable aux {nickname} : $rec."),
             'defavorable' => $en ? "The record favours $name: $rec." : "Le bilan est à l’avantage de $name : $rec.",
             'serre' => $en ? "The record could hardly be closer: $rec." : "Le bilan est très serré : $rec.",
             default => $en ? "The record is perfectly balanced: $rec." : "Le bilan est parfaitement équilibré : $rec.",
@@ -906,17 +906,17 @@ final class PageAudio
         }
         $run = self::unbeaten($chrono);
         if ($run && $n >= 6) {
-            $story[] = $en ? "Sochaux even went {$run['n']} games unbeaten against $name, from " . self::date($run['from'], true) . ' to ' . self::date($run['to'], true) . '.'
-                : "Les Lionceaux ont même enchaîné {$run['n']} matchs sans défaite contre $name, du " . self::date($run['from'], false) . ' au ' . self::date($run['to'], false) . '.';
+            $story[] = $en ? club("{team} even went {$run['n']} games unbeaten against $name, from ") . self::date($run['from'], true) . ' to ' . self::date($run['to'], true) . '.'
+                : club("Les {nickname} ont même enchaîné {$run['n']} matchs sans défaite contre $name, du ") . self::date($run['from'], false) . ' au ' . self::date($run['to'], false) . '.';
         }
 
         $end = [];
         $end[] = $en ? 'The latest chapter was played ' . self::on($last, $en) . ', ' . self::inComp($last, $en) . ': ' . self::result($last, $en) . '.'
             : 'Le dernier épisode s’est joué ' . self::on($last, $en) . ', ' . self::inComp($last, $en) . ' : ' . self::result($last, $en) . '.';
         $end[] = match (self::trend($V, $N, $D)) {
-            'domine' => $en ? 'An opponent Sochaux have often tamed: a fine page in the history of the club.' : 'Un adversaire que les Lionceaux ont souvent su dompter : une belle page de l’histoire du FCSM.',
+            'domine' => $en ? club('An opponent {team} have often tamed: a fine page in the history of the club.') : club('Un adversaire que les {nickname} ont souvent su dompter : une belle page de l’histoire {sigle_de}.'),
             'favorable' => $en ? 'A fixture that has often smiled on the yellow and blue, and the story goes on.' : 'Un duel qui a souvent souri aux Jaune et Bleu, et l’histoire continue.',
-            'subit', 'defavorable' => $en ? 'A tough opponent who has given Sochaux plenty of trouble: there is always a score to settle.' : 'Un adversaire coriace, qui a donné du fil à retordre aux Jaune et Bleu : une revanche est toujours à prendre.',
+            'subit', 'defavorable' => $en ? club('A tough opponent who has given {team} plenty of trouble: there is always a score to settle.') : 'Un adversaire coriace, qui a donné du fil à retordre aux Jaune et Bleu : une revanche est toujours à prendre.',
             default => $en ? 'A balanced rivalry, where nothing was ever decided in advance.' : 'Un duel équilibré, où rien n’a jamais été joué d’avance.',
         };
         return self::forPage([$intro, $where, $story, $end], $en);
@@ -937,9 +937,9 @@ final class PageAudio
         [$V, $N, $D] = [(int) $t['V'], (int) $t['N'], (int) $t['D']];
         $intro = [match ($key) {
             'championnat' => $en ? "The league is the club’s daily bread: $n matches recorded in the museum, from $y1 to $y2." : "Le championnat, c’est le quotidien du club : $n matchs fichés dans le musée, de $y1 à $y2.",
-            'coupe-de-france' => $en ? "The Coupe de France, the competition of every upset: the museum holds $n Sochaux matches in it, from $y1 to $y2." : "La Coupe de France, l’épreuve de tous les exploits : le musée y compte $n matchs de Sochaux, de $y1 à $y2.",
-            'coupe-d-europe' => $en ? "Europe and its great nights: $n European matches of Sochaux are recorded in the museum, from $y1 to $y2." : "L’Europe et ses grandes soirées : $n matchs européens du FCSM sont fichés dans le musée, de $y1 à $y2.",
-            default => $en ? "$label: $n Sochaux matches recorded in the museum, from $y1 to $y2." : "$label : $n matchs de Sochaux fichés dans le musée, de $y1 à $y2.",
+            'coupe-de-france' => $en ? club("The Coupe de France, the competition of every upset: the museum holds $n {team} matches in it, from $y1 to $y2.") : club("La Coupe de France, l’épreuve de tous les exploits : le musée y compte $n matchs de {team}, de $y1 à $y2."),
+            'coupe-d-europe' => $en ? club("Europe and its great nights: $n European matches of {team} are recorded in the museum, from $y1 to $y2.") : club("L’Europe et ses grandes soirées : $n matchs européens {sigle_de} sont fichés dans le musée, de $y1 à $y2."),
+            default => $en ? club("$label: $n {team} matches recorded in the museum, from $y1 to $y2.") : club("$label : $n matchs de {team} fichés dans le musée, de $y1 à $y2."),
         }];
         $intro[] = ($en ? 'The record: ' : 'Le bilan : ') . self::record($V, $N, $D, $en) . '.';
         $intro[] = self::goals((int) $t['gf'], (int) $t['ga'], $en);
@@ -960,7 +960,7 @@ final class PageAudio
         } else {
             $count = count($groups);
             if ($count > 1) {
-                $story[] = $en ? "Sochaux took part in it in $count seasons recorded in the museum." : "Sochaux y a pris part lors de $count saisons fichées dans le musée.";
+                $story[] = $en ? club("{team} took part in it in $count seasons recorded in the museum.") : club("{team} y a pris part lors de $count saisons fichées dans le musée.");
             }
             // Le plus beau parcours : les finales, sinon le tour le plus avancé.
             $finals = array_values(array_filter($chrono, fn ($x) => self::rank((string) ($x['round'] ?? '')) === 100));
@@ -968,10 +968,10 @@ final class PageAudio
                 $k = count($finals);
                 if ($k === 1) {
                     $f = $finals[0];
-                    $story[] = $en ? 'Sochaux reached the final ' . self::on($f, true) . ", against {$f['opp']}: " . self::result($f, true) . '.'
-                        : 'Sochaux a atteint la finale ' . self::on($f, false) . ", contre {$f['opp']} : " . self::result($f, false) . '.';
+                    $story[] = $en ? club('{team} reached the final ') . self::on($f, true) . ", against {$f['opp']}: " . self::result($f, true) . '.'
+                        : club('{team} a atteint la finale ') . self::on($f, false) . ", contre {$f['opp']} : " . self::result($f, false) . '.';
                 } else {
-                    $story[] = $en ? "Sochaux reached the final $k times." : "Sochaux a atteint la finale $k fois.";
+                    $story[] = $en ? club("{team} reached the final $k times.") : club("{team} a atteint la finale $k fois.");
                     foreach (array_slice($finals, 0, 4) as $f) {
                         $story[] = $en ? ucfirst(self::on($f, true)) . ", against {$f['opp']}: " . self::result($f, true) . '.'
                             : self::ucfirst(self::on($f, false)) . ", contre {$f['opp']} : " . self::result($f, false) . '.';
@@ -1022,8 +1022,8 @@ final class PageAudio
         $bonal = $key === 'auguste-bonal';
         $at = self::stadiumAt($stadium, $en);
         $intro = [$bonal
-            ? ($en ? "Stade Auguste-Bonal is the home of the Lionceaux: $n matches recorded in the museum, from $y1 to $y2." : "Le stade Auguste-Bonal, c’est la maison des Lionceaux : $n matchs fichés dans le musée, de $y1 à $y2.")
-            : ($en ? ucfirst($at) . ", the museum holds $n Sochaux matches, from $y1 to $y2." : self::ucfirst($at) . ", le musée compte $n matchs de Sochaux, de $y1 à $y2.")];
+            ? ($en ? club("Stade Auguste-Bonal is the home of the {nickname}: $n matches recorded in the museum, from $y1 to $y2.") : club("Le stade Auguste-Bonal, c’est la maison des {nickname} : $n matchs fichés dans le musée, de $y1 à $y2."))
+            : ($en ? ucfirst($at) . club(", the museum holds $n {team} matches, from $y1 to $y2.") : self::ucfirst($at) . club(", le musée compte $n matchs de {team}, de $y1 à $y2."))];
         $intro[] = ($en ? 'The record: ' : 'Le bilan : ') . self::record($V, $N, $D, $en) . '.';
         $intro[] = self::goals((int) $t['gf'], (int) $t['ga'], $en);
 
@@ -1053,7 +1053,7 @@ final class PageAudio
             $story[] = self::crowd($crowd, $en);
         }
         $end = [$bonal
-            ? ($en ? 'Bonal, where so many pages of the club’s history were written.' : 'Bonal, où se sont écrites tant de pages de l’histoire du FCSM.')
+            ? ($en ? club('{stadium_short}, where so many pages of the club’s history were written.') : club('{stadium_short}, où se sont écrites tant de pages de l’histoire {sigle_de}.'))
             : ($en ? 'Every match is in the museum, one match page at a time.' : 'Tous ces matchs sont à revivre, fiche après fiche, dans le musée.')];
         return self::forPage([$intro, $story, $end], $en);
     }
@@ -1121,7 +1121,7 @@ final class PageAudio
             $round = self::round((string) ($lastCup['round'] ?? ''), $en);
             $final = self::rank((string) ($lastCup['round'] ?? '')) === 100;
             if ($final && $lastCup['result'] === 'V') {
-                $cups[] = $en ? "In the $cup, Sochaux went all the way: the final was won, " . self::result($lastCup, true) . " against {$lastCup['opp']}."
+                $cups[] = $en ? club("In the $cup, {team} went all the way: the final was won, ") . self::result($lastCup, true) . " against {$lastCup['opp']}."
                     : "En $cup, l’aventure va jusqu’au bout : la finale est gagnée, " . self::result($lastCup, false) . " contre {$lastCup['opp']}.";
             } elseif ($lastCup['result'] === 'D' && $round !== '') {
                 $cups[] = $en ? "In the $cup, the run ended in the $round: " . self::result($lastCup, true) . " against {$lastCup['opp']}."
@@ -1167,7 +1167,7 @@ final class PageAudio
             }
             return $v . ' ' . $unit;
         };
-        $intro = [($en ? 'The Sochaux record book: ' : 'Le livre des records du FCSM : ') . self::lcfirst($title, $en) . ', ' . self::lcfirst($scope, $en) . '.'];
+        $intro = [($en ? club('The {team} record book: ') : club('Le livre des records {sigle_de} : ')) . self::lcfirst($title, $en) . ', ' . self::lcfirst($scope, $en) . '.'];
         $top = $rows[0];
         $intro[] = ($en ? 'At the top: ' : 'En tête du classement : ') . $top['name'] . ', ' . $val($top) . (trim((string) ($top['meta'] ?? '')) !== '' ? ' (' . $top['meta'] . ')' : '') . '.';
         // « Du 3 octobre 1987 au… » (séries) se dit en minuscule au milieu de la phrase.
@@ -1185,8 +1185,8 @@ final class PageAudio
         if (!$chapters) {
             return null;
         }
-        $paras = [[$en ? "Sochaux in numbers: $count statistics drawn from the whole memory of the museum. Here are the most striking, chapter by chapter."
-            : "Les chiffres du FCSM : $count statistiques tirées de toute la mémoire du musée. Voici les plus marquantes, chapitre par chapitre."]];
+        $paras = [[$en ? club("{team} in numbers: $count statistics drawn from the whole memory of the museum. Here are the most striking, chapter by chapter.")
+            : club("Les chiffres {sigle_de} : $count statistiques tirées de toute la mémoire du musée. Voici les plus marquantes, chapitre par chapitre.")]];
         $stat = function (array $st) use ($en): array {
             $who = array_values(array_filter(array_map(fn ($w) => isset($w['id']) || isset($w['last']) ? (string) $w['name'] : '', $st['who'] ?? []), fn ($w) => $w !== ''));
             $value = trim($st['value'] . ' ' . ($st['unit'] ?? ''));
@@ -1260,16 +1260,16 @@ final class PageAudio
     private static function record(int $V, int $N, int $D, bool $en, bool $whose = false): string
     {
         $nb = fn (int $n, string $one, string $many, string $zero) => $n === 0 ? $zero : $n . ' ' . ($n > 1 ? $many : $one);
-        return $en ? $nb($V, $whose ? 'Sochaux win' : 'win', $whose ? 'Sochaux wins' : 'wins', 'no wins') . ', ' . $nb($N, 'draw', 'draws', 'no draws') . ' and ' . $nb($D, 'defeat', 'defeats', 'no defeats')
-            : $nb($V, $whose ? 'victoire sochalienne' : 'victoire', $whose ? 'victoires sochaliennes' : 'victoires', 'aucune victoire') . ', ' . $nb($N, 'nul', 'nuls', 'aucun nul') . ' et ' . $nb($D, 'défaite', 'défaites', 'aucune défaite');
+        return $en ? $nb($V, $whose ? club('{team} win') : 'win', $whose ? club('{team} wins') : 'wins', 'no wins') . ', ' . $nb($N, 'draw', 'draws', 'no draws') . ' and ' . $nb($D, 'defeat', 'defeats', 'no defeats')
+            : $nb($V, $whose ? club('victoire {gentile}ne') : 'victoire', $whose ? club('victoires {gentile}nes') : 'victoires', 'aucune victoire') . ', ' . $nb($N, 'nul', 'nuls', 'aucun nul') . ' et ' . $nb($D, 'défaite', 'défaites', 'aucune défaite');
     }
 
     private static function goals(int $gf, int $ga, bool $en): string
     {
         if ($en) {
-            return 'In all, Sochaux scored ' . $gf . ' ' . ($gf === 1 ? 'goal' : 'goals') . ' and conceded ' . $ga . '.';
+            return club('In all, {team} scored ') . $gf . ' ' . ($gf === 1 ? 'goal' : 'goals') . ' and conceded ' . $ga . '.';
         }
-        return 'Au total, ' . ($gf ? 'Sochaux a marqué ' . $gf . ' ' . ($gf > 1 ? 'buts' : 'but') : 'Sochaux n’a marqué aucun but')
+        return 'Au total, ' . ($gf ? club('{team} a marqué ') . $gf . ' ' . ($gf > 1 ? 'buts' : 'but') : club('{team} n’a marqué aucun but'))
             . ($ga ? ' et en a encaissé ' . $ga : ' et n’en a encaissé aucun') . '.';
     }
 
@@ -1442,7 +1442,7 @@ final class PageAudio
             return ' ' . self::stadiumAt(Explore::stadiumName((string) $x['stade']), $en);
         }
         if (!empty($x['sh'])) {
-            return ($x['stade'] ?? '') === 'auguste-bonal' ? ($en ? ' at Bonal' : ' à Bonal') : ($en ? ' at home' : ' à domicile');
+            return ($x['stade'] ?? '') === 'auguste-bonal' ? ($en ? club(' at {stadium_short}') : club(' {stadium_a}')) : ($en ? ' at home' : ' à domicile');
         }
         return $en ? ' away' : ' à l’extérieur';
     }

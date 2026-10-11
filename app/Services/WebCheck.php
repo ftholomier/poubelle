@@ -102,8 +102,8 @@ final class WebCheck
      */
     public static function prompt(array $doc): array
     {
-        $system = <<<'TXT'
-Tu aides les historiens du musée en ligne Sochaux Rétro, consacré à l'histoire du FC Sochaux-Montbéliard (FCSM). On te donne une fiche du musée. Cherche sur le web, avec Google, des informations fiables sur ce sujet précis, puis compare-les avec la fiche.
+        $system = club(<<<'TXT'
+Tu aides les historiens du musée en ligne {site}, consacré à l'histoire {club_de} ({sigle}). On te donne une fiche du musée. Cherche sur le web, avec Google, des informations fiables sur ce sujet précis, puis compare-les avec la fiche.
 Propose :
 – des divergences : ce que les sources disent autrement que la fiche (date, score, buteurs et minutes, affluence, arbitre, stade, composition, naissance, parcours, chiffres) ;
 – des compléments : ce qui manque à la fiche (champs « non renseigné », faits, chiffres, contexte utile) ;
@@ -116,7 +116,7 @@ Règles :
 – au plus 12 propositions, les plus utiles d'abord ; si rien de fiable n'est trouvé, aucune proposition, et dis-le dans le résumé.
 Réponds uniquement par un objet JSON, sans texte autour :
 {"resume": "une ou deux phrases", "propositions": [{"type": "divergence | complement | piste", "champ": "ce que ça concerne (ex. Arbitre, Score, Naissance)", "fiche": "ce que dit la fiche (vide pour un complément ou une piste)", "proposition": "ce que disent les sources", "confiance": "haute | moyenne | faible"}]}
-TXT;
+TXT);
         return [$system, self::describe($doc)];
     }
 
@@ -126,7 +126,7 @@ TXT;
         $d = Unknown::doc(MatchText::header($doc, false));
         $none = 'non renseigné';
         $v = fn (mixed $x) => ($s = trim(preg_replace('/\s+/u', ' ', is_scalar($x) ? (string) $x : '') ?? '')) !== '' ? $s : $none;
-        $lines = ['Fiche du musée Sochaux Rétro (FC Sochaux-Montbéliard).', 'Titre : ' . $v($d['title'] ?? '')];
+        $lines = [club('Fiche du musée {site} ({club}).'), 'Titre : ' . $v($d['title'] ?? '')];
         $type = (string) ($d['type'] ?? '');
         if ($type === 'match' && is_array($d['match'] ?? null)) {
             $m = $d['match'];
@@ -135,7 +135,7 @@ TXT;
             $lines[] = 'Compétition : ' . $v(implode(' · ', array_unique(array_filter([(string) ($m['competition'] ?? ''), (string) ($m['competition_label'] ?? ''), (string) ($m['round_text'] ?? '')]))));
             $home = (string) ($m['home']['name'] ?? '');
             $away = (string) ($m['away']['name'] ?? '');
-            $lines[] = 'Match : ' . $v(trim($home . ' – ' . $away, ' –')) . (!empty($m['sochaux_home']) ? ' (Sochaux à domicile)' : ' (Sochaux à l’extérieur)');
+            $lines[] = 'Match : ' . $v(trim($home . ' – ' . $away, ' –')) . (!empty($m['sochaux_home']) ? club(' ({team} à domicile)') : club(' ({team} à l’extérieur)'));
             $s = $m['score'] ?? null;
             $lines[] = 'Score : ' . (isset($s['home'], $s['away']) ? $s['home'] . '-' . $s['away'] . (!empty($s['aet']) ? ' après prolongation' : '') . (isset($s['pens']['home']) ? ', tirs au but ' . $s['pens']['home'] . '-' . $s['pens']['away'] : '') : $none);
             $goals = array_filter(array_map(fn ($g) => is_array($g) && trim((string) ($g['scorers'] ?? '')) !== '' ? trim((string) ($g['team'] ?? '')) . ' : ' . trim((string) $g['scorers']) : '', (array) ($m['goals'] ?? [])));
@@ -147,7 +147,7 @@ TXT;
                 $lines[] = 'Événement : ' . $v($m['event']);
             }
             $rows = array_filter((array) ($m['lineup']['rows'] ?? []), fn ($r) => is_array($r) && trim((string) ($r['name'] ?? '')) !== '');
-            $lines[] = 'Composition de Sochaux : ' . ($rows ? implode(', ', array_map(fn ($r) => trim(($r['position'] ?? '') . ' ' . Names::display((string) $r['name'])), array_slice($rows, 0, 30))) : $none);
+            $lines[] = club('Composition de {team} : ') . ($rows ? implode(', ', array_map(fn ($r) => trim(($r['position'] ?? '') . ' ' . Names::display((string) $r['name'])), array_slice($rows, 0, 30))) : $none);
         } elseif ($type === 'personne' && is_array($d['personne'] ?? null)) {
             $p = $d['personne'];
             $lines[] = 'Type : personne (' . implode(', ', array_map('strval', (array) ($p['roles'] ?? []))) . ')';
@@ -156,10 +156,10 @@ TXT;
             $lines[] = 'Naissance : ' . $v($p['birth']['text'] ?? '');
             $lines[] = 'Décès : ' . $v($p['death']['text'] ?? 'non renseigné (vivant ou inconnu)');
             $lines[] = 'Nationalité : ' . $v($p['nationality'] ?? '');
-            $lines[] = 'Au FCSM : ' . $v(Fiche::personYears($p));
+            $lines[] = club('Au {sigle} : ') . $v(Fiche::personYears($p));
             $tot = Derived::part('person_totals')[(int) $d['id']] ?? null;
             if ($tot) {
-                $lines[] = 'Au FCSM d’après les compositions du musée : ' . (int) ($tot['matches'] ?? 0) . ' matchs, ' . (int) ($tot['goals'] ?? 0) . ' buts' . (!empty($tot['coached']) ? ', ' . (int) $tot['coached'] . ' matchs comme entraîneur' : '');
+                $lines[] = club('Au {sigle} d’après les compositions du musée : ') . (int) ($tot['matches'] ?? 0) . ' matchs, ' . (int) ($tot['goals'] ?? 0) . ' buts' . (!empty($tot['coached']) ? ', ' . (int) $tot['coached'] . ' matchs comme entraîneur' : '');
             }
             foreach ((array) ($p['fiche'] ?? []) as $row) {
                 if (is_array($row) && !empty($row['label']) && trim((string) ($row['value'] ?? '')) !== '') {

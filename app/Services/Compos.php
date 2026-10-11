@@ -30,12 +30,10 @@ final class Compos
     /** Domaines des sources lues par Gemini. */
     public const WEB = ['pari-et-gagne' => 'pari-et-gagne.com', 'worldfootball' => 'worldfootball.net', 'fcsmstory' => 'fcsmstory.com'];
     private const FDB = 'https://www.footballdatabase.eu';
-    private const FDB_CLUB = '19-sochaux'; // FC Sochaux-Montbéliard chez footballdatabase.eu
     public const ORIGIN = 'compos';
     /** Sources lues directement (fiables) : cochées d'office. */
     public const DEFAULT_SOURCES = ['transfermarkt', 'footballdatabase', 'gallica'];
     private const TM = 'https://www.transfermarkt.fr';
-    private const TM_CLUB = 750; // FC Sochaux-Montbéliard chez Transfermarkt
     private const UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
     private const DIR = STORAGE_PATH . '/compos';
     /** Une page Transfermarkt toutes les 4 secondes au plus (courtoisie, pas de blocage). */
@@ -478,7 +476,7 @@ final class Compos
         $id = null;
         foreach ([$season, $season - 1, $season + 1] as $sid) {
             $label = $sid . '-' . ($sid + 1);
-            $html = self::page(self::FDB . '/fr/club/equipe/' . self::FDB_CLUB . '/' . $label, 'fdb-s-' . $sid, 86400 * 7, '/fr/match/resume/', 'footballdatabase.eu');
+            $html = self::page(self::FDB . '/fr/club/equipe/' . Club::s('footballdatabase') . '/' . $label, 'fdb-s-' . $sid, 86400 * 7, '/fr/match/resume/', 'footballdatabase.eu');
             foreach (preg_split('/<tr[\s>]/', $html) ?: [] as $tr) {
                 if (preg_match('#/fr/match/resume/(\d+-[a-z0-9_-]+)#', $tr, $l) && preg_match('#(\d{2})/(\d{2})/(\d{4})#', strip_tags($tr), $d)
                     && abs(strtotime("$d[3]-$d[2]-$d[1]") - strtotime($date)) <= 86400) {
@@ -500,7 +498,7 @@ final class Compos
         $team = null;
         // Les deux équipes : blocs « toggleteam1 » et « toggleteam2 », chacun avec son nom.
         foreach ([1, 2] as $t) {
-            if (preg_match('#section titulaires toggleteam' . $t . '.{0,400}?<p class="team">([^<]+)</p>#s', $html, $x) && stripos($x[1], 'sochaux') !== false) {
+            if (preg_match('#section titulaires toggleteam' . $t . '.{0,400}?<p class="team">([^<]+)</p>#s', $html, $x) && Club::isUs($x[1])) {
                 $team = $t;
             }
         }
@@ -548,7 +546,7 @@ final class Compos
     /** Page de rapport de match Transfermarkt enregistrée par l'historien (Ctrl+S) et déposée sur la fiche. */
     private static function fromHtml(string $html): array
     {
-        if (!str_contains($html, 'transfermarkt') || !str_contains($html, '/verein/' . self::TM_CLUB)) {
+        if (!str_contains($html, 'transfermarkt') || !str_contains($html, '/verein/' . Club::get('transfermarkt')['id'])) {
             throw new \RuntimeException('ce fichier n’est pas un rapport de match Transfermarkt du FC Sochaux');
         }
         $url = preg_match('#https://www\.transfermarkt\.[a-z.]+/[^"\s]*/spielbericht/(?:index/spielbericht/)?\d+#', $html, $u) ? $u[0] : self::TM;
@@ -580,7 +578,7 @@ final class Compos
     /** Calendrier d'une saison chez Transfermarkt (gardé une semaine). @return list<array{date:string,id:int}> */
     private static function tmSeason(int $sid): array
     {
-        $html = self::page(self::TM . '/fc-sochaux-montbeliard/spielplan/verein/' . self::TM_CLUB . '/saison_id/' . $sid, 'tm-s-' . $sid, 86400 * 7);
+        $html = self::page(self::TM . '/' . Club::get('transfermarkt')['slug'] . '/spielplan/verein/' . Club::get('transfermarkt')['id'] . '/saison_id/' . $sid, 'tm-s-' . $sid, 86400 * 7);
         $out = [];
         $months = ['janv' => 1, 'févr' => 2, 'mars' => 3, 'avr' => 4, 'mai' => 5, 'juin' => 6, 'juil' => 7, 'août' => 8, 'sept' => 9, 'oct' => 10, 'nov' => 11, 'déc' => 12];
         foreach (preg_split('/<tr[\s>]/', $html) ?: [] as $tr) {
@@ -619,7 +617,7 @@ final class Compos
     public static function tmParse(string $html): array
     {
         $html = (string) preg_replace('/<img[^>]*>/', '', $html);
-        $club = '/verein/' . self::TM_CLUB . '/';
+        $club = '/verein/' . Club::get('transfermarkt')['id'] . '/';
         // Boîtes des deux équipes : celle qui porte le lien du FCSM.
         $box = '';
         if (preg_match_all('/aufstellung-unterueberschrift-mannschaft.*?(?=aufstellung-unterueberschrift-mannschaft|<div class="clearer")/s', $html, $bx)) {
@@ -747,8 +745,8 @@ final class Compos
             $f = self::DIR . '/cache/tm-g-s-' . $sid . '.json';
             $list = is_file($f) && filemtime($f) > time() - 86400 * 7 ? (array) json_decode((string) file_get_contents($f), true) : null;
             if ($list === null) {
-                $url = self::TM . '/fc-sochaux-montbeliard/spielplan/verein/' . self::TM_CLUB . '/saison_id/' . $sid;
-                $r = self::ai("Lis la page $url (calendrier du FC Sochaux-Montbéliard, saison $sid-" . ($sid + 1) . '). Donne TOUS les matchs listés avec leur date et le numéro du lien « /spielbericht/index/spielbericht/NUMÉRO » (rapport de match). '
+                $url = self::TM . '/' . Club::get('transfermarkt')['slug'] . '/spielplan/verein/' . Club::get('transfermarkt')['id'] . '/saison_id/' . $sid;
+                $r = self::ai(club("Lis la page $url (calendrier {club_de}, saison $sid-") . ($sid + 1) . '). Donne TOUS les matchs listés avec leur date et le numéro du lien « /spielbericht/index/spielbericht/NUMÉRO » (rapport de match). '
                     . 'Réponds en JSON seul : {"matchs": [{"date": "AAAA-MM-JJ", "id": NUMÉRO}]}. N’invente rien.', null, [['url_context' => new \stdClass()]], (int) ($m['id'] ?? 0));
                 $d = self::json($r['text']);
                 $list = [];
@@ -852,10 +850,10 @@ final class Compos
         $m = $doc['match'];
         $sh = (bool) ($m['sochaux_home'] ?? true);
         $opp = (string) ($sh ? ($m['away']['name'] ?? '') : ($m['home']['name'] ?? ''));
-        $system = "Tu aides les historiens du musée Sochaux Rétro. Cherche avec Google, UNIQUEMENT sur le site $domain, la feuille du match décrit (composition du FC Sochaux-Montbéliard). "
+        $system = club("Tu aides les historiens du musée {site}. Cherche avec Google, UNIQUEMENT sur le site $domain, la feuille du match décrit (composition {club_de}). ")
             . "Réponds en JSON seul : {\"trouve\": bool, \"url\": \"adresse de la page sur $domain\", \"entraineur\": \"Prénom Nom\" | null, \"joueurs\": [{\"nom\": \"Prénom Nom\", \"poste\": \"G|D|M|A|R\", \"entre\": minute|null, \"sorti\": minute|null, \"buts\": [minutes], \"jaunes\": [minutes], \"rouges\": [minutes]}]}. "
-            . "Seulement les joueurs de Sochaux ; « R » pour un remplaçant (avec sa minute d'entrée s'il est entré) ; n'invente rien : si la page n'existe pas ou ne donne pas la composition, {\"trouve\": false}.";
-        $text = 'Match : ' . ($sh ? "Sochaux – $opp" : "$opp – Sochaux") . ', le ' . date('d/m/Y', strtotime((string) $m['date'])) . ' (' . ($m['competition_label'] ?: $m['competition'] ?? '') . ')'
+            . club("Seulement les joueurs de {team} ; « R » pour un remplaçant (avec sa minute d'entrée s'il est entré) ; n'invente rien : si la page n'existe pas ou ne donne pas la composition, {\"trouve\": false}.");
+        $text = 'Match : ' . ($sh ? club("{team} – $opp") : club("$opp – {team}")) . ', le ' . date('d/m/Y', strtotime((string) $m['date'])) . ' (' . ($m['competition_label'] ?: $m['competition'] ?? '') . ')'
             . (isset($m['score']['home']) ? ', score ' . $m['score']['home'] . '-' . $m['score']['away'] : '');
         if (self::$get) {
             $r = ['text' => (string) (self::$get)('gemini:' . $key . ':' . $text), 'raw' => []];
@@ -891,11 +889,11 @@ final class Compos
     public static function probe(): array
     {
         $out = [];
-        $tests = ['Transfermarkt' => self::TM . '/fc-sochaux-montbeliard/startseite/verein/' . self::TM_CLUB, 'worldfootball.net' => 'https://www.worldfootball.net/teams/fc-sochaux/',
-            'footballdatabase.eu' => 'https://www.footballdatabase.eu/fr/club/equipe/19-sochaux', 'pari-et-gagne.com' => 'https://www.pari-et-gagne.com/', 'fcsmstory.com' => 'https://fcsmstory.com/'];
+        $tests = ['Transfermarkt' => self::TM . '/' . Club::get('transfermarkt')['slug'] . '/startseite/verein/' . Club::get('transfermarkt')['id'], 'worldfootball.net' => 'https://www.worldfootball.net/teams/' . Club::s('worldfootball') . '/',
+            'footballdatabase.eu' => 'https://www.footballdatabase.eu/fr/club/equipe/' . Club::s('footballdatabase'), 'pari-et-gagne.com' => 'https://www.pari-et-gagne.com/', 'fcsmstory.com' => 'https://fcsmstory.com/'];
         foreach ($tests as $site => $url) {
             $b = self::fetch($url, 25);
-            $ok = strlen($b) > 5000 && stripos($b, 'sochaux') !== false;
+            $ok = strlen($b) > 5000 && Club::isUs($b);
             $line = ($ok ? 'accessible' : 'bloqué ou vide') . ' (' . self::$diag . ', ' . round(strlen($b) / 1024) . ' Ko)';
             $out[$site] = [$ok, $line];
         }

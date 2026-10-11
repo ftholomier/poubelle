@@ -78,7 +78,7 @@
       fetch('/api/quiz', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ score, total: N }) })
         .then(r => r.json()).then(d => { if (d.ok && d.games > 5) extra.textContent = (extra.textContent ? extra.textContent + ' ' : '') + T(`Vous faites mieux que ${d.better} % des joueurs.`, `You beat ${d.better}% of players.`); }).catch(() => {});
     }
-    $('[data-quiz-share]', quiz).addEventListener('click', () => share(T(`J'ai fait ${score}/${N} au quiz Sochaux Rétro ! Et vous ?`, `I scored ${score}/${N} in the Sochaux Rétro quiz! Can you beat it?`)));
+    $('[data-quiz-share]', quiz).addEventListener('click', () => share(T(`J'ai fait ${score}/${N} au quiz ${document.documentElement.dataset.site} ! Et vous ?`, `I scored ${score}/${N} in the ${document.documentElement.dataset.site} quiz! Can you beat it?`)));
   }
 
   /* ------------------------------------------------------------------ ALBUM */
@@ -108,7 +108,7 @@
       const f = b.dataset.f;
       $$('.acard', album).forEach(c => { const own = c.classList.contains('is-own'); c.hidden = f === 'own' ? !own : f === 'todo' ? own : false; });
     });
-    $('[data-album-share]')?.addEventListener('click', () => share(T(`J'ai ${got.size}/${total} cartes dans l'album Sochaux Rétro !`, `I have ${got.size}/${total} cards in the Sochaux Rétro album!`)));
+    $('[data-album-share]')?.addEventListener('click', () => share(T(`J'ai ${got.size}/${total} cartes dans l'album ${document.documentElement.dataset.site} !`, `I have ${got.size}/${total} cards in the ${document.documentElement.dataset.site} album!`)));
   }
 
   /* ------------------------------------------------------------------ MAILLOTS */
@@ -167,7 +167,7 @@
       const max = track.scrollWidth - track.clientWidth;
       const pr = max > 0 ? track.scrollLeft / max : 0;
       const ev = evs[Math.min(evs.length - 1, Math.round(pr * (evs.length - 1)))];
-      const y = ev ? +ev.dataset.year : 1928;
+      const y = ev ? +ev.dataset.year : +document.documentElement.dataset.founded;
       decBtns.forEach(b => b.classList.toggle('is-on', y >= +b.dataset.frdec));
     };
     track.addEventListener('scroll', sync, { passive: true });

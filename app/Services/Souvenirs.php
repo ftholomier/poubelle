@@ -272,7 +272,7 @@ final class Souvenirs
         return [
             t('Étiez-vous au stade ce jour-là, ou à l’écoute de la radio ? Avec qui ?'),
             t('Quel joueur de cette époque vous a le plus marqué, et pourquoi ?'),
-            t('Comment alliez-vous au stade Bonal ? Où vous placiez-vous ?'),
+            t('Comment alliez-vous au stade {stadium_short} ? Où vous placiez-vous ?'),
             t('Gardez-vous un billet, une photo, une écharpe ou un fanion de ces années-là ?'),
         ];
     }

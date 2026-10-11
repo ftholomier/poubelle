@@ -438,7 +438,7 @@ final class Search
             foreach (array_slice(Derived::onThisDay(), 0, 2) as $x) {
                 $out[] = ['type' => t('Ce jour-là'), 'label' => Site::matchLabel($x), 'meta' => date_num($x['date']), 'href' => url($x['path'])];
             }
-            foreach ([[t('Saisons'), t('Toutes les saisons du club'), '/saisons/'], [t('Face-à-face'), t('Le bilan contre chaque adversaire'), '/face-a-face/'], [t('Records'), t('Les plus larges victoires, les plus capés…'), '/records/'], [t('Quiz'), t('Êtes-vous incollable sur le FCSM ?'), '/interactif/quiz/']] as [$type, $label, $href]) {
+            foreach ([[t('Saisons'), t('Toutes les saisons du club'), '/saisons/'], [t('Face-à-face'), t('Le bilan contre chaque adversaire'), '/face-a-face/'], [t('Records'), t('Les plus larges victoires, les plus capés…'), '/records/'], [t('Quiz'), t('Êtes-vous incollable sur {sigle_le} ?'), '/interactif/quiz/']] as [$type, $label, $href]) {
                 $out[] = ['type' => $type, 'label' => $label, 'meta' => '', 'href' => url($href)];
             }
             return $out;
@@ -475,7 +475,7 @@ final class Search
         $key = Names::clubKey($q);
         if ($key !== '' && $key !== 'sochaux' && isset(Derived::part('clubs')[$key])) {
             $c = Derived::part('clubs')[$key];
-            $out[] = ['type' => t('Face-à-face'), 'label' => 'Sochaux × ' . \App\Front\Fiche::clubName($key), 'meta' => $c['count'] . ' ' . t('matchs') . ' · ' . $c['v'] . 'V ' . $c['n'] . 'N ' . $c['d'] . 'D', 'href' => url('/face-a-face/' . $key . '/')];
+            $out[] = ['type' => t('Face-à-face'), 'label' => club('{team} × ') . \App\Front\Fiche::clubName($key), 'meta' => $c['count'] . ' ' . t('matchs') . ' · ' . $c['v'] . 'V ' . $c['n'] . 'N ' . $c['d'] . 'D', 'href' => url('/face-a-face/' . $key . '/')];
         }
         return $out;
     }

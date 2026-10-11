@@ -33,6 +33,15 @@ return [
     'gentile' => 'sochalien',            // adjectif
     'gentile_pl' => 'Sochaliens',
     'nickname' => 'Lionceaux',           // surnom des joueurs
+    'nickname_sg' => 'Lionceau',
+    'club_short' => 'FC Sochaux',
+    'stadium_full' => 'Stade Auguste-Bonal',
+    'stadium_full_lc' => 'stade Auguste-Bonal',
+    'root_domain' => 'fcsochauxretro.com',
+    'vitrine_url' => 'https://www.fcsochauxretro.com',
+    'social_handle' => 'SochauxRetro',
+    'contact_email' => 'contact@fcsochauxretro.com',
+    'centenary_label' => '14 juin 2028',
     'mascot' => 'Lion',
     'colors' => 'jaune et bleu',
     'founded' => '1928',

@@ -353,10 +353,10 @@ final class FicheAudio
         $roles = $p['roles'] ?: ['joueur'];
         $s = [];
         if ($en) {
-            $s[] = "$name, at FC Sochaux-Montbéliard$span.";
+            $s[] = club("$name, at {club}$span.");
         } else {
             $role = ($roles[0] ?? 'joueur') === 'joueur' ? (trim((string) ($p['position'] ?? '')) ?: 'joueur') : str_replace('entraineur', 'entraîneur', (string) $roles[0]);
-            $s[] = "$name, " . mb_strtolower($role) . " du FC Sochaux-Montbéliard$span.";
+            $s[] = "$name, " . mb_strtolower($role) . club(" {club_de}$span.");
         }
         $story = mb_strtolower(self::plainText((string) ($d['intro'] ?? '') . ' ' . implode(' ', array_map(fn ($x) => (string) ($x['html'] ?? ''), array_slice($d['sections'] ?? [], 0, 1)))));
         $birthText = (string) ($p['birth']['text'] ?? '');
@@ -376,11 +376,11 @@ final class FicheAudio
         $gl = max((int) ($tot['goals'] ?? 0), (int) ($st['goals'] ?? 0));
         if ($coach && !empty($tot['coached'])) {
             $n = (int) $tot['coached'];
-            $s[] = $en ? $n . ($n > 1 ? ' matches' : ' match') . ' in charge of Sochaux.' : $n . ' match' . ($n > 1 ? 's' : '') . ' sur le banc sochalien.';
+            $s[] = $en ? $n . ($n > 1 ? ' matches' : ' match') . club(' in charge of {team}.') : $n . ' match' . ($n > 1 ? 's' : '') . club(' sur le banc {gentile}.');
         } elseif ($mt > 0) {
             $s[] = $en
-                ? "$mt " . ($mt > 1 ? 'matches' : 'match') . ($gl ? " and $gl " . ($gl > 1 ? 'goals' : 'goal') : '') . ' for Sochaux.'
-                : "$mt match" . ($mt > 1 ? 's' : '') . ($gl ? " et $gl but" . ($gl > 1 ? 's' : '') : '') . ' sous le maillot sochalien.';
+                ? "$mt " . ($mt > 1 ? 'matches' : 'match') . ($gl ? " and $gl " . ($gl > 1 ? 'goals' : 'goal') : '') . club(' for {team}.')
+                : "$mt match" . ($mt > 1 ? 's' : '') . ($gl ? " et $gl but" . ($gl > 1 ? 's' : '') : '') . club(' sous le maillot {gentile}.');
         }
         return $s;
     }
@@ -485,7 +485,7 @@ final class FicheAudio
         $max = self::maxWords();
         $min = rtrim(rtrim(number_format(self::maxMinutes(), 1, $en ? '.' : ',', ''), '0'), '.,');
         $system = $en
-            ? "You are a historian of FC Sochaux-Montbéliard and a passionate storyteller. You tell, out loud, a page from the online museum Sochaux Rétro; your script will be read by a synthetic voice.\n"
+            ? club("You are a historian of {club} and a passionate storyteller. You tell, out loud, a page from the online museum {site}; your script will be read by a synthetic voice.\n")
                 . "Bring the story back to life, as if you were telling it to supporters gathered around you:\n"
                 . "- a hook that makes people want to listen;\n"
                 . "- an introduction that sets the scene: the era, what was at stake, the atmosphere;\n"
@@ -498,7 +498,7 @@ final class FicheAudio
                 . "- write for the ear: scores as \"2–1\", clear dates;\n"
                 . "- at most $max words (about $min minutes); the length follows the richness of the page;\n"
                 . "- in English. Answer with the script only."
-            : "Tu es historien du FC Sochaux-Montbéliard et conteur passionné. Tu racontes à voix haute une fiche du musée en ligne Sochaux Rétro ; ton texte sera lu par une voix de synthèse.\n"
+            : club("Tu es historien {club_de} et conteur passionné. Tu racontes à voix haute une fiche du musée en ligne {site} ; ton texte sera lu par une voix de synthèse.\n")
                 . "Fais revivre l’histoire, comme si tu la racontais à des supporters réunis autour de toi :\n"
                 . "– une accroche qui donne envie d’écouter ;\n"
                 . "– une introduction qui pose le décor : l’époque, l’enjeu, l’ambiance ;\n"
@@ -1266,7 +1266,7 @@ final class FicheAudio
         }
         JsonStore::write(self::$dir . "/jobs/{$job['id']}-textes.json", $side);
         $file = Gemini::uploadFile($in, 'application/jsonl', 'sochaux-retro-' . $job['id']);
-        $job['batch'] = Gemini::batchCreate($job['model'], $file, 'Sochaux Rétro · ' . ($job['kind'] === 'voix' ? 'voix' : 'résumés') . ' · ' . $job['id']);
+        $job['batch'] = Gemini::batchCreate($job['model'], $file, club('{site} · ') . ($job['kind'] === 'voix' ? 'voix' : 'résumés') . ' · ' . $job['id']);
         $job['state'] = 'envoye';
         $job['polled'] = time();
         $job['message'] = 'Envoyé à Google : ' . count($side) . (!empty($job['pages']) ? ($job['kind'] === 'voix' ? ' voix de pages.' : ' récit(s) de pages.') : ' fiche(s).');

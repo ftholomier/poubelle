@@ -73,9 +73,9 @@ final class MomentIdeas
             return [null, 'Donnez un titre à l’idée.'];
         }
         $date = trim((string) ($in['date'] ?? ''));
-        $date = preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $m) && checkdate((int) $m[2], (int) $m[3], (int) $m[1]) && $date >= '1928-01-01' && $date <= date('Y-m-d') ? $date : null;
+        $date = preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $m) && checkdate((int) $m[2], (int) $m[3], (int) $m[1]) && $date >= Club::s('founded') . '-01-01' && $date <= date('Y-m-d') ? $date : null;
         $year = (int) ($in['year'] ?? 0);
-        $year = $date ? (int) substr($date, 0, 4) : ($year >= 1928 && $year <= (int) date('Y') ? $year : null);
+        $year = $date ? (int) substr($date, 0, 4) : ($year >= (int) Club::s('founded') && $year <= (int) date('Y') ? $year : null);
         $sources = [];
         foreach ((array) ($in['sources'] ?? []) as $sid) {
             $sid = (int) (is_array($sid) ? ($sid['id'] ?? 0) : $sid);
@@ -314,7 +314,7 @@ final class MomentIdeas
 
     private static function matchLine(int $id, array $d, ?array $s): string
     {
-        $score = ($d['sh'] ?? true) ? 'Sochaux ' . (int) $d['us'] . '-' . (int) $d['them'] . ' ' . $d['away'] : $d['home'] . ' ' . (int) $d['them'] . '-' . (int) $d['us'] . ' Sochaux';
+        $score = ($d['sh'] ?? true) ? club('{team} ') . (int) $d['us'] . '-' . (int) $d['them'] . ' ' . $d['away'] : $d['home'] . ' ' . (int) $d['them'] . '-' . (int) $d['us'] . club(' {team}');
         $parts = ['#' . $id, 'match', date('d/m/Y', (int) strtotime((string) $d['date'])), trim(($d['label'] ?: $d['comp']) . ' ' . ($d['round'] ?? '')), $score . (!empty($d['extra']) ? ' (' . $d['extra'] . ')' : '')];
         if (!empty($d['spectators'])) {
             $parts[] = number_format((int) $d['spectators'], 0, ',', ' ') . ' spectateurs';
@@ -349,7 +349,7 @@ final class MomentIdeas
     // ------------------------------------------------------------------ propositions de l'IA
 
     private const SYSTEM_IDEAS = <<<'TXT'
-Tu es historien du FC Sochaux-Montbéliard (FCSM), club fondé le 14 juin 1928. Pour son centenaire, le musée en ligne Sochaux Rétro publie « 100 ans, 100 moments » : cent moments marquants de l'histoire du club, chacun raconté dans un court récit. Tu proposes des idées de moments aux historiens du musée, qui choisiront.
+Tu es historien {club_de} ({sigle}), club fondé le {founded_label}. Pour son centenaire, le musée en ligne {site} publie « 100 ans, 100 moments » : cent moments marquants de l'histoire du club, chacun raconté dans un court récit. Tu proposes des idées de moments aux historiens du musée, qui choisiront.
 
 Règles absolues :
 - Chaque idée s'appuie sur une à cinq fiches du CATALOGUE (leurs numéros #) : ce sont tes seules sources. N'invente aucun fait, aucun score, aucune date, aucun nom qui n'y figure pas. Si la matière manque, propose moins d'idées plutôt que d'inventer.
@@ -414,7 +414,7 @@ TXT;
     private static function job(string $task, array $catalog, int $from, int $to): array
     {
         $user = $task . "\n\nCATALOGUE :\n" . implode("\n", $catalog['lines']) . "\n\n" . self::memory($from, $to);
-        return [[['role' => 'user', 'text' => $user]], self::SYSTEM_IDEAS, ['for' => 'moments', 'ref' => 'moments:idees', 'json' => true, 'schema' => self::ideasSchema(), 'temperature' => 0.7, 'max_tokens' => 8000, 'timeout' => 120]];
+        return [[['role' => 'user', 'text' => $user]], club(self::SYSTEM_IDEAS), ['for' => 'moments', 'ref' => 'moments:idees', 'json' => true, 'schema' => self::ideasSchema(), 'temperature' => 0.7, 'max_tokens' => 8000, 'timeout' => 120]];
     }
 
     /** Appels à Gemini (en parallèle s'il y en a plusieurs), ou au faux Gemini des tests. */
@@ -508,7 +508,7 @@ TXT;
             if (!$cat['lines']) {
                 continue;
             }
-            $what = $from ? 'PÉRIODE : ' . $from . ' à ' . min($to, (int) date('Y')) . '.' : 'SUJETS TRANSVERSAUX : la vie du club, le stade Bonal, les supporters, la formation des Lionceaux, les grandes figures, toutes époques confondues.';
+            $what = $from ? 'PÉRIODE : ' . $from . ' à ' . min($to, (int) date('Y')) . '.' : club('SUJETS TRANSVERSAUX : la vie du club, le stade {stadium_short}, les supporters, la formation des {nickname}, les grandes figures, toutes époques confondues.');
             $jobs[] = self::job($what . ' Propose jusqu’à ' . $n . ' idées de moments.', $cat, $from, $to);
             $catalogs[] = [$cat, $from ? $from . '-' . $to : 'transversal'];
         }
@@ -589,7 +589,7 @@ TXT;
     // ------------------------------------------------------------------ premier jet
 
     private const SYSTEM_DRAFT = <<<'TXT'
-Tu rédiges pour le musée en ligne Sochaux Rétro le récit de l'un des « 100 ans, 100 moments » du centenaire du FC Sochaux-Montbéliard. Les historiens du musée reliront et corrigeront ton texte avant toute publication.
+Tu rédiges pour le musée en ligne {site} le récit de l'un des « 100 ans, 100 moments » du centenaire {club_de}. Les historiens du musée reliront et corrigeront ton texte avant toute publication.
 
 Règles absolues :
 - N'utilise que les faits du DOSSIER (fiches du musée). N'invente rien : ni score, ni date, ni nom, ni citation, ni chiffre. Si un détail manque, raconte sans lui.
@@ -716,7 +716,7 @@ TXT;
             . ($img ? "\nPHOTO : " . trim((string) (Media::get($img)['caption'] ?? '')) . ' (crédit : ' . trim((string) (Media::get($img)['credit'] ?? '')) . ')' : "\nPHOTO : aucune")
             . "\n\nDOSSIER :\n\n" . implode("\n\n", $parts);
         @set_time_limit(180);
-        $answer = self::call([[[['role' => 'user', 'text' => $ask]], self::SYSTEM_DRAFT, ['for' => 'moments', 'ref' => 'moments:idee:' . $id, 'json' => true, 'schema' => self::draftSchema(), 'temperature' => 0.5, 'max_tokens' => 4096, 'timeout' => 120]]])[0] ?? [];
+        $answer = self::call([[[['role' => 'user', 'text' => $ask]], club(self::SYSTEM_DRAFT), ['for' => 'moments', 'ref' => 'moments:idee:' . $id, 'json' => true, 'schema' => self::draftSchema(), 'temperature' => 0.5, 'max_tokens' => 4096, 'timeout' => 120]]])[0] ?? [];
         if (!empty($answer['error']) || !isset($answer['text'])) {
             throw new \RuntimeException('L’IA n’a pas répondu : ' . mb_substr((string) ($answer['error'] ?? 'réponse vide'), 0, 160) . '. Réessayez dans un instant.');
         }

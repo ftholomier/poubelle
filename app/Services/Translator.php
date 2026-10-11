@@ -281,11 +281,11 @@ final class Translator
 
     private static function call(array $payload): array
     {
-        $system = "Tu es traducteur professionnel du français vers l'anglais britannique pour le musée en ligne du FC Sochaux-Montbéliard (club de football français fondé en 1928).\n"
+        $system = club("Tu es traducteur professionnel du français vers l'anglais britannique pour le musée en ligne {club_de} (club de football français fondé en {founded}).\n")
             . "Traduis chaque valeur de l'objet JSON fourni et renvoie UNIQUEMENT un objet JSON avec exactement les mêmes clés.\n"
             . "Règles :\n"
             . "- Conserve à l'identique les balises HTML, leurs attributs, les liens, les entités et les retours à la ligne.\n"
-            . "- Ne traduis pas les noms propres : personnes, clubs, stades, villes, ni « FCSM », « Lionceaux », « Bonal ».\n"
+            . club("- Ne traduis pas les noms propres : personnes, clubs, stades, villes, ni « {sigle} », « {nickname} », « {stadium_short} ».\n")
             . "- Garde les noms officiels des compétitions françaises (Coupe de France, Coupe de la Ligue, Coupe Gambardella, Division 1, Division 2, Ligue 1, Ligue 2) ; « Coupe UEFA » devient « UEFA Cup », « Coupe d'Europe » devient « European Cup ».\n"
             . "- Conserve scores, dates, minutes (33') et chiffres. Vocabulaire du football britannique (pitch, match, fixture, kick-off, extra time, penalties).\n"
             . "- Style naturel et fidèle, sans ajout ni résumé. Un texte déjà en anglais reste tel quel.";

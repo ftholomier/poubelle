@@ -332,7 +332,7 @@ final class Trouvailles
         $scorers = trim((string) ($m['goals_text'] ?? ''));
         if ($scorers === '') {
             foreach ((array) ($m['goals'] ?? []) as $g) {
-                if (!preg_match('/sochaux/iu', (string) ($g['team'] ?? '')) && count((array) ($m['goals'] ?? [])) > 1) {
+                if (!Club::isUs((string) ($g['team'] ?? '')) && count((array) ($m['goals'] ?? [])) > 1) {
                     continue;
                 }
                 $scorers = trim((string) ($g['scorers'] ?? ''));
@@ -445,7 +445,7 @@ final class Trouvailles
         // Une recherche par jour : sur plusieurs jours, Gallica ne renvoie qu'un numéro par journal.
         for ($k = 3; $k >= 0; $k--) {
             $day = str_replace('-', '/', date('Y-m-d', (int) strtotime($f['date'] . " +$k days")));
-            $q = '(text adj "Sochaux"' . ($kw !== '' ? ' and text adj "' . str_replace('"', '', $kw) . '"' : '') . ') and (dc.type all "fascicule") and (gallicapublication_date>="'
+            $q = '(text adj "' . Club::s('gallica_query') . '"' . ($kw !== '' ? ' and text adj "' . str_replace('"', '', $kw) . '"' : '') . ') and (dc.type all "fascicule") and (gallicapublication_date>="'
                 . $day . '" and gallicapublication_date<="' . $day . '")';
             try {
                 $xml = self::fetch(self::SRU . '?operation=searchRetrieve&version=1.2&maximumRecords=30&query=' . rawurlencode($q));
@@ -469,7 +469,7 @@ final class Trouvailles
     /** Pages d'un numéro qui citent exactement « Sochaux » : [page => extrait]. */
     public static function pages(string $ark): array
     {
-        $xml = self::fetch('https://gallica.bnf.fr/services/ContentSearch?ark=' . rawurlencode($ark) . '&query=' . rawurlencode('"Sochaux"'));
+        $xml = self::fetch('https://gallica.bnf.fr/services/ContentSearch?ark=' . rawurlencode($ark) . '&query=' . rawurlencode('"' . Club::s('gallica_query') . '"'));
         $out = [];
         foreach (array_slice(explode('<item>', $xml), 1) as $it) {
             if (!preg_match('#<p_id>\s*PAG_(\d+)\s*</p_id>#', $it, $p)) {
@@ -580,37 +580,37 @@ final class Trouvailles
     private static function schema(bool $web): string
     {
         $src = $web ? '"urls": ["adresse des pages qui l\'appuient"]' : '"sources": [numéros des extraits qui l\'appuient]';
-        return <<<TXT
+        return club(<<<TXT
 Réponds uniquement par un objet JSON, sans texte autour :
 {"concerne": true ou false (les sources parlent-elles bien de CE match ?),
  "score": {"sochaux": nombre, "adversaire": nombre, $src} ou null,
- "buteurs": {"valeur": "buteurs de Sochaux avec minute si connue, ex. « Kennedy 12e, Laurent 40e »", $src} ou null,
- "composition": {"valeur": "les onze joueurs de Sochaux dans l'ordre du journal (gardien d'abord), séparés par des virgules, noms seuls tels qu'écrits (orthographe corrigée si l'erreur de lecture est évidente)", $src} ou null,
+ "buteurs": {"valeur": "buteurs de {team} avec minute si connue, ex. « Kennedy 12e, Laurent 40e »", $src} ou null,
+ "composition": {"valeur": "les onze joueurs de {team} dans l'ordre du journal (gardien d'abord), séparés par des virgules, noms seuls tels qu'écrits (orthographe corrigée si l'erreur de lecture est évidente)", $src} ou null,
  "affluence": {"valeur": nombre de spectateurs, $src} ou null,
  "arbitre": {"valeur": "nom de l'arbitre", $src} ou null,
  "stade": {"valeur": "nom du stade ou du terrain", $src} ou null,
  "recit": {"texte": "récit du match de 80 à 220 mots", $src} ou null,
  "infos": [{"texte": "un fait précis et utile qui n'entre pas ailleurs (blessure, anecdote, contexte, météo, recette…)", $src}],
  "pistes": [{"texte": "une page ou une archive à consulter et pourquoi", $src}]}
-TXT;
+TXT);
     }
 
     private static function rules(): string
     {
-        return <<<'TXT'
+        return club(<<<'TXT'
 Règles :
 – seulement ce que disent les sources : n'invente rien, ne devine rien ; une information absente reste null ;
-– reste sur le match exact (même date, même adversaire) : une autre équipe de Sochaux (réserve, juniors), un autre match ou un homonyme ne compte pas ; si rien ne concerne le match, "concerne": false et tout à null ;
+– reste sur le match exact (même date, même adversaire) : une autre équipe de {team} (réserve, juniors), un autre match ou un homonyme ne compte pas ; si rien ne concerne le match, "concerne": false et tout à null ;
 – les textes viennent souvent d'une lecture automatique de vieux journaux : corrige les erreurs de lecture évidentes des noms (« Matller » → « Mattler ») sans rien inventer ;
 – le récit est entièrement rédigé par toi, en français, au passé, sobre et vivant, dans le style d'un musée : ne reprends jamais une phrase des sources, ni une suite de plus de cinq mots ; pas de titre, pas de citation ;
 – au plus 4 infos et 3 pistes, les plus utiles.
-TXT;
+TXT);
     }
 
     /** Propositions tirées de la presse ancienne. */
     private static function fromPress(array $doc, array $f, array $excerpts): array
     {
-        $system = "Tu aides les historiens du musée en ligne Sochaux Rétro (histoire du FC Sochaux-Montbéliard). On te donne un match du musée et des extraits de journaux de l'époque, numérotés. Tires-en ce qui concerne ce match.\n" . self::rules() . "\n" . self::schema(false);
+        $system = club("Tu aides les historiens du musée en ligne {site} (histoire {club_de}). On te donne un match du musée et des extraits de journaux de l'époque, numérotés. Tires-en ce qui concerne ce match.\n") . self::rules() . "\n" . self::schema(false);
         $text = self::describe($f) . "\n\nEXTRAITS DE PRESSE\n";
         foreach ($excerpts as $e) {
             $text .= "\n[" . $e['n'] . '] ' . $e['journal'] . ($e['date'] ? ', ' . $e['date'] : '') . ', page ' . $e['page'] . "\n" . $e['text'] . "\n";
@@ -640,7 +640,7 @@ TXT;
     /** Propositions trouvées sur le web (Gemini avec la recherche Google). */
     private static function fromWeb(array $doc, array $f): array
     {
-        $system = "Tu aides les historiens du musée en ligne Sochaux Rétro (histoire du FC Sochaux-Montbéliard). Cherche sur le web, avec Google, ce qui est publié sur le match décrit (comptes rendus, archives de presse, sites d'histoire et de statistiques du football), sauf le site du musée lui-même (fcsochauxretro.com). Tires-en ce qui concerne ce match.\n" . self::rules() . "\n" . self::schema(true);
+        $system = club("Tu aides les historiens du musée en ligne {site} (histoire {club_de}). Cherche sur le web, avec Google, ce qui est publié sur le match décrit (comptes rendus, archives de presse, sites d'histoire et de statistiques du football), sauf le site du musée lui-même (fcsochauxretro.com). Tires-en ce qui concerne ce match.\n") . self::rules() . "\n" . self::schema(true);
         $r = self::ask($system, self::describe($f), ['ref' => 'fiche:' . (int) $doc['id'], 'tools' => [['google_search' => new \stdClass()]], 'raw' => true, 'json' => false]);
         $d = self::decode((string) ($r['text'] ?? ''));
         if (!$d || empty($d['concerne'])) {
@@ -685,9 +685,9 @@ TXT;
         $lines = [
             'MATCH DU MUSÉE',
             'Date : ' . ($f['date'] ? self::frDate($f['date']) : 'inconnue'),
-            'Rencontre : ' . ($f['home'] ? 'Sochaux (FC Sochaux-Montbéliard) contre ' . $f['opponent'] . ', à Sochaux ou chez Sochaux' : $f['opponent'] . ' contre Sochaux (FC Sochaux-Montbéliard), chez l\'adversaire'),
+            'Rencontre : ' . ($f['home'] ? club('{team} ({club}) contre ') . $f['opponent'] . club(', {city_a} ou chez {team}') : $f['opponent'] . club(' contre {team} ({club}), chez l\'adversaire')),
             'Compétition : ' . ($f['competition'] ?: 'non renseignée') . ($f['round'] ? ' (' . $f['round'] . ')' : ''),
-            'Score selon le musée (Sochaux d\'abord) : ' . ($f['score'] ?: 'non renseigné'),
+            club('Score selon le musée ({team} d\'abord) : ') . ($f['score'] ?: 'non renseigné'),
             'Buteurs selon le musée : ' . ($f['scorers'] ?: 'non renseignés'),
             'Composition selon le musée : ' . ($f['lineup'] ?: 'non renseignée'),
             'Affluence : ' . ($f['spectators'] ?: 'non renseignée') . ' · Arbitre : ' . ($f['referee'] ?: 'non renseigné') . ' · Stade : ' . ($f['stadium'] ?: 'non renseigné'),
@@ -992,7 +992,7 @@ TXT;
         switch ($field) {
             case 'score':
                 if (!preg_match('/^\s*(\d{1,2})\s*[-–à]\s*(\d{1,2})\s*$/u', $value, $s)) {
-                    throw new \RuntimeException('Score attendu sous la forme « 3-1 » (Sochaux d’abord).');
+                    throw new \RuntimeException(club('Score attendu sous la forme « 3-1 » ({team} d’abord).'));
                 }
                 [$us, $them] = [(int) $s[1], (int) $s[2]];
                 $prev = is_array($m['score'] ?? null) ? $m['score'] : [];
@@ -1028,8 +1028,8 @@ TXT;
                 return 'stade : ' . $value;
             case 'buteurs':
                 $m['goals_text'] = $value;
-                $others = array_values(array_filter((array) ($m['goals'] ?? []), fn ($g) => !preg_match('/sochaux/iu', (string) ($g['team'] ?? ''))));
-                $m['goals'] = array_merge([['team' => 'Sochaux', 'scorers' => $value]], $others);
+                $others = array_values(array_filter((array) ($m['goals'] ?? []), fn ($g) => !Club::isUs((string) ($g['team'] ?? ''))));
+                $m['goals'] = array_merge([['team' => Club::team(), 'scorers' => $value]], $others);
                 return 'buteurs : ' . $value;
             case 'composition':
                 $names = array_values(array_filter(array_map('trim', preg_split('/\s*[,;]\s*/u', $value) ?: [])));
