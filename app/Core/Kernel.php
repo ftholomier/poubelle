@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Controllers\AccountController;
 use App\Controllers\AdminController;
 use App\Controllers\AdsTxtController;
 use App\Controllers\ApiController;
@@ -155,6 +156,17 @@ final class Kernel
             ['POST', Seo::routePath('post_job'),  [SubmitController::class,   'jobSubmit']],
             ['GET',  Seo::routePath('resources'), [PageController::class,     'resources']],
             ['GET',  $trades,                     [TradeController::class,    'index']],
+            ['GET',  '/connexion',                [AccountController::class,  'login']],
+            ['POST', '/connexion',                [AccountController::class,  'login']],
+            ['GET',  '/inscription',              [AccountController::class,  'register']],
+            ['POST', '/inscription',              [AccountController::class,  'register']],
+            ['GET',  '/confirmer',                [AccountController::class,  'confirm']],
+            ['GET',  '/mot-de-passe-oublie',      [AccountController::class,  'forgot']],
+            ['POST', '/mot-de-passe-oublie',      [AccountController::class,  'forgot']],
+            ['GET',  '/nouveau-mot-de-passe',     [AccountController::class,  'reset']],
+            ['POST', '/nouveau-mot-de-passe',     [AccountController::class,  'reset']],
+            ['GET',  '/mon-compte',               [AccountController::class,  'account']],
+            ['POST', '/mon-compte',               [AccountController::class,  'account']],
             ['GET',  $trade . '/{slug}',          [TradeController::class,    'show']],
         ];
         foreach ($public as [$method, $pattern, $handler]) {

@@ -3,30 +3,32 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Core\Config;
 use App\Core\Csrf;
 use App\Core\Request;
 use App\Core\Response;
 use App\Core\Session;
 use App\Domain\CvRepository;
+use App\Services\Auth;
 use App\Services\Contact;
 use App\Services\ContentTranslator;
 use App\Services\I18n;
 use App\Services\Search;
-use App\Services\StructuredData;
 use App\Storage\Index;
 
 final class CvController extends Controller
 {
     public function index(Request $request, array $params): Response
     {
+        if (!Auth::check()) {
+            return $this->gate();
+        }
         $criteria = $this->criteria($request);
         $criteria['per_page'] = 12;
         $results = Search::cv($criteria);
         $results['items'] = ContentTranslator::applyToRows($results['items'], 'cv', I18n::lang());
         $facets = Index::meta('cv');
 
-        return $this->page('pages/cv-list', [
+        return $this->members($this->page('pages/cv-list', [
             'results'  => $results,
             'facets'   => $facets,
             'criteria' => $criteria,
@@ -40,15 +42,16 @@ final class CvController extends Controller
                 '{ville}'  => (string) ($criteria['city'] ?? ''),
                 '{motcle}' => (string) ($criteria['q'] ?? ''),
             ],
-            'schema'=> StructuredData::breadcrumb([
-                [(string) Config::get('site.name'), '/'],
-                [I18n::t('nav.cv'), '/cv'],
-            ]),
-        ]);
+            'robots' => 'noindex, nofollow',
+        ]));
     }
 
     public function show(Request $request, array $params): Response
     {
+        // Même page pour tout chemin : un anonyme ne sait pas si un profil existe.
+        if (!Auth::check()) {
+            return $this->gate();
+        }
         return $this->render($request, (string) ($params['slug'] ?? ''));
     }
 
@@ -58,6 +61,9 @@ final class CvController extends Controller
      */
     public function contact(Request $request, array $params): Response
     {
+        if (!Auth::check()) {
+            return $this->gate();
+        }
         $slug = (string) ($params['slug'] ?? '');
         $cv = CvRepository::findBySlug($slug);
         if ($cv === null || !Contact::reachable($cv)) {
@@ -102,7 +108,7 @@ final class CvController extends Controller
             }
         }
 
-        return $this->page('pages/cv', [
+        return $this->members($this->page('pages/cv', [
             'cv'        => $cv,
             'related'   => array_slice($related, 0, 4),
             'reachable' => Contact::reachable($cv),
@@ -115,7 +121,7 @@ final class CvController extends Controller
             'title'  => (string) $cv['name'] . ' — ' . (string) $cv['title'],
             'desc'   => str_excerpt((string) $cv['summary'], 155),
             'path'   => '/cv/' . $cv['slug'],
-            'schema' => StructuredData::person($cv),
+            'robots' => 'noindex, nofollow',
             'seo_vars' => [
                 '{nom}'          => (string) $cv['name'],
                 '{metier}'       => (string) $cv['title'],
@@ -125,6 +131,19 @@ final class CvController extends Controller
                                     ? I18n::t('cv.years', (int) $cv['experience_years']) : '',
                 '{competences}'  => implode(', ', array_slice((array) ($cv['skills'] ?? []), 0, 4)),
             ],
-        ]);
+        ]));
+    }
+
+    /** Annuaire réservé aux membres : rien d'un CV n'est servi à un anonyme. */
+    private function gate(): Response
+    {
+        return AccountController::gate((string) ($_SERVER['REQUEST_URI'] ?? I18n::url('/cv')));
+    }
+
+    /** Page de membre : hors index des moteurs, jamais en cache partagé. */
+    private function members(Response $response): Response
+    {
+        return $response->withHeader('Cache-Control', 'private, no-store')
+                        ->withHeader('X-Robots-Tag', 'noindex, nofollow');
     }
 }

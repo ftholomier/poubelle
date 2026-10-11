@@ -31,7 +31,7 @@ $links = [
       <?php endforeach; ?>
       <?php // Le lien de connexion n'apparaît qu'ici en petit écran ; sur grand
             // écran il vit dans la barre d'actions, d'où le masquage en CSS. ?>
-      <a class="nav-login" href="/admin"><?= e(I18n::t('nav.login')) ?></a>
+      <a class="nav-login" href="<?= e(I18n::url('/mon-compte')) ?>"><?= e(I18n::t('nav.account')) ?></a>
     </nav>
 
     <div class="header-actions">
@@ -54,7 +54,7 @@ $links = [
       </div>
       <?php endif; ?>
 
-      <a class="btn btn-ghost btn-sm" href="/admin"><?= e(I18n::t('nav.login')) ?></a>
+      <a class="btn btn-ghost btn-sm" href="<?= e(I18n::url('/mon-compte')) ?>"><?= e(I18n::t('nav.account')) ?></a>
     </div>
   </div>
 </header>

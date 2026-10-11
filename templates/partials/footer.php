@@ -23,7 +23,7 @@ $columns = [
         '/mentions-legales'=> I18n::t('footer.legal_short'),
         '/confidentialite' => I18n::t('footer.privacy'),
         '/cgu'             => I18n::t('footer.terms'),
-        '/admin'           => I18n::t('nav.login'),
+        '/mon-compte'      => I18n::t('nav.account'),
     ],
 ];
 ?>

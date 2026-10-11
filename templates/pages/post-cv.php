@@ -34,7 +34,7 @@ $steps = ['post_cv.step1' => 'bloc-profil', 'post_cv.step2' => 'bloc-competences
     <h1 class="h1-sub" style="margin:20px 0 12px"><?= e(I18n::t('post_cv.title')) ?></h1>
     <p class="lede" style="max-width:560px;margin:0 auto"><?= e(I18n::t('post_cv.lede')) ?></p>
     <p style="margin-top:12px;font-size:14px"><?= e(I18n::t('post_cv.have_account')) ?>
-      <a href="/admin"><?= e(I18n::t('nav.login')) ?></a></p>
+      <a href="<?= e(I18n::url('/connexion')) ?>"><?= e(I18n::t('nav.login')) ?></a></p>
   </div>
 
   <div class="steps" style="margin-top:32px;justify-content:center" data-steps data-reveal>

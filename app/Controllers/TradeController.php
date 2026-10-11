@@ -82,7 +82,8 @@ final class TradeController extends Controller
         // profils sont écrits en français, et ses mots-clés ne se traduisent pas.
         $jobs = Trades::matchingJobs($trade, 6);
         $partners = Trades::partnerJobs($trade, 4, $jobs);
-        $profiles = Trades::matchingProfiles($trade, 4);
+        // Profils : un nombre seulement, l'annuaire est réservé aux membres.
+        $profiles = count(Trades::matchingProfiles($trade, 1000));
         $related = Trades::related($trade, 4);
         $siblings = array_values(array_filter(
             Trades::byFamily()[(string) $trade['family']] ?? [],
@@ -108,7 +109,7 @@ final class TradeController extends Controller
             'pay'      => $pay,
             'jobs'     => ContentTranslator::applyToRows($jobs, 'job', $lang),
             'partners' => $partners,
-            'profiles' => ContentTranslator::applyToRows($profiles, 'cv', $lang),
+            'profiles' => $profiles,
             'related'  => Trades::localRows($related),
             'siblings' => Trades::localRows($siblings),
             'counts'   => Trades::jobCounts(),

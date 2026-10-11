@@ -89,6 +89,11 @@ final class Auth
             return ['ok' => false, 'user' => null, 'error' => I18n::t('admin.err_no_access'), 'wait' => 0];
         }
 
+        // Compte créé sur le site : l'adresse doit être confirmée d'abord.
+        if (($user['email_verified'] ?? true) === false) {
+            return ['ok' => false, 'user' => null, 'error' => I18n::t('account.err_unverified'), 'wait' => 0];
+        }
+
         // Mot de passe marqué à renouveler depuis l'écran « Utilisateurs » :
         // la connexion reste fermée tant qu'il n'est pas changé.
         if (!empty($user['must_reset'])) {
@@ -132,7 +137,8 @@ final class Auth
     /** @return array{id:mixed,email:string,name:string,role:string,since:int}|null */
     public static function user(): ?array
     {
-        $user = Session::get(self::SESSION_KEY);
+        // Lecture sans ouvrir de session : un visiteur anonyme ne reçoit pas de cookie.
+        $user = Session::peek(self::SESSION_KEY);
         return is_array($user) ? $user : null;
     }
 

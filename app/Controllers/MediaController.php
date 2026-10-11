@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Services\Auth;
 use App\Core\Config;
 use App\Services\Image;
 use App\Core\Request;
@@ -26,6 +27,11 @@ final class MediaController extends Controller
         $name = (string) ($params['name'] ?? '');
 
         if (!in_array($kind, self::KINDS, true)) {
+            return Response::text('', 404);
+        }
+        // CV et photos de candidats : membres connectés seulement. Pour un
+        // anonyme, la réponse est celle d'un fichier absent.
+        if ($kind !== 'logo' && !Auth::check()) {
             return Response::text('', 404);
         }
 
@@ -65,7 +71,7 @@ final class MediaController extends Controller
         }
 
         return Response::file($real, $mime, basename($real))
-            ->withHeader('Cache-Control', $kind === 'cv' ? 'private, max-age=600' : 'public, max-age=86400')
+            ->withHeader('Cache-Control', $kind === 'logo' ? 'public, max-age=86400' : 'private, max-age=600')
             // Un CV ne doit pas finir dans l'index des moteurs de recherche.
             ->withHeader('X-Robots-Tag', $kind === 'cv' ? 'noindex, nofollow' : 'noindex');
     }

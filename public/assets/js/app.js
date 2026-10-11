@@ -1173,4 +1173,12 @@
   } else {
     boot();
   }
+
+  // Action irréversible (suppression du compte) : une confirmation d'abord.
+  document.addEventListener('click', function (e) {
+    var el = e.target && e.target.closest ? e.target.closest('[data-confirm]') : null;
+    if (el && !document.body.classList.contains('is-admin') && !window.confirm(el.getAttribute('data-confirm'))) {
+      e.preventDefault();
+    }
+  });
 })();
