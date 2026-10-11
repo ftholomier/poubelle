@@ -17,49 +17,14 @@ use App\Data\Names;
  */
 final class Palmares
 {
-    /** Titres de référence (Wikipédia et fcsmstory.com, vérifiés le 8 octobre 2026) : titre, finale (finaliste ou vice-champion), demi. */
-    public const DEFAULT = [
-        ['comp' => 'Championnat de France', 'year' => 1935, 'kind' => 'titre'],
-        ['comp' => 'Championnat de France', 'year' => 1938, 'kind' => 'titre'],
-        ['comp' => 'Championnat de France', 'year' => 1937, 'kind' => 'finale'],
-        ['comp' => 'Championnat de France', 'year' => 1953, 'kind' => 'finale'],
-        ['comp' => 'Championnat de France', 'year' => 1980, 'kind' => 'finale'],
-        ['comp' => 'Coupe de France', 'year' => 1937, 'kind' => 'titre'],
-        ['comp' => 'Coupe de France', 'year' => 2007, 'kind' => 'titre'],
-        ['comp' => 'Coupe de France', 'year' => 1959, 'kind' => 'finale'],
-        ['comp' => 'Coupe de France', 'year' => 1967, 'kind' => 'finale'],
-        ['comp' => 'Coupe de France', 'year' => 1988, 'kind' => 'finale'],
-        ['comp' => 'Coupe de la Ligue', 'year' => 2004, 'kind' => 'titre'],
-        ['comp' => 'Coupe de la Ligue', 'year' => 2003, 'kind' => 'finale'],
-        ['comp' => 'Trophée des champions', 'year' => 2007, 'kind' => 'finale'],
-        ['comp' => 'Championnat de France de D2', 'year' => 1947, 'kind' => 'titre'],
-        ['comp' => 'Championnat de France de D2', 'year' => 2001, 'kind' => 'titre'],
-        ['comp' => 'Championnat de France de D2', 'year' => 1964, 'kind' => 'finale'],
-        ['comp' => 'Championnat de France de D2', 'year' => 1988, 'kind' => 'finale'],
-        ['comp' => 'Division 3 (équipe réserve)', 'year' => 1978, 'kind' => 'titre'],
-        ['comp' => 'Division 3 (équipe réserve)', 'year' => 1987, 'kind' => 'titre'],
-        ['comp' => 'Coupe UEFA', 'year' => 1981, 'kind' => 'demi'],
-        ['comp' => 'Coupe Intertoto', 'year' => 2002, 'kind' => 'demi'],
-        ['comp' => 'Coupe Gambardella', 'year' => 1983, 'kind' => 'titre'],
-        ['comp' => 'Coupe Gambardella', 'year' => 2007, 'kind' => 'titre'],
-        ['comp' => 'Coupe Gambardella', 'year' => 2015, 'kind' => 'titre'],
-        ['comp' => 'Coupe Gambardella', 'year' => 1975, 'kind' => 'finale'],
-        ['comp' => 'Coupe Gambardella', 'year' => 2010, 'kind' => 'finale'],
-        ['comp' => 'Coupe Charles Drago', 'year' => 1953, 'kind' => 'titre'],
-        ['comp' => 'Coupe Charles Drago', 'year' => 1963, 'kind' => 'titre'],
-        ['comp' => 'Coupe Charles Drago', 'year' => 1964, 'kind' => 'titre'],
-        ['comp' => 'Coupe Peugeot', 'year' => 1931, 'kind' => 'titre'],
-        // Débuts du club (fcsmstory.com, saisons 1929-1930 à 1931-1932, Coupe Dupuich)
-        ['comp' => 'Championnat de Bourgogne-Franche-Comté', 'year' => 1932, 'kind' => 'titre'],
-        ['comp' => 'Championnat de promotion (Ligue de Bourgogne-Franche-Comté)', 'year' => 1931, 'kind' => 'titre'],
-        ['comp' => 'Challenge Maurice de Turckheim', 'year' => 1929, 'kind' => 'titre'],
-        ['comp' => 'Challenge Maurice de Turckheim', 'year' => 1930, 'kind' => 'titre'],
-        ['comp' => 'Challenge Maurice de Turckheim', 'year' => 1931, 'kind' => 'titre'],
-        ['comp' => 'Tournoi de Bruxelles (Coupe Dupuich)', 'year' => 1930, 'kind' => 'finale'],
-        ['comp' => 'Coupe des Alpes', 'year' => 1981, 'kind' => 'finale'],
-        ['comp' => 'Tournoi de Casablanca', 'year' => 1989, 'kind' => 'titre'],
-        ['comp' => 'Trophée Joan Gamper', 'year' => 1989, 'kind' => 'finale'],
-    ];
+    /**
+     * Titres de référence du club (config/clubs/<id>/palmares-titres.php) : titre, finale
+     * (finaliste ou vice-champion), demi. Aucun pour un musée neuf (finales des fiches matchs seules).
+     */
+    public static function defaults(): array
+    {
+        return (array) \App\Core\Club::content('palmares-titres', []);
+    }
 
     /** Ordre d'affichage des compétitions (les autres suivent, par ordre alphabétique). */
     public const ORDER = ['Championnat de France', 'Coupe de France', 'Coupe de la Ligue', 'Trophée des champions', 'Coupe UEFA', 'Coupe Intertoto', 'Championnat de France de D2', 'Division 3 (équipe réserve)', 'Championnat de Bourgogne-Franche-Comté', 'Championnat de promotion (Ligue de Bourgogne-Franche-Comté)', 'Coupe Gambardella', 'Coupe Charles Drago', 'Coupe Peugeot', 'Challenge Maurice de Turckheim', 'Tournoi de Bruxelles (Coupe Dupuich)', 'Coupe des Alpes', 'Tournoi de Casablanca', 'Trophée Joan Gamper'];
@@ -75,7 +40,7 @@ final class Palmares
     public static function data(): array
     {
         $rows = [];
-        foreach (Collections::get('palmares_titres', self::DEFAULT) as $t) {
+        foreach (Collections::get('palmares_titres', self::defaults()) as $t) {
             $rows[self::key((string) $t['comp'], (int) $t['year'])] = ['comp' => (string) $t['comp'], 'year' => (int) $t['year'], 'kind' => (string) $t['kind'], 'match' => null];
         }
         // Finales des fiches matchs
@@ -139,7 +104,7 @@ final class Palmares
     /** Liste éditable dans le back-office (Accueil & bandeau › Palmarès), triée comme la page. */
     public static function titles(): array
     {
-        $rows = array_values(array_filter((array) Collections::get('palmares_titres', self::DEFAULT), 'is_array'));
+        $rows = array_values(array_filter((array) Collections::get('palmares_titres', self::defaults()), 'is_array'));
         usort($rows, function ($a, $b) {
             $ia = array_search($a['comp'] ?? '', self::ORDER, true);
             $ib = array_search($b['comp'] ?? '', self::ORDER, true);
