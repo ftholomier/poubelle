@@ -33,7 +33,7 @@ final class PhotoWalls extends Base
             'stats' => PhotoWall::stats(),
             'walls' => Walls::WALLS,
             'excluded' => PhotoWall::excluded(),
-            'isDefault' => PhotoWall::excluded() === PhotoWall::RISKY,
+            'isDefault' => PhotoWall::excluded() === PhotoWall::riskyDefault(),
             'hits' => PhotoWall::excludedHits(),
             'credits' => $credits,
             'photographers' => PhotoWall::photographers(),
@@ -52,7 +52,7 @@ final class PhotoWalls extends Base
                 PhotoWall::saveExcluded(preg_split('/\R/u', $req->str('exclus')) ?: []);
                 break;
             case 'defaut':
-                PhotoWall::saveExcluded(PhotoWall::RISKY);
+                PhotoWall::saveExcluded(PhotoWall::riskyDefault());
                 break;
             case 'vignettes':
                 @set_time_limit(60);

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\Club;
 use App\Core\JsonStore;
 use App\Core\Memo;
 use App\Data\Collections;
@@ -47,33 +48,24 @@ final class PhotoWall
         'Reuter', 'Léquipe', 'France Foot', 'Mondial', 'Fotoball Magazine', 'L’année du football', 'L’officiel du football',
         'PhotoPQR', 'PQR', 'El Pais', 'El Mundo',
         'Wikipedia', 'Wikimedia', 'footballdatabase', 'Football database', 'Histoire du PSG', 'Musée des gardiens',
-        'lemuseedesgardiensdebut', 'Musée des canaris', 'MaLigue2', 'FCSM Story', 'fcsmstory', 'Transfermarkt', 'Transfermarket',
+        'lemuseedesgardiensdebut', 'Musée des canaris', 'MaLigue2', 'Transfermarkt', 'Transfermarket',
         'Footmercato', 'OM4ever', 'Racing Stub', 'Viadeo', 'Youtube', 'Site internet', 'blog',
     ];
 
+    /** Sources exclues par défaut : celles du club (config/clubs/<id>/credits-photos.php), sinon RISKY. */
+    public static function riskyDefault(): array
+    {
+        return (array) (Club::content('credits-photos')['exclus'] ?? self::RISKY);
+    }
+
     /** Variantes d'un même photographe ou d'une même source (motif sur l'adresse du crédit => nom affiché). */
     private const ALIASES = [
-        '#^(l-)?est-re[a-z]*$|^er$#' => 'L’Est Républicain',
-        '#^(fc-)?sochaux(-montbeliard)?$|^fcsm$#' => 'FC Sochaux-Montbéliard',
-        '#^(f-|francis-)?reinoso$#' => 'Francis Reinoso',
-        '#^(p-|pierre-)?lorius$#' => 'Pierre Lorius',
-        '#^(l-|ludovic-)?laude$#' => 'Ludovic Laude',
-        '#^(l-|lionel-)vadam$#' => 'Lionel Vadam',
-        '#^(r-)?claudin$#' => 'R. Claudin',
-        '#^gillme$#' => 'Gillmé',
-        '#^michael-desprez$#' => 'Michaël Desprez',
-        '#^(c-|christian-)?lemontey$#' => 'Christian Lemontey',
-        '#^(e-|eric-)?thiebaut$#' => 'Éric Thiébaut',
-        '#^(c-|cedric-)?jacquot$#' => 'Cédric Jacquot',
-        '#^sochaux-sprint$#' => 'Sochaux Sprint',
-        '#^rouge-memoire$#' => 'Rouge Mémoire',
         '#^nice-matin$#' => 'Nice-Matin',
         '#^midi-libre$#' => 'Midi Libre',
         '#^ouest-france$#' => 'Ouest-France',
         '#^le-progres$#' => 'Le Progrès',
         '#^le-pays$#' => 'Le Pays',
         '#^le-provencal$#' => 'Le Provençal',
-        '#^(l-)?est-eclaire?$#' => 'L’Est-Éclair',
         '#^collection-privee$#' => 'Collection privée',
     ];
     /** Raisons d'une photo absente des murs (filtre « murs » de la médiathèque => libellé). */
@@ -232,7 +224,18 @@ final class PhotoWall
     {
         $t = ' ' . implode(' ', Names::tokens($name)) . ' ';
         return preg_match('/ (1[89]\d\d|20\d\d|saisons?|annees) /', $t) === 1
-            || preg_match('/(^|[^a-z])sochaux\s*-\s*(?!montb)[a-z]|[a-z]\s*-\s*sochaux($|[^a-z])/', Names::ascii($name)) === 1;
+            || preg_match(self::matchCaption(), Names::ascii($name)) === 1;
+    }
+
+    /** Légende « match » sans auteur (« Auxerre-Sochaux ») : motif du club, sinon d'après le nom de l'équipe. */
+    private static function matchCaption(): string
+    {
+        $re = Club::content('credits-photos')['legende_match'] ?? null;
+        if (is_string($re)) {
+            return $re;
+        }
+        $t = preg_quote(strtolower(Names::ascii(Club::team())), '/');
+        return $t === '' ? '/(?!)/' : '/(^|[^a-z])' . $t . '\s*-\s*[a-z]|[a-z]\s*-\s*' . $t . '($|[^a-z])/';
     }
 
     /** Mot de la liste des crédits exclus contenu dans ce crédit (null : aucun), ou « site web ». */
@@ -272,7 +275,7 @@ final class PhotoWall
     public static function saveExcluded(array $list): void
     {
         $list = array_values(array_unique(array_filter(array_map(fn ($s) => trim(mb_substr((string) $s, 0, 80)), array_slice($list, 0, 500)), fn ($s) => $s !== '' && Names::tokens($s))));
-        JsonStore::write(Collections::DIR . '/' . self::COLLECTION . '.json', ['exclus' => $list ?: self::RISKY]);
+        JsonStore::write(Collections::DIR . '/' . self::COLLECTION . '.json', ['exclus' => $list ?: self::riskyDefault()]);
         self::forget();
     }
 
@@ -280,7 +283,7 @@ final class PhotoWall
     public static function excluded(): array
     {
         $c = Collections::get(self::COLLECTION, null);
-        return is_array($c['exclus'] ?? null) ? array_values(array_filter(array_map('strval', $c['exclus']), fn ($s) => trim($s) !== '')) : self::RISKY;
+        return is_array($c['exclus'] ?? null) ? array_values(array_filter(array_map('strval', $c['exclus']), fn ($s) => trim($s) !== '')) : self::riskyDefault();
     }
 
     /** @return array<string,string> forme comparable (« l equipe ») => libellé */
@@ -352,7 +355,7 @@ final class PhotoWall
     private static function alias(string $s): ?string
     {
         $slug = Names::slug($s);
-        foreach (self::ALIASES as $re => $name) {
+        foreach ((array) (Club::content('credits-photos')['graphies'] ?? self::ALIASES) as $re => $name) {
             if (preg_match($re, $slug)) {
                 return $name;
             }
