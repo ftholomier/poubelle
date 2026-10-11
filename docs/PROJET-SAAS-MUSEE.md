@@ -233,3 +233,4 @@ Mise en œuvre prévue : une clé `disclaimer` dans le profil (texte par défaut
   - Les sources restent gardées en interne (`legacy.sources` de chaque fiche) pour répondre en cas de question.
 - **Crédit global dans les mentions légales** de chaque musée : les informations ont été rassemblées à partir de sources publiques sur Internet (sites d'actualité, blogs, sites d'histoire et de statistiques), puis entièrement retravaillées et réécrites par l'équipe éditoriale du musée (ex. « l'équipe éditoriale de Paris Rétro »).
 - Reprise des récits de matchs de Paris : lots 4 à 27 (environ 2 390 récits) + 28 récits refusés au contrôle anti-plagiat, à réécrire.
+- Paris : renommer « Le fil jaune » en **« Le fil bleu »** (menu, page interactive, textes, anglais), via un libellé propre au club (Sochaux garde « Le fil jaune »).
