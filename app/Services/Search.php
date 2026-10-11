@@ -260,7 +260,7 @@ final class Search
         }
         $tokens = array_slice($tokens, 0, 6);
         // « Sochaux » est partout : il n'est obligatoire que s'il est seul.
-        $required = count($tokens) > 1 ? array_values(array_diff($tokens, ['sochaux'])) : $tokens;
+        $required = count($tokens) > 1 ? array_values(array_diff($tokens, [strtolower(Names::ascii(\App\Core\Club::team()))])) : $tokens;
         $years = array_values(array_unique($out['years']));
         $phrase = self::norm($q);
         $totals = Derived::part('person_totals');
@@ -473,7 +473,7 @@ final class Search
         }
         // Adversaire reconnu : face-à-face
         $key = Names::clubKey($q);
-        if ($key !== '' && $key !== 'sochaux' && isset(Derived::part('clubs')[$key])) {
+        if ($key !== '' && $key !== Names::clubKey(\App\Core\Club::team()) && isset(Derived::part('clubs')[$key])) {
             $c = Derived::part('clubs')[$key];
             $out[] = ['type' => t('Face-à-face'), 'label' => club('{team} × ') . \App\Front\Fiche::clubName($key), 'meta' => $c['count'] . ' ' . t('matchs') . ' · ' . $c['v'] . 'V ' . $c['n'] . 'N ' . $c['d'] . 'D', 'href' => url('/face-a-face/' . $key . '/')];
         }

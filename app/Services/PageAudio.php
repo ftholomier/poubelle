@@ -9,6 +9,7 @@ use App\Core\Settings;
 use App\Data\Derived;
 use App\Data\Fiches;
 use App\Data\Index;
+use App\Data\Names;
 use App\Front\Explore;
 use App\Front\Fiche;
 use App\Front\Mosaic;
@@ -241,7 +242,7 @@ final class PageAudio
     {
         $out = [];
         foreach (Derived::part('clubs') as $club => $c) {
-            if (($c['count'] ?? 0) > 0 && $club !== 'sochaux' && preg_match('/^[a-z0-9-]+$/', (string) $club)) {
+            if (($c['count'] ?? 0) > 0 && $club !== Names::clubKey(Club::team()) && preg_match('/^[a-z0-9-]+$/', (string) $club)) {
                 $out[] = 'club-' . $club;
             }
         }
@@ -370,8 +371,8 @@ final class PageAudio
                 ? [club("a ranking of the {team} record book: {$f['classement']} ({$f['portée']})"), 'who leads the ranking and what these figures mean, then the names that follow']
                 : [club("un classement du livre des records {sigle_de} : {$f['classement']} ({$f['portée']})"), 'qui domine le classement et ce que représentent ces chiffres, puis les noms qui suivent'],
             default => $en
-                ? [club("{team} in numbers, {$f['statistiques']} statistics calculated since 1929"), 'a journey chapter by chapter through the most striking figures, with the names and dates behind them']
-                : [club("les chiffres {sigle_de}, {$f['statistiques']} statistiques calculées depuis 1929"), 'un parcours chapitre par chapitre à travers les chiffres les plus marquants, avec les noms et les dates qui les accompagnent'],
+                ? [club("{team} in numbers, {$f['statistiques']} statistics calculated since " . ((int) Club::s('founded') + 1)), 'a journey chapter by chapter through the most striking figures, with the names and dates behind them']
+                : [club("les chiffres {sigle_de}, {$f['statistiques']} statistiques calculées depuis " . ((int) Club::s('founded') + 1)), 'un parcours chapitre par chapitre à travers les chiffres les plus marquants, avec les noms et les dates qui les accompagnent'],
         };
     }
 
@@ -583,7 +584,7 @@ final class PageAudio
             'tour' => self::round((string) ($x['round'] ?? ''), false) ?: null,
             'adversaire' => (string) ($x['opp'] ?? ''),
             'lieu' => self::rank((string) ($x['round'] ?? '')) === 100 && !empty($x['stade']) ? Explore::stadiumName((string) $x['stade']) . ' (terrain neutre)'
-                : (!empty($x['sh']) ? (($x['stade'] ?? '') === 'auguste-bonal' ? club('à domicile, au {stadium_full_lc}') : 'à domicile') : 'à l’extérieur'),
+                : (!empty($x['sh']) ? (($x['stade'] ?? '') === Chiffres::homeStadium() ? club('à domicile, au {stadium_full_lc}') : 'à domicile') : 'à l’extérieur'),
             'score' => $x['us'] === null || $x['us'] === '' ? null
                 : $x['home'] . ' ' . (!empty($x['sh']) ? $x['us'] : $x['them']) . '-' . (!empty($x['sh']) ? $x['them'] : $x['us']) . ' ' . $x['away'],
             'résultat' => ['V' => club('victoire de {team}'), 'N' => 'match nul', 'D' => club('défaite de {team}')][$x['result'] ?? ''] ?? null,
@@ -775,7 +776,7 @@ final class PageAudio
         ksort($decades);
         return array_filter([
             'page' => 'bilan dans un stade',
-            'stade' => $key === 'auguste-bonal' ? club('{stadium_full_lc}, à Montbéliard : le stade {club_de}') : $name,
+            'stade' => $key === Chiffres::homeStadium() ? club('{stadium_full_lc}') . (Club::content('textes-audio')['stade_lieu'] ?? '') . club(' : le stade {club_de}') : $name,
             'matchs fichés dans le musée' => (int) $t['count'],
             'période' => self::year($chrono[0]) . '-' . self::year($chrono[count($chrono) - 1]),
             club('résultats de {team}') => self::vndFacts((int) $t['V'], (int) $t['N'], (int) $t['D']),
@@ -916,8 +917,8 @@ final class PageAudio
             : 'Le dernier épisode s’est joué ' . self::on($last, $en) . ', ' . self::inComp($last, $en) . ' : ' . self::result($last, $en) . '.';
         $end[] = match (self::trend($V, $N, $D)) {
             'domine' => $en ? club('An opponent {team} have often tamed: a fine page in the history of the club.') : club('Un adversaire que les {nickname} ont souvent su dompter : une belle page de l’histoire {sigle_de}.'),
-            'favorable' => $en ? 'A fixture that has often smiled on the yellow and blue, and the story goes on.' : 'Un duel qui a souvent souri aux Jaune et Bleu, et l’histoire continue.',
-            'subit', 'defavorable' => $en ? club('A tough opponent who has given {team} plenty of trouble: there is always a score to settle.') : 'Un adversaire coriace, qui a donné du fil à retordre aux Jaune et Bleu : une revanche est toujours à prendre.',
+            'favorable' => $en ? 'A fixture that has often smiled on ' . (Club::content('textes-audio')['supporters_en'] ?? Club::team()) . ', and the story goes on.' : 'Un duel qui a souvent souri ' . (Club::content('textes-audio')['supporters_a'] ?? 'à ' . Club::team()) . ', et l’histoire continue.',
+            'subit', 'defavorable' => $en ? club('A tough opponent who has given {team} plenty of trouble: there is always a score to settle.') : 'Un adversaire coriace, qui a donné du fil à retordre ' . (Club::content('textes-audio')['supporters_a'] ?? 'à ' . Club::team()) . ' : une revanche est toujours à prendre.',
             default => $en ? 'A balanced rivalry, where nothing was ever decided in advance.' : 'Un duel équilibré, où rien n’a jamais été joué d’avance.',
         };
         return self::forPage([$intro, $where, $story, $end], $en);
@@ -1020,7 +1021,7 @@ final class PageAudio
         }
         [$y1, $y2] = [self::year($chrono[0]), self::year($chrono[count($chrono) - 1])];
         [$V, $N, $D] = [(int) $t['V'], (int) $t['N'], (int) $t['D']];
-        $bonal = $key === 'auguste-bonal';
+        $bonal = $key === Chiffres::homeStadium();
         $at = self::stadiumAt($stadium, $en);
         $intro = [$bonal
             ? ($en ? club("{stadium_full} is the home of the {nickname}: $n matches recorded in the museum, from $y1 to $y2.") : club("Le {stadium_full_lc}, c’est la maison des {nickname} : $n matchs fichés dans le musée, de $y1 à $y2."))
@@ -1443,7 +1444,7 @@ final class PageAudio
             return ' ' . self::stadiumAt(Explore::stadiumName((string) $x['stade']), $en);
         }
         if (!empty($x['sh'])) {
-            return ($x['stade'] ?? '') === 'auguste-bonal' ? ($en ? club(' at {stadium_short}') : club(' {stadium_a}')) : ($en ? ' at home' : ' à domicile');
+            return ($x['stade'] ?? '') === Chiffres::homeStadium() ? ($en ? club(' at {stadium_short}') : club(' {stadium_a}')) : ($en ? ' at home' : ' à domicile');
         }
         return $en ? ' away' : ' à l’extérieur';
     }
