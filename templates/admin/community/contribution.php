@@ -79,7 +79,7 @@ $linked = !empty($c['fiche_id']) ? Index::get((int) $c['fiche_id']) : null;
           <input type="hidden" name="fiche_id" value="<?= $linked ? (int) $linked['id'] : '' ?>">
         </div>
         <div class="stack" style="gap:10px" data-show-if="action" data-show-value="objet">
-          <label class="f"><span class="f__k">Titre de l’objet</span><input type="text" name="title" maxlength="250" placeholder="Ex. : Programme Sochaux – Metz, finale 1988"></label>
+          <label class="f"><span class="f__k">Titre de l’objet</span><input type="text" name="title" maxlength="250" placeholder="<?= e((\App\Core\Club::content('exemples')['objet_titre'] ?? club('Ex. : Programme {team} – adversaire, saison'))) ?>"></label>
           <label class="f"><span class="f__k">Collection des réserves</span><select name="collection"><?php foreach ($cols as $k => $l): ?><option value="<?= e($k) ?>"<?= $k === ($c['type'] === 'photo' ? 'photos' : 'programmes') ? ' selected' : '' ?>><?= e($l) ?></option><?php endforeach; ?></select></label>
         </div>
         <div class="f"><span class="f__k">Message au contributeur <i>facultatif</i></span><textarea name="message" rows="3" data-wysiwyg="mini" placeholder="Merci ! Votre photo illustre désormais la fiche…"></textarea></div>

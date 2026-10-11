@@ -146,10 +146,10 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
     <div class="card card--pad">
       <h2 class="card__t">Les grandes époques</h2>
       <?= Form::repeater('eras', '', $eras, fn ($e) => '<div class="fgrid">'
-          . Form::text('@range', 'Période', $e['range'] ?? '', ['placeholder' => '1928–1945', 'maxlength' => 20])
+          . Form::text('@range', 'Période', $e['range'] ?? '', ['placeholder' => \App\Core\Club::s('founded') . '–1945', 'maxlength' => 20])
           . Form::text('@name', 'Nom', $e['name'] ?? '', ['placeholder' => 'Les pionniers', 'maxlength' => 80, 'proof' => 'title'])
           . Form::text('@name_en', 'Nom (EN)', $e['name_en'] ?? '', ['maxlength' => 80, 'proof' => 'title'])
-          . Form::text('@href', 'Lien « Visiter cette époque »', $e['href'] ?? '', ['placeholder' => '/interactif/frise/#1928'])
+          . Form::text('@href', 'Lien « Visiter cette époque »', $e['href'] ?? '', ['placeholder' => '/interactif/frise/#' . \App\Core\Club::s('founded')])
           . Form::textarea('@text', 'Texte', $e['text'] ?? '', ['class' => 'f--full', 'rows' => 3])
           . Form::textarea('@text_en', 'Texte (EN)', $e['text_en'] ?? '', ['class' => 'f--full', 'rows' => 3])
           . Form::image('@image', 'Image', $e['image'] ?? null)

@@ -88,7 +88,7 @@ $f = $edit ?? ['id' => 0, 'date' => '', 'time' => '20:00', 'intro' => '', 'intro
       <?php if ($edit): ?><input type="hidden" name="ancienne_date" value="<?= e($edit['date']) ?>"><?php endif; ?>
       <div class="f">
         <span class="f__k"><label for="rd-match">Match</label> <b aria-hidden="true">*</b></span>
-        <input id="rd-match" type="text" class="in" data-ac="matchs" data-ac-id="id" autocomplete="off" placeholder="Tapez « Sochaux Marseille 1986 »…" value="<?= e($edit ? $edit['s']['title'] : '') ?>"<?= $edit ? ' readonly' : '' ?> required>
+        <input id="rd-match" type="text" class="in" data-ac="matchs" data-ac-id="id" autocomplete="off" placeholder="<?= e((\App\Core\Club::content('exemples')['retro_match'] ?? 'Tapez « ' . \App\Core\Club::team() . ' adversaire année »…')) ?>" value="<?= e($edit ? $edit['s']['title'] : '') ?>"<?= $edit ? ' readonly' : '' ?> required>
         <input type="hidden" name="id" value="<?= (int) $f['id'] ?>">
         <span class="f__help" data-rd-hint>Il faut au moins <?= RetroDirect::MIN_EVENTS ?> temps forts avec leur minute dans la fiche.</span>
       </div>
@@ -98,7 +98,7 @@ $f = $edit ?? ['id' => 0, 'date' => '', 'time' => '20:00', 'intro' => '', 'intro
       </div>
       <div class="f">
         <span class="f__k"><label for="rd-intro">Présentation</label> <i>facultatif · 400 caractères</i></span>
-        <textarea id="rd-intro" class="in" name="intro" rows="3" maxlength="400" data-proof="text" spellcheck="true" placeholder="Il y a 40 ans, l’OM de Papin et de Giresse venait à Bonal…"><?= e($f['intro']) ?></textarea>
+        <textarea id="rd-intro" class="in" name="intro" rows="3" maxlength="400" data-proof="text" spellcheck="true" placeholder="<?= e((\App\Core\Club::content('exemples')['retro_intro'] ?? club('Il y a 40 ans, un grand adversaire venait {stadium_a}…'))) ?>"><?= e($f['intro']) ?></textarea>
       </div>
       <div class="f">
         <span class="f__k"><label for="rd-intro-en">Présentation en anglais</label> <i>facultatif</i></span>

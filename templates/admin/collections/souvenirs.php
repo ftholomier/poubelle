@@ -29,7 +29,7 @@ $label = fn (array $s): string => ($s['m']['home'] ?? '') . ' – ' . ($s['m']['
         <?php endforeach; ?>
       </fieldset>
       <div class="f"><span class="f__k">Ou un autre match</span><input type="text" class="in in--sm" data-ac="matchs" data-ac-id="autre" placeholder="Tapez un match…" autocomplete="off"><input type="hidden" name="autre" value=""></div>
-      <div class="f"><span class="f__k">Mot d’introduction <i>facultatif · 500 caractères</i></span><textarea name="intro" rows="3" maxlength="500" class="in" data-proof="text" spellcheck="true" placeholder="Ce soir-là, Bonal était plein à craquer…"><?= e((string) ($ch['intro'] ?? '')) ?></textarea></div>
+      <div class="f"><span class="f__k">Mot d’introduction <i>facultatif · 500 caractères</i></span><textarea name="intro" rows="3" maxlength="500" class="in" data-proof="text" spellcheck="true" placeholder="<?= e((\App\Core\Club::content('exemples')['souvenirs_intro'] ?? club('Ce soir-là, le {stadium} était plein à craquer…'))) ?>"><?= e((string) ($ch['intro'] ?? '')) ?></textarea></div>
       <button type="submit" class="btn btn--navy">Enregistrer</button>
     </form>
   </section>

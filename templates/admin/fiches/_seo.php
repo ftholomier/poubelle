@@ -10,7 +10,7 @@ $roots = [];
 foreach ($opts as $slug => $label) {
     $roots[explode(' › ', $label)[0]][$slug] = $label;
 }
-$site = parse_url(base_url(), PHP_URL_HOST) ?: 'fcsochauxretro.com';
+$site = parse_url(base_url(), PHP_URL_HOST) ?: \App\Core\Club::s('domain');
 ?>
 <div class="fpanel" data-panel="seo">
   <div class="card card--pad">

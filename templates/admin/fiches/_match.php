@@ -52,11 +52,11 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
       </div>
     </div>
     <h3 class="fsec">Buteurs</h3>
-    <?= Form::text('match.goals_text', 'Buteurs (texte de l’en-tête)', $m['goals_text'] ?? '', ['class' => 'f--full', 'placeholder' => "Prat 33' pour Sochaux ; Robert 57' pour Nantes"]) ?>
+    <?= Form::text('match.goals_text', 'Buteurs (texte de l’en-tête)', $m['goals_text'] ?? '', ['class' => 'f--full', 'placeholder' => (\App\Core\Club::content('exemples')['match_buteurs'] ?? "Dupont 33' pour " . \App\Core\Club::team() . " ; Martin 57' pour l’adversaire")]) ?>
     <?= Form::repeater('match.goals', 'Buts par équipe', $m['goals'] ?? [], fn ($g) => '<div class="fgrid">' . Form::text('@team', 'Équipe', $g['team'] ?? '') . Form::text('@scorers', 'Buteurs', $g['scorers'] ?? '', ['class' => 'f--2', 'placeholder' => "Prat 33', Thomas 78'"]) . '</div>', ['compact' => true, 'add' => 'Ajouter une équipe']) ?>
-    <?= Form::lines('match.header_extra', 'Lignes complémentaires de l’en-tête', $m['header_extra'] ?? [], ['help' => 'Une information par ligne (ex. « Ruiz 38’, Alphonse 83’ pour Sochaux. »).']) ?>
+    <?= Form::lines('match.header_extra', 'Lignes complémentaires de l’en-tête', $m['header_extra'] ?? [], ['help' => 'Une information par ligne (ex. « ' . (\App\Core\Club::content('exemples')['match_lignes'] ?? 'Dupont 38’, Martin 83’ pour ' . \App\Core\Club::team() . '.') . ' »).']) ?>
     <h3 class="fsec">Particularité</h3>
-    <?= Form::text('match.event', 'Événement (match particulier)', $m['event'] ?? '', ['class' => 'f--full', 'placeholder' => 'ex. Inauguration du nouveau stade Bonal', 'proof' => true]) ?>
+    <?= Form::text('match.event', 'Événement (match particulier)', $m['event'] ?? '', ['class' => 'f--full', 'placeholder' => (\App\Core\Club::content('exemples')['match_evenement'] ?? 'ex. Inauguration du nouveau stade'), 'proof' => true]) ?>
   </div>
 </div>
 
