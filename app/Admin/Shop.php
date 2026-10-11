@@ -338,6 +338,14 @@ final class Shop extends Base
     {
         $action = $req->str('action');
         $id = $req->str('id');
+        if ($action === 'reprendre' && \App\Shop\ClubCopy::available()) {
+            try {
+                $r = \App\Shop\ClubCopy::run(Auth::user());
+            } catch (\Throwable $e) {
+                return self::back('/admin/boutique/modeles', null, $e->getMessage());
+            }
+            return self::back('/admin/boutique/modeles', $r['models'] . ' produit(s), ' . $r['supports'] . ' support(s) et ' . $r['texts'] . ' phrase(s) repris du musée historique, avec le logo et les couleurs de ce musée. Vérifiez les aperçus avant de les proposer à la vente.');
+        }
         if ($action === 'new') {
             $sup = Catalog::support($req->str('support'));
             if (!$sup) {

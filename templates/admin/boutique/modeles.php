@@ -5,6 +5,12 @@
  */
 ?>
 <p class="small" style="margin:0 0 12px;max-width:95ch">Un modèle est un dessin posé sur un support : le logo de l’association, des textes (fixes, ou à remplir par le client : prénom, dédicace…) et des formes. Jamais de photo : tout est vectoriel.</p>
+<?php if (\App\Shop\ClubCopy::available()): ?>
+<form method="post" action="/admin/boutique/modeles" class="alert alert--info row" style="gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px"><?= csrf_field() ?><input type="hidden" name="action" value="reprendre">
+  <span style="flex:1;min-width:260px">Reprendre tous les produits du musée historique : même mise en page, logo et couleurs de ce musée, slogans transposés. Les produits déjà présents ici ne sont pas touchés.</span>
+  <button class="btn btn--primary" type="submit">Reprendre les produits</button>
+</form>
+<?php endif; ?>
 <form method="post" action="/admin/boutique/modeles" class="card card--pad" style="flex-direction:row;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:16px">
   <?= csrf_field() ?><input type="hidden" name="action" value="new">
   <label class="f" style="margin:0;flex:1 1 240px"><span class="f__k">Nom du nouveau modèle</span><input class="in" name="name" placeholder="<?= e((\App\Core\Club::content('exemples')['modele_nom'] ?? 'ex. T-shirt « Fiers depuis ' . \App\Core\Club::s('founded') . ' »')) ?>" required></label>
