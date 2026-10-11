@@ -58,6 +58,10 @@ final class Auth
     public static function roleIn(array $u, string $club): ?string
     {
         $clubs = $u['clubs'] ?? [Club::DEFAULT => $u['role'] ?? 'user'];
+        // Administrateur d'un musée = administrateur de tous (bascule d'un musée à l'autre).
+        if (in_array('admin', $clubs, true) && isset(Club::all()[$club])) {
+            return 'admin';
+        }
         $r = $clubs[$club] ?? $clubs['*'] ?? null;
         return isset(self::ROLES[$r]) ? $r : null;
     }
@@ -65,6 +69,7 @@ final class Auth
     /** Musées accessibles au compte : id → rôle. @return array<string,string> */
     public static function clubsOf(array $u): array
     {
+        $u = isset($u['id']) ? (self::allUsers()[$u['id']] ?? $u) : $u; // compte complet (tous ses musées)
         $out = [];
         foreach (array_keys(Club::all()) as $id) {
             if (($r = self::roleIn($u, $id)) !== null) {
