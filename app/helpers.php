@@ -419,3 +419,9 @@ function club(string $text): string
     $map ??= array_combine(array_map(fn ($k) => '{' . $k . '}', array_keys(\App\Core\Club::vars())), \App\Core\Club::vars());
     return strtr($text, $map);
 }
+
+/** Adresse du bilan dans le stade du club (/bilans/stade-auguste-bonal/ pour Sochaux), d'après stadium_full du profil. */
+function stadium_bilan_path(): string
+{
+    return '/bilans/stade-' . preg_replace('/^stade-/', '', slugify(\App\Core\Club::s('stadium_full'))) . '/';
+}

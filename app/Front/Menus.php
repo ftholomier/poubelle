@@ -21,6 +21,7 @@ final class Menus
     public static function defaults(): array
     {
         $l = fn (string $label, string $href, array $more = []) => ['label' => $label, 'label_en' => '', 'href' => $href] + $more;
+        $nos = (string) (\App\Core\Club::content('libelles', [])['nos_lions'] ?? 'Nos joueurs');
         $tool = fn (string $icon, string $label, string $d, string $href) => ['icon' => $icon, 'label' => $label, 'label_en' => '', 'd' => $d, 'd_en' => '', 'href' => $href];
         return [
             'buttons' => [
@@ -31,7 +32,7 @@ final class Menus
             'nav' => [
                 $l('Accueil', '/', ['key' => 'accueil']),
                 $l('Matchs', '/matchs/', ['key' => 'matchs']),
-                $l('Nos Lions', '/nos-lions/', ['key' => 'nos-lions']),
+                $l($nos, '/nos-lions/', ['key' => 'nos-lions']),
                 $l('Supporters', '/supporters/', ['key' => 'supporters']),
                 $l('Infrastructures', '/infrastructures/', ['key' => 'infrastructures']),
                 $l('Symboles', '/symboles/', ['key' => 'symboles']),
@@ -39,7 +40,7 @@ final class Menus
             ],
             'matchs_explore' => [
                 $l('Saisons', '/saisons/'), $l('Face-à-face', '/face-a-face/'), $l('Palmarès', '/palmares/'), $l('Records', '/records/'),
-                $l('Les chiffres', '/chiffres/'), $l(club('Bilan {stadium_a}'), '/bilans/stade-auguste-bonal/'), $l('Bilan en Coupe de France', '/bilans/coupe-de-france/'),
+                $l('Les chiffres', '/chiffres/'), $l(club('Bilan {stadium_a}'), stadium_bilan_path()), $l('Bilan en Coupe de France', '/bilans/coupe-de-france/'),
             ],
             'interactif' => [
                 ['title' => "Explorer l'histoire", 'title_en' => '', 'tools' => [
@@ -49,16 +50,16 @@ final class Menus
                     $tool('×', 'Face-à-face', 'Choisissez un adversaire, voyez le bilan.', '/face-a-face/'),
                     $tool('🏆', 'Palmarès', club('Les titres et les finales depuis {founded}.'), '/palmares/'),
                     $tool('#', 'Records', 'Buteurs, affluences, séries.', '/records/'),
-                    $tool('%', 'Les chiffres', '100 statistiques depuis 1929.', '/chiffres/'),
+                    $tool('%', 'Les chiffres', '100 statistiques depuis ' . ((int) \App\Core\Club::s('founded') + 1) . '.', '/chiffres/'),
                     $tool('→', 'Frise', club("De {founded} à aujourd'hui."), '/interactif/frise/'),
                     $tool('↔', 'Maillots', 'Deux époques, un curseur.', '/interactif/maillots/'),
                 ]],
                 ['title' => 'Les murs de photos', 'title_en' => '', 'auto' => 'walls', 'tools' => []],
                 ['title' => 'Jouer', 'title_en' => '', 'tools' => [
-                    $tool('?', 'Quiz', 'Êtes-vous un vrai Lionceau ?', '/interactif/quiz/'),
+                    $tool('?', 'Quiz', club('Êtes-vous un vrai {nickname_sg} ?'), '/interactif/quiz/'),
                     $tool('★', 'Le défi du jour', 'Dix questions, un essai par jour, un classement.', '/interactif/defi/'),
                     $tool('♛', 'Championnat du club-house', 'Les soirées quiz en salle, saison après saison.', '/interactif/quiz-live/championnat/'),
-                    $tool('▦', 'Album', 'Collectionnez les cartes des Lions.', '/interactif/album/'),
+                    $tool('▦', 'Album', (string) (\App\Core\Club::content('libelles', [])['album_d'] ?? 'Collectionnez les cartes des joueurs.'), '/interactif/album/'),
                     $tool('⟿', 'Fil jaune', club('Reliez deux {nickname} par leurs matchs.'), '/interactif/fil-jaune/'),
                 ]],
                 ['title' => 'Participer', 'title_en' => '', 'tools' => [
@@ -72,7 +73,7 @@ final class Menus
             ],
             'footer' => [
                 ['title' => 'Explorer', 'title_en' => '', 'links' => [
-                    $l('Matchs', '/matchs/'), $l('Saisons', '/saisons/'), $l('Nos Lions', '/nos-lions/'), $l('Face-à-face', '/face-a-face/'),
+                    $l('Matchs', '/matchs/'), $l('Saisons', '/saisons/'), $l($nos, '/nos-lions/'), $l('Face-à-face', '/face-a-face/'),
                     $l('Records', '/records/'), $l('Les chiffres', '/chiffres/'), $l('Le centenaire', '/centenaire/'),
                 ]],
                 ['title' => 'Interactif', 'title_en' => '', 'links' => [
