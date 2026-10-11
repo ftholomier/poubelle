@@ -196,3 +196,18 @@ Revenus possibles : abonnement, commission sur les ventes de la boutique de chaq
 - Si un musée marche, on achète son propre domaine (`parisretro.com`). Celui-ci devient l'adresse principale, et le sous-domaine Sportia redirige vers lui (redirection 301, sans perte de référencement).
 - Côté code : le profil de chaque club liste ses domaines (adresse principale + alias redirigés).
 - Hébergement : chaque sous-domaine est déclaré dans cPanel avec la même racine que les autres musées, et le certificat HTTPS est automatique. Un sous-domaine « joker » (`*.sportia.com`) est possible, si l'hébergeur fournit un certificat joker.
+
+## 12. Mettre en ligne un nouveau musée (étape 3 faite)
+
+1. Profil : `config/clubs/<id>.php` (copie de `sochaux.php` à adapter, avec la clé `domains`). Logo et icônes dans `public/assets/clubs/<id>/`.
+2. Dossiers : `php bin/console.php club-creer <id>`. Cela crée `clubs/<id>/data`, `clubs/<id>/storage` et `public/m/<id>`.
+3. Compte : `php bin/console.php admin <email> <nom> --club=<id>`. Les comptes resteront propres à chaque musée jusqu'à l'étape 4 (back-office commun).
+4. cPanel : ajouter le sous-domaine (ou domaine) avec la même racine que le musée de Sochaux (`…/musee.fcsochauxretro.com/public`).
+5. Tâche cron du musée, toutes les 5 minutes et décalée par rapport aux autres : `php bin/console.php cron --club=<id>`.
+6. Le musée s'ouvre fermé (page d'attente) ; il s'ouvre dans ses Réglages.
+
+À faire ensuite :
+- les rubriques de départ (décennies, saisons) générées à la création (étape 6) ;
+- les contenus propres à Sochaux encore écrits dans le code (frise, quiz, 100 chiffres, CGV…) ;
+- l'en-tête du back-office aux couleurs de la marque ;
+- la référence du contrôle qualité propre à chaque musée.
