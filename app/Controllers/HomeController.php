@@ -46,6 +46,7 @@ final class HomeController extends Controller
             ],
             'families' => Search::jobFamilies(6),
             'latest'   => Search::latestJobs(4),
+            'profiles' => Search::latestCv(4),
             'trades'   => $this->trades(),
         ], [
             'title' => I18n::t('home.h1_a') . ' ' . I18n::t('home.h1_b'),

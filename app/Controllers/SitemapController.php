@@ -57,6 +57,7 @@ final class SitemapController extends Controller
         $paths = [
             ['path' => '/',            'lastmod' => '', 'priority' => '1.0'],
             ['path' => '/offres',      'lastmod' => '', 'priority' => '0.9'],
+            ['path' => '/cv',          'lastmod' => '', 'priority' => '0.8'],
             ['path' => '/employeurs',  'lastmod' => '', 'priority' => '0.7'],
             ['path' => '/ressources',  'lastmod' => '', 'priority' => '0.5'],
             ['path' => '/metiers',     'lastmod' => '', 'priority' => '0.8'],
@@ -72,7 +73,13 @@ final class SitemapController extends Controller
             $paths[] = ['path' => '/offre/' . $job['slug'],
                         'lastmod' => (string) $job['published_at'], 'priority' => '0.7'];
         }
-        // Annuaire des CV : réservé aux membres, hors index des moteurs.
+        foreach (Index::load('cv') as $cv) {
+            if (($cv['status'] ?? '') !== 'publish') {
+                continue;
+            }
+            $paths[] = ['path' => '/cv/' . $cv['slug'],
+                        'lastmod' => (string) $cv['published_at'], 'priority' => '0.5'];
+        }
         foreach (Index::load('employers') as $employer) {
             $paths[] = ['path' => '/employeur/' . $employer['slug'], 'lastmod' => '', 'priority' => '0.4'];
         }

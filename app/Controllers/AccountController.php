@@ -128,12 +128,6 @@ final class AccountController extends Controller
         return $this->view('account', ['user' => Auth::user()], I18n::t('nav.account'));
     }
 
-    /** Annuaire des CV pour un visiteur non connecté. */
-    public static function gate(string $return): Response
-    {
-        return (new self())->view('gate', ['return' => $return], I18n::t('account.gate_title'));
-    }
-
     private function view(string $mode, array $data, string $title): Response
     {
         return $this->page('pages/account', $data + ['mode' => $mode], [

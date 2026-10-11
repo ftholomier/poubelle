@@ -42,7 +42,7 @@ final class Knowledge
     }
 
     /** Index dont dépend la base : si l'un est plus récent qu'elle, elle se reconstruit. */
-    private const SOURCES = ['jobs', 'employers', 'pages', 'trades'];
+    private const SOURCES = ['jobs', 'cv', 'employers', 'pages', 'trades'];
 
     /** @return array{count:int, generated_at:string} */
     public static function rebuild(): array
@@ -93,7 +93,15 @@ final class Knowledge
             self::addChunks($chunks, (string) $job['title'], '/offre/' . $job['slug'], 'offre', $body);
         }
 
-        // Aucun profil de l'annuaire : il est réservé aux membres, et l'assistant répond à tous.
+        foreach (Index::load('cv') as $cv) {
+            $body = implode("\n", array_filter([
+                (string) $cv['name'] . ' — ' . (string) $cv['title'],
+                'Ville : ' . (string) $cv['city'],
+                'Compétences : ' . implode(', ', (array) $cv['skills']),
+                (string) $cv['excerpt'],
+            ]));
+            self::addChunks($chunks, (string) $cv['name'], '/cv/' . $cv['slug'], 'profil', $body);
+        }
 
         // Les fiches employeurs : l'assistant peut ainsi renvoyer vers la page
         // d'une structure, et pas seulement vers ses offres.
@@ -146,8 +154,7 @@ final class Knowledge
              'offres emploi emplois job jobs travail mission chercher trouver postuler candidater'],
             ['/cv', 'Annuaire des CV',
              'L’annuaire des CV d’intermittents et de professionnels du spectacle : recherche par métier, compétence '
-             . 'et ville, réservé aux membres connectés pour protéger les candidats ; l’inscription est gratuite. '
-             . 'Les employeurs contactent les profils par le formulaire du site, sans intermédiaire ; '
+             . 'et ville. Les employeurs contactent les profils par le formulaire du site, sans intermédiaire ; '
              . 'les coordonnées des candidats restent masquées.',
              'annuaire cv profils candidats trouver technicien artiste recruter recrute embaucher'],
             ['/employeurs', 'Les employeurs du spectacle',

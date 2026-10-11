@@ -33,9 +33,6 @@ final class ApiController extends Controller
 
     public function cv(Request $request, array $params): Response
     {
-        if (!\App\Services\Auth::check()) {
-            return Response::json(['error' => 'auth'], 403)->withHeader('Cache-Control', 'private, no-store');
-        }
         $criteria = $this->criteria($request);
         $criteria['per_page'] = min(50, max(1, $request->intval('per_page', 12)));
         $results = Search::cv($criteria);
@@ -45,7 +42,7 @@ final class ApiController extends Controller
             'page'  => $results['page'],
             'pages' => $results['pages'],
             'items' => array_map([$this, 'publicCv'], $results['items']),
-        ])->withHeader('Cache-Control', 'private, no-store')->withHeader('X-Robots-Tag', 'noindex');
+        ])->withHeader('Cache-Control', 'public, max-age=120');
     }
 
     public function employers(Request $request, array $params): Response

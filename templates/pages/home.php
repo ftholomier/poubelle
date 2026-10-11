@@ -5,6 +5,7 @@
  * @var array $facets    compteurs de l'index des offres
  * @var array $families  familles de métier avec compteur
  * @var array $latest    dernières offres
+ * @var array $profiles  derniers profils
  * @var array $trades    métiers du bandeau défilant
  */
 use App\Core\Config;
@@ -177,8 +178,9 @@ $tabs = [
     <a class="btn btn-ghost btn-sm" href="<?= e(I18n::url('/cv')) ?>"><?= e(I18n::t('home.see_all')) ?></a>
   </div>
 
-  <?php // Annuaire réservé aux membres : la page publique ne montre aucun profil. ?>
-  <p class="lede"><?= e(I18n::t('account.profiles_count', number_format((int) $stats['cv'], 0, ',', ' '))) ?></p>
+  <div class="grid-cv">
+    <?php foreach ($profiles as $cv): ?><?= View::partial('partials/cv-card', ['cv' => $cv]) ?><?php endforeach; ?>
+  </div>
 </section>
 
 <div class="container"><?= View::partial('partials/ad', ['slot' => 'home_mid']) ?></div>

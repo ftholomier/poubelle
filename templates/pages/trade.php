@@ -11,7 +11,7 @@
  * @var string $pay       fourchette mise en forme, ou vide
  * @var array  $jobs      annonces du site correspondantes
  * @var array  $partners  offres partenaires correspondantes
- * @var int    $profiles  nombre de profils de l'annuaire correspondants
+ * @var array  $profiles  profils de l'annuaire correspondants
  * @var array  $related   métiers proches (lignes d'index)
  * @var array  $siblings  autres métiers de la famille (lignes d'index)
  * @var array  $counts    slug => annonces en ligne
@@ -197,13 +197,15 @@ $offers = count($jobs) + count($partners);
     <?php endif; ?>
   </section>
 
-  <?php if ($profiles > 0): ?>
+  <?php if ($profiles !== []): ?>
     <section class="section">
       <div class="section-head">
         <h2><?= e(Trades::phrase('trade.profiles_of', $name)) ?></h2>
         <a class="btn btn-ghost btn-sm" href="<?= e($cvUrl) ?>"><?= e(I18n::t('trade.all_profiles')) ?> <?= Icon::svg('arrow-r', 15) ?></a>
       </div>
-      <p class="lede"><?= e(I18n::t('account.profiles_count', (string) $profiles)) ?></p>
+      <div class="grid-cv grid-keep">
+        <?php foreach ($profiles as $cv): ?><?= View::partial('partials/cv-card', ['cv' => $cv]) ?><?php endforeach; ?>
+      </div>
     </section>
   <?php endif; ?>
 

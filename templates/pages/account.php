@@ -1,7 +1,7 @@
 <?php
 /**
  * Espace membre : une page, plusieurs écrans selon $mode
- * (login, register, confirm, forgot, reset, account, gate).
+ * (login, register, confirm, forgot, reset, account).
  */
 use App\Core\Csrf;
 use App\Services\I18n;
@@ -14,16 +14,7 @@ $return ??= '';
 <div class="container account-page" style="max-width:560px">
   <div class="card card-lg" style="margin:40px 0" data-reveal>
 
-  <?php if ($mode === 'gate'): ?>
-    <span class="pill-status"><span class="dot"></span><?= $t('account.gate_badge') ?></span>
-    <h1 class="h1-sub" style="margin:16px 0 10px"><?= $t('account.gate_title') ?></h1>
-    <p class="lede"><?= $t('account.gate_text') ?></p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
-      <a class="btn btn-coral" href="<?= e(I18n::url('/connexion') . '?retour=' . rawurlencode($return)) ?>"><?= $t('nav.login') ?></a>
-      <a class="btn btn-ghost" href="<?= e(I18n::url('/inscription')) ?>"><?= $t('account.register_cta') ?></a>
-    </div>
-
-  <?php elseif ($mode === 'login'): ?>
+  <?php if ($mode === 'login'): ?>
     <h1 class="h1-sub" style="margin-bottom:14px"><?= $t('account.login_title') ?></h1>
     <p class="lede" style="margin-bottom:18px"><?= $t('account.login_lede') ?></p>
     <?php if ($error !== ''): ?><div class="notice notice-err" role="alert"><?= e($error) ?></div><?php endif; ?>

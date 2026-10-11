@@ -29,10 +29,12 @@ final class MediaController extends Controller
         if (!in_array($kind, self::KINDS, true)) {
             return Response::text('', 404);
         }
-        // CV et photos de candidats : membres connectés seulement. Pour un
-        // anonyme, la réponse est celle d'un fichier absent.
-        if ($kind !== 'logo' && !Auth::check()) {
-            return Response::text('', 404);
+        // Fichier CV : membres connectés seulement.
+        if ($kind === 'cv' && !Auth::check()) {
+            // Connexion d'abord, puis retour au fichier.
+            return Response::redirect(\App\Services\I18n::url('/connexion') . '?retour='
+                . rawurlencode((string) ($_SERVER['REQUEST_URI'] ?? '')), 302)
+                ->withHeader('Cache-Control', 'private, no-store')->withHeader('X-Robots-Tag', 'noindex, nofollow');
         }
 
         $id = pathinfo($name, PATHINFO_FILENAME);
@@ -71,7 +73,7 @@ final class MediaController extends Controller
         }
 
         return Response::file($real, $mime, basename($real))
-            ->withHeader('Cache-Control', $kind === 'logo' ? 'public, max-age=86400' : 'private, max-age=600')
+            ->withHeader('Cache-Control', $kind === 'cv' ? 'private, max-age=600' : 'public, max-age=86400')
             // Un CV ne doit pas finir dans l'index des moteurs de recherche.
             ->withHeader('X-Robots-Tag', $kind === 'cv' ? 'noindex, nofollow' : 'noindex');
     }
