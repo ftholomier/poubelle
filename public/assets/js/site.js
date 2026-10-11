@@ -93,6 +93,7 @@
   const layer = $('[data-searchlayer]');
   const input = $('[data-search-input]');
   const results = $('[data-search-results]');
+  const STADIUM = document.documentElement.dataset.stadium || ''; // stade du club (« Bonal »), pour l'exemple de recherche
   const count = $('[data-search-count]');
   let lastFocus = null, searchTimer = null, ctrl = null, active = -1;
   function openSearch(q) {
@@ -122,7 +123,7 @@
   function render(list, q) {
     active = -1;
     results.innerHTML = list.map(r => `<a class="sresult" href="${esc(r.href)}"><span class="sresult__type">${esc(r.type)}</span><span class="sresult__label">${esc(r.label)}</span><span class="sresult__meta">${esc(r.meta || '')}</span></a>`).join('');
-    count.textContent = q ? (list.length ? list.length + ' ' + T('résultat', 'result') + (list.length > 1 ? 's' : '') + (list.length >= 12 ? ' — ' + T('Entrée pour tout voir', 'Enter to see all') : '') : T('Aucun résultat. Essayez « Bonal », « 2007 » ou un nom de joueur.', 'No result. Try “Bonal”, “2007” or a player’s name.')) : T('Suggestions', 'Suggestions');
+    count.textContent = q ? (list.length ? list.length + ' ' + T('résultat', 'result') + (list.length > 1 ? 's' : '') + (list.length >= 12 ? ' — ' + T('Entrée pour tout voir', 'Enter to see all') : '') : (STADIUM ? T(`Aucun résultat. Essayez « ${STADIUM} », « 2007 » ou un nom de joueur.`, `No result. Try “${STADIUM}”, “2007” or a player’s name.`) : T('Aucun résultat. Essayez « 2007 » ou un nom de joueur.', 'No result. Try “2007” or a player’s name.'))) : T('Suggestions', 'Suggestions');
   }
   // Suggestions : pas de requête sous 2 lettres, 250 ms après la dernière frappe, et chaque
   // réponse gardée pendant la visite (retaper ou effacer ne redemande rien au serveur).

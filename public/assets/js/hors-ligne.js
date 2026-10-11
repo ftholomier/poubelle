@@ -3,9 +3,11 @@
 (() => {
   'use strict';
   const en = location.pathname === '/en' || location.pathname.startsWith('/en/');
+  // Nom du musée : fin du titre de la page (« Hors connexion · <musée> », adapté au club par le serveur).
+  const site = document.title.split(' · ').slice(1).join(' · ');
   if (en) {
     document.documentElement.lang = 'en';
-    document.title = 'Offline · Sochaux Rétro';
+    document.title = 'Offline' + (site ? ' · ' + site : '');
     document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = el.dataset.t.split('|')[1]; });
   }
   document.querySelector('[data-retry]').addEventListener('click', () => location.reload());
@@ -23,7 +25,8 @@
       const m = html.match(/<title>([^<]*)<\/title>/i);
       const t = document.createElement('textarea');
       t.innerHTML = m ? m[1] : u.pathname;
-      items.push([u.pathname, t.value.replace(/\s*[|·–-]\s*Sochaux Rétro\s*$/, '') || u.pathname]);
+      const esc = site.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      items.push([u.pathname, (site ? t.value.replace(new RegExp('\\s*[|·–-]\\s*' + esc + '\\s*$'), '') : t.value) || u.pathname]);
     }
     if (!items.length) return;
     const ul = document.querySelector('[data-list]');
