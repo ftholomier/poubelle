@@ -202,7 +202,7 @@ final class Site
 
     public static function centenaryDate(): string
     {
-        return (string) Settings::get('home.centenary_date', '2028-06-14');
+        return (string) Settings::get('home.centenary_date', \App\Core\Club::s('centenary_date'));
     }
 
     public static function daysToCentenary(): int

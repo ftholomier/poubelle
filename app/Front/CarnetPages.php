@@ -147,7 +147,7 @@ final class CarnetPages
         if ($slug === null) {
             $res->headers['Cache-Control'] = 'private, max-age=60';
             if (isset($req->query['telecharger'])) {
-                $res->headers['Content-Disposition'] = 'attachment; filename="mon-carnet-sochaux-retro.png"';
+                $res->headers['Content-Disposition'] = 'attachment; filename="mon-carnet-' . slugify(\App\Core\Club::s('site')) . '.png"';
             }
         }
         return $res;
@@ -167,7 +167,7 @@ final class CarnetPages
         if ($ext === 'svg') {
             return new Response(\App\Shop\CarnetCard::svg($d, $style), 200, ['Content-Type' => 'image/svg+xml', 'Cache-Control' => 'private, max-age=60', 'X-Robots-Tag' => 'noindex']);
         }
-        $name = $style === 'b' ? 'mon-billet-sochaux-retro.pdf' : 'ma-carte-sochaux-retro.pdf';
+        $name = ($style === 'b' ? 'mon-billet-' : 'ma-carte-') . slugify(\App\Core\Club::s('site')) . '.pdf';
         return new Response(\App\Shop\CarnetCard::pdf($d, $style), 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="' . $name . '"',
             'Cache-Control' => 'private, no-store', 'X-Robots-Tag' => 'noindex']);
     }

@@ -76,7 +76,7 @@ final class Donations
             'steps' => [
                 ['title' => 'On collecte', 'title_en' => 'We collect', 'text' => 'Supporters, anciens joueurs et familles nous confient leurs documents.', 'text_en' => 'Supporters, former players and families entrust us with their documents.', 'image' => ''],
                 ['title' => 'On numérise', 'title_en' => 'We digitise', 'text' => 'Scan haute définition, restauration et légendage de chaque pièce.', 'text_en' => 'High-definition scanning, restoration and captioning of every item.', 'image' => ''],
-                ['title' => 'On partage', 'title_en' => 'We share', 'text' => club('Tout est mis en ligne gratuitement, pour tous les {nickname}.'), 'text_en' => 'Everything is published online for free, for every Lionceau.', 'image' => ''],
+                ['title' => 'On partage', 'title_en' => 'We share', 'text' => club('Tout est mis en ligne gratuitement, pour tous les {nickname}.'), 'text_en' => club('Everything is published online for free, for every {nickname_sg}.'), 'image' => ''],
             ],
             'wall_text' => 'Votre nom ici, si vous le souhaitez.',
         ];
@@ -639,7 +639,7 @@ final class Donations
             'goal' => $goal,
             'donors' => $donors,
             'pct' => $goal > 0 ? min(100, round($raised / $goal * 100, 1)) : 0,
-            'label' => (string) Settings::get('donations.goal_label', 'Objectif centenaire 2028'),
+            'label' => (string) Settings::get('donations.goal_label', 'Objectif centenaire ' . substr(\App\Core\Club::s('centenary_date'), 0, 4)),
         ];
     }
 

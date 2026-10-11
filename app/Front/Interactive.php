@@ -264,8 +264,8 @@ final class Interactive
             'reveal' => self::onzeRevealed() ? null : (string) Settings::get('centenary.onze_reveal', ''),
             'votes' => self::onzeVoters(),
         ], [
-            'title' => t('Le centenaire {club_de} : {founded}-2028'),
-            'description' => t('Compte à rebours jusqu’au 14 juin 2028, 100 moments de l’histoire du club et vote du Onze de légende.'),
+            'title' => t('Le centenaire {club_de} : {founded}-' . substr(\App\Core\Club::s('centenary_date'), 0, 4)),
+            'description' => t(club('Compte à rebours jusqu’au {centenary_label}, 100 moments de l’histoire du club et vote du Onze de légende.')),
             'active' => 'interactif',
             'body_class' => 'page-centenary',
             'styles' => ['css/interactif.css'],
