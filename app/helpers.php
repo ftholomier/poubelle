@@ -23,6 +23,10 @@ function t(string $text, array $vars = []): string
     foreach ($vars as $k => $v) {
         $s = str_replace('{' . $k . '}', (string) $v, $s);
     }
+    // Profil du club : {site}, {sigle_de}, {city_a}… (config/clubs/).
+    if (str_contains($s, '{')) {
+        $s = club($s);
+    }
     return $s;
 }
 
@@ -406,4 +410,12 @@ function teaser_src(string $ext, bool $public = true): string
         }
     }
     return '/assets/video/' . $name;
+}
+
+/** Remplace les variables du profil du club ({site}, {sigle_de}, {city_a}…) dans un texte. */
+function club(string $text): string
+{
+    static $map = null;
+    $map ??= array_combine(array_map(fn ($k) => '{' . $k . '}', array_keys(\App\Core\Club::vars())), \App\Core\Club::vars());
+    return strtr($text, $map);
 }
