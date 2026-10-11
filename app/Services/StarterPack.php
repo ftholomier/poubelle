@@ -12,7 +12,7 @@ use App\Data\Paths;
 /**
  * Contenus de départ d'un nouveau musée : fiches préparées hors ligne (faits repris des sources,
  * textes entièrement rédigés à neuf), livrées avec le code dans config/clubs/<club>/import/*.json.gz
- * et créées d'un clic dans le back-office, au statut « À relire ». Chaque fiche n'est créée qu'une
+ * et créées d'un clic dans le back-office, publiées tout de suite (vérifiées ensuite). Chaque fiche n'est créée qu'une
  * fois (clé de la source) : relancer est sans risque, et une fiche supprimée n'est pas recréée.
  *
  * Format d'un paquet : liste de fiches partielles
@@ -104,6 +104,19 @@ final class StarterPack
             $errors = [];
             $left = 0;
             Fiches::batch(function () use (&$done, &$created, &$errors, &$left, $limit) {
+                // Fiches créées auparavant « À relire » et jamais retouchées : publiées à leur tour.
+                foreach ($done as $id) {
+                    if ($created >= $limit) {
+                        $left = 1;
+                        return;
+                    }
+                    $doc = $id ? Fiches::get((int) $id) : null;
+                    if ($doc && ($doc['status'] ?? '') === 'relire' && ($doc['modified_by'] ?? '') === self::AUTHOR['name']) {
+                        $doc['status'] = 'publie';
+                        Fiches::save($doc, self::AUTHOR, 'Contenus de départ : mise en ligne');
+                        $created++;
+                    }
+                }
                 foreach (array_keys(self::packs()) as $pack) {
                     foreach (self::items($pack) as $it) {
                         $key = (string) ($it['key'] ?? '');
@@ -146,7 +159,7 @@ final class StarterPack
                 $doc[$k] = $it[$k];
             }
         }
-        $doc['status'] = 'relire';
+        $doc['status'] = 'publie'; // en ligne tout de suite : la vérification se fait après coup
         $season = (string) ($it['season'] ?? '');
         $cats = (array) ($it['categories'] ?? []);
         if ($season !== '' && ($c = Categories::get($season))) {
