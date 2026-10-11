@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\Club;
 use App\Data\Categories;
 use App\Data\Fiches;
 use App\Data\Index;
@@ -17,7 +18,6 @@ use App\Data\Paths;
 final class GrandsRecits
 {
     public const ROOT = 'grands-recits';
-    private const AUTHOR = ['name' => 'Sochaux Rétro'];
 
     /** @return list<array> */
     public static function all(): array
@@ -65,7 +65,7 @@ final class GrandsRecits
         $cats[self::ROOT] = ['id' => max(array_map(fn ($c) => (int) ($c['id'] ?? 0), $cats)) + 1, 'slug' => self::ROOT, 'name' => 'Grands récits', 'label' => null, 'position' => null,
             'description' => '<p>Les grandes histoires du FC Sochaux-Montbéliard, racontées d’après les archives du club, de l’association et du musée Peugeot.</p>',
             'parent' => null, 'path' => '/' . self::ROOT . '/', 'season' => null, 'technical' => false, 'old_path' => null, 'order' => [], 'wp_count' => 0];
-        Categories::save($cats, self::AUTHOR);
+        Categories::save($cats, ['name' => Club::s('site')]);
         Categories::forget();
     }
 
@@ -94,7 +94,7 @@ final class GrandsRecits
             $doc['legacy'] = ['recit' => $r['key'], 'image_hint' => $r['image_hint'] ?? []];
             $doc['path'] = Paths::unique('/' . self::ROOT . '/' . $r['key'] . '/', -1);
             $doc['slug'] = $r['key'];
-            Fiches::save($doc, $user ?? self::AUTHOR, 'Création du grand récit');
+            Fiches::save($doc, $user ?? ['name' => Club::s('site')], 'Création du grand récit');
             $n++;
         }
         if ($n) {
@@ -206,7 +206,7 @@ final class GrandsRecits
             if (empty($doc['featured_image'])) {
                 $doc['featured_image'] = $add[0]['image'];
             }
-            Fiches::save($doc, $user ?? self::AUTHOR, 'Photos ajoutées au récit (' . count($add) . ')');
+            Fiches::save($doc, $user ?? ['name' => Club::s('site')], 'Photos ajoutées au récit (' . count($add) . ')');
             $done['recits']++;
             $done['photos'] += count($add);
         }

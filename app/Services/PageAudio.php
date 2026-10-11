@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\Club;
 use App\Core\JsonStore;
 use App\Core\Settings;
 use App\Data\Derived;
@@ -582,7 +583,7 @@ final class PageAudio
             'tour' => self::round((string) ($x['round'] ?? ''), false) ?: null,
             'adversaire' => (string) ($x['opp'] ?? ''),
             'lieu' => self::rank((string) ($x['round'] ?? '')) === 100 && !empty($x['stade']) ? Explore::stadiumName((string) $x['stade']) . ' (terrain neutre)'
-                : (!empty($x['sh']) ? (($x['stade'] ?? '') === 'auguste-bonal' ? 'à domicile, au stade Auguste-Bonal' : 'à domicile') : 'à l’extérieur'),
+                : (!empty($x['sh']) ? (($x['stade'] ?? '') === 'auguste-bonal' ? club('à domicile, au {stadium_full_lc}') : 'à domicile') : 'à l’extérieur'),
             'score' => $x['us'] === null || $x['us'] === '' ? null
                 : $x['home'] . ' ' . (!empty($x['sh']) ? $x['us'] : $x['them']) . '-' . (!empty($x['sh']) ? $x['them'] : $x['us']) . ' ' . $x['away'],
             'résultat' => ['V' => club('victoire de {team}'), 'N' => 'match nul', 'D' => club('défaite de {team}')][$x['result'] ?? ''] ?? null,
@@ -774,7 +775,7 @@ final class PageAudio
         ksort($decades);
         return array_filter([
             'page' => 'bilan dans un stade',
-            'stade' => $key === 'auguste-bonal' ? club('stade Auguste-Bonal, à Montbéliard : le stade {club_de}') : $name,
+            'stade' => $key === 'auguste-bonal' ? club('{stadium_full_lc}, à Montbéliard : le stade {club_de}') : $name,
             'matchs fichés dans le musée' => (int) $t['count'],
             'période' => self::year($chrono[0]) . '-' . self::year($chrono[count($chrono) - 1]),
             club('résultats de {team}') => self::vndFacts((int) $t['V'], (int) $t['N'], (int) $t['D']),
@@ -1022,7 +1023,7 @@ final class PageAudio
         $bonal = $key === 'auguste-bonal';
         $at = self::stadiumAt($stadium, $en);
         $intro = [$bonal
-            ? ($en ? club("Stade Auguste-Bonal is the home of the {nickname}: $n matches recorded in the museum, from $y1 to $y2.") : club("Le stade Auguste-Bonal, c’est la maison des {nickname} : $n matchs fichés dans le musée, de $y1 à $y2."))
+            ? ($en ? club("{stadium_full} is the home of the {nickname}: $n matches recorded in the museum, from $y1 to $y2.") : club("Le {stadium_full_lc}, c’est la maison des {nickname} : $n matchs fichés dans le musée, de $y1 à $y2."))
             : ($en ? ucfirst($at) . club(", the museum holds $n {team} matches, from $y1 to $y2.") : self::ucfirst($at) . club(", le musée compte $n matchs de {team}, de $y1 à $y2."))];
         $intro[] = ($en ? 'The record: ' : 'Le bilan : ') . self::record($V, $N, $D, $en) . '.';
         $intro[] = self::goals((int) $t['gf'], (int) $t['ga'], $en);

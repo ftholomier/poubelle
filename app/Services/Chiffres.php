@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\Club;
 use App\Core\JsonStore;
 use App\Data\Collections;
 use App\Data\Derived;
@@ -41,17 +42,17 @@ final class Chiffres
 
     /** Chapitres dans l'ordre de la page : clé => [titre, chapeau, quota]. */
     public const CHAPTERS = [
-        'monuments' => ['Les monuments', 'Les records de toute une carrière sous le maillot sochalien, saison après saison depuis 1929.', 11],
+        'monuments' => ['Les monuments', 'Les records de toute une carrière sous le maillot {gentile}, saison après saison depuis 1929.', 11],
         'buteurs' => ['Les buteurs', 'Triplés, penaltys, jokers et coups de tête : ceux qui ont fait trembler les filets.', 8],
         'chrono' => ['Le chrono', 'Minute par minute : les buts les plus rapides, les plus tardifs et les retournements de situation.', 11],
-        'defense' => ['Les gardiens et la défense', 'Blanchissages, minutes d’invincibilité et murs jaune et bleu.', 8],
+        'defense' => ['Les gardiens et la défense', 'Blanchissages, minutes d’invincibilité et murs {colors}.', 8],
         'series' => ['Les séries', 'Invincibilité, victoires en rafale et longues disettes.', 9],
         'scores' => ['Les scores', 'Cartons, raclées, scores fétiches et séances de tirs au but.', 10],
         'acteurs' => ['Les acteurs', 'Passeurs, capitaines, inusables et entraîneurs : ceux qui ont tenu la maison.', 9],
         'adversaires' => ['Les adversaires', 'Victimes préférées, bêtes noires et voisins de l’Est.', 9],
-        'bonal' => ['Bonal et les tribunes', 'Affluences, forteresse et déplacements : le peuple jaune et bleu en chiffres.', 9],
+        'bonal' => ['{stadium_short} et les tribunes', 'Affluences, forteresse et déplacements : le peuple {colors} en chiffres.', 9],
         'calendrier' => ['Saisons et calendrier', 'Les saisons en or, les mois fastes et les jours sans.', 7],
-        'portraits' => ['Les Lions en portrait', 'Âges, tailles, pieds et origines des Lionceaux.', 9],
+        'portraits' => ['Les {mascot}s en portrait', 'Âges, tailles, pieds et origines des {nickname}.', 9],
     ];
 
     /**
@@ -994,8 +995,8 @@ final class Chiffres
             $out['matchs-d1'] = self::stat('matchs-d1', self::num($m), self::unit($m, 'match', 'matchs'), t('Le plus de matchs en première division'),
                 t('{span}, en Division 1 et en Ligue 1.', ['span' => ucfirst($span($car[$p['id']]))]), [$p], 'carrieres', self::more($r, $goals));
         }
-        foreach ([['cent-buts', 'g', 100, 'Le club des 100 buts', 'Le seul Lionceau à avoir marqué 100 buts officiels ou plus.', club('Les seuls {nickname} à avoir marqué 100 buts officiels ou plus.')],
-            ['trois-cents', 'm', 300, 'Le cercle des 300 matchs', 'Le seul Lionceau à avoir disputé 300 matchs officiels ou plus.', club('Les {nickname} qui ont disputé 300 matchs officiels ou plus.')]] as [$key, $f, $min, $label, $one, $many]) {
+        foreach ([['cent-buts', 'g', 100, 'Le club des 100 buts', club('Le seul {nickname_sg} à avoir marqué 100 buts officiels ou plus.'), club('Les seuls {nickname} à avoir marqué 100 buts officiels ou plus.')],
+            ['trois-cents', 'm', 300, 'Le cercle des 300 matchs', club('Le seul {nickname_sg} à avoir disputé 300 matchs officiels ou plus.'), club('Les {nickname} qui ont disputé 300 matchs officiels ou plus.')]] as [$key, $f, $min, $label, $one, $many]) {
             $v = array_map(fn ($k) => $k[$f], array_filter($car, fn ($k) => $k[$f] >= $min));
             if ($r = self::rank($v, 30)) {
                 $out[$key] = self::stat($key, self::num(count($r)), self::unit(count($r), 'joueur', 'joueurs'), t($label),
@@ -1752,7 +1753,7 @@ final class Chiffres
         $deg = array_map('count', $adj);
         if ($r = self::rank($deg, 4)) {
             $out['coequipiers'] = self::stat('coequipiers', self::num($r[0][1]), t('coéquipiers différents'), t('Le plus entouré'),
-                t('Le Lionceau qui a partagé le terrain avec le plus de joueurs différents, d’après le Fil jaune.'), [$r[0][0]], 'matchs', self::more($r, fn ($v) => self::num($v)));
+                t('Le {nickname_sg} qui a partagé le terrain avec le plus de joueurs différents, d’après le Fil jaune.'), [$r[0][0]], 'matchs', self::more($r, fn ($v) => self::num($v)));
         }
         // Saisons jouées sans manquer un match officiel.
         $seasonGames = [];
@@ -2135,7 +2136,7 @@ final class Chiffres
             }
         }
         ['first' => $first, 'last' => $last, 'firstGoal' => $firstGoal, 'lastGoal' => $lastGoal] = $ages;
-        foreach ([['plus-jeune', $first, true, 'Le plus jeune Lionceau', 'À son premier match officiel, contre {opp}, le {date}.'],
+        foreach ([['plus-jeune', $first, true, club('Le plus jeune {nickname_sg}'), 'À son premier match officiel, contre {opp}, le {date}.'],
             ['doyen', $last, false, 'Le doyen sur le terrain', 'À son dernier match officiel, contre {opp}, le {date}.'],
             ['jeune-buteur', $firstGoal, true, 'Le plus jeune buteur', 'Contre {opp}, le {date}.'],
             ['vieux-buteur', $lastGoal, false, 'Le buteur le plus âgé', 'Contre {opp}, le {date}.']] as [$key, $arr, $asc, $label, $text]) {

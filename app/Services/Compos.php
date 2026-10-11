@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\Club;
 use App\Core\JsonStore;
 use App\Data\Fiches;
 use App\Data\Index;
@@ -547,7 +548,7 @@ final class Compos
     private static function fromHtml(string $html): array
     {
         if (!str_contains($html, 'transfermarkt') || !str_contains($html, '/verein/' . Club::get('transfermarkt')['id'])) {
-            throw new \RuntimeException('ce fichier n’est pas un rapport de match Transfermarkt du FC Sochaux');
+            throw new \RuntimeException('ce fichier n’est pas un rapport de match Transfermarkt du ' . Club::s('club_short'));
         }
         $url = preg_match('#https://www\.transfermarkt\.[a-z.]+/[^"\s]*/spielbericht/(?:index/spielbericht/)?\d+#', $html, $u) ? $u[0] : self::TM;
         return ['label' => 'Transfermarkt · rapport de match (page déposée)', 'url' => $url] + self::tmParse($html);
@@ -772,7 +773,7 @@ final class Compos
             return null;
         }
         $url = self::TM . '/spielbericht/index/spielbericht/' . $tmId;
-        $r = self::ai("Lis la page $url (rapport de match Transfermarkt). " . self::ASK, null, [['url_context' => new \stdClass()]], (int) ($m['id'] ?? 0));
+        $r = self::ai("Lis la page $url (rapport de match Transfermarkt). " . club(self::ASK), null, [['url_context' => new \stdClass()]], (int) ($m['id'] ?? 0));
         $d = self::json($r['text']);
         if (!$d || empty($d['joueurs'])) {
             return ['label' => 'Transfermarkt · rapport de match (lu par Google)', 'url' => $url, 'players' => [], 'coach' => ''];
@@ -782,7 +783,7 @@ final class Compos
 
     /** Demande commune : la composition de Sochaux en JSON. */
     private const ASK = 'Réponds en JSON seul : {"trouve": bool, "url": "adresse de la page", "entraineur": "Prénom Nom" | null, "joueurs": [{"nom": "Prénom Nom", "poste": "G|D|M|A|R", "entre": minute|null, "sorti": minute|null, "buts": [minutes], "jaunes": [minutes], "rouges": [minutes]}]}. '
-        . 'Seulement les joueurs du FC Sochaux-Montbéliard ; « R » pour un remplaçant (avec sa minute d’entrée s’il est entré) ; n’invente rien : si la page ne donne pas la composition, {"trouve": false}.';
+        . 'Seulement les joueurs {club_de} ; « R » pour un remplaçant (avec sa minute d’entrée s’il est entré) ; n’invente rien : si la page ne donne pas la composition, {"trouve": false}.';
 
     /**
      * Appel Gemini avec relances : quand le modèle est surchargé (« high demand », quota), on attend

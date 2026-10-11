@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\Club;
 use App\Core\JsonStore;
 use App\Core\Settings;
 use App\Data\Derived;

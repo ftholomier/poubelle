@@ -25,7 +25,7 @@ foreach ($vars as $k => $v) {
         $back[$v] = '{' . $k . '}';
     }
 }
-uksort($back, fn ($a, $b) => mb_strlen($b) <=> mb_strlen($a));
+uksort($back, fn ($a, $b) => mb_strlen((string) $b) <=> mb_strlen((string) $a));
 
 $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(APP_ROOT, FilesystemIterator::SKIP_DOTS));
 $added = 0;
@@ -41,12 +41,26 @@ foreach ($it as $f) {
         if (isset($en[$s]) || !array_filter($keys, fn ($k) => str_contains($s, $k))) {
             continue;
         }
-        $old = club($s);
-        if (!isset($en[$old])) {
+        // Chaque variable est soit du profil, soit passée par l'appel (ex. {club} = l'adversaire) :
+        // on essaie toutes les combinaisons jusqu'à retrouver l'ancien libellé.
+        preg_match_all('/\{(\w+)\}/', $s, $vm);
+        $present = array_values(array_unique(array_filter($vm[1], fn ($k) => isset($vars[$k]))));
+        $old = null;
+        for ($mask = (1 << count($present)) - 1; $mask > 0 && $old === null; $mask--) {
+            $map = [];
+            foreach ($present as $i => $k) {
+                if ($mask & (1 << $i)) {
+                    $map['{' . $k . '}'] = $vars[$k];
+                }
+            }
+            $try = strtr($s, $map);
+            $old = isset($en[$try]) ? $try : null;
+        }
+        if ($old === null) {
             $missing[$s] = str_replace(APP_ROOT . '/', '', $p);
             continue;
         }
-        $en[$s] = strtr($en[$old], $back);
+        $en[$s] = strtr($en[$old], array_combine(array_map("strval", array_keys($back)), $back));
         $added++;
     }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\Club;
 use App\Core\JsonStore;
 use App\Data\Fiches;
 use App\Data\Index;
@@ -640,7 +641,7 @@ TXT);
     /** Propositions trouvées sur le web (Gemini avec la recherche Google). */
     private static function fromWeb(array $doc, array $f): array
     {
-        $system = club("Tu aides les historiens du musée en ligne {site} (histoire {club_de}). Cherche sur le web, avec Google, ce qui est publié sur le match décrit (comptes rendus, archives de presse, sites d'histoire et de statistiques du football), sauf le site du musée lui-même (fcsochauxretro.com). Tires-en ce qui concerne ce match.\n") . self::rules() . "\n" . self::schema(true);
+        $system = club("Tu aides les historiens du musée en ligne {site} (histoire {club_de}). Cherche sur le web, avec Google, ce qui est publié sur le match décrit (comptes rendus, archives de presse, sites d'histoire et de statistiques du football), sauf le site du musée lui-même ({root_domain}). Tires-en ce qui concerne ce match.\n") . self::rules() . "\n" . self::schema(true);
         $r = self::ask($system, self::describe($f), ['ref' => 'fiche:' . (int) $doc['id'], 'tools' => [['google_search' => new \stdClass()]], 'raw' => true, 'json' => false]);
         $d = self::decode((string) ($r['text'] ?? ''));
         if (!$d || empty($d['concerne'])) {
@@ -652,7 +653,7 @@ TXT);
             $uri = trim((string) ($c['web']['uri'] ?? ''));
             if (preg_match('#^https?://[^\s"<>]+$#i', $uri)) {
                 $title = trim((string) ($c['web']['title'] ?? '')) ?: (string) parse_url($uri, PHP_URL_HOST);
-                if (!preg_match('/fcsochauxretro\.com/i', $title . $uri)) {
+                if (!preg_match('/' . preg_quote(Club::s('root_domain'), '/') . '/i', $title . $uri)) {
                     $grounded[] = ['label' => mb_substr($title, 0, 120), 'url' => $uri, 'snippet' => '', 'kind' => 'web'];
                 }
             }
@@ -666,7 +667,7 @@ TXT);
                         $out[$g['url']] = $g;
                     }
                 }
-                if (preg_match('#^https?://[^\s"<>]+$#i', $u) && !preg_match('/fcsochauxretro\.com/i', $u) && !$out) {
+                if (preg_match('#^https?://[^\s"<>]+$#i', $u) && !preg_match('/' . preg_quote(Club::s('root_domain'), '/') . '/i', $u) && !$out) {
                     $out[$u] = ['label' => (string) parse_url($u, PHP_URL_HOST), 'url' => $u, 'snippet' => '', 'kind' => 'web'];
                 }
             }
