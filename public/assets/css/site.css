@@ -208,10 +208,10 @@ html { scroll-padding-top: var(--head-h, 0px); }
 .ticker .k { color: var(--yellow); }
 .ticker .star { color: var(--yellow); margin-left: 30px; }
 
-.masthead { background: rgb(var(--cream-rgb) / .82); -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px); border-bottom: 2px solid var(--navy); position: relative; }
+.masthead { background: rgb(var(--cream-rgb) / .82); -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px); border-bottom: 2px solid var(--navy); position: relative; z-index: 5; /* le blason qui déborde passe devant le méga-menu */ }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .masthead { background: var(--cream); } }
 .masthead__logo {
-  position: absolute; left: clamp(12px, 3vw, 40px); top: 6px; z-index: 3; display: block; transform-origin: 50% 40%;
+  position: absolute; left: clamp(12px, 3vw, 40px); top: 6px; z-index: 5; /* au-dessus du méga-menu (4) : la pointe du blason reste visible */ display: block; transform-origin: 50% 40%;
   filter: drop-shadow(0 4px 0 rgb(var(--navy-rgb) / .25)); transition: transform .35s cubic-bezier(.3,1.6,.5,1);
 }
 .masthead__logo:hover { transform: rotate(-8deg) scale(1.06); }
