@@ -6,7 +6,7 @@
  * Variables : $model, $support, $fonts, $palette, $lists (banque de textes)
  */
 $tmEx = \App\Shop\TonMatch::values('1988-06-11');
-$data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch' => array_map(fn ($k, $l) => ['field' => $k, 'label' => $l, 'text' => (string) ($tmEx[$k] ?? $l)], array_keys(\App\Shop\TonMatch::FIELDS), \App\Shop\TonMatch::FIELDS), 'fonts' => array_map(fn ($f) => $f[1], $fonts), 'palette' => $palette];
+$data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch' => array_map(fn ($k, $l) => ['field' => $k, 'label' => $l, 'text' => (string) ($tmEx[$k] ?? $l)], array_keys(\App\Shop\TonMatch::labels()), \App\Shop\TonMatch::labels()), 'fonts' => array_map(fn ($f) => $f[1], $fonts), 'palette' => $palette];
 ?>
 <link rel="stylesheet" href="<?= asset('admin/boutique.css') ?>">
 <script type="application/json" id="shop-data"><?= json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) ?></script>
@@ -59,14 +59,14 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch'
         </div>
         <details class="f" style="margin:10px 0 0"><summary class="f__k" style="cursor:pointer">« Ton match » : champs remplis d’après la date du client</summary>
           <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:6px">
-          <?php foreach (\App\Shop\TonMatch::FIELDS as $k => $l): ?><button type="button" class="btn btn--sm btn--ghost" data-add="match" data-field="<?= e($k) ?>" title="<?= e($l) ?>">+ <?= e(preg_replace('/ \(.*$/', '', $l)) ?></button><?php endforeach; ?>
+          <?php foreach (\App\Shop\TonMatch::labels() as $k => $l): ?><button type="button" class="btn btn--sm btn--ghost" data-add="match" data-field="<?= e($k) ?>" title="<?= e($l) ?>">+ <?= e(preg_replace('/ \(.*$/', '', $l)) ?></button><?php endforeach; ?>
           </div>
           <p class="xs muted" style="margin:4px 0 0">Avec un de ces champs, la page de l’article demande la date au client (jour, mois, année ; ou l’année seule) et le musée retrouve le match. Exemple affiché : finale de la Coupe de France 1988.</p>
         </details>
         <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:10px">
           <button type="button" class="btn btn--sm btn--yellow" data-add="poster" title="Poster souvenir : toute la composition est générée d’après le match choisi par le client (et dédicacée à son nom)">+ Poster souvenir du match</button>
           <button type="button" class="btn btn--sm btn--yellow" data-add="posterj" title="Poster souvenir d’un joueur : toute la composition est générée d’après la fiche du joueur choisi par le client (et dédicacée à son nom)">+ Poster souvenir du joueur</button>
-          <button type="button" class="btn btn--sm btn--yellow" data-add="posterc" title="Poster « Ma vie en jaune et bleu » : toute la composition est générée d’après le carnet du supporter du client (et dédicacée à son nom)">+ Poster du carnet du supporter</button>
+          <button type="button" class="btn btn--sm btn--yellow" data-add="posterc" title="<?= e(club('Poster « Ma vie en {colors} »')) ?> : toute la composition est générée d’après le carnet du supporter du client (et dédicacée à son nom)">+ Poster du carnet du supporter</button>
           <button type="button" class="btn btn--sm btn--yellow" data-add="carte" title="Carte du carnet du supporter : le bilan des matchs vus au stade par le client (design musée ou billet de match), à poser sur un mug, un tote bag, un t-shirt…">+ Carte du carnet</button>
           <button type="button" class="btn btn--sm btn--ghost" data-add="rect">Rectangle</button>
           <button type="button" class="btn btn--sm btn--ghost" data-add="ellipse">Rond</button>

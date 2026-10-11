@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 use App\Data\Derived;
 use App\Data\Index;
 
@@ -18,13 +19,19 @@ final class TonMatch
     public const FIELDS = [
         'match_annee' => 'Année (« 1988 »)',
         'match_date' => 'Date (« 11 juin 1988 »)',
-        'match_affiche' => 'Affiche et score (« Sochaux 1-1 Metz »)',
+        'match_affiche' => 'Affiche et score (« {team} 1-1 Metz »)',
         'match_compet' => 'Compétition (« Coupe de France · finale »)',
         'match_lieu' => 'Stade',
-        'match_buteurs' => 'Buteurs sochaliens',
+        'match_buteurs' => 'Buteurs {gentile}s',
         'match_public' => 'Spectateurs',
         'match_phrase' => 'Phrase « Ce jour-là… »',
     ];
+    /** Libellés des champs, aux noms du club. @return array<string, string> */
+    public static function labels(): array
+    {
+        return array_map('club', self::FIELDS);
+    }
+
     private const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
     /** Le modèle a-t-il des champs remplis par « Ton match » ? */
@@ -120,11 +127,12 @@ final class TonMatch
             }
         }
         $opp = (string) ($m['opp'] ?? ($m['sh'] ? $away : $home));
-        $phrase = $tab ? "Sochaux et $opp se quittaient sur un $us-$them, " . ((string) $m['result'] === 'V' ? 'avant de l’emporter' : 'avant de s’incliner') . ' aux tirs au but'
+        $t = Club::team();
+        $phrase = $tab ? "$t et $opp se quittaient sur un $us-$them, " . ((string) $m['result'] === 'V' ? 'avant de l’emporter' : 'avant de s’incliner') . ' aux tirs au but'
             : match ((string) $m['result']) {
-                'V' => "Sochaux battait $opp $us-$them",
-                'D' => "Sochaux s’inclinait $us-$them face à $opp",
-                default => "Sochaux et $opp se quittaient sur un $us-$them",
+                'V' => "$t battait $opp $us-$them",
+                'D' => "$t s’inclinait $us-$them face à $opp",
+                default => "$t et $opp se quittaient sur un $us-$them",
             };
         $when = self::frDate((string) $m['date']);
         $comp = implode(' · ', array_unique(array_filter([(string) ($m['label'] ?: $m['comp']), (string) ($m['round'] ?? '')])));
@@ -148,6 +156,6 @@ final class TonMatch
             return 'Indiquez une date (jour, mois, année ; ou seulement le mois et l’année ; ou l’année).';
         }
         $prec = self::parse($date)[0] ?? 'day';
-        return ($v['_exact'] === '1' ? ($prec === 'day' ? 'Ce jour-là, Sochaux jouait : ' : 'Le match le plus marquant de cette période : ') : 'Pas de match ce jour-là : voici le plus proche, ') . $v['match_affiche'] . ', le ' . $v['match_date'] . '.';
+        return ($v['_exact'] === '1' ? ($prec === 'day' ? 'Ce jour-là, ' . Club::team() . ' jouait : ' : 'Le match le plus marquant de cette période : ') : 'Pas de match ce jour-là : voici le plus proche, ') . $v['match_affiche'] . ', le ' . $v['match_date'] . '.';
     }
 }

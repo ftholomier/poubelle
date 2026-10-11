@@ -7,7 +7,7 @@
 <p class="small" style="margin:0 0 12px;max-width:95ch">Un modèle est un dessin posé sur un support : le logo de l’association, des textes (fixes, ou à remplir par le client : prénom, dédicace…) et des formes. Jamais de photo : tout est vectoriel.</p>
 <form method="post" action="/admin/boutique/modeles" class="card card--pad" style="flex-direction:row;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:16px">
   <?= csrf_field() ?><input type="hidden" name="action" value="new">
-  <label class="f" style="margin:0;flex:1 1 240px"><span class="f__k">Nom du nouveau modèle</span><input class="in" name="name" placeholder="ex. T-shirt « Jaune et bleu depuis 1928 »" required></label>
+  <label class="f" style="margin:0;flex:1 1 240px"><span class="f__k">Nom du nouveau modèle</span><input class="in" name="name" placeholder="<?= e((\App\Core\Club::content('exemples')['modele_nom'] ?? 'ex. T-shirt « Fiers depuis ' . \App\Core\Club::s('founded') . ' »')) ?>" required></label>
   <label class="f" style="margin:0"><span class="f__k">Support</span><select class="in" name="support"><?php foreach ($supports as $s): if (!$s['active']) continue; ?><option value="<?= e($s['key']) ?>"><?= e($s['name']) ?></option><?php endforeach; ?></select></label>
   <button class="btn btn--yellow">Créer et dessiner</button>
 </form>

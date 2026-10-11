@@ -125,7 +125,7 @@ final class PlayerPosterLayout extends PosterLayout
         $ix = $x + 5;
         $iw = $w - 10;
         $kick = implode(' · ', array_filter([$d['legend'] ? 'Légende du club' : '', $d['position']]));
-        $ty = $this->kicker($ix, $y + 3.6, $iw, $kick !== '' ? $kick : 'Lionceau');
+        $ty = $this->kicker($ix, $y + 3.6, $iw, $kick !== '' ? $kick : (Club::s('nickname_sg') ?: 'Joueur'));
         $fs = self::pt(40);
         if ($d['first'] !== '') {
             $this->text($ix, $ty + 0.5, $iw, $d['first'], 'display-b', $fs, Club::color('cream'), ['upper' => true, 'spacing' => 60, 'fit' => true, 'lh' => 1]);

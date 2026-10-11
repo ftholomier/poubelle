@@ -76,17 +76,17 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
         </div>
         <?php elseif (in_array($f['poster'] ?? '', ['match', 'joueur'], true)): $pj = $f['poster'] === 'joueur'; ?>
         <div class="shopmatch" data-pmatch data-kind="<?= e($f['poster']) ?>" data-url="<?= e(ShopPages::u($pj ? '/boutique/poster/joueurs/' : '/boutique/poster/matchs/')) ?>" data-prepare="<?= e(ShopPages::u('/boutique/poster/preparer/')) ?>">
-          <input type="text" id="f-<?= e($k) ?>" class="shopmatch__q" autocomplete="off" spellcheck="false" placeholder="<?= $pj ? 'Ex. : Paille, Bazdarevic, Genghini, Pedretti…' : 'Ex. : Metz 1988, finale, Monaco, PSG 1990…' ?>" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="pm-<?= e($k) ?>" data-pmatch-q>
+          <input type="text" id="f-<?= e($k) ?>" class="shopmatch__q" autocomplete="off" spellcheck="false" placeholder="<?= e($pj ? (\App\Core\Club::content('exemples')['produit_joueur'] ?? 'Ex. : un nom de joueur…') : (\App\Core\Club::content('exemples')['produit_match'] ?? 'Ex. : un adversaire, une finale, une année…')) ?>" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="pm-<?= e($k) ?>" data-pmatch-q>
           <input type="hidden" name="values[<?= e($k) ?>]" value="" data-shop-in data-pmatch-val>
           <ul class="shopmatch__list" id="pm-<?= e($k) ?>" role="listbox" hidden data-pmatch-list></ul>
           <p class="shopmatch__state" data-pmatch-state aria-live="polite"></p>
-          <small class="shophelp"><?= $pj ? 'Tapez le nom d’un Lionceau, puis choisissez dans la liste. Seuls les joueurs qui ont joué au moins 30 matchs et dont le musée a la fiche sont proposés.' : 'Tapez une équipe, une compétition, un tour ou une année, puis choisissez dans la liste. Seuls les matchs dont le musée a la fiche complète (composition, temps forts, récit) sont proposés.' ?></small>
+          <small class="shophelp"><?= $pj ? club('Tapez le nom d’un {nickname_sg}, puis choisissez dans la liste. Seuls les joueurs qui ont joué au moins 30 matchs et dont le musée a la fiche sont proposés.') : 'Tapez une équipe, une compétition, un tour ou une année, puis choisissez dans la liste. Seuls les matchs dont le musée a la fiche complète (composition, temps forts, récit) sont proposés.' ?></small>
         </div>
         <?php elseif ($f['gen']): ?>
         <div class="shopanec" data-anec="<?= e($k) ?>">
           <div class="shopmatch shopanec__topic" data-anec-topic data-url="<?= e(ShopPages::u('/boutique/anecdote/sujets/')) ?>">
             <label class="shopanec__tl" for="t-<?= e($k) ?>">Sur un match, un joueur, un entraîneur ? <small>(facultatif)</small></label>
-            <input type="text" id="t-<?= e($k) ?>" class="shopmatch__q" autocomplete="off" spellcheck="false" placeholder="Ex. : Paille, Metz 1988, Bazdarevic, finale…" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="ta-<?= e($k) ?>" data-pmatch-q>
+            <input type="text" id="t-<?= e($k) ?>" class="shopmatch__q" autocomplete="off" spellcheck="false" placeholder="<?= e((\App\Core\Club::content('exemples')['produit_texte'] ?? 'Ex. : un joueur, un adversaire, une finale…')) ?>" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="ta-<?= e($k) ?>" data-pmatch-q>
             <input type="hidden" value="" data-pmatch-val data-anec-topic-val>
             <ul class="shopmatch__list" id="ta-<?= e($k) ?>" role="listbox" hidden data-pmatch-list></ul>
             <p class="shopmatch__state" data-anec-note aria-live="polite"></p>

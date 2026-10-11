@@ -58,14 +58,14 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
         <div class="field"><label for="b-nom">Nom imprimé sur la couverture *</label><input id="b-nom" type="text" name="livre[nom]" maxlength="60" required value="<?= e($v('nom')) ?>" placeholder="Lucas Bertrand" data-book-in></div>
         <div class="field"><label for="b-dep">Supporter depuis (année)</label><input id="b-dep" type="number" name="livre[depuis]" min="<?= e(\App\Core\Club::s('founded')) ?>" max="<?= (int) date('Y') ?>" value="<?= e($v('depuis')) ?>" placeholder="1998"></div>
       </div>
-      <div class="field"><label for="b-ded">Dédicace</label><textarea id="b-ded" name="livre[dedicace]" rows="3" maxlength="600" placeholder="À mon fils, qui a découvert Bonal sur mes épaules…"><?= e($v('dedicace')) ?></textarea></div>
+      <div class="field"><label for="b-ded">Dédicace</label><textarea id="b-ded" name="livre[dedicace]" rows="3" maxlength="600" placeholder="<?= e((\App\Core\Club::content('exemples')['livre_dedicace'] ?? club('À mon fils, qui a découvert le {stadium} sur mes épaules…'))) ?>"><?= e($v('dedicace')) ?></textarea></div>
       <div class="field"><label for="b-sig">Signée</label><input id="b-sig" type="text" name="livre[signature]" maxlength="80" value="<?= e($v('signature')) ?>" placeholder="Papa, Noël <?= (int) date('Y') ?>"></div>
 
       </fieldset>
 
       <fieldset class="shopopt"><legend><span class="shopbook__n">3</span> Photo de couverture <small>dans les archives du musée</small></legend>
         <div class="field shopbook__coverq"><label for="b-cq">Un joueur, un match, une saison, un lieu…</label>
-          <div class="shopbook__qrow"><input id="b-cq" type="search" placeholder="Paille, Bonal, 1938, finale 2007…" autocomplete="off" data-cover-q><button type="button" class="btn btn--navy" data-cover-go>Chercher</button></div>
+          <div class="shopbook__qrow"><input id="b-cq" type="search" placeholder="<?= e((\App\Core\Club::content('exemples')['livre_couverture'] ?? 'Un joueur, une saison, une finale…')) ?>" autocomplete="off" data-cover-q><button type="button" class="btn btn--navy" data-cover-go>Chercher</button></div>
           <small class="shophelp" data-cover-note>Le musée vous propose jusqu’à 6 photos de ses archives. Celles qui ne sont pas assez nettes pour la pleine page sont imprimées en bleu nuit, façon archive.</small>
         </div>
         <div class="shopbook__covers" data-cover-list>
@@ -98,9 +98,9 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
           <div class="field"><label for="b-nt">Titre de la page</label><input id="b-nt" type="text" name="livre[naissance_titre]" maxlength="50" value="<?= e($v('naissance_titre')) ?>" placeholder="Le jour de ta naissance"></div>
         </div>
         <div class="field shopbook__search"><label for="b-mq">Mon match</label><input id="b-mq" type="search" placeholder="Tapez une équipe, une année… (Metz 1988)" data-book-search="match" autocomplete="off"><input type="hidden" name="livre[match]" value="<?= e($v('match')) ?>"><ul data-book-results="match"></ul><p class="shophelp" data-book-picked="match"></p></div>
-        <div class="field shopbook__search"><label for="b-jq">Mes joueurs (jusqu’à 3)</label><input id="b-jq" type="search" placeholder="Tapez un nom (Paille, Bazdarevic…)" data-book-search="joueurs" autocomplete="off"><input type="hidden" name="livre[joueurs]" value="<?= e($v('joueurs')) ?>"><ul data-book-results="joueurs"></ul><p class="shophelp" data-book-picked="joueurs"></p></div>
+        <div class="field shopbook__search"><label for="b-jq">Mes joueurs (jusqu’à 3)</label><input id="b-jq" type="search" placeholder="<?= e((\App\Core\Club::content('exemples')['livre_joueurs'] ?? 'Tapez un nom de joueur…')) ?>" data-book-search="joueurs" autocomplete="off"><input type="hidden" name="livre[joueurs]" value="<?= e($v('joueurs')) ?>"><ul data-book-results="joueurs"></ul><p class="shophelp" data-book-picked="joueurs"></p></div>
         <div class="field"><label for="b-ph">Ta photo (au stade, en tribune…)</label><input id="b-ph" type="file" accept="image/jpeg,image/png" data-book-file="photo"><input type="hidden" name="livre[photo]" data-book-token="photo"><small class="shophelp" data-book-file-note="photo">JPEG ou PNG, 670 pixels de large au moins pour une impression nette.</small></div>
-        <div class="field"><label for="b-pl">Légende de ta photo</label><input id="b-pl" type="text" name="livre[photo_legende]" maxlength="120" value="<?= e($v('photo_legende')) ?>" placeholder="Avec papa à Bonal, août 2024"></div>
+        <div class="field"><label for="b-pl">Légende de ta photo</label><input id="b-pl" type="text" name="livre[photo_legende]" maxlength="120" value="<?= e($v('photo_legende')) ?>" placeholder="<?= e((\App\Core\Club::content('exemples')['livre_photo'] ?? club('Avec papa {stadium_a}, août 2024'))) ?>"></div>
         <?php if ($carnet): ?>
         <label class="shopchoice"><input type="checkbox" name="livre[carnet]" value="<?= e($carnet['id']) ?>"<?= $v('carnet') !== '' ? ' checked' : '' ?>> <span><b>Mes matchs au stade</b><small>D’après votre carnet du supporter (<?= count($carnet['matches']) ?> matchs) : tampon « J’y étais » sur les récits de vos matchs et page de bilan.</small></span></label>
         <?php else: ?>

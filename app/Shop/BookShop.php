@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 use App\Core\JsonStore;
 use App\Pdf\Livre;
 use App\Data\Media;
@@ -21,12 +22,14 @@ final class BookShop
     private const CONFIG = STORAGE_PATH . '/livres/boutique.json';
     private const NUMBERS = STORAGE_PATH . '/livres/numeros.json';
     public const UPLOADS = STORAGE_PATH . '/livres/envois';
-    public const DEFAULTS = ['active' => false, 'paper' => false, 'price' => 3900, 'price_pdf' => 1500, 'cost' => 1800, 'desc' => 'Les cent grands récits du FC Sochaux-Montbéliard, des origines à nos jours, réunis dans un livre de 21 × 27 cm illustré par les archives du musée, et composé pour vous : votre nom en couverture, votre dédicace, votre maillot floqué, votre match…'];
+    public const DEFAULTS = ['active' => false, 'paper' => false, 'price' => 3900, 'price_pdf' => 1500, 'cost' => 1800, 'desc' => 'Les cent grands récits {club_de}, des origines à nos jours, réunis dans un livre de 21 × 27 cm illustré par les archives du musée, et composé pour vous : votre nom en couverture, votre dédicace, votre maillot floqué, votre match…'];
 
     public static function config(): array
     {
         $c = (array) JsonStore::read(self::CONFIG, []);
-        return array_replace(self::DEFAULTS, array_intersect_key($c, self::DEFAULTS));
+        $d = self::DEFAULTS;
+        $d['desc'] = club($d['desc']);
+        return array_replace($d, array_intersect_key($c, self::DEFAULTS));
     }
 
     public static function saveConfig(array $in): array
@@ -125,7 +128,7 @@ final class BookShop
         if (($v['nom'] ?? '') === '') {
             return ['error' => 'Indiquez le nom à imprimer sur la couverture.'];
         }
-        if (isset($v['depuis']) && (!ctype_digit($v['depuis']) || (int) $v['depuis'] < 1928 || (int) $v['depuis'] > (int) date('Y'))) {
+        if (isset($v['depuis']) && (!ctype_digit($v['depuis']) || (int) $v['depuis'] < (int) Club::s('founded') || (int) $v['depuis'] > (int) date('Y'))) {
             unset($v['depuis']);
         }
         if (isset($v['couverture']) && !in_array($v['couverture'], Livre::covers(), true) && !(new Livre())->coverMode(Media::safeRel((string) $v['couverture']))) {

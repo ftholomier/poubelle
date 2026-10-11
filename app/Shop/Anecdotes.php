@@ -26,12 +26,12 @@ final class Anecdotes
     public static $ai = null;
 
     private const SYSTEM = 'Tu rédiges une anecdote pour un produit dérivé (t-shirt, mug, poster) de {site}, '
-        . 'le musée des supporters {club_de} (les {nickname}, {colors}, stade Auguste-Bonal). '
+        . 'le musée des supporters {club_de} (les {nickname}, {colors}, {stadium_full_lc}). '
         . 'Une ANECDOTE, pas un compte rendu : dans le fait fourni, cherche l’angle le plus étonnant, le plus fier ou le plus insolite, celui qu’un supporter aura envie de raconter : '
         . 'un record ou un rang dans l’histoire du club, une première fois, un détail de coulisses, une prime, une phrase marquante, un parcours hors du commun, un chiffre frappant. '
         . 'Évite la simple mention « X marque pour {team} le … » si le fait offre mieux. '
         . 'Règles strictes : utilise UNIQUEMENT le fait fourni, n’ajoute aucune information, aucun chiffre, aucune date qui n’y figure pas ; '
-        . 'cite TOUJOURS les noms précis donnés dans le fait : le joueur ou l’entraîneur concerné (prénom et nom), l’adversaire, la compétition, la date du match — jamais « un Lionceau » ou « un joueur » quand le nom est connu ; n’utilise aucun nom absent du fait ; une seule phrase AFFIRMATIVE, en français, au présent ou au passé : jamais de question, jamais « Le saviez-vous », « Saviez-vous » ni point d’interrogation ; '
+        . 'cite TOUJOURS les noms précis donnés dans le fait : le joueur ou l’entraîneur concerné (prénom et nom), l’adversaire, la compétition, la date du match — jamais « un {nickname_sg} » ou « un joueur » quand le nom est connu ; n’utilise aucun nom absent du fait ; une seule phrase AFFIRMATIVE, en français, au présent ou au passé : jamais de question, jamais « Le saviez-vous », « Saviez-vous » ni point d’interrogation ; '
         . 'ton fier et chaleureux, jamais moqueur envers l’adversaire ; pas de guillemets, pas d’émoji ; respecte la longueur maximale demandée.';
 
     /** Réserve : les anecdotes déjà rédigées par l'IA, resservies sans IA quand le budget du jour est atteint. */
@@ -446,7 +446,7 @@ final class Anecdotes
             $name = (string) ($p['name'] ?? $s['title']);
             if ($has(' ' . mb_strtolower(\App\Data\Names::ascii($name . ' ' . ($p['nickname'] ?? ''))) . ' ')) {
                 $years = !empty($p['arrival']) ? ' · ' . $p['arrival'] . (!empty($p['departure']) && $p['departure'] != $p['arrival'] ? '-' . $p['departure'] : '') : '';
-                $people[] = ['key' => 'p:' . $s['id'], 'label' => $name . ' · ' . (str_replace('entraineur', 'entraîneur', implode(', ', (array) ($p['roles'] ?? []))) ?: 'Lionceau') . $years,
+                $people[] = ['key' => 'p:' . $s['id'], 'label' => $name . ' · ' . (str_replace('entraineur', 'entraîneur', implode(', ', (array) ($p['roles'] ?? []))) ?: (Club::s('nickname_sg') ?: 'joueur')) . $years,
                     'n' => (int) (($tot[$s['id']]['matches'] ?? 0) + ($tot[$s['id']]['coached'] ?? 0))];
             }
         }
@@ -469,8 +469,36 @@ final class Anecdotes
         return $out;
     }
 
-    /** Mots du club toujours permis, même absents du fait. */
-    private const OK_NAMES = ['sochaux', 'lionceaux', 'lionceau', 'fcsm', 'fc', 'montbeliard', 'bonal', 'auguste', 'auguste-bonal', 'peugeot', 'france', 'coupe', 'ligue', 'championnat'];
+    /** Mots toujours permis, même absents du fait. */
+    private const OK_NAMES = ['fc', 'france', 'coupe', 'ligue', 'championnat'];
+
+    /**
+     * Mots du club toujours permis : la liste du club (config/clubs/<id>/noms-permis.php), sinon
+     * les mots de son nom, de son équipe, de son surnom et de son stade.
+     *
+     * @return list<string>
+     */
+    private static function okNames(): array
+    {
+        static $ok = null;
+        if ($ok === null) {
+            $ok = (array) Club::content('noms-permis', []);
+            if (!$ok) {
+                $ok = self::OK_NAMES;
+                foreach (['club', 'club_short', 'team', 'sigle', 'city', 'nickname', 'nickname_sg', 'stadium_full', 'stadium_short'] as $key) {
+                    $v = mb_strtolower(\App\Data\Names::ascii(Club::s($key)));
+                    foreach (preg_split('/[\s\'’]+/u', $v, -1, PREG_SPLIT_NO_EMPTY) as $w) {
+                        $ok[] = $w;
+                        foreach (explode('-', $w) as $part) {
+                            $ok[] = $part;
+                        }
+                    }
+                }
+                $ok = array_values(array_unique(array_filter($ok)));
+            }
+        }
+        return $ok;
+    }
 
     /** Les noms propres de la phrase absents du fait. */
     public static function foreignNames(string $t, string $fact): array
@@ -484,7 +512,7 @@ final class Anecdotes
             if ($pos === 0 || preg_match('/[.!:;]\s*$/u', substr($t, 0, $pos))) {
                 continue;
             }
-            if (in_array($k, self::OK_NAMES, true) || str_contains($f, $k)) {
+            if (in_array($k, self::okNames(), true) || str_contains($f, $k)) {
                 continue;
             }
             $bad[] = $w;

@@ -130,9 +130,9 @@ final class CarnetCard
             $pseudo = (string) $values['_carnet_pseudo'];
         } else {
             $c = $ids && $id !== CarnetPoster::SAMPLE ? Carnet::get($id) : null;
-            $pseudo = $c ? self::pseudo($c) : 'Lionceau88'; // l'exemple a un pseudo
+            $pseudo = $c ? self::pseudo($c) : self::samplePseudo(); // l'exemple a un pseudo
         }
-        $d = ($ids ? self::data($ids, $pseudo) : null) ?? self::data(CarnetPoster::idsFor(CarnetPoster::SAMPLE) ?? [], 'Lionceau88');
+        $d = ($ids ? self::data($ids, $pseudo) : null) ?? self::data(CarnetPoster::idsFor(CarnetPoster::SAMPLE) ?? [], self::samplePseudo());
         if (!$d) {
             return [];
         }
@@ -310,7 +310,7 @@ final class CarnetCard
         $this->rect($mx, 3.5, $mw, self::H - 7, '', Club::color('navy'), 0.5, 1.2);
         $this->rect($mx + 1, 4.5, $mw - 2, self::H - 9, '', Club::color('navy'), 0.2, 0.8);
         $this->rect($mx, 3.5, $mw, 9, Club::color('navy'), '', 0, 1.2);
-        $this->text($mx + 4, 6.4, $mw - 30, t('{club} · Stade Auguste-Bonal'), 'display-b', 3.2, Club::color('yellow'), ['upper' => true, 'spacing' => 110]);
+        $this->text($mx + 4, 6.4, $mw - 30, t('{club} · ' . Club::s('stadium_full')), 'display-b', 3.2, Club::color('yellow'), ['upper' => true, 'spacing' => 110]);
         $this->text($mx + $mw - 26, 6.6, 22, Club::s('site'), 'display-b', 2.9, Club::color('cream'), ['upper' => true, 'spacing' => 110, 'align' => 'right']);
         $x = 9.0;
         $w = $mw + $mx - 5.5 - $x;
@@ -367,5 +367,11 @@ final class CarnetCard
         $this->text($tx, 41.6, 30, sprintf('%04d', $d['n']), 'display', 7.0, self::BLUE, ['align' => 'center']);
         $this->text($tx + 2, 52, 26, t('Tribune de mes souvenirs'), 'display-b', 2.5, Club::color('navy'), ['align' => 'center', 'upper' => true, 'spacing' => 120, 'lh' => 1.15, 'h' => 7]);
         $this->text($tx + 1, self::H - 11.5, 28, str_replace('.COM', "\n.COM", $d['host']), 'display-b', 2.1, Club::color('navy'), ['align' => 'center', 'spacing' => 80, 'lh' => 1.2, 'h' => 6]);
+    }
+
+    /** Pseudo de l'exemple (« Lionceau88 ») : le surnom du club et 88. */
+    private static function samplePseudo(): string
+    {
+        return (Club::s('nickname_sg') ?: 'Supporter') . '88';
     }
 }

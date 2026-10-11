@@ -210,7 +210,7 @@ final class Orders
             $p[] = 'Carte du carnet : ' . $n . ' match' . ($n > 1 ? 's' : '') . (($it['values']['_carnet_pseudo'] ?? '') !== '' ? ', ' . $it['values']['_carnet_pseudo'] : '');
         } elseif (isset($it['values'][CarnetPoster::FIELD])) {
             $n = count(array_filter(explode(',', (string) ($it['values']['_carnet_ids'] ?? ''))));
-            $p[] = 'Poster « Ma vie en jaune et bleu » : ' . $n . ' match' . ($n > 1 ? 's' : '');
+            $p[] = club('Poster « Ma vie en {colors} » : ') . $n . ' match' . ($n > 1 ? 's' : '');
             $p[] = 'pour ' . trim(($it['values']['poster_prenom'] ?? '') . ' ' . ($it['values']['poster_nom'] ?? ''));
         } elseif (isset($it['values'][PlayerPoster::FIELD])) {
             $d = PlayerPoster::data((string) $it['values'][PlayerPoster::FIELD]);

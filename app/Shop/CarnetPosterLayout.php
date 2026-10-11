@@ -94,7 +94,7 @@ final class CarnetPosterLayout extends PosterLayout
         $this->rect($x, $y, $w, $h, Club::color('navy'), Club::color('yellow'), 0.8);
         $ix = $x + 5;
         $iw = $w - 10;
-        $ty = $this->kicker($ix, $y + 3.6, $iw, 'Ma vie en jaune et bleu');
+        $ty = $this->kicker($ix, $y + 3.6, $iw, club('Ma vie en {colors}'));
         $num = (string) $d['n'];
         $l = $this->text($ix, $ty - 1, $iw * 0.5, $num, 'display', self::pt(220), Club::color('yellow'), ['fit' => true, 'lh' => 0.86, 'h' => $y + $h - 4 - $ty, 'dry' => true]);
         $this->L[] = $l;

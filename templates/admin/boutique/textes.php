@@ -33,7 +33,7 @@
   <form method="post" action="/admin/boutique/textes" class="row shoptexts__ai" data-busy="L’IA écrit…">
     <?= csrf_field() ?>
     <input type="hidden" name="id" value="<?= e($l['id']) ?>"><input type="hidden" name="action" value="ai">
-    <label class="f" style="flex:1 1 320px;margin:0"><span class="f__k">Consigne pour l’IA (facultatif)</span><input class="in in--sm" name="hint" placeholder="ex. humour sur la météo de Bonal, phrases pour le centenaire…"></label>
+    <label class="f" style="flex:1 1 320px;margin:0"><span class="f__k">Consigne pour l’IA (facultatif)</span><input class="in in--sm" name="hint" placeholder="<?= e((\App\Core\Club::content('exemples')['textes_consigne'] ?? club('ex. humour sur la météo {stadium_a}, phrases pour le centenaire…'))) ?>"></label>
     <label class="f" style="margin:0;width:90px"><span class="f__k">Nombre</span><input class="in in--sm" type="number" name="count" value="10" min="1" max="30"></label>
     <button class="btn btn--yellow btn--sm"<?= $ai ? '' : ' disabled title="Réglez d’abord la clé Gemini (Système › Réglages)"' ?>>Proposer des phrases avec l’IA</button>
   </form>
