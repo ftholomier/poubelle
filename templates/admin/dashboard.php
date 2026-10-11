@@ -39,7 +39,7 @@ $pl = fn ($n, string $one, string $many): string => (int) $n > 1 ? $many : $one;
   </div>
   <div class="stack">
     <div class="card card--navy card--pad" style="gap:10px">
-      <span class="d" style="font-weight:900;font-size:20px;text-transform:uppercase;color:var(--yellow)">Centenaire · J-<?= (int) $days ?></span>
+      <span class="d" style="font-weight:900;font-size:20px;text-transform:uppercase;color:var(--yellow)">Centenaire<?= \App\Front\Site::centenaryCountdown() ? ' · J-' . (int) $days : ' · ' . e(substr(\App\Front\Site::centenaryDate(), 0, 4)) ?></span>
       <div class="row" style="justify-content:space-between;font-size:15px"><span>100 moments publiés</span><b><?= (int) $momentsPub ?> / 100</b></div>
       <div class="bar"><i style="width:<?= (int) $momentsPub ?>%"></i></div>
       <div class="row" style="justify-content:space-between;font-size:15px"><span>Votes du Onze</span><b><?= $fmt($onze) ?></b></div>

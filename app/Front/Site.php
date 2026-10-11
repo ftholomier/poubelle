@@ -167,7 +167,7 @@ final class Site
         if (($auto['jour'] ?? true) && ($m = Derived::onThisDay()[0] ?? null)) {
             $out[] = ['k' => t('Ce jour-là') . ' · ' . self::dayMonth(), 'v' => self::matchLabel($m), 'href' => url($m['path'])];
         }
-        if ($auto['centenaire'] ?? true) {
+        if (($auto['centenaire'] ?? true) && self::centenaryCountdown()) {
             $out[] = ['k' => t('Centenaire'), 'v' => 'J-' . self::daysToCentenary() . ' ' . t('avant les 100 ans'), 'href' => url('/centenaire/')];
         }
         if (($auto['dernier'] ?? true) && ($last = self::lastMatchCreated())) {
@@ -203,6 +203,16 @@ final class Site
     public static function centenaryDate(): string
     {
         return (string) Settings::get('home.centenary_date', \App\Core\Club::s('centenary_date'));
+    }
+
+    /**
+     * Compte à rebours du centenaire affiché ? Seulement dans les 5 dernières années (et l'année qui
+     * suit) : pour un club fondé en 1970, un « J-16 000 » n'a pas de sens.
+     */
+    public static function centenaryCountdown(): bool
+    {
+        $d = (strtotime(self::centenaryDate() . ' 00:00:00') - time()) / 86400;
+        return $d <= 5 * 366 && $d >= -366;
     }
 
     public static function daysToCentenary(): int

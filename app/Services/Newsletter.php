@@ -108,6 +108,9 @@ final class Newsletter
             $html .= '<p style="font-size:17px">' . e(t('Aucun match fiché cette semaine dans l’histoire : profitez-en pour explorer les saisons du club !')) . '</p><p><a href="' . e($base . url('/saisons/')) . '" style="color:' . Club::color('blue') . ';font-weight:bold">' . e(t('Toutes les saisons')) . ' →</a></p>';
         }
         $days = Site::daysToCentenary();
+        if (!Site::centenaryCountdown()) {
+            return $html;
+        }
         $html .= '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:28px;background:' . Club::color('navy') . ';border:3px solid ' . Club::color('yellow') . '"><tr>'
             . '<td style="padding:18px 20px"><div style="' . $D . ';font-size:46px;line-height:.95;font-weight:700;color:' . Club::color('yellow') . '">J-' . (int) $days . '</div>'
             . '<div style="' . $D . ';font-size:16px;letter-spacing:2px;font-weight:700;color:' . Club::color('cream') . '">' . e(t('avant les 100 ans')) . '</div></td>'

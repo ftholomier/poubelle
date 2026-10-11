@@ -107,6 +107,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
         <span class="hcard__more"><?= e(t('Les {n} chiffres {sigle_de}', ['n' => $chiffre['count']])) ?> →</span>
       </a>
       <?php endif; ?>
+      <?php if (Site::centenaryCountdown()): ?>
       <div class="hcard hcard--cent">
         <span class="hcard__k"><?= e(t('Le centenaire')) ?> · <?= e(date_fr(\App\Core\Club::s('founded_date'))) ?> → <?= e(date_fr($centenary)) ?></span>
         <span class="hcard__t hcard__t--s"><?= e(t(club_text('cent_ans', 'Cent ans d’histoire.'))) ?> <?= e(t('Aidez-nous à tout sauver.')) ?></span>
@@ -116,6 +117,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
           <a class="link-under" href="<?= e(url('/centenaire/')) ?>"><?= e(t('100 ans, 100 moments')) ?> →</a>
         </span>
       </div>
+      <?php endif; ?>
     </div>
   </div>
 </section>
