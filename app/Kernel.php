@@ -25,7 +25,7 @@ final class Kernel
             header_remove('X-Powered-By');
         }
         // Mise à jour du code en cours (Système › Mises à jour) : quelques secondes de pause.
-        $flag = STORAGE_PATH . '/update/maintenance';
+        $flag = APP_ROOT . '/storage/update/maintenance'; // commun à tous les musées
         if (is_file($flag) && (int) @filemtime($flag) > time() - 600) {
             return new Response('<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mise à jour en cours</title></head>'
                 . '<body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#F3EDDF;color:#0E1F4D;font-family:Georgia,serif;text-align:center;padding:24px">'

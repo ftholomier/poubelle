@@ -62,7 +62,8 @@ final class Updater
     private const REFRESH = 'apres-mise-a-jour';
 
     public static string $root = APP_ROOT;
-    public static string $dir = STORAGE_PATH . '/update';
+    /** Commun à tous les musées (un seul code) : état, manifeste, sauvegardes, pause « maintenance ». */
+    public static string $dir = APP_ROOT . '/storage/update';
     public static string $cacheDir = STORAGE_PATH . '/cache';
     /** Essais : sans écriture dans le journal d'activité. */
     public static bool $log = true;
@@ -75,19 +76,46 @@ final class Updater
 
     public static function repo(): string
     {
-        $r = trim((string) Settings::get('update.repo', self::REPO));
+        $r = trim((string) self::setting('update.repo', self::REPO));
         return preg_match('#^[\w.-]+/[\w.-]+$#', $r) ? $r : self::REPO;
     }
 
     public static function branch(): string
     {
-        $b = trim((string) Settings::get('update.branch', self::BRANCH));
+        $b = trim((string) self::setting('update.branch', self::BRANCH));
         return preg_match('#^[\w.-]+(/[\w.-]+)*$#', $b) && !str_contains($b, '..') ? $b : self::BRANCH;
+    }
+
+    /**
+     * Réglage de mise à jour : toujours ceux du musée historique (le code est commun), quel que
+     * soit le back-office d'où l'on lance la mise à jour.
+     */
+    private static function setting(string $key, string $default): string
+    {
+        if (\App\Core\Club::isDefault()) {
+            return (string) Settings::get($key, $default);
+        }
+        $all = JsonStore::read(APP_ROOT . '/storage/settings.json', []) ?: [];
+        $v = $all[$key] ?? null;
+        if (!is_string($v) || $v === '') {
+            return $default;
+        }
+        if (!str_starts_with($v, 'enc:')) {
+            return $v;
+        }
+        $raw = base64_decode(substr($v, 4), true);
+        $key = base64_decode(trim((string) @file_get_contents(APP_ROOT . '/storage/secret.key')));
+        $n = SODIUM_CRYPTO_SECRETBOX_NONCEBYTES;
+        if ($raw === false || strlen($raw) <= $n || strlen($key) !== SODIUM_CRYPTO_SECRETBOX_KEYBYTES) {
+            return $default;
+        }
+        $plain = sodium_crypto_secretbox_open(substr($raw, $n), substr($raw, 0, $n), $key);
+        return $plain === false ? $default : $plain;
     }
 
     private static function token(): string
     {
-        return trim((string) Settings::get('update.token', ''));
+        return trim((string) self::setting('update.token', ''));
     }
 
     // ------------------------------------------------------------------ état
@@ -844,7 +872,29 @@ final class Updater
      */
     private static function afterChange(): void
     {
-        $dir = str_replace('\\', '/', self::$cacheDir);
+        foreach (self::cacheDirs() as $dir) {
+            self::clearCache($dir);
+        }
+        self::invalidateCode();
+    }
+
+    /** Caches de tous les musées : le code a changé pour chacun. @return list<string> */
+    private static function cacheDirs(): array
+    {
+        $dirs = [self::$cacheDir];
+        if (self::$cacheDir === STORAGE_PATH . '/cache') {
+            $dirs[] = APP_ROOT . '/storage/cache';
+            foreach (array_keys(\App\Core\Club::all()) as $id) {
+                if (is_dir(APP_ROOT . '/clubs/' . $id . '/storage')) {
+                    $dirs[] = APP_ROOT . '/clubs/' . $id . '/storage/cache';
+                }
+            }
+        }
+        return array_values(array_unique(array_map(fn ($d) => str_replace('\\', '/', $d), $dirs)));
+    }
+
+    private static function clearCache(string $dir): void
+    {
         $it = is_dir($dir) ? new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) : [];
         foreach ($it as $f) {
             $path = str_replace('\\', '/', $f->getPathname());
@@ -853,7 +903,12 @@ final class Updater
                 @unlink($f->getPathname());
             }
         }
+        @mkdir($dir, 0775, true);
         @file_put_contents($dir . '/' . self::REFRESH, (string) time());
+    }
+
+    private static function invalidateCode(): void
+    {
         // Code relu : seulement les fichiers PHP remplacés (date plus récente que la copie en mémoire),
         // pas tout le cache d'OPcache (sinon chaque visiteur recompile tout le site pendant un moment).
         if (function_exists('opcache_invalidate')) {
