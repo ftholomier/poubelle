@@ -211,3 +211,17 @@ Revenus possibles : abonnement, commission sur les ventes de la boutique de chaq
 - les contenus propres à Sochaux encore écrits dans le code (frise, quiz, 100 chiffres, CGV…) ;
 - l'en-tête du back-office aux couleurs de la marque ;
 - la référence du contrôle qualité propre à chaque musée.
+
+## 13. Mention « musée non officiel » (obligatoire sur chaque musée)
+
+Texte, avec le nom du club tiré du profil :
+
+> Notre site est un musée indépendant et non officiel réalisé par des passionnés. Ce site n'est pas affilié, associé, ni approuvé par le {club} (ex. : le Paris Saint-Germain, le FC Sochaux-Montbéliard).
+
+Où l'afficher :
+- le pied de page de toutes les pages du musée ;
+- la boutique : pied de page, page produit (près du bouton d'achat), panier et récapitulatif de commande ;
+- les CGV de la boutique et les mentions légales ;
+- les e-mails de commande, la page d'attente et l'appli (page « L'appli »).
+
+Mise en œuvre prévue : une clé `disclaimer` dans le profil (texte par défaut ci-dessus avec {club_le}), modifiable par musée, affichée aux endroits ci-dessus et traduite en anglais.
