@@ -9,6 +9,8 @@ return [
         'presse' => '2024/02/Une-Est-Republicain.png',
         'supporters' => '2025/11/Kop-Sochalien-Collection-privee-numero-2-.png',
     ],
+    // Fond flouté du mur du vestiaire.
+    'vestiaire' => '2025/02/Vestiaire-24-FCSM.jpg',
     'teasers' => [
         'quiz' => '2025/11/00.jpg',
         'maillots' => '2026/06/01-retro-Peugeot-sur-le-maillot-MICHELIN-1024x683-1.jpg',

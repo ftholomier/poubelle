@@ -52,11 +52,11 @@ final class WallPdf
         $f = Walls::filters($req);
         $n = max(0, min(99999, (int) $req->str('n')));
         $motif = $req->str('motif');
-        $motif = isset(Walls::MOTIFS[$motif]) ? $motif : '100';
+        $motif = isset(Walls::motifs()[$motif]) ? $motif : '100';
         [$name, $build] = match ($kind) {
-            'planche' => ['sochaux-retro-planche-contact-' . sprintf('%04d', $n), fn () => self::contactSheet($views, $n, $f)],
-            'journal' => ['sochaux-retro-le-lion-illustre-' . $n, fn () => self::newspaper($views, $n, $f)],
-            default => ['sochaux-retro-mosaique-' . $motif, fn () => self::mosaic($views, $motif, $f)],
+            'planche' => [slugify(\App\Core\Club::s('site')) . '-planche-contact-' . sprintf('%04d', $n), fn () => self::contactSheet($views, $n, $f)],
+            'journal' => [slugify(\App\Core\Club::s('site') . ' ' . Walls::walls()['journal'][1]) . '-' . $n, fn () => self::newspaper($views, $n, $f)],
+            default => [slugify(\App\Core\Club::s('site')) . '-mosaique-' . $motif, fn () => self::mosaic($views, $motif, $f)],
         };
         return PdfExport::respond($req, 'mur-' . $kind, $name, $build, false);
     }
@@ -129,7 +129,7 @@ final class WallPdf
 
     private static function newspaper(array $views, int $number, array $f): string
     {
-        $name = t('Le Lion illustré');
+        $name = t(Walls::walls()['journal'][1]);
         $l = PdfExport::layout(Walls::WALLS['journal'][0], $name . ' · ' . t('N°') . ' ' . $number, $name . ' · ' . t('N°') . ' ' . number_format($number, 0, ',', ' '), t('Les murs de photos'));
         $l->ml = $l->mr = 30;
         $l->newPage();
@@ -305,7 +305,7 @@ final class WallPdf
     private static function mosaic(array $views, string $motif, array $f): string
     {
         $name = t('La grande mosaïque');
-        $label = t(Walls::MOTIFS[$motif]);
+        $label = t(Walls::motifs()[$motif]);
         $l = PdfExport::layout(Walls::WALLS['mosaique'][0], $name . ' · ' . $label, $name . ' · ' . $label, t('Les murs de photos'));
         [$l->pw, $l->ph] = [Layout::H, Layout::W];
         $l->ml = $l->mr = 30;

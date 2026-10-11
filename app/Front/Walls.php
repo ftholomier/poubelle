@@ -20,13 +20,24 @@ final class Walls
     /** Clé => [adresse, nom, phrase du pavé, bouton du nouveau tirage, icône] (textes traduits à l'affichage). */
     public const WALLS = [
         'planche' => ['/interactif/planche-contact/', 'Planche-contact', 'Le film des archives, image par image, avec la loupe du labo.', 'Nouvelle planche', '35'],
-        'journal' => ['/interactif/le-lion-illustre/', 'Le Lion illustré', 'Le journal des photos du musée : une nouvelle édition à chaque visite.', 'Édition suivante', 'N°'],
+        'journal' => ['/interactif/le-lion-illustre/', 'Le Journal illustré', 'Le journal des photos du musée : une nouvelle édition à chaque visite.', 'Édition suivante', 'N°'],
         'vestiaire' => ['/interactif/mur-du-vestiaire/', 'Le mur du vestiaire', 'Des tirages punaisés au carrelage, à déplacer à la main.', 'Nouveau mur', '▢'],
         'mosaique' => ['/interactif/mosaique/', 'La grande mosaïque', 'Des centaines de photos qui dessinent un motif du centenaire.', 'Nouvelle mosaïque', '▩'],
     ];
 
-    /** Fond flouté du mur du vestiaire : le vestiaire des pros (photo du club, médiathèque). */
-    public const LOCKER_ROOM = '2025/02/Vestiaire-24-FCSM.jpg';
+    /** Murs du musée, avec le nom du journal propre au club (« Le Lion illustré » pour Sochaux). */
+    public static function walls(): array
+    {
+        $w = self::WALLS;
+        $w['journal'][1] = (string) (\App\Core\Club::content('libelles', [])['journal'] ?? $w['journal'][1]);
+        return $w;
+    }
+
+    /** Fond flouté du mur du vestiaire : le vestiaire des pros (photo du club, médiathèque ; aucun pour un musée neuf). */
+    public static function lockerRoomImage(): string
+    {
+        return (string) (\App\Core\Club::content('accueil-images', [])['vestiaire'] ?? '');
+    }
 
     /** Murs exportables en PDF (bouton « Télécharger en PDF ») : clé => adresse de l'export. */
     public const PDF = [
@@ -38,7 +49,7 @@ final class Walls
     /** Pavés de la rubrique Interactif (accueil et méga-menu). @return list<array> */
     public static function tools(): array
     {
-        return array_map(fn ($w) => ['icon' => $w[4], 'label' => t($w[1]), 'd' => t($w[2]), 'href' => url($w[0])], array_values(self::WALLS));
+        return array_map(fn ($w) => ['icon' => $w[4], 'label' => t($w[1]), 'd' => t($w[2]), 'href' => url($w[0])], array_values(self::walls()));
     }
 
     public static function contactSheet(Request $req): Response
@@ -64,7 +75,7 @@ final class Walls
             'briefs' => array_slice($photos, 7, 6),
             'number' => random_int(1000, 9999),
             'special' => self::special($f),
-        ], t('Le Lion illustré, journal des photos du musée {site} : une Une, des photos légendées et créditées, une nouvelle édition à chaque visite.'));
+        ], t(self::walls()['journal'][1] . ', journal des photos du musée {site} : une Une, des photos légendées et créditées, une nouvelle édition à chaque visite.'));
     }
 
     public static function lockerRoom(Request $req): Response
@@ -81,15 +92,16 @@ final class Walls
                 'z' => random_int(1, 9),
             ];
         }
-        $bg = \App\Data\Media::get(self::LOCKER_ROOM);
-        $backdrop = $bg ? ['src' => img(self::LOCKER_ROOM, 800), 'credit' => trim((string) ($bg['credit'] ?? '')) ?: \App\Core\Club::s('club')] : null;
+        $locker = self::lockerRoomImage();
+        $bg = $locker !== '' ? \App\Data\Media::get($locker) : null;
+        $backdrop = $bg ? ['src' => img($locker, 800), 'credit' => trim((string) ($bg['credit'] ?? '')) ?: \App\Core\Club::s('club')] : null;
         return self::page($req, 'vestiaire', ['prints' => $prints, 'backdrop' => $backdrop],
             t('Le mur du vestiaire : des photos du musée punaisées et scotchées comme dans un vestiaire, à déplacer à la souris. Un nouveau mur à chaque visite.'));
     }
 
     public static function mosaic(Request $req): Response
     {
-        $keys = array_map('strval', array_keys(self::MOTIFS)); // « 1928 » : clé numérique pour PHP
+        $keys = array_map('strval', array_keys(self::motifs())); // « 1928 » : clé numérique pour PHP
         $motif = $req->str('motif');
         $motif = in_array($motif, $keys, true) ? $motif : $keys[random_int(0, count($keys) - 1)];
         $wide = self::grid($motif, true);
@@ -112,17 +124,48 @@ final class Walls
             $credits[$p['who']] = ($credits[$p['who']] ?? 0) + 1;
         }
         arsort($credits);
-        return self::page($req, 'mosaique', ['wide' => $wide, 'narrow' => $narrow, 'photos' => $views, 'unique' => array_column($photos, 'r'), 'motif' => $motif, 'motifs' => array_combine($keys, array_map('t', array_values(self::MOTIFS))), 'credits' => $credits],
+        return self::page($req, 'mosaique', ['wide' => $wide, 'narrow' => $narrow, 'photos' => $views, 'unique' => array_column($photos, 'r'), 'motif' => $motif, 'motifs' => array_combine($keys, array_map('t', array_values(self::motifs()))), 'credits' => $credits],
             t('La grande mosaïque : des centaines de photos du musée qui dessinent ensemble un motif du centenaire. Survolez une case pour voir la photo.'));
     }
 
     // ------------------------------------------------------------------ motifs de la mosaïque
 
-    /** Motif => légende. */
-    public const MOTIFS = ['100' => '100 ans du FCSM', 'fcsm' => 'FCSM', '1928' => '1928, l’année de la fondation', '2028' => '2028, l’année du centenaire'];
-    /** Texte de chaque motif : sur une ligne pour les grands écrans, sur deux pour les téléphones. */
-    private const MOTIF_TEXT = ['100' => [['100'], ['100']], 'fcsm' => [['FCSM'], ['FC', 'SM']], '1928' => [['1928'], ['19', '28']], '2028' => [['2028'], ['20', '28']]];
-    /** Chiffres et lettres en 5 × 7 cases (grands écrans). */
+    /**
+     * Motif => légende (variables du profil remplacées par t()) : 100, sigle, année de fondation,
+     * année du centenaire, chacun gardé seulement si la police des grilles sait le dessiner.
+     * @return array<string, string>
+     */
+    public static function motifs(): array
+    {
+        $out = [];
+        foreach (array_keys(self::motifText()) as $k) {
+            $k = (string) $k;
+            $out[$k] = match (true) {
+                $k === '100' => '100 ans ' . \App\Core\Club::s('sigle_de'),
+                $k === \App\Core\Club::s('founded') => $k . ', l’année de la fondation',
+                $k === substr(\App\Core\Club::s('centenary_date'), 0, 4) => $k . ', l’année du centenaire',
+                default => \App\Core\Club::s('sigle'),
+            };
+        }
+        return $out;
+    }
+
+    /** Texte de chaque motif : sur une ligne pour les grands écrans, sur deux pour les téléphones. @return array<string, array> */
+    private static function motifText(): array
+    {
+        $out = ['100' => [['100'], ['100']]];
+        $sigle = strtoupper(\App\Core\Club::s('sigle'));
+        foreach ([strtolower($sigle) => $sigle, \App\Core\Club::s('founded') => \App\Core\Club::s('founded'), substr(\App\Core\Club::s('centenary_date'), 0, 4) => substr(\App\Core\Club::s('centenary_date'), 0, 4)] as $k => $txt) {
+            $k = (string) $k;
+            if ($txt === '' || strlen($txt) > 4 || isset($out[$k]) || array_diff(str_split($txt), array_keys(self::FONT_WIDE), array_keys(self::FONT_NARROW)) !== []) {
+                continue;
+            }
+            $half = (int) ceil(strlen($txt) / 2);
+            $out[$k] = [[$txt], [substr($txt, 0, $half), substr($txt, $half)]];
+        }
+        return $out;
+    }
+
     private const FONT_WIDE = [
         '0' => ['.###.', '#...#', '#..##', '#.#.#', '##..#', '#...#', '.###.'], '1' => ['..#..', '.##..', '..#..', '..#..', '..#..', '..#..', '.###.'],
         '2' => ['.###.', '#...#', '....#', '...#.', '..#..', '.#...', '#####'], '8' => ['.###.', '#...#', '#...#', '.###.', '#...#', '#...#', '.###.'],
@@ -146,7 +189,7 @@ final class Walls
     {
         $font = $wide ? self::FONT_WIDE : self::FONT_NARROW;
         [$cw, $ch] = $wide ? [5, 7] : [3, 5];
-        $lines = self::MOTIF_TEXT[$motif][$wide ? 0 : 1] ?? ['100'];
+        $lines = self::motifText()[$motif][$wide ? 0 : 1] ?? ['100'];
         $cols = $wide ? 24 : 12;
         $h = count($lines) * $ch + count($lines) - 1;
         $rows = $wide ? 11 : $h + (count($lines) > 1 ? 2 : 4);
@@ -274,7 +317,7 @@ final class Walls
     /** Page complète, ou seulement le mur pour « Nouveau tirage » et les filtres (sans recharger). */
     private static function page(Request $req, string $kind, array $vars, string $description): Response
     {
-        $w = self::WALLS[$kind];
+        $w = self::walls()[$kind];
         $f = self::filters($req);
         $vars += ['kind' => $kind, 'filters' => $f];
         $vars['pdfForm'] = self::pdfForm($kind, $vars);
@@ -292,7 +335,7 @@ final class Walls
             'decades' => PhotoWall::decades(),
             'photographers' => PhotoWall::photographers(),
             'counts' => $counts,
-            'others' => array_filter(self::WALLS, fn ($k) => $k !== $kind, ARRAY_FILTER_USE_KEY),
+            'others' => array_filter(self::walls(), fn ($k) => $k !== $kind, ARRAY_FILTER_USE_KEY),
             'count' => count(PhotoWall::photos()),
         ], [
             'title' => t($w[1]) . ' · ' . t('Les murs de photos'),
