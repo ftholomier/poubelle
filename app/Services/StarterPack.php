@@ -100,10 +100,11 @@ final class StarterPack
         }
         try {
             $done = self::state()['done'];
+            $revs = (array) ((JsonStore::read(self::stateFile(), []) ?: [])['rev'] ?? []);
             $created = 0;
             $errors = [];
             $left = 0;
-            Fiches::batch(function () use (&$done, &$created, &$errors, &$left, $limit) {
+            Fiches::batch(function () use (&$done, &$revs, &$created, &$errors, &$left, $limit) {
                 // Fiches créées auparavant « À relire » et jamais retouchées : publiées à leur tour.
                 foreach ($done as $id) {
                     if ($created >= $limit) {
@@ -120,7 +121,22 @@ final class StarterPack
                 foreach (array_keys(self::packs()) as $pack) {
                     foreach (self::items($pack) as $it) {
                         $key = (string) ($it['key'] ?? '');
-                        if ($key === '' || isset($done[$key])) {
+                        if ($key === '') {
+                            continue;
+                        }
+                        if (isset($done[$key])) {
+                            // Nouvelle version d'une fiche déjà créée (récit ajouté…) : appliquée si personne n'y a touché.
+                            $rev = (int) ($it['rev'] ?? 0);
+                            if ($rev > (int) ($revs[$key] ?? 0)) {
+                                if ($created >= $limit) {
+                                    $left = 1;
+                                    return;
+                                }
+                                if (self::refresh((int) $done[$key], $it)) {
+                                    $created++;
+                                }
+                                $revs[$key] = $rev;
+                            }
                             continue;
                         }
                         if ($created >= $limit) {
@@ -128,6 +144,7 @@ final class StarterPack
                             return;
                         }
                         try {
+                            $revs[$key] = (int) ($it['rev'] ?? 0);
                             $done[$key] = self::create($it);
                             $created++;
                         } catch (\Throwable $e) {
@@ -137,7 +154,7 @@ final class StarterPack
                     }
                 }
             });
-            JsonStore::update(self::stateFile(), fn ($s) => array_merge(is_array($s) ? $s : [], ['done' => $done, 'at' => date('c')]), []);
+            JsonStore::update(self::stateFile(), fn ($s) => array_merge(is_array($s) ? $s : [], ['done' => $done, 'rev' => $revs, 'at' => date('c')]), []);
             return ['created' => $created, 'left' => $left, 'errors' => $errors];
         } finally {
             flock($fp, LOCK_UN);
@@ -178,6 +195,32 @@ final class StarterPack
         $doc['path'] = Paths::unique(Paths::suggest($doc), -1);
         $doc['slug'] = basename(rtrim($doc['path'], '/'));
         return (int) Fiches::save($doc, self::AUTHOR, 'Contenus de départ')['id'];
+    }
+
+    /** Textes d'une nouvelle version posés sur la fiche déjà créée, si elle n'a été modifiée par personne. */
+    private static function refresh(int $id, array $it): bool
+    {
+        $doc = $id ? Fiches::get($id) : null;
+        if (!$doc || ($doc['modified_by'] ?? '') !== self::AUTHOR['name']) {
+            return false;
+        }
+        $type = (string) $doc['type'];
+        foreach (['intro', 'sections', 'key_figure'] as $k) {
+            if (isset($it[$k])) {
+                $doc[$k] = $it[$k];
+            }
+        }
+        foreach ((array) ($it['refresh'] ?? []) as $k) {
+            if (isset($it[$type][$k])) {
+                $doc[$type][$k] = $it[$type][$k];
+            }
+        }
+        $sources = array_values(array_filter((array) ($it['sources'] ?? [$it['source'] ?? ''])));
+        if ($sources) {
+            $doc['sections'][] = ['title' => 'Sources', 'html' => self::sourcesHtml($sources, trim((string) $doc['intro']) !== '' || count($doc['sections']) > 0)];
+        }
+        Fiches::save($doc, self::AUTHOR, 'Contenus de départ : nouvelle version');
+        return true;
     }
 
     private static function sourcesHtml(array $links, bool $written): string

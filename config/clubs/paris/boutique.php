@@ -32,7 +32,7 @@ return [
         'Né pour rugir' => 'Né à Paris',
         'Jaune et bleu depuis 1928.' => 'Rouge et bleu depuis 1970.',
         'Sochaux Rétro · le musée en ligne du FCSM' => 'Paris Rétro · le musée en ligne',
-        'Poster « Ma vie en jaune et bleu »' => 'Poster « Ma vie en rouge et bleu »',
+        'Poster « Ma vie en jaune et bleu »' => 'Poster « Ma vie en bleu & rouge »',
         'Casquette brodée « blason »' => 'Casquette brodée « blason »',
     ],
     // Banque de textes de la boutique (même structure que la collection « boutique-textes »).

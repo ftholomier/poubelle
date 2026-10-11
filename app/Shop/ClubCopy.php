@@ -15,6 +15,14 @@ use App\Data\Collections;
  */
 final class ClubCopy
 {
+    /** Mots propres au club historique dans les noms et descriptions (le plus long d'abord : strtr). */
+    private const WORDS = [
+        'JAUNE & BLEU' => 'BLEU & ROUGE', 'Jaune & Bleu' => 'Bleu & Rouge', 'jaune & bleu' => 'bleu & rouge',
+        'JAUNE ET BLEU' => 'BLEU ET ROUGE', 'Jaune et bleu' => 'Bleu et rouge', 'jaune et bleu' => 'bleu et rouge',
+        'Lionceaux' => 'Parisiens', 'Lionceau' => 'Parisien', 'lionceaux' => 'parisiens', 'lionceau' => 'parisien',
+        'Lions' => 'Parisiens', 'lions' => 'parisiens', 'à Bonal' => 'au Parc', 'de Bonal' => 'du Parc', 'Bonal' => 'Parc', 'jaune' => 'rouge', 'Jaune' => 'Rouge', 'JAUNE' => 'ROUGE',
+    ];
+
     public static function available(): bool
     {
         return !Club::isDefault() && is_file(APP_ROOT . '/data/collections/' . Catalog::MODELS_FILE . '.json');
@@ -98,10 +106,25 @@ final class ClubCopy
     /** Reprise automatique quand ce musée n'a encore aucun produit (une seule fois). */
     public static function auto(): void
     {
+        self::repair();
         if (self::available() && !Collections::get(Catalog::MODELS_FILE, []) && !is_file(STORAGE_PATH . '/shop/reprise.flag')) {
             @mkdir(STORAGE_PATH . '/shop', 0775, true);
             @file_put_contents(STORAGE_PATH . '/shop/reprise.flag', date('c'));
             self::run(['name' => 'Reprise automatique']);
+        }
+    }
+
+    /** Produits déjà repris : textes et couleurs du club historique encore présents retirés (une passe, sans effet si tout est propre). */
+    public static function repair(): void
+    {
+        if (Club::isDefault()) {
+            return;
+        }
+        $map = (array) Club::content('boutique', []);
+        $all = (array) Collections::get(Catalog::MODELS_FILE, []);
+        $fixed = array_map(fn ($m) => is_array($m) && !empty($m['from']) ? self::adapt($m, $map) : $m, $all);
+        if ($fixed !== $all) {
+            Collections::save(Catalog::MODELS_FILE, $fixed, ['name' => 'Reprise automatique'], 'Produits : mots du musée historique retirés');
         }
     }
 
@@ -131,6 +154,6 @@ final class ClubCopy
             return $t[$v];
         }
         // Phrases de description : mots propres au club historique remplacés.
-        return strtr($v, ['jaune et bleu' => 'rouge et bleu', 'Jaune et bleu' => 'Rouge et bleu', 'Sochaux Rétro' => (string) Club::s('site'), 'Bonal' => 'Parc', 'Sochaux' => (string) Club::s('city'), '1928' => (string) Club::s('founded')]);
+        return strtr($v, self::WORDS + ['Sochaux Rétro' => (string) Club::s('site'), 'Sochaux' => (string) Club::s('city'), 'FCSM' => (string) Club::s('site'), '1928' => (string) Club::s('founded')]);
     }
 }
