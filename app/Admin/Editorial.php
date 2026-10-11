@@ -163,7 +163,7 @@ final class Editorial extends Base
             $ids = array_values(array_unique(array_filter(array_map(fn ($x) => (int) (is_array($x) ? ($x['id'] ?? 0) : $x), (array) ($in['slider']['ids'] ?? [])), fn ($id) => $id > 0 && Index::get($id))));
             $o = (array) ($in['slider']['opts'] ?? []);
             $num = fn (string $k, int $min, int $max, int $def) => isset($o[$k]) && is_numeric($o[$k]) ? max($min, min($max, (int) $o[$k])) : $def;
-            $opts = ['min_w' => $num('min_w', 300, 4000, 1200), 'min_h' => $num('min_h', 200, 3000, 600), 'old_before' => $num('old_before', 1928, 2100, 1980),
+            $opts = ['min_w' => $num('min_w', 300, 4000, 1200), 'min_h' => $num('min_h', 200, 3000, 600), 'old_before' => $num('old_before', (int) \App\Core\Club::s('founded'), 2100, 1980),
                 'old_min_w' => $num('old_min_w', 200, 4000, 600), 'old_min_h' => $num('old_min_h', 150, 3000, 380),
                 'n_match' => $num('n_match', 0, 10, 3), 'n_lion' => $num('n_lion', 0, 10, 1), 'n_other' => $num('n_other', 0, 10, 1), 'n_old' => $num('n_old', 0, 10, 2)];
             Collections::save('slider', ['mode' => ($in['slider']['mode'] ?? '') === 'manual' ? 'manual' : 'random', 'ids' => $ids, 'opts' => $opts], $user, 'Slider de l’accueil');
@@ -508,7 +508,7 @@ final class Editorial extends Base
             if (preg_match('#^https?://[^/]+(/.*)?$#i', $p, $m)) {
                 $host = (string) parse_url($p, PHP_URL_HOST);
                 $own = (string) parse_url(base_url(), PHP_URL_HOST);
-                if ($host === $own || str_ends_with($host, 'fcsochauxretro.com')) {
+                if ($host === $own || (\App\Core\Club::s('root_domain') !== '' && str_ends_with($host, \App\Core\Club::s('root_domain')))) {
                     $p = $m[1] ?? '/';
                 } else {
                     return $p; // destination externe

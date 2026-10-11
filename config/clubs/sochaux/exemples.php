@@ -1,14 +1,9 @@
 <?php
-// Exemples des champs de saisie (boutique, back-office) propres au musée de Sochaux.
+// Exemples et indications propres au club (champ de recherche, mur des donateurs…), lus par club_text(…, 'exemples').
 return [
-    'modele_nom' => 'ex. T-shirt « Jaune et bleu depuis 1928 »',
-    'textes_consigne' => 'ex. humour sur la météo de Bonal, phrases pour le centenaire…',
-    'livre_dedicace' => 'À mon fils, qui a découvert Bonal sur mes épaules…',
-    'livre_couverture' => 'Paille, Bonal, 1938, finale 2007…',
-    'livre_joueurs' => 'Tapez un nom (Paille, Bazdarevic…)',
-    'livre_photo' => 'Avec papa à Bonal, août 2024',
-    'produit_joueur' => 'Ex. : Paille, Bazdarevic, Genghini, Pedretti…',
-    'produit_match' => 'Ex. : Metz 1988, finale, Monaco, PSG 1990…',
-    'produit_texte' => 'Ex. : Paille, Metz 1988, Bazdarevic, finale…',
-    'media_chemin' => '2025/03/scan-bonal-1976.jpg',
+    'recherche_accueil' => 'Ex. Sochaux – Nantes 1988, Genghini, Bonal, Coupe de France…',
+    'recherche' => 'Essayez « Bonal », « 2007 », « Coupe de France 1988 » ou le nom d’un joueur.',
+    'don_mur' => 'ex. Famille M., Un Lionceau depuis 1981',
+    'dico_mot' => 'Lionceaux',
+    'dico_note' => 'Surnom des joueurs du centre de formation',
 ];

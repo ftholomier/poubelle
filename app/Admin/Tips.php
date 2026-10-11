@@ -70,7 +70,7 @@ final class Tips
         'matchs' => [
             'screen' => 'Les fiches match. La liste se filtre par saison, compétition et statut ; dans une fiche, les onglets Infos, Compo & événements, Récit, Médias… se remplissent dans l’ordre que vous voulez.',
             'score' => 'Buts de chaque équipe (domicile puis extérieur). Prolongation et tirs au but sont facultatifs. Le résultat (victoire, nul, défaite) est déduit automatiquement.',
-            'composition sochaux' => 'Une ligne par joueur : poste (G, D, M, A, R remplaçant, E entraîneur), numéro, nom, buts, remplacement, cartons. Choisissez le joueur dans la liste proposée pour relier sa fiche (✓) ; « Importer depuis un tableau » colle une composition copiée.',
+            'composition {team}' => 'Une ligne par joueur : poste (G, D, M, A, R remplaçant, E entraîneur), numéro, nom, buts, remplacement, cartons. Choisissez le joueur dans la liste proposée pour relier sa fiche (✓) ; « Importer depuis un tableau » colle une composition copiée.',
             'temps forts (minute par minute)' => 'Les actions marquantes avec leur minute ; cochez « But » et indiquez le score pour les buts. Ils forment la frise du résumé sur la fiche.',
             'réactions' => 'Citations d’après-match : qui parle et ce qu’il a dit.',
             'brèves' => 'Petites informations autour du match (anecdotes, transferts, blessures).',
@@ -85,11 +85,11 @@ final class Tips
             'buts par équipe' => 'Pour chaque équipe, la liste des buteurs avec les minutes (ex. « Prat 33’, Thomas 78’ »).',
             'événement (match particulier)' => 'Pour un match à part (jubilé, finale, inauguration) : un mot qui le met en valeur.',
             'prolongation' => 'Non, après prolongation (a.p.) ou tirs au but : avec « Tirs au but », deux champs apparaissent pour le score de la séance.',
-            'sochaux joue à' => '{team} reçoit (domicile) ou se déplace (extérieur) : cela fixe l’ordre des équipes dans le titre et le score.',
+            '{team} joue à' => '{team} reçoit (domicile) ou se déplace (extérieur) : cela fixe l’ordre des équipes dans le titre et le score.',
             'buts à domicile' => 'Buts de l’équipe qui reçoit : l’indication en italique rappelle s’il s’agit de {team} ou de l’adversaire.',
             'buts à l’extérieur' => 'Buts de l’équipe qui se déplace : l’indication en italique rappelle s’il s’agit de {team} ou de l’adversaire.',
             'niveau adversaire' => 'La division de l’adversaire à l’époque (ex. « D2 », « N1 », « L1 Sui ») : affichée sous son nom.',
-            'niveau sochaux' => 'La division de {team} à l’époque (ex. « D1 », « L2 »).',
+            'niveau {team}' => 'La division de {team} à l’époque (ex. « D1 », « L2 »).',
             'arbitre' => 'Nom de l’arbitre, tel qu’on le trouve dans la presse (ex. « M. Wurtz »).',
             'lignes complémentaires de l’en-tête' => 'Informations affichées sous le score, une par ligne (ex. buteurs de l’adversaire, expulsion, mention particulière).',
             'match.highlights:min.' => 'Minute de l’action (ex. « 33 » ou « 90+2 »).',
@@ -106,7 +106,7 @@ final class Tips
             'carte de l’album du centenaire' => 'La carte à collectionner du joueur : présence dans l’album, numéro et rareté.',
             'au club' => 'Arrivée, départ, premiers et derniers matchs. Les dates d’arrivée et de départ aident aussi à relier les compositions au bon joueur.',
             'palmarès' => 'Titres et distinctions, une ligne par titre.',
-            'après sochaux' => 'La suite du parcours, une ligne par étape.',
+            'après {team}' => 'La suite du parcours, une ligne par étape.',
             'fiche d’identité (tableau d’origine)' => 'Le tableau d’identité de l’ancien site, conservé tel quel (libellé et valeur).',
             'matchs marquants' => 'Quelques matchs à mettre en avant sur la fiche : tapez une équipe ou une date et choisissez.',
             'matchs reliés automatiquement' => 'Tous les matchs où la personne figure dans une composition, avec ses buts et son temps de jeu. Rien à saisir : ajoutez un nom mal écrit dans « Autres graphies ».',
@@ -182,7 +182,7 @@ final class Tips
             'compteur : vidéos youtube' => 'Chiffre affiché tel quel sur l’accueil (ex. « 1400+ ») : à mettre à jour à la main.',
             'date du centenaire (compte à rebours)' => 'La date visée par le compte à rebours du site (14 juin 2028).',
             'dates clés' => 'Quelques repères de l’époque (année et fait), affichés avec son texte.',
-            'lien « visiter cette époque »' => 'L’adresse ouverte par le bouton de l’époque (ex. « /interactif/frise/#1928 »).',
+            'lien « visiter cette époque »' => 'L’adresse ouverte par le bouton de l’époque (ex. « /interactif/frise/#{founded} »).',
             'identifiant (adresse)' => 'Le mot de l’adresse de la collection : /reserves/identifiant/ (minuscules, sans espace ni accent).',
         ],
         'rubriques' => [
@@ -248,7 +248,7 @@ final class Tips
             'anniversaires à venir' => 'Les matchs dont c’est l’anniversaire rond (10, 20, 25, 30, 40, 50 ans…) dans la période choisie, avec assez de temps forts. « Intérêt » additionne temps forts, coupe, finale, victoire, gros score, affluence et fiche à la une. « Programmer à 20 h » l’ajoute en un clic (heure modifiable ensuite).',
         ],
         'souvenirs' => [
-            'screen' => 'Raconte-moi Bonal : chaque mois, un kit en gros caractères à imprimer pour les anciens supporters (le grand match d’il y a N ans, des visages à reconnaître, un quiz, « Racontez-nous »). Tout est fabriqué automatiquement ; ici, vous pouvez choisir le match et ajouter un mot d’introduction.',
+            'screen' => 'Raconte-moi {stadium_short} : chaque mois, un kit en gros caractères à imprimer pour les anciens supporters (le grand match d’il y a N ans, des visages à reconnaître, un quiz, « Racontez-nous »). Tout est fabriqué automatiquement ; ici, vous pouvez choisir le match et ajouter un mot d’introduction.',
             'match du mois' => '« Automatique » retient le match le plus marquant joué ce mois-là (temps forts, coupe, anniversaire rond, 30 à 60 ans d’âge, belle photo). Les autres propositions sont classées par intérêt ; « Ou un autre match » permet de choisir n’importe quelle fiche.',
             'mot d’introduction' => 'Quelques lignes affichées en tête du récit du match dans le PDF : le contexte, l’enjeu, une anecdote.',
             'ils y étaient' => 'Les témoignages publiés sur les fiches de match. Un témoignage reçu par « Contribuer » se publie à la validation (Communauté › Contributions), avec un texte et une signature que vous pouvez relire.',
@@ -332,7 +332,7 @@ final class Tips
             'objectif de la collecte (€)' => 'Le montant visé par la jauge de la page « Faire un don ».',
             'dons reçus hors ligne à ajouter à la jauge (€)' => 'Montant ajouté à la jauge en plus des dons enregistrés sur le site.',
             'stripe : secret du webhook (whsec_…)' => 'Fourni par Stripe quand vous déclarez l’adresse du webhook : il permet au site de confirmer les paiements.',
-            'adresse d’expédition' => 'L’adresse qui envoie les e-mails du site ; elle doit exister chez l’hébergeur (ex. contact@fcsochauxretro.com).',
+            'adresse d’expédition' => 'L’adresse qui envoie les e-mails du site ; elle doit exister chez l’hébergeur (ex. {contact_email}).',
             'serveur smtp' => 'Le serveur d’envoi de l’hébergeur (voir la documentation de mise en ligne). Vide : fonction mail() de PHP.',
             'texte du bandeau cookies' => 'Le texte du bandeau de consentement (vidéos, dons) montré aux visiteurs.',
             'nombre de sauvegardes conservées' => 'Au-delà, les plus anciennes sauvegardes sont supprimées automatiquement.',
@@ -360,7 +360,10 @@ final class Tips
         if (in_array($nav, ['objets', 'moments'], true)) {
             $screen += array_diff_key(self::SCREENS['articles'], ['screen' => 1]);
         }
-        $tips = array_map('club', $screen + self::COMMON);
+        $tips = [];
+        foreach ($screen + self::COMMON as $k => $v) {
+            $tips[mb_strtolower(club($k))] = club($v);
+        }
         return \App\Core\Auth::isAdmin() ? $tips : array_map([self::class, 'withoutCosts'], $tips);
     }
 

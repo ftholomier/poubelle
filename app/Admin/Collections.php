@@ -75,7 +75,7 @@ final class Collections extends Base
                 'help' => 'Finales et grands matchs européens placés sur la carte. Sans coordonnées, l’étape n’apparaît pas.',
                 'default' => fn () => Seeds::epopees(),
                 'fields' => [
-                    'y' => ['Année', 'int', ['min' => 1928, 'max' => 2100]],
+                    'y' => ['Année', 'int', ['min' => (int) \App\Core\Club::s('founded'), 'max' => 2100]],
                     's' => ['Saison', 'text', ['max' => 9, 'placeholder' => '2006-2007']],
                     'type' => ['Catégorie', 'text', ['max' => 60, 'en' => true, 'placeholder' => 'Finales nationales']],
                     't' => ['Lieu', 'text', ['max' => 80, 'placeholder' => 'Stade de France']],
@@ -116,8 +116,8 @@ final class Collections extends Base
                 'help' => 'Mots que le correcteur d’orthographe ne doit jamais corriger : noms propres, surnoms, mots du club ou du patois. Les noms des joueurs, clubs et stades du musée sont déjà reconnus.',
                 'default' => fn () => [],
                 'fields' => [
-                    'mot' => ['Mot ou expression', 'text', ['max' => 80, 'placeholder' => 'Lionceaux']],
-                    'note' => ['Remarque', 'text', ['max' => 160, 'full' => true, 'placeholder' => 'Surnom des joueurs du centre de formation']],
+                    'mot' => ['Mot ou expression', 'text', ['max' => 80, 'placeholder' => \App\Core\Club::content('exemples')['dico_mot'] ?? (\App\Core\Club::s('nickname') ?: 'Surnom')]],
+                    'note' => ['Remarque', 'text', ['max' => 160, 'full' => true, 'placeholder' => \App\Core\Club::content('exemples')['dico_note'] ?? 'Surnom des joueurs du club']],
                 ],
             ],
             'dons' => [

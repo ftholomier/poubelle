@@ -252,7 +252,7 @@ final class Donations extends Base
         rewind($out);
         $csv = (string) stream_get_contents($out);
         Activity::log(self::actor(), 'a exporté les dons', ['title' => $year ?: 'toutes années']);
-        return new Response($csv, 200, ['Content-Type' => 'text/csv; charset=UTF-8', 'Content-Disposition' => 'attachment; filename="dons-sochaux-retro' . ($year ? "-$year" : '') . '-' . date('Ymd') . '.csv"']);
+        return new Response($csv, 200, ['Content-Type' => 'text/csv; charset=UTF-8', 'Content-Disposition' => 'attachment; filename="dons-' . slugify(Club::s('site')) . ($year ? "-$year" : '') . '-' . date('Ymd') . '.csv"']);
     }
 
     public static function receipt(Request $req, string $num): Response
