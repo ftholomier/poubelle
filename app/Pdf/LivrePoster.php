@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Pdf;
 
+use App\Core\Club;
 use App\Data\Names;
 use App\Front\Fiche;
 use App\Shop\Poster;
@@ -48,7 +49,7 @@ class LivrePoster extends PosterLayout
         $away = $clean((string) ($f['away'] ?? ''));
         $sh = (int) $f['score_home'];
         $sa = (int) $f['score_away'];
-        $soch = !empty($f['sochaux_home']) || stripos($home, 'sochaux') !== false;
+        $soch = !empty($f['sochaux_home']) || Club::isUs($home);
         // Le film : les buts minute par minute, la mi-temps et le coup de sifflet final.
         $film = [];
         foreach ((array) ($f['goals_by_team'] ?? []) as $g) {
@@ -83,7 +84,7 @@ class LivrePoster extends PosterLayout
         $us = $soch ? $sh : $sa;
         $them = $soch ? $sa : $sh;
         $opp = $soch ? $away : $home;
-        $res = $us > $them ? 'Sochaux s’impose ' . $us . '-' . $them . ' face à ' . $opp : ($us < $them ? 'Sochaux s’incline ' . $us . '-' . $them . ' face à ' . $opp : 'Sochaux et ' . $opp . ' se quittent sur un nul, ' . $us . '-' . $them);
+        $res = $us > $them ? Club::team() . ' s’impose ' . $us . '-' . $them . ' face à ' . $opp : ($us < $them ? Club::team() . ' s’incline ' . $us . '-' . $them . ' face à ' . $opp : Club::team() . ' et ' . $opp . ' se quittent sur un nul, ' . $us . '-' . $them);
         $t = 'Le ' . date_fr($date) . ($comp !== '' ? ', en ' . $comp . ($round !== '' ? ' (' . $round . ')' : '') : '') . ($stadium !== '' ? ', au ' . $stadium : '') . ' : ' . $res . '.';
         if ($spect > 0) {
             $t .= ' ' . number_format($spect, 0, ',', ' ') . ' spectateurs assistent à la rencontre.';
@@ -99,7 +100,7 @@ class LivrePoster extends PosterLayout
             $t .= ' Les buts : ' . implode(', ', array_map(fn ($x) => rtrim(preg_replace('/^But de /u', '', $x['text']), '.') . ' à la ' . $x['n'] . 'e minute', $goals)) . '.';
         }
         $names = array_map(fn ($p) => $p['name'] . (!empty($p['captain']) ? ' (capitaine)' : ''), $pitch['players']);
-        $t .= ' Sochaux aligne ' . implode(', ', array_slice($names, 0, -1)) . ' et ' . end($names) . ($coach !== '' ? ', sous les ordres de ' . $coach : '') . ', en ' . $pitch['formation'] . '.';
+        $t .= ' ' . Club::team() . ' aligne ' . implode(', ', array_slice($names, 0, -1)) . ' et ' . end($names) . ($coach !== '' ? ', sous les ordres de ' . $coach : '') . ', en ' . $pitch['formation'] . '.';
         return [
             'id' => '0', 'dm' => ['season' => $season, 'label' => $comp, 'date' => $date],
             'kicker' => implode(' · ', array_filter([$comp, $round, $stadium])),
@@ -192,7 +193,7 @@ class LivrePoster extends PosterLayout
         $this->rect($x, $y, $w, $h, self::CREAM);
         $ix = $x + 4.5;
         $iw = $w - 9;
-        $ty = $this->kicker($ix, $y + 4, $iw, 'Sochaux, ces semaines-là', self::BLUE);
+        $ty = $this->kicker($ix, $y + 4, $iw, Club::team() . ', ces semaines-là', self::BLUE);
         $rh = min(8.0, ($y + $h - 4 - $ty) / max(1, count($list)));
         foreach ($list as $k => $f) {
             [$opp, $a, $b] = self::us($f);
@@ -216,7 +217,7 @@ class LivrePoster extends PosterLayout
     protected function footer(): void
     {
         $s = self::pt(13);
-        $this->text(self::PAD, self::H - self::PAD - 3.6, 260, 'Faits tirés de la feuille de match conservée par l’association · musée Sochaux Rétro', 'serif-i', $s, self::MIST);
+        $this->text(self::PAD, self::H - self::PAD - 3.6, 260, club('Faits tirés de la feuille de match conservée par l’association · musée {site}'), 'serif-i', $s, self::MIST);
     }
 
     /** Dessine les calques (mm) sur la page courante : origine ($ox, $oy) et échelle $k en points. */

@@ -17,7 +17,7 @@ $here = \App\Admin\Favorites::here($meta);
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <meta name="csrf" content="<?= e(\App\Core\Session::csrfToken()) ?>">
-<title><?= e(($meta['title'] ?? 'Back-office') . ' · Back-office Sochaux Rétro') ?></title>
+<title><?= e(($meta['title'] ?? 'Back-office') . ' · Back-office ' . \App\Core\Club::s('site')) ?></title>
 <link rel="icon" href="/assets/img/favicon.png" type="image/png">
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('admin/admin.css') ?>">
@@ -26,7 +26,7 @@ $here = \App\Admin\Favorites::here($meta);
 <?php $compact = ($_COOKIE['bo_nav'] ?? '') === 'compact'; ?>
 <div class="bo<?= $compact ? ' nav-compact' : '' ?>" data-bo>
   <aside class="side" id="side">
-    <a class="side__brand" href="/admin"><img src="/assets/img/logo-sochaux-retro.png" alt=""><span><b>Sochaux rétro</b><small>Back-office</small></span></a>
+    <a class="side__brand" href="/admin"><img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt=""><span><b><?= e(\App\Core\Club::s('site_lc')) ?></b><small>Back-office</small></span></a>
     <label class="side__mode" title="Menu compact : seules les grandes parties, leurs rubriques s’ouvrent au survol">
       <span>Menu compact</span>
       <input type="checkbox" role="switch" data-nav-mode<?= $compact ? ' checked' : '' ?>><i aria-hidden="true"></i>

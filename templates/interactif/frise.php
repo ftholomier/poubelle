@@ -5,7 +5,7 @@ $decades = range(1920, (int) (floor((int) date('Y') / 10) * 10), 10);
 <section class="wrap frhead">
   <div class="stack" style="gap:12px;flex:1 1 480px;min-width:0">
     <span class="eyebrow eyebrow--lg"><?= e(t('La frise')) ?></span>
-    <h1 class="h-xl frhead__title">1928 → <span class="blue"><?= e(t("aujourd'hui")) ?></span></h1>
+    <h1 class="h-xl frhead__title"><?= e(\App\Core\Club::s('founded')) ?> → <span class="blue"><?= e(t("aujourd'hui")) ?></span></h1>
     <p class="muted" style="font-size:20px;margin:0"><?= e(t('Faites glisser la frise, ou utilisez les flèches.')) ?></p>
   </div>
   <div class="row" style="gap:10px">

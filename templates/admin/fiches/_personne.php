@@ -108,7 +108,7 @@ $matches = $pid ? Derived::personMatches($pid) : [];
       <?= Form::repeater('personne.honours', '', $p['honours'] ?? [], fn ($h) => Form::text('@_', 'Titre', is_string($h) ? $h : '', ['placeholder' => 'Vainqueur de la Coupe Gambardella en 1983', 'proof' => true]), ['compact' => true, 'rows' => true, 'scalar' => true, 'add' => 'Ajouter un titre']) ?>
     </div>
     <div class="card card--pad">
-      <h2 class="card__t">Après Sochaux</h2>
+      <h2 class="card__t">Après <?= e(\App\Core\Club::team()) ?></h2>
       <?= Form::repeater('personne.then', '', $p['then'] ?? [], fn ($h) => Form::text('@_', 'Étape', is_string($h) ? $h : '', ['proof' => true]), ['compact' => true, 'rows' => true, 'scalar' => true, 'add' => 'Ajouter une étape']) ?>
     </div>
   </div>

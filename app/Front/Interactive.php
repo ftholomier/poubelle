@@ -25,8 +25,8 @@ final class Interactive
     public static function landing(Request $req): Response
     {
         return Pages::render('interactif/landing', ['groups' => Site::interactiveTools()], [
-            'title' => t('Interactif : jouez et explorez l’histoire du FCSM'),
-            'description' => t('Quiz, album de cartes, carte des stades et des origines, frise, comparateur de maillots, vote du Onze de légende : le musée Sochaux Rétro en version interactive.'),
+            'title' => t('Interactif : jouez et explorez l’histoire {sigle_de}'),
+            'description' => t('Quiz, album de cartes, carte des stades et des origines, frise, comparateur de maillots, vote du Onze de légende : le musée {site} en version interactive.'),
             'active' => 'interactif',
             'styles' => ['css/mosaic.css', 'css/interactif.css'],
         ]);
@@ -41,7 +41,7 @@ final class Interactive
         $pool = array_map(fn ($q) => Collections::loc($q, ['q', 'a', 'fact']), $pool);
         return Pages::render('interactif/quiz', ['pool' => $pool, 'count' => min(6, count($pool))], [
             'title' => t('Quiz : êtes-vous un vrai Lionceau ?'),
-            'description' => t('Six questions sur l’histoire du FC Sochaux-Montbéliard. Testez vos connaissances et partagez votre score.'),
+            'description' => t('Six questions sur l’histoire {club_de}. Testez vos connaissances et partagez votre score.'),
             'active' => 'interactif',
             'body_class' => 'page-quiz',
             'styles' => ['css/interactif.css'],
@@ -136,7 +136,7 @@ final class Interactive
         $eras = array_map(fn ($e) => Collections::loc($e, ['label', 'text']), Collections::get('maillots', Seeds::maillots()));
         return Pages::render('interactif/maillots', ['eras' => array_values($eras)], [
             'title' => t('Maillots : un maillot, deux époques'),
-            'description' => t('Comparez les maillots du FC Sochaux-Montbéliard d’une époque à l’autre.'),
+            'description' => t('Comparez les maillots {club_de} d’une époque à l’autre.'),
             'active' => 'interactif',
             'styles' => ['css/interactif.css'],
             'scripts' => ['js/interactif.js'],
@@ -148,8 +148,8 @@ final class Interactive
         $events = array_map(fn ($e) => Collections::loc($e, ['title', 'text']), Collections::get('frise', Seeds::frise()));
         usort($events, fn ($a, $b) => (int) $a['year'] <=> (int) $b['year']);
         return Pages::render('interactif/frise', ['events' => $events], [
-            'title' => t('La frise : de 1928 à aujourd’hui'),
-            'description' => t('Les grandes dates du FC Sochaux-Montbéliard, de la fondation au centenaire.'),
+            'title' => t('La frise : de {founded} à aujourd’hui'),
+            'description' => t('Les grandes dates {club_de}, de la fondation au centenaire.'),
             'active' => 'interactif',
             'styles' => ['css/interactif.css'],
             'scripts' => ['js/interactif.js'],
@@ -161,7 +161,7 @@ final class Interactive
     public static function carto(Request $req): Response
     {
         return Pages::render('interactif/carto', [], [
-            'title' => t('Carto : stades, origines, épopées et lieux du FCSM'),
+            'title' => t('Carto : stades, origines, épopées et lieux {sigle_de}'),
             'description' => t('Une carte interactive : partout où le Lion a joué, d’où viennent nos joueurs, les grandes épopées et les lieux du club.'),
             'active' => 'interactif',
             'body_class' => 'page-carto',
@@ -264,7 +264,7 @@ final class Interactive
             'reveal' => self::onzeRevealed() ? null : (string) Settings::get('centenary.onze_reveal', ''),
             'votes' => self::onzeVoters(),
         ], [
-            'title' => t('Le centenaire du FC Sochaux-Montbéliard : 1928-2028'),
+            'title' => t('Le centenaire {club_de} : {founded}-2028'),
             'description' => t('Compte à rebours jusqu’au 14 juin 2028, 100 moments de l’histoire du club et vote du Onze de légende.'),
             'active' => 'interactif',
             'body_class' => 'page-centenary',
@@ -277,7 +277,7 @@ final class Interactive
     {
         return Pages::render('interactif/moments', ['moments' => self::moments100()], [
             'title' => t('100 ans, 100 moments'),
-            'description' => t('Jusqu’au centenaire, 100 moments de l’histoire du FCSM, dévoilés un à un.'),
+            'description' => t('Jusqu’au centenaire, 100 moments de l’histoire {sigle_de}, dévoilés un à un.'),
             'active' => 'interactif',
             'styles' => ['css/mosaic.css', 'css/interactif.css'],
             'scripts' => ['js/interactif.js'],
@@ -414,7 +414,7 @@ final class Interactive
         if ($collection === null) {
             return Pages::render('interactif/reserves', ['cols' => $cols, 'col' => null, 'items' => []], [
                 'title' => t('Les réserves du musée'),
-                'description' => t('Maillots, affiches, programmes, photos, presse et objets de supporters : les collections de Sochaux Rétro.'),
+                'description' => t('Maillots, affiches, programmes, photos, presse et objets de supporters : les collections de {site}.'),
                 'active' => 'interactif',
                 'styles' => ['css/mosaic.css', 'css/interactif.css'],
             ]);
@@ -432,7 +432,7 @@ final class Interactive
         usort($items, fn ($a, $b) => ($a['o']['year'] ?? 9999) <=> ($b['o']['year'] ?? 9999));
         return Pages::render('interactif/reserves', ['cols' => $cols, 'col' => $col, 'items' => $items], [
             'title' => t('Les réserves du musée') . ' : ' . t($col['name']),
-            'description' => t('{name} : {desc}. Les collections de Sochaux Rétro.', ['name' => t($col['name']), 'desc' => t($col['desc'])]),
+            'description' => t('{name} : {desc}. Les collections de {site}.', ['name' => t($col['name']), 'desc' => t($col['desc'])]),
             'active' => 'interactif',
             'styles' => ['css/mosaic.css', 'css/interactif.css'],
         ]);

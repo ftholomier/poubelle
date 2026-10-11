@@ -139,7 +139,7 @@ final class WallPdf
         $bottom = $l->ph - 54;
 
         // Titre du journal
-        $l->text($x0, 66, t('Journal photographique du musée Sochaux Rétro'), 'serif-i', 8.6, '444444');
+        $l->text($x0, 66, t('Journal photographique du musée {site}'), 'serif-i', 8.6, '444444');
         $r = t('Une édition unique, tirée pour vous');
         $l->text($x0 + $cw - $l->width($r, 'serif-i', 8.6), 66, $r, 'serif-i', 8.6, '444444');
         $l->line($x0, 70, $x0 + $cw, 70, self::INK, 0.6);

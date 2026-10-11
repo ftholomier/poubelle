@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\Club;
 use App\Core\Auth;
 use App\Core\JsonStore;
 use App\Core\RateLimiter;
@@ -53,7 +54,7 @@ final class Account extends Base
         }
         if (!is_file(self::SETUP)) {
             $code = strtoupper(substr(bin2hex(random_bytes(8)), 0, 12));
-            file_put_contents(self::SETUP, "Code de premier accès au back-office Sochaux Rétro : $code\nCe fichier est supprimé automatiquement après la création du premier compte.\n", LOCK_EX);
+            file_put_contents(self::SETUP, 'Code de premier accès au back-office ' . Club::s('site') . " : $code\nCe fichier est supprimé automatiquement après la création du premier compte.\n", LOCK_EX);
             @chmod(self::SETUP, 0600);
         }
         $error = null;
@@ -212,7 +213,7 @@ final class Account extends Base
             return false;
         }
         $link = $base . '/admin/invitation/' . $token;
-        $site = (string) \App\Core\Settings::get('general.site_name', 'Sochaux Rétro');
+        $site = (string) \App\Core\Settings::get('general.site_name', Club::s('site'));
         if ($kind === 'invite') {
             $subject = "Invitation au back-office de $site";
             $html = '<p>Bonjour ' . e($u['name']) . ',</p><p>Vous êtes invité(e) à contribuer au back-office du musée en ligne ' . e($site) . '. Choisissez votre mot de passe pour activer votre compte :</p>';

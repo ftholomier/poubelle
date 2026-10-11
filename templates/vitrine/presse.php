@@ -16,7 +16,7 @@ $email = Site::email();
       <h2 class="h-2" style="margin-top:56px">Kit média</h2>
       <ul class="vdocs mt-20">
         <?php if ($kit): ?><li><a class="vdoc" href="<?= e(Host::url('/presse/presentation-sochaux-retro.pdf')) ?>" target="_blank" rel="noopener"><span class="vdoc__ext">PDF</span><span class="vdoc__body"><b>Présentation du projet</b><span>Le musée en ligne et l’association, en 27 pages illustrées.</span><small><?= e(Base::size($kitSize)) ?></small></span><span class="vdoc__go" aria-hidden="true">↓</span></a></li><?php endif; ?>
-        <li><a class="vdoc" href="/assets/img/logo-sochaux-retro.png" download="logo-sochaux-retro.png"><span class="vdoc__ext">PNG</span><span class="vdoc__body"><b>Logo Sochaux Rétro</b><span>Fond transparent, pour le web et l’impression légère.</span></span><span class="vdoc__go" aria-hidden="true">↓</span></a></li>
+        <li><a class="vdoc" href="<?= e(\App\Core\Club::s('logo_png')) ?>" download="<?= e(basename(\App\Core\Club::s('logo_png'))) ?>"><span class="vdoc__ext">PNG</span><span class="vdoc__body"><b>Logo <?= e(\App\Core\Club::s('site')) ?></b><span>Fond transparent, pour le web et l’impression légère.</span></span><span class="vdoc__go" aria-hidden="true">↓</span></a></li>
       </ul>
       <h2 class="h-2" style="margin-top:56px">Ils parlent de nous</h2>
       <?php if ($articles): ?>

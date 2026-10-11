@@ -6,7 +6,7 @@ use App\Core\View;
 use App\Front\Fil;
 
 $lines = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 'A' => t('Attaquant')];
-$share = $n === null ? '' : t('{a} → {b} : {n} passe(s) sur le Fil jaune du musée Sochaux Rétro', ['a' => $a['name'], 'b' => $b['name'], 'n' => $n]);
+$share = $n === null ? '' : t('{a} → {b} : {n} passe(s) sur le Fil jaune du musée {site}', ['a' => $a['name'], 'b' => $b['name'], 'n' => $n]);
 ?>
 <section class="mhead fjhead">
   <div class="wrap mhead__inner" style="padding-bottom:clamp(28px,4vw,48px)">

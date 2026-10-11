@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 use App\Core\JsonStore;
 use App\Core\RateLimiter;
 use App\Core\Request;
@@ -92,7 +93,7 @@ final class PrinterSpace
     private static function login(string $msg = ''): Response
     {
         $c = Orders::config();
-        $h = '<p>Espace de l’imprimeur de la boutique Sochaux Rétro' . ($c['printer_name'] !== '' ? ' (' . e($c['printer_name']) . ')' : '') . '. Saisissez votre adresse e-mail : vous recevrez un lien de connexion valable 30 minutes.</p>'
+        $h = '<p>Espace de l’imprimeur de la boutique ' . e(Club::s('site')) . ($c['printer_name'] !== '' ? ' (' . e($c['printer_name']) . ')' : '') . '. Saisissez votre adresse e-mail : vous recevrez un lien de connexion valable 30 minutes.</p>'
             . ($msg !== '' ? '<div class="alert alert--info">' . e($msg) . '</div>' : '')
             . '<form method="post" action="/imprimeur/" class="card card--pad" style="max-width:420px">' . csrf_field()
             . '<label class="f"><span class="f__k">Adresse e-mail</span><input class="in" type="email" name="email" required autocomplete="email"></label>'
@@ -115,7 +116,7 @@ final class PrinterSpace
                 return $all;
             }, []);
             $url = base_url() . '/imprimeur/lien/' . $token;
-            Mailer::send($email, 'Votre lien de connexion · espace imprimeur Sochaux Rétro', '<p>Bonjour,</p><p>Pour ouvrir l’espace imprimeur de la boutique Sochaux Rétro, cliquez sur ce lien (valable 30 minutes, une seule fois) :</p><p><a href="' . e($url) . '">' . e($url) . '</a></p><p>Si vous n’êtes pas à l’origine de cette demande, ignorez ce message.</p>');
+            Mailer::send($email, 'Votre lien de connexion · espace imprimeur ' . Club::s('site'), '<p>Bonjour,</p><p>Pour ouvrir l’espace imprimeur de la boutique ' . e(Club::s('site')) . ', cliquez sur ce lien (valable 30 minutes, une seule fois) :</p><p><a href="' . e($url) . '">' . e($url) . '</a></p><p>Si vous n’êtes pas à l’origine de cette demande, ignorez ce message.</p>');
         }
         // Même réponse dans tous les cas : on ne révèle pas l'adresse réglée.
         return self::login('Si cette adresse est celle de l’imprimeur, un lien de connexion vient de lui être envoyé.');

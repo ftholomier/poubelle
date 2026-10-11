@@ -49,7 +49,7 @@ final class CarnetPages
         if ($c) {
             $c = Carnet::upgradeSlug($c);
         }
-        $meta = ['title' => t('Mon carnet du supporter'), 'description' => t('Cochez les matchs du FCSM que vous avez vus au stade : votre bilan, vos badges, votre porte-bonheur et une carte à partager.'), 'noindex' => true];
+        $meta = ['title' => t('Mon carnet du supporter'), 'description' => t('Cochez les matchs {sigle_de} que vous avez vus au stade : votre bilan, vos badges, votre porte-bonheur et une carte à partager.'), 'noindex' => true];
         if (!$c) {
             return self::page('accueil', ['seasons' => array_slice(Carnet::seasons(), 0, 6, true)], $meta);
         }
@@ -120,7 +120,7 @@ final class CarnetPages
         $s = Carnet::stats(array_keys($c['matches']));
         return self::page('public', ['c' => $c, 's' => $s], [
             'title' => t('Le carnet de supporter de {p}', ['p' => $c['pseudo']]),
-            'description' => t('{n} matchs du FCSM vus au stade, {v} victoires.', ['n' => $s['n'], 'v' => $s['v']]),
+            'description' => t('{n} matchs {sigle_de} vus au stade, {v} victoires.', ['n' => $s['n'], 'v' => $s['v']]),
             'image' => url('/carnet/p/' . $c['slug'] . '/carte.png'), 'noindex' => true,
         ]);
     }

@@ -50,11 +50,11 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
 
       <?php if (\App\Shop\TonMatch::isFor($m)): ?>
       <fieldset class="shopopt shopdate"><legend>La date de votre match *</legend>
-        <p class="shophelp" style="width:100%;margin:0 0 6px">Naissance, mariage, premier match à Bonal… Le jour et le mois sont facultatifs : avec l’année seule, on choisit le grand match de l’année.</p>
+        <p class="shophelp" style="width:100%;margin:0 0 6px">Naissance, mariage, premier match <?= e(\App\Core\Club::s('stadium_a')) ?>… Le jour et le mois sont facultatifs : avec l’année seule, on choisit le grand match de l’année.</p>
         <div class="shopdate__in">
           <label><span>Jour</span><select name="opts[d]" data-shop-in><option value="">—</option><?php for ($i = 1; $i <= 31; $i++): ?><option value="<?= $i ?>"><?= $i ?></option><?php endfor; ?></select></label>
           <label><span>Mois</span><select name="opts[mo]" data-shop-in><option value="">—</option><?php foreach (['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] as $i => $mn): ?><option value="<?= $i + 1 ?>"><?= $mn ?></option><?php endforeach; ?></select></label>
-          <label><span>Année *</span><input type="number" name="opts[y]" min="1928" max="<?= date('Y') ?>" placeholder="1988" required data-shop-in></label>
+          <label><span>Année *</span><input type="number" name="opts[y]" min="<?= e(\App\Core\Club::s('founded')) ?>" max="<?= date('Y') ?>" placeholder="1988" required data-shop-in></label>
         </div>
         <p class="shopnote" data-shop-note aria-live="polite"></p>
       </fieldset>
@@ -71,7 +71,7 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
           <?php else: ?>
             <input type="hidden" name="values[<?= e($k) ?>]" value="" data-shop-in>
             <p class="shopcarnet__no"><?= $cn ? 'Votre carnet compte ' . (int) $cnN . ' match(s) : il en faut au moins ' . $cmin . '.' : ucfirst($what) . ' se compose d’après votre carnet du supporter, ouvert sur cet appareil.' ?> <a href="<?= e(url('/carnet/')) ?>"><?= $cn ? 'Ajouter des matchs' : 'Créer ou ouvrir mon carnet' ?> →</a></p>
-            <small class="shophelp">L’aperçu montre un exemple : un abonné de Bonal à la fin des années 1980.</small>
+            <small class="shophelp">L’aperçu montre un exemple : un abonné de <?= e(\App\Core\Club::s('stadium_short')) ?> à la fin des années 1980.</small>
           <?php endif; ?>
         </div>
         <?php elseif (in_array($f['poster'] ?? '', ['match', 'joueur'], true)): $pj = $f['poster'] === 'joueur'; ?>

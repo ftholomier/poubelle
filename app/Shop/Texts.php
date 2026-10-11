@@ -20,8 +20,8 @@ final class Texts
     /** Faux Gemini des tests : fn (string $system, string $user) => string (réponse JSON). */
     public static $ai = null;
 
-    private const SYSTEM = 'Tu écris des phrases courtes pour des produits dérivés (t-shirts, mugs, posters) de Sochaux Rétro, '
-        . 'le musée en ligne des supporters du FC Sochaux-Montbéliard (jaune et bleu, les Lionceaux, le stade Auguste-Bonal, fondé en 1928, centenaire en 2028). '
+    private const SYSTEM = 'Tu écris des phrases courtes pour des produits dérivés (t-shirts, mugs, posters) de {site}, '
+        . 'le musée en ligne des supporters {club_de} ({colors}, les {nickname}, le stade Auguste-Bonal, fondé en {founded}, centenaire en 2028). '
         . 'Règles : phrases originales, en français, 70 caractères au plus, ton fier, chaleureux ou drôle, jamais agressif envers un autre club ; '
         . 'aucun slogan ou marque existants, aucun nom de joueur vivant, aucune donnée chiffrée dont tu n’es pas certain. '
         . 'Ne répète aucune des phrases déjà dans la liste.';
@@ -102,12 +102,12 @@ final class Texts
             . 'Propose ' . $count . " nouvelles phrases dans le même esprit. Réponds en JSON : une liste de chaînes.\n"
             . "Phrases déjà dans la liste :\n- " . implode("\n- ", array_map(fn ($i) => $i['text'], $l['items']));
         if (self::$ai !== null) {
-            $text = (self::$ai)(self::SYSTEM, $ask);
+            $text = (self::$ai)(club(self::SYSTEM), $ask);
         } else {
             if (!Gemini::ready()) {
                 throw new \RuntimeException('Aucune clé API Gemini : réglez-la dans Système › Réglages › Intelligence artificielle.');
             }
-            $text = Gemini::generate([['role' => 'user', 'text' => $ask]], self::SYSTEM, ['for' => 'boutique', 'ref' => 'boutique:textes:' . $id, 'json' => true,
+            $text = Gemini::generate([['role' => 'user', 'text' => $ask]], club(self::SYSTEM), ['for' => 'boutique', 'ref' => 'boutique:textes:' . $id, 'json' => true,
                 'schema' => ['type' => 'ARRAY', 'items' => ['type' => 'STRING']], 'temperature' => 0.9, 'max_tokens' => 2000])['text'];
         }
         $got = json_decode(trim((string) preg_replace('/^```(?:json)?|```$/m', '', (string) $text)), true);

@@ -36,7 +36,7 @@ $long = ['recit', 'info', 'composition', 'buteurs', 'piste', 'feuille'];
     <form method="post" action="/admin/trouvailles" class="stack" style="gap:10px">
       <?= csrf_field() ?>
       <div class="row" style="gap:12px;flex-wrap:wrap;align-items:flex-end">
-        <label class="f" style="margin:0"><span class="f__k">Matchs de</span><input class="input" type="number" name="de" value="1928" min="1900" max="2100" style="width:100px"></label>
+        <label class="f" style="margin:0"><span class="f__k">Matchs de</span><input class="input" type="number" name="de" value="<?= e(\App\Core\Club::s('founded')) ?>" min="1900" max="2100" style="width:100px"></label>
         <label class="f" style="margin:0"><span class="f__k">à</span><input class="input" type="number" name="a" value="<?= T::GALLICA_LAST_YEAR ?>" min="1900" max="2100" style="width:100px"></label>
         <div class="checklist">
           <?php foreach (T::SOURCES as $k => $label): ?>

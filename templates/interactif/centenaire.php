@@ -7,7 +7,7 @@ $posName = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 'A'
 <section class="chero">
   <div class="wrap chero__inner">
     <div class="stack" style="gap:20px">
-      <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('14 juin 1928 → 14 juin 2028')) ?></span>
+      <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('{founded_label} → {c}', ['c' => date_fr(\App\Core\Club::s('centenary_date'))])) ?></span>
       <h1 class="chero__title"><?= e(t('Cent')) ?><br><span class="yellow"><?= e(t('ans.')) ?></span></h1>
       <p class="lead" style="max-width:40ch"><?= e(t("Jusqu'au centenaire, le musée dévoile un à un 100 moments de l'histoire du club, et vous invite à composer le Onze de légende.")) ?></p>
       <div class="row" style="gap:12px;flex-wrap:wrap">

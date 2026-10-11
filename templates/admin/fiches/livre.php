@@ -28,7 +28,7 @@ use App\Pdf\Livre;
   <label class="f"><span class="f__k">Dédicace (facultative)</span><textarea name="dedicace" rows="3" maxlength="600" placeholder="À mon fils, qui a découvert Bonal sur mes épaules…"></textarea></label>
   <div class="row" style="gap:12px;flex-wrap:wrap">
     <label class="f"><span class="f__k">Signature de la dédicace</span><input name="signature" maxlength="80" placeholder="Papa, Noël 2026"></label>
-    <label class="f"><span class="f__k">Supporter depuis (année)</span><input name="depuis" type="number" min="1928" max="<?= (int) date('Y') ?>" placeholder="1998"></label>
+    <label class="f"><span class="f__k">Supporter depuis (année)</span><input name="depuis" type="number" min="<?= e(\App\Core\Club::s('founded')) ?>" max="<?= (int) date('Y') ?>" placeholder="1998"></label>
   </div>
   <div class="row" style="gap:12px;flex-wrap:wrap">
     <label class="f"><span class="f__k">Option « Mon match » : n° de la fiche du match</span><input name="match" inputmode="numeric" placeholder="14188"></label>

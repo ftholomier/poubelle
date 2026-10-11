@@ -59,7 +59,7 @@ $asso = \App\Vitrine\Host::base();
   <?php endif; ?>
   <div class="mf-main">
     <div class="mf-brand">
-      <a class="mf-logo" href="<?= e(url('/')) ?>"><img src="/assets/img/logo-sochaux-retro.png" alt="" width="70" height="79" loading="lazy"><span><b>Sochaux Rétro</b><?php if (($tag = $ft('tagline')) !== ''): ?><small><?= e($tag) ?></small><?php endif; ?></span></a>
+      <a class="mf-logo" href="<?= e(url('/')) ?>"><img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="70" height="79" loading="lazy"><span><b><?= e(\App\Core\Club::s('site')) ?></b><?php if (($tag = $ft('tagline')) !== ''): ?><small><?= e($tag) ?></small><?php endif; ?></span></a>
       <div class="mf-btns">
         <?php if ($shop && ($fb = \App\Front\Menus::button('boutique'))): ?><a class="hshop" href="<?= e($fb['href']) ?>"><?= e($fb['label']) ?></a><?php endif; ?>
         <?php if ($fb = \App\Front\Menus::button('don')): ?><a class="hdon" href="<?= e($fb['href']) ?>">♥ <?= e($fb['label']) ?></a><?php endif; ?>

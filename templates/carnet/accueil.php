@@ -2,7 +2,7 @@
 /** Carnet du supporter : présentation (pas encore de carnet sur cet appareil). Variables : $seasons */
 use App\Core\View;
 ?>
-<?= View::partial('carnet/_head', ['title' => t('Mon carnet du supporter'), 'intro' => t('Cochez les matchs du FCSM que vous avez vus au stade, à Bonal ou en déplacement : le musée calcule votre bilan, vos badges, votre « porte-bonheur » et une carte à partager.'), 'crumb' => t('Mon carnet')]) ?>
+<?= View::partial('carnet/_head', ['title' => t('Mon carnet du supporter'), 'intro' => t('Cochez les matchs {sigle_de} que vous avez vus au stade, {stadium_a} ou en déplacement : le musée calcule votre bilan, vos badges, votre « porte-bonheur » et une carte à partager.'), 'crumb' => t('Mon carnet')]) ?>
 <div class="wrap cnwrap">
   <div class="cnintro">
     <section class="cncard cncard--navy">

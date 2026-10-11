@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\Club;
 use App\Core\Auth;
 use App\Core\Request;
 use App\Core\Response;
@@ -302,7 +303,7 @@ final class Fiches extends Base
         if ($doc['type'] === 'match') {
             $m = $doc['match'];
             if (!empty($m['opponent_club'])) {
-                $out[] = ['Face-à-face Sochaux × ' . ($m['sochaux_home'] ? $m['away']['name'] : $m['home']['name']), '/face-a-face/' . $m['opponent_club'] . '/'];
+                $out[] = ['Face-à-face ' . Club::team() . ' × ' . ($m['sochaux_home'] ? $m['away']['name'] : $m['home']['name']), '/face-a-face/' . $m['opponent_club'] . '/'];
             }
             if (!empty($m['season'])) {
                 $out[] = ['Saison ' . $m['season'] . ' : résultats et buteurs', '/matchs/' . $m['season'] . '/'];

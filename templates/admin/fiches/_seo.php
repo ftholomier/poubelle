@@ -57,7 +57,7 @@ $site = parse_url(base_url(), PHP_URL_HOST) ?: 'fcsochauxretro.com';
     </div>
     <div class="stack" style="gap:12px">
       <span class="f__k">Aperçu Google</span>
-      <div class="serp"><div class="serp__url"><?= e($site) ?> › <?= e(trim(str_replace('/', ' › ', trim((string) ($doc['path'] ?? ''), '/')))) ?></div><div class="serp__t"><?= e(($doc['seo']['title'] ?: $doc['title']) ?: 'Titre de la fiche') ?> | Sochaux rétro</div><div class="serp__d"><?= e($doc['seo']['description'] ?: \App\Data\Index::summary($doc + ['id' => $doc['id'] ?: 0])['excerpt']) ?></div></div>
+      <div class="serp"><div class="serp__url"><?= e($site) ?> › <?= e(trim(str_replace('/', ' › ', trim((string) ($doc['path'] ?? ''), '/')))) ?></div><div class="serp__t"><?= e(($doc['seo']['title'] ?: $doc['title']) ?: 'Titre de la fiche') ?> | <?= e(\App\Core\Club::s('site_lc')) ?></div><div class="serp__d"><?= e($doc['seo']['description'] ?: \App\Data\Index::summary($doc + ['id' => $doc['id'] ?: 0])['excerpt']) ?></div></div>
       <?php if (!empty($doc['id'])): ?>
         <span class="f__k">Image de partage générée</span>
         <img class="sharep" src="/partage/<?= (int) $doc['id'] ?>.png?v=<?= e(substr(md5((string) ($doc['modified'] ?? '')), 0, 6)) ?>" alt="Image de partage" loading="lazy">

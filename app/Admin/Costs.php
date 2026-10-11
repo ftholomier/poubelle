@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\Club;
 use App\Core\Auth;
 use App\Core\Request;
 use App\Core\Response;
@@ -189,7 +190,7 @@ final class Costs extends Base
         PdfExport::titleBlock($l, 'Avance de frais pour l’association', 'Frais d’IA · ' . $period, 'Consommation de l’API Gemini (Google) par le site et le back-office du musée');
         $last = (int) date('t', strtotime($ym . '-01'));
         $l->facts([
-            ['Association', (string) Settings::get('donations.org_name', 'Sochaux Rétro') ?: 'Sochaux Rétro'],
+            ['Association', (string) Settings::get('donations.org_name', Club::s('site')) ?: Club::s('site')],
             ['Frais avancés par', (string) Settings::get('couts.payer', '') ?: '…………………………'],
             ['Période', 'du 1er au ' . $last . ' ' . $period],
             ['Taux de change', '1 $ = ' . number_format($rate, 4, ',', ' ') . ' €'],

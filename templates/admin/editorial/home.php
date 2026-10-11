@@ -35,7 +35,7 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
         <div class="fgrid">
           <?= Form::number('slider.opts.min_w', 'Photo récente : largeur mini (px)', $slideOpts['min_w'], ['min' => 300, 'max' => 4000, 'step' => 50]) ?>
           <?= Form::number('slider.opts.min_h', 'Photo récente : hauteur mini (px)', $slideOpts['min_h'], ['min' => 200, 'max' => 3000, 'step' => 50]) ?>
-          <?= Form::number('slider.opts.old_before', 'Fiche ancienne : avant l’année', $slideOpts['old_before'], ['min' => 1928, 'max' => 2100]) ?>
+          <?= Form::number('slider.opts.old_before', 'Fiche ancienne : avant l’année', $slideOpts['old_before'], ['min' => (int) \App\Core\Club::s('founded'), 'max' => 2100]) ?>
           <?= Form::number('slider.opts.old_min_w', 'Photo ancienne : largeur mini (px)', $slideOpts['old_min_w'], ['min' => 200, 'max' => 4000, 'step' => 50]) ?>
           <?= Form::number('slider.opts.old_min_h', 'Photo ancienne : hauteur mini (px)', $slideOpts['old_min_h'], ['min' => 150, 'max' => 3000, 'step' => 50]) ?>
         </div>

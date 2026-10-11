@@ -7,9 +7,9 @@
 ?>
 <section class="rhead tteam-head">
   <div class="wrap rhead__inner">
-    <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><span><?= e(t('Supporters')) ?></span><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('L’équipe de Sochaux Rétro')) ?></span></nav>
+    <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><span><?= e(t('Supporters')) ?></span><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('L’équipe {site_de}')) ?></span></nav>
     <span class="eyebrow eyebrow--lg" style="color:var(--navy)"><?= e(t('La collection · {n} cartes', ['n' => count($team)])) ?></span>
-    <h1 class="rhead__title"><?= e(t('L’équipe')) ?><br><?= e(t('de Sochaux Rétro')) ?></h1>
+    <h1 class="rhead__title"><?= e(t('L’équipe')) ?><br><?= e(t('{site_de}')) ?></h1>
     <p class="chead__lead"><?= e(t('Les bénévoles qui font vivre le musée : chacun sa vignette, sa mission et son anecdote.')) ?></p>
   </div>
 </section>

@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Mémo du back-office · Sochaux Rétro</title>
+<title>Mémo du back-office · <?= e(\App\Core\Club::s('site')) ?></title>
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('admin/aide.css') ?>">
 </head>
@@ -14,7 +14,7 @@
 <section class="mpage">
   <header class="mhead">
     <img src="/assets/img/logo-sochaux-retro.png" alt="">
-    <div><span>Sochaux Rétro · back-office</span><h1>Mémo des historiens</h1></div>
+    <div><span><?= e(\App\Core\Club::s('site')) ?> · back-office</span><h1>Mémo des historiens</h1></div>
   </header>
   <div class="mgrid">
     <div class="mbox">

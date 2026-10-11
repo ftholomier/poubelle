@@ -225,7 +225,7 @@ final class Pages
         $titles = ['mentions' => 'Mentions légales', 'confidentialite' => 'Politique de confidentialité', 'cookies' => 'Cookies et traceurs'];
         return Site::render('legal/' . $key, [
             'title' => $titles[$key],
-            'publisher' => $g('publisher', 'Sochaux Rétro'),
+            'publisher' => $g('publisher', \App\Core\Club::s('site')),
             'status' => $g('status'),
             'address' => safe_html($g('address')),
             'registration' => $g('registration'),

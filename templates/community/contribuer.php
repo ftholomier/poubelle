@@ -53,7 +53,7 @@ $after = [
         <label class="cfield"><span><?= e(t('Fiche concernée (facultatif)')) ?></span><input name="fiche" maxlength="300" placeholder="<?= e(t('Un match, un joueur, une saison…')) ?>" value="<?= e($o('fiche') ?: $fiche) ?>"></label>
         <div class="cfield2">
           <label class="cfield"><span><?= e(t('Date (même approximative)')) ?></span><input name="date" maxlength="120" placeholder="<?= e(t('ex. années 80')) ?>" value="<?= e($o('date')) ?>"></label>
-          <label class="cfield"><span><?= e(t('Lieu')) ?></span><input name="place" maxlength="160" placeholder="<?= e(t('ex. stade Bonal')) ?>" value="<?= e($o('place')) ?>"></label>
+          <label class="cfield"><span><?= e(t('Lieu')) ?></span><input name="place" maxlength="160" placeholder="<?= e(t('ex. stade {stadium_short}')) ?>" value="<?= e($o('place')) ?>"></label>
         </div>
         <label class="cfield"><span><?= e(t('Description')) ?></span><textarea name="description" rows="5" maxlength="10000" placeholder="<?= e(t("Qui, quoi, l'histoire derrière…")) ?>"><?= e($o('description')) ?></textarea></label>
         <label class="cdrop" data-drop>
@@ -70,7 +70,7 @@ $after = [
           <label class="cfield"><span><?= e(t('E-mail')) ?></span><input name="email" type="email" maxlength="160" autocomplete="email" placeholder="vous@exemple.fr" value="<?= e($o('email')) ?>" required></label>
         </div>
         <label class="cfield"><span><?= e(t('Crédit affiché')) ?></span><input name="credit" maxlength="200" placeholder="<?= e(t('ex. Collection famille Martin')) ?>" value="<?= e($o('credit')) ?>"></label>
-        <label class="crights"><input type="checkbox" name="rights" value="1" required><span class="crights__box" aria-hidden="true"></span><span><?= e(t("Je suis l'auteur ou le détenteur des droits de ces documents, et j'autorise Sochaux Rétro à les publier gratuitement sur le musée en ligne, avec mention du crédit ci-dessus.")) ?></span></label>
+        <label class="crights"><input type="checkbox" name="rights" value="1" required><span class="crights__box" aria-hidden="true"></span><span><?= e(t("Je suis l'auteur ou le détenteur des droits de ces documents, et j'autorise {site} à les publier gratuitement sur le musée en ligne, avec mention du crédit ci-dessus.")) ?></span></label>
       </fieldset>
       <div class="cwizard__nav">
         <button type="button" class="cbtn-ghost" data-wz-prev><?= e(t('← Retour')) ?></button>

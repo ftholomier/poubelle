@@ -203,7 +203,7 @@ $rowsHtml = function (array $list, bool $coach) {
         <div class="stack"><h2 class="h-3"><?= e(t('Palmarès')) ?></h2><ul class="plist"><?php foreach ($p['honours'] as $h): ?><li><?= e($h) ?></li><?php endforeach; ?></ul></div>
       <?php endif; ?>
       <?php if (!empty($p['then'])): ?>
-        <div class="stack"><h2 class="h-3"><?= e(t('Après Sochaux')) ?></h2><ul class="plist"><?php foreach ($p['then'] as $h): ?><li><?= e($h) ?></li><?php endforeach; ?></ul></div>
+        <div class="stack"><h2 class="h-3"><?= e(t('Après {team}')) ?></h2><ul class="plist"><?php foreach ($p['then'] as $h): ?><li><?= e($h) ?></li><?php endforeach; ?></ul></div>
       <?php endif; ?>
       <?php if (!empty($filjaune)): $fj = $filjaune; ?>
       <div class="fjbox">

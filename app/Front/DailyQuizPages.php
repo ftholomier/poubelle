@@ -40,7 +40,7 @@ final class DailyQuizPages
             'players' => DailyQuiz::players($date),
         ], [
             'title' => t('Le défi du jour'),
-            'description' => t('Dix questions sur l’histoire du FC Sochaux-Montbéliard, les mêmes pour tout le monde, chaque jour. Un essai par jour, un classement.'),
+            'description' => t('Dix questions sur l’histoire {club_de}, les mêmes pour tout le monde, chaque jour. Un essai par jour, un classement.'),
             'active' => 'interactif', 'body_class' => 'page-defi', 'no_cookie' => true,
             'styles' => ['css/mosaic.css', 'css/interactif.css', 'css/carnet.css', 'css/quizlive.css'], 'scripts' => ['js/defi.js'],
         ]);

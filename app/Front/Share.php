@@ -239,7 +239,7 @@ final class Share
         if ($years !== '') {
             self::text($im, str_replace('-', ' – ', $years), 'BigShouldersDisplay-700', 30, 60, $y + 64, $navy, 2);
         }
-        self::brand($im, 60, 560, 'LE MUSÉE EN LIGNE DU FCSM', $navy);
+        self::brand($im, 60, 560, mb_strtoupper(club('Le musée en ligne {sigle_de}')), $navy);
         return $im;
     }
 

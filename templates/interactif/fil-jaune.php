@@ -20,7 +20,7 @@ $face = function (?array $p, string $cls = 'fjface'): string {
     <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><a href="<?= e(url('/interactif/')) ?>"><?= e(t('Interactif')) ?></a><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('Le Fil jaune')) ?></span></nav>
     <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('Jouer')) ?></span>
     <h1 class="mhead__title"><?= e(t('Le Fil jaune')) ?></h1>
-    <p class="mhead__intro"><?= e(t('Tous les Lionceaux sont reliés. Choisissez deux joueurs : le musée trouve la chaîne des matchs joués ensemble qui les relie, de coéquipier en coéquipier.')) ?></p>
+    <p class="mhead__intro"><?= e(t('Tous les {nickname} sont reliés. Choisissez deux joueurs : le musée trouve la chaîne des matchs joués ensemble qui les relie, de coéquipier en coéquipier.')) ?></p>
     <p class="fjhead__facts"><b><?= $fmt($rec['family']) ?></b> <?= e(t('joueurs dans la même famille')) ?> · <b><?= (int) $rec['diameter'] ?></b> <?= e(t('passes au plus')) ?> · <b><?= e($avg) ?></b> <?= e(t('en moyenne')) ?></p>
   </div>
 </section>

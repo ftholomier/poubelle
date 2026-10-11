@@ -30,7 +30,7 @@ final class Site
 
     public static function name(): string
     {
-        return trim((string) Settings::get('vitrine.name', 'Sochaux Rétro')) ?: 'Sochaux Rétro';
+        return trim((string) Settings::get('vitrine.name', \App\Core\Club::s('site'))) ?: \App\Core\Club::s('site');
     }
 
     public static function tagline(): string

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\Club;
 use App\Core\Auth;
 use App\Core\Request;
 use App\Core\Response;
@@ -189,7 +190,7 @@ final class Donations extends Base
                 $num = $refs ? Front::issueReceipt($id, $refs) : null;
                 if ($num && !empty($req->post['send']) && ($d['donor']['email'] ?? '') !== '') {
                     $file = Front::RECEIPTS . '/' . substr($num, 3, 4) . "/$num.pdf";
-                    \App\Services\Mailer::send((string) $d['donor']['email'], 'Votre reçu fiscal · Sochaux Rétro', '<p>Bonjour ' . e($d['donor']['first'] ?? '') . ',</p><p>Veuillez trouver ci-joint le reçu fiscal correspondant à votre don. Merci pour votre soutien !</p>', null, [['name' => "recu-fiscal-$num.pdf", 'type' => 'application/pdf', 'data' => (string) file_get_contents($file)]]);
+                    \App\Services\Mailer::send((string) $d['donor']['email'], 'Votre reçu fiscal · ' . Club::s('site'), '<p>Bonjour ' . e($d['donor']['first'] ?? '') . ',</p><p>Veuillez trouver ci-joint le reçu fiscal correspondant à votre don. Merci pour votre soutien !</p>', null, [['name' => "recu-fiscal-$num.pdf", 'type' => 'application/pdf', 'data' => (string) file_get_contents($file)]]);
                 }
                 Activity::log($user, 'a émis un reçu fiscal', ['title' => (string) $num]);
                 return self::back($back, $num ? "Reçu $num émis." : null, $num ? null : 'Aucun paiement sans reçu.');

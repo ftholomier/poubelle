@@ -28,7 +28,7 @@
   <?php else: ?>
     <div class="mempty">
       <span class="mempty__t"><?= e(t('Collection en cours de numérisation')) ?></span>
-      <span><?= e(t('Vous possédez une pièce liée au FCSM ? Prêtez-la au musée le temps d’une photo.')) ?></span>
+      <span><?= e(t('Vous possédez une pièce liée {sigle_au} ? Prêtez-la au musée le temps d’une photo.')) ?></span>
       <a class="btn btn--yellow btn--sm" href="<?= e(url('/contribuer/')) ?>"><?= e(t('Proposer une pièce')) ?></a>
     </div>
   <?php endif; ?>

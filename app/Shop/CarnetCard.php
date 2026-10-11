@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 use App\Services\Carnet;
 use App\Services\QuizChampionship;
 
@@ -70,7 +71,7 @@ final class CarnetCard
             ? t('saison {s}', ['s' => (string) $s['first']['season']])
             : t('de {a} à {b}', ['a' => $y1, 'b' => $y2]) . ' · ' . tn($nSeasons, '{n} saison', '{n} saisons');
         $score = fn (array $x): string => $x['home'] . ' ' . ($x['sh'] ? $x['us'] . '–' . $x['them'] : $x['them'] . '–' . $x['us']) . ' ' . $x['away'];
-        $where = fn (array $x): string => date_fr((string) $x['date']) . ($x['sh'] ? ', ' . t('à Bonal') : '');
+        $where = fn (array $x): string => date_fr((string) $x['date']) . ($x['sh'] ? ', ' . t('{stadium_a}') : '');
         $facts = [];
         $m = $s['best'] ?? null;
         $facts[] = $m ? [t('Mon plus beau match'), $score($m), $where($m)] : [t('Mon premier match'), $score($s['first']), $where($s['first'])];
@@ -95,12 +96,12 @@ final class CarnetCard
             'matches' => $s['n'] > 1 ? t('matchs vus au stade') : t('match vu au stade'),
             'period' => $period,
             'tiles' => [[$s['v'], tn($s['v'], 'victoire', 'victoires')], [$s['nul'], tn($s['nul'], 'match nul', 'matchs nuls')], [$s['d'], tn($s['d'], 'défaite', 'défaites')]],
-            'goals' => [tn($s['gf'], '{n} but', '{n} buts'), t('du FCSM vus'), tn($s['ga'], '{n} encaissé', '{n} encaissés')],
+            'goals' => [tn($s['gf'], '{n} but', '{n} buts'), t('{sigle_de} vus'), tn($s['ga'], '{n} encaissé', '{n} encaissés')],
             'shares' => [$s['v'] / $total, $s['nul'] / $total, $s['d'] / $total],
             'pct' => self::nb(t('{p} % de victoires', ['p' => (int) round(100 * $s['v'] / $total)])),
             'badges' => tn($on, '{n} badge gagné sur {t}', '{n} badges gagnés sur {t}', ['t' => count($s['badges'])]),
             'facts' => array_slice($facts, 0, 3),
-            'host' => mb_strtoupper((string) (parse_url(base_url(), PHP_URL_HOST) ?: 'musee.fcsochauxretro.com')),
+            'host' => mb_strtoupper((string) (parse_url(base_url(), PHP_URL_HOST) ?: Club::s('domain'))),
         ];
     }
 
@@ -193,7 +194,7 @@ final class CarnetCard
     /** PDF de la carte (RVB, sans traits de coupe) : ce que télécharge le supporter. */
     public static function pdf(array $d, string $style = 'a'): string
     {
-        return Vector::pdf([['name' => '', 'side' => self::side($d, $style)]], ['cmyk' => false, 'marks' => false, 'title' => t('Mon carnet de supporter') . ' · Sochaux Rétro']);
+        return Vector::pdf([['name' => '', 'side' => self::side($d, $style)]], ['cmyk' => false, 'marks' => false, 'title' => t('Mon carnet de supporter') . ' · ' . Club::s('site')]);
     }
 
     // ------------------------------------------------------------------ primitives
@@ -312,8 +313,8 @@ final class CarnetCard
         $this->rect($mx, 3.5, $mw, self::H - 7, '', self::NAVY, 0.5, 1.2);
         $this->rect($mx + 1, 4.5, $mw - 2, self::H - 9, '', self::NAVY, 0.2, 0.8);
         $this->rect($mx, 3.5, $mw, 9, self::NAVY, '', 0, 1.2);
-        $this->text($mx + 4, 6.4, $mw - 30, t('FC Sochaux-Montbéliard · Stade Auguste-Bonal'), 'display-b', 3.2, self::YELLOW, ['upper' => true, 'spacing' => 110]);
-        $this->text($mx + $mw - 26, 6.6, 22, 'Sochaux Rétro', 'display-b', 2.9, self::CREAM, ['upper' => true, 'spacing' => 110, 'align' => 'right']);
+        $this->text($mx + 4, 6.4, $mw - 30, t('{club} · Stade Auguste-Bonal'), 'display-b', 3.2, self::YELLOW, ['upper' => true, 'spacing' => 110]);
+        $this->text($mx + $mw - 26, 6.6, 22, Club::s('site'), 'display-b', 2.9, self::CREAM, ['upper' => true, 'spacing' => 110, 'align' => 'right']);
         $x = 9.0;
         $w = $mw + $mx - 5.5 - $x;
         $y = 16.0;

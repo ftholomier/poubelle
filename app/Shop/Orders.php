@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 use App\Core\JsonStore;
 use App\Services\Mailer;
 use App\Services\Payments;
@@ -354,7 +355,7 @@ final class Orders
                 'mode' => 'payment', 'line_items' => $lines, 'customer_email' => $o['customer']['email'],
                 ...($discounts ? ['discounts' => $discounts] : []),
                 'client_reference_id' => $o['id'], 'metadata' => ['commande' => $o['id']],
-                'payment_intent_data' => ['metadata' => ['commande' => $o['id']], 'description' => 'Boutique Sochaux Rétro · commande ' . $o['id']],
+                'payment_intent_data' => ['metadata' => ['commande' => $o['id']], 'description' => 'Boutique ' . Club::s('site') . ' · commande ' . $o['id']],
                 'success_url' => $base . '/boutique/commande/' . $o['token'] . '/?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => $base . '/boutique/panier/?annule=1', 'locale' => 'fr',
             ]);
@@ -462,7 +463,7 @@ final class Orders
             self::setStatus($o['id'], 'delivered', 'Boutique', 'Livre numérique disponible au téléchargement', false);
         }
         if ($phys && $c['printer_email'] !== '') {
-            self::mail($c['printer_email'], 'Nouvelle commande ' . $o['id'] . ' à fabriquer', '<p>Bonjour,</p><p>Une nouvelle commande de la boutique Sochaux Rétro est payée et prête à fabriquer : <b>' . e($o['id']) . '</b>, ' . count($o['items']) . ' article(s).</p>' . self::itemsHtml($o) . '<p>Fichiers d’impression, adresse de livraison et suivi : <a href="' . e(base_url() . '/imprimeur/commande/' . $o['id']) . '">espace imprimeur</a>.</p>');
+            self::mail($c['printer_email'], 'Nouvelle commande ' . $o['id'] . ' à fabriquer', '<p>Bonjour,</p><p>Une nouvelle commande de la boutique ' . e(Club::s('site')) . ' est payée et prête à fabriquer : <b>' . e($o['id']) . '</b>, ' . count($o['items']) . ' article(s).</p>' . self::itemsHtml($o) . '<p>Fichiers d’impression, adresse de livraison et suivi : <a href="' . e(base_url() . '/imprimeur/commande/' . $o['id']) . '">espace imprimeur</a>.</p>');
         }
         if ($c['alert_email'] !== '') {
             self::mail($c['alert_email'], 'Boutique : commande ' . $o['id'] . ' payée (' . self::money($o['total']) . ')', '<p>Commande <b>' . e($o['id']) . '</b> de ' . e($o['customer']['name']) . ' payée : ' . e(self::money($o['total'])) . '.</p>' . self::itemsHtml($o) . '<p><a href="' . e(base_url() . '/admin/boutique/commandes/' . $o['id']) . '">Voir dans le back-office</a></p>');

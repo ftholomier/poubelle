@@ -248,14 +248,14 @@ final class Site
     {
         $enOk = self::$enAvailable ?? true;
         $untranslated = !$enOk && I18n::isEn();
-        $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
+        $site = (string) Settings::get('general.site_name', \App\Core\Club::s('site'));
         $base = base_url();
         $title = trim($p['title'] ?? '');
-        $full = !empty($p['full_title']) ? (string) $p['full_title'] : ($title === '' ? "$site — " . t('Le musée en ligne du FCSM') : "$title | $site");
+        $full = !empty($p['full_title']) ? (string) $p['full_title'] : ($title === '' ? "$site — " . t('Le musée en ligne {sigle_de}') : "$title | $site");
         $canonical = $p['canonical'] ?? I18n::switchUrl($path, $untranslated ? I18n::DEFAULT : I18n::lang());
         return [
             'title' => $full,
-            'description' => mb_substr(trim(preg_replace('/\s+/u', ' ', strip_tags((string) ($p['description'] ?? '')))) ?: t("L'histoire du FC Sochaux-Montbéliard depuis 1928 : matchs, joueurs, entraîneurs, dirigeants, supporters, stades et symboles."), 0, 300),
+            'description' => mb_substr(trim(preg_replace('/\s+/u', ' ', strip_tags((string) ($p['description'] ?? '')))) ?: t("L'histoire {club_de} depuis {founded} : matchs, joueurs, entraîneurs, dirigeants, supporters, stades et symboles."), 0, 300),
             'canonical' => $base . $canonical,
             'og_image' => $base . ($p['image'] ?? '/assets/img/partage-defaut.png'),
             'type' => $p['type'] ?? 'website',

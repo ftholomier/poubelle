@@ -35,14 +35,14 @@ $i18n = [
       <button type="button" class="chat__icon" data-chat-close aria-label="<?= e(t('Fermer')) ?>"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4"/></svg></button>
     </header>
     <div class="chat__log" data-chat-log aria-live="polite">
-      <div class="chat__msg chat__msg--bot chat__welcome"><?= safe_html($welcome) ?: '<p>' . e(t('Bonjour ! Je connais tous les matchs, joueurs et personnages du musée Sochaux Rétro. Posez-moi votre question.')) . '</p>' ?></div>
+      <div class="chat__msg chat__msg--bot chat__welcome"><?= safe_html($welcome) ?: '<p>' . e(t('Bonjour ! Je connais tous les matchs, joueurs et personnages du musée {site}. Posez-moi votre question.')) . '</p>' ?></div>
       <div class="chat__sugg" data-chat-sugg>
         <?php foreach ($suggestions as $s): ?><button type="button" data-chat-ask="<?= e($s) ?>"><?= e($s) ?></button><?php endforeach; ?>
       </div>
     </div>
     <form class="chat__form" data-chat-form>
       <label class="sr-only" for="chat-q"><?= e(t('Votre question')) ?></label>
-      <textarea id="chat-q" name="q" rows="1" maxlength="500" required placeholder="<?= e(t('Posez votre question sur le FCSM…')) ?>"></textarea>
+      <textarea id="chat-q" name="q" rows="1" maxlength="500" required placeholder="<?= e(t('Posez votre question sur {sigle_le}…')) ?>"></textarea>
       <button type="submit" aria-label="<?= e(t('Envoyer')) ?>"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h14M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6"/></svg></button>
     </form>
     <p class="chat__legal"><?= e(t('Réponses générées par une IA (Google Gemini) à partir des fiches du musée : elles peuvent contenir des erreurs.')) ?> <?= $logs ? e(t('Vos questions sont conservées {n} jours pour améliorer le musée, sans donnée d’identification.', ['n' => $days])) : '' ?> <a href="<?= e(url('/confidentialite/')) ?>"><?= e(t('En savoir plus')) ?></a></p>

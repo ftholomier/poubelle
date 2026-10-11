@@ -25,8 +25,8 @@ $coach = array_values(array_filter($rows, fn ($r) => $r['position'] === 'E'));
 $badge = ['live' => t('En direct'), 'upcoming' => t('Bientôt en direct'), 'replay' => t('Rediffusion')][$mode];
 $fiche = url($s['path']);
 $shareText = $mode === 'upcoming'
-    ? t('{match} rejoué en direct {when} sur le site du musée Sochaux Rétro', ['match' => $title, 'when' => $when])
-    : t('Je revis {match} minute par minute sur le site du musée Sochaux Rétro', ['match' => $title]);
+    ? t('{match} rejoué en direct {when} sur le site du musée {site}', ['match' => $title, 'when' => $when])
+    : t('Je revis {match} minute par minute sur le site du musée {site}', ['match' => $title]);
 $clean = fn (string $x): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s*[»"”]\s*([.!?…]?)\s*$/u'], ['', '$1'], $x));
 ?>
 <section class="mhero rdhero" data-rd data-mode="<?= e($mode) ?>">
@@ -175,7 +175,7 @@ $clean = fn (string $x): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
         <?php if ($pitch): ?><span class="compo__formation"><?= e($pitch['formation']) ?></span><?php endif; ?>
       </div>
       <?php if ($pitch): ?>
-      <div class="pitch" role="group" aria-label="<?= e(t('Composition de Sochaux sur le terrain')) ?>">
+      <div class="pitch" role="group" aria-label="<?= e(t('Composition de {team} sur le terrain')) ?>">
         <span class="pitch__line pitch__line--box"></span><span class="pitch__line pitch__line--half"></span><span class="pitch__line pitch__line--circle"></span><span class="pitch__line pitch__line--area-b"></span><span class="pitch__line pitch__line--area-t"></span>
         <?php foreach ($pitch['players'] as $p): ?>
           <<?= $p['href'] ? 'a href="' . e($p['href']) . '"' : 'span' ?> class="pitch__p" style="left:<?= $p['x'] ?>%;top:<?= $p['y'] ?>%">

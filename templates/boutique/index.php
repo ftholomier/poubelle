@@ -3,13 +3,13 @@
 use App\Shop\Orders;
 use App\Shop\ShopPages;
 ?>
-<?= \App\Core\View::partial('boutique/_head', ['title' => 'La boutique', 'lead' => 'Des objets jaune et bleu à votre nom, fabriqués à la demande par un imprimeur local. Choisissez, personnalisez, on s’occupe du reste.', 'eyebrow' => 'Sochaux Rétro', 'crumbs' => [['Boutique', ShopPages::u('/boutique/')]]]) ?>
+<?= \App\Core\View::partial('boutique/_head', ['title' => 'La boutique', 'lead' => club('Des objets {colors} à votre nom, fabriqués à la demande par un imprimeur local. Choisissez, personnalisez, on s’occupe du reste.'), 'eyebrow' => \App\Core\Club::s('site'), 'crumbs' => [['Boutique', ShopPages::u('/boutique/')]]]) ?>
 <?= \App\Core\View::partial('boutique/_bar', ['config' => $config, 'count' => $count]) ?>
 <section class="section--tight">
   <div class="wrap">
     <?php if (!$cards && empty($book)): ?><p>Les premiers articles arrivent très bientôt.</p><?php endif; ?>
     <?php if (array_filter($cards, fn ($c) => \App\Shop\Catalog::unique($c['m']))): ?>
-    <aside class="shopuniqbar"><span class="shopuniq shopuniq--lg" aria-hidden="true">★ Pièce unique</span><p><b>Nouveau : les pièces uniques.</b> Sur les articles marqués d’une étoile, le musée tire pour vous une anecdote de l’histoire du FCSM (une fois vendue, elle n’est plus jamais proposée), compose le poster de votre match, dédicacé à votre nom et numéroté, ou imprime votre carte de supporter d’après votre carnet : votre objet n’existera qu’en un seul exemplaire.</p></aside>
+    <aside class="shopuniqbar"><span class="shopuniq shopuniq--lg" aria-hidden="true">★ Pièce unique</span><p><b>Nouveau : les pièces uniques.</b> Sur les articles marqués d’une étoile, le musée tire pour vous une anecdote de l’histoire <?= e(\App\Core\Club::s('sigle_de')) ?> (une fois vendue, elle n’est plus jamais proposée), compose le poster de votre match, dédicacé à votre nom et numéroté, ou imprime votre carte de supporter d’après votre carnet : votre objet n’existera qu’en un seul exemplaire.</p></aside>
     <?php endif; ?>
     <div class="shopgrid">
       <?php if (!empty($book)): ?>

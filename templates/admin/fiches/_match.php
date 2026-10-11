@@ -28,9 +28,9 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
     </div>
     <h3 class="fsec">Les équipes</h3>
     <div class="fgrid fgrid--4">
-      <?= Form::seg('match.venue', 'Sochaux joue à', $home ? 'domicile' : 'exterieur', ['domicile' => 'Domicile', 'exterieur' => 'Extérieur']) ?>
+      <?= Form::seg('match.venue', \App\Core\Club::team() . ' joue à', $home ? 'domicile' : 'exterieur', ['domicile' => 'Domicile', 'exterieur' => 'Extérieur']) ?>
       <?= Form::text('match.opponent', 'Adversaire', $opp['name'] ?? '', ['ac' => 'clubs', 'hint' => '→ face-à-face', 'required' => true]) ?>
-      <?= Form::text('match.sochaux_level', 'Niveau Sochaux', $us['level'] ?? '', ['placeholder' => 'D1, L2…']) ?>
+      <?= Form::text('match.sochaux_level', 'Niveau ' . \App\Core\Club::team(), $us['level'] ?? '', ['placeholder' => 'D1, L2…']) ?>
       <?= Form::text('match.opponent_level', 'Niveau adversaire', $opp['level'] ?? '', ['placeholder' => 'D1, L2 Sui…']) ?>
     </div>
     <h3 class="fsec">Lieu et officiels</h3>
@@ -43,8 +43,8 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
   <div class="card card--pad">
     <h2 class="card__t">Score</h2>
     <div class="fgrid fgrid--4">
-      <?= Form::number('match.score_home', 'Buts à domicile', $s['home'] ?? null, ['hint' => $home ? 'Sochaux' : 'adversaire']) ?>
-      <?= Form::number('match.score_away', 'Buts à l’extérieur', $s['away'] ?? null, ['hint' => $home ? 'adversaire' : 'Sochaux']) ?>
+      <?= Form::number('match.score_home', 'Buts à domicile', $s['home'] ?? null, ['hint' => $home ? \App\Core\Club::team() : 'adversaire']) ?>
+      <?= Form::number('match.score_away', 'Buts à l’extérieur', $s['away'] ?? null, ['hint' => $home ? 'adversaire' : \App\Core\Club::team()]) ?>
       <?= Form::select('match.extra', 'Prolongation', FicheForm::extraKind($s), ['' => 'Non', 'ap' => 'Après prolongation', 'tab' => 'Tirs au but'], ['strict' => true]) ?>
       <div class="fpair" data-show-if="match.extra" data-show-value="tab">
         <?= Form::number('match.pens_home', 'TAB dom.', $s['pens']['home'] ?? null) ?>
@@ -63,7 +63,7 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
 <div class="fpanel" data-panel="compo">
   <div class="card">
     <div class="card__head">
-      <h2 class="card__t">Composition Sochaux</h2>
+      <h2 class="card__t">Composition <?= e(\App\Core\Club::team()) ?></h2>
       <span class="card__note">Chaque nom est relié automatiquement à sa fiche joueur</span>
       <span class="row"><?= Form::text('match.formation', '', $m['formation'] ?? '', ['placeholder' => 'Formation 4-4-2', 'class' => 'f--inline']) ?><button type="button" class="btn btn--sm" data-lineup-paste>Importer depuis un tableau</button><?php if (!empty($doc['id'])): ?> <button type="submit" class="btn btn--sm" form="compos-form" title="Compare cette composition à Transfermarkt, aux sites de statistiques et à la presse ; les écarts partent dans Trouvailles">Contrôler la composition</button> <label class="btn btn--sm btn--ghost" title="Page du rapport de match enregistrée depuis transfermarkt.fr (Ctrl+S) : elle est comparée à la fiche">Déposer la page Transfermarkt<input type="file" name="tm_html" accept=".html,.htm,text/html" form="compos-form" hidden onchange="this.form.requestSubmit()"></label><?php endif; ?></span>
     </div>

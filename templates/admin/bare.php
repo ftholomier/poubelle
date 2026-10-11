@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title><?= e(($meta['title'] ?? 'Connexion') . ' · Back-office Sochaux Rétro') ?></title>
+<title><?= e(($meta['title'] ?? 'Connexion') . ' · Back-office ' . \App\Core\Club::s('site')) ?></title>
 <link rel="icon" href="/assets/img/favicon.png" type="image/png">
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('admin/admin.css') ?>">
@@ -12,9 +12,9 @@
 <body>
 <main class="auth">
   <canvas class="auth__pitch" data-pitch aria-hidden="true"></canvas>
-  <div class="auth__board" data-board aria-hidden="true"><span>Sochaux</span><b data-home>0</b><i>–</i><b data-away>0</b><span>Visiteurs</span><em data-min>0’</em></div>
+  <div class="auth__board" data-board aria-hidden="true"><span><?= e(\App\Core\Club::team()) ?></span><b data-home>0</b><i>–</i><b data-away>0</b><span>Visiteurs</span><em data-min>0’</em></div>
   <div class="auth__box">
-    <div class="auth__brand"><img src="/assets/img/logo-sochaux-retro.png" alt=""><span><b>Sochaux rétro</b><small>Back-office du musée</small></span></div>
+    <div class="auth__brand"><img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt=""><span><b><?= e(\App\Core\Club::s('site_lc')) ?></b><small>Back-office du musée</small></span></div>
     <?= $content ?>
   </div>
 </main>

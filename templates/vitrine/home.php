@@ -33,7 +33,7 @@ $museum = Host::museum('/');
   </div>
 </section>
 
-<section class="vfigures" aria-label="Sochaux Rétro en chiffres">
+<section class="vfigures" aria-label="<?= e(\App\Core\Club::s('site')) ?> en chiffres">
   <div class="wrap vfigures__in">
     <?php foreach ($figures as $f): ?>
       <div class="vfigure" data-reveal>
@@ -45,7 +45,7 @@ $museum = Host::museum('/');
     <div class="vfigure vfigure--cent" data-reveal>
       <b class="num">J-<span data-count><?= (int) $days ?></span></b>
       <span class="vfigure__l">avant les 100 ans</span>
-      <span class="vfigure__t">du FC Sochaux-Montbéliard</span>
+      <span class="vfigure__t"><?= e(\App\Core\Club::s('club_de')) ?></span>
     </div>
   </div>
 </section>
@@ -84,7 +84,7 @@ $museum = Host::museum('/');
       <h2 class="h-section"><?= e($p['museum_title'] ?? '') ?></h2>
       <p class="vmuseum__lead"><?= e($p['museum_text'] ?? '') ?></p>
       <ul class="vticks">
-        <li>Des milliers de fiches de matchs et de joueurs, depuis 1928</li>
+        <li>Des milliers de fiches de matchs et de joueurs, depuis <?= e(\App\Core\Club::s('founded')) ?></li>
         <li>Rétro-Direct, quiz, album, Fil jaune, carte, frise</li>
         <li>Gratuit, ouvert à tous, participatif</li>
       </ul>
@@ -92,7 +92,7 @@ $museum = Host::museum('/');
     </div>
     <a class="vmuseum__shot" href="<?= e($museum) ?>" target="_blank" rel="noopener" aria-label="Le musée en ligne" data-reveal>
       <span class="vbrowser"><span class="vbrowser__bar"><i></i><i></i><i></i><span><?= e(parse_url($museum, PHP_URL_HOST) ?: 'musee') ?></span></span>
-        <img src="/assets/img/vitrine/musee-accueil.webp" alt="Page d’accueil du musée en ligne Sochaux Rétro" width="1200" height="750" loading="lazy">
+        <img src="/assets/img/vitrine/musee-accueil.webp" alt="Page d’accueil du musée en ligne <?= e(\App\Core\Club::s('site')) ?>" width="1200" height="750" loading="lazy">
       </span>
     </a>
   </div>

@@ -7,7 +7,7 @@ $top = array_slice($list, 0, 12);
     <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><a href="<?= e(url('/matchs/')) ?>"><?= e(t('Matchs')) ?></a><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('Face-à-face')) ?></span></nav>
     <div class="stack" style="gap:12px">
       <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('Face-à-face · historique complet')) ?></span>
-      <h1 class="hhead__title">Sochaux <span class="yellow">×</span> …</h1>
+      <h1 class="hhead__title"><?= e(\App\Core\Club::team()) ?> <span class="yellow">×</span> …</h1>
       <p class="mhead__intro"><?= e(t('Choisissez un adversaire parmi les {n} clubs affrontés : bilan, buts, plus larges victoires, première rencontre.', ['n' => count($list)])) ?></p>
     </div>
     <div class="hhead__chips">

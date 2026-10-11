@@ -102,7 +102,7 @@ final class Association extends Base
             ],
             'equipe' => [
                 'label' => 'Équipe', 'object' => true, 'front' => '/association/equipe/',
-                'help' => 'L’équipe de Sochaux Rétro, en cartes à collectionner : sur le site de l’association (page L’équipe) et sur le musée (Supporters › L’équipe de Sochaux Rétro). Un membre n’apparaît que si son nom est renseigné. Photo : avec l’accord de la personne.',
+                'help' => club('L’équipe {site_de}, en cartes à collectionner : sur le site de l’association (page L’équipe) et sur le musée (Supporters › L’équipe {site_de}).') . ' Un membre n’apparaît que si son nom est renseigné. Photo : avec l’accord de la personne.',
                 'fields' => [],
                 'lists' => [
                     'members' => ['Membres', 'Membre', [

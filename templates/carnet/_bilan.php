@@ -7,7 +7,7 @@ $pct = fn (int $n) => $s['n'] ? (int) round(100 * $n / $s['n']) : 0;
   <div class="cnkpi"><b><?= (int) $s['v'] ?></b><span><?= e(t('victoires')) ?></span><small><?= $pct($s['v']) ?> %</small></div>
   <div class="cnkpi"><b><?= (int) $s['nul'] ?></b><span><?= e(t('nuls')) ?></span></div>
   <div class="cnkpi"><b><?= (int) $s['d'] ?></b><span><?= e(t('défaites')) ?></span></div>
-  <div class="cnkpi"><b><?= (int) $s['gf'] ?></b><span><?= e(t('buts du FCSM vus')) ?></span><small><?= e(t('{n} encaissés', ['n' => $s['ga']])) ?></small></div>
+  <div class="cnkpi"><b><?= (int) $s['gf'] ?></b><span><?= e(t('buts {sigle_de} vus')) ?></span><small><?= e(t('{n} encaissés', ['n' => $s['ga']])) ?></small></div>
   <div class="cnkpi"><b><?= (int) $s['home'] ?></b><span><?= e(t('à domicile')) ?></span><small><?= e(t('{n} en déplacement', ['n' => $s['away']])) ?></small></div>
 </div>
 <?php if ($s['n']): ?>

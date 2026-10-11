@@ -24,12 +24,12 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
       <div class="shopbook__jersey" data-book-jersey hidden>
         <p class="eyebrow">Ton maillot, devant et dos</p>
         <div class="shopbook__jersey-imgs"><div data-jersey-front></div><div data-jersey-back></div></div>
-        <p class="shophelp">Maillot inspiré des maillots du FCSM de l’époque : une évocation libre, pas une reproduction fidèle.</p>
+        <p class="shophelp">Maillot inspiré des maillots <?= e(\App\Core\Club::s('sigle_de')) ?> de l’époque : une évocation libre, pas une reproduction fidèle.</p>
       </div>
       <ul class="shopbook__inside">
         <li><b>Couverture et 4<sup>e</sup></b> à votre nom, avec la photo d’archive de votre choix</li>
         <li><b>Dédicace</b> signée, « supporter depuis », numéro d’exemplaire</li>
-        <li><b>Les 100 grands récits</b> du FCSM, de 1928 à aujourd’hui, illustrés par les archives du musée</li>
+        <li><b>Les 100 grands récits</b> <?= e(\App\Core\Club::s('sigle_de')) ?>, de <?= e(\App\Core\Club::s('founded')) ?> à aujourd’hui, illustrés par les archives du musée</li>
         <li><b>Vos pages</b> : votre maillot floqué, le jour de votre naissance, votre match, vos joueurs, votre photo, vos matchs au stade</li>
         <li><b>Un QR code par récit</b> vers sa page au musée (photos, vidéos, récit lu)</li>
       </ul>
@@ -56,7 +56,7 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
       <fieldset class="shopopt"><legend><span class="shopbook__n">2</span> Couverture et dédicace</legend>
       <div class="shopbook__row">
         <div class="field"><label for="b-nom">Nom imprimé sur la couverture *</label><input id="b-nom" type="text" name="livre[nom]" maxlength="60" required value="<?= e($v('nom')) ?>" placeholder="Lucas Bertrand" data-book-in></div>
-        <div class="field"><label for="b-dep">Supporter depuis (année)</label><input id="b-dep" type="number" name="livre[depuis]" min="1928" max="<?= (int) date('Y') ?>" value="<?= e($v('depuis')) ?>" placeholder="1998"></div>
+        <div class="field"><label for="b-dep">Supporter depuis (année)</label><input id="b-dep" type="number" name="livre[depuis]" min="<?= e(\App\Core\Club::s('founded')) ?>" max="<?= (int) date('Y') ?>" value="<?= e($v('depuis')) ?>" placeholder="1998"></div>
       </div>
       <div class="field"><label for="b-ded">Dédicace</label><textarea id="b-ded" name="livre[dedicace]" rows="3" maxlength="600" placeholder="À mon fils, qui a découvert Bonal sur mes épaules…"><?= e($v('dedicace')) ?></textarea></div>
       <div class="field"><label for="b-sig">Signée</label><input id="b-sig" type="text" name="livre[signature]" maxlength="80" value="<?= e($v('signature')) ?>" placeholder="Papa, Noël <?= (int) date('Y') ?>"></div>

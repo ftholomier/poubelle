@@ -9,11 +9,11 @@ use App\Front\Walls;
 <?php if (!empty($backdrop)): ?>
   <div class="vm__backdrop" style="--bg:url('<?= e($backdrop['src']) ?>')" aria-hidden="true"></div>
   <div class="vm__tiles" aria-hidden="true"></div>
-  <p class="vm__bgcredit"><?= e(t('Au fond : le vestiaire des pros du FCSM')) ?> · © <?= e($backdrop['credit']) ?></p>
+  <p class="vm__bgcredit"><?= e(t('Au fond : le vestiaire des pros {sigle_de}')) ?> · © <?= e($backdrop['credit']) ?></p>
 <?php endif; ?>
 <div class="vm">
   <div class="vm__wall">
-    <span class="vm__stencil" aria-hidden="true">Sochaux</span>
+    <span class="vm__stencil" aria-hidden="true"><?= e(\App\Core\Club::s('city')) ?></span>
     <?php if (!$prints): ?><p class="wempty"><?= e(t('Aucune photo pour ce choix : essayez une autre décennie ou un autre photographe.')) ?></p><?php endif; ?>
     <?php foreach ($prints as $i => $p): ?>
       <figure class="vm__print vm__print--<?= e($p['hold']) ?>" style="--r:<?= $p['rot'] ?>deg;--x:<?= (int) $p['x'] ?>px;--y:<?= (int) $p['y'] ?>px;--z:<?= (int) $p['z'] ?>;--t:<?= (int) $p['tape'] ?>deg;--i:<?= $i ?>" data-print>

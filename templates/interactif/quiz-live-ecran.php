@@ -1,6 +1,6 @@
 <?php
 /** Quiz du club-house : le grand écran de l'animateur (page autonome, plein écran). Variables : $g, $key, $join, $qr */
-$site = (string) \App\Core\Settings::get('general.site_name', 'Sochaux Rétro');
+$site = (string) \App\Core\Settings::get('general.site_name', \App\Core\Club::s('site'));
 $i18n = [
     'lobby' => t('Rejoignez la partie !'), 'players' => t('{n} joueurs'), 'player' => t('1 joueur'), 'none' => t('En attente des joueurs…'),
     'start' => t('Lancer le quiz'), 'next' => t('Suivant'), 'close' => t('Afficher la réponse'), 'board' => t('Classement'),
@@ -65,7 +65,7 @@ $i18n = [
     <h1><?= e(t('Le podium')) ?></h1>
     <div class="qls__podium" data-qls-podium></div>
     <ol class="qls__rank qls__rank--rest" data-qls-rest start="4"></ol>
-    <p class="qls__thanks"><?= e(t('Merci d’avoir joué !')) ?> <?= e(t('Toute l’histoire du FCSM sur')) ?> <b><?= e(preg_replace('#^https?://#', '', base_url())) ?></b></p>
+    <p class="qls__thanks"><?= e(t('Merci d’avoir joué !')) ?> <?= e(t('Toute l’histoire {sigle_de} sur')) ?> <b><?= e(preg_replace('#^https?://#', '', base_url())) ?></b></p>
   </section>
   <section class="qls__board qls__season" data-qls-view="champ" hidden>
     <h1><?= e(t('Championnat {s}', ['s' => \App\Services\QuizChampionship::season((int) $g['created'])])) ?></h1>

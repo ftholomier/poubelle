@@ -64,7 +64,7 @@ final class Walls
             'briefs' => array_slice($photos, 7, 6),
             'number' => random_int(1000, 9999),
             'special' => self::special($f),
-        ], t('Le Lion illustré, journal des photos du musée Sochaux Rétro : une Une, des photos légendées et créditées, une nouvelle édition à chaque visite.'));
+        ], t('Le Lion illustré, journal des photos du musée {site} : une Une, des photos légendées et créditées, une nouvelle édition à chaque visite.'));
     }
 
     public static function lockerRoom(Request $req): Response
@@ -82,7 +82,7 @@ final class Walls
             ];
         }
         $bg = \App\Data\Media::get(self::LOCKER_ROOM);
-        $backdrop = $bg ? ['src' => img(self::LOCKER_ROOM, 800), 'credit' => trim((string) ($bg['credit'] ?? '')) ?: 'FC Sochaux-Montbéliard'] : null;
+        $backdrop = $bg ? ['src' => img(self::LOCKER_ROOM, 800), 'credit' => trim((string) ($bg['credit'] ?? '')) ?: \App\Core\Club::s('club')] : null;
         return self::page($req, 'vestiaire', ['prints' => $prints, 'backdrop' => $backdrop],
             t('Le mur du vestiaire : des photos du musée punaisées et scotchées comme dans un vestiaire, à déplacer à la souris. Un nouveau mur à chaque visite.'));
     }

@@ -4,7 +4,7 @@
 <section class="mhead">
   <div class="wrap mhead__inner" style="padding-bottom:clamp(32px,4vw,56px)">
     <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><a href="<?= e(url('/matchs/')) ?>"><?= e(t('Matchs')) ?></a><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('Saisons')) ?></span></nav>
-    <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('Depuis 1928')) ?></span>
+    <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('Depuis {founded}')) ?></span>
     <h1 class="mhead__title"><?= e(t('Saisons')) ?></h1>
     <p class="mhead__intro"><?= e(t('Choisissez une saison : résultats, effectif et buteurs, calculés depuis les fiches matchs.')) ?></p>
   </div>

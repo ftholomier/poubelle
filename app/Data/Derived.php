@@ -1300,7 +1300,7 @@ final class Derived
             $want = $us <=> $them;
             if (is_array($pens) && isset($pens['home'], $pens['away'])) {
                 if ($us !== $them) {
-                    $out[] = ['sev' => 'moyenne', 'code' => 'resultat', 'ref' => 'tab', 'msg' => "Tirs au but saisis alors que le score n’est pas nul ($us-$them pour Sochaux) (onglet Infos)"];
+                    $out[] = ['sev' => 'moyenne', 'code' => 'resultat', 'ref' => 'tab', 'msg' => "Tirs au but saisis alors que le score n’est pas nul ($us-$them pour " . \App\Core\Club::team() . ") (onglet Infos)"];
                 } else {
                     $sh = (bool) ($m['sochaux_home'] ?? true);
                     $want = $sh ? ((int) $pens['home'] <=> (int) $pens['away']) : ((int) $pens['away'] <=> (int) $pens['home']);
@@ -1311,7 +1311,7 @@ final class Derived
             $tabUnknown = $us === $them && !is_array($pens) && stripos((string) ($m['score']['extra'] ?? ''), 'tab') !== false;
             $labels = ['V' => 'victoire', 'N' => 'nul', 'D' => 'défaite'];
             if ($res !== null && !$tabUnknown && $res !== [1 => 'V', 0 => 'N', -1 => 'D'][$want]) {
-                $out[] = ['sev' => 'haute', 'code' => 'resultat', 'ref' => 'incoherent', 'msg' => 'Résultat « ' . ($labels[$res] ?? $res) . " » incohérent avec le score ($us-$them pour Sochaux) : réenregistrer le score (onglet Infos)"];
+                $out[] = ['sev' => 'haute', 'code' => 'resultat', 'ref' => 'incoherent', 'msg' => 'Résultat « ' . ($labels[$res] ?? $res) . " » incohérent avec le score ($us-$them pour " . \App\Core\Club::team() . ") : réenregistrer le score (onglet Infos)"];
             }
         }
         // Composition d'un match officiel : 11 titulaires au plus, un seul gardien, pas de minute

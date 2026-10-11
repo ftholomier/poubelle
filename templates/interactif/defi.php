@@ -15,11 +15,11 @@ $i18n = [
     'qn' => t('Question {i} / {n}'), 'good' => t('Bonne réponse !'), 'bad' => t('Raté…'), 'late' => t('Temps écoulé'),
     'pts' => t('+{n} points'), 'next' => t('Question suivante'), 'end' => t('Voir mon résultat'), 'score' => t('{n} points'),
     'error' => t('Connexion perdue, réessayez.'), 'mailed' => t('Un lien vient d’être envoyé à cette adresse : ouvrez-le sur ce téléphone pour jouer le défi du jour au classement (pensez aux indésirables).'),
-    'copied' => t('Résultat copié : collez-le où vous voulez.'), 'shareTitle' => t('Le défi du jour Sochaux Rétro'),
-    'shareText' => t('Défi du jour Sochaux Rétro · {d}'), 'goodOf' => t('{g}/{n} bonnes réponses'), 'guest' => t('Partie en invité : elle n’entre pas au classement.'),
+    'copied' => t('Résultat copié : collez-le où vous voulez.'), 'shareTitle' => t('Le défi du jour {site}'),
+    'shareText' => t('Défi du jour {site} · {d}'), 'goodOf' => t('{g}/{n} bonnes réponses'), 'guest' => t('Partie en invité : elle n’entre pas au classement.'),
 ];
 ?>
-<?= View::partial('carnet/_head', ['title' => t('Le défi du jour'), 'intro' => t('Dix questions sur l’histoire du FCSM, les mêmes pour tout le monde aujourd’hui. Un seul essai par jour : plus vous répondez vite, plus vous marquez.'), 'crumb' => t('Le défi du jour'), 'eyebrow' => date_fr($date)]) ?>
+<?= View::partial('carnet/_head', ['title' => t('Le défi du jour'), 'intro' => t('Dix questions sur l’histoire {sigle_de}, les mêmes pour tout le monde aujourd’hui. Un seul essai par jour : plus vous répondez vite, plus vous marquez.'), 'crumb' => t('Le défi du jour'), 'eyebrow' => date_fr($date)]) ?>
 <div class="wrap cnwrap qc df-wrap">
   <script type="application/json" id="df-i18n"><?= json_encode($i18n + ['date' => date_fr($date), 'url' => $share], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) ?></script>
   <?php if ($welcome && $me): ?><p class="cnwelcome"><?= e(t('C’est validé : ce téléphone vous reconnaîtra chaque jour, sous le nom {p}.', ['p' => $me['pseudo']])) ?></p><?php endif; ?>

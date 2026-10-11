@@ -152,7 +152,7 @@ final class Retro
         $id = (int) $req->str('match');
         $date = $req->str('date');
         $lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Sochaux Retro//Retro-Direct//FR', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
-            'X-WR-CALNAME:' . self::icsText(t('Rétro-Direct · Sochaux Rétro')), 'X-WR-TIMEZONE:Europe/Paris', 'REFRESH-INTERVAL;VALUE=DURATION:PT12H'];
+            'X-WR-CALNAME:' . self::icsText(t('Rétro-Direct · {site}')), 'X-WR-TIMEZONE:Europe/Paris', 'REFRESH-INTERVAL;VALUE=DURATION:PT12H'];
         $host = parse_url(base_url(), PHP_URL_HOST) ?: 'fcsochauxretro.com';
         $n = 0;
         foreach (RetroDirect::program() as $e) {

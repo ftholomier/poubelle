@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 /**
  * Mise en page du poster souvenir (voir Poster) : une mosaïque de blocs sur une grille de
  * 12 colonnes, dessinée en millimètres pour l'A3 (297 × 420). Chaque bloc devient des calques du
@@ -226,7 +227,7 @@ class PosterLayout
         $s = self::pt(16);
         $y = self::PAD;
         $pour = 'pour ' . $this->pour;
-        $left = [['Sochaux Rétro · ', 'display-b', self::MIST], ['le musée des Lionceaux', 'display-b', self::YELLOW]];
+        $left = [[Club::s('site') . ' · ', 'display-b', self::MIST], [club('le musée des {nickname}'), 'display-b', self::YELLOW]];
         $lw = 0;
         foreach ($left as $seg) {
             $lw += self::width(mb_strtoupper($seg[0]), 'display-b', $s, 220);
@@ -247,7 +248,7 @@ class PosterLayout
     {
         $s = self::pt(13);
         $y = self::H - self::PAD - 3.6;
-        $this->text(self::PAD, $y, 200, 'Faits, citations et temps forts tirés de la fiche du match et de son récit · musée Sochaux Rétro', 'serif-i', $s, self::MIST);
+        $this->text(self::PAD, $y, 200, club('Faits, citations et temps forts tirés de la fiche du match et de son récit · musée {site}'), 'serif-i', $s, self::MIST);
         $this->text(self::W - self::PAD - 70, $y, 70, 'Poster A3 · 297 × 420 mm', 'serif-i', $s, self::MIST, ['align' => 'right']);
     }
 
@@ -487,7 +488,7 @@ class PosterLayout
         $bh = $y + $h - 4 - $ty;
         $opp = $this->d['dm']['opp'] ?? '';
         foreach ($qs as $i => $q) {
-            $side = match ($q['side'] ?? '') { 'sochaux' => 'Côté Sochaux', 'adversaire' => $opp !== '' ? 'Côté ' . $opp : '', default => '' };
+            $side = match ($q['side'] ?? '') { 'sochaux' => 'Côté ' . Club::team(), 'adversaire' => $opp !== '' ? 'Côté ' . $opp : '', default => '' };
             $this->quoteBody($q, $ix + $i * ($cw + 8), $ty, $cw, $bh, self::pt(23), $side);
         }
         for ($dy = $ty; $dy < $y + $h - 5; $dy += 2.4) {
@@ -616,7 +617,7 @@ class PosterLayout
         $this->rect($x, $y, $w, $h, self::YELLOW);
         $ix = $x + 4.5;
         $iw = $w - 9;
-        $ty = $this->kicker($ix, $y + 2.6, $iw * 0.7, 'Saison ' . $s['season'] . ' · Sochaux ' . $s['level'], self::NAVY);
+        $ty = $this->kicker($ix, $y + 2.6, $iw * 0.7, 'Saison ' . $s['season'] . ' · ' . Club::team() . ' ' . $s['level'], self::NAVY);
         $px = $ix;
         foreach ([[$s['w'], 'victoires'], [$s['d'], 'nuls'], [$s['l'], 'défaites'], [$s['gf'], 'buts marqués'], [$s['ga'], 'encaissés']] as [$n, $lab]) {
             $ns = self::pt(34);

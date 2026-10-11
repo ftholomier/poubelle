@@ -34,7 +34,7 @@ final class Legal
         $email = $g('email') ?: (string) Settings::get('general.contact_email', '');
         $vars = [
             'key' => $key,
-            'publisher' => $g('publisher', 'Sochaux Rétro'),
+            'publisher' => $g('publisher', \App\Core\Club::s('site')),
             'status' => $g('status'),
             'address' => safe_html($g('address')),
             'registration' => $g('registration'),
@@ -44,7 +44,7 @@ final class Legal
             'host' => safe_html($g('host')),
             'privacy' => $g('privacy_contact') ?: $email,
             'extra' => safe_html($g('extra')),
-            'site' => (string) Settings::get('general.site_name', 'Sochaux Rétro'),
+            'site' => (string) Settings::get('general.site_name', \App\Core\Club::s('site')),
             'base' => base_url(),
             'aiDays' => (int) Settings::get('ai.log_retention_days', 365),
             'aiOn' => (bool) Settings::get('ai.enabled', false),

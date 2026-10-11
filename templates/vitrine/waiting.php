@@ -96,9 +96,9 @@ $desc = mb_substr(trim((string) preg_replace('/\s+/u', ' ', strip_tags($text))),
 
     <?php if (!empty($w['museum'])): ?>
       <section class="vwait__museum" aria-labelledby="vwait-museum">
-        <span class="eyebrow">Le musée en ligne du FCSM</span>
+        <span class="eyebrow">Le musée en ligne <?= e(\App\Core\Club::s('sigle_de')) ?></span>
         <h2 id="vwait-museum" class="vwait__h"><?= $museumOpen ? 'Il est ouvert, et il vous attend' : 'Il ouvre bientôt, lui aussi' ?></h2>
-        <p>Près d’un siècle de matchs, de joueurs, de photos et d’archives du FC Sochaux-Montbéliard, gratuitement, pour tous les passionnés.</p>
+        <p>Près d’un siècle de matchs, de joueurs, de photos et d’archives <?= e(\App\Core\Club::s('club_de')) ?>, gratuitement, pour tous les passionnés.</p>
         <?php if ($teaser): ?>
           <video class="vwait__teaser" controls playsinline preload="none" poster="<?= e(Host::url(teaser_src('jpg', !\App\Vitrine\Site::$preview))) ?>" width="1920" height="1080" aria-label="Teaser vidéo du musée">
             <source src="<?= e(Host::url(teaser_src('mp4', !\App\Vitrine\Site::$preview))) ?>" type="video/mp4">

@@ -31,7 +31,7 @@ final class Appli
         $push = Notifications::enabled();
         return Pages::render('appli', ['push' => $push, 'topics' => $push ? Notifications::topics() : []], [
             'title' => t('L’appli du musée'),
-            'description' => t('Installez Sochaux Rétro sur l’écran d’accueil de votre téléphone : le musée en plein écran, plus rapide, et lisible même sans réseau.'),
+            'description' => t('Installez {site} sur l’écran d’accueil de votre téléphone : le musée en plein écran, plus rapide, et lisible même sans réseau.'),
             'active' => '',
             'styles' => ['css/appli.css'],
             'scripts' => ['js/appli.js'],
@@ -98,7 +98,7 @@ final class Appli
         $out = [];
         foreach (['fr', 'en'] as $l) {
             I18n::set($l);
-            $out[$l] = ['title' => t('Sochaux Rétro · notification d’essai'), 'body' => t('Tout fonctionne : le musée pourra vous prévenir.'), 'url' => url('/appli/')];
+            $out[$l] = ['title' => t('{site} · notification d’essai'), 'body' => t('Tout fonctionne : le musée pourra vous prévenir.'), 'url' => url('/appli/')];
         }
         I18n::set($prev);
         return $out;

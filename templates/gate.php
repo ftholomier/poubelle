@@ -1,6 +1,6 @@
 <?php
 /** Accès au site protégé par mot de passe (pré-lancement). Variables : $error */
-$site = (string) \App\Core\Settings::get('general.site_name', 'Sochaux Rétro');
+$site = (string) \App\Core\Settings::get('general.site_name', \App\Core\Club::s('site'));
 ?><!DOCTYPE html>
 <html lang="fr">
 <head>

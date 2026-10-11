@@ -170,8 +170,8 @@ final class Palmares
     {
         $d = self::data();
         return Pages::render('palmares', $d, [
-            'title' => t('Palmarès du FC Sochaux-Montbéliard'),
-            'description' => t('Les titres, finales et places d’honneur du FC Sochaux-Montbéliard depuis 1928 : championnats, Coupes de France, Coupe de la Ligue, Gambardella, Coupe Drago…'),
+            'title' => t('Palmarès {club_de}'),
+            'description' => t('Les titres, finales et places d’honneur {club_de} depuis {founded} : championnats, Coupes de France, Coupe de la Ligue, Gambardella, Coupe Drago…'),
             'active' => 'interactif',
             'styles' => ['css/mosaic.css', 'css/explore.css'],
         ]);

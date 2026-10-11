@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 use App\Core\JsonStore;
 use App\Front\PdfExport;
 use App\Pdf\Layout;
@@ -300,7 +301,7 @@ final class Accounts
     public static function statementPdf(array $s, bool $margins = true): string
     {
         $month = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'][(int) substr($s['ym'], 5, 2) - 1] . ' ' . substr($s['ym'], 0, 4);
-        $l = PdfExport::layout('/boutique/', 'Relevé imprimeur · ' . $month, 'Relevé imprimeur ' . $month, 'Boutique Sochaux Rétro');
+        $l = PdfExport::layout('/boutique/', 'Relevé imprimeur · ' . $month, 'Relevé imprimeur ' . $month, 'Boutique ' . Club::s('site'));
         $l->newPage();
         $l->masthead('Boutique');
         PdfExport::titleBlock($l, 'Relevé de fabrication', $month, 'Imprimeur : ' . ($s['printer'] !== '' ? $s['printer'] : '—') . ' · articles des commandes payées dans le mois');

@@ -76,7 +76,7 @@ final class Donations
             'steps' => [
                 ['title' => 'On collecte', 'title_en' => 'We collect', 'text' => 'Supporters, anciens joueurs et familles nous confient leurs documents.', 'text_en' => 'Supporters, former players and families entrust us with their documents.', 'image' => ''],
                 ['title' => 'On numérise', 'title_en' => 'We digitise', 'text' => 'Scan haute définition, restauration et légendage de chaque pièce.', 'text_en' => 'High-definition scanning, restoration and captioning of every item.', 'image' => ''],
-                ['title' => 'On partage', 'title_en' => 'We share', 'text' => 'Tout est mis en ligne gratuitement, pour tous les Lionceaux.', 'text_en' => 'Everything is published online for free, for every Lionceau.', 'image' => ''],
+                ['title' => 'On partage', 'title_en' => 'We share', 'text' => club('Tout est mis en ligne gratuitement, pour tous les {nickname}.'), 'text_en' => 'Everything is published online for free, for every Lionceau.', 'image' => ''],
             ],
             'wall_text' => 'Votre nom ici, si vous le souhaitez.',
         ];
@@ -128,7 +128,7 @@ final class Donations
             'old' => Session::pull('old_don', []),
         ], [
             'title' => t('Faire un don au musée'),
-            'description' => t('Soutenez Sochaux Rétro : votre don finance la numérisation et la mise en ligne des archives du FC Sochaux-Montbéliard avant ses 100 ans.'),
+            'description' => t('Soutenez {site} : votre don finance la numérisation et la mise en ligne des archives {club_de} avant ses 100 ans.'),
             'styles' => ['css/community.css', 'css/don.css'],
             'scripts' => ['js/don.js'],
         ]);
@@ -235,7 +235,7 @@ final class Donations
         $base = base_url();
         $back = $base . url('/faire-un-don/') . '?annule=1';
         $ok = $base . url('/faire-un-don/merci/') . '?don=' . $id;
-        $org = (string) Settings::get('donations.org_name', 'Sochaux Rétro');
+        $org = (string) Settings::get('donations.org_name', \App\Core\Club::s('site'));
         $label = $month ? t('Don mensuel à {org}', ['org' => $org]) : t('Don à {org}', ['org' => $org]);
         try {
             if ($method === 'stripe') {
@@ -609,7 +609,7 @@ final class Donations
         }
         self::update($don['id'], fn ($x) => ['status' => 'canceled', 'ended' => date('c'), 'ended_by' => $by] + $x);
         $first = $don['donor']['first'] ?? '';
-        Mailer::send((string) $don['donor']['email'], t('Votre don mensuel est arrêté'), '<p>' . e(t('Bonjour {prenom},', ['prenom' => $first])) . '</p><p>' . e(t('Votre don mensuel de {montant} à Sochaux Rétro est arrêté : aucun nouveau prélèvement ne sera effectué.', ['montant' => self::money($don['amount'])])) . '</p><p>' . e(t('Merci du fond du cœur pour votre soutien.')) . '</p>');
+        Mailer::send((string) $don['donor']['email'], t('Votre don mensuel est arrêté'), '<p>' . e(t('Bonjour {prenom},', ['prenom' => $first])) . '</p><p>' . e(t('Votre don mensuel de {montant} à {site} est arrêté : aucun nouveau prélèvement ne sera effectué.', ['montant' => self::money($don['amount'])])) . '</p><p>' . e(t('Merci du fond du cœur pour votre soutien.')) . '</p>');
         return true;
     }
 
@@ -894,7 +894,7 @@ final class Donations
             $html .= '<p>' . e(t('Votre reçu fiscal est joint à ce message.')) . '</p>';
             $att[] = ['name' => "recu-fiscal-$receipt.pdf", 'type' => 'application/pdf', 'data' => (string) file_get_contents($f)];
         }
-        Mailer::send((string) $don['donor']['email'], t('Merci pour votre don à Sochaux Rétro'), $html, null, $att);
+        Mailer::send((string) $don['donor']['email'], t('Merci pour votre don à {site}'), $html, null, $att);
     }
 
     private static function notifyTeam(?array $don): void
@@ -992,7 +992,7 @@ final class Donations
             if ($refs && ($num = self::issueReceipt($d['id'], $refs, $year))) {
                 $done[] = $num;
                 $f = self::RECEIPTS . "/$year/$num.pdf";
-                Mailer::send((string) $d['donor']['email'], t('Votre reçu fiscal {annee} · Sochaux Rétro', ['annee' => $year]), '<p>' . e(t('Bonjour {prenom},', ['prenom' => $d['donor']['first'] ?? ''])) . '</p><p>' . e(t('Veuillez trouver ci-joint le reçu fiscal de vos dons mensuels de l’année {annee}. Merci pour votre fidélité !', ['annee' => $year])) . '</p>', null, [['name' => "recu-fiscal-$num.pdf", 'type' => 'application/pdf', 'data' => (string) file_get_contents($f)]]);
+                Mailer::send((string) $d['donor']['email'], t('Votre reçu fiscal {annee} · {site}', ['annee' => $year]), '<p>' . e(t('Bonjour {prenom},', ['prenom' => $d['donor']['first'] ?? ''])) . '</p><p>' . e(t('Veuillez trouver ci-joint le reçu fiscal de vos dons mensuels de l’année {annee}. Merci pour votre fidélité !', ['annee' => $year])) . '</p>', null, [['name' => "recu-fiscal-$num.pdf", 'type' => 'application/pdf', 'data' => (string) file_get_contents($f)]]);
             }
         }
         return $done;
@@ -1015,7 +1015,7 @@ final class Donations
             imagejpeg($bg, null, 88);
             $p->jpeg((string) ob_get_clean(), 42, 36, 58, 58 * $h / max(1, $w));
         }
-        $org = $g('org_name', 'Sochaux Rétro');
+        $org = $g('org_name', \App\Core\Club::s('site'));
         $p->text(112, 52, $org, 14, 'B');
         $y = 66;
         foreach (array_filter(array_map('trim', preg_split('/\R|<br\s*\/?>|<\/p>/i', html_entity_decode(strip_tags($g('org_address'), '<br><p>'), ENT_QUOTES, 'UTF-8')))) as $line) {

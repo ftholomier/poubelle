@@ -2,7 +2,7 @@
 /** Nos actions (rubrique). Variables : $p, $actions */
 use App\Vitrine\Host;
 ?>
-<?= \App\Core\View::partial('vitrine/partials/page-head', ['title' => $p['title'], 'lead' => $p['lead'], 'eyebrow' => 'Sochaux Rétro', 'crumbs' => [[$p['title'], Host::url('/nos-actions/')]]]) ?>
+<?= \App\Core\View::partial('vitrine/partials/page-head', ['title' => $p['title'], 'lead' => $p['lead'], 'eyebrow' => \App\Core\Club::s('site'), 'crumbs' => [[$p['title'], Host::url('/nos-actions/')]]]) ?>
 <section class="section">
   <div class="wrap">
     <div class="vactions">

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Pdf;
 
+use App\Core\Club;
 /**
  * Écriture d'un fichier PDF 1.7 : pages, polices TrueType embarquées (sous-ensembles, texte
  * sélectionnable et copiable), images JPEG / PNG avec transparence, liens, signets et métadonnées.
@@ -197,7 +198,7 @@ final class Writer
         $this->set($this->pagesId, '<< /Type /Pages /Kids [' . implode(' ', $kids) . '] /Count ' . count($kids) . ' >>');
         $outlinesId = $this->writeOutlines();
         $catalog = $this->add('<< /Type /Catalog /Pages ' . $this->pagesId . ' 0 R' . ($outlinesId ? " /Outlines $outlinesId 0 R /PageMode /UseOutlines" : '') . ' /Lang ' . self::str($this->lang, false) . ' /ViewerPreferences << /DisplayDocTitle true >> >>');
-        $info = $this->info + ['Producer' => 'Sochaux Rétro', 'CreationDate' => 'D:' . date('YmdHisO')];
+        $info = $this->info + ['Producer' => Club::s('site'), 'CreationDate' => 'D:' . date('YmdHisO')];
         $info['CreationDate'] = preg_replace('/([+-]\d{2})(\d{2})$/', "$1'$2'", $info['CreationDate']);
         $parts = [];
         foreach ($info as $k => $v) {

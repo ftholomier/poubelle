@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\Club;
 use App\Core\Auth;
 use App\Core\JsonStore;
 use App\Core\Request;
@@ -475,7 +476,7 @@ final class System extends Base
         }
         $to = (string) (Auth::user()['email'] ?? '');
         $d = \App\Services\Mailer::diagnose();
-        $ok = $to !== '' && \App\Services\Mailer::send($to, 'Sochaux Rétro · e-mail d’essai',
+        $ok = $to !== '' && \App\Services\Mailer::send($to, Club::s('site') . ' · e-mail d’essai',
             '<p>Cet e-mail d’essai a été envoyé depuis Réglages › E-mail du back-office.</p><p>Mode d’envoi : <b>' . ($d['mode'] === 'smtp' ? 'serveur SMTP' : 'fonction mail() de PHP') . '</b> · expéditeur : <b>' . e($d['from']) . '</b>.</p><p>S’il est arrivé dans les indésirables, voir les conseils sous le réglage.</p>');
         Activity::log(self::actor(), 'a envoyé un e-mail d’essai', null);
         return $ok

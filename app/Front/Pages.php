@@ -115,7 +115,7 @@ final class Pages
                     $role = in_array('entraineur', (array) ($p['roles'] ?? []), true) ? t('entraîneur') : (string) (($p['position'] ?? '') ?: t('joueur'));
                     $stay = (int) ($p['departure'] ?? 0) > $y ? t('Il restera au club jusqu’en {d}.', ['d' => (int) $p['departure']]) : '';
                     return ['kind' => t('Arrivée au club'), 'title' => (string) ($p['name'] ?? $e['title']),
-                        'text' => trim(t('Il y a {n} ans, {name} arrivait à Sochaux ({role}).', ['n' => $base['n'], 'name' => (string) ($p['name'] ?? $e['title']), 'role' => $role]) . ' ' . $stay),
+                        'text' => trim(t('Il y a {n} ans, {name} arrivait {city_a} ({role}).', ['n' => $base['n'], 'name' => (string) ($p['name'] ?? $e['title']), 'role' => $role]) . ' ' . $stay),
                         'href' => url((string) $e['path']), 'image' => $e['image'], 'key' => 'f' . $e['id']] + $base;
                 },
                 'depart' => function () use ($people, $y, $seed, $base, &$seen) {
@@ -127,7 +127,7 @@ final class Pages
                     $p = $e['p'];
                     $len = $y - (int) $p['arrival'];
                     return ['kind' => t('Départ du club'), 'title' => (string) ($p['name'] ?? $e['title']),
-                        'text' => t('Il y a {n} ans, {name} quittait Sochaux, arrivé en {a}{d}.', ['n' => $base['n'], 'name' => (string) ($p['name'] ?? $e['title']), 'a' => (int) $p['arrival'],
+                        'text' => t('Il y a {n} ans, {name} quittait {team}, arrivé en {a}{d}.', ['n' => $base['n'], 'name' => (string) ($p['name'] ?? $e['title']), 'a' => (int) $p['arrival'],
                             'd' => $len > 1 ? ' (' . t('{x} saisons au club', ['x' => $len]) . ')' : '']),
                         'href' => url((string) $e['path']), 'image' => $e['image'], 'key' => 'f' . $e['id']] + $base;
                 },
@@ -230,7 +230,7 @@ final class Pages
         ];
         $introTitle = trim((string) Settings::get('home.intro_title', ''));
         $introText = plain_text((string) Settings::get('home.intro_text', ''));
-        $defaultDesc = t("Le musée en ligne du FC Sochaux-Montbéliard : près d'un siècle de matchs, de joueurs, de supporters et de symboles, rassemblés par Sochaux Rétro.");
+        $defaultDesc = t("Le musée en ligne {club_de} : près d'un siècle de matchs, de joueurs, de supporters et de symboles, rassemblés par {site}.");
         return self::render('home', $vars, [
             'title' => '',
             'full_title' => $introTitle !== '' && !\App\Services\I18n::isEn() ? $introTitle : null,
@@ -239,7 +239,7 @@ final class Pages
             'jsonld' => [
                 '@context' => 'https://schema.org',
                 '@type' => 'WebSite',
-                'name' => Settings::get('general.site_name', 'Sochaux Rétro'),
+                'name' => Settings::get('general.site_name', \App\Core\Club::s('site')),
                 'url' => base_url() . '/',
                 'potentialAction' => ['@type' => 'SearchAction', 'target' => base_url() . '/recherche/?q={q}', 'query-input' => 'required name=q'],
             ],
@@ -445,17 +445,17 @@ final class Pages
             ['years' => '2×', 'title' => 'Champion de France'],
             ['years' => '2×', 'title' => 'Coupe de France'],
             ['years' => '1×', 'title' => 'Coupe de la Ligue'],
-            ['years' => '1928', 'title' => 'Année de fondation'],
+            ['years' => \App\Core\Club::s('founded'), 'title' => 'Année de fondation'],
         ];
     }
 
     public static function counters(): array
     {
         return [
-            ['n' => (string) count(Index::published('match')), 'label' => t('matchs'), 'text' => t('renseignés dans la base de données de Sochaux Rétro.')],
-            ['n' => (string) Site::count(Site::C_JOUEURS), 'label' => t('joueurs'), 'text' => t('renseignés dans la base de données de Sochaux Rétro.')],
-            ['n' => (string) Settings::get('home.counter_community', '11000+'), 'label' => t('membres'), 'text' => t('dans la communauté Sochaux Rétro, tous réseaux sociaux confondus.')],
-            ['n' => (string) Settings::get('home.counter_videos', '1400+'), 'label' => t('vidéos'), 'text' => t('sur la chaîne YouTube de Sochaux Rétro.')],
+            ['n' => (string) count(Index::published('match')), 'label' => t('matchs'), 'text' => t('renseignés dans la base de données de {site}.')],
+            ['n' => (string) Site::count(Site::C_JOUEURS), 'label' => t('joueurs'), 'text' => t('renseignés dans la base de données de {site}.')],
+            ['n' => (string) Settings::get('home.counter_community', '11000+'), 'label' => t('membres'), 'text' => t('dans la communauté {site}, tous réseaux sociaux confondus.')],
+            ['n' => (string) Settings::get('home.counter_videos', '1400+'), 'label' => t('vidéos'), 'text' => t('sur la chaîne YouTube de {site}.')],
         ];
     }
 
@@ -587,8 +587,8 @@ final class Pages
             'team' => \App\Vitrine\Content::team(),
             'joinUrl' => \App\Vitrine\Host::abs('/nous-soutenir/benevolat/'),
         ], [
-            'title' => t('L’équipe de Sochaux Rétro'),
-            'description' => t('Les bénévoles qui font vivre le musée Sochaux Rétro, en vignettes à collectionner : mission et anecdote de chacun.'),
+            'title' => t('L’équipe de {site}'),
+            'description' => t('Les bénévoles qui font vivre le musée {site}, en vignettes à collectionner : mission et anecdote de chacun.'),
             'active' => 'supporters',
             'styles' => ['css/explore.css', 'css/chiffres.css', 'css/team.css'],
             'scripts' => ['js/team.js'],
@@ -643,7 +643,7 @@ final class Pages
             'shortcuts' => $suggest,
         ], [
             'title' => $q !== '' ? t('Recherche') . ' : ' . $q : t('Recherche'),
-            'description' => t('Rechercher un match, un joueur, une saison dans le musée en ligne du FC Sochaux-Montbéliard.'),
+            'description' => t('Rechercher un match, un joueur, une saison dans le musée en ligne {club_de}.'),
             'noindex' => true,
             'body_class' => 'page-search',
             'styles' => ['css/mosaic.css'],
@@ -700,7 +700,7 @@ final class Pages
         }
         return self::render('teaser', [], [
             'title' => t('Le teaser du musée'),
-            'description' => t('Deux minutes pour découvrir le musée : près d’un siècle de matchs, de joueurs et de souvenirs du FC Sochaux-Montbéliard.'),
+            'description' => t('Deux minutes pour découvrir le musée : près d’un siècle de matchs, de joueurs et de souvenirs {club_de}.'),
             'active' => '',
         ]);
     }

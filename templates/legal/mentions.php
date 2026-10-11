@@ -27,10 +27,10 @@ $en = I18n::isEn();
       <h2>Development</h2>
       <p>The website was developed by <b>Frédéric Tholomier | <a href="https://le-digital.com/" rel="noopener" target="_blank">LE-DIGITAL.com</a></b>.</p>
       <h2>Purpose of the site</h2>
-      <p><?= e($site) ?> is an online museum dedicated to the history of FC Sochaux-Montbéliard since 1928: matches, players, coaches, executives, supporters, stadiums and symbols. Its content is written and checked by volunteer historians.</p>
+      <p><?= e($site) ?> is an online museum dedicated to the history of <?= e(\App\Core\Club::s('club')) ?> since <?= e(\App\Core\Club::s('founded')) ?>: matches, players, coaches, executives, supporters, stadiums and symbols. Its content is written and checked by volunteer historians.</p>
       <h2>Intellectual property</h2>
       <p>The texts, compilations, databases and layout of the site are protected by copyright. Photographs, posters, programmes, press cuttings and other documents remain the property of their authors or rights holders, credited whenever they are known. Any reproduction requires prior permission.</p>
-      <p>The names, badges and trademarks of FC Sochaux-Montbéliard and of the other clubs mentioned belong to their respective owners and are used for historical and informational purposes only.</p>
+      <p>The names, badges and trademarks of <?= e(\App\Core\Club::s('club')) ?> and of the other clubs mentioned belong to their respective owners and are used for historical and informational purposes only.</p>
       <p>If you hold the rights to a document published on the site and wish it to be credited differently or removed, please <a href="<?= e(url('/contact/') . '?objet=erreur') ?>">contact us</a>: we will act promptly.</p>
       <h2>Contributions</h2>
       <p>Documents and testimonies sent through the “Contribute” page are published only after review by the team, with the credit chosen by the contributor, who confirms holding the necessary rights.</p>
@@ -56,11 +56,11 @@ $en = I18n::isEn();
       <h2>Développement</h2>
       <p>Le développement du site a été effectué par <b>Frédéric Tholomier | <a href="https://le-digital.com/" rel="noopener" target="_blank">LE-DIGITAL.com</a></b>.</p>
       <h2>Objet du site</h2>
-      <p><?= e($site) ?> est un musée en ligne consacré à l’histoire du FC Sochaux-Montbéliard depuis 1928 : matchs, joueurs, entraîneurs, dirigeants, supporters, stades et symboles. Ses contenus sont rédigés et vérifiés par des historiens bénévoles.</p>
+      <p><?= e($site) ?> est un musée en ligne consacré à l’histoire <?= e(\App\Core\Club::s('club_de')) ?> depuis <?= e(\App\Core\Club::s('founded')) ?> : matchs, joueurs, entraîneurs, dirigeants, supporters, stades et symboles. Ses contenus sont rédigés et vérifiés par des historiens bénévoles.</p>
       <h2>Propriété intellectuelle</h2>
       <p>Les textes, compilations, bases de données et la mise en page du site sont protégés par le droit d’auteur. Les photographies, affiches, programmes, coupures de presse et autres documents restent la propriété de leurs auteurs ou ayants droit, crédités lorsqu’ils sont connus. Toute reproduction nécessite une autorisation préalable.</p>
       <p><b>Fouille de textes et de données, intelligence artificielle :</b> conformément à l’article L. 122-5-3 du Code de la propriété intellectuelle (directive européenne 2019/790), l’éditeur s’oppose à toute fouille de textes et de données des contenus du site, notamment pour entraîner ou alimenter des systèmes d’intelligence artificielle. L’aspiration automatisée du site (robots, scripts, logiciels de copie) est interdite sans accord écrit préalable et techniquement bloquée.</p>
-      <p>Les noms, écussons et marques du FC Sochaux-Montbéliard et des autres clubs cités appartiennent à leurs titulaires respectifs et ne sont utilisés qu’à des fins historiques et d’information.</p>
+      <p>Les noms, écussons et marques <?= e(\App\Core\Club::s('club_de')) ?> et des autres clubs cités appartiennent à leurs titulaires respectifs et ne sont utilisés qu’à des fins historiques et d’information.</p>
       <p>Si vous détenez les droits d’un document publié et souhaitez qu’il soit crédité autrement ou retiré, <a href="<?= e(url('/contact/') . '?objet=erreur') ?>">écrivez-nous</a> : nous agirons rapidement.</p>
       <h2>Contributions</h2>
       <p>Les documents et témoignages envoyés depuis la page « Contribuer » ne sont publiés qu’après relecture par l’équipe, avec le crédit choisi par le contributeur, qui certifie disposer des droits nécessaires.</p>

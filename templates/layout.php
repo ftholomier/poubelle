@@ -45,7 +45,7 @@ $chat = empty($page['no_chat']) && \App\Services\Rag::enabled();
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Sochaux Rétro">
+<meta name="apple-mobile-web-app-title" content="<?= e(\App\Core\Club::s('site')) ?>">
 <?php endif; ?>
 <link rel="preload" href="/assets/fonts/big-shoulders-display-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>

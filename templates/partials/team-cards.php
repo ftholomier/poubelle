@@ -28,7 +28,7 @@ $theme = ($theme ?? 'musee') === 'asso' ? 'asso' : 'musee';
         <?php if ($mission !== ''): ?><span class="tcard__blk"><em>Sa mission</em><?= e($mission) ?></span><?php endif; ?>
         <?php if ($words !== ''): ?><span class="tcard__blk"><em>En quelques mots</em><?= e($words) ?></span><?php endif; ?>
         <?php if ($anec !== ''): ?><span class="tcard__blk tcard__anec"><em>L’anecdote</em><?= e($anec) ?></span><?php endif; ?>
-        <span class="tcard__foot">Collection L’équipe de Sochaux Rétro · N° <?= $no ?></span>
+        <span class="tcard__foot">Collection L’équipe de <?= e(\App\Core\Club::s('site')) ?> · N° <?= $no ?></span>
       </span>
     </span>
   </button>

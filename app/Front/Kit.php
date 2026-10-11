@@ -62,8 +62,8 @@ final class Kit
             'next' => ['ym' => $next, 'month' => Souvenirs::monthLabel($next), 'c' => Souvenirs::match($next)],
             'past' => $past, 'temoins' => array_slice($temoins, 0, 4),
         ], [
-            'title' => t('Raconte-moi Bonal : le kit souvenirs du mois'),
-            'description' => t('Chaque mois, un kit à imprimer en gros caractères pour partager les grandes heures du FC Sochaux-Montbéliard avec les anciens supporters : le grand match d’il y a 30 ou 40 ans, des visages à reconnaître, un quiz et des questions pour raconter.'),
+            'title' => t('Raconte-moi {stadium_short} : le kit souvenirs du mois'),
+            'description' => t('Chaque mois, un kit à imprimer en gros caractères pour partager les grandes heures {club_de} avec les anciens supporters : le grand match d’il y a 30 ou 40 ans, des visages à reconnaître, un quiz et des questions pour raconter.'),
             'active' => 'interactif',
             'body_class' => 'page-souvenirs',
             'styles' => ['css/mosaic.css', 'css/interactif.css', 'css/souvenirs.css'],
@@ -136,7 +136,7 @@ final class Kit
         $m = $k['m'];
         $c = $k['match'];
         $s = $c['s'];
-        $l->running = t('Raconte-moi Bonal') . ' · ' . $k['month'];
+        $l->running = t('Raconte-moi {stadium_short}') . ' · ' . $k['month'];
         $l->url = base_url() . self::base();
         $l->pageWord = t('Page');
         $l->exported = t('Kit souvenirs de {m}', ['m' => $k['month']]);
@@ -165,7 +165,7 @@ final class Kit
         $l->newPage();
         $l->masthead(t('Kit souvenirs') . ' · ' . $k['month']);
         $date = date_fr($m['date'] ?? null, true);
-        $title(t('Raconte-moi Bonal'), $c['ago'] > 1 ? t('Il y a {n} ans ce mois-ci', ['n' => $c['ago']]) : t('Ce mois-ci'), trim($date . ' · ' . ($m['stadium'] ?? ''), ' ·'));
+        $title(t('Raconte-moi {stadium_short}'), $c['ago'] > 1 ? t('Il y a {n} ans ce mois-ci', ['n' => $c['ago']]) : t('Ce mois-ci'), trim($date . ' · ' . ($m['stadium'] ?? ''), ' ·'));
         $photo = !empty($s['image']) && !\App\Data\Index::isPlaceholderImage($s['image']) ? Images::derivative($s['image'], 1200) : null;
         $img = $photo ? $l->loadImage($photo) : null;
         if ($img) {
@@ -223,7 +223,7 @@ final class Kit
         // ---------------------------------------------------------- 1 bis. le récit du match, à lire à voix haute
         if ($k['recit'] !== '') {
             $l->newPage();
-            $title(t('Raconte-moi Bonal'), t('On vous raconte le match'), t('Le récit du match, à lire à voix haute : c’est aussi celui de la version audio de la fiche sur le site.'));
+            $title(t('Raconte-moi {stadium_short}'), t('On vous raconte le match'), t('Le récit du match, à lire à voix haute : c’est aussi celui de la version audio de la fiche sur le site.'));
             foreach (preg_split('/\n\s*\n|\n/u', $k['recit']) ?: [] as $p) {
                 if (trim($p) !== '') {
                     $l->para([$R(trim($p), 'serif', 15, 'ink')], ['lh' => 1.45, 'after' => 10]);

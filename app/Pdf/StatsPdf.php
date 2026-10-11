@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Pdf;
 
+use App\Core\Club;
 use App\Services\Stats;
 use App\Services\StatsReport;
 
@@ -206,7 +207,7 @@ final class StatsPdf
         $total = $l->pdf->pageCount();
         for ($pg = 0; $pg < $total; $pg++) {
             $l->page = $pg;
-            $f = 'Musée Sochaux Rétro · statistiques · ' . ($pg + 1) . ' / ' . $total;
+            $f = 'Musée ' . Club::s('site') . ' · statistiques · ' . ($pg + 1) . ' / ' . $total;
             $l->text($l->pw - self::M - $l->width($f, 'serif', 8), $l->ph - 20, $f, 'serif', 8, 'muted');
         }
         return $l->pdf->output();

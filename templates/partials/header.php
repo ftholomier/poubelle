@@ -26,13 +26,13 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
   <?php endif; ?>
 
   <div class="masthead">
-    <a class="masthead__logo" href="<?= e(url('/')) ?>" aria-label="<?= e(t('Accueil Sochaux rétro')) ?>">
-      <img src="/assets/img/logo-sochaux-retro.png" alt="Sochaux rétro" width="150" height="170">
+    <a class="masthead__logo" href="<?= e(url('/')) ?>" aria-label="<?= e(t('Accueil {site_lc}')) ?>">
+      <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="<?= e(\App\Core\Club::s('site_lc')) ?>" width="150" height="170">
     </a>
     <div class="masthead__inner">
       <div class="masthead__top">
-        <span class="masthead__name">Sochaux rétro</span>
-        <span class="masthead__tag"><span class="masthead__tagtext"><?= e(t('Le musée en ligne du FCSM · depuis 1928')) ?></span><?php if ($official !== ''): ?><a class="masthead__official" href="<?= e($official) ?>" rel="noopener" target="_blank" title="<?= e(t('Site officiel du FC Sochaux-Montbéliard')) ?>"><?= e(t('Site officiel du FCSM')) ?> ↗</a><?php endif; ?></span>
+        <span class="masthead__name"><?= e(\App\Core\Club::s('site_lc')) ?></span>
+        <span class="masthead__tag"><span class="masthead__tagtext"><?= e(t('Le musée en ligne {sigle_de} · depuis {founded}')) ?></span><?php if ($official !== ''): ?><a class="masthead__official" href="<?= e($official) ?>" rel="noopener" target="_blank" title="<?= e(t('Site officiel {club_de}')) ?>"><?= e(t('Site officiel {sigle_de}')) ?> ↗</a><?php endif; ?></span>
         <button type="button" class="hbtn hsearch" data-search-open aria-label="<?= e(t('Rechercher dans le musée')) ?>">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E1F4D" stroke-width="2.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
           <span><?= e(t('Un match, un joueur, une saison…')) ?></span>
@@ -169,7 +169,7 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
       <?php if ($bS): ?><a class="hshop" href="<?= e($bS['href']) ?>"<?= $tgt($bS) ?>><?= e($bS['label']) ?></a><a class="hshop hshop--cart" href="<?= e(url('/boutique/panier/')) ?>" data-cart-badge hidden><?= e(t('Mon panier')) ?> (<span data-cart-n>0</span>)</a><?php endif; ?>
       <?php if ($bD): ?><a class="hdon" href="<?= e($bD['href']) ?>"<?= $tgt($bD) ?>>♥ <?= e($bD['label']) ?></a><?php endif; ?>
     </div>
-    <?php if ($official !== ''): ?><a class="mobilemenu__official" href="<?= e($official) ?>" rel="noopener" target="_blank"><?= e(t('Site officiel du FC Sochaux-Montbéliard')) ?> ↗</a><?php endif; ?>
+    <?php if ($official !== ''): ?><a class="mobilemenu__official" href="<?= e($official) ?>" rel="noopener" target="_blank"><?= e(t('Site officiel {club_de}')) ?> ↗</a><?php endif; ?>
   </div>
 
   <div class="searchlayer" data-searchlayer role="dialog" aria-modal="true" aria-label="<?= e(t('Rechercher dans le musée')) ?>">

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 /**
  * Mise en page du poster « Ma vie en jaune et bleu » (voir CarnetPoster) : la grille, les couleurs
  * et les briques des posters du musée (PosterLayout), avec les blocs du carnet : le nombre de
@@ -35,7 +36,7 @@ final class CarnetPosterLayout extends PosterLayout
         $this->bigMatches(...$this->box(0, 7, 22, 10));
         $this->ranking(...[...$this->box(7, 5, 22, 10), 'Les buteurs que j’ai vus marquer', $this->top5($d['scorers']), 'buts']);
         // E · les joueurs vus ; les adversaires
-        $this->ranking(...[...$this->box(0, 6, 32, 8), 'Les Lionceaux que j’ai le plus vus', array_map(fn ($p) => [$p['name'], $p['n']], array_slice($d['players'], 0, 5)), 'matchs']);
+        $this->ranking(...[...$this->box(0, 6, 32, 8), club('Les {nickname} que j’ai le plus vus'), array_map(fn ($p) => [$p['name'], $p['n']], array_slice($d['players'], 0, 5)), 'matchs']);
         $this->ranking(...[...$this->box(6, 6, 32, 8), 'Mes adversaires', $this->top5($d['opps']), 'fois']);
         // F · domicile, déplacements, décennies
         $this->band(...$this->box(0, 12, 40, 3));
@@ -60,7 +61,7 @@ final class CarnetPosterLayout extends PosterLayout
         $s = self::pt(16);
         $y = self::PAD;
         $pour = 'pour ' . $this->pour;
-        $left = [['Sochaux Rétro · ', 'display-b', self::MIST], ['carnet du supporter', 'display-b', self::YELLOW]];
+        $left = [[Club::s('site') . ' · ', 'display-b', self::MIST], ['carnet du supporter', 'display-b', self::YELLOW]];
         $lw = 0;
         foreach ($left as $seg) {
             $lw += self::width(mb_strtoupper($seg[0]), 'display-b', $s, 220);
@@ -80,7 +81,7 @@ final class CarnetPosterLayout extends PosterLayout
     {
         $s = self::pt(13);
         $y = self::H - self::PAD - 3.6;
-        $this->text(self::PAD, $y, 200, 'Matchs cochés dans le carnet du supporter ; scores, buteurs et compositions du musée Sochaux Rétro', 'serif-i', $s, self::MIST);
+        $this->text(self::PAD, $y, 200, club('Matchs cochés dans le carnet du supporter ; scores, buteurs et compositions du musée {site}'), 'serif-i', $s, self::MIST);
         $this->text(self::W - self::PAD - 70, $y, 70, 'Poster A3 · 297 × 420 mm', 'serif-i', $s, self::MIST, ['align' => 'right']);
     }
 
@@ -100,7 +101,7 @@ final class CarnetPosterLayout extends PosterLayout
         $nw = min($iw * 0.5, self::width($num, 'display', \App\Shop\Vector::layout($l)['size']));
         $tx = $ix + $nw + 4;
         $this->text($tx, $ty + 4, $ix + $iw - $tx, $d['n'] > 1 ? 'matchs vus au stade' : 'match vu au stade', 'display', self::pt(44), self::CREAM, ['upper' => true, 'fit' => true, 'lh' => 0.95, 'h' => 22]);
-        $where = $d['home'] && $d['away'] ? 'à Bonal et en déplacement' : ($d['away'] ? 'en déplacement' : 'à Bonal');
+        $where = $d['home'] && $d['away'] ? Club::s('stadium_a') . ' et en déplacement' : ($d['away'] ? 'en déplacement' : Club::s('stadium_a'));
         $sub = $d['years'] !== '' ? (str_contains($d['years'], '-') ? 'De ' . str_replace('-', ' à ', $d['years']) : 'En ' . $d['years']) . ', ' . $where : ucfirst($where);
         $this->text($tx, $y + $h - 11, $ix + $iw - $tx, $sub, 'serif-i', self::pt(19), self::MIST, ['fit' => true]);
     }
@@ -110,7 +111,7 @@ final class CarnetPosterLayout extends PosterLayout
     {
         $d = $this->d;
         $this->rect($x, $y, $w, $h, self::YELLOW);
-        $items = [[$d['v'], $d['v'] > 1 ? 'victoires' : 'victoire'], [$d['nul'], $d['nul'] > 1 ? 'nuls' : 'nul'], [$d['d'], $d['d'] > 1 ? 'défaites' : 'défaite'], [$d['gf'], 'buts du FCSM vus']];
+        $items = [[$d['v'], $d['v'] > 1 ? 'victoires' : 'victoire'], [$d['nul'], $d['nul'] > 1 ? 'nuls' : 'nul'], [$d['d'], $d['d'] > 1 ? 'défaites' : 'défaite'], [$d['gf'], 'buts ' . Club::s('sigle_de') . ' vus']];
         $cw = ($w - 9) / count($items);
         foreach ($items as $i => [$n, $lab]) {
             $cx = $x + 4.5 + $i * $cw;
@@ -251,7 +252,7 @@ final class CarnetPosterLayout extends PosterLayout
         $d = $this->d;
         $dec = array_keys($d['decades']);
         $items = [
-            'À Bonal' => $d['home'] . ' match' . ($d['home'] > 1 ? 's' : ''),
+            'À ' . Club::s('stadium_short') => $d['home'] . ' match' . ($d['home'] > 1 ? 's' : ''),
             'En déplacement' => $d['away'] . ' match' . ($d['away'] > 1 ? 's' : ''),
             'Saisons' => (string) count($d['seasons']),
             'Décennies' => $dec ? implode(', ', array_map(fn ($x) => 'années ' . substr((string) $x, 2) , $dec)) : '—',

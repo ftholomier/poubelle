@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 use App\Data\Derived;
 use App\Data\Fiches;
 use App\Services\Chiffres;
@@ -372,13 +373,13 @@ final class PlayerPoster
         }
         $src = Poster::source($doc);
         $audio = self::recitText($doc);
-        $system = 'Tu prépares le contenu d’un poster souvenir consacré à un joueur du FC Sochaux-Montbéliard pour le musée Sochaux Rétro. '
+        $system = 'Tu prépares le contenu d’un poster souvenir consacré à un joueur ' . Club::s('club_de') . ' pour le musée ' . Club::s('site') . '. '
             . 'Tu n’utilises QUE les faits de la fiche fournie : aucun nom, nombre, date ou fait qui n’y figure pas. Français soigné, ton factuel et vivant, sans question, sans « Le saviez-vous ».';
         $prompt = 'JOUEUR : ' . $d['name'] . "\n\nFICHE :\n" . mb_substr($src, 0, 9000) . "\n\nRÉSUMÉ AUDIO :\n" . mb_substr($audio, 0, 4000) . "\n\n"
             . "Réponds en JSON : {\"anecdote\":{\"titre\":\"3 à 5 mots, accrocheur\",\"texte\":\"une anecdote marquante de sa carrière (record, coulisses, geste resté dans les mémoires…), 160 à 230 caractères\"},"
             . "\"citations\":[{\"qui\":\"Prénom Nom\",\"role\":\"fonction\",\"texte\":\"citation recopiée MOT POUR MOT depuis la fiche, 40 à 150 caractères\"}] (au plus 2, uniquement de vraies déclarations de la fiche ; liste vide sinon),"
-            . "\"portrait\":\"qui il était pour Sochaux, en une phrase de 120 à 200 caractères\","
-            . "\"recit\":\"sa carrière au FCSM racontée et condensée, 900 à 1400 caractères, au passé\"}";
+            . "\"portrait\":\"qui il était pour " . Club::team() . ", en une phrase de 120 à 200 caractères\","
+            . "\"recit\":\"sa carrière " . Club::s('sigle_au') . " racontée et condensée, 900 à 1400 caractères, au passé\"}";
         try {
             $r = Gemini::generate([['role' => 'user', 'parts' => [['text' => $prompt]]]], $system, ['max_tokens' => 2200, 'json' => true, 'for' => 'boutique-poster', 'ref' => 'fiche:' . $id, 'timeout' => 60]);
         } catch (\Throwable) {

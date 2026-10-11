@@ -12,7 +12,7 @@ $perks = [
     <div class="stack" style="gap:18px">
       <span class="eyebrow eyebrow--lg"><?= e(t('L’appli du musée')) ?></span>
       <h1 class="h-xl"><?= e(t('Le musée')) ?><br><span class="blue"><?= e(t('dans votre poche.')) ?></span></h1>
-      <p class="lead"><?= e(t('Pas besoin de store : Sochaux Rétro s’installe directement depuis le site, gratuitement, en deux gestes.')) ?></p>
+      <p class="lead"><?= e(t('Pas besoin de store : {site} s’installe directement depuis le site, gratuitement, en deux gestes.')) ?></p>
     </div>
     <div class="appli__card" data-appli>
       <img src="/assets/img/app/192.png" alt="" width="96" height="96">

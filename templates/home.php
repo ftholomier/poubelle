@@ -58,7 +58,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
     <div class="hfind__head">
       <span class="eyebrow eyebrow--yellow"><?= e(t('Rechercher dans le musée')) ?></span>
       <h2 class="hfind__t" id="hfind-t"><?= e(t('Retrouvez tout')) ?></h2>
-      <p class="hfind__lead"><?= e(t('Un match, une saison, un joueur, un récit, une affiche… près d’un siècle d’archives du FCSM.')) ?></p>
+      <p class="hfind__lead"><?= e(t('Un match, une saison, un joueur, un récit, une affiche… près d’un siècle d’archives {sigle_de}.')) ?></p>
     </div>
     <div class="hfind__box">
       <form class="searchbar searchbar--xl" action="<?= e(url('/recherche/')) ?>" method="get" role="search">
@@ -104,11 +104,11 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
         <span class="hcard__k"><?= e(t('Le chiffre du jour')) ?> · <?= e(t('N° {n} sur {t}', ['n' => $cs['n'], 't' => $chiffre['count']])) ?></span>
         <span class="hcard__big"><b class="num"<?= preg_match('/^\d{1,3}(?:[\x{00A0}\x{202F} ,]\d{3})*$/u', $cs['value']) ? ' data-count' : '' ?>><?= e($cs['value']) ?></b><?php if ($cs['unit'] !== ''): ?> <small><?= e($cs['unit']) ?></small><?php endif; ?></span>
         <span class="hcard__t hcard__t--s"><?= e($cs['label']) ?></span>
-        <span class="hcard__more"><?= e(t('Les {n} chiffres du FCSM', ['n' => $chiffre['count']])) ?> →</span>
+        <span class="hcard__more"><?= e(t('Les {n} chiffres {sigle_de}', ['n' => $chiffre['count']])) ?> →</span>
       </a>
       <?php endif; ?>
       <div class="hcard hcard--cent">
-        <span class="hcard__k"><?= e(t('Le centenaire')) ?> · 14 <?= e(t('juin')) ?> 1928 → <?= e(date_fr($centenary)) ?></span>
+        <span class="hcard__k"><?= e(t('Le centenaire')) ?> · <?= e(date_fr(\App\Core\Club::s('founded_date'))) ?> → <?= e(date_fr($centenary)) ?></span>
         <span class="hcard__t hcard__t--s"><?= e(t('Cent ans de lion.')) ?> <?= e(t('Aidez-nous à tout sauver.')) ?></span>
         <?= countdown_html($centenary) ?>
         <span class="row gap-8" style="flex-wrap:wrap">

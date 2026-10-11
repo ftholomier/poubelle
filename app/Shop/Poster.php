@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 use App\Data\Derived;
 use App\Data\Fiches;
 use App\Services\AiCosts;
@@ -479,11 +480,11 @@ final class Poster
         }
         $src = self::source($doc);
         $audio = self::recitText($doc);
-        $system = 'Tu prépares le contenu d’un poster souvenir d’un match du FC Sochaux-Montbéliard pour le musée Sochaux Rétro. '
+        $system = 'Tu prépares le contenu d’un poster souvenir d’un match ' . Club::s('club_de') . ' pour le musée ' . Club::s('site') . '. '
             . 'Tu n’utilises QUE les faits de la fiche fournie : aucun nom, nombre, date ou fait qui n’y figure pas. Français soigné, ton factuel et vivant, sans question, sans « Le saviez-vous ».';
         $prompt = "FICHE DU MATCH :\n" . mb_substr($src, 0, 9000) . "\n\nRÉSUMÉ AUDIO :\n" . mb_substr($audio, 0, 4000) . "\n\n"
             . "Réponds en JSON : {\"anecdote\":{\"titre\":\"3 à 5 mots, accrocheur\",\"texte\":\"une anecdote marquante de la fiche (prime, record, coulisses…), 160 à 230 caractères\"},"
-            . "\"citations\":[{\"qui\":\"Prénom Nom\",\"role\":\"fonction (entraîneur de Metz, défenseur sochalien…)\",\"texte\":\"citation recopiée MOT POUR MOT depuis la fiche, 40 à 150 caractères (tu peux en prendre un extrait)\",\"camp\":\"sochaux|adversaire|autre\"}] (au plus 3, uniquement de vraies déclarations de la fiche ; liste vide sinon),"
+            . "\"citations\":[{\"qui\":\"Prénom Nom\",\"role\":\"fonction (entraîneur de Metz, défenseur " . Club::s('gentile') . "…)\",\"texte\":\"citation recopiée MOT POUR MOT depuis la fiche, 40 à 150 caractères (tu peux en prendre un extrait)\",\"camp\":\"sochaux|adversaire|autre\"}] (au plus 3, uniquement de vraies déclarations de la fiche ; liste vide sinon),"
             . "\"enjeu\":\"le contexte avant le match en une phrase, 120 à 200 caractères\","
             . "\"recit\":\"le récit du match condensé, 900 à 1400 caractères, au passé, sans minute à minute exhaustif\"}";
         try {

@@ -16,7 +16,7 @@ $share = base_url() . url('/faire-un-don/');
     <?php if ($state === 'ok'): ?>
       <span class="eyebrow eyebrow--lg"><?= e(t('Don confirmé')) ?><?= ($don['mode'] ?? '') === 'test' ? ' · ' . e(t('mode test')) : '' ?></span>
       <h1 class="dmerci__title"><?= e(t('Merci,')) ?> <span class="yellow"><?= e($first ?: t('Lionceau')) ?> !</span></h1>
-      <p class="dhero__lead"><?= e(t('Votre don de {montant} aide Sochaux Rétro à préserver l’histoire du FCSM avant ses 100 ans.', ['montant' => $amount])) ?></p>
+      <p class="dhero__lead"><?= e(t('Votre don de {montant} aide {site} à préserver l’histoire {sigle_de} avant ses 100 ans.', ['montant' => $amount])) ?></p>
       <dl class="dmerci__facts">
         <div><dt><?= e(t('Montant')) ?></dt><dd><?= e($amount) ?></dd></div>
         <div><dt><?= e(t('Paiement')) ?></dt><dd><?= e(t(Donations::PROVIDERS[$don['provider']] ?? $don['provider'])) ?></dd></div>
@@ -49,12 +49,12 @@ $share = base_url() . url('/faire-un-don/');
   <h2 class="h-2"><?= e(t('Et maintenant ?')) ?></h2>
   <div class="dnext__grid">
     <a class="dnext__card" href="<?= e(url('/centenaire/')) ?>"><span class="eyebrow"><?= e(t('Centenaire')) ?></span><b><?= e(t('100 ans, 100 moments')) ?></b><span><?= e(t('Votez pour votre Onze de légende.')) ?></span></a>
-    <a class="dnext__card" href="<?= e(url('/interactif/quiz/')) ?>"><span class="eyebrow"><?= e(t('Interactif')) ?></span><b><?= e(t('Le grand quiz')) ?></b><span><?= e(t('Êtes-vous incollable sur le FCSM ?')) ?></span></a>
+    <a class="dnext__card" href="<?= e(url('/interactif/quiz/')) ?>"><span class="eyebrow"><?= e(t('Interactif')) ?></span><b><?= e(t('Le grand quiz')) ?></b><span><?= e(t('Êtes-vous incollable sur {sigle_le} ?')) ?></span></a>
     <div class="dnext__card dnext__card--share"><span class="eyebrow"><?= e(t('Faites passer le mot')) ?></span><b><?= e(t('Partagez la collecte')) ?></b>
       <span class="dnext__share">
         <a href="https://www.facebook.com/sharer/sharer.php?u=<?= rawurlencode($share) ?>" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://twitter.com/intent/tweet?url=<?= rawurlencode($share) ?>&amp;text=<?= rawurlencode(t('J’ai soutenu le musée Sochaux Rétro pour les 100 ans du FCSM !')) ?>" target="_blank" rel="noopener">X</a>
-        <a href="https://wa.me/?text=<?= rawurlencode(t('J’ai soutenu le musée Sochaux Rétro pour les 100 ans du FCSM !') . ' ' . $share) ?>" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="https://twitter.com/intent/tweet?url=<?= rawurlencode($share) ?>&amp;text=<?= rawurlencode(t('J’ai soutenu le musée {site} pour les 100 ans {sigle_de} !')) ?>" target="_blank" rel="noopener">X</a>
+        <a href="https://wa.me/?text=<?= rawurlencode(t('J’ai soutenu le musée {site} pour les 100 ans {sigle_de} !') . ' ' . $share) ?>" target="_blank" rel="noopener">WhatsApp</a>
       </span>
     </div>
   </div>

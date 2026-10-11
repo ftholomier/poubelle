@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\Club;
 use App\Data\Categories;
 use App\Data\Media;
 use App\Data\Names;
@@ -251,7 +252,7 @@ final class FicheForm
             $opp = Html::line($m['opponent'], 120);
             $lvlOpp = Html::line($m['opponent_level'] ?? '', 30) ?: null;
             $lvlUs = Html::line($m['sochaux_level'] ?? '', 30) ?: null;
-            $us = ['name' => 'Sochaux', 'level' => $lvlUs];
+            $us = ['name' => Club::team(), 'level' => $lvlUs];
             $them = ['name' => $opp, 'level' => $lvlOpp];
             $cur['home'] = $cur['sochaux_home'] ? $us : $them;
             $cur['away'] = $cur['sochaux_home'] ? $them : $us;
@@ -333,7 +334,7 @@ final class FicheForm
             }
             if ($rows || !empty($cur['lineup']['rows'])) {
                 $cur['lineup']['rows'] = $rows;
-                $cur['lineup']['title'] = $cur['lineup']['title'] ?? 'Composition Sochaux';
+                $cur['lineup']['title'] = $cur['lineup']['title'] ?? 'Composition ' . Club::team();
                 $cur['lineup']['headers'] = $cur['lineup']['headers'] ?? ['Postes', 'Nom et prénom', 'Buts', 'Remp.', 'Cartons'];
             }
         }

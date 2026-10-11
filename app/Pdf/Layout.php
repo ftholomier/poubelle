@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Pdf;
 
+use App\Core\Club;
 /**
  * Mise en page A4 aux couleurs du musée : texte enrichi avec retour à la ligne, titres,
  * listes, citations, tableaux (en-tête répété), photos, galerie, encadrés ; sauts de page,
@@ -45,8 +46,8 @@ final class Layout
     public string $running = '';
     /** Adresse de la page sur le site (pied de page, lien) */
     public string $url = '';
-    public string $site = 'Sochaux Rétro';
-    public string $tagline = 'Le musée en ligne du FC Sochaux-Montbéliard';
+    public string $site = '';
+    public string $tagline = '';
     public string $exported = '';
     public string $pageWord = 'Page';
     /** @var array<string,TrueType> */
@@ -59,7 +60,9 @@ final class Layout
         foreach (self::FONTS as $k => $file) {
             $this->fonts[$k] = $this->pdf->font($k, APP_DIR . '/Resources/fonts/' . $file);
         }
-        $this->logo = PUBLIC_PATH . '/assets/img/logo-sochaux-retro.png';
+        $this->logo = PUBLIC_PATH . Club::s('logo_png');
+        $this->site = Club::s('site');
+        $this->tagline = club('Le musée en ligne {club_de}');
     }
 
     // ------------------------------------------------------------------ bases

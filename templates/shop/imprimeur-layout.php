@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title><?= e($title) ?> · Espace imprimeur · Sochaux Rétro</title>
+<title><?= e($title) ?> · Espace imprimeur · <?= e(\App\Core\Club::s('site')) ?></title>
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('admin/admin.css') ?>">
 <link rel="stylesheet" href="<?= asset('admin/boutique.css') ?>">
@@ -20,7 +20,7 @@
 </style>
 </head>
 <body>
-<header class="pr-top"><b>Sochaux Rétro · Espace imprimeur</b><?php if ($logged): ?><a href="/imprimeur/deconnexion">Se déconnecter</a><?php endif; ?></header>
+<header class="pr-top"><b><?= e(\App\Core\Club::s('site')) ?> · Espace imprimeur</b><?php if ($logged): ?><a href="/imprimeur/deconnexion">Se déconnecter</a><?php endif; ?></header>
 <main class="pr-main">
   <h1><?= e($title) ?></h1>
   <?php foreach ($flash as $f): ?><div class="alert alert--<?= $f['type'] === 'ok' ? 'ok' : 'info' ?>" style="margin:0 0 12px"><?= e($f['message']) ?></div><?php endforeach; ?>

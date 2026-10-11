@@ -28,7 +28,7 @@ $o = fn (string $k) => (string) ($old[$k] ?? '');
     <label class="cfield" data-only="erreur"<?= $reason !== 'erreur' ? ' hidden' : '' ?>><span><?= e(t('Page concernée')) ?></span><input name="page" maxlength="300" placeholder="<?= e(t('Adresse ou titre de la fiche')) ?>" value="<?= e($o('page')) ?>"></label>
     <label class="cfield" data-not="partenariat"<?= $reason === 'partenariat' ? ' hidden' : '' ?>><span><?= e(t('Téléphone (facultatif)')) ?></span><input name="phone" maxlength="40" autocomplete="tel" placeholder="06 …" value="<?= e($o('phone')) ?>"></label>
     <label class="cfield"><span><?= e(t('Message')) ?></span><textarea name="message" rows="6" required maxlength="8000" placeholder="<?= e(t('Votre message…')) ?>"><?= e($o('message')) ?></textarea></label>
-    <label class="ccheck"><input type="checkbox" name="consent" value="1" required> <span><?= e(t('J’accepte que Sochaux Rétro utilise ces informations pour me répondre. Elles ne sont jamais cédées.')) ?> <a href="<?= e(url('/confidentialite/')) ?>"><?= e(t('En savoir plus')) ?></a></span></label>
+    <label class="ccheck"><input type="checkbox" name="consent" value="1" required> <span><?= e(t('J’accepte que {site} utilise ces informations pour me répondre. Elles ne sont jamais cédées.')) ?> <a href="<?= e(url('/confidentialite/')) ?>"><?= e(t('En savoir plus')) ?></a></span></label>
     <button type="submit" class="cform__send"><?= e(t('Envoyer')) ?></button>
   </form>
 </section>
@@ -44,7 +44,7 @@ $o = fn (string $k) => (string) ($old[$k] ?? '');
       <?php endforeach; ?>
     </div>
     <?php else: ?>
-      <p class="lead" style="max-width:none"><?= e(t('Vous souhaitez associer votre entreprise à la mémoire du FCSM ? Choisissez « Devenir partenaire » ci-dessus.')) ?></p>
+      <p class="lead" style="max-width:none"><?= e(t('Vous souhaitez associer votre entreprise à la mémoire {sigle_de} ? Choisissez « Devenir partenaire » ci-dessus.')) ?></p>
     <?php endif; ?>
   </div>
 </section>

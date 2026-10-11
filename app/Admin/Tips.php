@@ -85,11 +85,11 @@ final class Tips
             'buts par équipe' => 'Pour chaque équipe, la liste des buteurs avec les minutes (ex. « Prat 33’, Thomas 78’ »).',
             'événement (match particulier)' => 'Pour un match à part (jubilé, finale, inauguration) : un mot qui le met en valeur.',
             'prolongation' => 'Non, après prolongation (a.p.) ou tirs au but : avec « Tirs au but », deux champs apparaissent pour le score de la séance.',
-            'sochaux joue à' => 'Sochaux reçoit (domicile) ou se déplace (extérieur) : cela fixe l’ordre des équipes dans le titre et le score.',
-            'buts à domicile' => 'Buts de l’équipe qui reçoit : l’indication en italique rappelle s’il s’agit de Sochaux ou de l’adversaire.',
-            'buts à l’extérieur' => 'Buts de l’équipe qui se déplace : l’indication en italique rappelle s’il s’agit de Sochaux ou de l’adversaire.',
+            'sochaux joue à' => '{team} reçoit (domicile) ou se déplace (extérieur) : cela fixe l’ordre des équipes dans le titre et le score.',
+            'buts à domicile' => 'Buts de l’équipe qui reçoit : l’indication en italique rappelle s’il s’agit de {team} ou de l’adversaire.',
+            'buts à l’extérieur' => 'Buts de l’équipe qui se déplace : l’indication en italique rappelle s’il s’agit de {team} ou de l’adversaire.',
             'niveau adversaire' => 'La division de l’adversaire à l’époque (ex. « D2 », « N1 », « L1 Sui ») : affichée sous son nom.',
-            'niveau sochaux' => 'La division de Sochaux à l’époque (ex. « D1 », « L2 »).',
+            'niveau sochaux' => 'La division de {team} à l’époque (ex. « D1 », « L2 »).',
             'arbitre' => 'Nom de l’arbitre, tel qu’on le trouve dans la presse (ex. « M. Wurtz »).',
             'lignes complémentaires de l’en-tête' => 'Informations affichées sous le score, une par ligne (ex. buteurs de l’adversaire, expulsion, mention particulière).',
             'match.highlights:min.' => 'Minute de l’action (ex. « 33 » ou « 90+2 »).',
@@ -202,7 +202,7 @@ final class Tips
         ],
         'attente' => [
             'screen' => 'Une page d’attente remplace le site pendant une opération (logo, texte, compte à rebours facultatif). Les membres connectés du back-office voient toujours le site ; « Aperçu » montre la page d’attente.',
-            'logo' => 'Le logo de la page d’attente. Vide : logo Sochaux Rétro.',
+            'logo' => 'Le logo de la page d’attente. Vide : logo {site}.',
             'titre' => 'Le grand titre de la page d’attente (ex. « Le musée ouvre bientôt ses portes »).',
             'date et heure cibles du compte à rebours' => 'Le moment visé par le compte à rebours (ex. la réouverture du site).',
             'intitulé du compte à rebours' => 'Le texte au-dessus du compte à rebours (ex. « Ouverture dans »).',
@@ -316,9 +316,9 @@ final class Tips
         ],
         'reglages' => [
             'screen' => 'Les réglages du site (l’équivalent d’un fichier de configuration) : identité, e-mail, assistant IA, traduction, dons, carte, mentions légales, cookies, sauvegardes. Les clés secrètes sont chiffrées et ne sont jamais réaffichées.',
-            'adresse du site' => 'L’adresse officielle du musée (https://musee.fcsochauxretro.com), utilisée dans les e-mails, le plan du site et les partages. Sans « / » à la fin.',
+            'adresse du site' => 'L’adresse officielle du musée ({base_url}), utilisée dans les e-mails, le plan du site et les partages. Sans « / » à la fin.',
             'e-mail de réception des messages' => 'Où arrivent les messages du formulaire de contact, les nouvelles contributions et l’annonce des dons.',
-            'adresse affichée sur les images de partage' => 'Le texte (ex. « musee.fcsochauxretro.com ») écrit sur les images créées pour les réseaux sociaux.',
+            'adresse affichée sur les images de partage' => 'Le texte (ex. « {domain} ») écrit sur les images créées pour les réseaux sociaux.',
             'mot de passe d’accès au site public (pré-lancement)' => 'Tant qu’il est rempli, les visiteurs doivent le saisir pour voir le site (les membres connectés passent). Videz-le pour ouvrir le site à tous.',
             'clé api gemini' => 'La clé Google AI Studio qui fait fonctionner l’assistant, les traductions et le correcteur d’orthographe. Elle est chiffrée et n’est plus affichée une fois enregistrée.',
             'appels à gemini par jour pour la tâche de fond (plafond de coût)' => 'Nombre maximal d’appels à Gemini par jour pour la relecture de fond. Un texte déjà relu n’est jamais renvoyé : le coût ne porte que sur le nouveau.',
@@ -360,7 +360,7 @@ final class Tips
         if (in_array($nav, ['objets', 'moments'], true)) {
             $screen += array_diff_key(self::SCREENS['articles'], ['screen' => 1]);
         }
-        $tips = $screen + self::COMMON;
+        $tips = array_map('club', $screen + self::COMMON);
         return \App\Core\Auth::isAdmin() ? $tips : array_map([self::class, 'withoutCosts'], $tips);
     }
 

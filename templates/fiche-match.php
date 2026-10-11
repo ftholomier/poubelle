@@ -132,7 +132,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
         <?php if (empty($m['goals']) && !empty($m['goals_text'])): ?><span><?= e(t('Buts')) ?> : <?= e($m['goals_text']) ?></span><?php endif; ?>
         <?php foreach ($m['header_extra'] ?? [] as $x): ?><span class="mhero__xline"><?= e($x) ?></span><?php endforeach; ?>
         <?php if ($h2h && $h2h['total']['count'] > 1): ?>
-          <a class="mhero__h2h" href="<?= e($h2h['href']) ?>"><?= e(t('Historique Sochaux × {club}', ['club' => $h2h['name']])) ?> →</a>
+          <a class="mhero__h2h" href="<?= e($h2h['href']) ?>"><?= e(t('Historique {team} × {club}', ['club' => $h2h['name']])) ?> →</a>
         <?php endif; ?>
       </div>
       <div class="hero-actions"><?= View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::ficheUrl($doc), 'light' => true]) ?><?= !empty($audio) ? View::partial('partials/audio-button', ['audio' => $audio]) : '' ?><?php if (!empty($retro)): ?><a class="btn btn--sm btn--ghost-light pdfbtn" href="<?= e($retro) ?>"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg><span><?= e(t('Revivre en direct')) ?></span></a><?php endif; ?></div>
@@ -277,7 +277,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
         <?php if ($pitch): ?><span class="compo__formation"><?= e($pitch['formation']) ?></span><?php endif; ?>
       </div>
       <?php if ($pitch): ?>
-      <div class="pitch" role="group" aria-label="<?= e(t('Composition de Sochaux sur le terrain')) ?>">
+      <div class="pitch" role="group" aria-label="<?= e(t('Composition de {team} sur le terrain')) ?>">
         <span class="pitch__line pitch__line--box"></span>
         <span class="pitch__line pitch__line--half"></span>
         <span class="pitch__line pitch__line--circle"></span>
@@ -374,7 +374,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
     <?php if ($h2h): ?>
     <div class="h2hbox">
       <span class="eyebrow"><?= e(t('Face-à-face')) ?></span>
-      <h2 class="h-3">Sochaux × <?= e($h2h['name']) ?></h2>
+      <h2 class="h-3"><?= e(\App\Core\Club::team()) ?> × <?= e($h2h['name']) ?></h2>
       <div class="h2hbox__totals">
         <div><b><?= (int) $h2h['total']['count'] ?></b><span><?= e(t('matchs')) ?></span></div>
         <div class="res--V"><b><?= (int) $h2h['total']['v'] ?></b><span><?= e(t('victoires')) ?></span></div>

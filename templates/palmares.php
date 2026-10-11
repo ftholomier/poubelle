@@ -15,8 +15,8 @@ $fams = ['championnats' => 'Championnats', 'coupes' => 'Coupes nationales', 'eur
 <section class="rhead">
   <div class="wrap rhead__inner">
     <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><a href="<?= e(url('/interactif/')) ?>"><?= e(t('Interactif')) ?></a><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('Palmarès')) ?></span></nav>
-    <span class="eyebrow eyebrow--lg" style="color:var(--navy)"><?= e(t('Depuis 1928')) ?></span>
-    <h1 class="rhead__title"><?= e(t('Le palmarès')) ?><br><?= e(t('des Lionceaux')) ?></h1>
+    <span class="eyebrow eyebrow--lg" style="color:var(--navy)"><?= e(t('Depuis {founded}')) ?></span>
+    <h1 class="rhead__title"><?= e(t('Le palmarès')) ?><br><?= e(t('des {nickname}')) ?></h1>
     <p class="pal__legend"><span><i style="border-color:#1f8a4c"></i><?= e(t('Gagné')) ?></span><span><i style="border-color:#c0392b"></i><?= e(t('Finaliste, vice-champion ou demi-finaliste')) ?></span></p>
     <p class="pal__sum"><b><?= (int) $count['titre'] ?></b> <?= e(t('titres')) ?> · <b><?= (int) $count['finale'] ?></b> <?= e(t('finales et places de vice-champion')) ?></p>
   </div>

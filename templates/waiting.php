@@ -14,7 +14,7 @@ $links = array_filter([
     'X' => Settings::get('social.x'),
     'YouTube' => Settings::get('social.youtube'),
 ]);
-$site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
+$site = (string) Settings::get('general.site_name', \App\Core\Club::s('site'));
 ?><!DOCTYPE html>
 <html lang="fr" data-app="<?= !empty($app) ? '1' : '0' ?>">
 <head>
@@ -32,7 +32,7 @@ $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Sochaux Rétro">
+<meta name="apple-mobile-web-app-title" content="<?= e(\App\Core\Club::s('site')) ?>">
 <?php endif; ?>
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/site.css') ?>">
@@ -71,7 +71,7 @@ $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
       <div class="waiting__push" data-wait-push data-msgs="<?= e(json_encode($msgs, JSON_UNESCAPED_UNICODE)) ?>" hidden>
         <p><?= e(t('Soyez prévenu le jour de l’ouverture : une notification sur votre téléphone ou votre ordinateur, sans donner ni nom ni e-mail.')) ?></p>
         <button type="button" class="btn btn--yellow" data-wait-on><?= e(t('Prévenez-moi de l’ouverture')) ?></button>
-        <p data-wait-ios hidden><?= str_replace('{icon}', $share, e(t('Sur iPhone : touchez {icon} puis « Sur l’écran d’accueil », ouvrez Sochaux Rétro depuis l’écran d’accueil et touchez « Prévenez-moi de l’ouverture ».'))) ?></p>
+        <p data-wait-ios hidden><?= str_replace('{icon}', $share, e(t('Sur iPhone : touchez {icon} puis « Sur l’écran d’accueil », ouvrez {site} depuis l’écran d’accueil et touchez « Prévenez-moi de l’ouverture ».'))) ?></p>
         <p data-wait-state role="status" hidden></p>
         <button type="button" class="waiting__off" data-wait-off hidden><?= e(t('Ne plus être prévenu')) ?></button>
       </div>

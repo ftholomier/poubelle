@@ -29,7 +29,7 @@ use App\Vitrine\Site;
     <h2>Propriété intellectuelle</h2>
     <p>Les textes et la mise en page du site sont protégés par le droit d’auteur. Les photographies et documents restent la propriété de leurs auteurs ou ayants droit, crédités lorsqu’ils sont connus. Toute reproduction nécessite une autorisation préalable.</p>
     <p><b>Fouille de textes et de données, intelligence artificielle :</b> conformément à l’article L. 122-5-3 du Code de la propriété intellectuelle (directive européenne 2019/790), l’éditeur s’oppose à toute fouille de textes et de données des contenus du site, notamment pour entraîner ou alimenter des systèmes d’intelligence artificielle. L’aspiration automatisée du site (robots, scripts, logiciels de copie) est interdite sans accord écrit préalable et techniquement bloquée.</p>
-    <p>Les noms, écussons et marques du FC Sochaux-Montbéliard et des autres clubs cités appartiennent à leurs titulaires respectifs et ne sont utilisés qu’à des fins historiques et d’information. L’association n’est pas le club.</p>
+    <p>Les noms, écussons et marques <?= e(\App\Core\Club::s('club_de')) ?> et des autres clubs cités appartiennent à leurs titulaires respectifs et ne sont utilisés qu’à des fins historiques et d’information. L’association n’est pas le club.</p>
     <p>Si vous détenez les droits d’un document publié et souhaitez qu’il soit crédité autrement ou retiré, <a href="<?= e(Host::url('/contact/')) ?>">écrivez-nous</a> : nous agirons rapidement.</p>
     <h2>Responsabilité</h2>
     <p>L’association apporte le plus grand soin aux informations publiées ; des erreurs peuvent toutefois subsister, n’hésitez pas à nous les signaler. Les liens vers d’autres sites n’engagent pas la responsabilité de l’éditeur.</p>

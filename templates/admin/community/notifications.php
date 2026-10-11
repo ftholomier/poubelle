@@ -26,10 +26,10 @@ $topicName = fn (string $k) => Notifications::TOPICS[$k][0] ?? ($k === 'essai' ?
     <?php if ($waiting && $enabled):
         $announce = '/admin/notifications?' . http_build_query([
             'title' => 'Le musée est ouvert !',
-            'body' => 'Sochaux Rétro ouvre ses portes : 100 ans de FCSM, matchs, joueurs, Rétro-Direct et les 100 moments du centenaire. Bonne visite !',
+            'body' => club('{site} ouvre ses portes : 100 ans de {sigle}, matchs, joueurs, Rétro-Direct et les 100 moments du centenaire. Bonne visite !'),
             'url' => '/', 'topic' => 'nouvelles', 'annonce' => 'ouverture',
             'title_en' => 'The museum is open!',
-            'body_en' => 'Sochaux Rétro opens its doors: 100 years of FCSM, matches, players, Rétro-Direct and the 100 moments of the centenary. Enjoy your visit!',
+            'body_en' => club('{site} opens its doors: 100 years of {sigle}, matches, players, Rétro-Direct and the 100 moments of the centenary. Enjoy your visit!'),
         ]); ?>
       <div class="card" style="border-color:var(--yellow)">
         <div class="card__head"><h2 class="card__t">Annonce de l’ouverture</h2></div>
@@ -65,7 +65,7 @@ $topicName = fn (string $k) => Notifications::TOPICS[$k][0] ?? ($k === 'essai' ?
         </details>
         <div class="notif-preview" aria-hidden="true">
           <img src="/assets/img/app/192.png" alt="" width="40" height="40">
-          <div><b data-out="title"><?= e($o('title') ?: 'Titre de la notification') ?></b><span data-out="body"><?= e($o('body') ?: 'Le texte apparaît ici.') ?></span><small>Sochaux Rétro · musee.fcsochauxretro.com</small></div>
+          <div><b data-out="title"><?= e($o('title') ?: 'Titre de la notification') ?></b><span data-out="body"><?= e($o('body') ?: 'Le texte apparaît ici.') ?></span><small><?= e(\App\Core\Club::s('site')) ?> · <?= e(\App\Core\Club::s('domain')) ?></small></div>
         </div>
       </div>
       <div class="card__foot">

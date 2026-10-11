@@ -18,7 +18,7 @@ use App\Vitrine\Pages;
 </section>
 <section class="vcta-band">
   <div class="wrap vcta-band__in">
-    <div><h2 class="h-2">Entreprise, collectivité, média ?</h2><p>Associez votre nom à la mémoire du FC Sochaux-Montbéliard.</p></div>
+    <div><h2 class="h-2">Entreprise, collectivité, média ?</h2><p>Associez votre nom à la mémoire <?= e(\App\Core\Club::s('club_de')) ?>.</p></div>
     <a class="btn btn--navy" href="<?= e(Host::url('/partenaires/')) ?>#devenir-partenaire">Devenir partenaire</a>
   </div>
 </section>

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 use App\Core\JsonStore;
 use App\Data\Derived;
 use App\Services\Chiffres;
@@ -24,11 +25,11 @@ final class Anecdotes
     /** Faux Gemini des tests : fn (string $system, string $user) => string. */
     public static $ai = null;
 
-    private const SYSTEM = 'Tu rédiges une anecdote pour un produit dérivé (t-shirt, mug, poster) de Sochaux Rétro, '
-        . 'le musée des supporters du FC Sochaux-Montbéliard (les Lionceaux, jaune et bleu, stade Auguste-Bonal). '
+    private const SYSTEM = 'Tu rédiges une anecdote pour un produit dérivé (t-shirt, mug, poster) de {site}, '
+        . 'le musée des supporters {club_de} (les {nickname}, {colors}, stade Auguste-Bonal). '
         . 'Une ANECDOTE, pas un compte rendu : dans le fait fourni, cherche l’angle le plus étonnant, le plus fier ou le plus insolite, celui qu’un supporter aura envie de raconter : '
         . 'un record ou un rang dans l’histoire du club, une première fois, un détail de coulisses, une prime, une phrase marquante, un parcours hors du commun, un chiffre frappant. '
-        . 'Évite la simple mention « X marque pour Sochaux le … » si le fait offre mieux. '
+        . 'Évite la simple mention « X marque pour {team} le … » si le fait offre mieux. '
         . 'Règles strictes : utilise UNIQUEMENT le fait fourni, n’ajoute aucune information, aucun chiffre, aucune date qui n’y figure pas ; '
         . 'cite TOUJOURS les noms précis donnés dans le fait : le joueur ou l’entraîneur concerné (prénom et nom), l’adversaire, la compétition, la date du match — jamais « un Lionceau » ou « un joueur » quand le nom est connu ; n’utilise aucun nom absent du fait ; une seule phrase AFFIRMATIVE, en français, au présent ou au passé : jamais de question, jamais « Le saviez-vous », « Saviez-vous » ni point d’interrogation ; '
         . 'ton fier et chaleureux, jamais moqueur envers l’adversaire ; pas de guillemets, pas d’émoji ; respecte la longueur maximale demandée.';
@@ -215,7 +216,7 @@ final class Anecdotes
         $sc = Derived::part('scorers')[$m['id']] ?? Derived::part('scorers')[(string) $m['id']] ?? [];
         $names = array_values(array_unique(array_filter(array_map(fn ($x) => trim((string) ($x[1] ?? '')), (array) $sc))));
         if ($names) {
-            $t .= ' Buteurs sochaliens : ' . implode(', ', $names) . '.';
+            $t .= ' Buteurs ' . mb_strtolower(Club::s('gentile_pl')) . ' : ' . implode(', ', $names) . '.';
         }
         if ($rich) {
             // Sujet choisi par le client : quelques temps forts de la fiche pour varier les anecdotes.
@@ -341,8 +342,8 @@ final class Anecdotes
             $unit = (string) ($c['unit'] ?? '');
             $holder = implode(', ', array_map(fn ($w) => (string) ($w['name'] ?? ''), $who));
             $t = $rank === 1
-                ? $name . ' détient le record du FC Sochaux-Montbéliard « ' . $c['label'] . ' » : ' . $val . ' ' . $unit . '. ' . trim(strip_tags((string) ($c['text'] ?? '')))
-                : $name . ' est ' . $rank . 'e de l’histoire du FC Sochaux-Montbéliard au classement « ' . $c['label'] . ' », avec ' . $val . ' ' . $unit . ' (record : ' . $holder . ', ' . $c['value'] . ' ' . $unit . ').';
+                ? $name . ' détient le record ' . Club::s('club_de') . ' « ' . $c['label'] . ' » : ' . $val . ' ' . $unit . '. ' . trim(strip_tags((string) ($c['text'] ?? '')))
+                : $name . ' est ' . $rank . 'e de l’histoire ' . Club::s('club_de') . ' au classement « ' . $c['label'] . ' », avec ' . $val . ' ' . $unit . ' (record : ' . $holder . ', ' . $c['value'] . ' ' . $unit . ').';
             $out[] = [trim($t), $ref];
         }
         $records = $out;
@@ -371,14 +372,14 @@ final class Anecdotes
         // 4. Son bilan au club.
         $tot = (array) (Derived::part('person_totals')[$id] ?? []);
         $roles = str_replace('entraineur', 'entraîneur', implode(' et ', (array) ($p['roles'] ?? [])));
-        $t = $name . ($roles !== '' ? ', ' . $roles : '') . (($p['position'] ?? '') !== '' ? ' (' . $p['position'] . ')' : '') . ' du FC Sochaux-Montbéliard'
+        $t = $name . ($roles !== '' ? ', ' . $roles : '') . (($p['position'] ?? '') !== '' ? ' (' . $p['position'] . ')' : '') . ' ' . Club::s('club_de')
             . (!empty($p['arrival']) ? ', au club de ' . $p['arrival'] . (!empty($p['departure']) && $p['departure'] != $p['arrival'] ? ' à ' . $p['departure'] : '') : '')
             . (!empty($p['birth_year']) ? ', né en ' . $p['birth_year'] . (!empty($p['birth_place']) ? ' à ' . $p['birth_place'] : '') : '') . '.';
         if (($tot['matches'] ?? 0) > 0) {
-            $t .= ' ' . $tot['matches'] . ' matchs officiels avec Sochaux' . (($tot['goals'] ?? 0) > 0 ? ', ' . $tot['goals'] . ' buts' : '') . (($tot['seasons'] ?? 0) > 1 ? ', ' . $tot['seasons'] . ' saisons' : '') . '.';
+            $t .= ' ' . $tot['matches'] . ' matchs officiels avec ' . Club::team() . (($tot['goals'] ?? 0) > 0 ? ', ' . $tot['goals'] . ' buts' : '') . (($tot['seasons'] ?? 0) > 1 ? ', ' . $tot['seasons'] . ' saisons' : '') . '.';
         }
         if (($tot['coached'] ?? 0) > 0) {
-            $t .= ' Entraîneur de Sochaux sur ' . $tot['coached'] . ' matchs (' . $tot['v'] . ' victoires, ' . $tot['n'] . ' nuls, ' . $tot['d'] . ' défaites).';
+            $t .= ' Entraîneur de ' . Club::team() . ' sur ' . $tot['coached'] . ' matchs (' . $tot['v'] . ' victoires, ' . $tot['n'] . ' nuls, ' . $tot['d'] . ' défaites).';
         }
         foreach (['legend' => ' Une légende du club.', 'formed' => ' Formé au club.', 'intl' => ' International.'] as $kk => $label) {
             $t .= !empty($p[$kk]) ? $label : '';
@@ -397,7 +398,7 @@ final class Anecdotes
         usort($gm, fn ($a, $b) => (int) ($b['hl'] ?? 0) <=> (int) ($a['hl'] ?? 0));
         foreach (array_slice($gm, 0, 2) as $m) {
             [$mt] = self::matchFact($m);
-            $out[] = [$mt . ' Ce jour-là, ' . $name . ' marque pour Sochaux.', $ref];
+            $out[] = [$mt . ' Ce jour-là, ' . $name . ' marque pour ' . Club::team() . '.', $ref];
         }
         return self::$facts[$topic] = self::unique($out);
     }
@@ -544,8 +545,8 @@ final class Anecdotes
             }
             $ask = "Fait : $fact\nLongueur maximale : " . ($try > 1 ? (int) ($max * 0.8) : $max) . " caractères, espaces compris.\nRéponds par la phrase seule.";
             try {
-                $out = self::$ai !== null ? (string) (self::$ai)(self::SYSTEM, $ask)
-                    : (string) Gemini::generate([['role' => 'user', 'text' => $ask]], self::SYSTEM, ['for' => 'boutique', 'ref' => 'boutique:anecdote', 'temperature' => 0.9, 'max_tokens' => 400, 'timeout' => 12])['text'];
+                $out = self::$ai !== null ? (string) (self::$ai)(club(self::SYSTEM), $ask)
+                    : (string) Gemini::generate([['role' => 'user', 'text' => $ask]], club(self::SYSTEM), ['for' => 'boutique', 'ref' => 'boutique:anecdote', 'temperature' => 0.9, 'max_tokens' => 400, 'timeout' => 12])['text'];
             } catch (\Throwable $e) {
                 return self::fromPool($layers, $asked);
             }

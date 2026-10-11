@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 use App\Core\Memo;
 use App\Core\RateLimiter;
 use App\Core\Request;
@@ -169,7 +170,7 @@ final class ShopPages
             $cards[] = ['m' => $m, 'sup' => $sup, 'img' => self::previewUrl($m, self::samples($m, self::anecStart($m))), 'from' => $from];
         }
         $book = BookShop::sellable() ? BookShop::config() : null;
-        return self::page('index', ['book' => $book, 'cards' => $cards, 'config' => Orders::config(), 'count' => self::count()], ['title' => 'Boutique', 'description' => 'Les objets de Sochaux Rétro, personnalisés et fabriqués à la demande près de chez nous. Chaque achat soutient l’association.']);
+        return self::page('index', ['book' => $book, 'cards' => $cards, 'config' => Orders::config(), 'count' => self::count()], ['title' => 'Boutique', 'description' => 'Les objets ' . Club::s('site_de') . ', personnalisés et fabriqués à la demande près de chez nous. Chaque achat soutient l’association.']);
     }
 
     public static function product(Request $req, string $id): Response
@@ -186,7 +187,7 @@ final class ShopPages
             'm' => $m, 'sup' => $sup, 'fields' => Catalog::fields($m), 'positions' => Catalog::positions($m),
             'svg' => self::preview($m, [], self::carnetValues($m, self::samples($m, $anec = self::anecStart($m)))), 'anec' => $anec, 'config' => Orders::config(), 'count' => self::count(),
             'faces' => array_keys(array_filter($m['faces'], fn ($f) => $f['layers'] || $f['bg'])), 'flash' => Session::pull('shop_flash'),
-        ], ['title' => $m['name'], 'description' => $m['sale']['desc'] ?: $m['name'] . ' · boutique Sochaux Rétro']);
+        ], ['title' => $m['name'], 'description' => $m['sale']['desc'] ?: $m['name'] . ' · boutique ' . Club::s('site')]);
     }
 
     /** POST /boutique/apercu/ (JSON) : aperçu et prix pendant que le client choisit. */

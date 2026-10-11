@@ -94,7 +94,7 @@ final class PdfExport
             return null;
         }
         $name = Fiche::clubName($club);
-        return self::respond($req, 'h2h-' . $club . '-' . I18n::lang() . '-' . self::stamp(), 'sochaux-retro-face-a-face-' . $club, fn () => self::buildH2h($v['vars'], t('Face-à-face'), 'Sochaux × ' . $name, self::opponentUrl($club), url('/face-a-face/' . $club . '/')));
+        return self::respond($req, 'h2h-' . $club . '-' . I18n::lang() . '-' . self::stamp(), 'sochaux-retro-face-a-face-' . $club, fn () => self::buildH2h($v['vars'], t('Face-à-face'), \App\Core\Club::team() . ' × ' . $name, self::opponentUrl($club), url('/face-a-face/' . $club . '/')));
     }
 
     public static function bilan(Request $req, string $key): ?Response
@@ -184,16 +184,16 @@ final class PdfExport
         $l = new Layout();
         $l->url = base_url() . url($path);
         $l->running = $running;
-        $l->tagline = t('Le musée en ligne du FC Sochaux-Montbéliard');
+        $l->tagline = t('Le musée en ligne {club_de}');
         $l->exported = t('Document exporté le {d}', ['d' => date_fr(date('Y-m-d'))]);
         $l->pageWord = t('Page');
         $l->pdf->lang = I18n::isEn() ? 'en-GB' : 'fr-FR';
         $l->pdf->info = [
-            'Title' => $title . ' · Sochaux Rétro',
-            'Author' => 'Sochaux Rétro',
+            'Title' => $title . ' · ' . \App\Core\Club::s('site'),
+            'Author' => \App\Core\Club::s('site'),
             'Subject' => $subject,
-            'Keywords' => 'FC Sochaux-Montbéliard, FCSM, Sochaux Rétro, ' . $title,
-            'Creator' => 'Sochaux Rétro (' . preg_replace('#^https?://#', '', base_url()) . ')',
+            'Keywords' => club('{club}, {sigle}, {site}, ') . $title,
+            'Creator' => \App\Core\Club::s('site') . ' (' . preg_replace('#^https?://#', '', base_url()) . ')',
         ];
         return $l;
     }
@@ -509,7 +509,7 @@ final class PdfExport
         // Face-à-face
         $h = $v['h2h'];
         if ($h && $h['total']['count'] > 1) {
-            $l->h2(t('Face-à-face') . ' : Sochaux × ' . $h['name']);
+            $l->h2(t('Face-à-face') . ' : ' . \App\Core\Club::team() . ' × ' . $h['name']);
             self::bigNumbers($l, [[(string) $h['total']['count'], t('matchs')], [(string) $h['total']['v'], t('victoires'), true], [(string) $h['total']['n'], t('nuls')], [(string) $h['total']['d'], t('défaites')]]);
             if ($h['last']) {
                 $l->h3(t('Les rencontres précédentes'));
@@ -758,7 +758,7 @@ final class PdfExport
             $l->bullets(array_map(fn ($h) => [Layout::run((string) $h)], $p['honours']));
         }
         if (!empty($p['then'])) {
-            $l->h2(t('Après Sochaux'));
+            $l->h2(t('Après {team}'));
             $l->bullets(array_map(fn ($h) => [Layout::run((string) $h)], $p['then']));
         }
         foreach ($doc['sections'] ?? [] as $s) {
@@ -936,7 +936,7 @@ final class PdfExport
                 $division = (string) $s['title'];
             }
         }
-        self::titleBlock($l, 'FC Sochaux-Montbéliard', t('Saison') . ' ' . $label, $division);
+        self::titleBlock($l, \App\Core\Club::s('club'), t('Saison') . ' ' . $label, $division);
         self::bigNumbers($l, array_map(fn ($s) => [(string) $s['v'], (string) $s['k'], !empty($s['yellow'])], array_values(array_filter($v['sums'], fn ($s) => empty($s['title'])))));
         if ($v['coaches']) {
             $runs = [Layout::run(mb_strtoupper(count($v['coaches']) > 1 ? t('Entraîneurs') : t('Entraîneur')), 'display-b', 8.6, 'muted', null, 0.9, 8)];
@@ -986,7 +986,7 @@ final class PdfExport
     private static function buildRecords(): string
     {
         $title = t('Le livre des records');
-        $l = self::layout('/records/', $title, $title, t('Les records du FC Sochaux-Montbéliard'));
+        $l = self::layout('/records/', $title, $title, t('Les records {club_de}'));
         $l->newPage();
         $l->masthead(t('Records'));
         self::titleBlock($l, t('Les records · calculés automatiquement'), $title, t('Calculés depuis les fiches matchs du musée (matchs officiels, hors matchs amicaux).'));

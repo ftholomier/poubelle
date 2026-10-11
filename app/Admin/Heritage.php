@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\Club;
 use App\Core\Request;
 use App\Core\Response;
 use App\Data\Activity;
@@ -94,7 +95,7 @@ final class Heritage extends Base
                     $st = \App\Services\FcsmGallica::search();
                     $r = \App\Services\FcsmGallica::import(80);
                     Activity::log(self::actor(), 'a importé ' . $r['done'] . ' photo(s) de Gallica (reprise 1928-1969)', null);
-                    return self::back($back, 'Gallica : ' . (int) ($st['raw'] ?? 0) . ' notice(s) lues, ' . count($st['found']) . ' photo(s) du domaine public liées à Sochaux (1928-' . \App\Services\FcsmGallica::LAST_YEAR . '), '
+                    return self::back($back, 'Gallica : ' . (int) ($st['raw'] ?? 0) . ' notice(s) lues, ' . count($st['found']) . ' photo(s) du domaine public liées à ' . Club::s('city') . ' (' . Club::s('founded') . '-' . \App\Services\FcsmGallica::LAST_YEAR . '), '
                         . $r['done'] . ' ajoutée(s) aux fiches' . ($r['left'] ? ', ' . $r['left'] . ' au prochain clic' : '') . ($r['unplaced'] ? ', ' . $r['unplaced'] . ' sans fiche de destination (liste ci-dessous)' : '') . '.'
                         . ($r['messages'] ? ' Erreurs : ' . implode(' · ', array_slice($r['messages'], 0, 3)) : ''));
                 case 'relancer':

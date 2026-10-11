@@ -214,8 +214,8 @@ final class Explore
             'current' => $current,
             'catPath' => $cat['path'] ?? null,
         ], [
-            'title' => t('Saison {s} du FC Sochaux-Montbéliard : résultats, effectif, buteurs', ['s' => $season]),
-            'description' => t('La saison {s} du FCSM : {n} matchs fichés, {v} victoires, {nn} nuls, {d} défaites. Résultats, effectif et buteurs.', ['s' => $season, 'n' => count($matches), 'v' => $res['V'], 'nn' => $res['N'], 'd' => $res['D']]),
+            'title' => t('Saison {s} {club_de} : résultats, effectif, buteurs', ['s' => $season]),
+            'description' => t('La saison {s} {sigle_de} : {n} matchs fichés, {v} victoires, {nn} nuls, {d} défaites. Résultats, effectif et buteurs.', ['s' => $season, 'n' => count($matches), 'v' => $res['V'], 'nn' => $res['N'], 'd' => $res['D']]),
             'image' => $hero ? img($hero, 1200) : null,
             'active' => 'matchs',
             'body_class' => 'page-season',
@@ -237,8 +237,8 @@ final class Explore
         }
         krsort($byDecade);
         return Pages::render('seasons', ['byDecade' => $byDecade, 'current' => self::currentSeason()], [
-            'title' => t('Toutes les saisons du FC Sochaux-Montbéliard depuis 1928'),
-            'description' => t('Saison par saison, les résultats, les effectifs et les buteurs du FCSM, calculés depuis les fiches matchs du musée.'),
+            'title' => t('Toutes les saisons {club_de} depuis {founded}'),
+            'description' => t('Saison par saison, les résultats, les effectifs et les buteurs {sigle_de}, calculés depuis les fiches matchs du musée.'),
             'active' => 'matchs',
             'styles' => ['css/mosaic.css', 'css/explore.css'],
         ]);
@@ -310,7 +310,7 @@ final class Explore
         usort($list, fn ($x, $y) => $y['count'] <=> $x['count'] ?: strcoll($x['name'], $y['name']));
         return Pages::render('opponents', ['list' => $list], [
             'title' => t('Face-à-face : le bilan du FC Sochaux contre chaque adversaire'),
-            'description' => t('Victoires, nuls, défaites, buts : le bilan complet de Sochaux contre ses {n} adversaires, calculé depuis les fiches matchs.', ['n' => count($list)]),
+            'description' => t('Victoires, nuls, défaites, buts : le bilan complet de {team} contre ses {n} adversaires, calculé depuis les fiches matchs.', ['n' => count($list)]),
             'active' => 'matchs',
             'styles' => ['css/mosaic.css', 'css/explore.css'],
             'scripts' => ['js/explore.js'],
@@ -352,7 +352,7 @@ final class Explore
         [$vars, $page] = [$data + [
             'mode' => 'club',
             'eyebrow' => t('Face-à-face · historique complet'),
-            'titleHtml' => 'Sochaux <span class="yellow">×</span> ' . e($name),
+            'titleHtml' => e(\App\Core\Club::team()) . ' <span class="yellow">×</span> ' . e($name),
             'crumbs' => [['label' => t('Accueil'), 'href' => url('/')], ['label' => t('Matchs'), 'href' => url('/matchs/')], ['label' => t('Face-à-face'), 'href' => url('/face-a-face/')]],
             'here' => $name,
             'chips' => $top,
@@ -360,8 +360,8 @@ final class Explore
             'shareImage' => '/partage/face-a-face/' . $club . '.png',
             'pdfHref' => PdfExport::opponentUrl($club),
         ], [
-            'title' => t('Sochaux – {club} : le face-à-face complet ({n} matchs)', ['club' => $name, 'n' => $data['t']['count']]),
-            'description' => t('Bilan de Sochaux contre {club} : {v} victoires, {nn} nuls, {d} défaites, {gf} buts marqués et {ga} encaissés en {n} matchs.', ['club' => $name, 'v' => $data['t']['V'], 'nn' => $data['t']['N'], 'd' => $data['t']['D'], 'gf' => $data['t']['gf'], 'ga' => $data['t']['ga'], 'n' => $data['t']['count']]),
+            'title' => t('{team} – {club} : le face-à-face complet ({n} matchs)', ['club' => $name, 'n' => $data['t']['count']]),
+            'description' => t('Bilan de {team} contre {club} : {v} victoires, {nn} nuls, {d} défaites, {gf} buts marqués et {ga} encaissés en {n} matchs.', ['club' => $name, 'v' => $data['t']['V'], 'nn' => $data['t']['N'], 'd' => $data['t']['D'], 'gf' => $data['t']['gf'], 'ga' => $data['t']['ga'], 'n' => $data['t']['count']]),
             'image' => '/partage/face-a-face/' . $club . '.png',
             'active' => 'matchs',
             'styles' => ['css/mosaic.css', 'css/explore.css'],
@@ -404,11 +404,11 @@ final class Explore
                 return null;
             }
             $data = self::bilanData($ids, true);
-            $title = t('Sochaux en {comp}', ['comp' => t($label)]);
+            $title = t('{team} en {comp}', ['comp' => t($label)]);
             return ['vars' => $data + [
                 'mode' => 'comp',
                 'eyebrow' => t('Bilan · calculé depuis les fiches matchs'),
-                'titleHtml' => e(t('Sochaux en')) . ' <span class="yellow">' . e(t($label)) . '</span>',
+                'titleHtml' => e(t('{team} en')) . ' <span class="yellow">' . e(t($label)) . '</span>',
                 'crumbs' => [['label' => t('Accueil'), 'href' => url('/')], ['label' => t('Matchs'), 'href' => url('/matchs/')], ['label' => t('Bilans'), 'href' => url('/bilans/coupe-de-france/')]],
                 'here' => t($label),
                 'chips' => $chips,
@@ -434,7 +434,7 @@ final class Explore
             return ['vars' => $data + [
                 'mode' => 'stade',
                 'eyebrow' => t('Bilan · calculé depuis les fiches matchs'),
-                'titleHtml' => e(t('Sochaux au')) . ' <span class="yellow">' . e($name) . '</span>',
+                'titleHtml' => e(t('{team} au')) . ' <span class="yellow">' . e($name) . '</span>',
                 'crumbs' => [['label' => t('Accueil'), 'href' => url('/')], ['label' => t('Matchs'), 'href' => url('/matchs/')], ['label' => t('Bilans'), 'href' => url('/bilans/coupe-de-france/')]],
                 'here' => $name,
                 'chips' => $chips,
@@ -442,8 +442,8 @@ final class Explore
                 'shareImage' => null,
                 'pdfHref' => PdfExport::bilanUrl($key),
             ], 'page' => [
-                'title' => t('Sochaux au {stade} : le bilan complet', ['stade' => $name]),
-                'description' => t('Tous les matchs de Sochaux au {stade} : {n} matchs, {v} victoires, {nn} nuls, {d} défaites.', ['stade' => $name, 'n' => $data['t']['count'], 'v' => $data['t']['V'], 'nn' => $data['t']['N'], 'd' => $data['t']['D']]),
+                'title' => t('{team} au {stade} : le bilan complet', ['stade' => $name]),
+                'description' => t('Tous les matchs de {team} au {stade} : {n} matchs, {v} victoires, {nn} nuls, {d} défaites.', ['stade' => $name, 'n' => $data['t']['count'], 'v' => $data['t']['V'], 'nn' => $data['t']['N'], 'd' => $data['t']['D']]),
                 'active' => 'matchs',
                 'styles' => ['css/mosaic.css', 'css/explore.css'],
                 'scripts' => ['js/explore.js'],
@@ -654,8 +654,8 @@ final class Explore
         $all = \App\Services\Chiffres::all();
         $scope = $all['scope'];
         $v = ['vars' => ['chapters' => $all['chapters'], 'count' => $all['count'], 'scope' => $scope], 'page' => [
-            'title' => t('Les chiffres du FCSM : {n} statistiques depuis 1929', ['n' => $all['count']]),
-            'description' => t('Meilleur buteur de l’histoire, recordman des matchs, plus longue invincibilité, but le plus rapide, affluences : {n} chiffres du FC Sochaux-Montbéliard calculés depuis les fiches du musée.', ['n' => $all['count']]),
+            'title' => t('Les chiffres {sigle_de} : {n} statistiques depuis 1929', ['n' => $all['count']]),
+            'description' => t('Meilleur buteur de l’histoire, recordman des matchs, plus longue invincibilité, but le plus rapide, affluences : {n} chiffres {club_de} calculés depuis les fiches du musée.', ['n' => $all['count']]),
             'active' => 'matchs',
             'styles' => ['css/explore.css', 'css/chiffres.css'],
         ]];
@@ -687,8 +687,8 @@ final class Explore
         $v = ['vars' => [
             'cat' => $cat, 'title' => t($title), 'unit' => t($unit), 'rows' => $rows, 'tabs' => $tabs, 'decs' => $decs, 'compChips' => $compChips, 'scope' => $scope,
         ], 'page' => [
-            'title' => t($title) . ' – ' . t('Le livre des records du FCSM'),
-            'description' => t('{title} du FC Sochaux-Montbéliard ({scope}), calculés automatiquement depuis les fiches matchs du musée.', ['title' => t($title), 'scope' => $scope]),
+            'title' => t($title) . ' – ' . t('Le livre des records {sigle_de}'),
+            'description' => t('{title} {club_de} ({scope}), calculés automatiquement depuis les fiches matchs du musée.', ['title' => t($title), 'scope' => $scope]),
             'active' => 'matchs',
             'noindex' => $decade !== null || $comp !== null,
             'styles' => ['css/mosaic.css', 'css/explore.css'],

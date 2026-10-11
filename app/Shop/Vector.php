@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 use App\Pdf\TrueType;
 use App\Pdf\Writer;
 
@@ -418,7 +419,7 @@ final class Vector
         $pdf = new Writer();
         $cmyk = $o['cmyk'] ?? true;
         $marks = $o['marks'] ?? true;
-        $pdf->info = ['Title' => (string) ($o['title'] ?? 'Sochaux Rétro'), 'Author' => 'Sochaux Rétro', 'Subject' => 'Fichier d’impression', 'Creator' => 'Sochaux Rétro · boutique'];
+        $pdf->info = ['Title' => (string) ($o['title'] ?? Club::s('site')), 'Author' => Club::s('site'), 'Subject' => 'Fichier d’impression', 'Creator' => Club::s('site') . ' · boutique'];
         foreach ($faces as $face) {
             $side = $face['side'];
             [$w, $h, $b] = [(float) $side['w'], (float) $side['h'], (float) ($side['bleed'] ?? 0)];

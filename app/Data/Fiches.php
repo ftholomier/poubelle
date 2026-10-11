@@ -318,11 +318,11 @@ final class Fiches
             'match' => [
                 'date' => null, 'date_text' => null, 'season' => null, 'competition' => 'Championnat',
                 'competition_label' => '', 'competition_code' => '', 'round' => '', 'round_text' => '',
-                'home' => ['name' => 'Sochaux', 'level' => null], 'away' => ['name' => '', 'level' => null],
+                'home' => ['name' => \App\Core\Club::team(), 'level' => null], 'away' => ['name' => '', 'level' => null],
                 'sochaux_home' => true, 'score' => null, 'score_raw' => '', 'score_line' => '', 'result' => null,
                 'stadium' => '', 'spectators' => null, 'spectators_text' => '', 'referee' => '', 'goals_text' => '',
                 'goals' => [], 'header_extra' => [], 'highlights' => [], 'reactions' => [], 'breves' => [],
-                'lineup' => ['title' => 'Composition Sochaux', 'headers' => ['Postes', 'Nom et prénom', 'Buts', 'Remp.', 'Cartons'], 'rows' => [], 'source_table' => null],
+                'lineup' => ['title' => 'Composition ' . \App\Core\Club::team(), 'headers' => ['Postes', 'Nom et prénom', 'Buts', 'Remp.', 'Cartons'], 'rows' => [], 'source_table' => null],
                 'other_lineups' => [], 'event' => null, 'opponent_club' => null, 'stadium_id' => null, 'formation' => '',
             ],
             'personne' => [

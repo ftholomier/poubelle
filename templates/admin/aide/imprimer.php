@@ -7,14 +7,14 @@ use App\Admin\Help;
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Guide du back-office · Sochaux Rétro</title>
+<title>Guide du back-office · <?= e(\App\Core\Club::s('site')) ?></title>
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('admin/aide.css') ?>">
 </head>
 <body class="aide-print">
 <section class="pcover">
   <img src="/assets/img/logo-sochaux-retro.png" alt="" class="pcover__logo">
-  <span class="pcover__kicker">Sochaux Rétro · le musée en ligne du FC Sochaux-Montbéliard</span>
+  <span class="pcover__kicker"><?= e(\App\Core\Club::s('site')) ?> · le musée en ligne <?= e(\App\Core\Club::s('club_de')) ?></span>
   <h1>Guide d’utilisation<br>du back-office</h1>
   <p>Pour les historiens et les administrateurs du musée : saisir, illustrer et publier les contenus, comprendre ce que le site fait tout seul, et prendre la relève de l’ancien WordPress.</p>
   <span class="pcover__date">Édition du <?= e(date_fr(date('Y-m-d'))) ?></span>

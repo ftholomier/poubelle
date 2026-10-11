@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Club;
 /**
  * Mise en page du poster d'un joueur (voir PlayerPoster) : la même grille, les mêmes couleurs et les
  * mêmes briques que le poster d'un match (PosterLayout), avec ses propres blocs : le nom en grand,
@@ -90,14 +91,14 @@ final class PlayerPosterLayout extends PosterLayout
         $s = self::pt(16);
         $y = self::PAD;
         $pour = 'pour ' . $this->pour;
-        $left = [['Sochaux Rétro · ', 'display-b', self::MIST], ['le musée des Lionceaux', 'display-b', self::YELLOW]];
+        $left = [[Club::s('site') . ' · ', 'display-b', self::MIST], [club('le musée des {nickname}'), 'display-b', self::YELLOW]];
         $lw = 0;
         foreach ($left as $seg) {
             $lw += self::width(mb_strtoupper($seg[0]), 'display-b', $s, 220);
         }
         $this->row($left, self::PAD, $y, 170, $s, 220);
         $px = self::PAD + min(170, $lw) + 3;
-        $right = $this->d['years'] !== '' ? 'Au FCSM · ' . $this->d['years'] : 'Au FCSM';
+        $right = $this->d['years'] !== '' ? 'Au ' . Club::s('sigle') . ' · ' . $this->d['years'] : 'Au ' . Club::s('sigle');
         $dw = self::width(mb_strtoupper($right), 'display-b', $s, 220);
         $room = self::W - self::PAD - $dw - 6 - $px;
         $tw = min($room - 5, self::width(mb_strtoupper($pour), 'display-b', $s, 160));
@@ -110,7 +111,7 @@ final class PlayerPosterLayout extends PosterLayout
     {
         $s = self::pt(13);
         $y = self::H - self::PAD - 3.6;
-        $this->text(self::PAD, $y, 200, 'Chiffres, faits et citations tirés de sa fiche et des compositions du musée Sochaux Rétro', 'serif-i', $s, self::MIST);
+        $this->text(self::PAD, $y, 200, club('Chiffres, faits et citations tirés de sa fiche et des compositions du musée {site}'), 'serif-i', $s, self::MIST);
         $this->text(self::W - self::PAD - 70, $y, 70, 'Poster A3 · 297 × 420 mm', 'serif-i', $s, self::MIST, ['align' => 'right']);
     }
 
@@ -130,7 +131,7 @@ final class PlayerPosterLayout extends PosterLayout
             $this->text($ix, $ty + 0.5, $iw, $d['first'], 'display-b', $fs, self::CREAM, ['upper' => true, 'spacing' => 60, 'fit' => true, 'lh' => 1]);
             $ty += $fs * 25.4 / 72 + 1.5;
         }
-        $sub = $d['nickname'] !== '' ? '« ' . $d['nickname'] . ' »' : ($d['years'] !== '' ? 'Au FC Sochaux-Montbéliard de ' . str_replace('-', ' à ', $d['years']) : '');
+        $sub = $d['nickname'] !== '' ? '« ' . $d['nickname'] . ' »' : ($d['years'] !== '' ? 'Au ' . Club::s('club') . ' de ' . str_replace('-', ' à ', $d['years']) : '');
         $subH = $sub !== '' ? 8 : 0;
         $avail = $y + $h - 4 - $subH - $ty;
         $l = $this->text($ix, $ty, $iw, $d['last'], 'display', self::pt(150), self::YELLOW, ['upper' => true, 'fit' => true, 'min' => self::pt(30), 'lh' => 0.9, 'h' => $avail, 'valign' => 'middle', 'dry' => true]);
@@ -233,7 +234,7 @@ final class PlayerPosterLayout extends PosterLayout
         $this->rect($x, $y, $w, $h, self::BLUE, self::LINE, 0.5);
         $ix = $x + 4.5;
         $iw = $w - 9;
-        $ty = $this->kicker($ix, $y + 4, $iw, 'Palmarès au FCSM');
+        $ty = $this->kicker($ix, $y + 4, $iw, 'Palmarès ' . Club::s('sigle_au'));
         $items = $this->d['honours'];
         $avail = $y + $h - 3.5 - $ty;
         for ($size = self::pt(16); ; $size -= 0.3) {
@@ -336,7 +337,7 @@ final class PlayerPosterLayout extends PosterLayout
         $this->rect($x, $y, $w, $h, self::CREAM);
         $ix = $x + 4.5;
         $iw = $w - 9;
-        $ty = $this->kicker($ix, $y + 4, $iw, 'Pour Sochaux, il était…', self::BLUE);
+        $ty = $this->kicker($ix, $y + 4, $iw, 'Pour ' . Club::team() . ', il était…', self::BLUE);
         $this->rect($ix, $ty, 1.5, $y + $h - 4 - $ty, self::YELLOW);
         $this->text($ix + 5, $ty, $iw - 5, $this->d['portrait'], 'serif-b', self::pt(24), self::NAVY, ['lh' => 1.25, 'h' => $y + $h - 4 - $ty, 'fit' => true, 'min' => self::pt(12), 'valign' => 'middle']);
     }

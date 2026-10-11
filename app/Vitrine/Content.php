@@ -194,11 +194,11 @@ final class Content
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $c)) {
             $all[] = [
                 'slug' => 'centenaire-du-fcsm',
-                'title' => 'Les 100 ans du FC Sochaux-Montbéliard',
+                'title' => club('Les 100 ans {club_de}'),
                 'start' => "$c 00:00",
                 'end' => '',
                 'allday' => true,
-                'place' => 'Sochaux et partout où bat un cœur jaune et bleu',
+                'place' => club('{city} et partout où bat un cœur {colors}'),
                 'excerpt' => 'Le club fête son centenaire. L’association prépare ce rendez-vous depuis des années : moments d’histoire, Onze de légende, archives sauvées.',
                 'image' => '2025/03/que-le-jaune-soit-or-et-que-le-bleu-soit-roi-1652281058.jpg',
                 'href' => Host::url('/nos-actions/centenaire-2028/'),
@@ -286,9 +286,9 @@ final class Content
     public static function figures(): array
     {
         return [
-            ['n' => self::num((string) Settings::get('home.counter_community', '11000+')), 'label' => 'passionnés', 'text' => 'dans la communauté Sochaux Rétro, tous réseaux confondus'],
+            ['n' => self::num((string) Settings::get('home.counter_community', '11000+')), 'label' => 'passionnés', 'text' => club('dans la communauté {site}, tous réseaux confondus')],
             ['n' => self::num((string) Settings::get('home.counter_videos', '1400+')), 'label' => 'vidéos', 'text' => 'sur notre chaîne YouTube'],
-            ['n' => number_format(count(Index::published('match')), 0, ',', ' '), 'label' => 'matchs', 'text' => 'racontés au musée en ligne, depuis 1928'],
+            ['n' => number_format(count(Index::published('match')), 0, ',', ' '), 'label' => 'matchs', 'text' => club('racontés au musée en ligne, depuis {founded}')],
             ['n' => number_format(\App\Front\Site::count(\App\Front\Site::C_JOUEURS), 0, ',', ' '), 'label' => 'joueurs', 'text' => 'avec leur fiche au musée'],
         ];
     }

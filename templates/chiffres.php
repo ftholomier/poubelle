@@ -14,7 +14,7 @@ $first = $scope['careers_from'] ?? 1929;
   <div class="wrap rhead__inner">
     <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><a href="<?= e(url('/matchs/')) ?>"><?= e(t('Matchs')) ?></a><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('Les chiffres')) ?></span></nav>
     <span class="eyebrow eyebrow--lg" style="color:var(--navy)"><?= e(t('{n} chiffres · calculés automatiquement', ['n' => $count])) ?></span>
-    <h1 class="rhead__title"><?= e(t('Les chiffres')) ?><br><?= e(t('du FCSM')) ?></h1>
+    <h1 class="rhead__title"><?= e(t('Les chiffres')) ?><br><?= e(t('{sigle_de}')) ?></h1>
     <p class="chead__lead"><?= e(t('De {y} à aujourd’hui, {n} statistiques tirées de toute la mémoire du musée : les carrières saison par saison, les matchs racontés minute par minute et les fiches des Lions.', ['y' => $first, 'n' => $count])) ?></p>
     <?php if (!empty($audio)): ?><div class="hero-actions" style="margin-top:0"><?= \App\Core\View::partial('partials/audio-button', ['audio' => $audio, 'navy' => true]) ?></div><?php endif; ?>
     <dl class="chead__scope">

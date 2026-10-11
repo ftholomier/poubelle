@@ -39,7 +39,7 @@ final class Menus
             ],
             'matchs_explore' => [
                 $l('Saisons', '/saisons/'), $l('Face-à-face', '/face-a-face/'), $l('Palmarès', '/palmares/'), $l('Records', '/records/'),
-                $l('Les chiffres', '/chiffres/'), $l('Bilan à Bonal', '/bilans/stade-auguste-bonal/'), $l('Bilan en Coupe de France', '/bilans/coupe-de-france/'),
+                $l('Les chiffres', '/chiffres/'), $l(club('Bilan {stadium_a}'), '/bilans/stade-auguste-bonal/'), $l('Bilan en Coupe de France', '/bilans/coupe-de-france/'),
             ],
             'interactif' => [
                 ['title' => "Explorer l'histoire", 'title_en' => '', 'tools' => [
@@ -47,10 +47,10 @@ final class Menus
                     $tool('●', 'Rétro-Direct', 'Les grands matchs rejoués en direct, le jour anniversaire.', '/interactif/retro-direct/'),
                     $tool('◎', 'Carto', 'Stades, origines, épopées, lieux.', '/interactif/carto/'),
                     $tool('×', 'Face-à-face', 'Choisissez un adversaire, voyez le bilan.', '/face-a-face/'),
-                    $tool('🏆', 'Palmarès', 'Les titres et les finales depuis 1928.', '/palmares/'),
+                    $tool('🏆', 'Palmarès', club('Les titres et les finales depuis {founded}.'), '/palmares/'),
                     $tool('#', 'Records', 'Buteurs, affluences, séries.', '/records/'),
                     $tool('%', 'Les chiffres', '100 statistiques depuis 1929.', '/chiffres/'),
-                    $tool('→', 'Frise', "De 1928 à aujourd'hui.", '/interactif/frise/'),
+                    $tool('→', 'Frise', club("De {founded} à aujourd'hui."), '/interactif/frise/'),
                     $tool('↔', 'Maillots', 'Deux époques, un curseur.', '/interactif/maillots/'),
                 ]],
                 ['title' => 'Les murs de photos', 'title_en' => '', 'auto' => 'walls', 'tools' => []],
@@ -59,7 +59,7 @@ final class Menus
                     $tool('★', 'Le défi du jour', 'Dix questions, un essai par jour, un classement.', '/interactif/defi/'),
                     $tool('♛', 'Championnat du club-house', 'Les soirées quiz en salle, saison après saison.', '/interactif/quiz-live/championnat/'),
                     $tool('▦', 'Album', 'Collectionnez les cartes des Lions.', '/interactif/album/'),
-                    $tool('⟿', 'Fil jaune', 'Reliez deux Lionceaux par leurs matchs.', '/interactif/fil-jaune/'),
+                    $tool('⟿', 'Fil jaune', club('Reliez deux {nickname} par leurs matchs.'), '/interactif/fil-jaune/'),
                 ]],
                 ['title' => 'Participer', 'title_en' => '', 'tools' => [
                     $tool('✓', 'Mon carnet du supporter', 'Vos matchs vus au stade, votre bilan.', '/carnet/'),
@@ -67,7 +67,7 @@ final class Menus
                     $tool('100', '100 moments', 'Dévoilés un à un jusqu’au centenaire.', '/centenaire/100-moments/'),
                     $tool('✎', 'Contribuer', 'Vos archives enrichissent le musée.', '/contribuer/'),
                     $tool('@', 'Ce jour-là', 'La newsletter du musée.', '/partage-et-newsletter/'),
-                    $tool('❝', 'Kit souvenirs', 'Raconte-moi Bonal : à imprimer pour les anciens.', '/interactif/souvenirs/'),
+                    $tool('❝', 'Kit souvenirs', club('Raconte-moi {stadium_short} : à imprimer pour les anciens.'), '/interactif/souvenirs/'),
                 ]],
             ],
             'footer' => [
@@ -81,7 +81,7 @@ final class Menus
                 ]],
                 ['title' => 'Participer', 'title_en' => '', 'links' => [
                     $l('Contribuer', '/contribuer/'), $l('La newsletter', '/newsletter/'), $l('L’appli du musée', '/appli/'), $l('Nous contacter', '/contact/'),
-                    $l('La boutique', '/boutique/'), $l('L’association Sochaux Rétro', '{association}'), $l('Vidéo teaser', '/teaser/'),
+                    $l('La boutique', '/boutique/'), $l(club('L’association {site}'), '{association}'), $l('Vidéo teaser', '/teaser/'),
                 ]],
             ],
         ];

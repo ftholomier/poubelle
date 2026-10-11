@@ -438,9 +438,9 @@ final class Fiche
         $name = $p['display_name'] ?: $doc['title'];
         $years = self::personYears($p);
         $roleLabel = self::roleLabel($p);
-        $seoTitle = $doc['seo']['title'] ?: trim("$name – " . $roleLabel . ' ' . t('du FC Sochaux-Montbéliard') . ($years ? " ($years)" : ''));
+        $seoTitle = $doc['seo']['title'] ?: trim("$name – " . $roleLabel . ' ' . t('{club_de}') . ($years ? " ($years)" : ''));
         $desc = $doc['seo']['description'] ?: Unknown::line(trim(implode(' ', array_filter([
-            sentence($name . ($p['position'] ? ', ' . $p['position'] : '') . ($years ? ' ' . t('au FCSM') . " ($years)" : '')),
+            sentence($name . ($p['position'] ? ', ' . $p['position'] : '') . ($years ? ' ' . t('{sigle_au}') . " ($years)" : '')),
             (string) ($p['birth']['text'] ?? '') !== '' ? sentence(ucfirst((string) $p['birth']['text'])) : '',
             $tot && $tot['matches'] ? $tot['matches'] . ' ' . t('matchs') . ', ' . $tot['goals'] . ' ' . t('buts') . '.' : '',
             excerpt(implode(' ', array_column($doc['sections'], 'html')), 120),
@@ -455,7 +455,7 @@ final class Fiche
             'deathDate' => ($p['death']['date']['precision'] ?? '') === 'day' ? $p['death']['date']['iso'] : null,
             'height' => $p['height_cm'] ? ['@type' => 'QuantitativeValue', 'value' => $p['height_cm'], 'unitCode' => 'CMT'] : null,
             'jobTitle' => $roleLabel,
-            'affiliation' => ['@type' => 'SportsTeam', 'name' => 'FC Sochaux-Montbéliard'],
+            'affiliation' => ['@type' => 'SportsTeam', 'name' => \App\Core\Club::s('club')],
             'image' => $doc['featured_image'] ? $base . img($doc['featured_image'], 800) : null,
             'url' => $base . url($doc['path']),
         ]);
@@ -816,7 +816,7 @@ final class Fiche
                 'headline' => $doc['title'],
                 'datePublished' => $doc['date'],
                 'dateModified' => $doc['modified'],
-                'author' => ['@type' => 'Organization', 'name' => 'Sochaux Rétro'],
+                'author' => ['@type' => 'Organization', 'name' => \App\Core\Club::s('site')],
                 'image' => $doc['featured_image'] ? base_url() . img($doc['featured_image'], 1200) : null,
             ],
         ]];

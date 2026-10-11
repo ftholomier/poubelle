@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Pdf;
 
+use App\Core\Club;
 use App\Data\Fiches;
 use App\Data\Media;
 use App\Front\Recit;
@@ -240,7 +241,7 @@ final class Livre
         $l->rect($l->pw / 2 - $lw / 2, $in - 8, $lw, 16, 'navy');
         $l->text($l->pw / 2 - $lw / 2 + 12, $in + 3.2, $lab, 'display-b', 8.5, 'yellow', 2.2);
         $l->logo($in + 8 * $mm, $in + 8 * $mm, 58);
-        $yr = '1928 — ' . date('Y');
+        $yr = Club::s('founded') . ' — ' . date('Y');
         $l->text($l->pw - $in - 8 * $mm - $l->width($yr, 'display-b', 11, 2), $in + 8 * $mm + 14, $yr, 'display-b', 11, 'white', 2);
         // Titre : « 100 » géant en relief (contour décalé + aplat jaune), « RÉCITS / DU LION » à côté.
         $base = $l->ph - $b - 70 * $mm;
@@ -644,7 +645,7 @@ final class Livre
         $l->text($x, $y, 'TIRÉ DU CARNET DU SUPPORTER' . ($nom !== '' ? ' DE ' . mb_strtoupper($nom) : ''), 'display-b', 10, 'yellow', 2.4);
         $l->text($x, $y + 62, 'J’Y ÉTAIS', 'display', 52, 'white', 0.4);
         $y += 92;
-        $tiles = [[$st['n'], 'match' . ($st['n'] > 1 ? 's' : '') . ' au stade'], [$st['v'], 'victoire' . ($st['v'] > 1 ? 's' : '')], [$st['nul'], 'nul' . ($st['nul'] > 1 ? 's' : '')], [$st['gf'], 'buts sochaliens']];
+        $tiles = [[$st['n'], 'match' . ($st['n'] > 1 ? 's' : '') . ' au stade'], [$st['v'], 'victoire' . ($st['v'] > 1 ? 's' : '')], [$st['nul'], 'nul' . ($st['nul'] > 1 ? 's' : '')], [$st['gf'], 'buts ' . Club::s('gentile') . 's']];
         $tw = ($w - 3 * 8) / 4;
         foreach ($tiles as $i => [$v, $lab]) {
             $tx = $x + $i * ($tw + 8);
@@ -692,7 +693,7 @@ final class Livre
             $f = (array) $this->o['naissance_feuille'];
             $days = (int) round((strtotime((string) $f['date']) - $t) / 86400);
             $when = $days === 0 ? 'ce jour-là' : ($days > 0 ? $days . ' jour' . ($days > 1 ? 's' : '') . ' plus tard' : abs($days) . ' jour' . (abs($days) > 1 ? 's' : '') . ' plus tôt');
-            $this->myMatch(0, (string) ($this->o['naissance_titre'] ?? '') ?: 'Le jour de ta naissance', 'Le ' . date_fr($d) . ' : ' . $when . ', Sochaux jouait ce match.', self::fromSheet($f), $f);
+            $this->myMatch(0, (string) ($this->o['naissance_titre'] ?? '') ?: 'Le jour de ta naissance', 'Le ' . date_fr($d) . ' : ' . $when . ', ' . Club::team() . ' jouait ce match.', self::fromSheet($f), $f);
             return;
         }
         $best = null;
@@ -710,7 +711,7 @@ final class Livre
         }
         $days = (int) round((strtotime($best[2]) - $t) / 86400);
         $when = $days === 0 ? 'Ce jour-là' : ($days > 0 ? ($days === 1 ? 'Le lendemain' : $days . ' jours plus tard') : ($days === -1 ? 'La veille' : abs($days) . ' jours plus tôt'));
-        $note = 'Le ' . date_fr($d) . ' : ' . mb_strtolower(mb_substr($when, 0, 1)) . mb_substr($when, 1) . ', Sochaux jouait ce match.';
+        $note = 'Le ' . date_fr($d) . ' : ' . mb_strtolower(mb_substr($when, 0, 1)) . mb_substr($when, 1) . ', ' . Club::team() . ' jouait ce match.';
         $this->myMatch($best[0], (string) ($this->o['naissance_titre'] ?? '') ?: 'Le jour de ta naissance', $note);
     }
 
@@ -968,7 +969,7 @@ final class Livre
             $l->text($tx, $this->b + 16 * $mm, $i === 0 ? 'TON MAILLOT' : mb_strtoupper(trim(($name !== '' ? $name : '') . ($num !== '' ? ' · N° ' . $num : ''))), 'display', 22, $i === 0 ? 'yellow' : 'white', 1);
             $l->text($tx, $this->b + 23 * $mm, $label . (($st['era'] ?? '') !== '' ? ' · INSPIRÉ DE ' . mb_strtoupper($st['era']) : ''), 'display-b', 9, 'mist', 2);
         }
-        $note = 'Maillot inspiré ' . (($st['era'] ?? '') !== '' ? 'des maillots du FCSM de ' . $st['era'] : 'des couleurs du FCSM') . ' : une évocation libre, pas une reproduction fidèle. Ni sponsor ni équipementier, juste le Lion et ton nom, pour le plaisir.';
+        $note = 'Maillot inspiré ' . (($st['era'] ?? '') !== '' ? 'des maillots ' . Club::s('sigle_de') . ' de ' . $st['era'] : 'des couleurs ' . Club::s('sigle_de')) . ' : une évocation libre, pas une reproduction fidèle. Ni sponsor ni équipementier, juste le Lion et ton nom, pour le plaisir.';
         $nl = $l->wrap([Layout::run($note, 'serif-i', 9, 'mist')], $l->pw - $this->b - 18 * $mm, 1.35);
         $l->drawLines($nl, $this->b + 4 * $mm, $this->b + $this->H - 16 * $mm, $l->pw - $this->b - 18 * $mm);
     }
@@ -1064,7 +1065,7 @@ final class Livre
         $away = (string) ($m['away']['name'] ?? '');
         foreach ([[$home, $sc['home'] ?? ''], [$away, $sc['away'] ?? '']] as [$team, $g]) {
             $t = $l->fit(mb_strtoupper($team), 'display', 40, $w - 70, 0.3);
-            $l->text($x, $y + 38, $t, 'display', 40, $team === 'Sochaux' || str_contains($team, 'Sochaux') ? 'yellow' : 'white', 0.3);
+            $l->text($x, $y + 38, $t, 'display', 40, $team === Club::team() || str_contains($team, Club::team()) ? 'yellow' : 'white', 0.3);
             $gs = (string) $g;
             $l->text($x + $w - $l->width($gs, 'display', 48), $y + 40, $gs, 'display', 48, 'white');
             $y += 50;
@@ -1106,7 +1107,7 @@ final class Livre
         if ($note !== '') {
             $l->drawLines($l->wrap([Layout::run($note, 'serif-i', 11, 'cream')], $w, 1.4), $x, $l->ph - $this->b - 34 * $mm, $w);
         }
-        $l->text($x, $l->ph - $this->b - 14 * $mm, 'D’après la fiche du match au musée Sochaux Rétro', 'serif-i', 8, 'mist');
+        $l->text($x, $l->ph - $this->b - 14 * $mm, club('D’après la fiche du match au musée {site}'), 'serif-i', 8, 'mist');
     }
 
 
@@ -1506,7 +1507,7 @@ final class Livre
             $mw = ($stamp ? 32 : 16) * self::MM;
             $mx = $x + $w - $mw;
             if ($qr) {
-                $this->qr(rtrim((string) setting('general.base_url', 'https://musee.fcsochauxretro.com'), '/') . $doc['path'], $x + $w - 16 * self::MM, $y + 16, 16 * self::MM);
+                $this->qr(rtrim((string) setting('general.base_url', Club::s('base_url')), '/') . $doc['path'], $x + $w - 16 * self::MM, $y + 16, 16 * self::MM);
             }
             if ($stamp) {
                 $this->stamped[] = ['t' => $title, 'page' => $l->page];
@@ -2080,7 +2081,7 @@ final class Livre
         $fy = $l->ph - $in - 14 * $mm - 60;
         $l->logo($x, $fy, 64);
         $l->text($x + 60, $fy + 28, 'MUSÉE SOCHAUX RÉTRO', 'display-b', 11, 'white', 2);
-        $l->text($x + 60, $fy + 44, 'musee.fcsochauxretro.com', 'serif', 10, 'mist');
+        $l->text($x + 60, $fy + 44, Club::s('domain'), 'serif', 10, 'mist');
         $bw = 44 * $mm;
         $bh = 25 * $mm;
         $bx = $x + $w - $bw;
@@ -2308,7 +2309,7 @@ final class Livre
                     }
                 } elseif (($e['type'] ?? '') === 'match' && preg_match('#-(\d{2})-(\d{2})-(\d{4})/$#', (string) $e['path'], $dm)
                     && preg_match('#([^–/]+?)\s*/\s*([^–/]+?)\s*–#u', $title, $tm)) {
-                    $opp = stripos($tm[1], 'sochaux') !== false ? $tm[2] : $tm[1];
+                    $opp = Club::isUs($tm[1]) ? $tm[2] : $tm[1];
                     $opp = mb_strtolower(trim($opp));
                     if (mb_strlen($opp) >= 4 && !str_contains($opp, 'sochaux')) {
                         $idx['matches'][] = ['id' => $id, 'opp' => $opp, 'y' => (int) $dm[3] + ((int) $dm[2] >= 7 ? 0.5 : 0)];

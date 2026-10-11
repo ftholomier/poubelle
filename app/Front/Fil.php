@@ -48,8 +48,8 @@ final class Fil
             'far' => $rec['far'] && $p($rec['far'][0]) && $p($rec['far'][1]) ? [$p($rec['far'][0]), $p($rec['far'][1])] : null,
             'outside' => array_values(array_filter(array_map($p, $rec['outside']))),
         ], self::PAGE + [
-            'title' => t('Le Fil jaune : tous les Lionceaux sont reliés'),
-            'description' => t('Choisissez deux joueurs du FC Sochaux-Montbéliard : le musée trouve la chaîne des matchs joués ensemble qui les relie. Défi du jour, records, constellations des coéquipiers.'),
+            'title' => t('Le Fil jaune : tous les {nickname} sont reliés'),
+            'description' => t('Choisissez deux joueurs {club_de} : le musée trouve la chaîne des matchs joués ensemble qui les relie. Défi du jour, records, constellations des coéquipiers.'),
         ]);
     }
 
@@ -77,8 +77,8 @@ final class Fil
         ], self::PAGE + [
             'title' => t('Fil jaune : de {a} à {b}', ['a' => $pa['name'], 'b' => $pb['name']]),
             'description' => $n === null
-                ? t('{a} et {b} ne sont pas encore reliés par les compositions du musée Sochaux Rétro.', ['a' => $pa['name'], 'b' => $pb['name']])
-                : t('{a} et {b} sont reliés en {n} passe(s) par les matchs joués ensemble avec le FC Sochaux-Montbéliard.', ['a' => $pa['name'], 'b' => $pb['name'], 'n' => $n]),
+                ? t('{a} et {b} ne sont pas encore reliés par les compositions du musée {site}.', ['a' => $pa['name'], 'b' => $pb['name']])
+                : t('{a} et {b} sont reliés en {n} passe(s) par les matchs joués ensemble avec le {club}.', ['a' => $pa['name'], 'b' => $pb['name'], 'n' => $n]),
             'image' => $pa['image'] ? img($pa['image'], 1200) : null,
         ]);
     }
@@ -103,7 +103,7 @@ final class Fil
             'a' => $pa, 'mates' => $mates, 'top' => $top, 'svg' => self::constellation($pa, $mates), 'players' => self::playerList(),
         ], self::PAGE + [
             'title' => t('La constellation de {a} : ses {n} coéquipiers', ['a' => $pa['name'], 'n' => count($mates)]),
-            'description' => t('Les {n} coéquipiers de {a} au FC Sochaux-Montbéliard, du plus fidèle au plus rare, d’après les compositions du musée.', ['a' => $pa['name'], 'n' => count($mates)]),
+            'description' => t('Les {n} coéquipiers de {a} au {club}, du plus fidèle au plus rare, d’après les compositions du musée.', ['a' => $pa['name'], 'n' => count($mates)]),
             'image' => $pa['image'] ? img($pa['image'], 1200) : null,
         ]);
     }
