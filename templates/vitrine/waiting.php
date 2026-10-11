@@ -42,6 +42,7 @@ $desc = mb_substr(trim((string) preg_replace('/\s+/u', ' ', strip_tags($text))),
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/site.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/vitrine.css') ?>">
+<?= \App\Core\Club::themeCss() ?>
 </head>
 <body class="vt vwait-page">
 <?php if ($preview): ?>

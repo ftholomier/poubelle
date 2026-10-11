@@ -18,6 +18,7 @@
   .pr-main { max-width: 1240px; margin: 0 auto; padding: 20px 16px 60px; }
   .pr-main h1 { font-family: var(--display); text-transform: uppercase; margin: 0 0 14px; }
 </style>
+<?= \App\Core\Club::themeCss() ?>
 </head>
 <body>
 <header class="pr-top"><b><?= e(\App\Core\Club::s('site')) ?> · Espace imprimeur</b><?php if ($logged): ?><a href="/imprimeur/deconnexion">Se déconnecter</a><?php endif; ?></header>

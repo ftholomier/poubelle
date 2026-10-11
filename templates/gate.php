@@ -11,6 +11,7 @@ $site = (string) \App\Core\Settings::get('general.site_name', \App\Core\Club::s(
 <link rel="icon" href="/assets/img/favicon.png" type="image/png">
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/site.css') ?>">
+<?= \App\Core\Club::themeCss() ?>
 </head>
 <body>
 <main class="waiting">

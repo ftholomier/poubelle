@@ -20,7 +20,7 @@
 .fjform__f label { font-family: var(--display); font-weight: 800; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: var(--yellow); }
 .fjform__f input { width: 100%; min-height: 52px; padding: 10px 14px; font: inherit; font-size: 19px; color: var(--navy); background: var(--paper); border: 2px solid var(--paper); }
 .fjform__f input:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
-.fjform__swap { all: unset; cursor: pointer; width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; font-size: 26px; color: var(--yellow); border: 2px solid rgba(243,237,223,.4); }
+.fjform__swap { all: unset; cursor: pointer; width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; font-size: 26px; color: var(--yellow); border: 2px solid rgb(var(--cream-rgb) / .4); }
 .fjform__swap:hover { background: var(--yellow); color: var(--navy); }
 .fjform__swap:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
 .fjform__go { display: flex; align-items: center; gap: 14px; }
@@ -103,17 +103,17 @@
 .fjchain__n { font-family: var(--display); font-weight: 800; font-size: 19px; text-transform: uppercase; letter-spacing: .04em; }
 .fjchain__n b { font-size: 30px; color: var(--blue); }
 .fjchain__y { color: var(--muted); font-weight: 700; }
-.fjchain__m { font-size: 17px; border-bottom: 1px solid rgba(14,31,77,.3); align-self: flex-start; }
+.fjchain__m { font-size: 17px; border-bottom: 1px solid rgb(var(--navy-rgb) / .3); align-self: flex-start; }
 
 /* Constellation */
 .fjstar { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); align-items: start; }
 @media (max-width: 960px) { .fjstar { grid-template-columns: 1fr; } }
 .fjstar__fig { margin: 0; display: flex; flex-direction: column; gap: 10px; }
-.fjstar__fig svg { width: 100%; height: auto; display: block; background: radial-gradient(circle at 50% 50%, #1A2D63 0%, var(--navy) 70%); border: 3px solid var(--navy); }
+.fjstar__fig svg { width: 100%; height: auto; display: block; background: radial-gradient(circle at 50% 50%, var(--navy-2) 0%, var(--navy) 70%); border: 3px solid var(--navy); }
 .fjstar__fig figcaption { font-size: 15px; font-style: italic; color: var(--muted); }
-.fjstar__halo { fill: none; stroke: rgba(246,196,0,.18); stroke-width: 2; stroke-dasharray: 4 10; }
-.fjstar__ray { stroke: rgba(243,237,223,.07); stroke-width: 1; }
-.fjstar__ray.is-top { stroke: rgba(246,196,0,.45); stroke-width: 2; }
+.fjstar__halo { fill: none; stroke: rgb(var(--yellow-rgb) / .18); stroke-width: 2; stroke-dasharray: 4 10; }
+.fjstar__ray { stroke: rgb(var(--cream-rgb) / .07); stroke-width: 1; }
+.fjstar__ray.is-top { stroke: rgb(var(--yellow-rgb) / .45); stroke-width: 2; }
 .fjstar__dot circle { fill: var(--mist); transition: fill .15s; }
 .fjstar__dot.is-top circle { fill: var(--yellow); }
 .fjstar__dot:hover circle, .fjstar__dot:focus circle { fill: #fff; }
@@ -127,7 +127,7 @@
 .fjall summary { cursor: pointer; padding: 14px 18px; font-family: var(--display); font-weight: 800; font-size: 18px; letter-spacing: .08em; text-transform: uppercase; }
 .fjall__list { margin: 0; padding: 0 18px 18px 46px; columns: 2; column-gap: 28px; font-size: 16px; }
 .fjall__list li { break-inside: avoid; padding: 2px 0; }
-.fjall__list a { border-bottom: 1px solid rgba(14,31,77,.25); }
+.fjall__list a { border-bottom: 1px solid rgb(var(--navy-rgb) / .25); }
 .fjall__n { font-family: var(--display); font-weight: 800; color: var(--blue); }
 @media (max-width: 560px) { .fjall__list { columns: 1; } .fjchain__link { margin-left: 36px; padding-left: 22px; } }
 
@@ -135,6 +135,6 @@
 .fjbox { display: flex; flex-direction: column; gap: 12px; padding: 22px; background: var(--navy); color: var(--cream); border: 3px solid var(--yellow); }
 .fjbox .h-3 { color: var(--yellow); }
 .fjbox p { margin: 0; font-size: 17px; }
-.fjbox a:not(.btn) { color: var(--cream); border-bottom: 1px solid rgba(243,237,223,.5); }
+.fjbox a:not(.btn) { color: var(--cream); border-bottom: 1px solid rgb(var(--cream-rgb) / .5); }
 .fjbox .btn { align-self: flex-start; }
 .fjgame__eyebrow { color: var(--blue); }

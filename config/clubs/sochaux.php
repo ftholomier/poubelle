@@ -53,6 +53,27 @@ return [
     'stadium_a' => 'à Bonal',
     'official_site' => 'https://www.fcsochaux.fr',
 
+    // Thème : couleurs de la charte (variables CSS du même nom). « navy » = couleur principale
+    // (fonds, textes), « yellow » = couleur d'accent ; les noms sont historiques.
+    'theme' => [
+        'navy' => '#0E1F4D',
+        'navy-2' => '#1A2D63',
+        'blue' => '#1F3FA8',
+        'yellow' => '#F6C400',
+        'cream' => '#F3EDDF',
+        'paper' => '#FFFDF6',
+        'sand' => '#E8DFC9',
+        'muted' => '#3A4A75',
+        'mist' => '#C9CFE0',
+        'red' => '#D9342B',
+        'butter' => '#FFF3C2',
+    ],
+    'favicon' => '/assets/img/favicon.png',
+    'app_icons' => '/assets/img/app',       // 180.png, 192.png, 512.png…
+    'logo_400' => '/assets/img/logo-sochaux-retro-400.png',
+    'share_image' => '/assets/img/partage-defaut.png',
+    'newsletter_header' => '/assets/img/newsletter-entete.gif',
+
     // Sources de données
     'transfermarkt' => ['id' => 750, 'slug' => 'fc-sochaux-montbeliard'],
     'footballdatabase' => '19-sochaux',

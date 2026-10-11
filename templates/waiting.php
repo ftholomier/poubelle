@@ -36,6 +36,7 @@ $site = (string) Settings::get('general.site_name', \App\Core\Club::s('site'));
 <?php endif; ?>
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/site.css') ?>">
+<?= \App\Core\Club::themeCss() ?>
 </head>
 <body>
 <main class="waiting">

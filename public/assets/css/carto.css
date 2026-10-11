@@ -39,7 +39,7 @@
 .cp-year { font-family: var(--display); font-weight: 900; font-size: 28px; min-width: 62px; text-align: right; font-variant-numeric: tabular-nums; }
 .cp-listhead { padding: 10px 22px; display: flex; justify-content: space-between; align-items: baseline; font-family: var(--display); font-weight: 800; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; }
 .cp-list { flex: 1; overflow: auto; min-height: 0; padding: 0 12px 16px; }
-.cpanel .crow { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; align-items: center; width: 100%; padding: 9px 10px; border-bottom: 1px solid rgba(14,31,77,.15); transition: background .15s, padding .2s; }
+.cpanel .crow { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; align-items: center; width: 100%; padding: 9px 10px; border-bottom: 1px solid rgb(var(--navy-rgb) / .15); transition: background .15s, padding .2s; }
 .cpanel .crow:hover, .cpanel .crow.hl { background: var(--paper); padding-left: 16px; }
 .cpanel .crow.sel { background: var(--yellow); }
 .c-rank { font-family: var(--display); font-weight: 900; font-size: 18px; color: var(--blue); }
@@ -52,7 +52,7 @@
 #cmap { position: absolute; inset: 0; background: #EDE5D2; font-family: var(--serif); }
 .carto .leaflet-tile-pane { filter: grayscale(1) sepia(.35) brightness(1.04) contrast(.88); }
 .carto .leaflet-container a { color: var(--blue); }
-.carto .leaflet-control-attribution { background: rgba(255,253,246,.85) !important; font-size: 11px; }
+.carto .leaflet-control-attribution { background: rgb(var(--paper-rgb) / .85) !important; font-size: 11px; }
 .leaflet-tooltip.tt { background: var(--navy); color: var(--cream); border: 2px solid var(--yellow); border-radius: 0; box-shadow: none; font-size: 15px; padding: 7px 11px; }
 .leaflet-tooltip.tt::before { display: none; }
 .leaflet-tooltip.tt b { display: block; font-family: var(--display); font-size: 19px; text-transform: uppercase; color: var(--yellow); }
@@ -91,14 +91,14 @@
 .cspark i { display: block; width: 100%; background: var(--blue); transition: height .5s cubic-bezier(.3, 1.3, .5, 1); }
 .cspark small { font-family: var(--display); font-weight: 700; font-size: 11px; }
 .cmlist { display: flex; flex-direction: column; }
-.cmitem { display: grid; grid-template-columns: 52px 1fr auto; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid rgba(14,31,77,.15); font-size: 15px; }
+.cmitem { display: grid; grid-template-columns: 52px 1fr auto; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid rgb(var(--navy-rgb) / .15); font-size: 15px; }
 .cmitem b { font-family: var(--display); font-size: 18px; }
 .cmitem .res { width: 24px; height: 24px; font-size: 13px; }
 .cbadge { display: inline-block; border: 2px solid var(--navy); padding: 1px 6px; font-family: var(--display); font-weight: 800; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; margin-left: 4px; }
 .ccta, .cpanel .ccta { align-self: flex-start; background: var(--navy); color: var(--yellow); padding: 12px 18px; font-family: var(--display); font-weight: 800; font-size: 16px; letter-spacing: .1em; text-transform: uppercase; transition: transform .2s; border: 0; cursor: pointer; }
 .ccta:hover { transform: translateY(-2px); color: var(--yellow); }
 .cp-steps { flex: 1; overflow: auto; min-height: 0; padding: 8px 12px 16px; }
-.cpanel .cstep { display: grid; grid-template-columns: 48px 1fr; gap: 12px; width: 100%; padding: 12px 10px; border-bottom: 1px solid rgba(14,31,77,.15); transition: background .2s; }
+.cpanel .cstep { display: grid; grid-template-columns: 48px 1fr; gap: 12px; width: 100%; padding: 12px 10px; border-bottom: 1px solid rgb(var(--navy-rgb) / .15); transition: background .2s; }
 .cpanel .cstep:hover { background: var(--paper); }
 .cpanel .cstep.on { background: var(--yellow); }
 .cstep .n { width: 44px; height: 44px; border-radius: 50%; border: 3px solid var(--navy); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 900; font-size: 16px; background: var(--paper); }

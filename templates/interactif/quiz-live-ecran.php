@@ -22,6 +22,7 @@ $i18n = [
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/site.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/quizlive.css') ?>">
+<?= \App\Core\Club::themeCss() ?>
 </head>
 <body class="qls">
 <script type="application/json" id="qls-data"><?= json_encode(['code' => $g['code'], 'key' => $key, 'lang' => $g['lang'], 't' => $i18n], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) ?></script>

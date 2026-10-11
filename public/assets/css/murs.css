@@ -57,7 +57,7 @@
 
 /* ---------------------------------------------------------------- le Lion illustré */
 .wall--journal { background: #e6dfcc; padding: clamp(18px, 4vw, 56px) var(--gutter) clamp(40px, 6vw, 80px); }
-.lj { max-width: 1200px; margin: 0 auto; background: #f8f4e8; color: #1b1b1b; padding: clamp(16px, 3vw, 44px); box-shadow: 0 1px 0 #d6cfbb, 0 24px 60px rgba(14, 31, 77, .18); font-family: var(--serif); }
+.lj { max-width: 1200px; margin: 0 auto; background: #f8f4e8; color: #1b1b1b; padding: clamp(16px, 3vw, 44px); box-shadow: 0 1px 0 #d6cfbb, 0 24px 60px rgb(var(--navy-rgb) / .18); font-family: var(--serif); }
 .lj__mast { text-align: center; border-bottom: 4px double #1b1b1b; padding-bottom: 10px; margin-bottom: 22px; }
 .lj__top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 16px; margin: 0 0 6px; padding-bottom: 6px; border-bottom: 1px solid #1b1b1b; font-size: 14px; font-style: italic; color: #444; }
 .lj__title { margin: 6px 0 4px; font-family: var(--display); font-weight: 900; font-size: clamp(44px, 9vw, 124px); line-height: .9; letter-spacing: .02em; text-transform: uppercase; color: var(--navy); }
@@ -122,12 +122,12 @@
 .vm__shot { display: block; width: 100%; padding: 0; border: 0; background: #ddd; cursor: zoom-in; }
 .vm__shot img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; user-select: none; -webkit-user-drag: none; }
 .vm__shot:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
-.vm__hand { position: absolute; left: 12px; right: 12px; bottom: 11px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-family: var(--hand); font-weight: 600; font-size: 21px; line-height: 1; color: #1f3fa8; }
+.vm__hand { position: absolute; left: 12px; right: 12px; bottom: 11px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-family: var(--hand); font-weight: 600; font-size: 21px; line-height: 1; color: var(--blue); }
 .vm__hand span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .vm__hand small { flex-shrink: 0; font-size: 20px; color: #b0261b; }
 .vm__hold { position: absolute; z-index: 2; pointer-events: none; }
-.vm__print--tape .vm__hold { top: -13px; left: 50%; width: 96px; height: 26px; margin-left: -48px; background: rgba(246, 196, 0, .6); transform: rotate(var(--t)); box-shadow: 0 1px 2px rgba(0, 0, 0, .12); }
-.vm__print--pin .vm__hold { top: -8px; left: 50%; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ff9183 0 18%, #d9342b 45%, #8f1d16 100%); box-shadow: 3px 5px 5px rgba(0, 0, 0, .35); }
+.vm__print--tape .vm__hold { top: -13px; left: 50%; width: 96px; height: 26px; margin-left: -48px; background: rgb(var(--yellow-rgb) / .6); transform: rotate(var(--t)); box-shadow: 0 1px 2px rgba(0, 0, 0, .12); }
+.vm__print--pin .vm__hold { top: -8px; left: 50%; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ff9183 0 18%, var(--red) 45%, #8f1d16 100%); box-shadow: 3px 5px 5px rgba(0, 0, 0, .35); }
 @media (max-width: 1000px) { .vm__wall { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 640px) {
   .vm__wall { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 18px; }

@@ -10,6 +10,7 @@ use App\Vitrine\Site;
 <title>Bulletin d’adhésion · <?= e(Site::name()) ?></title>
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/vitrine.css') ?>">
+<?= \App\Core\Club::themeCss() ?>
 </head>
 <body class="vbulletin">
 <div class="vbulletin__tools"><button type="button" class="vbulletin__print" data-print>Imprimer</button></div>

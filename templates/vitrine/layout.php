@@ -42,6 +42,7 @@ $meta = Site::meta($page, $path);
 <script type="application/ld+json"><?= json_encode($meta['jsonld'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 <?php endif; ?>
 <script nonce="<?= csp_nonce() ?>">document.documentElement.classList.add('js');</script>
+<?= \App\Core\Club::themeCss() ?>
 </head>
 <body class="vt <?= e($page['body_class'] ?? '') ?>">
 <a class="skip-link" href="#contenu">Aller au contenu</a>

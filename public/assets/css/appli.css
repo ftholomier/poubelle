@@ -4,7 +4,7 @@
 .appli__card { background: var(--navy); color: var(--cream); padding: clamp(26px, 3.5vw, 40px); box-shadow: 10px 10px 0 var(--yellow); }
 .appli__card img { width: 88px; height: 88px; border-radius: 20px; margin-bottom: 20px; }
 .appli__card .h-3 { color: var(--yellow); margin: 0 0 12px; }
-.appli__card p { margin: 0 0 18px; color: rgba(243, 237, 223, .9); }
+.appli__card p { margin: 0 0 18px; color: rgb(var(--cream-rgb) / .9); }
 .appli__card p:last-child { margin-bottom: 0; }
 .appli__steps { margin: 0; padding-left: 22px; display: grid; gap: 10px; }
 .appli__ico { display: inline-grid; place-items: center; width: 28px; height: 28px; border: 2px solid currentColor; border-radius: 6px; font-size: 15px; vertical-align: middle; margin: 0 2px; }

@@ -85,7 +85,7 @@
 .dstep { border: 2px solid var(--navy); background: var(--paper); display: flex; flex-direction: column; }
 .dstep__media { aspect-ratio: 16 / 10; border-bottom: 2px solid var(--navy); background: var(--sand); overflow: hidden; display: grid; place-items: center; }
 .dstep__media img { width: 100%; height: 100%; object-fit: cover; }
-.dstep__ph { font-size: 64px; color: rgba(14, 31, 77, .28); line-height: 1; }
+.dstep__ph { font-size: 64px; color: rgb(var(--navy-rgb) / .28); line-height: 1; }
 .dstep__body { padding: 20px; display: flex; flex-direction: column; gap: 8px; }
 .dstep__n { font-family: var(--display); font-weight: 900; font-size: 48px; line-height: 1; color: var(--blue); }
 .dstep__t { font-family: var(--display); font-weight: 800; font-size: 28px; text-transform: uppercase; line-height: 1; }
@@ -109,7 +109,7 @@
 .dmerci__in { padding-top: clamp(48px, 7vw, 104px); padding-bottom: clamp(48px, 7vw, 104px); display: flex; flex-direction: column; gap: 24px; }
 .dmerci__title { margin: 0; font-family: var(--display); font-weight: 900; font-size: clamp(56px, 8vw, 112px); line-height: .92; text-transform: uppercase; }
 .dmerci__facts { margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); border: 2px solid var(--cream); max-width: 900px; }
-.dmerci__facts > div { padding: 14px 18px; border-right: 2px solid rgba(243, 237, 223, .35); }
+.dmerci__facts > div { padding: 14px 18px; border-right: 2px solid rgb(var(--cream-rgb) / .35); }
 .dmerci__facts > div:last-child { border-right: 0; }
 .dmerci__facts dt { font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: .16em; text-transform: uppercase; color: var(--mist); }
 .dmerci__facts dd { margin: 4px 0 0; font-family: var(--display); font-weight: 800; font-size: 26px; color: var(--yellow); overflow-wrap: anywhere; }
@@ -134,7 +134,7 @@ a.dnext__card:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 va
 .dmanage__wall { box-shadow: 8px 8px 0 var(--yellow); }
 .dtable { width: 100%; border-collapse: collapse; border: 2px solid var(--navy); background: var(--paper); font-size: 17px; }
 .dtable th { text-align: left; background: var(--navy); color: var(--cream); font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; padding: 10px 12px; }
-.dtable td { padding: 10px 12px; border-top: 1px solid rgba(14, 31, 77, .15); }
+.dtable td { padding: 10px 12px; border-top: 1px solid rgb(var(--navy-rgb) / .15); }
 .dtable a { border-bottom: 1px solid currentColor; }
 
 @media (max-width: 520px) {

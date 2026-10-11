@@ -49,9 +49,9 @@
 .rdclock:empty, .rdphase:empty { display: none; }
 .rdphase { font-family: var(--display); font-weight: 800; font-size: 18px; letter-spacing: .14em; text-transform: uppercase; color: var(--mist); }
 .rdscore [data-rd-s].is-new { animation: rdgoal .9s var(--bounce); display: inline-block; }
-.rdbar { height: 8px; background: rgba(243,237,223,.2); }
+.rdbar { height: 8px; background: rgb(var(--cream-rgb) / .2); }
 .rdbar__fill { display: block; height: 100%; width: 0; background: var(--yellow); transition: width .6s linear; }
-.rdlive { display: flex; align-items: center; justify-content: space-between; gap: 14px 24px; flex-wrap: wrap; border-top: 2px solid rgba(243,237,223,.35); padding-top: 18px; }
+.rdlive { display: flex; align-items: center; justify-content: space-between; gap: 14px 24px; flex-wrap: wrap; border-top: 2px solid rgb(var(--cream-rgb) / .35); padding-top: 18px; }
 .rdlive__viewers { font-family: var(--display); font-weight: 800; font-size: 19px; letter-spacing: .06em; text-transform: uppercase; }
 .rdreact { position: relative; display: flex; gap: 10px; flex-wrap: wrap; }
 .rdreact__b { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 14px; border: 2px solid var(--cream); font-size: 24px; transition: transform .2s var(--bounce), background .2s; }
@@ -128,7 +128,7 @@
 .rdcompo .h-2 { font-size: 32px; }
 .rdcompo__list { margin: 0; padding-left: 20px; columns: 2; font-size: 18px; }
 .rdcompo__more { margin: 0; font-size: 17px; line-height: 1.5; }
-.rdcompo a, .rdcompo__more a { border-bottom: 1px solid rgba(14,31,77,.35); }
+.rdcompo a, .rdcompo__more a { border-bottom: 1px solid rgb(var(--navy-rgb) / .35); }
 .rdmore { display: flex; flex-direction: column; gap: 10px; }
 .rdmore__fiche { font-family: var(--display); font-weight: 900; font-size: 19px; letter-spacing: .08em; text-transform: uppercase; }
 .rdmore__warn { font-size: 15px; font-style: italic; color: var(--muted); }
