@@ -236,7 +236,7 @@ final class Livre
         // Cadre jaune intérieur, interrompu en haut par le nom du musée.
         $in = $b + 9 * $mm;
         $l->rect($in, $in, $l->pw - 2 * $in, $l->ph - 2 * $in, null, 'yellow', 1);
-        $lab = 'MUSÉE SOCHAUX RÉTRO  ·  ÉDITION PERSONNALISÉE';
+        $lab = mb_strtoupper('Musée ' . Club::s('site')) . '  ·  ÉDITION PERSONNALISÉE';
         $lw = $l->width($lab, 'display-b', 8.5, 2.2) + 24;
         $l->rect($l->pw / 2 - $lw / 2, $in - 8, $lw, 16, 'navy');
         $l->text($l->pw / 2 - $lw / 2 + 12, $in + 3.2, $lab, 'display-b', 8.5, 'yellow', 2.2);
@@ -255,7 +255,7 @@ final class Livre
         // Bande en biais : le sous-titre.
         $y0 = $base + 30;
         $l->polygon([[0, $y0 + 16], [$l->pw, $y0 - 16], [$l->pw, $y0 + 14], [0, $y0 + 46]], 'yellow');
-        $sub = 'L’HISTOIRE DU FC SOCHAUX-MONTBÉLIARD, DES ORIGINES À NOS JOURS';
+        $sub = 'L’HISTOIRE ' . mb_strtoupper(Club::s('club_de')) . ', DES ORIGINES À NOS JOURS';
         $cx = $l->pw / 2;
         $cy = $y0 + 15;
         $l->rotated(-3, $cx, $cy, function () use ($l, $sub, $cx, $cy) {
@@ -546,7 +546,7 @@ final class Livre
                 $lines = $l->wrap([Layout::run(mb_strtoupper($nom), 'display', 38, 'navy', null, 0.3)], $w, 1.0);
                 $y += $l->drawLines($lines, $x, $y, $w) + 8;
             }
-            if (($depuis = (int) ($this->o['depuis'] ?? 0)) >= 1928 && $depuis <= (int) date('Y')) {
+            if (($depuis = (int) ($this->o['depuis'] ?? 0)) >= (int) Club::s('founded') && $depuis <= (int) date('Y')) {
                 $l->text($x, $y + 14, 'SUPPORTER DEPUIS ' . $depuis, 'display-b', 13, 'B48D00', 1.4);
                 $y += 22;
             }
@@ -776,22 +776,25 @@ final class Livre
      * text (flocage), edge (contour du flocage), band. era : saison ou époque ; ref : photo de référence.
      */
     public const JERSEYS = [
-        'annees-30' => ['label' => 'Années 30 · col lacé', 'era' => 'Années 30', 'ref' => '2024/11/1930-06-01-photo-equipe-2.jpg', 'body' => 'F4CC2A', 'shade' => 'D9AE10', 'sleeve' => null, 'trim' => '0E1F4D', 'collar' => 'lace', 'cuffs' => true, 'layers' => [], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
-        'annees-50' => ['label' => 'Années 50 · col polo', 'era' => 'Années 50', 'ref' => '2024/12/312_001.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '0E1F4D', 'collar' => 'polo', 'cuffs' => true, 'layers' => [], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
-        '1969' => ['label' => '1969-1970 · bande en damier', 'era' => '1969-1970', 'ref' => '2026/06/01-retro-Peugeot-sur-le-maillot-MICHELIN-1024x683-1.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '0E1F4D', 'collar' => 'crew', 'cuffs' => true, 'layers' => [['t' => 'checker', 'y0' => 0.18, 'y1' => 0.42, 'n' => 13, 'color' => '111111', 'front' => true]], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => '111111'],
-        '1970' => ['label' => '1970-1971 · col rond', 'era' => '1970-1971', 'ref' => '2026/06/FC-SOCHAUX-MONTBELIARD-1970-71.jpg', 'body' => 'F7C51E', 'shade' => 'DBA90A', 'sleeve' => null, 'trim' => 'F7C51E', 'collar' => 'crew', 'cuffs' => false, 'layers' => [], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
-        '1978' => ['label' => '1978-1979 · col V bleu', 'era' => '1978-1979', 'ref' => '2026/06/fc-sochaux-1978-79.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => true, 'layers' => [], 'text' => '1E3FA8', 'edge' => 'FFFFFF', 'band' => null],
-        '1980' => ['label' => '1979-1980 · manches bleues rayées', 'era' => '1979-1980', 'ref' => '2026/06/yannick-stopyra-fc-sochaux-1980.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => '1A2C7A', 'trim' => '1A2C7A', 'collar' => 'v', 'cuffs' => false, 'layers' => [['t' => 'raglan', 'w' => 0.06, 'color' => 'F6C400']], 'text' => '1A2C7A', 'edge' => 'FFFFFF', 'band' => null],
-        '1983' => ['label' => '1983-1985 · fines rayures', 'era' => '1983-1985', 'ref' => '2026/06/sochaux-home-football-shirt-1983-1985-s_44935_1.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => true, 'layers' => [['t' => 'hstripes', 'n' => 26, 'w' => 0.07, 'color' => '6F8FD0'], ['t' => 'chevrons', 'n' => 9, 'w' => 0.2, 'color' => '1E3FA8', 'front' => true]], 'text' => '1E3FA8', 'edge' => 'FFFFFF', 'band' => null],
-        '1987' => ['label' => '1987-1988 · épaules bleues', 'era' => '1987-1988', 'ref' => '2024/02/Photo-equipe-juillet-1987-Credit-Jean-Luc-Gilme.png', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '2F4C9A', 'collar' => 'polo', 'cuffs' => false, 'layers' => [['t' => 'yoke', 'y' => 0.45, 'yb' => 0.46, 'torso' => true, 'color' => '4F6DB5']], 'text' => '1E3FA8', 'name' => 'F6C400', 'edge' => 'FFFFFF', 'band' => null],
-        '1998' => ['label' => '1998-1999 · flancs bleus', 'era' => '1998-1999', 'ref' => '2026/06/maillot-sochaux-vintage-domicile-1998-1999-aisselle-a-50cm-asics-fc-montbeliard-maillots-de-foot-retro-the-football-market-983_720x.webp', 'body' => 'E9E23A', 'shade' => 'CFC71E', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => true, 'layers' => [['t' => 'side', 'x' => 0.38, 'color' => '1E3FA8']], 'text' => '1E3FA8', 'edge' => 'FFFFFF', 'band' => null],
-        '2004' => ['label' => '2003-2004 · blanc, Coupe de la Ligue', 'era' => '2003-2004', 'ref' => '2026/06/17-avril-2004-Sochaux-remporte-la-Coupe-de-la-ligue.webp', 'body' => 'F4F4F0', 'shade' => 'D8D8D2', 'sleeve' => null, 'trim' => '0E1F4D', 'collar' => 'v', 'cuffs' => true, 'layers' => [['t' => 'side', 'x' => 0.4, 'color' => 'F6C400']], 'text' => '0E1F4D', 'edge' => 'F6C400', 'band' => null],
-        '2007' => ['label' => '2006-2007 · flancs noirs, finale de Coupe', 'era' => '2006-2007', 'ref' => '2026/06/le-onze-de-depart-de-sochaux-non-vous-ne-revez-pas-mickael-isabey-n-est-pas-retenu-il-n-est-meme-pas-sur-la-feuille-de-match-photo-alexandre-marchi-1589306142.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '151515', 'collar' => 'crew', 'cuffs' => true, 'layers' => [['t' => 'side', 'x' => 0.36, 'color' => '151515']], 'text' => '151515', 'edge' => 'FFFFFF', 'band' => null],
-        '2015' => ['label' => '2014-2015 · liserés noirs', 'era' => '2014-2015', 'ref' => '2026/06/FC-Sochaux-2015-maillot-domicile.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '151515', 'collar' => 'v', 'cuffs' => true, 'layers' => [], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
-        '2023' => ['label' => '2023-2024 · Sociochaux', 'era' => '2023-2024', 'ref' => '2026/06/fcsm-maillot-sociochaux.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => true, 'layers' => [], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
-        '2026' => ['label' => '2025-2026 · domicile', 'era' => '2025-2026', 'ref' => '2026/05/FCSM-LPF43-2025-2026-1-Michael-Desprez.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '0E1F4D', 'collar' => 'crew', 'cuffs' => true, 'layers' => [], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
-        'exterieur' => ['label' => 'Extérieur bleu nuit', 'era' => '', 'ref' => '', 'body' => '14286A', 'shade' => '0B1A45', 'sleeve' => null, 'trim' => 'F6C400', 'collar' => 'v', 'cuffs' => true, 'layers' => [], 'text' => 'F6C400', 'edge' => '0B1A45', 'band' => null],
+        'domicile' => ['label' => 'Domicile', 'era' => '', 'ref' => '', 'body' => 'yellow', 'shade' => 'yellow', 'sleeve' => null, 'trim' => 'navy', 'collar' => 'crew', 'cuffs' => true, 'layers' => [], 'text' => 'navy', 'edge' => 'FFFFFF', 'band' => null],
+        'exterieur' => ['label' => 'Extérieur', 'era' => '', 'ref' => '', 'body' => 'navy', 'shade' => 'navy', 'sleeve' => null, 'trim' => 'yellow', 'collar' => 'v', 'cuffs' => true, 'layers' => [], 'text' => 'yellow', 'edge' => 'navy', 'band' => null],
     ];
+
+    /**
+     * Maillots du club (config/clubs/<id>/maillots-livre.php) ; sinon un maillot domicile et un
+     * maillot extérieur aux couleurs de la charte.
+     *
+     * @return array<string, array>
+     */
+    public static function jerseys(): array
+    {
+        $j = (array) \App\Core\Club::content('maillots-livre', []);
+        if ($j) {
+            return $j;
+        }
+        $hex = fn (string $c) => strtoupper(ltrim(\App\Core\Club::color($c) ?: '#777777', '#'));
+        return array_map(fn ($m) => array_map(fn ($v) => in_array($v, ['yellow', 'navy'], true) ? $hex($v) : $v, $m), self::JERSEYS);
+    }
 
 
     public const JERSEY_STATUS = STORAGE_PATH . '/livres/maillots.json';
@@ -805,7 +808,7 @@ final class Livre
 
     public static function setJerseyStatus(string $key, string $status, string $by, string $note = ''): void
     {
-        if (!isset(self::JERSEYS[$key])) {
+        if (!isset(self::jerseys()[$key])) {
             return;
         }
         $d = self::jerseyStatus();
@@ -818,7 +821,7 @@ final class Livre
     public static function jerseysValid(): array
     {
         $st = self::jerseyStatus();
-        return array_filter(self::JERSEYS, fn ($k) => ($st[$k]['status'] ?? '') !== 'revoir', ARRAY_FILTER_USE_KEY);
+        return array_filter(self::jerseys(), fn ($k) => ($st[$k]['status'] ?? '') !== 'revoir', ARRAY_FILTER_USE_KEY);
     }
 
     /**
@@ -832,7 +835,8 @@ final class Livre
         if ($name === '' && $num === '') {
             return;
         }
-        $st = self::JERSEYS[(string) ($this->o['maillot_style'] ?? '')] ?? self::JERSEYS['2026'];
+        $js = self::jerseys();
+        $st = $js[(string) ($this->o['maillot_style'] ?? '')] ?? $js['2026'] ?? reset($js);
         $st['sleeve'] ??= $st['body'];
         $l = $this->l;
         $mm = self::MM;
@@ -986,7 +990,7 @@ final class Livre
         $l->rect($px, $py, $pw, 16 * $mm, 'D8C48A');
         $l->rect($px + 3, $py + 3, $pw - 6, 16 * $mm - 6, null, 'A8935A', 0.8);
         $t1 = mb_strtoupper(trim(($name !== '' ? $name : '') . ($num !== '' ? ' · N° ' . $num : '')), 'UTF-8');
-        $t2 = 'FC SOCHAUX-MONTBÉLIARD · MAILLOT DU SUPPORTER';
+        $t2 = mb_strtoupper(Club::s('club')) . ' · MAILLOT DU SUPPORTER';
         $l->text($px + $pw / 2 - $l->width($t1, 'display', 15, 1.5) / 2, $py + 22, $t1, 'display', 15, '3B2F12', 1.5);
         $l->text($px + $pw / 2 - $l->width($t2, 'display-b', 6.5, 1.4) / 2, $py + 36, $t2, 'display-b', 6.5, '5E4C1E', 1.4);
         $l->text($this->b + $this->W / 2 - $l->width('TON MAILLOT', 'display-b', 11, 3) / 2, $this->b + 16 * $mm, 'TON MAILLOT', 'display-b', 11, 'yellow', 3);
@@ -1089,7 +1093,7 @@ final class Livre
         $rows = (array) ($m['lineup']['rows'] ?? []);
         if ($rows) {
             $y += 10;
-            $l->text($x, $y + 10, 'LA COMPOSITION SOCHALIENNE', 'display-b', 9, 'yellow', 1.5);
+            $l->text($x, $y + 10, mb_strtoupper('La composition ' . Club::s('gentile') . 'ne'), 'display-b', 9, 'yellow', 1.5);
             $y += 18;
             $names = array_map(fn ($r) => trim(($r['position'] ?? '') . ' ' . ($r['name'] ?? '')) . (!empty($r['captain']) ? ' (cap.)' : ''), $rows);
             $half = (int) ceil(count($names) / 2);
@@ -1137,7 +1141,7 @@ final class Livre
         [$x, $w] = $this->frame($p);
         $y = $this->b + 22 * $mm;
         $l->text($x, $y, 'MES JOUEURS', 'display-b', 11, 'B48D00', 3);
-        $l->text($x, $y + 40, count($docs) > 1 ? 'MES LIONCEAUX PRÉFÉRÉS' : 'MON LIONCEAU PRÉFÉRÉ', 'display', 34, 'navy', 0.3);
+        $l->text($x, $y + 40, mb_strtoupper(count($docs) > 1 ? 'Mes ' . (Club::s('nickname') ?: 'joueurs') . ' préférés' : 'Mon ' . (Club::s('nickname_sg') ?: 'joueur') . ' préféré'), 'display', 34, 'navy', 0.3);
         $y += 64;
         $n = count($docs);
         $gap = 8 * $mm;
@@ -2047,7 +2051,7 @@ final class Livre
         $l->text($x, $y + 34, 'CENT HISTOIRES,', 'display', 40, 'white', 0.4);
         $l->text($x, $y + 74, 'UN SEUL CLUB.', 'display', 40, 'yellow', 0.4);
         $y += 98;
-        $txt = 'De la Forge à Bonal, des Peugeot aux socios : cent récits racontent le FC Sochaux-Montbéliard, des premiers pas chez les pros aux titres de champion, des finales de Coupe à l’épopée européenne, jusqu’au sauvetage de 2023 et au-delà. Rassemblés par les historiens bénévoles du musée Sochaux Rétro, d’après les feuilles de match, les bilans et les archives du club, et illustrés par leurs photos.';
+        $txt = (string) (Club::content('livre')['resume'] ?? club('Cent récits racontent {club_le}, des premiers pas aux grandes heures, jusqu’à nos jours. Rassemblés par les historiens bénévoles du musée {site}, d’après les feuilles de match, les bilans et les archives du club, et illustrés par leurs photos.'));
         $y += $l->drawLines($l->wrap([Layout::run($txt, 'serif', 12, 'cream')], $w, 1.6), $x, $y, $w) + 26;
         // Frise des décennies
         $decs = array_values(array_map(fn ($t) => (int) preg_replace('/\D/', '', $t['t']), array_filter($this->toc, fn ($t) => $t['level'] === 0)));
@@ -2068,7 +2072,7 @@ final class Livre
         $nom = trim((string) ($this->o['nom'] ?? ''));
         if ($nom !== '') {
             $runs = [Layout::run('Cet exemplaire' . (($num = trim((string) ($this->o['numero'] ?? ''))) !== '' ? ' n° ' . $num : '') . ' a été composé pour ', 'serif-i', 12, 'cream'), Layout::run($nom, 'serif-b', 12, 'yellow')];
-            if (($dep = (int) ($this->o['depuis'] ?? 0)) >= 1928) {
+            if (($dep = (int) ($this->o['depuis'] ?? 0)) >= (int) Club::s('founded')) {
                 $runs[] = Layout::run(', supporter depuis ' . $dep, 'serif-i', 12, 'cream');
             }
             $runs[] = Layout::run('.', 'serif-i', 12, 'cream');
@@ -2080,14 +2084,14 @@ final class Livre
         // Pied : blason, adresse, emplacement du code-barres
         $fy = $l->ph - $in - 14 * $mm - 60;
         $l->logo($x, $fy, 64);
-        $l->text($x + 60, $fy + 28, 'MUSÉE SOCHAUX RÉTRO', 'display-b', 11, 'white', 2);
+        $l->text($x + 60, $fy + 28, mb_strtoupper('Musée ' . Club::s('site')), 'display-b', 11, 'white', 2);
         $l->text($x + 60, $fy + 44, Club::s('domain'), 'serif', 10, 'mist');
         $bw = 44 * $mm;
         $bh = 25 * $mm;
         $bx = $x + $w - $bw;
         $by = $fy + 64 - $bh;
         $l->rect($bx, $by, $bw, $bh, 'white');
-        $this->barcode($bx + 4 * $mm, $by + 3 * $mm, $bw - 8 * $mm, $bh - 6 * $mm, trim((string) ($this->o['isbn'] ?? '')) ?: '192820282501'); // 1928 (fondation), 2028 (centenaire), 25 (le Doubs)
+        $this->barcode($bx + 4 * $mm, $by + 3 * $mm, $bw - 8 * $mm, $bh - 6 * $mm, trim((string) ($this->o['isbn'] ?? '')) ?: (string) (Club::content('livre')['codebarre'] ?? Club::s('founded') . substr(Club::s('centenary_date'), 0, 4) . '0001'));
     }
 
     // ------------------------------------------------------------------ contenu
@@ -2266,7 +2270,7 @@ final class Livre
                 $keys[] = 'n:' . $n;
             }
         }
-        foreach (['bonal' => 'bonal', 'la forge' => 'forge', 'centre de formation' => 'centre', 'tribune' => 'tribune', 'vestiaire' => 'vestiaire', 'musée' => 'musee', 'maillot' => 'maillot'] as $w => $k) {
+        foreach ((array) (Club::content('livre')['lieux'] ?? ['centre de formation' => 'centre', 'tribune' => 'tribune', 'vestiaire' => 'vestiaire', 'musée' => 'musee', 'maillot' => 'maillot']) as $w => $k) {
             if (str_contains($hay, ' ' . $w)) {
                 $keys[] = 'l:' . $k;
             }
@@ -2311,7 +2315,7 @@ final class Livre
                     && preg_match('#([^–/]+?)\s*/\s*([^–/]+?)\s*–#u', $title, $tm)) {
                     $opp = Club::isUs($tm[1]) ? $tm[2] : $tm[1];
                     $opp = mb_strtolower(trim($opp));
-                    if (mb_strlen($opp) >= 4 && !str_contains($opp, 'sochaux')) {
+                    if (mb_strlen($opp) >= 4 && !Club::isUs($opp)) {
                         $idx['matches'][] = ['id' => $id, 'opp' => $opp, 'y' => (int) $dm[3] + ((int) $dm[2] >= 7 ? 0.5 : 0)];
                     }
                 }
@@ -2321,7 +2325,7 @@ final class Livre
         $text = mb_strtolower(html_entity_decode(strip_tags($html . ' ' . ($doc['intro'] ?? '') . ' ' . ($doc['title'] ?? '')), ENT_QUOTES, 'UTF-8'));
         $ids = [];
         $people = [];
-        preg_match_all('#href="(?:https?://musee\.fcsochauxretro\.com)?(/[^"\#?]+/)"#', $html, $mm);
+        preg_match_all('#href="(?:https?://' . preg_quote(Club::s('domain'), '#') . ')?(/[^"\#?]+/)"#', $html, $mm);
         foreach (array_unique($mm[1] ?? []) as $path) {
             if (isset($idx['path'][$path])) {
                 $ids[] = $idx['path'][$path];

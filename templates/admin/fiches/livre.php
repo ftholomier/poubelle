@@ -17,7 +17,7 @@ use App\Pdf\Livre;
   <?php endif; ?>
 </div>
 
-<form class="card card--pad stack" method="post" action="/admin/livre" enctype="multipart/form-data" data-livre data-font="/assets/fonts/big-shoulders-display-normal-latin.woff2" data-jerseys="<?= e(json_encode(Livre::JERSEYS)) ?>">
+<form class="card card--pad stack" method="post" action="/admin/livre" enctype="multipart/form-data" data-livre data-font="/assets/fonts/big-shoulders-display-normal-latin.woff2" data-jerseys="<?= e(json_encode(Livre::jerseys())) ?>">
   <input type="file" name="maillot_image" accept="image/png" hidden><input type="file" name="maillot_devant" accept="image/png" hidden>
   <?= csrf_field() ?>
   <h2 class="card__t" style="margin:0">Composer un exemplaire</h2>
@@ -25,7 +25,7 @@ use App\Pdf\Livre;
     <label class="f"><span class="f__k">Exemplaire de (nom imprimé sur la couverture)</span><input name="nom" maxlength="60" placeholder="Lucas Bertrand"></label>
     <label class="f"><span class="f__k">Numéro d’exemplaire</span><input name="numero" maxlength="12" placeholder="0042"></label>
   </div>
-  <label class="f"><span class="f__k">Dédicace (facultative)</span><textarea name="dedicace" rows="3" maxlength="600" placeholder="À mon fils, qui a découvert Bonal sur mes épaules…"></textarea></label>
+  <label class="f"><span class="f__k">Dédicace (facultative)</span><textarea name="dedicace" rows="3" maxlength="600" placeholder="<?= e(\App\Core\Club::content('exemples')['livre_dedicace'] ?? club('À mon fils, qui a découvert le {stadium} sur mes épaules…')) ?>"></textarea></label>
   <div class="row" style="gap:12px;flex-wrap:wrap">
     <label class="f"><span class="f__k">Signature de la dédicace</span><input name="signature" maxlength="80" placeholder="Papa, Noël 2026"></label>
     <label class="f"><span class="f__k">Supporter depuis (année)</span><input name="depuis" type="number" min="<?= e(\App\Core\Club::s('founded')) ?>" max="<?= (int) date('Y') ?>" placeholder="1998"></label>
@@ -41,7 +41,7 @@ use App\Pdf\Livre;
   </div>
   <div class="row" style="gap:12px;flex-wrap:wrap">
     <label class="f"><span class="f__k">Sa photo (JPEG ou PNG, 670 px de large au moins)</span><input type="file" name="photo" accept="image/jpeg,image/png"></label>
-    <label class="f"><span class="f__k">Légende de sa photo</span><input name="photo_legende" maxlength="120" placeholder="Avec papa à Bonal, août 2024"></label>
+    <label class="f"><span class="f__k">Légende de sa photo</span><input name="photo_legende" maxlength="120" placeholder="<?= e(\App\Core\Club::content('exemples')['livre_photo'] ?? club('Avec papa {stadium_a}, août 2024')) ?>"></label>
   </div>
   <div class="row" style="gap:12px;flex-wrap:wrap">
     <label class="f"><span class="f__k">Maillot : nom floqué</span><input name="maillot_nom" maxlength="14" placeholder="LUCAS"></label>
@@ -49,7 +49,7 @@ use App\Pdf\Livre;
   </div>
   <div class="f"><span class="f__k">Maillot inspiré de <a class="xs" href="/admin/maillots">valider les maillots</a></span>
     <div class="jypick" role="radiogroup">
-      <?php $valid = Livre::jerseysValid(); $first = true; foreach (Livre::JERSEYS as $k => $j): [$era, $what] = array_pad(explode(' · ', $j['label'], 2), 2, ''); ?>
+      <?php $valid = Livre::jerseysValid(); $first = true; foreach (Livre::jerseys() as $k => $j): [$era, $what] = array_pad(explode(' · ', $j['label'], 2), 2, ''); ?>
       <label class="jypick__i" title="<?= e($j['label']) ?>"><input type="radio" name="maillot_style" value="<?= e($k) ?>"<?= $first ? ' checked' : '' ?>><span class="jypick__img"><?= \App\Shop\BookShop::jerseySvg($j, 'a' . $k) ?></span><b><?= e($era) ?></b><small><?= e($what) ?></small><?php if (!isset($valid[$k])): ?><em>à revoir : épreuve seulement</em><?php endif; ?></label>
       <?php $first = false; endforeach; ?>
     </div>
@@ -110,7 +110,7 @@ use App\Pdf\Livre;
   <?php endif; ?>
   <form method="post" action="/admin/livre" class="row" style="gap:8px;flex-wrap:wrap;align-items:end">
     <?= csrf_field() ?><input type="hidden" name="action" value="couv-ajouter">
-    <label class="f" style="flex:1;min-width:280px"><span class="f__k">Ajouter une photo de la médiathèque (chemin ou adresse de l’image)</span><input name="rel" placeholder="2025/03/scan-bonal-1976.jpg"></label>
+    <label class="f" style="flex:1;min-width:280px"><span class="f__k">Ajouter une photo de la médiathèque (chemin ou adresse de l’image)</span><input name="rel" placeholder="<?= e(\App\Core\Club::content('exemples')['media_chemin'] ?? '2025/03/scan-1976.jpg') ?>"></label>
     <button class="btn" type="submit">Proposer en couverture</button>
   </form>
   <?php if ($suggest): ?>

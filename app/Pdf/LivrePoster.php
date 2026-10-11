@@ -158,7 +158,7 @@ class LivrePoster extends PosterLayout
     private static function us(array $f): array
     {
         $clean = fn (string $t) => trim((string) preg_replace('/\s*\(.*\)\s*$/u', '', $t));
-        $home = !empty($f['sochaux_home']) || preg_match('/so.?cha/i', (string) $f['home']);
+        $home = !empty($f['sochaux_home']) || Club::isUs((string) $f['home']);
         return $home ? [$clean((string) $f['away']), (int) $f['score_home'], (int) $f['score_away']] : [$clean((string) $f['home']), (int) $f['score_away'], (int) $f['score_home']];
     }
 

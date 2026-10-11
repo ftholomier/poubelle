@@ -10,4 +10,5 @@ return [
     'produit_joueur' => 'Ex. : Paille, Bazdarevic, Genghini, Pedretti…',
     'produit_match' => 'Ex. : Metz 1988, finale, Monaco, PSG 1990…',
     'produit_texte' => 'Ex. : Paille, Metz 1988, Bazdarevic, finale…',
+    'media_chemin' => '2025/03/scan-bonal-1976.jpg',
 ];

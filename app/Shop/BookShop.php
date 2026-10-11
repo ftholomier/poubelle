@@ -209,7 +209,7 @@ final class BookShop
             $p[] = 'photo de couverture choisie';
         }
         if (!empty($v['maillot_style'])) {
-            $p[] = 'maillot ' . (Livre::JERSEYS[$v['maillot_style']]['era'] ?: 'extérieur') . ' floqué ' . trim(($v['maillot_nom'] ?? '') . ' ' . ($v['maillot_numero'] ?? ''));
+            $p[] = 'maillot ' . (Livre::jerseys()[$v['maillot_style']]['era'] ?: 'extérieur') . ' floqué ' . trim(($v['maillot_nom'] ?? '') . ' ' . ($v['maillot_numero'] ?? ''));
         }
         if (!empty($v['naissance'])) {
             $p[] = 'le jour du ' . date_fr($v['naissance']);
