@@ -1,7 +1,7 @@
 <?php
 /**
  * Profil du club Paris Rétro (en préparation). Même structure que sochaux.php.
- * « Paris » et non « PSG » : marque déposée (voir docs/PROJET-SAAS-MUSEE.md).
+ * « PSG » dans les textes (usage descriptif) ; jamais dans le nom du musée, le logo, le domaine ni les produits.
  */
 
 return [
@@ -19,11 +19,11 @@ return [
     'club' => 'Paris Saint-Germain',
     'club_de' => 'du Paris Saint-Germain',
     'club_le' => 'le Paris Saint-Germain',
-    'sigle' => 'Paris SG',
-    'sigle_de' => 'du Paris SG',
-    'sigle_le' => 'le Paris SG',
-    'sigle_au' => 'au Paris SG',
-    'team' => 'Paris SG',
+    'sigle' => 'PSG',
+    'sigle_de' => 'du PSG',
+    'sigle_le' => 'le PSG',
+    'sigle_au' => 'au PSG',
+    'team' => 'PSG',
     'team_regex' => '/paris\s*(saint|st|sg)|\bpsg\b/iu',
     'city' => 'Paris',
     'city_a' => 'à Paris',
@@ -38,7 +38,7 @@ return [
     'founded_label' => '12 août 1970',
     'centenary_date' => '2070-08-12',
     'centenary_label' => '12 août 2070',
-    'club_short' => 'Paris SG',
+    'club_short' => 'PSG',
     'stadium' => 'Parc des Princes',
     'stadium_short' => 'Parc',
     'stadium_a' => 'au Parc',
