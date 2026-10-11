@@ -34,7 +34,12 @@ final class Chiffres
     public const COUNT = 100;
     /** Saison « racontée en entier » : au moins autant de matchs de championnat dans le musée. */
     public const FULL_SEASON = 28;
-    public const BONAL = 'auguste-bonal';
+    /** Clé du stade du club (« auguste-bonal »), d'après le profil. */
+    public static function homeStadium(): string
+    {
+        static $k = null;
+        return $k ??= Names::stadiumKey(Club::s('stadium_full') ?: Club::s('stadium'));
+    }
     /** Voisins de l'Est pour les derbys. */
     public const EAST = ['strasbourg', 'metz', 'nancy', 'mulhouse', 'besancon', 'dijon'];
     /** Départements de Franche-Comté. */
@@ -42,7 +47,7 @@ final class Chiffres
 
     /** Chapitres dans l'ordre de la page : clé => [titre, chapeau, quota]. */
     public const CHAPTERS = [
-        'monuments' => ['Les monuments', 'Les records de toute une carrière sous le maillot {gentile}, saison après saison depuis 1929.', 11],
+        'monuments' => ['Les monuments', 'Les records de toute une carrière sous le maillot {gentile}, saison après saison depuis {since}.', 11],
         'buteurs' => ['Les buteurs', 'Triplés, penaltys, jokers et coups de tête : ceux qui ont fait trembler les filets.', 8],
         'chrono' => ['Le chrono', 'Minute par minute : les buts les plus rapides, les plus tardifs et les retournements de situation.', 11],
         'defense' => ['Les gardiens et la défense', 'Blanchissages, minutes d’invincibilité et murs {colors}.', 8],
@@ -238,7 +243,7 @@ final class Chiffres
                 $stats[] = $s;
             }
             if ($stats) {
-                $chapters[] = ['key' => $key, 'title' => t($title), 'intro' => t($intro), 'stats' => $stats];
+                $chapters[] = ['key' => $key, 'title' => t($title), 'intro' => t($intro, ['since' => (int) Club::s('founded') + 1]), 'stats' => $stats];
             }
         }
         return ['built' => date('c'), 'count' => $n, 'chapters' => $chapters, 'scope' => $c['scope']];
@@ -1159,7 +1164,7 @@ final class Chiffres
             [$pid, $club] = explode('|', $k, 2);
             if ($p = self::person((int) $pid)) {
                 $out['bourreau'] = self::stat('bourreau', self::num($g), self::unit($g, 'but', 'buts'), t('Le bourreau'),
-                    t('Le plus de buts d’un Sochalien contre un même adversaire : {club}.', ['club' => self::clubName($club)]), [$p, self::club($club)]);
+                    t('Le plus de buts d’un {player} contre un même adversaire : {club}.', ['player' => mb_convert_case(Club::s('gentile'), MB_CASE_TITLE), 'club' => self::clubName($club)]), [$p, self::club($club)]);
                 break;
             }
         }
@@ -1514,7 +1519,7 @@ final class Chiffres
 
     private static function series(array $c): array
     {
-        $bonal = fn ($x) => $x['sh'] && $x['stade'] === self::BONAL;
+        $bonal = fn ($x) => $x['sh'] && $x['stade'] === self::homeStadium();
         $res = fn ($x) => $x['result'] !== null;
         $out = array_filter([
             'invincibilite' => self::runStat($c, 'invincibilite', 'La plus longue invincibilité', 'match sans défaite', 'matchs sans défaite', fn ($x) => $res($x) && $x['result'] !== 'D'),
@@ -1922,7 +1927,7 @@ final class Chiffres
         $O = $c['O'];
         $out = [];
         $att = array_filter($O, fn ($x) => (int) $x['spectators'] > 0);
-        $home = array_filter($att, fn ($x) => $x['sh'] && $x['stade'] === self::BONAL);
+        $home = array_filter($att, fn ($x) => $x['sh'] && $x['stade'] === self::homeStadium());
         $line = fn (array $x) => t('Contre {opp}, le {date}.', ['opp' => self::opp($x), 'date' => date_fr($x['date'])]);
         if ($att) {
             $l = array_values($att);
@@ -1965,7 +1970,7 @@ final class Chiffres
             $out['affluence-faible'] = self::stat('affluence-faible', self::num($x['spectators']), t('spectateurs'), t('L’intimité'),
                 t('La plus faible affluence connue {stadium_a} en match officiel. {line}', ['line' => $line($x)]), [self::match($x)]);
         }
-        $bon = array_filter($O, fn ($x) => $x['sh'] && $x['stade'] === self::BONAL && $x['result']);
+        $bon = array_filter($O, fn ($x) => $x['sh'] && $x['stade'] === self::homeStadium() && $x['result']);
         if ($bon) {
             $r = self::record($bon);
             $out['bilan-bonal'] = self::stat('bilan-bonal', self::pct($r['v'] / $r['m']), t('de victoires {stadium_a}'), t('La forteresse'),
@@ -1976,7 +1981,7 @@ final class Chiffres
         foreach ($O as $x) {
             if ($x['stade']) {
                 $stades[$x['stade']] = true;
-                if (!$x['sh'] && $x['stade'] !== self::BONAL) {
+                if (!$x['sh'] && $x['stade'] !== self::homeStadium()) {
                     $away[$x['stade']] = ($away[$x['stade']] ?? 0) + 1;
                 }
             }
