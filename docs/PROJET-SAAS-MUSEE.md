@@ -235,3 +235,9 @@ Mise en œuvre prévue : une clé `disclaimer` dans le profil (texte par défaut
 - Reprise des récits de matchs de Paris : lots 4 à 27 (environ 2 390 récits) + 28 récits refusés au contrôle anti-plagiat, à réécrire.
 - Paris : renommer « Le fil jaune » en **« Le fil bleu »** (menu, page interactive, textes, anglais), via un libellé propre au club (Sochaux garde « Le fil jaune »).
 - Paris : la page « Bilan au Parc » renvoie une erreur 404 (lien du bilan au stade du club, cf. `stadium_bilan_path()` / `carto-titres`) : à corriger.
+- Paris : **records faux**, notamment les buteurs (https://paris.fcsochauxretro.com/records/). Cause probable : buteurs rattachés seulement pour une partie des matchs, noms mal reconnus, matchs manquants. À corriger.
+- Paris : **tout recontrôler avec des sources du web**, en priorité Transfermarkt :
+  - joueurs les plus utilisés : https://www.transfermarkt.fr/fc-paris-saint-germain/rekordspieler/verein/583
+  - meilleurs buteurs, matchs par saison, bilans, affluences ;
+  - toutes les parties chiffrées : records, 100 chiffres, statistiques, bilans de saison, fiches joueurs (matchs, buts), palmarès, face-à-face.
+  - Écarts trouvés : corriger les données (fiches match, compositions, buteurs) plutôt que les pages, et noter les cas douteux dans Trouvailles.
