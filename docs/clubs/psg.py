@@ -15,7 +15,22 @@ def text(t,size,cx,base,maxw):
         g=cmap[ord(c)]; pen=SVGPathPen(gs)
         gs[g].draw(TransformPen(pen,(sc,0,0,-sc,x,base))); out+=pen.getCommands(); x+=f['hmtx'][g][0]*sc
     return out
-title=text(sys.argv[1] if len(sys.argv)>1 else 'PSG rétro',230,621,345,700)
+import math
+def arc(t,cap,cx,cy,r,span):
+    capu=f['OS/2'].sCapHeight or 700; sc=cap/capu
+    adv=[f['hmtx'][cmap[ord(ch)]][0]*sc for ch in t]; tot=sum(adv)
+    if tot>span: sc*=span/tot; adv=[a*span/tot for a in adv]; tot=span
+    out='';pos=-tot/2
+    for ch,a in zip(t,adv):
+        th=(pos+a/2)/r; x=cx+r*math.sin(th); y=cy-r*math.cos(th)
+        rot=math.degrees(th); g=cmap[ord(ch)]; pen=SVGPathPen(gs)
+        c,sn=math.cos(th*0.45),math.sin(th*0.45)
+        # glyphe centré sur son avance, base sur l'arc, tourné
+        m=(sc*c,sc*sn,sc*sn,-sc*c,0,0)
+        ox=-a/2; tx=x+ox*c; ty=y+ox*sn
+        gs[g].draw(TransformPen(pen,(sc*c,sc*sn,sc*sn,-sc*c,tx,ty))); out+=pen.getCommands(); pos+=a
+    return out
+title=arc(sys.argv[1] if len(sys.argv)>1 else 'PSG Rétro',112,621,1290,1030,800)
 year=text('1970',130,621,1172,230)
 P=lambda pts:'M'+' L'.join(f'{x},{y}' for x,y in pts)+' Z'
 c=621
