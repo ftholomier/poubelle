@@ -63,7 +63,7 @@ final class GrandsRecits
         }
         $cats = Categories::all();
         $cats[self::ROOT] = ['id' => max(array_map(fn ($c) => (int) ($c['id'] ?? 0), $cats)) + 1, 'slug' => self::ROOT, 'name' => 'Grands récits', 'label' => null, 'position' => null,
-            'description' => '<p>Les grandes histoires du FC Sochaux-Montbéliard, racontées d’après les archives du club, de l’association et du musée Peugeot.</p>',
+            'description' => (string) (Club::content('grands-recits')['description'] ?? club('<p>Les grandes histoires {club_de}, racontées d’après les archives du club et du musée.</p>')),
             'parent' => null, 'path' => '/' . self::ROOT . '/', 'season' => null, 'technical' => false, 'old_path' => null, 'order' => [], 'wp_count' => 0];
         Categories::save($cats, ['name' => Club::s('site')]);
         Categories::forget();
@@ -87,7 +87,7 @@ final class GrandsRecits
                 $doc['sections'][] = ['title' => $t, 'html' => self::links($html)];
             }
             $links = implode('', array_map(fn ($l) => '<li><a href="' . e($l[1]) . '" rel="noopener" target="_blank">' . e($l[0]) . '</a></li>', (array) ($r['sources'] ?? [])));
-            $doc['sections'][] = ['title' => 'Sources', 'html' => '<p>Récit de Sochaux Rétro d’après les feuilles de match et les bilans de l’association, les documents du club et les archives du musée Peugeot' . ($links ? ', et la presse :' : '.') . '</p>' . ($links ? '<ul>' . $links . '</ul>' : '')];
+            $doc['sections'][] = ['title' => 'Sources', 'html' => '<p>' . (string) (Club::content('grands-recits')['sources'] ?? club('Récit de {site} d’après les feuilles de match, les bilans et les documents du club')) . ($links ? ', et la presse :' : '.') . '</p>' . ($links ? '<ul>' . $links . '</ul>' : '')];
             // Les nouveaux récits attendent une relecture avant d'être publiés.
             $doc['status'] = !empty($r['review']) ? 'relire' : 'publie';
             $doc['categories'] = [self::ROOT];

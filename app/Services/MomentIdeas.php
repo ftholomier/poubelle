@@ -36,6 +36,21 @@ final class MomentIdeas
     public const THEMES = ['match' => 'Match', 'joueur' => 'Joueur, entraîneur', 'club' => 'Vie du club', 'stade' => 'Stade', 'supporters' => 'Supporters', 'formation' => 'Formation', 'autre' => 'Autre'];
     /** Époques du sommaire : [première année, dernière année, idées demandées] ; [0, 0] : sujets transversaux. */
     public const ERAS = [[1928, 1939, 14], [1940, 1959, 12], [1960, 1969, 10], [1970, 1979, 12], [1980, 1989, 18], [1990, 1999, 18], [2000, 2009, 20], [2010, 2019, 18], [2020, 2028, 12], [0, 0, 16]];
+    /** Époques à partir de la fondation du club (la première commence l'année de la fondation). */
+    public static function eras(): array
+    {
+        $founded = (int) Club::s('founded') ?: 1900;
+        $out = [];
+        foreach (self::eras() as [$from, $to, $n]) {
+            if ($from === 0) {
+                $out[] = [$from, $to, $n];
+            } elseif ($to >= $founded) {
+                $out[] = [$out ? $from : $founded, $to, $n];
+            }
+        }
+        return $out;
+    }
+
     /** Fiches sources lues pour un premier jet. */
     private const MAX_SOURCES = 6;
     /** Faux Gemini des tests : fn (list<[contents, system, opt]>) => list<résultat de Gemini::generate ou ['error' => …]>. */
@@ -504,7 +519,7 @@ TXT;
     {
         $jobs = [];
         $catalogs = [];
-        foreach (self::ERAS as [$from, $to, $n]) {
+        foreach (self::eras() as [$from, $to, $n]) {
             $cat = self::catalog($from, $to);
             if (!$cat['lines']) {
                 continue;
@@ -525,7 +540,7 @@ TXT;
         }
         // Catalogue entier : toutes les époques et les sujets transversaux, sans doublon.
         $lines = [];
-        foreach (self::ERAS as [$from, $to]) {
+        foreach (self::eras() as [$from, $to]) {
             $c = self::catalog($from, $to);
             $lines += array_combine($c['ids'], $c['lines']);
         }
@@ -544,7 +559,7 @@ TXT;
         self::setState($id, 'ecartee', 'Remplacée par une autre idée', $user);
         $y = (int) ($idea['year'] ?? 0);
         $era = [0, 0];
-        foreach (self::ERAS as [$from, $to]) {
+        foreach (self::eras() as [$from, $to]) {
             if ($from && $y >= $from && $y <= $to) {
                 $era = [$from, $to];
             }

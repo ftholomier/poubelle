@@ -202,7 +202,7 @@ final class Newsletter
             $box = imagettfbbox(64, 0, $font, $txt);
             imagettftext($im, 64, 0, (int) ((560 - ($box[2] - $box[0])) / 2), 300, $yel, $font, $txt);
             $cream = imagecolorallocate($im, ...sscanf(Club::color('cream'), '#%02x%02x%02x'));
-            $sub = 'DU MUSÉE SOCHAUX RÉTRO';
+            $sub = mb_strtoupper('du musée ' . Club::s('site'));
             $box = imagettfbbox(22, 0, $font, $sub);
             imagettftext($im, 22, 0, (int) ((560 - ($box[2] - $box[0])) / 2), 340, $cream, $font, $sub);
             @mkdir(dirname($dest), 0775, true);
