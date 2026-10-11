@@ -114,5 +114,6 @@ $mail = $privacy !== '' ? '<a href="mailto:' . e($privacy) . '">' . e($privacy) 
     <h2>Sécurité</h2>
     <p>Le site est servi en HTTPS. Les clés secrètes (paiements, IA, e-mail) sont chiffrées sur le serveur, les données sont stockées hors du dossier public et des sauvegardes régulières sont réalisées. L’accès au back-office est réservé à l’équipe du musée.</p>
   <?php endif; ?>
+    <p class="club-disclaimer"><?= e(\App\Core\Club::disclaimer()) ?></p>
   </div>
 </article>

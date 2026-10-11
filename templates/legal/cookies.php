@@ -55,5 +55,6 @@ if ($analytics) {
     </div>
     <p><?= $en ? 'The fonts are hosted by the museum itself: no request is made to Google Fonts. On the map page, the map tiles are loaded from OpenStreetMap servers (no cookie).' : 'Les polices de caractères sont hébergées par le musée lui-même : aucune requête n’est faite à Google Fonts. Sur la page Carte, les fonds de carte proviennent des serveurs d’OpenStreetMap (sans cookie).' ?></p>
     <p><?= $en ? 'More information in our' : 'Plus d’informations dans notre' ?> <a href="<?= e(url('/confidentialite/')) ?>"><?= e($en ? 'privacy policy' : 'politique de confidentialité') ?></a>.</p>
+    <p class="club-disclaimer"><?= e(\App\Core\Club::disclaimer()) ?></p>
   </div>
 </article>

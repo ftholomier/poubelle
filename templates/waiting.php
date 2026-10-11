@@ -82,6 +82,7 @@ $site = (string) Settings::get('general.site_name', \App\Core\Club::s('site'));
         <?php foreach ($links as $label => $href): ?><a href="<?= e($href) ?>" rel="noopener" target="_blank"><?= e($label) ?></a><?php endforeach; ?>
       </div>
     <?php endif; ?>
+    <p class="club-disclaimer"><?= e(\App\Core\Club::disclaimer()) ?></p>
   </div>
 </main>
 <script src="<?= asset('js/site.js') ?>" defer></script>

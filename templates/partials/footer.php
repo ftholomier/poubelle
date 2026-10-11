@@ -100,4 +100,5 @@ $asso = \App\Vitrine\Host::base();
     <a href="<?= e(url('/cookies/')) ?>"><?= e(t('Cookies')) ?></a>
     <?php if ($credit !== '' || $creditName !== ''): ?><span><?= e($credit) ?><?php if ($creditName !== ''): ?> <a href="<?= e($creditLink) ?>" rel="noopener" target="_blank"><?= e($creditName) ?></a><?php endif; ?></span><?php endif; ?>
   </div>
+  <p class="club-disclaimer"><?= e(\App\Core\Club::disclaimer()) ?></p>
 </footer>

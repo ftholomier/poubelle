@@ -43,5 +43,6 @@ $cur = array_search($o['status'], $steps, true);
       <div class="field"><label for="tm-text">Votre message</label><textarea id="tm-text" name="text" rows="4" required maxlength="2000"></textarea></div>
       <button class="btn btn--navy">Envoyer</button>
     </form>
+    <p class="club-disclaimer"><?= e(\App\Core\Club::disclaimer()) ?></p>
   </div>
 </section>

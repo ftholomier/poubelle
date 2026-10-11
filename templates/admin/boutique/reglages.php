@@ -37,7 +37,7 @@ $sell = array_filter($models, fn ($m) => Catalog::sellable($m));
     <h2 class="card__t" style="margin-top:18px">Conditions de vente</h2>
     <label class="f"><span class="f__k">Texte affiché avant le paiement (délai, retours, contact…)</span><textarea class="in" name="cgv" rows="12" data-cgv><?= e($c['cgv']) ?></textarea></label>
     <p class="xs muted" style="margin:-4px 0 10px">Laissée vide, la case reprend le texte proposé. <button type="button" class="btn btn--sm btn--ghost" data-cgv-reset>Remettre le texte proposé</button></p>
-    <template data-cgv-default><?= e(\App\Shop\Orders::CGV) ?></template>
+    <template data-cgv-default><?= e(\App\Shop\Orders::cgv()) ?></template>
     <p class="xs muted">Produits personnalisés : le droit de rétractation ne s’applique pas (article L221-28 du Code de la consommation) ; un article défectueux est refait ou remboursé.</p>
     <div class="row" style="justify-content:flex-end"><button class="btn btn--navy">Enregistrer</button></div>
   </section>

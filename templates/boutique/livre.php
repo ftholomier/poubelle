@@ -111,6 +111,7 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
       <div class="shopbook__actions">
         <button type="submit" class="btn btn--ghost" formaction="<?= e(ShopPages::u('/boutique/livre/extrait/')) ?>" formtarget="_blank" formnovalidate data-book-excerpt>📖 Feuilleter un extrait</button>
         <button type="submit" class="btn btn--yellow btn--lg" data-book-add>Ajouter au panier</button>
+        <p class="club-disclaimer"><?= e(\App\Core\Club::disclaimer()) ?></p>
       </div>
       <p class="shophelp" data-book-status aria-live="polite">L’extrait montre votre couverture, votre dédicace, vos pages, le sommaire de l’extrait, trois vrais récits de trois époques et la 4<sup>e</sup> de couverture.</p>
     </form>

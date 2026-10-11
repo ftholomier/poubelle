@@ -2364,5 +2364,6 @@
     "Les matchs {sigle_de} que {p} a vus au stade.": "The {sigle} matches {p} saw at the stadium.",
     "buts {sigle_de} vus": "{sigle} goals seen",
     "Historique {team} × {club}": "{team} × {club} history",
-    "Les 100 chiffres {sigle_de}": "{sigle} in 100 figures"
+    "Les 100 chiffres {sigle_de}": "{sigle} in 100 figures",
+    "Notre site est un musée indépendant et non officiel réalisé par des passionnés. Ce site n’est pas affilié, associé, ni approuvé par {club_le}.": "Our site is an independent, unofficial museum made by fans. It is not affiliated with, associated with or endorsed by {club}."
 }

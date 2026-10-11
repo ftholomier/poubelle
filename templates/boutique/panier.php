@@ -99,6 +99,7 @@ $o = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
       <?php if ($config['cgv'] !== ''): ?><details class="shopcgv"><summary>Conditions de vente</summary><div><?= nl2br(e($config['cgv'])) ?></div></details><?php endif; ?>
       <label class="checkbox"><input type="checkbox" name="cgv" value="1" required> <span>J’accepte les conditions de vente. Articles personnalisés et fabriqués pour moi : ni repris ni échangés, sauf défaut (<a href="<?= e(ShopPages::u('/confidentialite/')) ?>">confidentialité</a>). *</span></label>
       <button type="submit" class="btn btn--navy btn--block"<?= $payable ? '' : ' disabled' ?>>Payer <?= e(Orders::money($sub - $discount + $ship)) ?> par carte</button>
+      <p class="club-disclaimer"><?= e(\App\Core\Club::disclaimer()) ?></p>
       <p class="shophelp">Paiement sécurisé par Stripe. Vous recevez la confirmation et le lien de suivi par e-mail.</p>
     </form>
     <aside class="vform-side"><div class="vbox"><h2 class="h-3">Fabriqué près de chez nous</h2><p><?= e($config['delay']) ?></p><p>Une question sur votre commande ? Écrivez à l’imprimeur depuis la page de suivi.</p></div></aside>

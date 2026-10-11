@@ -84,4 +84,5 @@ $perks = [
   </section>
   <?php endif; ?>
   <p class="appli__note"><?= e(t('L’appli ne demande aucun compte et ne collecte aucune donnée personnelle. Pour la retirer, supprimez l’icône comme n’importe quelle appli.')) ?><?php if ($push): ?> <?= e(t('Pour les notifications, le musée garde seulement l’adresse technique que fournit votre navigateur et les sujets choisis.')) ?> <a href="<?= e(url('/confidentialite/')) ?>"><?= e(t('En savoir plus')) ?></a><?php endif; ?></p>
+  <p class="club-disclaimer"><?= e(\App\Core\Club::disclaimer()) ?></p>
 </section>

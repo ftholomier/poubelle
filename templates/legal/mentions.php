@@ -72,5 +72,6 @@ $en = I18n::isEn();
       <p>Le présent site est soumis au droit français.</p>
     <?php endif; ?>
     <?= $extra ?>
+    <p class="club-disclaimer"><?= e(\App\Core\Club::disclaimer()) ?></p>
   </div>
 </article>

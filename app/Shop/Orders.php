@@ -42,11 +42,17 @@ final class Orders
     // ------------------------------------------------------------------ réglages
 
     /** Conditions de vente proposées par défaut (modifiables dans Boutique › Réglages). */
-    public const CGV = "Vendeur : association Sochaux Rétro (loi 1901). Contact : depuis la page de suivi de votre commande, ou par le formulaire de contact du site.\n\nProduits : objets aux couleurs de l’association, fabriqués à la demande pour vous par notre imprimeur partenaire, près de Sochaux. Les visuels sont des aperçus : de légères différences de teinte sont possibles à l’impression.\n\nPrix et paiement : prix en euros, toutes taxes comprises. Paiement sécurisé par carte bancaire (Stripe) ; la commande est fabriquée après la confirmation du paiement.\n\nFabrication et livraison : expédition sous 5 jours ouvrés environ après le paiement, à l’adresse indiquée (France, Belgique, Luxembourg, Suisse, Allemagne). Vous recevez un e-mail à chaque étape, avec le numéro de suivi du colis.\n\nRétractation : les articles étant personnalisés et fabriqués spécialement pour vous, le droit de rétractation ne s’applique pas (article L221-28 du Code de la consommation).\n\nDéfaut ou erreur : si un article arrive abîmé, mal imprimé ou différent de votre commande, écrivez-nous dans les 14 jours suivant la réception, avec une photo : nous le refaisons ou le remboursons, à votre choix.\n\nDonnées personnelles : vos coordonnées servent uniquement à fabriquer, expédier et suivre votre commande ; elles sont transmises à l’imprimeur pour la livraison et ne sont jamais revendues.\n\nLitiges : en cas de désaccord, contactez-nous d’abord ; vous pouvez aussi recourir gratuitement à un médiateur de la consommation.";
+    public const CGV = "Vendeur : l’association qui édite le musée {site} (loi 1901). Contact : depuis la page de suivi de votre commande, ou par le formulaire de contact du site.\n\nProduits : objets aux couleurs de l’association, fabriqués à la demande pour vous par notre imprimeur partenaire. Les visuels sont des aperçus : de légères différences de teinte sont possibles à l’impression.\n\nPrix et paiement : prix en euros, toutes taxes comprises. Paiement sécurisé par carte bancaire (Stripe) ; la commande est fabriquée après la confirmation du paiement.\n\nFabrication et livraison : expédition sous 5 jours ouvrés environ après le paiement, à l’adresse indiquée (France, Belgique, Luxembourg, Suisse, Allemagne). Vous recevez un e-mail à chaque étape, avec le numéro de suivi du colis.\n\nRétractation : les articles étant personnalisés et fabriqués spécialement pour vous, le droit de rétractation ne s’applique pas (article L221-28 du Code de la consommation).\n\nDéfaut ou erreur : si un article arrive abîmé, mal imprimé ou différent de votre commande, écrivez-nous dans les 14 jours suivant la réception, avec une photo : nous le refaisons ou le remboursons, à votre choix.\n\nDonnées personnelles : vos coordonnées servent uniquement à fabriquer, expédier et suivre votre commande ; elles sont transmises à l’imprimeur pour la livraison et ne sont jamais revendues.\n\nLitiges : en cas de désaccord, contactez-nous d’abord ; vous pouvez aussi recourir gratuitement à un médiateur de la consommation.";
+
+    /** Conditions de vente proposées par défaut : celles du club (config/clubs/<id>/cgv.php), sinon le texte type. */
+    public static function cgv(): string
+    {
+        return (string) Club::content('cgv', club(self::CGV));
+    }
 
     public const CONFIG_DEFAULTS = [
         'open' => false, 'printer_name' => '', 'printer_email' => '', 'shipping' => 590, 'free_from' => 0,
-        'delay' => 'Fabriqué à la demande, expédié sous 5 jours ouvrés.', 'alert_email' => '', 'cgv' => self::CGV, 'ship_cost' => 590,
+        'delay' => 'Fabriqué à la demande, expédié sous 5 jours ouvrés.', 'alert_email' => '', 'cgv' => '', 'ship_cost' => 590,
         'anec_daily' => 500,
     ];
 
@@ -56,7 +62,7 @@ final class Orders
         $c = array_replace(self::CONFIG_DEFAULTS, array_intersect_key($c, self::CONFIG_DEFAULTS));
         // Conditions de vente vides (enregistrées avant le texte proposé) : le texte proposé.
         if (trim((string) $c['cgv']) === '') {
-            $c['cgv'] = self::CGV;
+            $c['cgv'] = self::cgv();
         }
         return $c;
     }
@@ -675,6 +681,7 @@ final class Orders
 
     private static function mail(string $to, string $subject, string $html, ?string $replyTo = null): void
     {
+        $html .= '<p style="font-size:12px;color:#777777">' . e(Club::disclaimer()) . '</p>';
         if (self::$mail) {
             (self::$mail)($to, $subject, $html, $replyTo);
             return;

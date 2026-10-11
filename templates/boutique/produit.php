@@ -146,6 +146,7 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
         <?php if ($fixed): ?><input type="hidden" name="qty" value="1"><?php else: ?><div class="field"><label for="f-qty">Quantité</label><input type="number" id="f-qty" name="qty" value="1" min="1" max="20" data-shop-in></div><?php endif; ?>
       </div>
       <button type="submit" class="btn btn--navy btn--block">Ajouter au panier</button>
+      <p class="club-disclaimer"><?= e(\App\Core\Club::disclaimer()) ?></p>
       <p class="shophelp">Fabriqué à la demande pour vous : article personnalisé, ni repris ni échangé, sauf défaut (il est alors refait ou remboursé).</p>
     </form>
   </div>
