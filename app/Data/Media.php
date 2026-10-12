@@ -13,6 +13,8 @@ final class Media
 {
     public const FILE = DATA_PATH . '/media.json';
     public const ORIGINALS = STORAGE_PATH . '/media/originals';
+    /** Préfixe des photos livrées avec le code du club (voir bundled()). */
+    public const BUNDLED = 'club/';
     private const CACHE = STORAGE_PATH . '/cache/media.php';
     /**
      * La même médiathèque en BUCKETS fichiers (selon le chemin du média) : une page qui affiche
@@ -51,6 +53,9 @@ final class Media
         if (!$rel) {
             return null;
         }
+        if (str_starts_with($rel, self::BUNDLED) && ($b = self::bundled()[substr($rel, strlen(self::BUNDLED))] ?? null)) {
+            return $b;
+        }
         if (self::$items !== null) {
             return self::$items[$rel] ?? null;
         }
@@ -78,7 +83,31 @@ final class Media
             return null;
         }
         $f = self::ORIGINALS . '/' . $rel;
+        if (!is_file($f) && str_starts_with($rel, self::BUNDLED)) {
+            // Photo libre de droits livrée avec le code du club (config/clubs/<club>/photos/).
+            $f = APP_ROOT . '/config/clubs/' . CLUB_ID . '/photos/' . substr($rel, strlen(self::BUNDLED));
+        }
         return is_file($f) ? $f : null;
+    }
+
+    /**
+     * Photos libres de droits livrées avec le code du club (config/clubs/<club>/photos.php et le dossier
+     * photos/ à côté) : servies sous « club/<fichier> » sans passer par la médiathèque, avec leur crédit
+     * (auteur, licence) en légende. Utilisées par défaut dans les cases sans image de l'accueil.
+     * @return array<string,array> par nom de fichier
+     */
+    public static function bundled(): array
+    {
+        static $list = null;
+        if ($list === null) {
+            $list = [];
+            foreach ((array) \App\Core\Club::content('photos', []) as $file => $p) {
+                $credit = trim(implode(', ', array_filter([$p['author'] ?? '', $p['license'] ?? ''])) . ' (Wikimedia Commons)');
+                $list[$file] = $p + ['file' => self::BUNDLED . $file, 'mime' => 'image/webp', 'caption' => $p['title'] ?? '', 'alt' => $p['title'] ?? '',
+                    'credit' => $credit, 'rights' => $p['license'] ?? '', 'source' => $p['url'] ?? ''];
+            }
+        }
+        return $list;
     }
 
     /**

@@ -228,6 +228,7 @@ final class Pages
             'teasers' => Collections::get('teasers', self::defaultTeasers()),
             'decades' => self::decadeLinks(),
         ];
+        self::fillEmpty($vars);
         $introTitle = trim((string) Settings::get('home.intro_title', ''));
         $introText = plain_text((string) Settings::get('home.intro_text', ''));
         $defaultDesc = t("Le musée en ligne {club_de} : près d'un siècle de matchs, de joueurs, de supporters et de symboles, rassemblés par {site}.");
@@ -500,6 +501,51 @@ final class Pages
             $r['image'] = $img[$r['slug']] ?? '';
         }
         return $list;
+    }
+
+    /**
+     * Cases de l'accueil restées sans image (« Ce jour-là », « Il y a N ans », photo du jour, grand slider) :
+     * photos par défaut du club (clé « cases » de config/clubs/<club>/accueil-images.php), tirées selon
+     * le jour, avec leur crédit. Sans cette clé (Sochaux), rien ne change.
+     */
+    private static function fillEmpty(array &$vars): void
+    {
+        $conf = (array) (\App\Core\Club::content('accueil-images', [])['cases'] ?? []);
+        $pool = array_values(array_filter((array) ($conf['photos'] ?? []), fn ($r) => \App\Data\Media::file((string) $r)));
+        if (!$pool) {
+            return;
+        }
+        $i = crc32(date('Y-m-d')) % count($pool);
+        $next = function () use (&$i, $pool): string {
+            return $pool[$i++ % count($pool)];
+        };
+        $credit = fn (string $rel) => (string) (\App\Data\Media::get($rel)['credit'] ?? '');
+        if (!empty($vars['jour']) && empty($vars['jour']['image'])) {
+            $r = $next();
+            $vars['jour']['image'] = $r;
+            $vars['jour']['image_credit'] = $credit($r);
+        }
+        foreach ($vars['ago'] as &$a) {
+            if (empty($a['image'])) {
+                $r = $next();
+                $a['image'] = $r;
+                $a['image_credit'] = $credit($r);
+            }
+        }
+        unset($a);
+        if (empty($vars['photoDay'])) {
+            $r = $next();
+            $m = (array) \App\Data\Media::get($r);
+            $vars['photoDay'] = ['image' => $r, 'caption' => (string) ($m['title'] ?? ''), 'credit' => $credit($r), 'year' => (int) ($m['year'] ?? 0), 'href' => null];
+        }
+        if (empty($vars['slides'])) {
+            foreach ((array) ($conf['slider'] ?? []) as $s) {
+                if (\App\Data\Media::file((string) ($s['image'] ?? ''))) {
+                    $vars['slides'][] = ['kind' => t((string) ($s['kind'] ?? '')), 'title' => t((string) ($s['title'] ?? '')), 'text' => t((string) ($s['text'] ?? '')),
+                        'href' => url((string) ($s['href'] ?? '/')), 'image' => $s['image'], 'focus' => (string) ($s['focus'] ?? '50% 50%'), 'credit' => $credit($s['image'])];
+                }
+            }
+        }
     }
 
     /** Images des encarts de l'accueil (« Jouez avec l'histoire », « Contribuer »), modifiables dans le back-office. */

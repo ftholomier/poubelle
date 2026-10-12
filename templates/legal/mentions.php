@@ -32,6 +32,14 @@ $en = I18n::isEn();
       <h2>Sources</h2>
       <p><?= e((string) ($cs['en'] ?? $cs['fr'] ?? '')) ?></p>
       <?php endif; ?>
+      <?php if ($photos = \App\Data\Media::bundled()): ?>
+      <h2>Photo credits</h2>
+      <ul class="legal__credits">
+        <?php foreach ($photos as $ph): ?>
+          <li>« <?= e((string) ($ph['title'] ?? '')) ?> » by <?= e((string) ($ph['author'] ?? '')) ?>, <?php if (!empty($ph['license_url'])): ?><a href="<?= e($ph['license_url']) ?>" rel="noopener license" target="_blank"><?= e((string) $ph['license']) ?></a><?php else: ?><?= e((string) ($ph['license'] ?? '')) ?><?php endif; ?><?= !empty($ph['modified']) ? ', resized' : '' ?> — <a href="<?= e((string) ($ph['url'] ?? '')) ?>" rel="noopener" target="_blank">Wikimedia Commons</a></li>
+        <?php endforeach; ?>
+      </ul>
+      <?php endif; ?>
       <h2>Intellectual property</h2>
       <p>The texts, compilations, databases and layout of the site are protected by copyright. Photographs, posters, programmes, press cuttings and other documents remain the property of their authors or rights holders, credited whenever they are known. Any reproduction requires prior permission.</p>
       <p>The names, badges and trademarks of <?= e(\App\Core\Club::s('club')) ?> and of the other clubs mentioned belong to their respective owners and are used for historical and informational purposes only.</p>
@@ -64,6 +72,14 @@ $en = I18n::isEn();
       <?php if ($cs = (array) \App\Core\Club::content('credits-sources', [])): ?>
       <h2>Sources</h2>
       <p><?= e((string) ($cs['fr'] ?? '')) ?></p>
+      <?php endif; ?>
+      <?php if ($photos = \App\Data\Media::bundled()): ?>
+      <h2>Crédits photographiques</h2>
+      <ul class="legal__credits">
+        <?php foreach ($photos as $ph): ?>
+          <li>« <?= e((string) ($ph['title'] ?? '')) ?> » par <?= e((string) ($ph['author'] ?? '')) ?>, <?php if (!empty($ph['license_url'])): ?><a href="<?= e($ph['license_url']) ?>" rel="noopener license" target="_blank"><?= e((string) $ph['license']) ?></a><?php else: ?><?= e((string) ($ph['license'] ?? '')) ?><?php endif; ?><?= !empty($ph['modified']) ? ', redimensionnée' : '' ?> — <a href="<?= e((string) ($ph['url'] ?? '')) ?>" rel="noopener" target="_blank">Wikimedia Commons</a></li>
+        <?php endforeach; ?>
+      </ul>
       <?php endif; ?>
       <h2>Propriété intellectuelle</h2>
       <p>Les textes, compilations, bases de données et la mise en page du site sont protégés par le droit d’auteur. Les photographies, affiches, programmes, coupures de presse et autres documents restent la propriété de leurs auteurs ou ayants droit, crédités lorsqu’ils sont connus. Toute reproduction nécessite une autorisation préalable.</p>

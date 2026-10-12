@@ -16,6 +16,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
       <?php else: /* Chargée par home.js juste avant d'être montrée : l'accueil ne télécharge qu'une photo. */ ?>
       <img data-src="<?= e(img($s['image'], 1600)) ?>" data-srcset="<?= e(srcset($s['image'], [800, 1200, 1600])) ?>" sizes="100vw" alt="" style="object-position:<?= e($s['focus']) ?>">
       <?php endif; ?>
+      <?php if (!empty($s['credit'])): ?><small class="hcredit hcredit--hero"><?= e($s['credit']) ?></small><?php endif; ?>
     </div>
   <?php endforeach; ?>
   <div class="hero__shade" aria-hidden="true"></div>
@@ -89,7 +90,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
     <div class="hbento hbento--today">
       <?php if ($jour): ?>
       <a class="hcard hcard--jour" href="<?= e(url($jour['path'])) ?>">
-        <span class="hcard__media"><?php if ($jour['image']): ?><img src="<?= e(img($jour['image'], 640)) ?>" alt="" loading="lazy"><?php else: ?><span class="ph"><?= icon_photo() ?></span><?php endif; ?></span>
+        <span class="hcard__media"><?php if ($jour['image']): ?><img src="<?= e(img($jour['image'], 640)) ?>" alt="" loading="lazy"><?php if (!empty($jour['image_credit'])): ?><small class="hcredit"><?= e($jour['image_credit']) ?></small><?php endif; ?><?php else: ?><span class="ph"><?= icon_photo() ?></span><?php endif; ?></span>
         <span class="hcard__body">
           <span class="hcard__k"><?= e(t('Ce jour-là')) ?> · <?= e($jourLabel) ?></span>
           <span class="hcard__t"><?= e(($jour['home'] ?: $jour['event']) . ($jour['away'] ? ' – ' . $jour['away'] : '')) ?></span>
@@ -148,7 +149,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
         </div>
         <?php foreach ($ago as $i => $a): ?>
           <a class="hago__panel<?= $i === 0 ? ' is-on' : '' ?>" role="tabpanel" data-ago-panel="<?= $i ?>" href="<?= e((string) $a['href']) ?>"<?= $i === 0 ? '' : ' hidden' ?>>
-            <span class="hago__media"><?php if ($a['image']): ?><img src="<?= e(img($a['image'], 640)) ?>" alt="" loading="lazy"><?php else: ?><span class="hago__year num"><?= e(substr($a['date'], 0, 4)) ?></span><?php endif; ?></span>
+            <span class="hago__media"><?php if ($a['image']): ?><img src="<?= e(img($a['image'], 640)) ?>" alt="" loading="lazy"><?php if (!empty($a['image_credit'])): ?><small class="hcredit"><?= e($a['image_credit']) ?></small><?php endif; ?><?php else: ?><span class="hago__year num"><?= e(substr($a['date'], 0, 4)) ?></span><?php endif; ?></span>
             <span class="hago__body">
               <span class="hcard__k"><?= e($a['kind']) ?> · <?= e(date_fr($a['date'])) ?></span>
               <span class="hcard__t"><?= e($a['title']) ?></span>

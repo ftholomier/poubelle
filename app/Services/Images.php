@@ -19,7 +19,7 @@ final class Images
     {
         // Le chemin arrive déjà décodé (Request) : pas de second décodage.
         $rel = Media::safeRel($rel);
-        $isWebp = str_ends_with($rel, '.webp') && !is_file(Media::ORIGINALS . '/' . $rel);
+        $isWebp = str_ends_with($rel, '.webp') && !Media::file($rel);
         $srcRel = $isWebp ? substr($rel, 0, -5) : $rel;
         $src = Media::file($srcRel);
 

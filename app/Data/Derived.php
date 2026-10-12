@@ -1395,7 +1395,7 @@ final class Derived
     private static function imageFiles(array $doc, array $library, array $refs): array
     {
         $known = array_values(array_unique(array_merge($refs, array_filter(self::namedImages($doc), fn ($r) => isset($library[$r])))));
-        return [$known, array_values(array_filter($known, fn ($r) => !is_file(Media::ORIGINALS . '/' . Media::safeRel($r))))];
+        return [$known, array_values(array_filter($known, fn ($r) => !Media::file($r)))];
     }
 
     /**
