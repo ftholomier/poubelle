@@ -12,7 +12,7 @@
 </head>
 <body>
 <main class="auth">
-  <canvas class="auth__pitch" data-pitch aria-hidden="true"></canvas>
+  <canvas class="auth__pitch" data-pitch data-accent="<?= e(\App\Core\Club::color('yellow')) ?>" <?= \App\Core\Club::isDefault() ? '' : 'data-keeper="' . e(\App\Core\Club::color('blue')) . '"' ?> data-sigle="<?= e(\App\Core\Club::s('sigle') ?: \App\Core\Club::team()) ?>" aria-hidden="true"></canvas>
   <div class="auth__board" data-board aria-hidden="true"><span><?= e(\App\Core\Club::team()) ?></span><b data-home>0</b><i>–</i><b data-away>0</b><span>Visiteurs</span><em data-min>0’</em></div>
   <div class="auth__box">
     <div class="auth__brand"><img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt=""><span><b><?= e(\App\Core\Club::s('site_lc')) ?></b><small>Back-office du musée</small></span></div>

@@ -1,5 +1,5 @@
 /* Écrans de connexion du back-office : un match en fond, pour le plaisir. Vu d'en haut, de nuit :
-   le FCSM (en jaune) fait tourner, avance, tire et marque ; « BUT ! », confettis, filet qui
+   le club du musée (à ses couleurs) fait tourner, avance, tire et marque ; « BUT ! », confettis, filet qui
    tremble, et le tableau d'affichage suit (score, minute, fin du match). Terrain couché sur un
    écran large, debout sur un téléphone (le FCSM attaque vers le haut). Si le visiteur a demandé
    moins d'animations : une image fixe, rien ne bouge. */
@@ -13,7 +13,11 @@
   const out = (k) => board && board.querySelector('[data-' + k + ']');
 
   const L = 105, WD = 68, MARGIN = 6;
-  const YEL = '#F6C400', CREAM = '#F3EDDF';
+  // Couleurs et sigle du club servi (data- du canevas) ; à défaut, la charte d'origine.
+  const YEL = cv.dataset.accent || '#F6C400', CREAM = '#F3EDDF', KEEPER = cv.dataset.keeper || '#3E6FD8';
+  const SIGLE = (cv.dataset.sigle || 'FCSM').toUpperCase();
+  const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)).join(',');
+  const YRGB = rgb(YEL);
   let W = 0, H = 0, s = 1, rot = false, ox = 0, oy = 0;
 
   const resize = () => {
@@ -224,12 +228,12 @@
     }
     for (let k = 1; k < 3; k++) line([[L + (k * 2) / 3 + net * Math.sin(k * 2 + net * 20) * 0.5, 30.34], [L + (k * 2) / 3 + net * Math.sin(k * 3 + net * 20) * 0.5, 37.66]]);
     // Traînée et ballon.
-    ball.trail.forEach(([x, y], i) => { ctx.fillStyle = `rgba(246,196,0,${(i / ball.trail.length) * 0.22})`; dot(x, y, 0.35); });
+    ball.trail.forEach(([x, y], i) => { ctx.fillStyle = `rgba(${YRGB},${(i / ball.trail.length) * 0.22})`; dot(x, y, 0.35); });
     // Joueurs.
     away.forEach((p) => { ctx.fillStyle = p.gk ? 'rgba(120,200,140,.9)' : 'rgba(243,237,223,.82)'; dot(p.x, p.y, 0.95); });
     home.forEach((p) => {
-      ctx.fillStyle = p.gk ? '#3E6FD8' : YEL;
-      ctx.shadowColor = 'rgba(246,196,0,.55)'; ctx.shadowBlur = p === holder && state !== 'goal' ? 14 : 0;
+      ctx.fillStyle = p.gk ? KEEPER : YEL;
+      ctx.shadowColor = `rgba(${YRGB},.55)`; ctx.shadowBlur = p === holder && state !== 'goal' ? 14 : 0;
       dot(p.x, p.y, 1);
       ctx.shadowBlur = 0;
     });
@@ -265,7 +269,7 @@
         ctx.font = `800 ${Math.round(size * 0.3)}px 'Big Shoulders Display', 'Arial Narrow', sans-serif`;
         ctx.fillStyle = CREAM;
         ctx.shadowOffsetX = 3; ctx.shadowOffsetY = 3;
-        ctx.fillText('POUR LE FCSM', 0, size * 0.66);
+        ctx.fillText('POUR LE ' + SIGLE, 0, size * 0.66);
       }
       ctx.restore();
     }
