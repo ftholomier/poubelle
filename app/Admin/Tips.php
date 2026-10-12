@@ -163,7 +163,7 @@ final class Tips
         'medias' => ['screen' => 'Toutes les photos et PDF du musée. Envoyez par glisser-déposer (crédit demandé), cliquez une photo pour la légende, les droits, la retouche ou le remplacement ; les filtres montrent ce qu’il reste à compléter.'],
         'accueil' => [
             'screen' => 'La page d’accueil du site : slider, bandeau défilant, chiffres, grandes époques, réserves, encarts. Chaque bloc s’enregistre avec le bouton en bas de page.',
-            'grand slider de l’accueil' => 'Tirage au hasard parmi les fiches cochées « À la une » dont la photo est assez grande pour le plein écran (au moins 1 200 × 600 pixels), ou liste choisie à la main dans l’ordre voulu.',
+            'grand slider de l’accueil' => 'Tirage au hasard parmi toutes les fiches publiées dont la photo est assez grande pour le plein écran (au moins 1 200 × 600 pixels pour une photo récente, 600 × 380 pour une photo ancienne), avec un minimum de matchs, de joueurs et de fiches anciennes réglable ; ou liste choisie à la main dans l’ordre voulu.',
             'bandeau « en direct du musée »' => 'Le bandeau défilant en haut du site : messages automatiques (Ce jour-là, centenaire, dernier match fiché) et messages de l’équipe, avec lien facultatif.',
             'compteurs et centenaire' => 'Les chiffres de l’accueil (membres, vidéos…) et la date du centenaire pour le compte à rebours.',
             'les grandes époques' => 'Les périodes de l’histoire du club présentées sur l’accueil : nom, dates, texte, image et dates clés.',
@@ -172,7 +172,7 @@ final class Tips
             '« ils ont porté le lion »' => 'Les joueurs cochés « Légende » dans leur fiche : quatre sont tirés au hasard à chaque visite (à défaut, les plus capés).',
             'images des encarts' => 'Les images des encarts Quiz, Maillots, Frise et Contribuer.',
             'référencement de l’accueil' => 'Titre et description de l’accueil pour Google et les réseaux sociaux.',
-            'contenu du slider' => '« Tirage au hasard » parmi les fiches « À la une » à la photo assez grande (les petites seraient floues en plein écran) ou « Sélection manuelle » : vous choisissez les fiches et leur ordre.',
+            'contenu du slider' => '« Tirage au hasard » parmi les fiches publiées à la photo assez grande (les petites seraient floues en plein écran) ou « Sélection manuelle » : vous choisissez les fiches et leur ordre.',
             'fiches du slider, dans l’ordre' => 'Tapez le titre d’une fiche et choisissez-la ; glissez pour changer l’ordre. Les fiches sans image à la une ou non publiées sont ignorées.',
             'messages de l’équipe' => 'Vos messages dans le bandeau : étiquette (ex. « Nouveau »), texte, lien facultatif et version anglaise. Décochez « Affiché » pour masquer un message sans le supprimer.',
             'titre de la page d’accueil (onglet du navigateur, google)' => 'Le titre de l’accueil dans l’onglet du navigateur et dans les résultats de Google.',

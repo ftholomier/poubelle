@@ -131,7 +131,8 @@ $wav = A::wav($pcm, 24000);
 $eq('en-tête WAV', [substr($wav, 0, 4), substr($wav, 8, 4), unpack('V', substr($wav, 40, 4))[1], strlen($wav)], ['RIFF', 'WAVE', 48000, 48044]);
 $cur = A::current($match, 'fr');
 $v = A::storeVoice($id, 'fr', $pcm, 24000, $cur['text'], 'gemini-3.8-flash-tts', 'Charon');
-$eq('fichier audio', [is_file(A::$media . '/' . $v['file']), $v['dur'], str_ends_with($v['file'], '.wav')], [true, 1.0, true]);
+// Durée rangée : 1 s de voix + 0,3 s de silence au début et 2 s à la fin (FicheAudio::pad, commit aa479fd).
+$eq('fichier audio', [is_file(A::$media . '/' . $v['file']), $v['dur'], str_ends_with($v['file'], '.wav')], [true, 3.3, true]);
 $eq('voix valable pour le texte lu', A::audio($match, 'fr')['url'] ?? null, '/media/' . $v['file']);
 $eq('page : voix IA proposée', A::forPage($match, 'fr')['url'] ?? null, '/media/' . $v['file']);
 $eq('texte changé : voix plus valable', A::audio($changed, 'fr'), null);
@@ -332,7 +333,7 @@ JsonStore::write(A::$dir . '/jobs/vpage-textes.json', ['page:club-metz:fr' => $s
 file_put_contents(A::$dir . '/jobs/vpage-resultats.jsonl', json_encode(['key' => 'page:club-metz:fr', 'response' => ['candidates' => [['content' => ['parts' => [['inlineData' => ['mimeType' => 'audio/L16;codec=pcm;rate=24000', 'data' => base64_encode($pcm)]]]]]], 'usageMetadata' => ['promptTokenCount' => 40, 'candidatesTokenCount' => 25]]]) . "\n");
 $voiceJob = A::process($voiceJob, microtime(true) + 30);
 $m = P::opponent('metz', 'Metz', Explore::opponentData('metz')['vars'], false);
-$eq('voix rangée et jouée sur la page', [$voiceJob['state'], $voiceJob['message'], (bool) preg_match('#^/media/audio/pages/club-metz-fr-[0-9a-f]{10}\.wav$#', (string) ($m['url'] ?? '')), $m['dur'] ?? null, $m['secs'] ?? null], ['termine', '1 voix de pages enregistrée(s).', true, 1.0, 1]);
+$eq('voix rangée et jouée sur la page', [$voiceJob['state'], $voiceJob['message'], (bool) preg_match('#^/media/audio/pages/club-metz-fr-[0-9a-f]{10}\.wav$#', (string) ($m['url'] ?? '')), $m['dur'] ?? null, $m['secs'] ?? null], ['termine', '1 voix de pages enregistrée(s).', true, 3.3, 3]);
 $file = A::$media . '/' . P::stored('club-metz')['fr']['audio']['file'];
 $eq('fichier de la voix', [is_file($file), P::stats()['voice_fr']], [true, 1]);
 $planV = P::plan(false, ['club-metz']);

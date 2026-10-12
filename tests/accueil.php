@@ -46,16 +46,16 @@ foreach ($une as $s) {
 $eq('photo de 1 600 × 1 067 : assez grande', $big ? Pages::slideReady($big['image']) : 'aucune photo de cette taille', true);
 $eq('sans image ou image inconnue : non', [Pages::slideReady(null), Pages::slideReady(''), Pages::slideReady('2099/01/inconnue.jpg')], [false, false, false]);
 
-// Fiches que le tirage peut montrer.
+// Fiches que le tirage peut montrer : toutes les fiches publiées à vraie photo assez grande (plus besoin de « À la une »).
 $pool = Pages::slidePool();
-$ok = array_filter($pool, function ($id) {
-    $s = Index::get($id);
-    return $s && Index::visible($s) && $s['a_la_une'] && !Index::isPlaceholderImage($s['image']) && Pages::slideReady($s['image']);
+$ids = array_column($pool, 'id');
+$ok = array_filter($ids, function ($id) {
+    $s = Index::get((int) $id);
+    return $s && Index::visible($s) && !Index::isPlaceholderImage($s['image']);
 });
-$eq('tirage : des centaines de fiches, toutes « À la une », publiées, à la photo assez grande', [count($pool) > 300, count($ok) === count($pool), count(array_unique($pool)) === count($pool)], [true, true, true]);
-$eq('photos trop petites écartées : ' . implode(', ', $small), array_values(array_intersect(array_keys($small), $pool)), []);
+$eq('tirage : des centaines de fiches publiées à vraie photo, sans doublon', [count($ids) > 300, count($ok) === count($ids), count(array_unique($ids)) === count($ids)], [true, true, true]);
+$eq('photos trop petites écartées : ' . implode(', ', $small), array_values(array_intersect(array_keys($small), $ids)), []);
 $eq('et pourtant bien « À la une » avec une photo', count(array_filter(array_keys($small), fn ($id) => in_array($id, array_column($une, 'id'), true))), 3);
-$eq('chaque fiche « À la une » à la photo assez grande est dans le tirage', count(array_filter($une, fn ($s) => Pages::slideReady($s['image']))), count($pool));
 Memo::forget();
 $eq('liste reprise du cache', Pages::slidePool(), $pool);
 
@@ -63,9 +63,11 @@ $eq('liste reprise du cache', Pages::slidePool(), $pool);
 if ((Collections::get('slider', ['mode' => 'random'])['mode'] ?? 'random') === 'random') {
     $seen = [];
     $bad = 0;
+    $okImg = array_map(fn ($id) => Index::get($id)['image'], $ids);
     for ($i = 0; $i < 30; $i++) {
         $slides = Pages::slides(5);
-        $bad += count(array_filter($slides, fn ($x) => !Pages::slideReady($x['image'])));
+        // Seuil selon l'époque de la fiche (les photos anciennes ont droit à une taille plus petite).
+        $bad += count(array_filter($slides, fn ($x) => !in_array($x['image'], $okImg, true)));
         $seen[] = count($slides) === 5 && count(array_unique(array_column($slides, 'href'))) === 5;
         foreach ($slides as $x) {
             $seen['img'][$x['image']] = true;
@@ -74,11 +76,11 @@ if ((Collections::get('slider', ['mode' => 'random'])['mode'] ?? 'random') === '
     $eq('30 tirages de 5 slides : aucune photo trop petite, jamais deux fois la même fiche', [$bad, count(array_filter(array_slice($seen, 0, 30))) === 30], [0, true]);
     $eq('le tirage varie (plus de 40 photos différentes en 30 tirages)', count($seen['img']) > 40, true);
 
-    // Seuil inatteignable : aucune photo assez grande, le tirage reprend toutes les vraies photos.
+    // Seuil récent inatteignable : seules restent les fiches anciennes (elles ont leur propre seuil).
     Pages::$slideMin = [100000, 100000];
     Memo::forget();
     $fallback = Pages::slides(3);
-    $eq('aucune photo assez grande : liste vide', Pages::slidePool(), []);
+    $eq('aucune photo récente assez grande : seules les anciennes restent', Pages::slidePool(), array_values(array_filter($pool, fn ($c) => $c['old'])));
     $eq('… et le slider garde 3 slides à vraie photo', [count($fallback), count(array_filter($fallback, fn ($x) => $x['image'] && !Index::isPlaceholderImage($x['image'])))], [3, 3]);
     Pages::$slideMin = [1200, 600];
     Memo::forget();
@@ -90,7 +92,7 @@ if ((Collections::get('slider', ['mode' => 'random'])['mode'] ?? 'random') === '
 // Dans la fiche (Classement & SEO) : la case « À la une » signale une image trop petite ou absente.
 $seo = fn (array $doc) => View::partial('admin/fiches/_seo', ['doc' => $doc]);
 $k = $seo(Fiches::get(9410));
-$eq('fiche à la photo de 40 × 60 : signalée, avec sa taille et le minimum', [str_contains($k, 'trop petite pour le grand slider (40 × 60 pixels'), str_contains($k, 'au moins 1 200 × 600')], [true, true]);
+$eq('fiche (1933) à la photo de 40 × 60 : signalée, avec sa taille et le minimum des photos anciennes', [str_contains($k, 'trop petite pour le grand slider (40 × 60 pixels'), str_contains($k, 'au moins 600 × 380')], [true, true]);
 $eq('fiche à la photo assez grande : rien à signaler', $big ? str_contains($seo(Fiches::get((int) $big['id'])), 'pas tirée au hasard') : 'aucune', false);
 $blank = Fiches::blank('match');
 $eq('fiche sans image : « pas tirée au hasard »', str_contains($seo($blank), 'Sans image à la une, la fiche n’est pas tirée au hasard'), true);
