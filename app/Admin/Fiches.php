@@ -325,7 +325,7 @@ final class Fiches extends Base
                 $out[] = ['Carto des origines : ' . $doc['personne']['birth']['place']['city'], '/interactif/carto/'];
             }
             if (!empty($doc['personne']['album']['in'])) {
-                $out[] = ['Carte de l’album du centenaire', '/interactif/album/'];
+                $out[] = ['Carte de l’' . mb_strtolower(Collections::albumLabel()), '/interactif/album/'];
             }
         }
         if (!empty($doc['path']) && Store::isVisible($doc)) {

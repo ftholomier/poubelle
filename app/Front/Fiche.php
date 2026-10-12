@@ -779,7 +779,7 @@ final class Fiche
         }
         // Moment du centenaire : son numéro et la série, au-dessus du titre.
         $moment = $doc['type'] === 'moment' ? (int) ($doc['moment']['number'] ?? 0) : 0;
-        if ($doc['type'] === 'moment') {
+        if ($doc['type'] === 'moment' && Site::centenaryCountdown()) {
             $crumbs[] = ['label' => t('Centenaire'), 'href' => url('/centenaire/')];
             $crumbs[] = ['label' => t('100 moments'), 'href' => url('/centenaire/100-moments/')];
         }

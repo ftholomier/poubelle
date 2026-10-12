@@ -71,6 +71,12 @@ final class Router
             return str_starts_with($path, '/admin/api/') ? Response::json(['error' => 'Réservé aux administrateurs.'], 403) : (Base::denyUnlessAdmin() ?? Response::redirect('/admin'));
         }
 
+        // Outils propres au musée historique (site de l'association, reprise 1928-1969, feuilles de
+        // match) : absents du menu des autres musées, et leurs écrans aussi.
+        if (!\App\Core\Club::isDefault() && preg_match('#^/admin/(association|reprise-1928-1969|import-feuilles)(/|$)#', $path)) {
+            return Response::redirect('/admin');
+        }
+
         $r = new CoreRouter();
         $r->post('/admin/deconnexion', fn ($q) => Account::logout($q));
         $r->post('/admin/basculer', fn ($q) => Account::switchTo($q));

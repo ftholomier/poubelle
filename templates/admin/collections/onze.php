@@ -11,7 +11,7 @@ $revealed = $reveal !== '' && strtotime($reveal) <= time();
 </div>
 <div class="cols cols--wide">
   <div class="card">
-    <div class="card__head"><h2 class="card__t">Le Onze du public</h2><a class="linkbtn" href="/centenaire/#onze" target="_blank" rel="noopener">Page publique ↗</a></div>
+    <div class="card__head"><h2 class="card__t">Le Onze du public</h2><?php if (\App\Front\Site::centenaryCountdown()): ?><a class="linkbtn" href="/centenaire/#onze" target="_blank" rel="noopener">Page publique ↗</a><?php endif; ?></div>
     <?php foreach ($results as $r): ?>
       <div class="card__row" style="grid-template-columns:40px minmax(0,1fr) auto"><span class="pill pill--navy"><?= e($r['line']) ?></span><a href="<?= e($r['href']) ?>" target="_blank" rel="noopener"><?= e($r['name']) ?></a><b class="d"><?= (int) $r['pct'] ?> %</b></div>
     <?php endforeach; ?>

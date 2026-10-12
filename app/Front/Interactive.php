@@ -149,7 +149,7 @@ final class Interactive
         usort($events, fn ($a, $b) => (int) $a['year'] <=> (int) $b['year']);
         return Pages::render('interactif/frise', ['events' => $events], [
             'title' => t('La frise : de {founded} à aujourd’hui'),
-            'description' => t('Les grandes dates {club_de}, de la fondation au centenaire.'),
+            'description' => Site::centenaryCountdown() ? t('Les grandes dates {club_de}, de la fondation au centenaire.') : t('Les grandes dates {club_de}, de la fondation à aujourd’hui.'),
             'active' => 'interactif',
             'styles' => ['css/interactif.css'],
             'scripts' => ['js/interactif.js'],
@@ -256,6 +256,9 @@ final class Interactive
 
     public static function centenary(Request $req): Response
     {
+        if (!Site::centenaryCountdown()) {
+            return Pages::notFound(); // centenaire lointain (club récent) : ni page ni lien
+        }
         return Pages::render('interactif/centenaire', [
             'target' => Site::centenaryDate(),
             'moments' => self::moments100(),
@@ -275,6 +278,9 @@ final class Interactive
 
     public static function moments(Request $req): Response
     {
+        if (!Site::centenaryCountdown()) {
+            return Pages::notFound();
+        }
         return Pages::render('interactif/moments', ['moments' => self::moments100()], [
             'title' => t('100 ans, 100 moments'),
             'description' => t('Jusqu’au centenaire, 100 moments de l’histoire {sigle_de}, dévoilés un à un.'),

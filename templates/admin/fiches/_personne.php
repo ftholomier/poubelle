@@ -71,7 +71,7 @@ $matches = $pid ? Derived::personMatches($pid) : [];
     <?= Form::lines('personne.international', 'Sélections internationales', $p['international'] ?? [], ['help' => 'Une ligne par sélection (ex. « France A : 3 sélections »).']) ?>
   </div>
   <div class="card card--pad">
-    <h2 class="card__t">Carte de l’album du centenaire</h2>
+    <h2 class="card__t">Carte de l’<?= e(mb_strtolower(\App\Admin\Collections::albumLabel())) ?></h2>
     <div class="fgrid fgrid--4">
       <?= Form::toggle('personne.album.in', 'Dans l’album', !empty($p['album']['in'])) ?>
       <?= Form::seg('personne.album.rarity', 'Rareté', $p['album']['rarity'] ?? '', ['' => 'Auto'] + FicheForm::RARITIES, ['class' => 'f--2']) ?>

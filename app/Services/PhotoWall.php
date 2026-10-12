@@ -34,6 +34,15 @@ final class PhotoWall
     public const WIDTHS = [160, 480];
 
     /**
+     * En dessous de ce nombre de photos de la médiathèque, les photos libres de droits livrées avec le
+     * club (config/clubs/<club>/photos.php, Media::bundled()) complètent les murs, avec leur crédit.
+     */
+    public const MIN_OWN = 40;
+
+    /** Moins de photos que cela (livrées comprises) : murs masqués des menus et de la rubrique Interactif. */
+    public const MIN_SHOWN = 12;
+
+    /**
      * Crédits « à risque » écartés d'office : agences photo, presse sportive nationale,
      * télévision, produits (Panini), instances, sites qui ne sont pas les auteurs des photos.
      * Un mot de la liste écarte tout crédit qui le contient (majuscules et accents ignorés).
@@ -109,7 +118,11 @@ final class PhotoWall
 
     private static function pool(): array
     {
-        return self::$pool ??= Memo::get('murs-photos', [Index::CACHE, Media::FILE, Media::USAGE, Collections::DIR . '/' . self::COLLECTION . '.json', __FILE__], '', fn () => self::build());
+        $deps = [Index::CACHE, Media::FILE, Media::USAGE, Collections::DIR . '/' . self::COLLECTION . '.json', __FILE__];
+        if (is_file($f = APP_ROOT . '/config/clubs/' . Club::id() . '/photos.php')) {
+            $deps[] = $f; // photos livrées avec le club
+        }
+        return self::$pool ??= Memo::get('murs-photos', $deps, '', fn () => self::build());
     }
 
     /** Oublie les photos gardées en mémoire (après un réglage, et pour les tests). */
@@ -151,6 +164,28 @@ final class PhotoWall
                 'alt' => self::text((string) ($m['alt'] ?? '')), 'alt_en' => self::text((string) ($m['alt_en'] ?? '')),
                 'f' => $fiche, 'y' => $year, 't' => $t,
             ];
+        }
+        if (count($photos) < self::MIN_OWN) {
+            // Médiathèque (presque) vide : photos livrées avec le club, crédit en légende (auteur, licence).
+            foreach (Media::bundled() as $b) {
+                $f = Media::file($b['file']);
+                $size = $f ? @getimagesize($f) : false;
+                if (!$size) {
+                    continue;
+                }
+                // Crédit complet affiché (auteur, licence, Wikimedia Commons) ; l'auteur sert au filtre « photographe ».
+                $who = trim((string) ($b['author'] ?? '')) ?: 'Wikimedia Commons';
+                $c = ['name' => (string) $b['credit'], 'who' => $who, 'key' => Names::slug($who)];
+                $t = 0;
+                foreach (self::WIDTHS as $i => $w) {
+                    $t |= is_file(MEDIA_PATH . "/$w/{$b['file']}.webp") ? 1 << $i : 0;
+                }
+                $photos[] = [
+                    'r' => $b['file'], 'w' => (int) $size[0], 'h' => (int) $size[1], 'c' => $c['name'], 'k' => $c['key'], 'who' => $c['who'],
+                    'cap' => self::text((string) $b['caption']), 'cap_en' => '', 'alt' => self::text((string) $b['alt']), 'alt_en' => '',
+                    'f' => 0, 'y' => (int) ($b['year'] ?? 0), 't' => $t,
+                ];
+            }
         }
         $stats['montrees'] = count($photos);
         return ['photos' => $photos, 'stats' => $stats];

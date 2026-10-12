@@ -16,7 +16,7 @@ $fmt = fn ($n) => number_format((int) $n, 0, ',', ' ');
     <span class="small">votes du public · résultats et date de dévoilement</span><span class="linkbtn">Voir →</span>
   </a>
   <a class="card card--pad" href="/admin/album" style="color:var(--navy)">
-    <div class="row" style="justify-content:space-between;align-items:baseline"><h2 class="card__t">Album du centenaire</h2><span class="d" style="font-weight:900;font-size:32px;line-height:1"><?= (int) $album ?></span></div>
+    <div class="row" style="justify-content:space-between;align-items:baseline"><h2 class="card__t"><?= e(\App\Admin\Collections::albumLabel()) ?></h2><span class="d" style="font-weight:900;font-size:32px;line-height:1"><?= (int) $album ?></span></div>
     <span class="small"><?= $album ? 'cartes choisies par les historiens' : 'proposition automatique en ligne (à valider)' ?></span><span class="linkbtn">Composer →</span>
   </a>
   <a class="card card--pad" href="/admin/retro-direct" style="color:var(--navy)">

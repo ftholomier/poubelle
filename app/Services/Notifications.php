@@ -63,6 +63,9 @@ final class Notifications
     {
         $out = [];
         foreach (self::TOPICS as $k => $t) {
+            if ($k === 'moments' && !\App\Front\Site::centenaryCountdown()) {
+                continue; // pas de « 100 moments » tant que le centenaire n'est pas proche
+            }
             if ($k === 'nouvelles' || Settings::get('app.push_' . $k, true)) {
                 $out[$k] = $t;
             }

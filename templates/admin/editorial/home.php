@@ -99,7 +99,7 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
       <h2 class="card__t">Le chiffre du jour</h2>
       <?= Form::toggle('home.daily_figure', $schema['daily_figure']['label'], (bool) ($home['daily_figure'] ?? true)) ?>
       <?php if ($figure): $fs = $figure['stat']; ?>
-        <p class="small" style="margin:0">Aujourd’hui : n° <?= (int) $fs['n'] ?>, <b><?= e($fs['label']) ?></b> : <?= e($fs['value'] . ($fs['unit'] !== '' ? ' ' . $fs['unit'] : '')) ?>. Un nouveau chiffre chaque jour, tiré parmi les <?= (int) $figure['count'] ?> de la page « Les chiffres du FCSM », sans répétition avant de les avoir tous montrés. Rien à saisir : tout est calculé depuis les fiches.</p>
+        <p class="small" style="margin:0">Aujourd’hui : n° <?= (int) $fs['n'] ?>, <b><?= e($fs['label']) ?></b> : <?= e($fs['value'] . ($fs['unit'] !== '' ? ' ' . $fs['unit'] : '')) ?>. Un nouveau chiffre chaque jour, tiré parmi les <?= (int) $figure['count'] ?> de la page « Les chiffres <?= e(\App\Core\Club::s('sigle_de')) ?> », sans répétition avant de les avoir tous montrés. Rien à saisir : tout est calculé depuis les fiches.</p>
       <?php else: ?>
         <p class="small muted" style="margin:0">Les chiffres sont en cours de calcul : le bloc apparaîtra sur l’accueil dans quelques instants.</p>
       <?php endif; ?>

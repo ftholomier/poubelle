@@ -375,6 +375,11 @@ final class FicheAudio
         $st = $coach ? [] : Fiche::statsTotals($p['stats'] ?? null);
         $mt = max((int) ($tot['matches'] ?? 0), (int) ($st['matches'] ?? 0));
         $gl = max((int) ($tot['goals'] ?? 0), (int) ($st['goals'] ?? 0));
+        // Totaux de référence du club (classement publié) : ils priment, comme dans les grands chiffres de la fiche.
+        if (!$coach && ($ref = \App\Data\Totals::forPerson($id)) && $ref['matchs']) {
+            $mt = $ref['matchs'];
+            $gl = $ref['buts'] ?? $gl;
+        }
         if ($coach && !empty($tot['coached'])) {
             $n = (int) $tot['coached'];
             $s[] = $en ? $n . ($n > 1 ? ' matches' : ' match') . club(' in charge of {team}.') : $n . ' match' . ($n > 1 ? 's' : '') . club(' sur le banc {gentile}.');

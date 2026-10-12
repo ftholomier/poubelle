@@ -65,7 +65,7 @@ $perks = [
     <div class="stack" style="gap:16px">
       <span class="eyebrow eyebrow--lg"><?= e(t('Les notifications')) ?></span>
       <h2 class="h-2"><?= e(t('Être prévenu, au bon moment')) ?></h2>
-      <p class="lead"><?= e(t('Le coup d’envoi d’un Rétro-Direct, un nouveau moment du centenaire, le kit du mois : choisissez ce qui vous intéresse. Jamais la nuit, et désactivable d’un clic.')) ?></p>
+      <p class="lead"><?= e(\App\Front\Site::centenaryCountdown() ? t('Le coup d’envoi d’un Rétro-Direct, un nouveau moment du centenaire, le kit du mois : choisissez ce qui vous intéresse. Jamais la nuit, et désactivable d’un clic.') : t('Le coup d’envoi d’un Rétro-Direct, les nouvelles du musée, le kit du mois : choisissez ce qui vous intéresse. Jamais la nuit, et désactivable d’un clic.')) ?></p>
     </div>
     <div class="appli__pushbox">
       <fieldset class="appli__topics">

@@ -137,7 +137,7 @@ final class Menus
 
     /**
      * Adresse affichée et lien à suivre. « {association} » : le site de l'association ; un lien
-     * vers la boutique ou l'appli disparaît quand elles sont fermées.
+     * vers la boutique ou l'appli disparaît quand elles sont fermées, vers le centenaire tant qu'il n'est pas proche.
      * @return array{0:string,1:bool}|null [adresse, externe]
      */
     public static function href(string $h): ?array
@@ -150,6 +150,9 @@ final class Menus
         }
         if (str_starts_with($h, '/appli') && !\App\Core\Settings::get('app.enabled', true)) {
             return null;
+        }
+        if (str_starts_with($h, '/centenaire') && !Site::centenaryCountdown()) {
+            return null; // centenaire pas encore proche (ou coupé dans le profil du club)
         }
         if (preg_match('#^https?://#', $h)) {
             return [$h, true];

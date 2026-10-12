@@ -426,7 +426,22 @@ final class Chiffres
 
         $P = self::dropCopiedCareers($P, $periods, $tables);
         // Totaux de référence du club (classement publié) : ils priment sur le tableau de la fiche.
-        foreach (\App\Data\Totals::all() as $pid => $t) {
+        // Un joueur classé sans tableau de carrière exploitable (absent, ou recopié et écarté) entre
+        // quand même dans les classements, avec ses saisons tirées des compositions : sinon les
+        // suivants d'un classement sautent des joueurs que les records affichent.
+        $refs = \App\Data\Totals::all();
+        $seasonsOf = [];
+        foreach ($refs ? $apps : [] as $a) {
+            if ($a[6] === 'player' && isset($refs[$a[0]]) && empty($P[$a[0]]['career'])) {
+                $seasonsOf[$a[0]][(int) substr((string) $O[$a[1]]['season'], 0, 4)] = true;
+            }
+        }
+        foreach ($seasonsOf as $pid => $ys) {
+            if (isset($P[$pid]) && ($refs[$pid]['matchs'] ?? 0) > 0) {
+                $P[$pid]['career'] = ['m' => 0, 'g' => 0, 'seasons' => count($ys), 'from' => min(array_keys($ys)), 'to' => max(array_keys($ys)) + 1, 'by' => [], 'best' => null];
+            }
+        }
+        foreach ($refs as $pid => $t) {
             if (!empty($P[$pid]['career'])) {
                 $P[$pid]['career']['m'] = $t['matchs'] ?? $P[$pid]['career']['m'];
                 $P[$pid]['career']['g'] = $t['buts'] ?? $P[$pid]['career']['g'];
@@ -950,7 +965,8 @@ final class Chiffres
                 $x = $f($k);
                 if ($x > 0) {
                     $v[$pid] = $x;
-                    $tie[$pid] = -$k['m'];
+                    // Ex aequo : le plus de matchs, puis le plus ancien (même ordre que les records).
+                    $tie[$pid] = -$k['m'] * 10000 + (int) ($k['from'] ?? 9999);
                 }
             }
             return self::rank($v, 5, false, $tie);
@@ -1078,8 +1094,9 @@ final class Chiffres
                 $per[$a[0]] = ($per[$a[0]] ?? 0) + 1;
             }
             if ($hat && ($r = self::rank($per, 4))) {
-                $out['triples'] = self::stat('triples', self::num(count($hat)), self::unit(count($hat), 'coup du chapeau', 'coups du chapeau'), t('Les coups du chapeau'),
-                    t('Trois buts ou plus dans un match officiel ; le spécialiste en compte {k}.', ['k' => $r[0][1]]), [$r[0][0]], 'matchs', self::more($r, fn ($v) => self::num($v)));
+                // Le grand chiffre est celui du joueur nommé (comme ses suivants) ; le total du club va dans le texte.
+                $out['triples'] = self::stat('triples', self::num($r[0][1]), self::unit($r[0][1], 'coup du chapeau', 'coups du chapeau'), t('Les coups du chapeau'),
+                    t('Trois buts ou plus dans un match officiel : {t} en tout dans les matchs racontés.', ['t' => self::num(count($hat))]), [$r[0][0]], 'matchs', self::more($r, fn ($v) => self::num($v)));
             }
             $two = [];
             foreach ($pm as $a) {
@@ -1088,8 +1105,8 @@ final class Chiffres
                 }
             }
             if ($r = self::rank($two, 4)) {
-                $out['doubles'] = self::stat('doubles', self::num(array_sum($two)), self::unit(array_sum($two), 'doublé', 'doublés'), t('Les doublés'),
-                    t('Deux buts dans le même match ; le recordman en a signé {k}.', ['k' => $r[0][1]]), [$r[0][0]], 'matchs', self::more($r, fn ($v) => self::num($v)));
+                $out['doubles'] = self::stat('doubles', self::num($r[0][1]), self::unit($r[0][1], 'doublé', 'doublés'), t('Les doublés'),
+                    t('Deux buts dans le même match : {t} en tout dans les matchs racontés.', ['t' => self::num(array_sum($two))]), [$r[0][0]], 'matchs', self::more($r, fn ($v) => self::num($v)));
             }
         }
         // Penaltys, ouvertures du score (minutes des buteurs).

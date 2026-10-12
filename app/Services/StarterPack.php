@@ -208,7 +208,11 @@ final class StarterPack
             }
         }
         foreach ((array) ($it['refresh'] ?? []) as $k) {
-            if (isset($it[$type][$k])) {
+            if ($k === 'categories' && isset($it['categories'])) {
+                // Rubriques corrigées : celles du paquet (existantes), plus la saison et la décennie déjà posées.
+                $keep = array_values(array_filter((array) $doc['categories'], fn ($s) => (bool) preg_match('/^(\d{4}-\d{4}|annees-)/', (string) $s)));
+                $doc['categories'] = array_values(array_unique(array_merge(array_filter((array) $it['categories'], fn ($s) => Categories::get((string) $s) !== null), $keep)));
+            } elseif (isset($it[$type][$k])) {
                 $doc[$type][$k] = $it[$type][$k];
             }
         }

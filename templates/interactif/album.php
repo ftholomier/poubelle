@@ -1,10 +1,11 @@
 <?php
 /** Album du centenaire (maquette « Album »). Variables : $cards, $total */
 $tiers = ['legende' => t('Légende'), 'classique' => t('Classique'), 'actuel' => t('Actuel')];
+$hint = \App\Front\Site::centenaryCountdown() ? t('Carte mystère · à débloquer au fil du centenaire') : t('Carte mystère · à débloquer au fil des visites');
 ?>
 <section class="wrap ahead2">
   <div class="stack" style="gap:16px">
-    <span class="eyebrow eyebrow--lg"><?= e(t("L'album du centenaire")) ?></span>
+    <span class="eyebrow eyebrow--lg"><?= e(\App\Front\Site::centenaryCountdown() ? t("L'album du centenaire") : t("L'album du musée")) ?></span>
     <h1 class="h-xl ahead2__title"><?= e(t('Collectionnez')) ?><br><?= e(t(club_text('album_h', 'les joueurs'))) ?></h1>
     <p class="lead" style="max-width:44ch"><?= e(t("Chaque fiche visitée débloque sa carte. Un sans-faute au quiz en offre une rare. Pas de compte : votre album est gardé dans ce navigateur.")) ?></p>
   </div>
@@ -49,7 +50,7 @@ $tiers = ['legende' => t('Légende'), 'classique' => t('Classique'), 'actuel' =>
   <?php endforeach; ?>
   <?php for ($i = count($cards); $i < $total; $i++): ?>
   <div class="acard acard--mystery" data-mystery>
-    <div class="acard__in"><div class="acard__face acard__back"><img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="57" height="64" loading="lazy"><span class="acard__no">N° <?= e(str_pad((string) ($i + 1), 3, '0', STR_PAD_LEFT)) ?></span><span class="acard__hint"><?= e(t('Carte mystère · à débloquer au fil du centenaire')) ?></span></div></div>
+    <div class="acard__in"><div class="acard__face acard__back"><img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="57" height="64" loading="lazy"><span class="acard__no">N° <?= e(str_pad((string) ($i + 1), 3, '0', STR_PAD_LEFT)) ?></span><span class="acard__hint"><?= e($hint) ?></span></div></div>
   </div>
   <?php endfor; ?>
 </div>

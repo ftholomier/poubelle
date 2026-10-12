@@ -46,6 +46,7 @@ return [
     'centenary_label' => '14 juin 2028',
     'mascot' => 'Lion',
     'colors' => 'jaune et bleu',
+    'colors_en' => 'yellow-and-blue',
     'founded' => '1928',
     'founded_date' => '1928-06-14',
     'founded_label' => '14 juin 1928',

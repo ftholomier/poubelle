@@ -118,7 +118,7 @@ $maxG = max(1, ...array_values(array_map(fn ($g) => max($g["in"], $g["out"]), $g
       <div class="card__head"><h2 class="card__t">Prochaine lettre</h2><a class="linkbtn" href="/admin/newsletter/apercu" target="_blank" rel="noopener">Aperçu ↗</a></div>
       <div class="card__body">
         <p style="margin:0"><b>Objet :</b> <?= e(\App\Services\Newsletter::subject()) ?></p>
-        <p class="small muted" style="margin:0">Les matchs de la semaine dans l’histoire du club (<?= count($items) ?> cette semaine), le compte à rebours du centenaire (J-<?= (int) Site::daysToCentenary() ?>) et un rappel aux dons. Chaque abonné la reçoit dans sa langue (FR ou EN).</p>
+        <p class="small muted" style="margin:0">Les matchs de la semaine dans l’histoire du club (<?= count($items) ?> cette semaine), <?= Site::centenaryCountdown() ? 'le compte à rebours du centenaire (J-' . (int) Site::daysToCentenary() . ') et ' : '' ?>un rappel aux dons. Chaque abonné la reçoit dans sa langue (FR ou EN).</p>
         <?php foreach ($items as $m): ?>
           <div class="row small" style="gap:8px"><span class="pill"><?= e(date_num((string) $m['date'])) ?></span><a href="<?= e($m['path']) ?>" target="_blank" rel="noopener"><?= e(Site::matchLabel($m)) ?></a></div>
         <?php endforeach; ?>

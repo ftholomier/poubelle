@@ -83,7 +83,8 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
         <?php endif; ?>
         <div class="mega__col">
           <div class="mega__head"><span class="mega__title"><?= e(t('Par décennie')) ?></span><a class="mega__all" href="<?= e(url('/matchs/')) ?>"><?= e(t('Tous les matchs')) ?> →</a></div>
-          <div class="mega__decades">
+          <div class="mega__decades"<?php // Peu de décennies (club récent) : rangées équilibrées (6 → 3 + 3), jamais une seule sur sa ligne.
+            $nd = count($mg['decades']); $dcols = $nd > 0 && $nd <= 8 ? (int) ceil($nd / ceil($nd / 5)) : 0; ?><?= $dcols ? ' style="grid-template-columns:repeat(' . $dcols . ',minmax(0,1fr))"' : '' ?>>
             <?php foreach ($mg['decades'] as $d): ?>
               <a class="mega__decade" href="<?= e($d['href']) ?>"><b><?= e($d['short']) ?></b><span><?= e(decade_label((int) $d['full'], true, true)) ?></span></a>
             <?php endforeach; ?>

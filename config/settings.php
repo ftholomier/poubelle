@@ -177,7 +177,10 @@ return [
             'mode' => ['label' => 'Mode', 'type' => 'select', 'options' => ['test' => 'Test (aucun prélèvement réel)', 'live' => 'Production'], 'default' => 'test'],
             'currency' => ['label' => 'Devise', 'type' => 'select', 'options' => ['eur' => 'Euro (€)'], 'default' => 'eur'],
             'goal_amount' => ['label' => 'Objectif de la collecte (€)', 'type' => 'number', 'default' => 10000],
-            'goal_label' => ['label' => 'Intitulé de la collecte', 'type' => 'text', 'default' => 'Objectif centenaire 2028'],
+            // Centenaire proche (même règle que Site::centenaryCountdown(), sans lire les réglages) : « Objectif centenaire 2028 ».
+            'goal_label' => ['label' => 'Intitulé de la collecte', 'type' => 'text', 'default' => \App\Core\Club::get('centenaire', true) !== false
+                && abs((int) substr(\App\Core\Club::s('centenary_date'), 0, 4) - (int) date('Y') - 2) <= 3
+                ? 'Objectif centenaire ' . substr(\App\Core\Club::s('centenary_date'), 0, 4) : 'Objectif : sauver nos archives'],
             'goal_start' => ['label' => 'Début de la collecte (pour la jauge)', 'type' => 'date', 'default' => '2026-01-01'],
             'min_amount' => ['label' => 'Montant libre minimum (€)', 'type' => 'number', 'default' => 2],
             'max_amount' => ['label' => 'Montant maximum en ligne (€)', 'type' => 'number', 'default' => 5000, 'help' => 'Au-delà, le donateur est invité à nous contacter (chèque, virement).'],
@@ -252,7 +255,7 @@ return [
     'centenary' => [
         'label' => 'Centenaire',
         'fields' => [
-            'onze_reveal' => ['label' => 'Date de dévoilement du Onze du public', 'type' => 'date', 'default' => '2028-06-14'],
+            'onze_reveal' => ['label' => 'Date de dévoilement du Onze du public', 'type' => 'date', 'default' => \App\Core\Club::s('centenary_date')],
         ],
     ],
     'legal' => [

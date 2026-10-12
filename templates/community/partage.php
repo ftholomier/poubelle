@@ -18,7 +18,7 @@ use App\Front\Site;
     <div class="stack" style="gap:14px">
       <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('Newsletter hebdomadaire')) ?></span>
       <h2 class="h-section" style="color:var(--cream)"><?= e(t('« Ce jour-là »')) ?></h2>
-      <p class="lead" style="max-width:none"><?= e(t('Générée automatiquement à partir des matchs de la semaine, avec le compte à rebours du centenaire et un rappel aux dons.')) ?></p>
+      <p class="lead" style="max-width:none"><?= e(\App\Front\Site::centenaryCountdown() ? t('Générée automatiquement à partir des matchs de la semaine, avec le compte à rebours du centenaire et un rappel aux dons.') : t('Générée automatiquement à partir des matchs de la semaine, avec un rappel aux dons.')) ?></p>
       <form class="nlform" data-newsletter>
         <label class="sr-only" for="nlmail"><?= e(t('Votre e-mail')) ?></label>
         <input id="nlmail" type="email" name="email" required placeholder="<?= e(t('Votre e-mail')) ?>" autocomplete="email">
@@ -38,7 +38,7 @@ use App\Front\Site;
           <p><?= e(t('Retrouvez la fiche, la composition et les photos de la rencontre dans le musée.')) ?></p>
           <a class="btn btn--navy btn--sm" href="<?= e(url($sample['path'])) ?>" tabindex="-1"><?= e(t('Lire la fiche')) ?></a>
         <?php endif; ?>
-        <div class="nlpreview__cd"><b>J-<?= (int) $days ?> <?= e(t('avant les 100 ans')) ?></b><a class="btn btn--navy btn--sm" href="<?= e(url('/faire-un-don/')) ?>" tabindex="-1">♥ <?= e(t('Faire un don')) ?></a></div>
+        <div class="nlpreview__cd"><?php if (\App\Front\Site::centenaryCountdown()): ?><b>J-<?= (int) $days ?> <?= e(t('avant les 100 ans')) ?></b><?php endif; ?><a class="btn btn--navy btn--sm" href="<?= e(url('/faire-un-don/')) ?>" tabindex="-1">♥ <?= e(t('Faire un don')) ?></a></div>
       </div>
     </div>
   </div>

@@ -30,6 +30,9 @@ final class Walls
     {
         $w = self::WALLS;
         $w['journal'][1] = (string) (\App\Core\Club::content('libelles', [])['journal'] ?? $w['journal'][1]);
+        if (!Site::centenaryCountdown()) {
+            $w['mosaique'][2] = 'Des centaines de photos qui dessinent un motif du club.';
+        }
         return $w;
     }
 
@@ -49,6 +52,9 @@ final class Walls
     /** Pavés de la rubrique Interactif (accueil et méga-menu). @return list<array> */
     public static function tools(): array
     {
+        if (count(PhotoWall::photos()) < PhotoWall::MIN_SHOWN) {
+            return []; // murs vides (musée neuf sans photos) : rien à proposer
+        }
         return array_map(fn ($w) => ['icon' => $w[4], 'label' => t($w[1]), 'd' => t($w[2]), 'href' => url($w[0])], array_values(self::walls()));
     }
 
@@ -125,14 +131,16 @@ final class Walls
         }
         arsort($credits);
         return self::page($req, 'mosaique', ['wide' => $wide, 'narrow' => $narrow, 'photos' => $views, 'unique' => array_column($photos, 'r'), 'motif' => $motif, 'motifs' => array_combine($keys, array_map('t', array_values(self::motifs()))), 'credits' => $credits],
-            t('La grande mosaïque : des centaines de photos du musée qui dessinent ensemble un motif du centenaire. Survolez une case pour voir la photo.'));
+            Site::centenaryCountdown() ? t('La grande mosaïque : des centaines de photos du musée qui dessinent ensemble un motif du centenaire. Survolez une case pour voir la photo.')
+                : t('La grande mosaïque : des centaines de photos du musée qui dessinent ensemble un motif du club. Survolez une case pour voir la photo.'));
     }
 
     // ------------------------------------------------------------------ motifs de la mosaïque
 
     /**
      * Motif => légende (variables du profil remplacées par t()) : 100, sigle, année de fondation,
-     * année du centenaire, chacun gardé seulement si la police des grilles sait le dessiner.
+     * année du centenaire, chacun gardé seulement si la police des grilles sait le dessiner (100 et
+     * année du centenaire seulement quand le centenaire est proche).
      * @return array<string, string>
      */
     public static function motifs(): array
@@ -153,9 +161,11 @@ final class Walls
     /** Texte de chaque motif : sur une ligne pour les grands écrans, sur deux pour les téléphones. @return array<string, array> */
     private static function motifText(): array
     {
-        $out = ['100' => [['100'], ['100']]];
+        $cent = Site::centenaryCountdown();
+        $out = $cent ? ['100' => [['100'], ['100']]] : [];
         $sigle = strtoupper(\App\Core\Club::s('sigle'));
-        foreach ([strtolower($sigle) => $sigle, \App\Core\Club::s('founded') => \App\Core\Club::s('founded'), substr(\App\Core\Club::s('centenary_date'), 0, 4) => substr(\App\Core\Club::s('centenary_date'), 0, 4)] as $k => $txt) {
+        $year = $cent ? substr(\App\Core\Club::s('centenary_date'), 0, 4) : '';
+        foreach ([strtolower($sigle) => $sigle, \App\Core\Club::s('founded') => \App\Core\Club::s('founded'), $year => $year] as $k => $txt) {
             $k = (string) $k;
             if ($txt === '' || strlen($txt) > 4 || isset($out[$k]) || array_diff(str_split($txt), array_keys(self::FONT_WIDE), array_keys(self::FONT_NARROW)) !== []) {
                 continue;
@@ -171,13 +181,15 @@ final class Walls
         '2' => ['.###.', '#...#', '....#', '...#.', '..#..', '.#...', '#####'], '8' => ['.###.', '#...#', '#...#', '.###.', '#...#', '#...#', '.###.'],
         '9' => ['.###.', '#...#', '#...#', '.####', '....#', '...#.', '.##..'], 'C' => ['.###.', '#...#', '#....', '#....', '#....', '#...#', '.###.'],
         'F' => ['#####', '#....', '#....', '####.', '#....', '#....', '#....'], 'S' => ['.####', '#....', '#....', '.###.', '....#', '....#', '####.'],
-        'M' => ['#...#', '##.##', '#.#.#', '#.#.#', '#...#', '#...#', '#...#'],
+        'M' => ['#...#', '##.##', '#.#.#', '#.#.#', '#...#', '#...#', '#...#'], 'P' => ['####.', '#...#', '#...#', '####.', '#....', '#....', '#....'],
+        'G' => ['.###.', '#...#', '#....', '#.###', '#...#', '#...#', '.###.'], '7' => ['#####', '....#', '...#.', '..#..', '.#...', '.#...', '.#...'],
     ];
     /** Les mêmes en 3 × 5 cases (téléphones). */
     private const FONT_NARROW = [
         '0' => ['###', '#.#', '#.#', '#.#', '###'], '1' => ['.#.', '##.', '.#.', '.#.', '###'], '2' => ['###', '..#', '###', '#..', '###'],
         '8' => ['###', '#.#', '###', '#.#', '###'], '9' => ['###', '#.#', '###', '..#', '###'], 'C' => ['###', '#..', '#..', '#..', '###'],
         'F' => ['###', '#..', '##.', '#..', '#..'], 'S' => ['###', '#..', '###', '..#', '###'], 'M' => ['#.#', '###', '###', '#.#', '#.#'],
+        'P' => ['###', '#.#', '###', '#..', '#..'], 'G' => ['###', '#..', '#.#', '#.#', '###'], '7' => ['###', '..#', '.#.', '.#.', '.#.'],
     ];
 
     /**

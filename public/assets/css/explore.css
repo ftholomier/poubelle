@@ -113,6 +113,7 @@ a.sq:hover { transform: translate(-4px, -4px); box-shadow: 6px 6px 0 var(--yello
 .hcard__score { font-family: var(--display); font-weight: 900; font-size: 52px; line-height: .95; }
 .hcard__desc { font-size: 17px; line-height: 1.35; }
 .hgroups { padding-top: clamp(32px, 5vw, 56px); display: flex; flex-direction: column; gap: 16px; }
+.hgroups .dtable td:first-child { white-space: nowrap; } /* « 2025-2026 » jamais coupé au trait d’union (téléphones) */
 .hlist { padding-top: clamp(40px, 6vw, 80px); padding-bottom: clamp(56px, 8vw, 96px); display: flex; flex-direction: column; gap: 20px; }
 .hlist .h-section { font-size: clamp(40px, 5vw, 64px); }
 

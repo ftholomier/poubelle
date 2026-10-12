@@ -26,7 +26,7 @@ final class Cron
     /** Tâche => [intervalle en secondes, description] */
     public const TASKS = [
         'publication' => [0, 'Publication des fiches programmées'],
-        'statistiques' => [0, 'Recalcul des statistiques (et des 100 chiffres du FCSM) si nécessaire'],
+        'statistiques' => [0, 'Recalcul des statistiques (et des 100 chiffres {sigle_de}) si nécessaire'],
         'audience' => [0, 'Mesure d’audience anonyme (agrégation)'],
         'traductions' => [0, 'Traduction anglaise des fiches (Gemini)'],
         'correcteur' => [0, 'Correcteur d’orthographe : vérification des fiches nouvelles ou modifiées'],
@@ -102,7 +102,10 @@ final class Cron
         if (!ReferenceTotals::enabled()) {
             unset($t['totaux-reference']);
         }
-        return $t;
+        if (!\App\Core\Club::isDefault()) {
+            unset($t['reprise'], $t['feuilles']); // outils propres au musée historique
+        }
+        return array_map(fn ($x) => [$x[0], club($x[1])], $t);
     }
 
     public static function state(): array

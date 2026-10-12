@@ -81,24 +81,25 @@ final class Site
             }
         }
 
+        // Rubriques sans aucune fiche publiée : absentes des menus (sauf « L'équipe », page des bénévoles et de leurs pôles).
+        $subsOf = fn (string $slug) => array_values(array_filter(array_map(fn ($ch) => ['label' => t(Categories::label($ch['slug'])), 'href' => url($ch['path']), 'count' => self::count($ch['slug'])], Categories::children($slug)), fn ($x) => $x['count'] > 0 || $x['href'] === url(Pages::TEAM_PATH)));
         $lionsCols = [];
         foreach ([self::C_JOUEURS => 'Tous les joueurs', self::C_ENTRAINEURS => 'Tous les entraîneurs', self::C_DIRIGEANTS => 'Tous les dirigeants', self::C_PERSONNAGES => 'Toutes les personnes'] as $slug => $all) {
             $c = Categories::get($slug);
-            if (!$c) {
+            if (!$c || self::count($slug) === 0) {
                 continue;
             }
-            $subs = array_map(fn ($ch) => ['label' => t(Categories::label($ch['slug'])), 'href' => url($ch['path']), 'count' => self::count($ch['slug'])], Categories::children($slug));
+            $subs = $subsOf($slug);
             $lionsCols[] = ['title' => t(Categories::label($slug)), 'all' => ['label' => t($all), 'href' => url($c['path']), 'count' => self::count($slug)], 'subs' => $subs];
         }
 
-        $simple = function (string $slug) {
+        $simple = function (string $slug) use ($subsOf) {
             $c = Categories::get($slug);
             if (!$c) {
                 return null;
             }
             return ['title' => t(Categories::label($slug)), 'all' => ['label' => t('Tout voir'), 'href' => url($c['path']), 'count' => self::count($slug)],
-                'subs' => array_map(fn ($ch) => ['label' => t(Categories::label($ch['slug'])), 'href' => url($ch['path']), 'count' => self::count($ch['slug'])], Categories::children($slug)),
-                'desc' => $c['description'] ?? ''];
+                'subs' => $subsOf($slug), 'desc' => $c['description'] ?? ''];
         };
 
         // Entrées du menu principal : ordre, libellés et visibilité réglés dans Éditorial › Menus.
@@ -117,6 +118,9 @@ final class Site
             $mega = $megas[$key] ?? null;
             if (!$mega && in_array($key, ['supporters', 'infrastructures', 'symboles'], true)) {
                 $col = $simple($key);
+                if ($col && $col['all']['count'] === 0) {
+                    continue; // rubrique entière encore vide : pas d'entrée de menu
+                }
                 $mega = $col ? ['kind' => 'list', 'col' => $col] : null;
             }
             $items[] = ['key' => $key, 'label' => Menus::text($n), 'href' => $h[0], 'mega' => $mega];
@@ -174,7 +178,7 @@ final class Site
             $out[] = ['k' => t('Dernier match fiché'), 'v' => self::matchLabel($last), 'href' => url($last['path'])];
         }
         foreach ($conf['messages'] ?? [] as $msg) {
-            if (!empty($msg['on'])) {
+            if (!empty($msg['on']) && Menus::href((string) ($msg['href'] ?? '/')) !== null) { // lien masqué (centenaire lointain…) : message omis
                 $msg = Collections::loc($msg, ['k', 'v']);
                 $out[] = ['k' => $msg['k'], 'v' => $msg['v'], 'href' => url($msg['href'] ?? '/')];
             }
@@ -206,11 +210,16 @@ final class Site
     }
 
     /**
-     * Compte à rebours du centenaire affiché ? Seulement dans les 5 dernières années (et l'année qui
-     * suit) : pour un club fondé en 1970, un « J-16 000 » n'a pas de sens.
+     * Centenaire mis en avant (compte à rebours, page /centenaire/, 100 moments, Onze et album « du
+     * centenaire », objectif des dons…) ? Seulement dans les 5 dernières années (et l'année qui suit) :
+     * pour un club fondé en 1970, un « J-16 000 » n'a pas de sens. Le profil du club peut le couper
+     * (« centenaire » => false) quelle que soit la date.
      */
     public static function centenaryCountdown(): bool
     {
+        if (\App\Core\Club::get('centenaire', true) === false) {
+            return false;
+        }
         $d = (strtotime(self::centenaryDate() . ' 00:00:00') - time()) / 86400;
         return $d <= 5 * 366 && $d >= -366;
     }

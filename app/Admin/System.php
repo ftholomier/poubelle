@@ -670,12 +670,12 @@ final class System extends Base
             return self::back('/admin/taches', null, 'Les tâches planifiées sont déjà en train de tourner : réessayez dans une minute.');
         }
         $res = $r[$task] ?? null;
-        Activity::log(self::actor(), 'a lancé la tâche', ['title' => Cron::TASKS[$task][1]]);
+        Activity::log(self::actor(), 'a lancé la tâche', ['title' => Cron::tasks()[$task][1]]);
         if (!$res) {
-            return self::back('/admin/taches', '« ' . Cron::TASKS[$task][1] . ' » : rien à faire pour le moment.');
+            return self::back('/admin/taches', '« ' . Cron::tasks()[$task][1] . ' » : rien à faire pour le moment.');
         }
         return $res['ok']
-            ? self::back('/admin/taches', '« ' . Cron::TASKS[$task][1] . ' » terminée en ' . number_format($res['ms'] / 1000, 1, ',', ' ') . ' s.')
-            : self::back('/admin/taches', null, '« ' . Cron::TASKS[$task][1] . ' » a échoué : ' . (is_string($res['result']) ? $res['result'] : ''));
+            ? self::back('/admin/taches', '« ' . Cron::tasks()[$task][1] . ' » terminée en ' . number_format($res['ms'] / 1000, 1, ',', ' ') . ' s.')
+            : self::back('/admin/taches', null, '« ' . Cron::tasks()[$task][1] . ' » a échoué : ' . (is_string($res['result']) ? $res['result'] : ''));
     }
 }

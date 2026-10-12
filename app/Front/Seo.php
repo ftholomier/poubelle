@@ -85,6 +85,9 @@ final class Seo
         foreach (['/matchs/', '/nos-lions/', '/saisons/', '/face-a-face/', '/records/', '/chiffres/', '/bilans/coupe-de-france/', stadium_bilan_path(),
             '/interactif/', '/interactif/quiz/', '/interactif/defi/', '/interactif/quiz-live/championnat/', '/interactif/album/', '/interactif/maillots/', '/interactif/frise/', '/interactif/carto/', '/interactif/retro-direct/', '/interactif/fil-jaune/', '/interactif/souvenirs/',
             '/centenaire/', '/centenaire/100-moments/', '/reserves/', '/faire-un-don/', '/contribuer/', '/contact/', '/partage-et-newsletter/', '/mentions-legales/', '/confidentialite/', '/cookies/'] as $p) {
+            if (str_starts_with($p, '/centenaire') && !Site::centenaryCountdown()) {
+                continue;
+            }
             $add($p, null, 'weekly', '0.7', true);
         }
         // Rétro-Direct programmés

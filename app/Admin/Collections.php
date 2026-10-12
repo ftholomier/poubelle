@@ -345,7 +345,7 @@ final class Collections extends Base
             'results' => $results, 'voters' => Interactive::onzeVoters(), 'lines' => $lines, 'candidates' => count($cands), 'byLine' => $byLine,
             'reveal' => (string) Settings::get('centenary.onze_reveal', ''), 'canReset' => Auth::can('destroy'),
             'noLine' => count(array_filter(Index::published('personne'), fn ($s) => in_array('joueur', $s['p']['roles'], true) && empty($s['p']['line']))),
-        ], ['title' => 'Onze de légende', 'crumb' => 'Interactif', 'nav' => 'onze', 'tabs' => [['Onze de légende', '/admin/onze', true], ['Album du centenaire', '/admin/album', false]]]);
+        ], ['title' => 'Onze de légende', 'crumb' => 'Interactif', 'nav' => 'onze', 'tabs' => [['Onze de légende', '/admin/onze', true], [self::albumLabel(), '/admin/album', false]]]);
     }
 
     public static function onzeSave(Request $req): Response
@@ -374,6 +374,12 @@ final class Collections extends Base
 
     // ------------------------------------------------------------------ album du centenaire
 
+    /** « Album du centenaire », ou « Album des joueurs » tant que le centenaire n'est pas proche. */
+    public static function albumLabel(): string
+    {
+        return \App\Front\Site::centenaryCountdown() ? 'Album du centenaire' : 'Album des joueurs';
+    }
+
     public static function album(Request $req): Response
     {
         $tot = Derived::part('person_totals');
@@ -385,7 +391,7 @@ final class Collections extends Base
         }
         usort($in, fn ($a, $b) => ($a['number'] ?? 9999) <=> ($b['number'] ?? 9999) ?: strcoll($a['name'], $b['name']));
         $auto = !$in ? Interactive::albumCards() : [];
-        return self::html('admin/collections/album', ['cards' => $in, 'auto' => $auto], ['title' => 'Album du centenaire', 'crumb' => 'Interactif', 'nav' => 'onze', 'tabs' => [['Onze de légende', '/admin/onze', false], ['Album du centenaire', '/admin/album', true]]]);
+        return self::html('admin/collections/album', ['cards' => $in, 'auto' => $auto], ['title' => self::albumLabel(), 'crumb' => 'Interactif', 'nav' => 'onze', 'tabs' => [['Onze de légende', '/admin/onze', false], [self::albumLabel(), '/admin/album', true]]]);
     }
 
     public static function albumSave(Request $req): Response

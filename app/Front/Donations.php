@@ -64,7 +64,7 @@ final class Donations
     public static function defaultContent(): array
     {
         return [
-            'title' => 'Sauvons|100 ans|d’archives.',
+            'title' => Site::centenaryCountdown() ? 'Sauvons|100 ans|d’archives.' : 'Sauvons|nos|archives.',
             'lead' => 'Affiches qui jaunissent, photos qui pâlissent, programmes qui s’effritent : votre don finance leur numérisation et leur mise en ligne.',
             'tiers' => [
                 ['amount' => 10, 'impact' => 'Numériser une affiche ou un programme', 'impact_en' => 'Digitise a poster or a matchday programme'],
@@ -128,7 +128,8 @@ final class Donations
             'old' => Session::pull('old_don', []),
         ], [
             'title' => t('Faire un don au musée'),
-            'description' => t('Soutenez {site} : votre don finance la numérisation et la mise en ligne des archives {club_de} avant ses 100 ans.'),
+            'description' => Site::centenaryCountdown() ? t('Soutenez {site} : votre don finance la numérisation et la mise en ligne des archives {club_de} avant ses 100 ans.')
+                : t('Soutenez {site} : votre don finance la numérisation et la mise en ligne des archives {club_de}.'),
             'styles' => ['css/community.css', 'css/don.css'],
             'scripts' => ['js/don.js'],
         ]);
@@ -639,7 +640,7 @@ final class Donations
             'goal' => $goal,
             'donors' => $donors,
             'pct' => $goal > 0 ? min(100, round($raised / $goal * 100, 1)) : 0,
-            'label' => (string) Settings::get('donations.goal_label', 'Objectif centenaire ' . substr(\App\Core\Club::s('centenary_date'), 0, 4)),
+            'label' => (string) Settings::get('donations.goal_label', Site::centenaryCountdown() ? 'Objectif centenaire ' . substr(\App\Core\Club::s('centenary_date'), 0, 4) : 'Objectif : sauver nos archives'),
         ];
     }
 
