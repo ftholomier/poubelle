@@ -69,6 +69,9 @@
 .clegend .d { font-family: var(--display); text-transform: uppercase; font-weight: 800; font-size: 13px; letter-spacing: .14em; }
 .clg { display: flex; align-items: center; gap: 8px; }
 .csw { width: 14px; height: 14px; border: 2px solid var(--navy); border-radius: 50%; }
+.cphoto { margin: -18px -20px 0; }
+.cphoto img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.cphoto figcaption { padding: 4px 20px 0; font-size: 11px; color: var(--muted); }
 .cnote { font-style: italic; font-size: 12px; color: var(--muted); }
 .czoom { position: absolute; right: 16px; top: 16px; display: flex; flex-direction: column; border: 2px solid var(--navy); background: var(--paper); z-index: 800; }
 .czoom button { all: unset; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 900; font-size: 20px; }

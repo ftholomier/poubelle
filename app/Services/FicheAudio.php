@@ -328,7 +328,8 @@ final class FicheAudio
             if ($who === '') {
                 continue;
             }
-            $who = (string) preg_replace_callback("/(\\d+)(?:\\s*\\+\\s*\\d+)?\\s*['’]/u", fn ($x) => $en ? self::ordinal((int) $x[1]) : $x[1] . 'e', $who);
+            // Minutes : « 18' » → « 18e » ; temps additionnel gardé : « 45+1' » ou « 45'+1 » → « 45e+1 ».
+            $who = (string) preg_replace_callback("/(\\d{1,3})(?:\\s*['’]?\\s*\\+\\s*(\\d{1,2})(?:\\s*['’])?|\\s*['’])/u", fn ($x) => ($en ? self::ordinal((int) $x[1]) : $x[1] . 'e') . (($x[2] ?? '') !== '' ? '+' . $x[2] : ''), $who);
             // Abréviations dites en toutes lettres : penalty, contre son camp.
             $who = (string) preg_replace(['/\s*\((?:s\.?\s*p\.?|sp|pen\.?|péno)\)/iu', '/\s*\((?:csc|c\.s\.c\.?)\)/iu'], $en ? [' (penalty)', ' (own goal)'] : [' sur penalty', ' contre son camp'], $who);
             $goals[] = ($en ? str_replace(' et ', ' and ', $who) : $who) . ($en ? ' for ' : ' pour ') . trim((string) ($g['team'] ?? ''));

@@ -8,7 +8,7 @@
   const T = (fr, en) => (EN ? en : fr);
   // Titres propres au club (data-titles posé par le gabarit), sinon titres neutres.
   let TT = {}; try { TT = JSON.parse(root.dataset.titles || '{}') || {}; } catch (e) { TT = {}; }
-  const L = (k, fr, en) => T(...(TT[k] || [fr, en]));
+  const LB = (k, fr, en) => T(...(TT[k] || [fr, en]));
   // Couleurs de la charte du club, lues dans les variables CSS (valeurs de base en secours).
   const cssVar = (n, d) => getComputedStyle(document.documentElement).getPropertyValue('--' + n).trim() || d;
   const C = { navy: cssVar('navy', '#0E1F4D'), blue: cssVar('blue', '#1F3FA8'), yellow: cssVar('yellow', '#F6C400'), cream: cssVar('cream', '#F3EDDF'), sand: cssVar('sand', '#E8DFC9'), paper: cssVar('paper', '#FFFDF6') };
@@ -68,7 +68,7 @@
     && (S.lieu === 'Tous' || (S.lieu === 'Domicile' ? r.h === 1 : r.h === 0)));
   const markers = {};
   function tabMatchs() {
-    panel.innerHTML = `<div class="cp-head"><span class="cp-eyebrow">${T('Carto · Les stades', 'Map · Stadiums')}</span><h1 class="cp-title">${L('stades', 'Partout où<br>le club a joué', 'Everywhere<br>the club played')}</h1><p class="cp-intro">${T(`Taille = nombre de matchs, couleur = bilan de ${document.documentElement.dataset.team}. Cliquez un stade pour la liste de ses matchs.`, `Size = number of matches, colour = ${document.documentElement.dataset.team} record. Click a stadium to list its matches.`)}</p></div>
+    panel.innerHTML = `<div class="cp-head"><span class="cp-eyebrow">${T('Carto · Les stades', 'Map · Stadiums')}</span><h1 class="cp-title">${LB('stades', 'Partout où<br>le club a joué', 'Everywhere<br>the club played')}</h1><p class="cp-intro">${T(`Taille = nombre de matchs, couleur = bilan de ${document.documentElement.dataset.team}. Cliquez un stade pour la liste de ses matchs.`, `Size = number of matches, colour = ${document.documentElement.dataset.team} record. Click a stadium to list its matches.`)}</p></div>
     <div class="cp-filters">
       <div><span class="cp-flabel">${T('Compétition', 'Competition')}</span><div class="cp-chips" id="fComp">${COMPS.map(([v, l]) => `<button type="button" class="cchip${v === S.comp ? ' on' : ''}" data-v="${esc(v)}">${esc(l)}</button>`).join('')}</div></div>
       ${chipRow('fDec', T('Décennie', 'Decade'), ['Toutes', ...DEC], S.dec, o => o === 'Toutes' ? T('Toutes', 'All') : dlab(o))}
@@ -79,7 +79,7 @@
     bindChips('fComp', 'comp', updMatchs); bindChips('fDec', 'dec', updMatchs, decParse); bindChips('fLieu', 'lieu', updMatchs); bindChips('fRes', 'res', updMatchs);
     const yr = panel.querySelector('#cyr'); yr.oninput = () => { S.year = +yr.value; stopTimer(); updMatchs(); };
     panel.querySelector('#cplay').onclick = () => { if (S.timer) return stopTimer(); if (S.year >= NOW) S.year = +document.documentElement.dataset.founded; panel.querySelector('#cplay').textContent = '❚❚'; S.timer = setInterval(() => { S.year++; if (S.year >= NOW) { S.year = NOW; stopTimer(); } updMatchs(); }, reduce ? 10 : 90); };
-    legend.innerHTML = `<span class="d">${T(`Bilan de ${document.documentElement.dataset.team}`, `${document.documentElement.dataset.team} record`)}</span><div class="clg"><span class="csw" style="background:${C.yellow}"></span>${T('Plus de victoires', 'More wins')}</div><div class="clg"><span class="csw" style="background:${C.paper}"></span>${T('Équilibré', 'Balanced')}</div><div class="clg"><span class="csw" style="background:${C.navy}"></span>${T('Plus de défaites', 'More defeats')}</div><div class="clg"><span class="csw" style="background:${C.blue}"></span>${L('stade', 'Stade du club', 'Home ground')}</div><span class="cnote">${T('Calculé depuis les fiches matchs géolocalisées', 'Computed from geolocated match records')}</span>`;
+    legend.innerHTML = `<span class="d">${T(`Bilan de ${document.documentElement.dataset.team}`, `${document.documentElement.dataset.team} record`)}</span><div class="clg"><span class="csw" style="background:${C.yellow}"></span>${T('Plus de victoires', 'More wins')}</div><div class="clg"><span class="csw" style="background:${C.paper}"></span>${T('Équilibré', 'Balanced')}</div><div class="clg"><span class="csw" style="background:${C.navy}"></span>${T('Plus de défaites', 'More defeats')}</div><div class="clg"><span class="csw" style="background:${C.blue}"></span>${LB('stade', 'Stade du club', 'Home ground')}</div><span class="cnote">${T('Calculé depuis les fiches matchs géolocalisées', 'Computed from geolocated match records')}</span>`;
     places.forEach(p => {
       const m = L.circleMarker(p.ll, { radius: 0, weight: 1.5, color: C.navy, fillOpacity: .92 }).addTo(layer);
       m.on('mouseover', () => hlPlace(p.id, true)).on('mouseout', () => hlPlace(p.id, false)).on('click', () => openPlace(p.id));
@@ -117,7 +117,7 @@
       <div class="cstats"><div><b>${t.n}</b><span>${T('matchs', 'matches')}</span></div><div><b>${t.V}</b><span>${T('victoires', 'wins')}</span></div><div><b>${t.N}</b><span>${T('nuls', 'draws')}</span></div><div><b>${t.D}</b><span>${T('défaites', 'defeats')}</span></div></div>${bar(t)}
       <div><span class="cp-flabel">${T('Matchs par décennie', 'Matches per decade')}</span>${spark(DEC.map(d => ({ d, n: recs.filter(r => Math.floor(r.y / 10) * 10 === d).length })))}</div>
       ${notable.length ? `<div><span class="cp-flabel">${T('Dans les archives', 'In the archives')}</span><div class="cmlist">${notable.map(r => `<a class="cmitem" href="${esc(r.href)}"><b>${r.y}</b><span>${esc(r.label)}<br><span class="c-meta">${esc(r.comp)}</span></span><span class="res" style="${resStyle(r.res)}">${esc(r.res)}</span></a>`).join('')}</div></div>` : ''}
-      ${p.home ? `<a class="ccta" href="${esc(root.dataset.bilan)}">${L('bilan', 'Le bilan complet à domicile →', 'Full home record →')}</a>` : ''}</div>`);
+      ${p.home ? `<a class="ccta" href="${esc(root.dataset.bilan)}">${LB('bilan', 'Le bilan complet à domicile →', 'Full home record →')}</a>` : ''}</div>`);
     panel.querySelectorAll('.crow').forEach(r => r.classList.toggle('sel', r.dataset.id === id));
     map.flyTo(p.ll, Math.max(map.getZoom(), 9), { duration: reduce ? 0 : 1 });
   }
@@ -129,7 +129,7 @@
   let geo;
   const pFilter = p => (S.rub === 'Tous' || p.rub === S.rub) && (S.poste === 'Tous' || p.poste === S.poste) && (S.ldec === 'Toutes' || p.dec === S.ldec) && (!S.forme || p.forme) && (!S.intl || p.intl);
   function tabLions() {
-    panel.innerHTML = `<div class="cp-head"><span class="cp-eyebrow">${T('Carto · Les origines', 'Map · Origins')}</span><h1 class="cp-title">${L('origines', "D'où viennent<br>nos joueurs ?", 'Where do<br>our players come from?')}</h1><p class="cp-intro">${T('Lieu de naissance des joueurs, entraîneurs et dirigeants, tiré des fiches. Les points proches se regroupent : zoomez pour les séparer.', 'Birthplaces of players, coaches and executives, taken from their records. Nearby points are grouped: zoom in to split them.')}</p></div>
+    panel.innerHTML = `<div class="cp-head"><span class="cp-eyebrow">${T('Carto · Les origines', 'Map · Origins')}</span><h1 class="cp-title">${LB('origines', "D'où viennent<br>nos joueurs ?", 'Where do<br>our players come from?')}</h1><p class="cp-intro">${T('Lieu de naissance des joueurs, entraîneurs et dirigeants, tiré des fiches. Les points proches se regroupent : zoomez pour les séparer.', 'Birthplaces of players, coaches and executives, taken from their records. Nearby points are grouped: zoom in to split them.')}</p></div>
     <div class="cp-filters">
       ${chipRow('fView', T('Affichage', 'Display'), ['Villes', 'Pays'], S.lview, o => o === 'Villes' ? T('Villes', 'Cities') : T('Pays', 'Countries'))}
       ${chipRow('fRub', T('Rubrique', 'Section'), ['Tous', 'Joueur', 'Entraîneur', 'Dirigeant'], S.rub, o => o === 'Tous' ? rubLabel(o) : rubLabel(o) + 's')}
@@ -196,12 +196,12 @@
   }
   function openCity(city, fly) {
     const v = ppl.filter(p => p.city === city); if (!v.length) return;
-    openDrawer(`${head(T('Né(e)s à', 'Born in') + ' · ' + (v[0].country || ''), city)}<div class="cd-body">${originBody(v)}<a class="ccta" href="/nos-lions/">${L('voir', 'Voir nos joueurs →', 'See our players →')}</a></div>`);
+    openDrawer(`${head(T('Né(e)s à', 'Born in') + ' · ' + (v[0].country || ''), city)}<div class="cd-body">${originBody(v)}<a class="ccta" href="/nos-lions/">${LB('voir', 'Voir nos joueurs →', 'See our players →')}</a></div>`);
     if (fly) map.flyTo(v[0].ll, Math.max(map.getZoom(), 8), { duration: reduce ? 0 : 1 });
   }
   async function openCountry(iso) {
     const v = ppl.filter(p => p.iso === iso); if (!v.length) return;
-    openDrawer(`${head(L('pays', 'Nos joueurs · par pays', 'Our players · by country'), cname[iso] || iso)}<div class="cd-body">${originBody(v)}<a class="ccta" href="/nos-lions/">${L('voir', 'Voir nos joueurs →', 'See our players →')}</a></div>`);
+    openDrawer(`${head(LB('pays', 'Nos joueurs · par pays', 'Our players · by country'), cname[iso] || iso)}<div class="cd-body">${originBody(v)}<a class="ccta" href="/nos-lions/">${LB('voir', 'Voir nos joueurs →', 'See our players →')}</a></div>`);
     const lnd = await loadLand(); const f = lnd.features.find(x => x.id === iso); if (f) map.flyToBounds(L.geoJSON(f).getBounds(), { paddingTopLeft: [40, 40], paddingBottomRight: [420, 40], maxZoom: 6, duration: reduce ? 0 : 1 });
   }
 
@@ -212,7 +212,7 @@
   function tabEpopees() {
     const seasonsE = [...new Set(steps.map(s => s.s))];
     const types = [...new Set(steps.map(s => s.type))];
-    panel.innerHTML = `<div class="cp-head"><span class="cp-eyebrow">${T('Carto · Les épopées', 'Map · Epic runs')}</span><h1 class="cp-title">${L('epopees', 'Les grandes<br>routes du club', 'The club’s<br>great journeys')}</h1><p class="cp-intro">${T('Finales et nuits européennes, reliées à Montbéliard. Choisissez une étape ou lancez le récit.', 'Finals and European nights, linked to Montbéliard. Pick a step or play the story.')}</p></div>
+    panel.innerHTML = `<div class="cp-head"><span class="cp-eyebrow">${T('Carto · Les épopées', 'Map · Epic runs')}</span><h1 class="cp-title">${LB('epopees', 'Les grandes<br>routes du club', 'The club’s<br>great journeys')}</h1><p class="cp-intro">${T('Finales et nuits européennes, reliées à Montbéliard. Choisissez une étape ou lancez le récit.', 'Finals and European nights, linked to Montbéliard. Pick a step or play the story.')}</p></div>
     <div class="cp-filters">${chipRow('fEType', T('Compétition', 'Competition'), ['Toutes', ...types], S.etype, o => o === 'Toutes' ? T('Toutes', 'All') : o)}${chipRow('fESeason', T('Saison', 'Season'), ['Toutes', ...seasonsE], S.eseason, o => o === 'Toutes' ? T('Toutes', 'All') : o)}<button type="button" class="ccta" id="cplayStory" data-play="${T('▶ Lancer le récit', '▶ Play the story')}">${T('▶ Lancer le récit', '▶ Play the story')}</button></div>
     <div class="cp-steps" id="csteps"></div>`;
     bindChips('fEType', 'etype', updEpopees); bindChips('fESeason', 'eseason', updEpopees);
@@ -252,7 +252,7 @@
   const lmk = [];
   function tabLieux() {
     const types = Object.keys(LT).filter(k => lieux.some(l => l.t === k));
-    panel.innerHTML = `<div class="cp-head"><span class="cp-eyebrow">${T('Carto · Les lieux du club', 'Map · Club places')}</span><h1 class="cp-title">${L('lieux', 'Le pays<br>du club', 'Club<br>country')}</h1><p class="cp-intro">${L('lieux_intro', 'Le stade, la formation, le patrimoine et les lieux des supporters.', 'The stadium, the academy, heritage and supporters’ places.')}</p></div>
+    panel.innerHTML = `<div class="cp-head"><span class="cp-eyebrow">${T('Carto · Les lieux du club', 'Map · Club places')}</span><h1 class="cp-title">${LB('lieux', 'Le pays<br>du club', 'Club<br>country')}</h1><p class="cp-intro">${LB('lieux_intro', 'Le stade, la formation, le patrimoine et les lieux des supporters.', 'The stadium, the academy, heritage and supporters’ places.')}</p></div>
     <div class="cp-filters">${chipRow('fLT', T('Type de lieu', 'Type of place'), ['Tous', ...types], S.ltype, o => o === 'Tous' ? T('Tous', 'All') : o)}</div>
     <div class="cp-listhead"><span id="clcount"></span><span style="color:var(--muted)">${T('lieux', 'places')}</span></div><div class="cp-list" id="clist"></div>`;
     bindChips('fLT', 'ltype', updLieux);
@@ -277,7 +277,7 @@
   }
   function openLieu(i) {
     const l = lieux[i];
-    openDrawer(`${head(l.t, l.n)}<div class="cd-body"><p class="cp-intro" style="font-size:18px;color:var(--navy)">${esc(l.d)}</p>${l.validated ? '' : `<span class="cnote">${T('Position indicative, à confirmer.', 'Approximate position, to be confirmed.')}</span>`}${l.href ? `<a class="ccta" href="${esc(l.href)}">${T('Voir dans le musée →', 'See in the museum →')}</a>` : ''}</div>`);
+    openDrawer(`${head(l.t, l.n)}<div class="cd-body">${l.img ? `<figure class="cphoto"><img src="${esc(l.img)}" alt="" loading="lazy">${l.credit ? `<figcaption>${esc(l.credit)}</figcaption>` : ''}</figure>` : ''}<p class="cp-intro" style="font-size:18px;color:var(--navy)">${esc(l.d)}</p>${l.validated ? '' : `<span class="cnote">${T('Position indicative, à confirmer.', 'Approximate position, to be confirmed.')}</span>`}${l.href ? `<a class="ccta" href="${esc(l.href)}">${T('Voir dans le musée →', 'See in the museum →')}</a>` : ''}</div>`);
     map.flyTo(l.ll, 16, { duration: reduce ? 0 : 1 });
   }
 

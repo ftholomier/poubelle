@@ -241,7 +241,7 @@ final class Interactive
             'places' => $places,
             'people' => $people,
             'steps' => array_values(array_map(fn ($x) => Collections::loc($x, ['type', 't', 'h', 'p']), array_filter(Collections::get('epopees', Seeds::epopees()), fn ($x) => !empty($x['ll'])))),
-            'lieux' => array_values(array_map(fn ($x) => Collections::loc($x, ['n', 't', 'd']), array_filter(Collections::get('lieux', Seeds::lieux()), fn ($x) => !empty($x['ll'])))),
+            'lieux' => array_values(array_map(fn ($x) => self::lieuImage(Collections::loc($x, ['n', 't', 'd'])), array_filter(Collections::get('lieux', Seeds::lieux()), fn ($x) => !empty($x['ll'])))),
             'home' => [47.5122, 6.8111],
             'now' => (int) date('Y'),
         ];
@@ -385,6 +385,21 @@ final class Interactive
     {
         $s = JsonStore::read(self::VOTES . '/onze.json', []);
         return (int) ($s['voters'] ?? 0);
+    }
+
+    /**
+     * Photo d'un lieu de la carte (clé « image » : média ou photo libre « club/… » livrée avec le code) :
+     * URL de vignette et crédit (auteur, licence) pour le panneau du lieu. Sans image valide, rien n'est ajouté.
+     */
+    private static function lieuImage(array $l): array
+    {
+        $rel = (string) ($l['image'] ?? '');
+        unset($l['image']);
+        if ($rel !== '' && \App\Data\Media::file($rel)) {
+            $l['img'] = img($rel, 640);
+            $l['credit'] = (string) (\App\Data\Media::get($rel)['credit'] ?? '');
+        }
+        return $l;
     }
 
     /** Le Onze du public : 1 gardien, 4 défenseurs, 3 milieux, 3 attaquants les plus cités. */

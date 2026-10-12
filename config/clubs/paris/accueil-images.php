@@ -28,6 +28,8 @@ return [
             'club/parc-des-princes-psg-nancy-2012.webp',
             'club/stade-georges-lefevre-2026.webp',
             'club/parc-des-princes-tribune-borelli-2013.webp',
+            'club/parc-des-princes-pelouse-2018.webp',
+            'club/camp-des-loges-2022.webp',
         ],
         'slider' => [
             ['image' => 'club/parc-des-princes-exterieur-2017.webp', 'kind' => 'Le stade', 'title' => 'Le Parc des Princes', 'text' => 'Porte de Saint-Cloud, la maison du club depuis 1974.', 'href' => '/saisons/', 'focus' => '50% 40%'],
