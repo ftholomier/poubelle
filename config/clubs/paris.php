@@ -92,6 +92,7 @@ return [
     // Chiffres masqués (contrôle d'octobre 2026, scratchpad ref/controle-page-chiffres.md) : données trop
     // lacunaires pour Paris, résultats faux. Entraîneurs absents de la plupart des saisons (Blanc,
     // Ancelotti, Emery, Tuchel, Luis Enrique…), cartons et arbitres relevés sur une minorité de matchs,
-    // pays de naissance connu pour moins d'un joueur sur trois, penaltys arrêtés très incomplets.
-    'chiffres_masques' => ['jaunes', 'rouges', 'arbitre', 'pays', 'penalty-arrete'],
+    // penaltys arrêtés très incomplets. « pays » rendu le 12/10/2026 : pays de naissance connu pour 521 des 528
+    // joueurs ayant disputé un match officiel (98,7 %, lieux complétés d'après Wikipédia, deux sources concordantes).
+    'chiffres_masques' => ['jaunes', 'rouges', 'arbitre', 'penalty-arrete'],
 ];
