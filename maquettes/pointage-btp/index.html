@@ -1,4 +1,4 @@
-<title>Pointage Chantier</title>
+<title>Pointage Chantier Tréhant</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -105,7 +105,7 @@ textarea{width:100%;min-height:160px;font:12px var(--mono);background:var(--surf
 
 <header class="app">
   <div class="bar">
-    <div class="brand"><i></i>Pointage Chantier</div>
+    <div class="brand"><i></i>Menuiserie Tréhant</div>
     <span class="demo">Maquette</span>
     <div class="role" role="group" aria-label="Profil">
       <button id="r-chef" aria-pressed="true">Chef d'équipe</button>
@@ -119,40 +119,40 @@ textarea{width:100%;min-height:160px;font:12px var(--mono);background:var(--surf
 
 <script>
 /* ===== Données de démonstration ===== */
-const DEPOT={nom:"Dépôt — Carquefou",lat:47.2975,lon:-1.4917};
+const DEPOT={nom:"Atelier — Vellevans",lat:47.3120,lon:6.4760};
 const COMMUNES=[
- ["Nantes – Île de Nantes",47.2050,-1.5560],["Saint-Herblain",47.2122,-1.6497],["Thouaré-sur-Loire",47.2669,-1.4400],
- ["Sainte-Luce-sur-Loire",47.2503,-1.4847],["Rezé",47.1833,-1.5500],["Vertou",47.1686,-1.4697],["Ancenis",47.3656,-1.1772],
- ["Clisson",47.0870,-1.2820],["Châteaubriant",47.7172,-1.3761],["Saint-Nazaire",47.2735,-2.2138],["Pornic",47.1150,-2.1030],
- ["Nort-sur-Erdre",47.4386,-1.4986],["Machecoul",46.9939,-1.8214],["Blain",47.4769,-1.7631],["Varades",47.3853,-1.0283],
- ["Cholet",47.0600,-0.8790],["Angers",47.4784,-0.5632],["Guérande",47.3281,-2.4292],["Saint-Philbert-de-Grand-Lieu",47.0367,-1.6408],
- ["Orvault",47.2711,-1.6225],["La Chapelle-sur-Erdre",47.2989,-1.5508],["Sucé-sur-Erdre",47.3439,-1.5283]
+ ["Vellevans",47.3120,6.4760],["Sancey",47.2960,6.5820],["Belleherbe",47.2670,6.6650],["Pierrefontaine-les-Varans",47.2150,6.5400],
+ ["Clerval",47.3940,6.4970],["Baume-les-Dames",47.3520,6.3600],["Roulans",47.3160,6.2300],["Valdahon",47.1500,6.3470],
+ ["L'Isle-sur-le-Doubs",47.4490,6.5840],["Maîche",47.2520,6.8020],["Saint-Hippolyte",47.3180,6.8160],["Rougemont",47.4830,6.3540],
+ ["Besançon",47.2380,6.0240],["Pugey",47.1910,5.9950],["Ornans",47.1050,6.1430],["Montbéliard",47.5100,6.7980],
+ ["Audincourt",47.4830,6.8400],["Morteau",47.0570,6.6070],["Villersexel",47.5520,6.4330],["Vesoul",47.6220,6.1550],
+ ["Héricourt",47.5780,6.7620],["Pontarlier",46.9040,6.3540],["Belfort",47.6380,6.8630]
 ];
 const SAL=[
- {id:1,nom:"Karim Benali",poste:"Chef d'équipe maçon",equipe:"A"},
- {id:2,nom:"Julien Morel",poste:"Maçon N3",equipe:"A"},
- {id:3,nom:"Thomas Guérin",poste:"Manœuvre",equipe:"A"},
- {id:4,nom:"Sébastien Le Goff",poste:"Coffreur",equipe:"A"},
- {id:5,nom:"Antoine Rivière",poste:"Chef d'équipe VRD",equipe:"B"},
- {id:6,nom:"Mehdi Haddad",poste:"Conducteur d'engins",equipe:"B"},
- {id:7,nom:"Lucas Pineau",poste:"Apprenti maçon",equipe:"B"},
- {id:8,nom:"David Fournier",poste:"Maçon N2",equipe:"B"}
+ {id:1,nom:"Nicolas Bourgeois",poste:"Chef d'équipe poseur",equipe:"A"},
+ {id:2,nom:"Kévin Faivre",poste:"Poseur menuiseries ext.",equipe:"A"},
+ {id:3,nom:"Hugo Cuenot",poste:"Poseur pergolas / vérandas",equipe:"A"},
+ {id:4,nom:"Romain Vernier",poste:"Apprenti menuisier",equipe:"A"},
+ {id:5,nom:"Damien Girardot",poste:"Chef d'équipe agencement",equipe:"B"},
+ {id:6,nom:"Florian Mougin",poste:"Menuisier agenceur",equipe:"B"},
+ {id:7,nom:"Maxime Bobillier",poste:"Poseur cuisines",equipe:"B"},
+ {id:8,nom:"Yohan Pétetin",poste:"Bardeur / isolation ext.",equipe:"B"}
 ];
 const DEF_PARAMS={
  panier:11.20, heuresJour:7,
  zones:[{z:1,min:0,max:10,mt:2.10},{z:2,min:10,max:20,mt:4.35},{z:3,min:20,max:30,mt:6.60},{z:4,min:30,max:40,mt:8.90},{z:5,min:40,max:50,mt:11.15}]
 };
 const DEF_CHANTIERS=[
- {id:1,nom:"Résidence Les Ormes — 24 logements",commune:"Thouaré-sur-Loire",client:"Nantes Habitat (exemple)"},
- {id:2,nom:"Extension groupe scolaire",commune:"Sucé-sur-Erdre",client:"Mairie (exemple)"},
- {id:3,nom:"Entrepôt logistique — dallage",commune:"Ancenis",client:"Privé (exemple)"},
- {id:4,nom:"Rénovation maison de santé",commune:"Clisson",client:"Communauté de communes (exemple)"},
- {id:5,nom:"Lotissement Le Clos — VRD",commune:"Nort-sur-Erdre",client:"Promoteur (exemple)"},
- {id:6,nom:"Réhabilitation halle",commune:"Varades",client:"Privé (exemple)"},
- {id:7,nom:"Pavillon individuel",commune:"Saint-Nazaire",client:"Particulier (exemple)"}
+ {id:1,nom:"Remplacement fenêtres PVC — maison",commune:"Sancey",client:"Particulier (exemple)"},
+ {id:2,nom:"Pergola bioclimatique",commune:"Baume-les-Dames",client:"Particulier (exemple)"},
+ {id:3,nom:"Véranda alu 18 m²",commune:"Valdahon",client:"Particulier (exemple)"},
+ {id:4,nom:"Cuisine + dressing sur mesure",commune:"Maîche",client:"Particulier (exemple)"},
+ {id:5,nom:"Bardage bois + ITE",commune:"Besançon",client:"Particulier (exemple)"},
+ {id:6,nom:"Portes de garage + portail",commune:"Montbéliard",client:"Particulier (exemple)"},
+ {id:7,nom:"Escalier + garde-corps",commune:"Pontarlier",client:"Particulier (exemple)"}
 ];
 /* Lieux spéciaux : pas de chantier → pas d'indemnité de trajet */
-const LIEUX_SPE=[{id:"depot",nom:"Dépôt / atelier"},{id:"abs",nom:"Absent"}];
+const LIEUX_SPE=[{id:"depot",nom:"Atelier (Vellevans)"},{id:"abs",nom:"Absent"}];
 const MOTIFS=["Congés payés","Maladie","RTT","Intempéries","Formation","Absence non justifiée"];
 
 /* ===== Outils ===== */
@@ -174,7 +174,7 @@ const FERIES=["2026-11-01","2026-11-11","2026-12-25","2026-08-15","2026-07-14"];
 
 /* ===== État (persistant dans le navigateur) ===== */
 const TODAY=new Date(2026,9,12);
-const KEY="pointage-demo-v1";
+const KEY="pointage-trehant-v1";
 let S;
 function seed(){
  const s={params:JSON.parse(JSON.stringify(DEF_PARAMS)),chantiers:JSON.parse(JSON.stringify(DEF_CHANTIERS)),saisies:{},valides:{},verrous:{}};
@@ -249,7 +249,7 @@ function vSaisie(){
  $("#view").innerHTML=`
  <div class="head"><div><h1>Saisie du jour</h1><p class="sub">${d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"})} · Équipe ${equipe}</p></div>
  <div class="ctrl"><button class="btn ghost" id="prev" aria-label="Jour précédent">‹</button><input type="date" id="date" value="${dateSel}"><button class="btn ghost" id="next" aria-label="Jour suivant">›</button>
- <select id="eq"><option value="A" ${equipe==="A"?"selected":""}>Équipe A — Gros œuvre</option><option value="B" ${equipe==="B"?"selected":""}>Équipe B — VRD</option></select></div></div>
+ <select id="eq"><option value="A" ${equipe==="A"?"selected":""}>Équipe A — Pose extérieure</option><option value="B" ${equipe==="B"?"selected":""}>Équipe B — Agencement intérieur</option></select></div></div>
  ${locked?`<div class="banner ok">Mois clôturé par le bureau : la saisie est en lecture seule.</div>`:valid?`<div class="banner ok">Journée envoyée au bureau. <button class="btn" id="reopen">Modifier</button></div>`:!isWorkday(d)?`<div class="banner warn">Week-end : saisie possible en cas de travail exceptionnel.</div>`:""}
  <div class="kpis"><div class="kpi"><b>${team.filter(p=>day[p.id].lieu!=="abs").length}/${team.length}</b><span>présents</span></div>
  <div class="kpi"><b>${h2s(tot.h)}</b><span>heures équipe</span></div><div class="kpi"><b>${euro(tot.p)}</b><span>paniers</span></div><div class="kpi"><b>${euro(tot.t)}</b><span>indemnités trajet</span></div></div>
@@ -326,7 +326,7 @@ function vRecap(){
 function fiche(){
  const p=SAL.find(s=>s.id===salFiche);const ks=Object.keys(S.saisies).filter(k=>k.startsWith(mois)).sort();
  const rows=ks.map(k=>{const e=S.saisies[k][p.id];if(!e)return"";const c=calc(e);const ch=S.chantiers.find(x=>x.id==e.lieu);
-  return`<tr><td>${new Date(k+"T12:00").toLocaleDateString("fr-FR",{weekday:"short",day:"numeric"})}</td><td>${e.lieu==="abs"?`<span class="pill bad">${esc(e.motif)}</span>`:e.lieu==="depot"?"Dépôt / atelier":esc(ch?.nom||"?")}</td>
+  return`<tr><td>${new Date(k+"T12:00").toLocaleDateString("fr-FR",{weekday:"short",day:"numeric"})}</td><td>${e.lieu==="abs"?`<span class="pill bad">${esc(e.motif)}</span>`:e.lieu==="depot"?"Atelier":esc(ch?.nom||"?")}</td>
   <td class="r num">${c.present?h2s(c.h):"—"}</td><td class="r num">${c.km!=null?c.km.toFixed(1)+" km":"—"}</td><td>${zoneTag(c.zone,c.km)}</td><td>${e.vehicule?"Oui":"—"}</td><td class="r num">${euro(c.trajet)}</td><td class="r num">${euro(c.panier)}</td></tr>`}).join("");
  $("#fiche").innerHTML=`<div class="panel" style="margin-top:16px"><div class="head" style="margin-bottom:8px"><div><h2>${esc(p.nom)}</h2><p class="sub">Détail jour par jour · justificatif de calcul</p></div></div>
  <div class="tablewrap"><table><thead><tr><th>Jour</th><th>Lieu</th><th class="r">Heures</th><th class="r">Distance</th><th>Zone</th><th>Véhicule</th><th class="r">Trajet</th><th class="r">Panier</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
@@ -352,7 +352,7 @@ function vValidation(){
 function vChantiers(){
  const list=S.chantiers.map(c=>({c,...chantierInfo(c)}));
  $("#view").innerHTML=`<div class="head"><div><h1>Chantiers & zones</h1><p class="sub">Zone calculée automatiquement à vol d'oiseau depuis ${DEPOT.nom}</p></div></div>
- <div class="grid2"><div class="panel"><h2>Carte des zones</h2><canvas class="map" id="map" width="600" height="600" role="img" aria-label="Carte des zones concentriques autour du dépôt"></canvas>
+ <div class="grid2"><div class="panel"><h2>Carte des zones</h2><canvas class="map" id="map" width="600" height="600" role="img" aria-label="Carte des zones concentriques autour de l'atelier"></canvas>
  <p class="note">Cercles de 10 km. Au-delà de la zone 5 : grand déplacement (GD), traité à part.</p></div>
  <div class="panel"><h2>Nouveau chantier</h2><div style="display:grid;gap:10px;margin-top:10px">
   <div class="field"><label for="nn">Nom du chantier</label><input id="nn" style="width:100%" placeholder="ex. Rénovation mairie"></div>
@@ -374,7 +374,7 @@ function drawMap(list){
  const kmLat=111,kmLon=111*Math.cos(DEPOT.lat*Math.PI/180);
  for(let i=5;i>=1;i--){g.beginPath();g.arc(c,c,i*10*sc,0,7);g.fillStyle=v("--z"+i);g.globalAlpha=.28;g.fill();g.globalAlpha=1;g.strokeStyle=v("--z"+i);g.stroke();
   g.fillStyle=v("--muted");g.font="600 13px "+v("--mono");g.fillText("Z"+i,c+4,c-i*10*sc+16)}
- g.fillStyle=v("--fg");g.fillRect(c-6,c-6,12,12);g.font="600 14px "+v("--body");g.fillText("Dépôt",c+10,c+5);
+ g.fillStyle=v("--fg");g.fillRect(c-6,c-6,12,12);g.font="600 14px "+v("--body");g.fillText("Atelier",c+10,c+5);
  list.forEach(x=>{const p=commune(x.c.commune);const X=c+(p.lon-DEPOT.lon)*kmLon*sc,Y=c-(p.lat-DEPOT.lat)*kmLat*sc;
   const out=X<0||X>W||Y<0||Y>W;const cx=Math.min(W-10,Math.max(10,X)),cy=Math.min(W-10,Math.max(10,Y));
   g.beginPath();g.arc(cx,cy,7,0,7);g.fillStyle=out?v("--bad"):v("--accent");g.fill();g.strokeStyle=v("--fg");g.lineWidth=1.5;g.stroke();g.lineWidth=1;
@@ -388,11 +388,11 @@ function vParams(){
  <div class="grid2"><div class="panel"><h2>Indemnités de trajet — 5 zones</h2>
   <div class="zonegrid" style="margin-top:12px"><b></b><small class="sub">De (km)</small><small class="sub">À (km)</small><small class="sub">€ / jour</small>
   ${P.zones.map((z,i)=>`${zoneTag(z,0)}<input type="number" step="1" id="zmin${i}" value="${z.min}" aria-label="Zone ${z.z} début"><input type="number" step="1" id="zmax${i}" value="${z.max}" aria-label="Zone ${z.z} fin"><input type="number" step="0.01" id="zmt${i}" value="${z.mt.toFixed(2)}" aria-label="Zone ${z.z} montant">`).join("")}</div>
-  <p class="note">Indemnité versée par jour de présence sur un chantier, lorsque le salarié s'y rend avec un véhicule de l'entreprise. Distance à vol d'oiseau depuis le dépôt.</p></div>
+  <p class="note">Indemnité versée par jour de présence sur un chantier, lorsque le salarié s'y rend avec un véhicule de l'entreprise. Distance à vol d'oiseau depuis l'atelier de Vellevans.</p></div>
  <div class="panel"><h2>Panier & horaires</h2><div style="display:grid;gap:10px;margin-top:12px">
   <div class="field"><label for="pan">Indemnité de panier (€ / jour)</label><input id="pan" type="number" step="0.01" value="${P.panier.toFixed(2)}"></div>
-  <div class="field"><label for="dep">Dépôt de référence</label><input id="dep" value="${DEPOT.nom}" disabled></div>
-  <p class="note">Le panier est proposé coché par défaut sur chantier et décoché au dépôt ; le chef d'équipe peut toujours le modifier.</p>
+  <div class="field"><label for="dep">Point de départ (atelier)</label><input id="dep" value="${DEPOT.nom}" disabled></div>
+  <p class="note">Le panier est proposé coché par défaut sur chantier et décoché à l'atelier ; le chef d'équipe peut toujours le modifier.</p>
   <button class="btn" id="reset">Réinitialiser les données de démonstration</button></div></div></div>
  <div class="ctrl" style="margin-top:16px;justify-content:flex-end"><button class="btn primary" id="sv">Enregistrer les barèmes</button></div>`;
  $("#sv").onclick=()=>{P.zones.forEach((z,i)=>{z.min=+$("#zmin"+i).value;z.max=+$("#zmax"+i).value;z.mt=+$("#zmt"+i).value});P.panier=+$("#pan").value;save();toast("Barèmes enregistrés : les calculs sont mis à jour")};
