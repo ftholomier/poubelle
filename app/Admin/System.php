@@ -649,7 +649,7 @@ final class System extends Base
     public static function tasks(Request $req): Response
     {
         $state = Cron::state();
-        return self::html('admin/system/tasks', ['state' => $state, 'tasks' => Cron::TASKS, 'last' => $state['_last'] ?? null], ['title' => 'Tâches planifiées', 'crumb' => 'Système', 'nav' => 'taches']);
+        return self::html('admin/system/tasks', ['state' => $state, 'tasks' => Cron::tasks(), 'last' => $state['_last'] ?? null], ['title' => 'Tâches planifiées', 'crumb' => 'Système', 'nav' => 'taches']);
     }
 
     public static function tasksRun(Request $req): Response
@@ -659,7 +659,7 @@ final class System extends Base
             return $deny;
         }
         $task = (string) ($req->post['task'] ?? '');
-        if (!isset(Cron::TASKS[$task])) {
+        if (!isset(Cron::tasks()[$task])) {
             return self::back('/admin/taches', null, 'Tâche inconnue.');
         }
         @set_time_limit(290);

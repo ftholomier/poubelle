@@ -17,6 +17,7 @@
  *   php bin/console.php audio [secondes]       fiches audio : envoie et range les traitements groupés (voix et résumés IA)
  *   php bin/console.php controle         contrôle complet (comme le bouton « Contrôler maintenant » de l'écran Qualité)
  *   php bin/console.php controle-reference ["libellé"]  réécrit la référence livrée (anomalies déjà connues des données du dépôt)
+ *   php bin/console.php totaux-reference [--essai]  relève les totaux de référence des joueurs (musée qui déclare ses sources)
  *   php bin/console.php superadmin <email>   donne au compte l'accès à tous les musées (bascule de l'un à l'autre)
  *   php bin/console.php club-creer <id>  prépare les dossiers d'un nouveau musée (profil config/clubs/<id>.php)
  *
@@ -195,6 +196,21 @@ switch ($cmd) {
     case 'controle':
         $r = \App\Services\Controle::run(null);
         echo !empty($r['busy']) ? "Un contrôle est déjà en cours\n" : 'Contrôle terminé : ' . \App\Services\Controle::counts($r) . "\n";
+        break;
+
+    case 'totaux-reference':
+        if (!\App\Services\ReferenceTotals::enabled()) {
+            echo "Ce musée ne déclare pas de sources (config/clubs/<id>/totaux-sources.php)\n";
+            break;
+        }
+        $r = \App\Services\ReferenceTotals::run(in_array('--essai', $argv, true));
+        echo ($r['ok'] ? '' : 'ÉCHEC : ') . $r['message'] . "\n";
+        foreach ($r['non_rapproches'] as $n) {
+            echo "  non rapproché : $n\n";
+        }
+        if (!$r['ok']) {
+            exit(1);
+        }
         break;
 
     case 'controle-reference':

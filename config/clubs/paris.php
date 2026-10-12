@@ -87,4 +87,11 @@ return [
     'footballdatabase' => '',
     'worldfootball' => 'paris-saint-germain',
     'gallica_query' => 'Paris Saint-Germain',
+    // Les chiffres : Buffon arrivé à 40 ans (2018) ; au-delà, une date de naissance est jugée fautive.
+    'chiffres_age_arrivee_max' => 41,
+    // Chiffres masqués (contrôle d'octobre 2026, scratchpad ref/controle-page-chiffres.md) : données trop
+    // lacunaires pour Paris, résultats faux. Entraîneurs absents de la plupart des saisons (Blanc,
+    // Ancelotti, Emery, Tuchel, Luis Enrique…), cartons et arbitres relevés sur une minorité de matchs,
+    // pays de naissance connu pour moins d'un joueur sur trois, penaltys arrêtés très incomplets.
+    'chiffres_masques' => ['entraineur', 'entraineur-victoires', 'jaunes', 'rouges', 'arbitre', 'pays', 'penalty-arrete'],
 ];

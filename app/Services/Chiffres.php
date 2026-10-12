@@ -219,6 +219,12 @@ final class Chiffres
         // Le profil du club (surnoms, rivaux…) et les mots propres au club entrent aussi dans les textes.
         $files = [STORAGE_PATH . '/cache/derived.php', \App\Data\Index::CACHE, APP_ROOT . '/config/clubs/' . Club::id() . '.php',
             APP_ROOT . '/config/clubs/' . Club::id() . '/mots.php'];
+        // Totaux de référence (fichier livré, relevé automatique) : seulement pour les musées qui en ont.
+        foreach ([APP_ROOT . '/config/clubs/' . Club::id() . '/totaux-reference.php', ReferenceTotals::FILE] as $f) {
+            if (is_file($f)) {
+                $files[] = $f;
+            }
+        }
         if (I18n::lang() !== I18n::DEFAULT) {
             $files[] = I18N_PATH . '/' . I18n::lang() . '.json';
         }
@@ -231,8 +237,10 @@ final class Chiffres
         self::$people = []; // les adresses des fiches dépendent de la langue
         $c = self::$context ?? self::context();
         $lists = [];
+        // Profil du club, « chiffres_masques » : clés des chiffres à ne pas afficher (invérifiables et douteux).
+        $hidden = array_flip((array) Club::get('chiffres_masques', []));
         foreach (self::CHAPTERS as $key => $ch) {
-            $lists[$key] = self::ordered($key, array_filter(self::$key($c)));
+            $lists[$key] = self::ordered($key, array_diff_key(array_filter(self::$key($c)), $hidden));
         }
         $take = self::quotas(array_map('count', $lists), array_map(fn ($ch) => $ch[2], self::CHAPTERS), self::COUNT);
         $chapters = [];
@@ -2112,6 +2120,9 @@ final class Chiffres
         // Âges : premier match, dernier match, buts. Date de naissance invraisemblable écartée :
         // moins de 15 ans ou plus de 45 ans le jour du match, plus de 36 ans à l'arrivée au club
         // (première saison du tableau de carrière ou premier match raconté).
+        // Profil du club, « chiffres_age_arrivee_max » : âge d'arrivée au-delà duquel la date est écartée
+        // (37 par défaut ; plus haut pour un club qui a fait jouer un vétéran, Buffon à 40 ans au PSG).
+        $maxIn = (int) Club::get('chiffres_age_arrivee_max', 37);
         $okBirth = [];
         foreach ($P as $pid => $p) {
             if (empty($p['birth'])) {
@@ -2120,7 +2131,7 @@ final class Chiffres
             $by = (int) substr($p['birth'], 0, 4);
             $from = $p['career']['from'] ?? null;
             // (différence d'années : un joueur né en fin d'année arrivé à 36 ans compte 37, comme Coupet.)
-            $okBirth[$pid] = $from === null || ($from - $by >= 14 && $from - $by <= 37);
+            $okBirth[$pid] = $from === null || ($from - $by >= 14 && $from - $by <= $maxIn);
         }
         $firstAge = [];
         foreach ($c['apps'] as $a) {
@@ -2130,7 +2141,7 @@ final class Chiffres
             }
         }
         foreach ($firstAge as $pid => $y) {
-            if ($y > 36) {
+            if ($y > $maxIn - 1) {
                 $okBirth[$pid] = false;
             }
         }

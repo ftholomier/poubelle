@@ -33,6 +33,34 @@ $cli = PHP_SAPI === 'cli' ? PHP_BINARY : (is_file($c = dirname(PHP_BINARY) . '/p
     </tbody>
   </table>
 </div>
+<?php if (\App\Services\ReferenceTotals::enabled()):
+    // Totaux de référence des joueurs : relevé quotidien des classements publiés (musées qui en déclarent).
+    $rt = \App\Services\ReferenceTotals::state();
+    $rtSrc = \App\Services\ReferenceTotals::sources();
+    $rtData = \App\Services\ReferenceTotals::stored();
+    $rtMiss = (array) ($rt['non_rapproches'] ?? []);
+?>
+<div class="card" id="totaux-reference">
+  <div class="card__head"><h2 class="card__t">Totaux de référence des joueurs</h2><span class="card__note"><?= e((string) ($rtSrc['label'] ?? '')) ?> · <a href="<?= e((string) $rtSrc['buteurs']) ?>" target="_blank" rel="noopener">buteurs</a> · <a href="<?= e((string) $rtSrc['matchs']) ?>" target="_blank" rel="noopener">matchs</a></span></div>
+  <div class="card--pad stack" style="gap:10px">
+    <?php if (!$rt): ?>
+      <p class="small muted" style="margin:0">Jamais relevés : les records et « Les chiffres » utilisent les totaux livrés avec le site<?= ($d = \App\Data\Totals::source()['date'] ?? null) ? ' (relevé du ' . e(date_fr((string) $d)) . ')' : '' ?>.</p>
+    <?php elseif (!empty($rt['ok'])): ?>
+      <p class="small ok" style="margin:0">✓ Dernier relevé <?= e(Base::ago(date('c', (int) $rt['at']))) ?> : <?= (int) $rt['joueurs'] ?> joueurs rapprochés de leur fiche.</p>
+    <?php else: ?>
+      <p class="alert alert--error" style="margin:0">Dernier relevé <?= e(Base::ago(date('c', (int) $rt['at']))) ?> : <?= e((string) $rt['message']) ?>. Rien n’a été modifié : le site garde les totaux précédents<?= $rtData ? ' (relevé du ' . e(date_fr((string) $rtData['source']['date'])) . ', ' . count($rtData['joueurs']) . ' joueurs)' : '' ?>.</p>
+    <?php endif; ?>
+    <?php if ($rtMiss): ?>
+      <details>
+        <summary class="small">Noms non rapprochés d’une fiche (<?= count($rtMiss) ?>) : leurs chiffres restent ceux des matchs racontés</summary>
+        <ul class="xs" style="margin:8px 0 0;padding-left:18px"><?php foreach ($rtMiss as $n): ?><li><?= e((string) $n) ?></li><?php endforeach; ?></ul>
+        <p class="xs muted" style="margin:8px 0 0">Pour les rapprocher : config/clubs/<?= e(\App\Core\Club::id()) ?>/totaux-alias.php (nom du classement =&gt; titre ou adresse de la fiche).</p>
+      </details>
+    <?php endif; ?>
+    <?php if (Auth::isAdmin()): ?><form method="post" action="/admin/taches"><?= csrf_field() ?><input type="hidden" name="task" value="totaux-reference"><button type="submit" class="btn btn--sm">Relever maintenant</button></form><?php endif; ?>
+  </div>
+</div>
+<?php endif; ?>
 <?php
 // Hébergement : ce que le site exige (PHP 8.3, extensions, dossiers inscriptibles) et dernières erreurs.
 $srv = \App\Services\ServerCheck::problems();

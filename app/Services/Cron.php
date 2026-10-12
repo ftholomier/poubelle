@@ -45,6 +45,7 @@ final class Cron
         'videos' => [3600, 'Vignettes des vidéos (YouTube, Dailymotion, Vimeo, Rutube)'],
         'assistant' => [3600, 'Index sémantique de l’assistant IA'],
         'dons' => [3600, 'Synchronisation des dons (Stripe, PayPal)'],
+        'totaux-reference' => [86400, 'Totaux de référence des joueurs : relevé des classements publiés (musées qui en déclarent)'],
         'plan-du-site' => [86400, 'Plan du site (sitemap.xml)'],
         'association' => [3600, 'Site de l’association : dernières vidéos YouTube, mesure d’audience'],
         'mises-a-jour' => [10800, 'Nouvelle version du site sur GitHub (vérification)'],
@@ -92,6 +93,16 @@ final class Cron
         flock($fp, LOCK_UN);
         fclose($fp);
         return $report;
+    }
+
+    /** Tâches de ce musée (sans celles qui ne le concernent pas). */
+    public static function tasks(): array
+    {
+        $t = self::TASKS;
+        if (!ReferenceTotals::enabled()) {
+            unset($t['totaux-reference']);
+        }
+        return $t;
     }
 
     public static function state(): array
@@ -220,6 +231,16 @@ final class Cron
 
             case 'dons':
                 return Settings::get('donations.enabled', false) ? Donations::sync() : null;
+
+            case 'totaux-reference':
+                if (!ReferenceTotals::enabled()) {
+                    return null;
+                }
+                $r = ReferenceTotals::run();
+                if (!$r['ok']) {
+                    throw new \RuntimeException($r['message']); // relevé refusé : signalé comme échec
+                }
+                return $r['message'];
 
             case 'plan-du-site':
                 \App\Front\Seo::build(true);
