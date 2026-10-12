@@ -202,7 +202,7 @@ final class StarterPack
             return false;
         }
         $type = (string) $doc['type'];
-        foreach (['intro', 'sections', 'key_figure'] as $k) {
+        foreach (['title', 'intro', 'sections', 'key_figure'] as $k) {
             if (isset($it[$k])) {
                 $doc[$k] = $it[$k];
             }
