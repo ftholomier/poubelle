@@ -2,7 +2,7 @@
 return [
     'slug' => 'administration',
     'title' => 'Administration',
-    'summary' => 'Pour les administrateurs : utilisateurs, réglages, assistant IA, fiches audio, coûts de l’IA, dons hors ligne et reçus fiscaux, sauvegardes, tâches, journal.',
+    'summary' => 'Pour les administrateurs : utilisateurs, réglages, assistant IA, fiches audio, coûts de l’IA, dons hors ligne et reçus fiscaux, sauvegardes, tâches, totaux de référence des joueurs, journal.',
     'sections' => [
         ['id' => 'statistiques', 'title' => 'Statistiques du musée', 'html' => <<<'HTML'
 <p>Pilotage › <b>Statistiques</b> (administrateurs) : l’audience du musée. En haut, le <b>direct</b> : visiteurs en ligne (une page vue dans les 5 dernières minutes), pages vues minute par minute et ce qu’ils regardent, mis à jour toutes les 15 secondes. Puis, sur la période choisie (aujourd’hui, 7 ou 30 jours, mois, année, depuis le début, ou deux dates) : visiteurs, visites, pages vues, pages par visite, visites d’une seule page, part en anglais, chacun comparé à la période précédente ; un encadré <b>À retenir</b> ; la courbe de fréquentation, les heures et jours de visite, les appareils, d’où viennent les visiteurs, les décennies les plus consultées et les classements (joueurs, matchs, récits, rubriques, pages, jeux, recherches). <b>Rapport PDF</b> télécharge le tout pour la période. <b>Remise à zéro</b> (avant l’ouverture) : tapez REMETTRE A ZERO ; les anciennes données sont gardées de côté sur le serveur.</p>
@@ -92,6 +92,12 @@ HTML],
 <p>Voir [[aide:fonctionnement#taches|Les tâches automatiques]]. Le tableau donne, pour chaque tâche, sa fréquence, son dernier passage et son résultat ; « Lancer » en exécute une tout de suite.</p>
 <p>La carte <b>Serveur</b>, en bas de l’écran, vérifie l’hébergement : version de PHP (8.3), extensions, dossiers inscriptibles ; et liste les dernières erreurs du journal PHP. Un réglage manquant s’affiche aussi en tête du tableau de bord (« Régler le serveur ») et, pour un administrateur connecté, sur la page « Arrêt de jeu » en cas d’erreur.</p>
 [[attention|<p>Un bandeau rouge « La tâche planifiée n’est jamais passée » (ou un dernier passage ancien) signifie que la tâche cron du serveur n’est pas installée ou s’est arrêtée : prévenez le webmestre, qui vérifiera la ligne indiquée dans le bandeau chez l’hébergeur.</p>]]
+HTML],
+        ['id' => 'totaux-reference', 'title' => 'Totaux de référence des joueurs', 'html' => <<<'HTML'
+<p>Certains musées reprennent les <b>classements officiels</b> des buteurs et des matchs joués publiés par un site de référence (déclaré par le webmestre dans <code>config/clubs/&lt;club&gt;/totaux-sources.php</code>). Ces totaux priment sur les compositions racontées : grands chiffres des fiches joueurs, records et « Les chiffres ». Un musée qui ne déclare pas de source n’est pas concerné : ni tâche, ni carte, rien à faire.</p>
+<p>La <b>tâche planifiée</b> relève les deux classements <b>une fois par jour</b>. Système › <b>Tâches planifiées</b>, carte <b>Totaux de référence des joueurs</b> (seulement pour les musées concernés) : date du dernier relevé, nombre de joueurs rapprochés de leur fiche, liste des <b>noms non rapprochés</b> (leurs chiffres restent ceux des matchs racontés) et, pour les administrateurs, le bouton <b>Relever maintenant</b>.</p>
+<p><b>Garde-fous</b> : un relevé anormal est refusé et rien n’est modifié, le site garde les totaux précédents (message en rouge sur la carte). C’est le cas d’un classement de moins de 50 joueurs, de nettement moins de joueurs que la fois précédente, d’un total général des buts ou des matchs en baisse, ou de fortes baisses pour certains joueurs.</p>
+<p>Un nom qui ne se rapproche pas tout seul d’une fiche (orthographe, surnom) s’ajoute dans <code>config/clubs/&lt;club&gt;/totaux-alias.php</code> : nom du classement =&gt; titre ou adresse de la fiche. Le webmestre peut aussi lancer le relevé en ligne de commande : <code>php bin/console.php totaux-reference --club=&lt;id&gt;</code> ; avec <code>--essai</code>, il montre le résultat sans rien enregistrer.</p>
 HTML],
         ['id' => 'journal', 'title' => 'Journal d’activité', 'html' => <<<'HTML'
 <p>Pilotage › <b>Journal</b> : toutes les actions de l’équipe (création, modification, publication, connexion…), filtrables par personne.</p>

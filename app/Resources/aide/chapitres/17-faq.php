@@ -121,6 +121,9 @@ HTML],
         ['id' => 'mise-a-jour', 'title' => '… installer la dernière version du site', 'admin' => true, 'html' => <<<'HTML'
 <p>Système › <b>Mises à jour</b> (administrateurs) › <b>Appliquer la mise à jour</b> : seuls les fichiers du code qui ont changé sont remplacés, jamais les fiches, photos ou réglages, et un retour arrière reste possible. Voir [[aide:administration#majs|Mises à jour du site]].</p>
 HTML],
+        ['id' => 'totaux', 'title' => '… savoir d’où viennent les totaux de matchs et de buts d’un joueur', 'html' => <<<'HTML'
+<p>Dans les musées qui déclarent un site de référence, ils sont relevés chaque jour dans ses classements officiels : Système › <b>Tâches planifiées</b>, carte <b>Totaux de référence des joueurs</b> (dernier relevé, noms non rapprochés, <b>Relever maintenant</b>). Ailleurs, ils sont calculés depuis les compositions. Voir [[aide:administration#totaux-reference|Totaux de référence des joueurs]].</p>
+HTML],
         ['id' => 'perdu', 'title' => '… retrouver un texte non enregistré', 'html' => <<<'HTML'
 <p>Rouvrez la fiche sur le même ordinateur et le même navigateur : un bandeau propose « Le récupérer ». Sinon, l’onglet Historique contient la dernière version enregistrée.</p>
 HTML],
