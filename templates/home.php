@@ -26,7 +26,8 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
         <?php foreach ($slides as $i => $s): ?>
           <div class="hero__copy<?= $i === 0 ? ' is-on' : '' ?>" data-copy="<?= $i ?>">
             <span class="eyebrow eyebrow--yellow eyebrow--lg"><?= e($s['kind']) ?></span>
-            <?php $tl = mb_strlen((string) $s['title']); ?>
+            <?php $tl = mb_strlen((string) $s['title']); $lw = max(array_map('mb_strlen', preg_split('/[\s\x{2013}\x{2014}-]+/u', (string) $s['title']) ?: [''])); // mot le plus long : jamais coupé en plein mot
+            if ($lw > 11) { $tl = max($tl, 33); } elseif ($lw > 8) { $tl = max($tl, 23); } ?>
             <<?= $i === 0 ? 'h1' : 'h2' ?> class="hero__title<?= $tl > 32 ? ' hero__title--xl' : ($tl > 22 ? ' hero__title--l' : '') ?>"><?= e($s['title']) ?></<?= $i === 0 ? 'h1' : 'h2' ?>>
             <?php if ($s['text']): ?><p class="hero__lead"><?= e($s['text']) ?></p><?php endif; ?>
             <a class="btn btn--yellow" href="<?= e($s['href']) ?>" tabindex="<?= $i === 0 ? '0' : '-1' ?>"><?= e(t('En savoir plus')) ?></a>

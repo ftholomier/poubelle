@@ -602,7 +602,7 @@ html { scroll-padding-top: var(--head-h, 0px); }
 .hero__copy.is-on > *:nth-child(3) { animation-delay: .18s; }
 .hero__copy.is-on > *:nth-child(4) { animation-delay: .27s; }
 @keyframes heroIn { from { opacity: 0; transform: translateY(26px); clip-path: inset(0 0 100% 0); } to { opacity: 1; transform: none; clip-path: inset(0 0 0 0); } }
-.hero__title { font-family: var(--display); font-weight: 900; font-size: clamp(60px, 8.5vw, 128px); line-height: .92; text-transform: uppercase; text-wrap: balance; overflow-wrap: anywhere; }
+.hero__title { font-family: var(--display); font-weight: 900; font-size: clamp(60px, 8.5vw, 128px); line-height: .92; text-transform: uppercase; text-wrap: balance; overflow-wrap: break-word; hyphens: manual; }
 .hero__title--l { font-size: clamp(46px, 6.2vw, 96px); }
 .hero__title--xl { font-size: clamp(38px, 4.8vw, 74px); }
 .hero__lead { margin: 0; font-size: clamp(19px, 1.6vw, 23px); line-height: 1.45; max-width: 36ch; text-wrap: pretty; }
