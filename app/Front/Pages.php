@@ -371,10 +371,8 @@ final class Pages
             $take(fn ($c) => true, $n);
             shuffle($picked);
             $pool = array_column($picked, 's');
-            if (!headers_sent()) {
-                $keep = array_slice(array_unique(array_merge(array_column($picked, 'id'), array_keys($seen))), 0, 150);
-                setcookie('sl', implode('.', $keep), ['expires' => time() + 60 * 86400, 'path' => '/', 'samesite' => 'Lax', 'secure' => (($_SERVER['HTTPS'] ?? '') === 'on')]);
-            }
+            // Le cookie « sl » est posé par home.js (data-sl de l'accueil) : un Set-Cookie ici empêcherait
+            // le cache des pages de garder l'accueil.
             if (!$pool) {
                 $pool = array_values(array_filter(Index::published(), fn ($s) => $s['image'] && !Index::isPlaceholderImage($s['image'])));
                 shuffle($pool);
@@ -389,6 +387,7 @@ final class Pages
                 'href' => url($s['path']),
                 'image' => $s['image'],
                 'focus' => '50% 25%',
+                'id' => (int) $s['id'],
             ];
         }
         return $out;

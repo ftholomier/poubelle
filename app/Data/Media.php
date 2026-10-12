@@ -85,7 +85,7 @@ final class Media
         $f = self::ORIGINALS . '/' . $rel;
         if (!is_file($f) && str_starts_with($rel, self::BUNDLED)) {
             // Photo libre de droits livrée avec le code du club (config/clubs/<club>/photos/).
-            $f = APP_ROOT . '/config/clubs/' . CLUB_ID . '/photos/' . substr($rel, strlen(self::BUNDLED));
+            $f = APP_ROOT . '/config/clubs/' . \App\Core\Club::id() . '/photos/' . substr($rel, strlen(self::BUNDLED));
         }
         return is_file($f) ? $f : null;
     }

@@ -514,8 +514,28 @@
   SR.fitTitles = scan;
   scan();
   document.fonts?.ready.then(() => scan());
+  // Seuls les morceaux de page modifiés sont revus (un compte à rebours qui change chaque seconde
+  // ne relance pas la mesure de tous les titres de la page).
   let mt = 0;
-  new MutationObserver(() => { clearTimeout(mt); mt = setTimeout(scan, 60); })
-    .observe(document.body, { childList: true, subtree: true, characterData: true });
+  const dirty = new Set();
+  new MutationObserver(ms => {
+    ms.forEach(m => {
+      const n = m.target.nodeType === 1 ? m.target : m.target.parentElement;
+      if (!n) return;
+      const t = n.closest(FIT);
+      if (t) dirty.add(t);
+      if (m.type === 'childList') m.addedNodes.forEach(a => { if (a.nodeType === 1) dirty.add(a); });
+    });
+    if (!dirty.size) return;
+    clearTimeout(mt);
+    mt = setTimeout(() => {
+      const list = [...dirty]; dirty.clear();
+      list.forEach(n => {
+        if (!n.isConnected) return;
+        if (n.matches(FIT)) { fit(n); const b = box(n); if (ro && b && !seen.has(b)) { seen.set(b, Math.round(b.clientWidth)); ro.observe(b); } }
+        scan(n);
+      });
+    }, 60);
+  }).observe(document.body, { childList: true, subtree: true, characterData: true });
   }
 })();

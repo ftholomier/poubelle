@@ -27,7 +27,7 @@ final class Derived
     private const DIRTY = STORAGE_PATH . '/cache/derived.dirty';
     /** Marque « sale » prise en charge par le recalcul en cours (un enregistrement fait pendant le calcul recrée DIRTY). */
     private const CLAIM = STORAGE_PATH . '/cache/derived.building';
-    public const VERSION = 8;
+    public const VERSION = 9;
     /** Parties du calcul (clés de get() ; « version », « built », « duration », « no_credit » sont dans le résumé). */
     private const PARTS = ['matches', 'apps', 'scorers', 'person_totals', 'by_person', 'seasons', 'clubs', 'stades', 'comps', 'on_this_day', 'unlinked', 'quality', 'bilans'];
     /**

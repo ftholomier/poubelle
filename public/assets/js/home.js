@@ -98,3 +98,14 @@
   };
   tabs.forEach((t, i) => t.addEventListener('click', () => show(i)));
 })();
+/* Grand slider : fiches montrées à ce visiteur (cookie « sl », relu par le serveur pour varier le tirage).
+   Posé ici et non par le serveur, pour que le cache des pages garde l'accueil. */
+(() => {
+  const h = document.querySelector('[data-sl]');
+  if (!h) return;
+  try {
+    const old = (document.cookie.match(/(?:^|;\s*)sl=([\d.]*)/) || [, ''])[1].split('.').filter(Boolean);
+    const keep = [...new Set([...h.dataset.sl.split('.'), ...old])].filter(x => /^\d+$/.test(x)).slice(0, 150);
+    document.cookie = 'sl=' + keep.join('.') + ';path=/;max-age=' + 60 * 86400 + ';samesite=lax' + (location.protocol === 'https:' ? ';secure' : '');
+  } catch (e) { /* cookies refusés */ }
+})();

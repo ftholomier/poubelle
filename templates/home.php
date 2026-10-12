@@ -8,7 +8,7 @@ $centenary = Site::centenaryDate();
 $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
 ?>
 <?php if ($slides): ?>
-<section class="hero" data-slider aria-roledescription="carrousel" aria-label="<?= e(t('À la une')) ?>">
+<section class="hero" data-slider<?php if ($slIds = array_filter(array_column($slides, 'id'))): ?> data-sl="<?= e(implode('.', $slIds)) ?>"<?php endif; ?> aria-roledescription="carrousel" aria-label="<?= e(t('À la une')) ?>">
   <?php foreach ($slides as $i => $s): ?>
     <div class="hero__slide<?= $i === 0 ? ' is-on' : '' ?>" data-slide="<?= $i ?>" aria-hidden="<?= $i === 0 ? 'false' : 'true' ?>">
       <?php if ($i === 0): ?>
