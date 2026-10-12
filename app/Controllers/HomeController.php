@@ -29,7 +29,7 @@ final class HomeController extends Controller
         // Le héros met en avant le vivier : tous les dépôts.
         $deposits = 0;
         $recent = 0;
-        $since = strtotime('-15 days');
+        $since = strtotime('-1 month');
         foreach (\App\Domain\CvRepository::all() as $cv) {
             $deposits++;
             $recent += (int) strtotime((string) ($cv['created_at'] ?? '')) >= $since ? 1 : 0;
