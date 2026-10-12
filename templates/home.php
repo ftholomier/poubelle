@@ -72,7 +72,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
         <a href="<?= e(url('/matchs/')) ?>"><?= e(t('Matchs')) ?></a>
         <a href="<?= e(url('/saisons/')) ?>"><?= e(t('Saisons')) ?></a>
         <a href="<?= e(Site::catUrl(Site::C_JOUEURS)) ?>"><?= e(t('Joueurs')) ?></a>
-        <a href="<?= e(url('/grands-recits/')) ?>"><?= e(t('Grands récits')) ?></a>
+        <?php if (\App\Data\Categories::get('grands-recits')): ?><a href="<?= e(url('/grands-recits/')) ?>"><?= e(t('Grands récits')) ?></a><?php endif; ?>
         <a href="<?= e(url('/face-a-face/')) ?>"><?= e(t('Face-à-face')) ?></a>
         <a href="<?= e(url('/records/')) ?>"><?= e(t('Records')) ?></a>
         <a href="<?= e(url('/palmares/')) ?>"><?= e(t('Palmarès')) ?></a>

@@ -50,7 +50,17 @@ final class Catalog
     {
         $saved = (array) Collections::get(self::SUPPORTS_FILE, []);
         $out = [];
+        // Autre musée : couleurs de textile par défaut transposées (« Jaune » => « Rouge » à Paris, config/clubs/<club>/boutique.php).
+        $textile = (array) (\App\Core\Club::content('boutique', [])['textile'] ?? []);
         foreach (self::DEFAULTS as $k => $d) {
+            if ($textile && !isset($saved[$k]['colors'])) {
+                $c = [];
+                foreach ($d['colors'] as $name => $hex) {
+                    [$name, $hex] = $textile[$name] ?? [$name, $hex];
+                    $c[$name] = $hex;
+                }
+                $d['colors'] = $c;
+            }
             $out[$k] = self::normalize($k, array_replace($d, (array) ($saved[$k] ?? [])));
         }
         foreach ($saved as $k => $d) {

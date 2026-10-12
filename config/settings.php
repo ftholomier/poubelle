@@ -42,7 +42,7 @@ return [
         'label' => 'Accueil',
         'fields' => [
             'intro_title' => ['label' => 'Titre de la page d’accueil (onglet du navigateur, Google)', 'type' => 'text', 'default' => club('Musée numérique {sigle} - {site}')],
-            'intro_text' => ['label' => 'Présentation du musée (description pour Google et le partage)', 'type' => 'wysiwyg', 'default' => club("{site} : l'histoire de notre club s'écrit maintenant ! Bienvenue au musée numérique de notre club, le Football Club Sochaux Montbéliard - {sigle}.\nUn projet de {site} !")],
+            'intro_text' => ['label' => 'Présentation du musée (description pour Google et le partage)', 'type' => 'wysiwyg', 'default' => club("{site} : l'histoire de notre club s'écrit maintenant ! Bienvenue au musée numérique de notre club, {club_le} ({sigle}).\nUn projet de {site} !")],
             'slider_count' => ['label' => 'Nombre de slides tirées au hasard dans « À la une »', 'type' => 'number', 'default' => 5],
             'counter_community' => ['label' => 'Compteur : membres de la communauté', 'type' => 'text', 'default' => '11000+'],
             'counter_videos' => ['label' => 'Compteur : vidéos YouTube', 'type' => 'text', 'default' => '1400+'],

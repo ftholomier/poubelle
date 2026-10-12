@@ -4,6 +4,16 @@
 return [
     'Fil jaune' => 'Fil bleu', 'fil jaune' => 'fil bleu', 'FIL JAUNE' => 'FIL BLEU',
     'Yellow Thread' => 'Blue Thread', 'Yellow thread' => 'Blue thread', 'yellow thread' => 'blue thread',
+    // Libellés hérités du modèle sochalien (source des chiffres, rubrique des joueurs).
+    'Fiches des Lions' => 'Fiches des joueurs', 'Nos Lions' => 'Nos joueurs',
+    // Couleurs du modèle sochalien restées en dur (textes d'interface et leurs traductions anglaises).
+    'jaune et bleu' => 'rouge et bleu', 'le jaune et le bleu' => 'le rouge et le bleu',
+    'yellow and blue' => 'red and blue', 'yellow-and-blue' => 'red-and-blue',
+    'Ma vie en jaune et bleu' => 'Ma vie en bleu & rouge',
+    'Our Lions' => 'Our players',
+    // var(--yellow) vaut le rouge de Paris : la poignée des maillots, les étoiles du Fil bleu.
+    'Glissez la poignée jaune' => 'Glissez la poignée rouge', 'Drag the yellow handle' => 'Drag the red handle',
+    'En jaune : les dix plus fidèles' => 'En rouge : les dix plus fidèles', 'In yellow: the ten most loyal' => 'In red: the ten most loyal',
 
     // Page « Les chiffres » : « {team} » vaut « PSG », qui s'écrit avec l'article en français.
     'pour PSG.' => 'pour le PSG.',
