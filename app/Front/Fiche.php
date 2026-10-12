@@ -409,6 +409,8 @@ final class Fiche
             $statTotals['goals'] = max((int) ($statTotals['goals'] ?? 0), $bilan['total']['goals']);
             $statTotals['seasons'] = max((int) ($statTotals['seasons'] ?? 0), $bilan['total']['seasons']);
         }
+        // Totaux de référence du club (classement publié) : ils priment sur les compositions racontées.
+        $ref = \App\Data\Totals::forPerson($id);
         if ($isCoachOnly && $coachMatches) {
             $big = [
                 ['v' => (string) count($coachMatches), 'k' => t('matchs dirigés')],
@@ -418,8 +420,8 @@ final class Fiche
             ];
         } else {
             $big = [
-                ['v' => (string) max($tot['matches'] ?? 0, $statTotals['matches'] ?? 0) ?: '–', 'k' => t('matchs')],
-                ['v' => (string) max($tot['goals'] ?? 0, $statTotals['goals'] ?? 0), 'k' => t('buts')],
+                ['v' => (string) ($ref['matchs'] ?? max($tot['matches'] ?? 0, $statTotals['matches'] ?? 0)) ?: '–', 'k' => t('matchs')],
+                ['v' => (string) ($ref['buts'] ?? max($tot['goals'] ?? 0, $statTotals['goals'] ?? 0)), 'k' => t('buts')],
                 ['v' => (string) max($tot['seasons'] ?? 0, $statTotals['seasons'] ?? 0) ?: '–', 'k' => t('saisons')],
             ];
             if ($bilan && $bilan['total']['minutes'] > 0) {
@@ -442,7 +444,8 @@ final class Fiche
         $desc = $doc['seo']['description'] ?: Unknown::line(trim(implode(' ', array_filter([
             sentence($name . ($p['position'] ? ', ' . $p['position'] : '') . ($years ? ' ' . t('{sigle_au}') . " ($years)" : '')),
             (string) ($p['birth']['text'] ?? '') !== '' ? sentence(ucfirst((string) $p['birth']['text'])) : '',
-            $tot && $tot['matches'] ? $tot['matches'] . ' ' . t('matchs') . ', ' . $tot['goals'] . ' ' . t('buts') . '.' : '',
+            $ref && $ref['matchs'] ? $ref['matchs'] . ' ' . t('matchs') . ', ' . (int) $ref['buts'] . ' ' . t('buts') . '.'
+                : ($tot && $tot['matches'] ? $tot['matches'] . ' ' . t('matchs') . ', ' . $tot['goals'] . ' ' . t('buts') . '.' : ''),
             excerpt(implode(' ', array_column($doc['sections'], 'html')), 120),
         ]))));
         $base = base_url();

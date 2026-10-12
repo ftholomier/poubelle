@@ -417,6 +417,13 @@ final class Chiffres
         }
 
         $P = self::dropCopiedCareers($P, $periods, $tables);
+        // Totaux de référence du club (classement publié) : ils priment sur le tableau de la fiche.
+        foreach (\App\Data\Totals::all() as $pid => $t) {
+            if (!empty($P[$pid]['career'])) {
+                $P[$pid]['career']['m'] = $t['matchs'] ?? $P[$pid]['career']['m'];
+                $P[$pid]['career']['g'] = $t['buts'] ?? $P[$pid]['career']['g'];
+            }
+        }
 
         $first = $O ? reset($O)['date'] : null;
         $last = $O ? end($O)['date'] : null;

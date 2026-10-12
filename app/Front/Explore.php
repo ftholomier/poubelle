@@ -582,13 +582,23 @@ final class Explore
                     $acc[$pid]['first'] = min($acc[$pid]['first'], $x['date']);
                     $acc[$pid]['last'] = max($acc[$pid]['last'], $x['date']);
                 }
+                // Totaux de référence du club (classement publié, toutes compétitions officielles).
+                if ($cat !== 'entraineurs' && !$decade && !$comp) {
+                    foreach (\App\Data\Totals::all() as $pid => $t) {
+                        $v = $t[$cat === 'buteurs' ? 'buts' : 'matchs'];
+                        if ($v !== null && (isset($acc[$pid]) || $v > 0)) {
+                            $acc[$pid] ??= ['v' => 0, 'first' => null, 'last' => null];
+                            $acc[$pid]['v'] = $v;
+                        }
+                    }
+                }
                 uasort($acc, fn ($x, $y) => $y['v'] <=> $x['v']);
                 foreach ($acc as $pid => $r) {
                     $s = Index::get((int) $pid);
                     if (!$s || !Index::visible($s) || $r['v'] === 0) {
                         continue;
                     }
-                    $years = substr((string) $r['first'], 0, 4) . (substr((string) $r['last'], 0, 4) !== substr((string) $r['first'], 0, 4) ? '–' . substr((string) $r['last'], 0, 4) : '');
+                    $years = $r['first'] === null ? '' : substr((string) $r['first'], 0, 4) . (substr((string) $r['last'], 0, 4) !== substr((string) $r['first'], 0, 4) ? '–' . substr((string) $r['last'], 0, 4) : '');
                     $rows[] = ['name' => $s['p']['name'], 'meta' => trim(($s['p']['position'] ? ucfirst((string) $s['p']['position']) . ' · ' : '') . $years), 'v' => $r['v'], 'href' => url($s['path']), 'image' => $s['image']];
                     if (count($rows) >= $limit) {
                         break;

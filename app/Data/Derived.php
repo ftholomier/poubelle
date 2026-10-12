@@ -707,8 +707,9 @@ final class Derived
                             $min = ($out !== null && $out !== '') ? $mi($out) : $full;
                         }
                     }
-                    if ($role === 'player' && $pos === 'R' && $min === 0) {
+                    if ($role === 'player' && $pos === 'R' && $min === 0 && !preg_match('/^entr[ée]e? en jeu$/iu', trim((string) ($r['sub_text'] ?? '')))) {
                         // Remplaçant non entré : pas d'apparition, mais présence sur la feuille.
+                        // (« Entré en jeu » sans minute connue : une apparition, temps de jeu inconnu.)
                         $role = 'bench';
                     }
                     $mins = array_values(array_map('strval', $r['goals'] ?? []));
