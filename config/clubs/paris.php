@@ -15,6 +15,8 @@ return [
     'domains' => ['paris.musee.club', 'paris.fcsochauxretro.com', 'paris.epics.club', 'parisretro.sportia.com', 'parisretro.com', 'www.parisretro.com'],
     'domain' => 'paris.musee.club',
     'base_url' => 'https://paris.musee.club',
+    // Anciennes adresses renvoyées (301) vers le domaine principal.
+    'redirect_from' => ['paris.fcsochauxretro.com'],
     'logo_png' => '/assets/clubs/paris/logo.png',
     'logo_svg' => 'public/assets/clubs/paris/logo.svg',
 

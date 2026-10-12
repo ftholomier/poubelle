@@ -7,6 +7,13 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/app/bootstrap.php';
 
+// Ancienne adresse d'un musée (profil « redirect_from ») : redirection permanente vers son domaine principal.
+$host = strtolower((string) preg_replace('/:\d+$/', '', (string) ($_SERVER['HTTP_HOST'] ?? '')));
+if ($host !== '' && in_array($host, (array) \App\Core\Club::get('redirect_from', []), true) && ($to = \App\Core\Club::s('domain')) !== '' && $to !== $host) {
+    header('Location: https://' . $to . ($_SERVER['REQUEST_URI'] ?? '/'), true, 301);
+    exit;
+}
+
 // Médias d'un club autre que le club historique : /m/<club>/… est traité comme /media/….
 if (MEDIA_URL !== '/media' && str_starts_with((string) ($_SERVER['REQUEST_URI'] ?? ''), MEDIA_URL . '/')) {
     $_SERVER['REQUEST_URI'] = '/media' . substr((string) $_SERVER['REQUEST_URI'], strlen(MEDIA_URL));
