@@ -451,4 +451,71 @@
       }, 280);
     }, 5000);
   });
+  /* ------------------------------------------- grands titres : jamais coupés en plein mot
+     Les titres en très gros corps gardent en CSS une coupure de secours (overflow-wrap) ;
+     ici on réduit la police juste assez pour que le mot le plus long tienne sur une ligne.
+     Les chaînes vraiment insécables (URL, e-mail) gardent la coupure de secours. */
+  {
+  const FIT = '.hero__title, .hhead__title, .mhead__title, .ahero__title, .scoreboard__name, .phero__name, .phero__big span, '
+    + '.lj__h, .cstat__value b, .cstat__wn b, .shero__sums b.is-long, .podium__name, .fjgame__end b, .fjcard__t b, '
+    + '.dmerci__facts dd, .dayfig__value b, .keyfig__n, .rdcard__teams, .tcard__name b, .mcard__team, .tile__title, '
+    + '.pcard__name b, .ql__a, [data-fit]';
+  const ctx = document.createElement('canvas').getContext('2d');
+  const box = (el) => {
+    let b = el;
+    while (b && getComputedStyle(b).display === 'inline') b = b.parentElement;
+    return b;
+  };
+  const fit = (el) => {
+    el.style.fontSize = '';
+    const b = box(el);
+    if (!b || !b.clientWidth) return;
+    const cs = getComputedStyle(el);
+    const inner = (n) => { const c = getComputedStyle(n); return n.clientWidth - parseFloat(c.paddingLeft) - parseFloat(c.paddingRight); };
+    let avail = inner(b);
+    // Élément d'une rangée flex sans retour à la ligne : la place laissée par ses voisins
+    // (la coupure de secours le laisse rétrécir, sa largeur actuelle ne dit rien).
+    const pa = b.parentElement, pc = pa && getComputedStyle(pa);
+    if (pc && /flex/.test(pc.display) && !/column/.test(pc.flexDirection)) {
+      const sibs = [...pa.children].filter(n => n !== b && getComputedStyle(n).position !== 'absolute' && n.offsetWidth);
+      if (pc.flexWrap === 'nowrap') {
+        // Les voisins peuvent se réduire à leur mot le plus long ; le titre, lui, ne descend
+        // plus sous la largeur de son mot le plus long (sinon le partage flex le recouperait).
+        const minW = (n) => { const w0 = n.style.width; n.style.width = 'min-content'; const w = n.offsetWidth; n.style.width = w0; return w; };
+        avail = inner(pa) - sibs.reduce((t, n) => t + minW(n), 0) - (parseFloat(pc.columnGap) || 0) * sibs.length;
+        b.style.overflowWrap = 'normal';
+      } else {
+        avail = inner(pa);
+      }
+    }
+    let text = el.textContent || '';
+    if (cs.textTransform === 'uppercase') text = text.toLocaleUpperCase(lang);
+    const words = text.split(/[ \t\n\r]+/).flatMap(w => w.split(/(?<=[-–—\/])/)).filter(w => w && !/@|:\/\/|^www\./i.test(w));
+    if (!words.length) return;
+    const size = parseFloat(cs.fontSize);
+    ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${size}px ${cs.fontFamily}`;
+    const ls = parseFloat(cs.letterSpacing) || 0;
+    const widest = Math.max(...words.map(w => ctx.measureText(w).width + ls * [...w].length));
+    if (widest <= avail) return;
+    el.style.fontSize = Math.max(12, Math.floor(size * avail / widest * 0.97)) + 'px';
+  };
+  const seen = new WeakMap();
+  const ro = 'ResizeObserver' in window ? new ResizeObserver(es => es.forEach(e => {
+    const w = Math.round(e.contentRect.width);
+    if (seen.get(e.target) === w) return;
+    seen.set(e.target, w);
+    $$(FIT, e.target).concat(e.target.matches(FIT) ? [e.target] : []).forEach(fit);
+  })) : null;
+  const scan = (root = document) => $$(FIT, root).forEach(el => {
+    fit(el);
+    const b = box(el);
+    if (ro && b && !seen.has(b)) { seen.set(b, Math.round(b.clientWidth)); ro.observe(b); }
+  });
+  SR.fitTitles = scan;
+  scan();
+  document.fonts?.ready.then(() => scan());
+  let mt = 0;
+  new MutationObserver(() => { clearTimeout(mt); mt = setTimeout(scan, 60); })
+    .observe(document.body, { childList: true, subtree: true, characterData: true });
+  }
 })();
