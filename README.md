@@ -73,6 +73,17 @@ ligne (guide,
 mémo PDF, bulles « ? »). Deux niveaux d'accès : administrateur
 et utilisateur. Voir le [guide du back-office](docs/GUIDE-BACK-OFFICE.md).
 
+## Plusieurs musées sur le même code
+
+Le même code sert plusieurs musées, un par domaine : Sochaux (musée historique) et Paris
+Rétro (`paris.fcsochauxretro.com`, provisoire). Chaque musée a son profil
+(`config/clubs/<id>.php` : noms, couleurs, domaines, mascotte, derbies, région, chiffres
+masqués, centenaire…), ses contenus propres (`config/clubs/<id>/` : libellés, mots du club,
+photos libres de droits livrées avec leurs crédits, contenus de départ, totaux de
+référence…) et ses données (`clubs/<id>/`). Back-office commun : comptes partagés, sélecteur
+de musée, administrateur d'un musée administrateur de tous, mises à jour communes. Voir
+[docs/PROJET-SAAS-MUSEE.md](docs/PROJET-SAAS-MUSEE.md).
+
 ## Technique en bref
 
 - PHP 8.3 sans framework, données en fichiers JSON (aucune base de données).
@@ -138,7 +149,12 @@ php bin/console.php videos           copie les vignettes des vidéos
 php bin/console.php geo [--hors-ligne]  géolocalise stades et lieux de naissance
 php bin/console.php correcteur [secondes]  vérifie l'orthographe de toutes les fiches (sans plafond quotidien)
 php bin/console.php audio [secondes]       fiches audio : envoie et range les traitements groupés
+php bin/console.php totaux-reference [--essai]  relève les totaux de référence des joueurs
+php bin/console.php club-creer <id>  prépare les dossiers d'un nouveau musée
 ```
+
+Plusieurs musées : ajouter `--club=<id>` à n'importe quelle commande (musée historique par
+défaut), par exemple dans la tâche cron de chaque musée : `php bin/console.php cron --club=paris`.
 
 ## Mise en ligne
 
@@ -159,6 +175,7 @@ contiennent le travail des historiens. Ne jamais les remplacer par ceux du dép�
 | [docs/DECISIONS.md](docs/DECISIONS.md) | tous | choix validés avec le club |
 | [docs/AVANCEMENT.md](docs/AVANCEMENT.md) | tous | état du projet, contrôle d'exhaustivité |
 | [docs/CONTROLE-2026-10.md](docs/CONTROLE-2026-10.md) | tous | contrôle complet du code et des données, points à vérifier par les historiens |
+| [docs/PROJET-SAAS-MUSEE.md](docs/PROJET-SAAS-MUSEE.md) | tous | plusieurs musées sur le même code : profil du club, back-office commun, nouveau musée, Paris Rétro |
 | [docs/IDEES.md](docs/IDEES.md) | association | idées en réserve (Allô Bonal, Rétro-Direct, Fil jaune…) |
 | `docs/maquette/` | tous | maquette graphique de référence |
 

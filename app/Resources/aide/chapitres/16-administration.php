@@ -2,12 +2,29 @@
 return [
     'slug' => 'administration',
     'title' => 'Administration',
-    'summary' => 'Pour les administrateurs : utilisateurs, réglages, assistant IA, fiches audio, coûts de l’IA, dons hors ligne et reçus fiscaux, sauvegardes, tâches, totaux de référence des joueurs, journal.',
+    'summary' => 'Pour les administrateurs : plusieurs musées, contenus de départ, utilisateurs, réglages, assistant IA, fiches audio, coûts de l’IA, dons hors ligne et reçus fiscaux, sauvegardes, tâches, totaux de référence des joueurs, journal.',
     'sections' => [
         ['id' => 'statistiques', 'title' => 'Statistiques du musée', 'html' => <<<'HTML'
 <p>Pilotage › <b>Statistiques</b> (administrateurs) : l’audience du musée. En haut, le <b>direct</b> : visiteurs en ligne (une page vue dans les 5 dernières minutes), pages vues minute par minute et ce qu’ils regardent, mis à jour toutes les 15 secondes. Puis, sur la période choisie (aujourd’hui, 7 ou 30 jours, mois, année, depuis le début, ou deux dates) : visiteurs, visites, pages vues, pages par visite, visites d’une seule page, part en anglais, chacun comparé à la période précédente ; un encadré <b>À retenir</b> ; la courbe de fréquentation, les heures et jours de visite, les appareils, d’où viennent les visiteurs, les décennies les plus consultées et les classements (joueurs, matchs, récits, rubriques, pages, jeux, recherches). <b>Rapport PDF</b> télécharge le tout pour la période. <b>Remise à zéro</b> (avant l’ouverture) : tapez REMETTRE A ZERO ; les anciennes données sont gardées de côté sur le serveur.</p>
 <p>Carte <b>Anti-aspiration</b> : les tentatives bloquées sur la période. Le site refuse les robots d’intelligence artificielle et les logiciels d’aspiration, freine les visiteurs trop rapides (plus de 180 pages par minute), démasque les faux Google et interdit d’afficher les photos en grand format sur un autre site. Google et Bing continuent d’indexer le musée ; l’équipe connectée n’est jamais freinée.</p>
 <p>La mesure se fait sans cookie et sans garder d’adresse IP : un visiteur est reconnu par une empreinte anonyme qui change chaque jour (pas de bandeau de consentement nécessaire).</p>
+HTML],
+        ['id' => 'musees', 'title' => 'Plusieurs musées : passer de l’un à l’autre', 'html' => <<<'HTML'
+<p>Le même back-office sert plusieurs musées (un par domaine, par exemple Sochaux et Paris). Les comptes sont communs : quand votre compte a accès à plus d’un musée, un <b>sélecteur de musée</b> apparaît en haut du back-office, avec la pastille aux couleurs de chaque musée. Choisissez-en un : vous y arrivez déjà connecté, sans ressaisir votre mot de passe.</p>
+<ul>
+<li>Un <b>administrateur</b> d’un musée est administrateur de <b>tous</b> les musées.</li>
+<li>Le back-office prend les couleurs du musée affiché ; l’animation de la page de connexion aussi (couleurs et sigle du club).</li>
+<li>Les fiches, photos, réglages, clés et dépenses d’IA restent <b>propres à chaque musée</b>.</li>
+<li>Les outils du musée historique (Site de l’association, Reprise 1928-1969, Feuilles de match) n’existent que sur Sochaux : ils sont absents du menu et des tâches planifiées des autres musées.</li>
+</ul>
+HTML],
+        ['id' => 'depart', 'title' => 'Contenus de départ d’un nouveau musée', 'admin' => true, 'html' => <<<'HTML'
+<p>Système › <b>Contenus de départ</b> (seulement sur un musée qui en a) : les fiches préparées pour démarrer le musée (matchs, joueurs, bilans de saison…). Les faits sont repris de sources vérifiées, les textes entièrement rédigés à neuf. Le tableau donne, par paquet, les fiches préparées et déjà créées.</p>
+<ol>
+<li><b>Créer et publier les fiches</b> : elles sont <b>publiées tout de suite</b>, rangées dans leur saison et leur décennie. Gardez la page ouverte ; « Mettre en pause » arrête.</li>
+<li>Vérifiez ensuite au fil de l’eau : écran Qualité, correction directe dans chaque fiche.</li>
+</ol>
+<p>Relancer est sans risque : une fiche n’est créée qu’une fois, et une fiche supprimée n’est pas recréée. Quand une mise à jour apporte une <b>nouvelle version</b> d’une fiche (récit ajouté, titre ou rubriques corrigés), elle est appliquée au prochain lancement, <b>seulement si personne n’a modifié la fiche</b> : une fiche retouchée par l’équipe garde toujours son texte. Les fiches ne portent pas de section « Sources » : les sources sont gardées en interne et créditées globalement dans les mentions légales.</p>
 HTML],
         ['id' => 'utilisateurs', 'title' => 'Utilisateurs et invitations', 'html' => <<<'HTML'
 <p>Système › <b>Utilisateurs</b> (administrateurs) : <b>Inviter une personne</b> (nom, e-mail, niveau) ; elle reçoit un lien pour choisir son mot de passe, que l’on peut aussi copier et transmettre autrement. On peut renvoyer une invitation, changer le niveau ou désactiver un compte.</p>
@@ -64,7 +81,7 @@ HTML],
 [[astuce|<p>Commencez par les <b>scores</b> en désaccord dans Trouvailles : ce sont les plus importants. Le rapport complet, saison par saison, est dans <code>docs/rapport-comparaison-matchs.md</code>.</p>]]
 HTML],
         ['id' => 'couts', 'title' => 'Coûts de l’IA et remboursement', 'admin' => true, 'html' => <<<'HTML'
-<p>Chaque appel à Gemini (assistant du site, traductions, correcteur d’orthographe, index de l’assistant) est facturé par Google à la personne qui a fourni la clé. Système › <b>Coûts IA</b> calcule ce coût au moment où Google répond : jetons consommés × tarif du modèle, converti en euros. L’écran se met à jour tout seul toutes les 10 secondes : aujourd’hui, ce mois-ci, à rembourser, budget, et les derniers appels (usage, qui l’a demandé, quelle fiche, combien).</p>
+<p>Chaque appel à Gemini (assistant du site, traductions, correcteur d’orthographe, index de l’assistant) est facturé par Google à la personne qui a fourni la clé. <b>Chaque musée a sa propre clé et ses propres dépenses</b> : sans clé enregistrée pour le musée affiché, un avertissement le signale en haut de l’écran ; l’IA y est alors coupée, et rien n’est dépensé. Système › <b>Coûts IA</b> calcule ce coût au moment où Google répond : jetons consommés × tarif du modèle, converti en euros. L’écran se met à jour tout seul toutes les 10 secondes : aujourd’hui, ce mois-ci, à rembourser, budget, et les derniers appels (usage, qui l’a demandé, quelle fiche, combien).</p>
 [[img:couts-ia.webp|Les coûts de l’IA : (1) aujourd’hui, (2) à rembourser, (3) budget du mois, (4) derniers appels en direct, (5) noter le remboursement, (6) relevé PDF et CSV]]
 <p><b>Se faire rembourser.</b> Le mois terminé, téléchargez son <b>relevé PDF</b> (totaux par usage, par modèle et par jour, cases de signature) et le <b>détail CSV</b> (chaque appel, à ouvrir dans un tableur), remettez-les au trésorier de l’association puis, le virement reçu, cliquez sur <b>Noter le remboursement</b>. Le tableau de bord rappelle les mois qui restent à rembourser.</p>
 <p><b>Garder la main sur la dépense.</b> Réglages › <b>Coûts IA</b> : nom de la personne qui avance les frais (imprimé sur le relevé), taux de change de votre banque, budget mensuel. Budget atteint : les tâches automatiques (et, si vous le souhaitez, l’assistant du site) se mettent en pause jusqu’au 1er du mois suivant ; les boutons du back-office restent utilisables. Après une traduction ou une vérification d’orthographe, son coût s’affiche aussi dans le message de confirmation.</p>
@@ -86,6 +103,7 @@ HTML],
 <li><b>Retour arrière :</b> avant chaque mise à jour, les fichiers remplacés sont sauvegardés ; « Revenir à cette version » les remet en place.</li>
 <li><b>Synchronisation :</b> chaque vérification compare aussi le code du serveur à GitHub, fichier par fichier. Après un envoi par FTP, la version est reconnue si tout est identique ; sinon, les fichiers oubliés ou différents sont listés et <b>Synchroniser avec GitHub</b> les remplace en un clic.</li>
 </ul>
+<p>Le code est <b>commun à tous les musées</b> : une mise à jour, lancée depuis n’importe quel back-office, vaut pour tous (même état, même pause, mêmes réglages de mise à jour) et refait les caches de chaque musée.</p>
 <p>Le site vérifie tout seul toutes les 3 heures ; une nouvelle version s’annonce au tableau de bord et par une pastille dans le menu. Dépôt GitHub et branche suivie : Réglages › <b>Mises à jour</b>.</p>
 HTML],
         ['id' => 'taches', 'title' => 'Tâches planifiées', 'html' => <<<'HTML'

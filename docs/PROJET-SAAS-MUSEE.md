@@ -1,7 +1,7 @@
 # Projet « Musée en ligne » : un musée pour chaque club
 
 Ce document résume les échanges d'octobre 2026 sur l'idée de proposer le musée du FCSM à d'autres clubs, de foot ou d'autres sports.
-Rien n'est encore développé : c'est la feuille de route.
+Au départ feuille de route ; depuis, le multi-musées tourne (Sochaux et Paris Rétro sur le même code) : voir l'état au 12 octobre 2026 (section 15).
 
 ## 1. L'idée
 
@@ -201,16 +201,14 @@ Revenus possibles : abonnement, commission sur les ventes de la boutique de chaq
 
 1. Profil : `config/clubs/<id>.php` (copie de `sochaux.php` à adapter, avec la clé `domains`). Logo et icônes dans `public/assets/clubs/<id>/`.
 2. Dossiers : `php bin/console.php club-creer <id>`. Cela crée `clubs/<id>/data`, `clubs/<id>/storage` et `public/m/<id>`.
-3. Compte : `php bin/console.php admin <email> <nom> --club=<id>`. Les comptes resteront propres à chaque musée jusqu'à l'étape 4 (back-office commun).
+3. Compte : `php bin/console.php admin <email> <nom> --club=<id>`. Les comptes sont communs à tous les musées (back-office commun) : un administrateur existant l'est aussi du nouveau musée.
 4. cPanel : ajouter le sous-domaine (ou domaine) avec la même racine que le musée de Sochaux (`…/musee.fcsochauxretro.com/public`).
 5. Tâche cron du musée, toutes les 5 minutes et décalée par rapport aux autres : `php bin/console.php cron --club=<id>`.
 6. Le musée s'ouvre fermé (page d'attente) ; il s'ouvre dans ses Réglages.
 
-À faire ensuite :
-- les rubriques de départ (décennies, saisons) générées à la création (étape 6) ;
-- les contenus propres à Sochaux encore écrits dans le code (frise, quiz, 100 chiffres, CGV…) ;
-- l'en-tête du back-office aux couleurs de la marque ;
-- la référence du contrôle qualité propre à chaque musée.
+Fait depuis : rubriques de départ (décennies, saisons depuis la fondation) générées à la création ; contenus propres à Sochaux sortis du code vers `config/clubs/sochaux/` (frise, quiz, 100 chiffres, CGV, crédits photo…) ; back-office aux couleurs de chaque musée ; contenus de départ (section 15).
+
+Reste à faire : la référence du contrôle qualité propre à chaque musée.
 
 ## 13. Mention « musée non officiel » (obligatoire sur chaque musée)
 
@@ -224,9 +222,9 @@ Où l'afficher :
 - les CGV de la boutique et les mentions légales ;
 - les e-mails de commande, la page d'attente et l'appli (page « L'appli »).
 
-Mise en œuvre prévue : une clé `disclaimer` dans le profil (texte par défaut ci-dessus avec {club_le}), modifiable par musée, affichée aux endroits ci-dessus et traduite en anglais.
+Mise en œuvre (faite) : une clé `disclaimer` dans le profil (texte par défaut ci-dessus avec {club_le}), modifiable par musée, affichée aux endroits ci-dessus et traduite en anglais.
 
-## 14. À faire : sources et crédits (consigne du 11 octobre 2026)
+## 14. Sources et crédits (consigne du 11 octobre 2026, faite le 12 octobre sauf mention)
 
 - **Retirer la section « Sources » de toutes les fiches** des musées créés par les contenus de départ (matchs, joueurs, bilans de saison) : plus aucun lien vers les sites d'origine sur les fiches.
   - Côté code : ne plus ajouter la section dans `StarterPack::create()` / `refresh()`, et retirer celle déjà posée sur les fiches existantes (seulement si la fiche n'a pas été modifiée à la main).
@@ -241,3 +239,35 @@ Mise en œuvre prévue : une clé `disclaimer` dans le profil (texte par défaut
   - meilleurs buteurs, matchs par saison, bilans, affluences ;
   - toutes les parties chiffrées : records, 100 chiffres, statistiques, bilans de saison, fiches joueurs (matchs, buts), palmarès, face-à-face.
   - Écarts trouvés : corriger les données (fiches match, compositions, buteurs) plutôt que les pages, et noter les cas douteux dans Trouvailles.
+
+État : la section « Sources » n'est plus posée sur les fiches (elle est retirée des fiches non modifiées), le crédit global des sources (`config/clubs/<id>/credits-sources.php`) et celui des photos libres figurent dans les mentions légales, « Le Fil bleu » remplace « Le fil jaune » à Paris (`config/clubs/paris/mots.php`), la page « Bilan au Parc » est corrigée, et les totaux des joueurs de Paris suivent le classement de référence (relevé quotidien, section 15). La vérification des chiffres se poursuit.
+
+## 15. État au 12 octobre 2026
+
+**Back-office commun**
+- Comptes communs ; sélecteur de musée en haut du back-office (pastille aux couleurs de chaque musée) ; passage de l'un à l'autre par jeton à usage unique, via une page de passage (la CSP bloquait la redirection directe vers un autre domaine).
+- Tout administrateur d'un musée est administrateur de tous (`Auth::roleIn()`).
+- Outils propres au musée historique (Site de l'association, Reprise 1928-1969, Feuilles de match) absents du menu, des écrans (redirection vers `/admin`) et des tâches planifiées des autres musées.
+- Mises à jour communes : état, pause « maintenance » et réglages de mise à jour partagés ; les caches de chaque musée sont refaits.
+- Dépenses d'IA par musée : chaque musée a sa clé Gemini ; Système › Coûts IA avertit quand le musée affiché n'en a pas (IA coupée, aucune dépense).
+- Page de connexion : l'animation prend les couleurs et le sigle du club servi.
+
+**Contenus de départ** (Système › Contenus de départ, `App\Services\StarterPack`)
+- Paquets `config/clubs/<id>/import/*.json.gz` (faits repris des sources, textes rédigés à neuf), créés d'un clic et publiés tout de suite (vérification ensuite).
+- Une fiche n'est créée qu'une fois ; une fiche supprimée n'est pas recréée.
+- Nouvelle version d'une fiche dans un paquet (récit, titre, rubriques) : appliquée au prochain lancement si personne n'a modifié la fiche ; les rubriques de saison et de décennie déjà posées sont gardées.
+
+**Boutique** (`App\Shop\ClubCopy`) : reprise automatique, à la première visite, des produits du musée historique (logo, couleurs, slogans transposés d'après `config/clubs/<id>/boutique.php`) ; bouton « Reprendre les produits » dans Boutique › Modèles ; jamais d'écrasement.
+
+**Profil du club** (`config/clubs/<id>.php`), clés ajoutées : `mascot` (« Les Parisiens de la seconde période »), `derbies` et `derby_label` (« Les Classiques »), `home_region`, `colors_en`, `chiffres_masques` (chiffres lacunaires retirés de « Les chiffres »), `centenaire` (`false` : compte à rebours, page /centenaire/, 100 moments, Onze et album « du centenaire » coupés ; sinon affichés seulement dans les 5 ans qui précèdent).
+
+**Contenus par club** (`config/clubs/<id>/`) : `mots.php` (mots propres au club, « Fil jaune » → « Fil bleu »), `credits-sources.php` (mentions légales), `photos.php` et `photos/` (photos libres de droits, Wikimedia Commons, avec auteur et licence : accueil, carte des lieux, murs de photos tant que la médiathèque compte moins de 40 photos ; murs masqués sous 12 photos ; crédits listés dans les mentions légales), `totaux-sources.php`, `totaux-reference.php`, `totaux-alias.php` (totaux de référence des joueurs, relevés chaque jour, carte dans Système › Tâches planifiées, `php bin/console.php totaux-reference --club=<id> [--essai]`).
+
+**Site public, pour tous les musées**
+- Grilles sans trou : pied de page, méga-menus, hub Interactif et accueil (« Aujourd'hui au musée ») se recomposent avec les pavés présents.
+- Rubriques sans fiche publiée masquées des menus.
+- Grands titres jamais coupés en plein mot : taille ajustée au mot le plus long (fiches, chiffres, rubriques, slider, cartes).
+- Diaporama de l'accueil : les fiches déjà vues par le visiteur passent en dernier (cookie posé en JavaScript, l'accueil reste en cache).
+- Carte des lieux réparée, avec la photo des lieux ; temps additionnel gardé dans les minutes (« 45e+1 »).
+
+**Paris Rétro** : environ 3 365 matchs, 527 fiches joueurs, 56 bilans de saison, quiz, frise, palmarès, carte, plusieurs milliers de récits de matchs réécrits (contrôle anti-plagiat), chiffres alignés sur les classements de référence, photos libres créditées.

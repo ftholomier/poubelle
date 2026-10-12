@@ -11,6 +11,16 @@ return [
 [[img:site-megamenu.webp|Le méga-menu « Matchs »]]
 [[ecran:/admin/accueil|Régler l’accueil et le bandeau]]
 HTML],
+        ['id' => 'adapte', 'title' => 'Un site qui s’adapte à son contenu', 'html' => <<<'HTML'
+<ul>
+<li><b>Le grand slider</b> varie d’une visite à l’autre : les fiches déjà vues par le visiteur passent en dernier.</li>
+<li><b>Pas de trou</b> : pied de page, méga-menus, rubrique Interactif et accueil (dont « Aujourd’hui au musée ») se recomposent avec les seuls pavés présents.</li>
+<li><b>Rubriques vides masquées</b> : une rubrique sans fiche publiée n’apparaît pas dans les menus ; elle revient dès sa première fiche.</li>
+<li><b>Grands titres jamais coupés en plein mot</b> (fiches, chiffres, rubriques, slider, cartes) : leur taille s’ajuste au mot le plus long.</li>
+<li><b>Murs de photos</b> : tant que la médiathèque a peu de photos, les photos libres de droits livrées avec le musée les complètent, avec leur crédit ; sans assez de photos, les murs ne sont pas proposés.</li>
+<li><b>Centenaire</b> : compte à rebours, page du centenaire, 100 moments et album « du centenaire » ne paraissent que dans les cinq ans qui le précèdent (et l’année qui suit) ; un musée peut les couper.</li>
+</ul>
+HTML],
         ['id' => 'mosaiques', 'title' => 'Les rubriques en mosaïque', 'html' => <<<'HTML'
 <p>Chaque rubrique affiche ses fiches en mosaïque : vignettes avec image à la une, filtres, tri, vue liste et bouton « Afficher plus ». Une fiche apparaît dans toutes les rubriques cochées dans son onglet « Classement &amp; SEO ».</p>
 [[img:site-mosaique.webp|Une mosaïque de rubrique]]

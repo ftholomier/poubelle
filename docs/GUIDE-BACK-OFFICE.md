@@ -20,6 +20,13 @@ l'adresse `/admin` du site (`https://musee.fcsochauxretro.com/admin`).
     le lancement manuel des tâches planifiées. Il peut mettre à la corbeille et consulter
     l'historique.
 - Votre profil (nom, mot de passe) : menu en haut à droite › « Mon profil ».
+- **Plusieurs musées** (Sochaux, Paris…) : les comptes sont communs. Un compte qui a accès à
+  plusieurs musées voit en haut un **sélecteur de musée** (pastille aux couleurs de chacun) et
+  passe de l'un à l'autre sans ressaisir son mot de passe. Un administrateur d'un musée est
+  administrateur de tous. Le back-office et l'animation de la page de connexion prennent les
+  couleurs et le sigle du musée affiché. Fiches, photos, réglages, clés et dépenses d'IA
+  restent propres à chaque musée. Site de l'association, Reprise 1928-1969 et Feuilles de
+  match n'existent que sur le musée historique (Sochaux).
 
 ## 2. Se repérer
 
@@ -32,7 +39,7 @@ Le menu de gauche regroupe les écrans :
 | Éditorial | Accueil & bandeau, 100 moments, Rubriques & menus, Redirections, Page d'attente |
 | Interactif | Quiz, frise, carte, maillots, partenaires… ; Onze & album |
 | Communauté | Contributions, Messages, Newsletter, Dons |
-| Système | Traductions EN, Assistant IA, Fiches audio, Reprise 1928-1969, Coûts IA, Utilisateurs, Réglages, Sauvegardes, Tâches planifiées, Mises à jour |
+| Système | Traductions EN, Assistant IA, Fiches audio, Reprise 1928-1969 (Sochaux), Contenus de départ (nouveau musée), Coûts IA, Utilisateurs, Réglages, Sauvegardes, Tâches planifiées, Mises à jour |
 
 - **Recherche globale** : `Ctrl + K` (ou la barre en haut) trouve une fiche, une photo,
   un écran.
@@ -463,12 +470,23 @@ montants dépensés en IA ne s'affichent que pour eux. Tout le reste, y compris 
 Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
 
 - **Utilisateurs** (administrateur) : inviter, changer le niveau, désactiver un compte.
+- **Contenus de départ** (administrateur, seulement sur un musée qui en a) : fiches préparées
+  (faits repris de sources vérifiées, textes rédigés à neuf), créées d'un clic « Créer et
+  publier les fiches » et **publiées tout de suite**, à vérifier ensuite (Qualité, correction
+  dans la fiche). Relancer est sans risque (une fiche n'est créée qu'une fois, une fiche
+  supprimée n'est pas recréée). Une nouvelle version livrée par une mise à jour (récit, titre,
+  rubriques) n'est appliquée qu'aux fiches que personne n'a modifiées. Pas de section
+  « Sources » sur les fiches : sources gardées en interne, créditées dans les mentions légales.
+- **Coûts IA** : chaque musée a sa propre clé Gemini et ses propres dépenses ; sans clé pour le
+  musée affiché, un avertissement le signale (IA coupée, aucune dépense).
 - **Mises à jour** (administrateur) : nouvelle version du site sur GitHub, liste des
   changements, « Appliquer la mise à jour » en un clic (le code seulement, jamais les fiches,
   médias, réglages ni comptes), sauvegarde et « Revenir à cette version ». Vérification
   automatique toutes les 3 heures, signalée au tableau de bord. Chaque vérification compare
   aussi le code du serveur à GitHub, fichier par fichier : version reconnue après un envoi
-  par FTP, fichier oublié ou retouché signalé (« Synchroniser avec GitHub »).
+  par FTP, fichier oublié ou retouché signalé (« Synchroniser avec GitHub »). Le code est
+  commun à tous les musées : une mise à jour lancée depuis n'importe quel back-office vaut
+  pour tous et refait les caches de chacun.
 - **Réglages** (administrateur) : identité du site, e-mail, **pied de page** (titre, phrase,
   deux boutons et leurs liens, accroche, ligne du bas et mention « Propulsé par », en
   français et en anglais ; un texte vide masque l'élément), clés Gemini, correcteur
@@ -516,7 +534,9 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
   statistiques, traductions, correcteur d'orthographe, newsletter, carte…), avec un bouton
   pour en lancer une tout de suite ; carte **Serveur** : version de PHP, extensions, dossiers
   inscriptibles et dernières erreurs du journal PHP (un réglage manquant est aussi rappelé en
-  tête du tableau de bord).
+  tête du tableau de bord). Carte **Totaux de référence des joueurs** (musées qui déclarent
+  un site de référence) : relevé quotidien des classements officiels des buteurs et des
+  matchs joués, noms non rapprochés, « Relever maintenant » ; un relevé anormal est refusé.
 - **Corbeille** (lien « Voir la corbeille » sous les listes de fiches) : fiches mises à la
   corbeille, à restaurer ; la suppression définitive est réservée aux administrateurs (une
   copie reste dans l'historique des versions).
@@ -526,6 +546,9 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
 - **Boutique › Tableau de bord** : ventes, marge, alertes, rapprochement avec Stripe.
 - **Boutique › Relevés imprimeur** : relevé mensuel (PDF, tableur) de ce que l'imprimeur facture, et marge.
 - **Boutique › Commandes** : commandes par étape ; dans une commande : PDF, messages, étape, remboursement, paiement hors ligne.
+- **Nouveau musée** : la boutique reprend automatiquement, à la première visite, les produits
+  du musée historique (logo et couleurs du musée, slogans transposés) ; Boutique › Modèles ›
+  « Reprendre les produits » refait la reprise sans toucher aux produits déjà présents.
 - **Boutique › Réglages** : ouverture, port, délai, imprimeur (e-mail qui ouvre son espace /imprimeur/), alertes, conditions de vente.
 - **Boutique › Supports** : dimensions de la zone imprimable, fonds perdus, couleurs proposées et consignes de l'imprimeur pour chaque produit.
 - **Boutique › Banque de textes** : listes de phrases (slogans, anecdotes…). Seules les phrases « Validée » sont proposées au client ; « Proposer des phrases avec l’IA » en ajoute, à valider.

@@ -650,3 +650,18 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Illustration automatique des récits (photos des matchs cités, portraits, archives de la même époque ; jamais la presse) : bouton « Illustrer les récits »
 - [x] Livre « 100 récits du Lion » : moteur PDF prêt à imprimer (`App\Pdf\Livre`, 210 × 270 mm, fonds perdus, multiple de 4 pages), personnalisé (nom, dédicace, numéro), photos placées seulement si leur définition suffit à leur taille ; écran Contenus › Livre des récits (admin) avec bilan des photos ; test `tests/livre.php`. Personnalisation : couverture au choix (photos HD proposées par l'admin), dédicace, supporter depuis, Mon match, Mes joueurs, Le jour de ta naissance, tampon « J'y étais » + bilan du carnet, photo du lecteur, maillot floqué, QR code par récit ; 4e de couverture. Reste : vente en boutique
 - [x] Livre des récits, mise en page et photos : colonnes équilibrées, compositions de photos variées ou citation dans la place libre, récits enchaînés ; ouvertures de décennie toujours illustrées (photo pleine, sans bords blancs ni recadrage abusif, bichromie pour les archives) ; plus de doublons de photos, de personnes ni de lieux ; « Mon match » et « Le jour de ta naissance » en poster pleine page (aussi depuis une feuille de match) ; code-barres 1928 · 2028 · 25 ; livre numérique de la boutique en version écran (150 dpi, 15 à 20 Mo) ; test `tests/livre.php`
+
+## Plusieurs musées et Paris Rétro (11-12 octobre 2026)
+- [x] Back-office commun : comptes partagés, sélecteur de musée aux couleurs de chacun, bascule par jeton (page de passage), administrateur d'un musée administrateur de tous
+- [x] Outils du musée historique (Site de l'association, Reprise 1928-1969, Feuilles de match) réservés à Sochaux : menu, écrans et tâches
+- [x] Mises à jour communes à tous les musées (état, pause, réglages), caches de chaque musée refaits
+- [x] Contenus de départ (Système › Contenus de départ) : fiches préparées créées d'un clic et publiées tout de suite ; nouvelles versions (textes, titre, rubriques) appliquées aux seules fiches non modifiées ; plus de section « Sources » sur les fiches, crédit global dans les mentions légales
+- [x] Coûts IA par musée : clé Gemini propre à chaque musée, avertissement quand elle manque
+- [x] Boutique d'un nouveau musée : produits du musée historique repris (automatiquement ou d'un clic), logo, couleurs et slogans du club
+- [x] Profil du club : mascotte, derbies, région, couleurs en anglais, chiffres masqués, centenaire désactivable ; mots propres au club (`mots.php`, « Le Fil bleu » à Paris)
+- [x] Photos libres de droits livrées par club (`config/clubs/<id>/photos.php`) : accueil, carte des lieux, murs de photos complétés, crédits dans les mentions légales
+- [x] Totaux de référence des joueurs : relevé quotidien, carte dans Tâches planifiées, commande `totaux-reference`, garde-fous
+- [x] Site public : grilles sans trou, rubriques vides masquées, grands titres jamais coupés, slider varié selon le visiteur, carte des lieux réparée, temps additionnel « 45e+1 », animation de connexion aux couleurs du club
+- [x] Paris Rétro : matchs, fiches joueurs, bilans, quiz, frise, palmarès, carte, récits de matchs réécrits, chiffres alignés sur les classements de référence
+- [x] Aide du back-office à jour (Administration : plusieurs musées, contenus de départ, coûts IA par musée, mises à jour communes ; Boutique : reprise des produits ; Site public : un site qui s'adapte à son contenu ; FAQ)
+- [ ] Guide PDF, mémo, infographie et présentation : non régénérés (aucun script de génération dans le dépôt)

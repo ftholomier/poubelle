@@ -1684,3 +1684,53 @@ opposition à la fouille de textes et de données (art. L. 122-5-3 CPI). Test : 
 `coverMode()` : `couleur` si ≥ 250 dpi en pleine couverture, sinon `bichromie`) ;
 classement pertinence + netteté, 6 au plus. `BookShop::clean` accepte toute photo dont `coverMode()` n'est pas nul ;
 `Livre::cover()` applique la bichromie bleu nuit (`toDuo()`).
+
+## Plusieurs musées (`App\Core\Club`)
+
+- Un seul code, un musée par domaine : le profil `config/clubs/<id>.php` (clé `domains`) est
+  choisi au nom de domaine ; `sochaux` est le musée historique (`Club::isDefault()`). Les
+  données d'un autre musée vivent dans `clubs/<id>/data` et `clubs/<id>/storage` ; en ligne de
+  commande, `--club=<id>` (cron compris : une ligne par musée).
+- Contenus propres à un club : `Club::content('<nom>')` lit `config/clubs/<id>/<nom>.php`
+  (libellés, `mots.php` lu par `club()` / `t()`, `credits-sources.php`, `photos.php`,
+  `boutique.php`, `totaux-*.php`, graines du quiz, de la frise, des lieux…).
+- Clés du profil utilisées par le site public : `mascot`, `derbies` et `derby_label`,
+  `home_region`, `colors_en`, `chiffres_masques` (chiffres retirés de `/chiffres/`),
+  `centenaire` (`false` coupe tout ce qui touche au centenaire ; sinon
+  `Site::centenaryCountdown()` ne le montre que dans les 5 ans qui précèdent et l'année qui
+  suit), `theme` (couleurs).
+- Comptes communs (`App\Core\Auth`) : musées autorisés et rôle par musée ; un administrateur
+  d'un musée est administrateur de tous (`roleIn()`). Bascule : `POST /admin/basculer`, jeton
+  signé à usage unique, page de passage vers l'autre domaine (la CSP `form-action` interdit
+  la redirection directe).
+- Outils du musée historique (`association`, `reprise-1928-1969`, `import-feuilles`) : retirés
+  du menu (`Admin\Base::nav()`), de l'aiguillage (`Admin\Router`, redirection vers `/admin`)
+  et des tâches (`Cron::tasks()`) des autres musées.
+- Mises à jour (`Services\Updater`) : état, manifeste, sauvegardes et pause « maintenance »
+  communs (`storage/update/`), réglages de mise à jour lus sur le musée historique, caches de
+  tous les musées vidés.
+- Clé Gemini et coûts d'IA propres à chaque musée ; `templates/admin/system/couts.php`
+  avertit quand `Gemini::key()` est vide.
+- Contenus de départ (`Services\StarterPack`, `Admin\Starter`, `/admin/contenus-de-depart`) :
+  paquets `config/clubs/<id>/import/*.json.gz`, fiches créées une seule fois (clé de source,
+  état dans le stockage du musée), publiées tout de suite, auteur « Contenus de départ ».
+  `refresh()` applique une nouvelle version (titre, chapô, sections, chiffre clé, rubriques
+  existantes du paquet + saison et décennie déjà posées) seulement si la fiche n'a été
+  modifiée par personne. Pas de section « Sources » (gardées dans `legacy.sources`).
+- Boutique (`Shop\ClubCopy`) : produits du musée historique repris à la première visite de la
+  boutique d'un autre musée, ou par « Reprendre les produits » (Boutique › Modèles) ; logo du
+  musée servi, mots et couleurs transposés ; produits existants jamais écrasés.
+- Photos livrées (`Data\Media::bundled()`) : `config/clubs/<id>/photos.php` (titre, auteur,
+  licence, adresse) et `config/clubs/<id>/photos/` ; crédits dans les mentions légales ;
+  utilisées par l'accueil, la carte des lieux (clé `image` d'un lieu) et les murs de photos
+  (`PhotoWall::MIN_OWN` = 40 : en dessous, elles complètent la médiathèque ;
+  `MIN_SHOWN` = 12 : en dessous, murs masqués).
+- Totaux de référence (`Services\ReferenceTotals`, `Data\Totals`) : relevé quotidien des
+  classements déclarés dans `totaux-sources.php` (HTTP/HTTPS seulement, redirections
+  comprises), garde-fous, résultat dans `totaux-reference.php` ; ils priment dans les fiches,
+  les records, `/chiffres/` et les textes audio.
+- Site public : rubriques sans fiche publiée masquées des menus (`Front\Site`) ; grilles du
+  pied de page, des méga-menus, du hub Interactif et de l'accueil sans trou ; grands titres
+  ajustés au mot le plus long (`site.js`) ; slider de l'accueil varié par le cookie `sl`
+  (posé en JS par `home.js`, l'accueil reste en cache) ; animation de connexion
+  (`connexion.js`) aux couleurs et au sigle du club.

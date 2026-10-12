@@ -39,6 +39,9 @@ HTML],
 <p><b>Ordre de la boutique</b> : dans Boutique › Modèles, attrapez un modèle par sa poignée ⠿ et faites-le glisser ; la boutique présente les articles dans cet ordre.</p>
 [[astuce|<p>Les pointillés bleus marquent le bord du produit fini ; la zone grisée, les fonds perdus. Un message signale ce qui dépasse de la zone imprimable, ou un texte trop petit pour la broderie d’une casquette.</p>]]
 HTML],
+        ['id' => 'reprise-produits', 'title' => 'Nouveau musée : reprendre les produits du musée historique', 'admin' => true, 'html' => <<<'HTML'
+<p>Sur un nouveau musée, la boutique reprend <b>automatiquement</b>, à la première visite, les produits du musée historique (supports, modèles, banque de textes). Boutique › Modèles › <b>Reprendre les produits</b> refait la reprise d’un clic : même mise en page, logo et couleurs du musée affiché, slogans et noms transposés au club. Les produits déjà présents ne sont jamais écrasés.</p>
+HTML],
         ['id' => 'textes', 'title' => 'La banque de textes : des phrases au choix du client', 'admin' => true, 'html' => <<<'HTML'
 <p><b>Boutique › Banque de textes</b> rassemble des listes de phrases : les slogans et les anecdotes « Le saviez-vous ? » du rapport boutique y sont déjà. Le client ne tape pas sa phrase : il la <b>choisit</b> dans une liste, ce qui garde chaque objet dans l’esprit de l’association.</p>
 <ul>
