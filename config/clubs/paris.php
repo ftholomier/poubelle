@@ -93,5 +93,5 @@ return [
     // lacunaires pour Paris, résultats faux. Entraîneurs absents de la plupart des saisons (Blanc,
     // Ancelotti, Emery, Tuchel, Luis Enrique…), cartons et arbitres relevés sur une minorité de matchs,
     // pays de naissance connu pour moins d'un joueur sur trois, penaltys arrêtés très incomplets.
-    'chiffres_masques' => ['entraineur', 'entraineur-victoires', 'jaunes', 'rouges', 'arbitre', 'pays', 'penalty-arrete'],
+    'chiffres_masques' => ['jaunes', 'rouges', 'arbitre', 'pays', 'penalty-arrete'],
 ];
