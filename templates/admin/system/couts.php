@@ -8,6 +8,7 @@ use App\Services\AiCosts;
 $num = fn (float $v, int $d = 2) => number_format($v, $d, ',', ' ');
 $price = fn (float $v) => rtrim(rtrim(number_format($v, 4, ',', ' '), '0'), ',');
 ?>
+<?php if (\App\Services\Gemini::key() === ''): ?><p class="alert small" style="margin:0">Aucune clé Gemini n’est enregistrée pour <b>ce musée</b> : l’IA y est coupée, donc aucune dépense. Chaque musée a sa propre clé et ses propres dépenses : <a href="/admin/reglages?groupe=ai">Réglages › IA</a>.</p><?php endif; ?>
 <?php if ($free): ?><p class="alert alert--info small" style="margin:0">Clé Gemini sur le <b>niveau gratuit</b> de Google : rien n’est facturé. Les appels restent comptés à 0 € ; le coût qu’ils auraient eu est indiqué dans le détail CSV.</p><?php endif; ?>
 <?php if ($admin && $payer === ''): ?><p class="alert small" style="margin:0">Indiquez qui avance les frais (<a href="/admin/reglages?groupe=couts">Réglages › Coûts IA</a>) : son nom figure sur le relevé mensuel que l’association rembourse.</p><?php endif; ?>
 
