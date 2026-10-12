@@ -1409,6 +1409,16 @@ ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }
   box-shadow: 5px 6px 0 var(--teal, #0FBFA4); text-decoration: none; text-align: left; max-width: 100%;
   transition: transform .25s ease;
 }
+.hero-cvcount { position: relative; }
+.hero-cvcount-new {
+  position: absolute; top: -14px; right: -18px; transform: rotate(4deg);
+  background: var(--coral-solid); color: #fff; font-size: 12.5px; font-weight: 800;
+  padding: 5px 11px; border-radius: 8px; box-shadow: 2px 3px 0 var(--ink); white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .hero-cvcount { margin-top: 34px; }
+  .hero-cvcount-new { top: -24px; right: auto; left: 50%; transform: translateX(-50%) rotate(-2deg); font-size: 12px; }
+}
 .hero-cvcount:hover { transform: translateY(-2px); }
 .hero-cvcount .n { font-family: var(--font-display); font-weight: 800; font-size: clamp(34px, 5vw, 48px); line-height: 1; color: #0FBFA4; }
 .hero-cvcount .l { font-size: 15px; font-weight: 700; line-height: 1.35; }

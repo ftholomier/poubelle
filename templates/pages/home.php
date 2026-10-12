@@ -44,6 +44,9 @@ $tabs = [
 
     <?php // Le vivier de CV, mis en avant : c'est ce que les recruteurs viennent chercher. ?>
     <a class="hero-cvcount" href="<?= e(I18n::url('/cv')) ?>" data-reveal>
+      <?php if ((int) $stats['recent'] > 0): // pastille en travers : la fraîcheur du vivier ?>
+        <span class="hero-cvcount-new"><?= e(I18n::t('home.cv_recent', number_format((int) $stats['recent'], 0, ',', ' '))) ?></span>
+      <?php endif; ?>
       <span class="n"><?= e(number_format((int) $stats['deposits'], 0, ',', ' ')) ?></span>
       <span class="l"><?= e(I18n::t('home.cv_count', number_format((int) $stats['cv'], 0, ',', ' '))) ?> <span class="go"><?= e(I18n::t('home.cv_count_cta')) ?> →</span></span>
     </a>
