@@ -895,6 +895,12 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
 .hbento--explore { grid-template-columns: 1.5fr 1fr; }
 .hbento--play { grid-template-columns: 1fr 1.3fr; }
 .hbento--one { grid-template-columns: 1fr; }
+/* Pavés absents (centenaire désactivé, pas de chiffre du jour…) : la ligne se recompose sans trou. */
+@media (min-width: 981px) {
+  .hbento--today:has(> :nth-child(2):last-child) { grid-template-columns: 1.5fr 1fr; }
+  .hbento:has(> :only-child) { grid-template-columns: 1fr; }
+}
+.hbento > :only-child { grid-column: 1 / -1; }
 .hbento--part { grid-template-columns: 1fr 1fr; }
 @media (max-width: 980px) { .hbento--today, .hbento--museum, .hbento--explore, .hbento--play, .hbento--part { grid-template-columns: 1fr; } }
 .hcard { background: var(--paper); border: 2px solid var(--navy); padding: 16px; display: flex; flex-direction: column; gap: 8px; color: var(--navy); text-decoration: none; min-width: 0; }
