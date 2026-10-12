@@ -73,7 +73,7 @@ $req = function (string $host, string $path, string $method = 'GET', array $quer
     \App\Vitrine\Host::$prefix = '';
     Site::$preview = false;
     Store::forget();
-    return \App\Kernel::handle(new Request($method, $path, $query, $post, [], ['HTTP_HOST' => $host, 'REQUEST_URI' => $_SERVER['REQUEST_URI'], 'REMOTE_ADDR' => '127.0.0.9'] + $server, $body));
+    return \App\Kernel::handle(new Request($method, $path, $query, $post, [], ['HTTP_HOST' => $host, 'REQUEST_URI' => $_SERVER['REQUEST_URI'], 'REMOTE_ADDR' => '127.0.0.9', 'HTTP_USER_AGENT' => 'Mozilla/5.0 (test-vitrine)'] + $server, $body));
 };
 
 // ---------------------------------------------------------------- adresses
