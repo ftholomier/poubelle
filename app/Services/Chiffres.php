@@ -216,7 +216,9 @@ final class Chiffres
 
     private static function signature(): string
     {
-        $files = [STORAGE_PATH . '/cache/derived.php', \App\Data\Index::CACHE];
+        // Le profil du club (surnoms, rivaux…) et les mots propres au club entrent aussi dans les textes.
+        $files = [STORAGE_PATH . '/cache/derived.php', \App\Data\Index::CACHE, APP_ROOT . '/config/clubs/' . Club::id() . '.php',
+            APP_ROOT . '/config/clubs/' . Club::id() . '/mots.php'];
         if (I18n::lang() !== I18n::DEFAULT) {
             $files[] = I18N_PATH . '/' . I18n::lang() . '.json';
         }
@@ -1862,10 +1864,11 @@ final class Chiffres
         $k = $pick(fn ($r) => $r['gf']);
         $out['buts-contre'] = self::stat('buts-contre', self::num($rec[$k]['gf']), self::unit($rec[$k]['gf'], 'but marqué', 'buts marqués'), t('Le punching-ball'),
             t('Contre {club}, en {m} matchs officiels.', ['club' => self::clubName($k), 'm' => $rec[$k]['m']]), [self::club($k)]);
-        $east = array_values(array_filter(self::EAST, fn ($id) => isset($by[$id])));
+        // Rivaux du club (profil : « derbies » et « derby_label »), sinon les voisins de l'Est de Sochaux.
+        $east = array_values(array_filter((array) Club::get('derbies', self::EAST), fn ($id) => isset($by[$id])));
         if ($east) {
             $r = self::record(array_merge(...array_map(fn ($id) => $by[$id], $east)));
-            $out['derbys'] = self::stat('derbys', self::num($r['m']), t('matchs officiels'), t('Les derbys de l’Est'),
+            $out['derbys'] = self::stat('derbys', self::num($r['m']), t('matchs officiels'), t(Club::s('derby_label') ?: 'Les derbys de l’Est'),
                 ucfirst(self::vnd($r)) . ' ' . t('contre {clubs}.', ['clubs' => self::andList(array_map(fn ($id) => self::clubName($id), $east))]));
         }
         // Arbitres.
@@ -2109,7 +2112,8 @@ final class Chiffres
             }
             $by = (int) substr($p['birth'], 0, 4);
             $from = $p['career']['from'] ?? null;
-            $okBirth[$pid] = $from === null || ($from - $by >= 14 && $from - $by <= 36);
+            // (différence d'années : un joueur né en fin d'année arrivé à 36 ans compte 37, comme Coupet.)
+            $okBirth[$pid] = $from === null || ($from - $by >= 14 && $from - $by <= 37);
         }
         $firstAge = [];
         foreach ($c['apps'] as $a) {
@@ -2210,11 +2214,14 @@ final class Chiffres
             $out['gauchers'] = self::stat('gauchers', self::pct(($feet['g'] ?? 0) / $known), t('des joueurs'), t('Les gauchers'),
                 t('{g} gauchers, {d} droitiers et {a} ambidextres parmi les {n} fiches qui le précisent.', ['g' => $feet['g'] ?? 0, 'd' => $feet['d'] ?? 0, 'a' => $feet['a'] ?? 0, 'n' => $known]), [], 'fiches');
         }
-        $fc = array_filter($players, fn ($p) => isset(self::FRANCHE_COMTE[$p['dept']]));
+        // Région du club (profil : « home_region »), sinon la Franche-Comté de Sochaux.
+        $reg = (array) Club::get('home_region', []);
+        $depts = (array) ($reg['depts'] ?? self::FRANCHE_COMTE);
+        $fc = array_filter($players, fn ($p) => isset($depts[$p['dept']]));
         if ($fc) {
-            $doubs = count(array_filter($fc, fn ($p) => $p['dept'] === '25'));
-            $out['enfants-du-pays'] = self::stat('enfants-du-pays', self::num(count($fc)), t('{nickname} nés en Franche-Comté'), t('Les enfants du pays'),
-                t('Dont {d} dans le Doubs, sur les fiches dont le lieu de naissance est connu.', ['d' => $doubs]), [], 'fiches');
+            $doubs = count(array_filter($fc, fn ($p) => $p['dept'] === (string) ($reg['main'] ?? '25')));
+            $out['enfants-du-pays'] = self::stat('enfants-du-pays', self::num(count($fc)), t($reg['unit'] ?? '{nickname} nés en Franche-Comté'), t('Les enfants du pays'),
+                t($reg['text'] ?? 'Dont {d} dans le Doubs, sur les fiches dont le lieu de naissance est connu.', ['d' => $doubs]), [], 'fiches');
         }
         $countries = [];
         foreach ($players as $p) {

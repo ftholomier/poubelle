@@ -33,7 +33,19 @@ return [
     'gentile_pl' => 'Parisiens',
     'nickname' => 'Parisiens',
     'nickname_sg' => 'Parisien',
-    'mascot' => 'Tour',
+    // Mot des titres « Les {mascot}s de la seconde période », « Les {mascot}s en portrait » (Sochaux : Lion).
+    'mascot' => 'Parisien',
+    // Page « Les chiffres » : rivaux du chiffre « derbys » (identifiants des clubs) et son titre.
+    'derbies' => ['marseille'],
+    'derby_label' => 'Les Classiques',
+    // Page « Les chiffres », « Les enfants du pays » : départements de la région du club.
+    'home_region' => [
+        'depts' => ['75' => 'Paris', '77' => 'Seine-et-Marne', '78' => 'Yvelines', '91' => 'Essonne', '92' => 'Hauts-de-Seine',
+            '93' => 'Seine-Saint-Denis', '94' => 'Val-de-Marne', '95' => 'Val-d’Oise'],
+        'main' => '75',
+        'unit' => '{nickname} nés en Île-de-France',
+        'text' => 'Dont {d} à Paris même, sur les fiches dont le lieu de naissance est connu.',
+    ],
     'colors' => 'rouge et bleu',
     'founded' => '1970',
     'founded_date' => '1970-08-12',
