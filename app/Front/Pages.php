@@ -338,6 +338,11 @@ final class Pages
             $o = self::slideOpts();
             $cands = self::slidePool();
             shuffle($cands);
+            // Fiches déjà montrées à ce visiteur (cookie « sl ») : reléguées en fin de tirage, pour varier d'une visite à l'autre.
+            $seen = array_flip(array_map('intval', array_filter(explode('.', (string) ($_COOKIE['sl'] ?? '')), 'ctype_digit')));
+            if ($seen) {
+                usort($cands, fn ($a, $b) => isset($seen[$a['id']]) <=> isset($seen[$b['id']]));
+            }
             $picked = [];
             $take = function (callable $ok, int $count) use (&$cands, &$picked, $n): void {
                 foreach ($cands as $i => $c) {
@@ -366,6 +371,10 @@ final class Pages
             $take(fn ($c) => true, $n);
             shuffle($picked);
             $pool = array_column($picked, 's');
+            if (!headers_sent()) {
+                $keep = array_slice(array_unique(array_merge(array_column($picked, 'id'), array_keys($seen))), 0, 150);
+                setcookie('sl', implode('.', $keep), ['expires' => time() + 60 * 86400, 'path' => '/', 'samesite' => 'Lax', 'secure' => (($_SERVER['HTTPS'] ?? '') === 'on')]);
+            }
             if (!$pool) {
                 $pool = array_values(array_filter(Index::published(), fn ($s) => $s['image'] && !Index::isPlaceholderImage($s['image'])));
                 shuffle($pool);
