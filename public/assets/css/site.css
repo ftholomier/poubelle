@@ -399,8 +399,8 @@ html { scroll-padding-top: var(--head-h, 0px); }
 .mf-cta__txt { margin: 0; font-size: 19px; }
 .mf-cta__btns { display: flex; gap: 14px; flex-wrap: wrap; }
 .mf-cta__btns .btn { font-size: 17px; padding: 14px 22px; }
-.mf-main { max-width: var(--wrap); margin: 0 auto; padding: clamp(40px, 5vw, 64px) var(--gutter); display: grid; grid-template-columns: minmax(310px, 1.5fr) repeat(3, minmax(0, 1fr)); gap: 32px; }
-.mf-main:has(.mf-shop) { grid-template-columns: minmax(310px, 1.5fr) repeat(3, minmax(0, .9fr)) minmax(0, .9fr); gap: 26px; }
+.mf-main { max-width: var(--wrap); margin: 0 auto; padding: clamp(40px, 5vw, 64px) var(--gutter); display: grid; grid-template-columns: minmax(310px, 1.5fr) repeat(var(--mf-n, 3), minmax(0, 1fr)); gap: 32px; }
+.mf-main:has(.mf-shop) { grid-template-columns: minmax(310px, 1.5fr) repeat(var(--mf-n, 3), minmax(0, .9fr)) minmax(0, .9fr); gap: 26px; }
 @media (max-width: 1180px) { .mf-main:has(.mf-shop) { grid-template-columns: repeat(3, minmax(0, 1fr)); } .mf-main:has(.mf-shop) .mf-brand { grid-column: 1 / -1; } }
 @media (max-width: 960px) { .mf-main, .mf-main:has(.mf-shop) { grid-template-columns: 1fr 1fr; } .mf-brand { grid-column: 1 / -1; } }
 @media (max-width: 520px) { .mf-main, .mf-main:has(.mf-shop) { grid-template-columns: 1fr; } }

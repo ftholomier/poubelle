@@ -85,6 +85,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
   </div>
 </section>
 
+<?php if ($jour || !empty($chiffre) || Site::centenaryCountdown()): // aucun pavé : pas de bandeau vide ?>
 <section class="hband" aria-label="<?= e(t('Aujourd’hui au musée')) ?>">
   <div class="wrap">
     <div class="hband__head"><span class="eyebrow"><?= e(t('Aujourd’hui au musée')) ?></span></div>
@@ -123,7 +124,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
     </div>
   </div>
 </section>
-
+<?php endif; ?>
 
 <?php if (!empty($photoDay) || !empty($ago)): ?>
 <section class="hband hband--more" aria-label="<?= e(t('Photo du jour et souvenirs')) ?>">

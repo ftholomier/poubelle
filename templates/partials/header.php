@@ -69,14 +69,18 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
 
   <?php foreach ($nav as $item): if (empty($item['mega'])) continue; $mg = $item['mega']; ?>
   <div class="mega" data-mega="<?= e($item['key']) ?>">
-    <?php if ($mg['kind'] === 'matchs'): ?>
-      <div class="mega__inner" style="grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,.8fr)">
+    <?php if ($mg['kind'] === 'matchs'):
+      // Colonnes vides (pas de compétition, rien à explorer) omises : les autres prennent la place.
+      $mcols = array_filter(['c' => $mg['competitions'] ? 'minmax(0,1fr)' : '', 'd' => 'minmax(0,1.5fr)', 'x' => $mg['explore'] ? 'minmax(0,.8fr)' : '']); ?>
+      <div class="mega__inner" style="grid-template-columns:<?= implode(' ', $mcols) ?>">
+        <?php if (isset($mcols['c'])): ?>
         <div class="mega__col">
           <span class="mega__title"><?= e(t('Par compétition')) ?></span>
           <div class="mega__pills">
             <?php foreach ($mg['competitions'] as $c): ?><a class="mega__pill" href="<?= e($c['href']) ?>"><?= e($c['label']) ?></a><?php endforeach; ?>
           </div>
         </div>
+        <?php endif; ?>
         <div class="mega__col">
           <div class="mega__head"><span class="mega__title"><?= e(t('Par décennie')) ?></span><a class="mega__all" href="<?= e(url('/matchs/')) ?>"><?= e(t('Tous les matchs')) ?> →</a></div>
           <div class="mega__decades">
@@ -85,10 +89,12 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
             <?php endforeach; ?>
           </div>
         </div>
+        <?php if (isset($mcols['x'])): ?>
         <div class="mega__col mega__col--sep">
           <span class="mega__title"><?= e(t('Explorer')) ?></span>
           <?php foreach ($mg['explore'] as $x): ?><a class="mega__link" href="<?= e($x['href']) ?>"><?= e($x['label']) ?></a><?php endforeach; ?>
         </div>
+        <?php endif; ?>
       </div>
     <?php elseif ($mg['kind'] === 'columns'): ?>
       <div class="mega__inner" style="grid-template-columns:repeat(<?= count($mg['cols']) ?>,minmax(0,1fr))">
@@ -103,17 +109,19 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
         <?php endforeach; ?>
       </div>
     <?php elseif ($mg['kind'] === 'list'): $col = $mg['col']; ?>
-      <div class="mega__inner" style="grid-template-columns:minmax(0,1fr) minmax(0,2fr)">
+      <div class="mega__inner" style="grid-template-columns:<?= $col['subs'] ? 'minmax(0,1fr) minmax(0,2fr)' : 'minmax(0,1fr)' ?>">
         <div class="mega__col">
           <span class="mega__title"><?= e($col['title']) ?></span>
           <?php if (!empty($col['desc'])): ?><p class="mega__all" style="margin:0"><?= e($col['desc']) ?></p><?php endif; ?>
           <a class="mega__link" href="<?= e($col['all']['href']) ?>"><?= e($col['all']['label']) ?> →</a>
         </div>
+        <?php if ($col['subs']): ?>
         <div class="mega__col mega__col--sep">
           <div class="mega__pills">
             <?php foreach ($col['subs'] as $s): ?><a class="mega__pill" href="<?= e($s['href']) ?>"><?= e($s['label']) ?> <small style="opacity:.7">(<?= (int) $s['count'] ?>)</small></a><?php endforeach; ?>
           </div>
         </div>
+        <?php endif; ?>
       </div>
     <?php elseif ($mg['kind'] === 'interactif'): ?>
       <?php // Une colonne par groupe (un groupe de plus de 5 sur deux colonnes), une ligne compacte par outil : le menu reste bas. ?>
@@ -128,7 +136,7 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
             </div>
           </div>
         <?php endforeach; ?>
-        <div class="mega__foot"><a class="mega__all" href="<?= e(url('/interactif/')) ?>"><?= e(t('Toute la rubrique Interactif')) ?> →</a><a class="mega__all" href="<?= e(url('/centenaire/')) ?>"><?= e(t('Le centenaire')) ?> →</a></div>
+        <div class="mega__foot"><a class="mega__all" href="<?= e(url('/interactif/')) ?>"><?= e(t('Toute la rubrique Interactif')) ?> →</a><?php if (\App\Front\Menus::href('/centenaire/') !== null): ?><a class="mega__all" href="<?= e(url('/centenaire/')) ?>"><?= e(t('Le centenaire')) ?> →</a><?php endif; ?></div>
       </div>
     <?php endif; ?>
   </div>

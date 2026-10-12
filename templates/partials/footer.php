@@ -57,7 +57,14 @@ $asso = \App\Vitrine\Host::base();
     </div>
   </div>
   <?php endif; ?>
-  <div class="mf-main">
+  <?php
+  // Colonnes de liens réellement rendues (une colonne vide est omise) : la grille en compte autant, sans trou.
+  $fcols = [];
+  foreach (\App\Front\Menus::get()['footer'] as $col) {
+      if ($links = \App\Front\Menus::links((array) ($col['links'] ?? []))) { $fcols[] = [$links, \App\Front\Menus::text($col, 'title')]; }
+  }
+  ?>
+  <div class="mf-main" style="--mf-n:<?= max(1, count($fcols)) ?>">
     <div class="mf-brand">
       <a class="mf-logo" href="<?= e(url('/')) ?>"><img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="70" height="79" loading="lazy"><span><b><?= e(\App\Core\Club::s('site')) ?></b><?php if (($tag = $ft('tagline')) !== ''): ?><small><?= e($tag) ?></small><?php endif; ?></span></a>
       <div class="mf-btns">
@@ -72,7 +79,7 @@ $asso = \App\Vitrine\Host::base();
       </div>
       <?php endif; ?>
     </div>
-    <?php foreach (\App\Front\Menus::get()['footer'] as $col): $links = \App\Front\Menus::links((array) ($col['links'] ?? [])); if (!$links) continue; $ct = \App\Front\Menus::text($col, 'title'); ?>
+    <?php foreach ($fcols as [$links, $ct]): ?>
     <nav class="mf-col" aria-label="<?= e($ct) ?>">
       <h2><?= e($ct) ?></h2>
       <?php foreach ($links as $lk): ?><a href="<?= e($lk['href']) ?>"<?= $lk['ext'] ? ' rel="noopener" target="_blank"' : '' ?>><?= e($lk['label']) ?><?= $lk['ext'] ? ' ↗' : '' ?></a><?php endforeach; ?>

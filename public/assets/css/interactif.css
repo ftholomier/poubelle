@@ -16,7 +16,8 @@
 /* Accueil de la rubrique */
 .ilanding { padding-top: clamp(40px, 6vw, 80px); padding-bottom: clamp(56px, 8vw, 96px); display: flex; flex-direction: column; gap: 48px; }
 .ilanding__group { display: flex; flex-direction: column; gap: 16px; }
-.ilanding__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+/* auto-fit : un groupe de 1 à 3 outils (musée peu rempli) s’étale sur la ligne au lieu de laisser un trou. */
+.ilanding__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
 .itool { position: relative; display: flex; flex-direction: column; gap: 8px; border: 2px solid var(--navy); background: var(--paper); padding: 22px; min-height: 190px; transition: transform .25s var(--bounce), box-shadow .25s, background .2s; }
 .itool:hover { transform: translate(-5px, -5px); box-shadow: 10px 10px 0 var(--yellow); color: var(--navy); }
 .itool__icon { width: 56px; height: 56px; border: 2px solid var(--navy); background: var(--yellow); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 900; font-size: 24px; }
