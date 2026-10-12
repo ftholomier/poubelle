@@ -61,10 +61,8 @@ return [
     'home.status'       => '%s offres en ligne · %s arrivées depuis ce matin',
     'home.h1_a'         => 'Votre prochaine scène',
     'home.h1_b'         => 'commence ici.',
-    'home.data_deposits'=> 'CV déposés',
-    'home.data_online'  => 'profils à consulter',
-    'home.data_recent'  => 'nouveaux CV ce mois-ci',
-    'home.data_jobs'    => 'offres en ligne',
+    'home.cv_count'     => 'CV d’intermittents déposés, dont %s à consulter en ligne.',
+    'home.cv_count_cta' => 'Parcourir l’annuaire',
     'home.lede'         => "Offres d'emploi et annuaire de CV pour les intermittents du spectacle. "
                          . "Gratuit des deux côtés du plateau : déposer, chercher, recruter, tout est à 0 €.",
     'home.badge_free'   => '100 % gratuit',

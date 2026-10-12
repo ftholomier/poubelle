@@ -26,13 +26,10 @@ final class HomeController extends Controller
         // Lu une fois : l'index des CV pèse près de 200 Ko et sert
         // deux fois, au compteur de la page et au gabarit de titre.
         $cvTotal = (int) (Index::meta('cv')['total'] ?? 0);
-        // Le héros met en avant le vivier : tous les dépôts, et ceux du mois.
+        // Le héros met en avant le vivier : tous les dépôts.
         $deposits = 0;
-        $recent = 0;
-        $since = strtotime('-30 days');
         foreach (\App\Domain\CvRepository::all() as $cv) {
             $deposits++;
-            $recent += (int) strtotime((string) ($cv['created_at'] ?? '')) >= $since ? 1 : 0;
         }
 
         // Le bandeau et les trois compteurs parlent du même ensemble : ce que
@@ -50,7 +47,6 @@ final class HomeController extends Controller
                 'jobs'      => (int) $facets['total'],
                 'cv'        => $cvTotal,
                 'deposits'  => $deposits,
-                'recent'    => $recent,
                 'employers' => count(array_filter($employers,
                                  static fn(array $e) => (int) $e['job_count'] > 0)),
             ],

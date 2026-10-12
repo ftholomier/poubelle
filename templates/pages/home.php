@@ -38,28 +38,15 @@ $tabs = [
   </div>
 
   <div class="hero-inner">
-    <span class="pill-status" data-reveal>
-      <span class="dot"></span>
-      <?= e(I18n::t('home.status',
-            number_format((int) ($facets['total'] ?? 0), 0, ',', ' '),
-            number_format((int) ($facets['today'] ?? 0), 0, ',', ' '))) ?>
-    </span>
-
     <h1 data-reveal><?= e(I18n::t('home.h1_a')) ?><br><span class="highlight"><?= e(I18n::t('home.h1_b')) ?></span></h1>
 
     <p class="hero-lede" data-reveal><?= e(I18n::t('home.lede')) ?></p>
 
     <?php // Le vivier de CV, mis en avant : c'est ce que les recruteurs viennent chercher. ?>
-    <div class="hero-data" data-reveal>
-      <?php foreach ([
-          [$stats['deposits'], 'home.data_deposits', '/cv'],
-          [$stats['cv'],       'home.data_online',   '/cv'],
-          [$stats['recent'],   'home.data_recent',   '/deposer-un-cv'],
-          [$facets['total'] ?? 0, 'home.data_jobs',  '/offres'],
-      ] as [$n, $label, $href]): if ((int) $n <= 0) { continue; } // un zéro ne donne envie de rien ?>
-        <a href="<?= e(I18n::url($href)) ?>"><span class="n"><?= e(number_format((int) $n, 0, ',', ' ')) ?></span><span class="l"><?= e(I18n::t($label)) ?></span></a>
-      <?php endforeach; ?>
-    </div>
+    <a class="hero-cvcount" href="<?= e(I18n::url('/cv')) ?>" data-reveal>
+      <span class="n"><?= e(number_format((int) $stats['deposits'], 0, ',', ' ')) ?></span>
+      <span class="l"><?= e(I18n::t('home.cv_count', number_format((int) $stats['cv'], 0, ',', ' '))) ?> <span class="go"><?= e(I18n::t('home.cv_count_cta')) ?> →</span></span>
+    </a>
 
     <div class="hero-stickers" data-reveal>
       <span class="sticker sticker-coral"><?= e(I18n::t('home.badge_free')) ?></span>
