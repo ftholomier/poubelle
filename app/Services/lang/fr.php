@@ -61,6 +61,8 @@ return [
     'home.status'       => '%s offres en ligne · %s arrivées depuis ce matin',
     'home.h1_a'         => 'Votre prochaine scène',
     'home.h1_b'         => 'commence ici.',
+    'home.cv_count'     => 'CV d’intermittents en ligne, prêts à être contactés.',
+    'home.cv_count_cta' => 'Parcourir l’annuaire',
     'home.lede'         => "Offres d'emploi et annuaire de CV pour les intermittents du spectacle. "
                          . "Gratuit des deux côtés du plateau : déposer, chercher, recruter, tout est à 0 €.",
     'home.badge_free'   => '100 % gratuit',
