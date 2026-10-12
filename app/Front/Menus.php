@@ -20,9 +20,9 @@ final class Menus
 
     public static function defaults(): array
     {
-        $l = fn (string $label, string $href, array $more = []) => ['label' => $label, 'label_en' => '', 'href' => $href] + $more;
+        $l = fn (string $label, string $href, array $more = []) => ['label' => club_words($label), 'label_en' => '', 'href' => $href] + $more;
         $nos = (string) (\App\Core\Club::content('libelles', [])['nos_lions'] ?? 'Nos joueurs');
-        $tool = fn (string $icon, string $label, string $d, string $href) => ['icon' => $icon, 'label' => $label, 'label_en' => '', 'd' => $d, 'd_en' => '', 'href' => $href];
+        $tool = fn (string $icon, string $label, string $d, string $href) => ['icon' => $icon, 'label' => club_words($label), 'label_en' => '', 'd' => $d, 'd_en' => '', 'href' => $href];
         return [
             'buttons' => [
                 $l('Contribuer', '/contribuer/', ['key' => 'contribuer']),

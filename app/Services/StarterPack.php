@@ -187,10 +187,7 @@ final class StarterPack
         }
         $doc['categories'] = array_values(array_unique(array_filter($cats, fn ($s) => Categories::get((string) $s) !== null)));
         $sources = array_values(array_filter((array) ($it['sources'] ?? [$it['source'] ?? ''])));
-        if ($sources && empty($it['no_sources_section'])) {
-            $written = trim((string) $doc['intro']) !== '' || $doc['sections'];
-            $doc['sections'][] = ['title' => 'Sources', 'html' => self::sourcesHtml($sources, $written)];
-        }
+        // Pas de section « Sources » : sources gardées en interne (legacy.sources), créditées dans les mentions légales.
         $doc['legacy'] = ['depart' => (string) $it['key'], 'sources' => $sources];
         $doc['path'] = Paths::unique(Paths::suggest($doc), -1);
         $doc['slug'] = basename(rtrim($doc['path'], '/'));
@@ -215,17 +212,9 @@ final class StarterPack
                 $doc[$type][$k] = $it[$type][$k];
             }
         }
-        $sources = array_values(array_filter((array) ($it['sources'] ?? [$it['source'] ?? ''])));
-        if ($sources) {
-            $doc['sections'][] = ['title' => 'Sources', 'html' => self::sourcesHtml($sources, trim((string) $doc['intro']) !== '' || count($doc['sections']) > 0)];
-        }
+        // Plus de section « Sources » sur les fiches (gardées en interne, créditées dans les mentions légales).
+        $doc['sections'] = array_values(array_filter((array) $doc['sections'], fn ($s) => ($s['title'] ?? '') !== 'Sources'));
         Fiches::save($doc, self::AUTHOR, 'Contenus de départ : nouvelle version');
         return true;
-    }
-
-    private static function sourcesHtml(array $links, bool $written): string
-    {
-        $a = implode(', ', array_map(fn ($l) => '<a href="' . e($l) . '" rel="noopener" target="_blank">' . e((string) preg_replace('#^https?://(www\.)?#', '', rtrim($l, '/'))) . '</a>', $links));
-        return '<p>Faits repris de : ' . $a . '.' . ($written ? ' Texte rédigé par ' . e(Club::s('site')) . '.' : '') . '</p>';
     }
 }

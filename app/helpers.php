@@ -27,7 +27,15 @@ function t(string $text, array $vars = []): string
     if (str_contains($s, '{')) {
         $s = club($s);
     }
-    return $s;
+    return club_words($s);
+}
+
+/** Mots propres au club servi (« Fil jaune » → « Fil bleu »…), d'après config/clubs/<club>/mots.php. */
+function club_words(string $s): string
+{
+    static $map = null;
+    $map ??= (array) \App\Core\Club::content('mots', []);
+    return $map ? strtr($s, $map) : $s;
 }
 
 /** URL d'une image redimensionnée à la volée, en WebP (largeurs : voir Services\Images::WIDTHS). */
@@ -429,7 +437,8 @@ function stadium_bilan_path(): string
 /** Clé du stade du club dans les données (« auguste-bonal »), d'après stadium_full du profil. */
 function stadium_key(): string
 {
-    return (string) preg_replace('/^stade-/', '', slugify(\App\Core\Club::s('stadium_full')));
+    // Même clé que celle des stades dans les données (Names::stadiumKey : « Parc des Princes » → « princes »).
+    return \App\Data\Names::stadiumKey(\App\Core\Club::s('stadium_full'));
 }
 
 /**
