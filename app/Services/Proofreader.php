@@ -1188,6 +1188,11 @@ final class Proofreader
             JsonStore::write(self::$dir . "/fiches/$id.json", ['m' => $doc['modified'] ?? null, 's' => self::textSig($doc), 'at' => time(), 'engine' => $r['engine'], 'items' => $r['items']]);
             $done++;
             $found += count($r['items']);
+            // Une fiche relue par l'IA peut prendre plus d'une minute (plusieurs appels) : pas d'autre
+            // fiche IA dans le même passage, pour ne pas occuper un processus PHP pendant des minutes.
+            if ($useAi && $r['calls'] > 0) {
+                break;
+            }
         }
         if ($changes) {
             JsonStore::update(self::$dir . '/index.json', fn ($idx) => array_replace($idx ?: [], $changes), []);
