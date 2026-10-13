@@ -436,12 +436,10 @@ final class Slides
                 if (!\App\Widgets\Items\Don::isOpen()) {
                     return null;
                 }
-                $g = \App\Widgets\Items\Don::gauge();
-                $euros = fn (int $n) => \App\Widgets\Items\Don::euros($n, $c);
+                $D = \App\Widgets\Items\Don::class;
                 return ['layout' => 'don', 'eyebrow' => $c->tr('Soutenir le musée', 'Support the museum'), 'title' => $c->tr('Faire un don', 'Donate'),
                     'text' => $c->tr('Le musée vit de bénévolat et de dons : chaque euro aide à numériser et partager les archives du club.', 'The museum runs on volunteers and donations: every euro helps digitise and share the club’s archives.'),
-                    'gauge' => $g ? ['raised' => $euros($g['raised']), 'goal' => $c->tr('sur ', 'of ') . $euros($g['goal']), 'pct' => (float) $g['pct'],
-                        'note' => ($c->en() ? (string) $g['pct'] : str_replace('.', ',', (string) $g['pct'])) . ' % · ' . ($c->en() ? t($g['label']) : $g['label'])] : null,
+                    'chips' => array_merge(array_map(fn ($n) => $D::euros($n, $c), $D::amounts()), [$c->tr('Montant libre', 'Any amount')]), 'note' => $D::freeLine($c),
                     'qr' => \App\Widgets\Items\Don::external() ?? $c->link(\App\Widgets\Items\Don::PATH), 'caption' => $c->tr('Scannez pour donner', 'Scan to donate')];
         }
         return null;

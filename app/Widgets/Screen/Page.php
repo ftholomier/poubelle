@@ -174,8 +174,8 @@ final class Page
                 break;
             case 'don':
                 $h .= '<div class="ec-main">' . $eb . '<h1 class="ec-title">' . e($s['title']) . '</h1><p class="ec-text ec-don__text">' . e($s['text']) . '</p>';
-                if ($g = $s['gauge']) {
-                    $h .= '<div class="ec-gauge"><p><b>' . e($g['raised']) . '</b> ' . e($g['goal']) . '</p><div class="ec-gauge__bar"><i style="width:' . e((string) $g['pct']) . '%"></i></div><span>' . e($g['note']) . '</span></div>';
+                if (!empty($s['chips'])) {
+                    $h .= '<ul class="ec-chips">' . implode('', array_map(fn ($t) => '<li>' . e($t) . '</li>', $s['chips'])) . '</ul><p class="ec-chips__note">' . e($s['note']) . '</p>';
                 }
                 $h .= '</div>' . $qr($s['qr'], $s['caption']);
                 break;
@@ -261,6 +261,7 @@ final class Page
             . '.ec--vertical .ec-support{grid-template-columns:1fr;gap:40px}.ec--vertical .ec-support .ec-qr{width:260px}'
             . '.ec-l--don{gap:90px}.ec-l--don .ec-qr{flex:none;align-self:center;width:600px;margin:0;padding:24px}.ec-l--don .ec-qr figcaption{font:900 46px/1 var(--display);text-transform:uppercase;letter-spacing:.06em;color:var(--navy);text-align:center;margin-top:14px}'
             . '.ec-don__text{font:500 48px/1.3 var(--serif);color:var(--cream);margin:10px 0 0}'
+            . '.ec-chips{list-style:none;display:flex;flex-wrap:wrap;gap:22px;margin-top:56px}.ec-chips li{font:900 72px/1 var(--display);color:var(--accent);border:5px solid var(--accent);border-radius:999px;padding:18px 40px}.ec-chips li:last-child{border-style:dashed;color:var(--cream);border-color:var(--cream);font-size:56px;align-self:center}.ec-chips__note{font:500 40px/1.3 var(--serif);color:var(--mist);margin-top:30px}'
             . '.ec-gauge{margin-top:56px}.ec-gauge p{font:800 48px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;color:var(--mist);margin:0 0 22px}.ec-gauge b{font:900 120px/1 var(--display);color:var(--accent);letter-spacing:0;margin-right:10px}'
             . '.ec-gauge__bar{height:44px;border-radius:22px;background:rgba(255,255,255,.14);overflow:hidden}.ec-gauge__bar i{display:block;height:100%;min-width:44px;background:var(--accent);border-radius:22px}.ec-gauge span{display:block;font:500 36px/1.3 var(--serif);color:var(--mist);margin-top:18px}'
             . '.ec--vertical .ec-l--don{gap:50px}.ec--vertical .ec-l--don .ec-qr{width:560px;align-self:center}.ec--vertical .ec-gauge b{font-size:100px}'

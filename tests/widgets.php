@@ -346,9 +346,9 @@ try {
     $gg = \App\Front\Donations::gauge();
     $ok($d !== null && str_contains($d['href'], '/w/clic/don/') && str_contains(rawurldecode($d['href']), 'to=/faire-un-don/'), 'don : bouton « Faire un don » en lien compté vers /faire-un-don/');
     $ok(is_string($d['qr']) && str_starts_with($d['qr'], \App\Widgets\Context::base() . '/faire-un-don/?') && str_contains($d['qr'], 'utm_source=widget') && str_contains($d['qr'], 'utm_medium=don'), 'don : QR code vers l’adresse complète du don, avec la provenance');
-    $ok($gg['goal'] > 0 ? ($d['gauge']['raised'] === $gg['raised'] && $d['gauge']['goal'] === $gg['goal'] && (float) $d['gauge']['pct'] === (float) $gg['pct']) : $d['gauge'] === null, 'don : jauge identique à la page « Faire un don » (absente sans objectif)');
-    $ok($d3('don', ['jauge' => 'non'])['gauge'] === null && $d3('don', ['qr' => 'non'])['qr'] === null && $d3('don', ['qr' => 'peut-etre'])['qr'] !== null, 'don : options jauge et QR (valeur inconnue → oui)');
-    $ok($d['amounts'] === [] && ($D::tiers() === [] || count($d3('don', ['montants' => 'oui'])['amounts']) === min(4, count($D::tiers()))), 'don : montants suggérés seulement sur demande');
+    $ok(!array_key_exists('gauge', $d) && !str_contains($g3('/w/don')->body, 'class="w-gauge'), 'don : pas de jauge ni d’objectif (on donne ce qu’on veut)');
+    $ok($d3('don', ['qr' => 'non'])['qr'] === null && $d3('don', ['qr' => 'peut-etre'])['qr'] !== null, 'don : option QR (valeur inconnue → oui)');
+    $ok($d['amounts'] === $D::amounts() && $d['amounts'] !== [] && $d3('don', ['montants' => 'non'])['amounts'] === [] && str_contains($g3('/w/don')->body, 'Montant libre'), 'don : montants affichés par défaut, avec « Montant libre »');
     $ok(array_key_exists('montants', Registry::get('don')->options()) === ($D::tiers() !== []), 'don : option « montants » seulement si la page en propose');
     $ok(!empty($json($g3('/api/v1/widgets'))['widgets'][array_search('don', array_column($json($g3('/api/v1/widgets'))['widgets'], 'key'))]['customizable']), 'don : pastille « Personnalisable » (options)');
     foreach (['clair', 'sombre'] as $theme) {
@@ -359,7 +359,7 @@ try {
     $ok(str_contains($g3('/w/don', ['lang' => 'en'])->body, 'Scan to donate') && str_contains($d3('don', ['lang' => 'en'])['qr'], '/en/faire-un-don/'), 'don : en anglais (« Donate », « Scan to donate »)');
     \App\Services\I18n::set('fr');
     $sl = \App\Widgets\Screen\Slides::one(['type' => 'don', 'opt' => []], new \App\Widgets\Context('playlist', 'fr', 'sombre', 'ecran'));
-    $ok($sl !== null && $sl['layout'] === 'don' && str_contains($sl['qr'], '/w/clic/playlist/') && ($gg['goal'] > 0) === ($sl['gauge'] !== null), 'don : slide du mode écran (grand QR code, jauge)');
+    $ok($sl !== null && $sl['layout'] === 'don' && str_contains($sl['qr'], '/w/clic/playlist/') && !isset($sl['gauge']) && end($sl['chips']) === 'Montant libre', 'don : slide du mode écran (grand QR code, montants, montant libre)');
     $sh = \App\Widgets\Screen\Page::slide($sl + ['type' => 'don', 'duration' => 12], new \App\Widgets\Context('playlist', 'fr', 'sombre', 'ecran'));
     $ok(str_contains($sh, 'ec-l--don') && str_contains($sh, '<figure class="ec-qr"><svg') && str_contains($sh, 'Scannez pour donner'), 'don : slide HTML avec QR code et légende');
     $okp = true;

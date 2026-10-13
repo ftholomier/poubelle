@@ -420,15 +420,23 @@ final class Image
                 $y = $eyebrow($x, $y, $tw);
                 $y = $this->title($s['title'], $x, $y, $tw, $v ? 110 : 120);
                 $y = $this->para($s['text'], 'Newsreader-Regular', $v ? 42 : 46, $x, $y + 10, $tw, 4, 'cream', 1.3);
-                if ($g = $s['gauge']) {
-                    $y += 60;
-                    $rw = $this->width($g['raised'], 'BigShouldersDisplay-Black', 120);
-                    $this->line($g['raised'], 'BigShouldersDisplay-Black', 120, $x, $y + 100, $tw, 'accent');
-                    $this->line(mb_strtoupper($g['goal']), 'BigShouldersDisplay-ExtraBold', 48, $x + min($tw - 200, $rw + 24), $y + 100, max(200, $tw - $rw - 24), 'mist', 2);
-                    $y += 130;
-                    $this->rect($x, $y, $x + $tw, $y + 44, 'navy2');
-                    $this->rect($x, $y, $x + max(44, (int) round($tw * min(100, $g['pct']) / 100)), $y + 44, 'accent');
-                    $y = $this->para($g['note'], 'Newsreader-Regular', 36, $x, $y + 62, $tw, 2, 'mist');
+                if (!empty($s['chips'])) {
+                    // Montants en ligne (police d'affichage), puis la phrase « montant de votre choix ».
+                    $y += 70;
+                    $cx = $x;
+                    foreach ($s['chips'] as $i => $t) {
+                        $last = $i === count($s['chips']) - 1;
+                        $sz = $last ? 54 : 72;
+                        $wd = $this->width(mb_strtoupper($t), 'BigShouldersDisplay-Black', $sz) + 60;
+                        if ($cx + $wd > $x + $tw) {
+                            $cx = $x;
+                            $y += 120;
+                        }
+                        $this->rect($cx, $y, $cx + $wd, $y + 100, $last ? 'navy2' : 'accent');
+                        $this->line(mb_strtoupper($t), 'BigShouldersDisplay-Black', $sz, $cx + 30, $y + 50 + (int) ($sz * .36), $wd, $last ? 'cream' : 'navy');
+                        $cx += $wd + 22;
+                    }
+                    $y = $this->para($s['note'], 'Newsreader-Regular', 38, $x, $y + 140, $tw, 2, 'mist');
                 }
                 $this->qr($s['qr'], $qx, $qy, $qs);
                 $this->rect($qx, $qy + $qs, $qx + $qs, $qy + $qs + $cap, 'white');

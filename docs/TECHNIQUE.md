@@ -1286,8 +1286,8 @@ label}]}`, 20 au plus, sans accents ni casse, mêmes règles d'accès et de déb
 | `saison` | `saison` | select | `auto` (en cours ou dernière) ou saison ayant des matchs (`Derived seasons`), la plus récente d'abord |
 | `boutique` | `produit` | select | `auto` (sélection du jour) ou id d'un objet en vente |
 | `boutique` | `affichage` | select | `carte` (carte façon Panini qui se retourne toutes les 5 s, `Boutique::CARDS` objets ; pause au survol ; fondu si mouvement réduit) ou `grille` (trois objets) |
-| `don` | `qr`, `jauge` | select | `oui` (par défaut) ou `non` |
-| `don` | `montants` | select | `non` (par défaut) ou `oui` (quatre premiers montants suggérés de la page « Faire un don ») ; option absente si la page n'en propose pas |
+| `don` | `qr` | select | `oui` (par défaut) ou `non` |
+| `don` | `montants` | select | `oui` (par défaut : montants de la page don, sinon 10/30/50 €, + « Montant libre » ; aucune jauge) ou `non` |
 | `ce-jour-la` | `date`, `nombre` | date (md), number 1–8 | vide : aujourd'hui ; 3 |
 | `compte-a-rebours` | `date`, `titre` | date (future), text | vide : centenaire ou anniversaire de `founded_date` |
 | `records` | `cat`, `nombre` | select, number 3–10 | `buteurs\|matchs` ; 10 |

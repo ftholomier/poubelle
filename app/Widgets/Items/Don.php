@@ -36,8 +36,8 @@ final class Don extends Widget
 
     public function description(string $lang = 'fr'): string
     {
-        return $lang === 'en' ? 'Donate to the museum: the fundraising gauge, a button and a QR code to scan.'
-            : 'Faire un don au musée : la jauge de la collecte, un bouton et un QR code à scanner.';
+        return $lang === 'en' ? 'Donate to the museum: any amount, once or monthly, with a button and a QR code to scan.'
+            : 'Faire un don au musée : le montant de son choix, une fois ou chaque mois, avec un bouton et un QR code à scanner.';
     }
 
     public function options(): array
@@ -45,12 +45,8 @@ final class Don extends Widget
         $yn = ['oui' => 'Oui', 'non' => 'Non'];
         $o = [
             'qr' => ['label' => 'QR code', 'label_en' => 'QR code', 'type' => 'select', 'choices' => $yn, 'default' => 'oui'],
-            'jauge' => ['label' => 'Jauge de la collecte', 'label_en' => 'Fundraising gauge', 'type' => 'select', 'choices' => $yn, 'default' => 'oui'],
+            'montants' => ['label' => 'Montants (dont montant libre)', 'label_en' => 'Amounts (incl. any amount)', 'type' => 'select', 'choices' => $yn, 'default' => 'oui'],
         ];
-        // Montants suggérés : seulement si la page « Faire un don » en propose.
-        if (self::tiers() !== []) {
-            $o['montants'] = ['label' => 'Montants suggérés', 'label_en' => 'Suggested amounts', 'type' => 'select', 'choices' => $yn, 'default' => 'non'];
-        }
         return $o;
     }
 
@@ -88,6 +84,19 @@ final class Don extends Widget
         }
     }
 
+    /** Montants affichés (ceux de la page don, sinon 10, 30, 50 €), sans objectif ni jauge : on donne ce qu'on veut. @return list<int> */
+    public static function amounts(): array
+    {
+        $a = array_values(array_filter(array_map(fn ($t) => (int) ($t['amount'] ?? 0), self::tiers())));
+        return array_slice($a ?: [10, 30, 50], 0, 4);
+    }
+
+    /** Phrase sous les montants. */
+    public static function freeLine(Context $c): string
+    {
+        return $c->tr('Une fois ou chaque mois, du montant de votre choix : même un petit don compte.', 'Once or every month, any amount you like: even a small gift counts.');
+    }
+
     /** Adresse complète du don pour le QR code, avec la provenance (et le partenaire). */
     public static function qrUrl(Context $c, string $content = 'qr'): string
     {
@@ -110,12 +119,10 @@ final class Don extends Widget
         if (!self::isOpen()) {
             return null;
         }
-        $g = ($opt['jauge'] ?? 'oui') === 'oui' ? self::gauge() : null;
-        $amounts = ($opt['montants'] ?? 'non') === 'oui' ? array_slice(self::tiers(), 0, 4) : [];
+        $amounts = ($opt['montants'] ?? 'oui') === 'oui' ? self::amounts() : [];
         return [
             'title' => $c->tr('Faire un don', 'Donate'),
             'text' => $c->tr('Le musée vit de bénévolat et de dons : chaque euro aide à numériser et partager les archives du club.', 'The museum runs on volunteers and donations: every euro helps digitise and share the club’s archives.'),
-            'gauge' => $g ? ['raised' => $g['raised'], 'goal' => $g['goal'], 'pct' => $g['pct'], 'donors' => $g['donors'], 'label' => $c->en() ? t($g['label']) : $g['label']] : null,
             'amounts' => $amounts,
             'qr' => ($opt['qr'] ?? 'oui') === 'oui' ? self::qrUrl($c) : null,
             'href' => self::external() ?? self::PATH,
@@ -132,18 +139,12 @@ final class Don extends Widget
         $h = '<p class="w-eyebrow">' . e($c->tr('Soutenir le musée', 'Support the museum')) . '</p>'
             . '<div class="w-don' . ($d['qr'] ? ' w-don--qr' : '') . '"><div class="w-don__main">'
             . '<h2 class="w-title">' . e($d['title']) . '</h2><p class="w-text">' . e($d['text']) . '</p>';
-        if ($g = $d['gauge']) {
-            $pct = $c->en() ? (string) $g['pct'] : str_replace('.', ',', (string) $g['pct']);
-            $h .= '<div class="w-gauge"><p class="w-gauge__nums"><b>' . e(self::euros($g['raised'], $c)) . '</b> ' . e($c->tr('sur', 'of')) . ' ' . e(self::euros($g['goal'], $c)) . '</p>'
-                . '<div class="w-gauge__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' . e((string) $g['pct']) . '" aria-label="' . e($c->tr('Avancement de la collecte', 'Fundraising progress')) . '"><i style="width:' . e((string) $g['pct']) . '%"></i></div>'
-                . '<p class="w-gauge__note">' . e($pct . ' % · ' . $g['label']) . '</p></div>';
-        }
         if ($d['amounts']) {
-            $h .= '<ul class="w-amounts">';
-            foreach ($d['amounts'] as $t) {
-                $h .= '<li><b>' . e(self::euros((int) $t['amount'], $c)) . '</b><span>' . e($t['impact']) . '</span></li>';
+            $h .= '<ul class="w-chips">';
+            foreach ($d['amounts'] as $n) {
+                $h .= '<li>' . e(self::euros((int) $n, $c)) . '</li>';
             }
-            $h .= '</ul>';
+            $h .= '<li class="is-free">' . e($c->tr('Montant libre', 'Any amount')) . '</li></ul><p class="w-text small">' . e(self::freeLine($c)) . '</p>';
         }
         $h .= '<p><a class="w-btn" href="' . e($d['href']) . '" target="_blank" rel="noopener">' . e($c->tr('Faire un don', 'Donate')) . ' →</a></p></div>';
         if ($d['qr']) {
