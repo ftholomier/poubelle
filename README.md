@@ -36,6 +36,9 @@ redirigées.
   supporter à télécharger en PDF (deux designs), « Jour pour jour » et son anniversaire ; la
   boutique en tire des pièces uniques (poster « Ma vie en jaune & bleu », poster et goodies
   « Ma carte de supporter »).
+- **Widgets du musée** à intégrer sur d'autres sites (script, iframe, API JSON), avec
+  options réglables et accès par widget, et **mode écran** pour les écrans de stade
+  (playlists, quiz avec QR code, export images et vidéo) — page publique /widgets/.
 - Recherche, assistant IA (Gemini) en bas à droite, dons (Stripe, PayPal), contact,
   contributions, newsletter « Ce jour-là ».
 - **Télécharger en PDF** sur chaque fiche et chaque page de synthèse (saison,

@@ -665,3 +665,12 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Paris Rétro : matchs, fiches joueurs, bilans, quiz, frise, palmarès, carte, récits de matchs réécrits, chiffres alignés sur les classements de référence
 - [x] Aide du back-office à jour (Administration : plusieurs musées, contenus de départ, coûts IA par musée, mises à jour communes ; Boutique : reprise des produits ; Site public : un site qui s'adapte à son contenu ; FAQ)
 - [ ] Guide PDF, mémo, infographie et présentation : non régénérés (aucun script de génération dans le dépôt)
+
+## Widgets, écrans de stade et statistiques de l'équipe (13 octobre 2026)
+- [x] Widgets du musée : 21 widgets (script, iframe, API JSON), accès par widget (libre, réservé, payant, désactivé), partenaires et clés, charte du club imposée et lien obligatoire, page publique /widgets/ (en liste)
+- [x] Options réglables par listes (adversaire, joueur, saison, objet, date…), suggestions, configurateur avec aperçu et code en direct, options changeables depuis le site partenaire
+- [x] Catégories (7) et filtres, pastille « Personnalisable », catalogue du back-office en mosaïque
+- [x] Widget Boutique en carte qui se retourne (comme le pied de page) ; widget Maillot supprimé
+- [x] Mode écran pour les stades : playlists prêtes et sur mesure, quiz avec compte à rebours et QR code, hors connexion, export PNG/ZIP et MP4 ; visible même musée fermé
+- [x] Statistiques : visites de l'équipe connectée comptées à part (onglet « Équipe connectée »)
+- [x] Aide, FAQ, guide et doc technique à jour

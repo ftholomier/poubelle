@@ -423,7 +423,7 @@ refait quand la fiche ou sa photo change (`Share::VERSION` pour tout refaire).
 | `Mailer`, `Newsletter` | e-mails (SMTP ou mail()), newsletter hebdomadaire « Ce jour-là » |
 | `Geo` | géolocalisation (répertoire intégré, puis Nominatim d'OpenStreetMap, une requête par seconde) |
 | `Backup` | sauvegardes ZIP de `data/` et des fichiers importants de `storage/` |
-| `Stats` | mesure d'audience sans cookie ni adresse IP |
+| `Stats` | mesure d'audience sans cookie ni adresse IP ; deux mesures : `public` (`storage/stats/`, visiteurs anonymes, rien quand le site est fermé) et `equipe` (`storage/stats-equipe/`, membres connectés, toujours) — `Stats::scope()`, onglet `?m=equipe` de Pilotage › Statistiques, agrégées toutes deux par la tâche `audience` |
 | `Pdf` | reçus fiscaux en PDF, sans bibliothèque (les exports des fiches utilisent `App\Pdf`, § 7 bis) |
 | `Cron` | tâches planifiées (§ 9) |
 
@@ -1345,7 +1345,7 @@ partenaires, statistiques) ; `Http` (accès, en-têtes) ; `Admin\Widgets` (back-
 administrateurs) : `libre` (par défaut), `reserve` (clé d'un partenaire actif), `payant` (clé et
 offre payante en cours : `offer=payante`, `until` vide ou non dépassé), `desactive`. Ordre des
 contrôles (`Http::access`) : désactivé → 404 ; site fermé (`Seo::closed()` : page d'attente ou
-mot de passe) sans « actif même site fermé » → 503 ; clé inconnue → 401 ; partenaire suspendu →
+mot de passe) sans « actif même site fermé » → 503, sauf le mode écran (`playlist`) toujours servi (clé exigée) ; clé inconnue → 401 ; partenaire suspendu →
 403 ; clé limitée à des domaines et page appelante (Origin, sinon Referer) absente ou hors liste
 → 403 ; réservé sans clé → 401 ; payant sans offre en cours → 402. L'équipe connectée au
 back-office voit tout (aperçu), sans compter dans les statistiques ; `?apercu=1` (page de

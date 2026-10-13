@@ -133,7 +133,7 @@ HTML],
 <li><b>Payant</b> : seulement avec la clé d’un partenaire dont l’offre payante est en cours.</li>
 <li><b>Désactivé</b> : servi à personne.</li>
 </ul>
-<p><b>Actif même site fermé</b> : quand le musée est en page d’attente (ou protégé par mot de passe), les widgets ne sont plus servis, sauf ceux qui ont cette case cochée.</p>
+<p><b>Actif même site fermé</b> : quand le musée est en page d’attente (ou protégé par mot de passe), les widgets ne sont plus servis, sauf ceux qui ont cette case cochée. Le <b>mode écran</b> fait exception : il reste toujours visible, même musée fermé (la clé partenaire reste exigée) — pratique pour préparer les écrans du stade avant l’ouverture. Attention : les QR codes des slides (quiz, Rétro-Direct, soutenir, boutique) mènent au musée, donc à la page d’attente tant qu’il est fermé ; pour un essai, préférez une playlist sans ces slides.</p>
 <p><b>Carte de légende › Joueurs tirés au hasard</b> (réglage propre à ce widget) : « Légendes cochées ; si aucune, les plus capés » (par défaut) tire parmi les fiches cochées « Légende » et, tant qu’aucune ne l’est, parmi les 24 joueurs les plus capés d’après les totaux de référence du club ; « Seulement les fiches cochées « Légende » » n’affiche rien tant qu’aucune fiche n’est cochée. C’est une proposition : choisissez ce qui convient au musée.</p>
 <h3>Le configurateur</h3>
 <p>Choisissez le widget, le thème, la langue, le format, ses options (date, joueur, écart d’années, classement, saison, affichage…) et, pour un widget réservé ou payant, le partenaire : l’aperçu se met à jour, et trois codes sont prêts à copier et à envoyer au partenaire :</p>

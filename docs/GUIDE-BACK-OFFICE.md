@@ -397,6 +397,20 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
 - **Dons** : jauge, liste filtrable, export CSV, ajout d'un don reçu hors ligne (chèque,
   virement, espèces ; administrateurs). Les reçus fiscaux existent mais sont désactivés ;
   activés, ils sont émis et consultés par les administrateurs.
+- **Widgets & partenaires** (administrateurs) : 21 widgets du musée à intégrer sur d'autres
+  sites (script, iframe ou API JSON), classés en 7 catégories avec filtres ; une pastille
+  « Personnalisable » signale ceux qui ont des options (adversaire, joueur, saison, objet de la
+  boutique, date…), réglées dans des listes avec aperçu et code mis à jour en direct. Pour
+  chaque widget : accès libre, réservé (clé partenaire), payant ou désactivé, modifiable à
+  tout moment, et « actif même site fermé ». Partenaires : clés, domaines autorisés,
+  suspension, statistiques. Charte et logo du club imposés, lien vers le musée obligatoire.
+  Page publique de présentation : /widgets/.
+- **Écrans** (onglet de Widgets & partenaires) : le mode écran pour l'écran géant du stade,
+  les télés des buvettes ou une borne. Playlists prêtes (avant-match, mi-temps, buvette) ou
+  sur mesure (glisser-déposer, options par slide), lien pour la régie (partenaire, paysage ou
+  vertical, langue, adversaire du jour, horloge), export en images PNG (ZIP) ou vidéo MP4 si
+  le serveur a ffmpeg. Toujours visible, même musée fermé (clé partenaire exigée) ; les QR
+  codes mènent au musée, donc à la page d'attente tant qu'il est fermé.
 
 ## 8. Qualité
 
@@ -468,6 +482,11 @@ traitement groupé), Coûts IA, Sauvegardes et Tâches planifiées ; dans Commun
 l'enregistrement des dons hors ligne (et de leurs remboursements) et les reçus fiscaux. Les
 montants dépensés en IA ne s'affichent que pour eux. Tout le reste, y compris les alertes de
 Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
+
+**Statistiques** (Pilotage) : deux onglets. « Visiteurs du musée » compte le public anonyme
+seulement (rien tant que le site est fermé) ; « Équipe connectée » compte à part les pages
+vues par les membres connectés, même site fermé. Chacun a son direct, ses filtres, son PDF et
+sa remise à zéro.
 
 - **Utilisateurs** (administrateur) : inviter, changer le niveau, désactiver un compte.
 - **Contenus de départ** (administrateur, seulement sur un musée qui en a) : fiches préparées
