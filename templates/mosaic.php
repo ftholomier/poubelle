@@ -15,6 +15,7 @@
         <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e($eyebrow) ?></span>
         <h1 class="mhead__title"><?= e($label) ?></h1>
         <?php if ($intro !== ''): ?><p class="mhead__intro"><?= e($intro) ?></p><?php endif; ?>
+        <?php if (!empty($introNote)): ?><p class="mhead__note"><?= $introNote /* texte échappé et lien construits dans Mosaic::show() */ ?></p><?php endif; ?>
       </div>
       <div class="mhead__total"><b data-count><?= number_format($grandTotal ?: $total, 0, ',', ' ') ?></b><span><?= e($unit) ?></span></div>
     </div>

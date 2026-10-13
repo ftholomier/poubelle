@@ -102,6 +102,9 @@ final class Seo
                 $add((string) $c['path'], null, 'weekly', '0.6', true);
             }
         }
+        if (\App\Data\OfficialPlayers::enabled() && \App\Data\OfficialPlayers::count() > 0) {
+            $add(\App\Data\OfficialPlayers::PATH, null, 'weekly', '0.6', true); // sous-rubrique calculée « Match officiel »
+        }
         // Saisons et adversaires (pages calculées)
         foreach (array_keys(Derived::part('seasons')) as $season) {
             $add('/matchs/' . $season . '/', null, 'monthly', '0.6', true);

@@ -674,3 +674,9 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Mode écran pour les stades : playlists prêtes et sur mesure, quiz avec compte à rebours et QR code, hors connexion, export PNG/ZIP et MP4 ; visible même musée fermé
 - [x] Statistiques : visites de l'équipe connectée comptées à part (onglet « Équipe connectée »)
 - [x] Aide, FAQ, guide et doc technique à jour
+
+## Sous-rubrique « Match officiel » (13 octobre 2026)
+- [x] Nos lions › Joueurs › Match officiel (`/nos-lions/joueurs/match-officiel/`, Sochaux seulement) : 773 joueurs ayant disputé au moins un match officiel (répertoire de FCSM Story, hors 0 match, + Coupe Peugeot 1930-1932), mosaïque habituelle (vignettes, postes, tris, liste, compteur), méga-menu, pastilles, plan du site
+- [x] Liste livrée avec le code (`config/clubs/sochaux/match-officiel.php`), rien d'écrit dans les fiches ; résolution par numéro puis par le nom ; 773/773 retrouvés en local (y compris par le nom seul)
+- [x] Les 5 joueurs donnés « sans fiche » existaient sous une autre graphie (René Collin 7327, Charles Gafanesch 7983, Emile Hartong 8253, Mohamed Kader 5560, Natanaël N’Tolla Thio 9257) : aucun contenu de départ à créer
+- [x] Éditorial › Match officiel (admin) : ajouter / retirer un joueur, annuler, lignes sans fiche ; aide (Accueil, rubriques et menus) ; test `tests/match-officiel.php`

@@ -90,6 +90,9 @@ final class Site
                 continue;
             }
             $subs = $subsOf($slug);
+            if ($slug === self::C_JOUEURS && ($oc = \App\Data\OfficialPlayers::category()) && ($n = \App\Data\OfficialPlayers::count()) > 0) {
+                $subs[] = ['label' => t($oc['label']), 'href' => url($oc['path']), 'count' => $n];
+            }
             $lionsCols[] = ['title' => t(Categories::label($slug)), 'all' => ['label' => t($all), 'href' => url($c['path']), 'count' => self::count($slug)], 'subs' => $subs];
         }
 

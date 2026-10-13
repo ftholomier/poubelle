@@ -1963,6 +1963,30 @@ opposition à la fouille de textes et de données (art. L. 122-5-3 CPI). Test : 
 classement pertinence + netteté, 6 au plus. `BookShop::clean` accepte toute photo dont `coverMode()` n'est pas nul ;
 `Livre::cover()` applique la bichromie bleu nuit (`toDuo()`).
 
+## Sous-rubrique calculée « Match officiel » (`App\Data\OfficialPlayers`)
+
+`/nos-lions/joueurs/match-officiel/` : joueurs ayant disputé au moins un match officiel (répertoire de
+FCSM Story : championnat, Coupe de France, Coupe de la Ligue, Coupes d'Europe hors Intertoto, tours
+qualificatifs et Drago ; plus la Coupe Peugeot 1930-1931 et 1931-1932). Aucune rubrique n'est écrite
+dans les fiches (la plupart ne vivent qu'en ligne) : la liste est livrée avec le code.
+
+- **Liste** : `config/clubs/<club>/match-officiel.php` (absente = pas de rubrique, ex. Paris). Ligne :
+  `[fiche, nom, prénom, titre de la fiche, période, matchs officiels, matchs Coupe Peugeot, motif A|P|A+P]`.
+  Source de travail : `liste-finale.csv` (appariement au répertoire, OCR corrigé).
+- **Résolution** (`resolve()`, cache `Memo` sur l'index, la liste et les réglages) : numéro de fiche,
+  accepté si la fiche est une personne publiée portant ce nom (titre identique ou nom de famille présent) ;
+  sinon par le nom (`Names::personKey` du titre, puis prénom + nom), homonymes départagés par la période
+  au club. Ligne introuvable = absente de la page, listée dans le back-office.
+- **Réglages** : `data/collections/match-officiel.json` `{add: [ids], remove: [ids]}`, écran
+  Éditorial › Match officiel (`App\Admin\Officials`, admin), appliqués par-dessus la liste livrée.
+- **Affichage** : `Pages::byPath` passe une rubrique « virtuelle » (`category()`, `virtual: true`, parent
+  Joueurs) à `Mosaic::show`, qui prend ses fiches dans `OfficialPlayers::items()` (fil d'Ariane, onglets,
+  pastilles, postes, tris, compteur, intro + crédit FCSM Story). Entrée ajoutée aux sous-rubriques de
+  Joueurs dans le méga-menu (`Site::nav`) et les pastilles des mosaïques, au plan du site (`Seo`) et à
+  `Kernel::probe`.
+- Test : `tests/match-officiel.php` (liste, résolution par numéro et par nom seul, réglages, page,
+  menus, back-office, absence sur Paris).
+
 ## Plusieurs musées (`App\Core\Club`)
 
 - Un seul code, un musée par domaine : le profil `config/clubs/<id>.php` (clé `domains`) est

@@ -42,7 +42,18 @@ HTML],
 </ul>
 [[img:rubrique-ordre.webp|Une rubrique (ici les années 90) : (1) ordre d’affichage sur le site, (2) trouver une fiche, (3) remettre en ordre automatiquement, (4) position (cliquer pour la taper), (5) ↑ / quatre flèches / ↓]]
 [[astuce|<p>Les fiches créées après le dernier classement sont signalées « non classée » et placées en fin de liste : glissez-les à leur place puis enregistrez.</p>]]
-[[attention|<p>Une fiche n’apparaît dans une rubrique que si cette rubrique est cochée dans la fiche (onglet « Classement &amp; SEO »).</p>]]
+[[attention|<p>Une fiche n’apparaît dans une rubrique que si cette rubrique est cochée dans la fiche (onglet « Classement &amp; SEO »). Seule exception : la sous-rubrique « Match officiel », calculée (voir ci-dessous).</p>]]
+HTML],
+        ['id' => 'match-officiel', 'title' => 'La sous-rubrique « Match officiel » (Nos lions › Joueurs)', 'html' => <<<'HTML'
+<p>La page <a href="/nos-lions/joueurs/match-officiel/" target="_blank" rel="noopener">Match officiel</a> rassemble les joueurs qui ont disputé au moins un match officiel avec l’équipe première : championnat, Coupe de France, Coupe de la Ligue et Coupes d’Europe (hors Coupe Intertoto, tours qualificatifs et Coupe Charles Drago), d’après le répertoire de FCSM Story, plus les joueurs de la Coupe Peugeot (Coupe Sochaux, 1930-1931 et 1931-1932). Elle se présente comme les autres sous-rubriques (vignettes, filtres par poste, tris, vue liste, compteur) et figure dans le grand menu Nos Lions.</p>
+<p>Cette rubrique ne se coche pas dans les fiches : la liste (773 joueurs) est livrée avec le site et suit ses mises à jour. Chaque joueur est retrouvé par le numéro de sa fiche, ou à défaut par son nom : un joueur dont la fiche n’existe pas encore apparaît tout seul dès qu’elle est publiée.</p>
+<p>Pour corriger la liste, Éditorial › <b>Match officiel</b> (administrateurs) :</p>
+<ul>
+<li><b>Ajouter à la liste</b> / <b>Retirer de la liste</b> : tapez le nom du joueur (choisissez-le dans les propositions), son adresse ou le numéro de sa fiche.</li>
+<li><b>Vos réglages</b> : les ajouts et retraits faits ici, chacun avec « Annuler » pour revenir à la liste livrée.</li>
+<li><b>Lignes sans fiche</b> : les joueurs de la liste encore introuvables au musée.</li>
+</ul>
+[[astuce|<p>Vos ajouts et retraits sont gardés à part : une mise à jour du site ne les efface pas.</p>]]
 HTML],
         ['id' => 'redirections', 'title' => 'Redirections et adresses introuvables', 'html' => <<<'HTML'
 <p>Éditorial › <b>Redirections</b> : les anciennes adresses envoyées vers les nouvelles (redirections « 301 », comprises par Google). Les 5 984 adresses de l’ancien site sont déjà là.</p>

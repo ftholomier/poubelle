@@ -42,6 +42,7 @@ class Base
             ['moments', '100 moments', '/admin/moments', false],
             ['rubriques', 'Rubriques & menus', '/admin/rubriques', false],
             ['menus', 'Menus du site', '/admin/menus', false],
+            ['match-officiel', 'Match officiel', '/admin/match-officiel', true],
             ['redirections', 'Redirections', '/admin/redirections', false],
             ['attente', 'Page d’attente', '/admin/page-attente', false],
         ],
@@ -109,6 +110,9 @@ class Base
     {
         $nav = self::NAV;
         $hide = \App\Services\StarterPack::packs() ? [] : ['depart'];
+        if (!\App\Data\OfficialPlayers::enabled()) {
+            $hide[] = 'match-officiel'; // liste propre à un musée (config/clubs/<club>/match-officiel.php)
+        }
         if (!\App\Core\Club::isDefault()) {
             unset($nav['Site de l’association']);
             $hide = array_merge($hide, ['reprise', 'feuilles']);

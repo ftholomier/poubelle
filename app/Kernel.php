@@ -316,7 +316,7 @@ final class Kernel
             if (Data\Index::visible($s)) {
                 return [200, null, 'page'];
             }
-        } elseif (Data\Categories::byPath($path) || in_array($path, ['/nos-lions/', '/matchs/'], true)) {
+        } elseif (Data\Categories::byPath($path) || in_array($path, ['/nos-lions/', '/matchs/'], true) || ($path === Data\OfficialPlayers::PATH && Data\OfficialPlayers::enabled())) {
             return [200, null, 'page'];
         }
         if (preg_match('#^/([a-z0-9][a-z0-9-]{1,29})/$#', $path, $m) && Services\Carnet::bySlug($m[1])) {

@@ -613,6 +613,10 @@ final class Pages
         if ($req->path === self::TEAM_PATH) {
             return self::team();
         }
+        // Sous-rubrique calculée « Match officiel » (liste livrée avec le code, musées qui en ont une).
+        if ($req->path === \App\Data\OfficialPlayers::PATH && ($oc = \App\Data\OfficialPlayers::category())) {
+            return Mosaic::show($req, $oc);
+        }
         $cat = Categories::byPath($req->path);
         if ($cat) {
             return Mosaic::show($req, $cat);

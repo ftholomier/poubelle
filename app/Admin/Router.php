@@ -143,6 +143,8 @@ final class Router
         $r->post('/admin/moments/idees', fn ($q) => MomentIdeas::action($q));
         $r->get('/admin/rubriques', fn ($q) => Editorial::categories($q));
         $r->post('/admin/rubriques', fn ($q) => Editorial::categoriesSave($q));
+        $r->get('/admin/match-officiel', fn ($q) => Officials::index($q));
+        $r->post('/admin/match-officiel', fn ($q) => Officials::save($q));
         $r->get('/admin/redirections', fn ($q) => Editorial::redirects($q));
         $r->post('/admin/redirections', fn ($q) => Editorial::redirectsSave($q));
 

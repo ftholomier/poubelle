@@ -9,6 +9,7 @@ use App\Core\View;
 use App\Data\Categories;
 use App\Data\Index;
 use App\Data\Names;
+use App\Data\OfficialPlayers;
 
 /**
  * Pages de rubrique en mosaïque (maquette « Mosaïque ») : onglets de sous-rubriques,
@@ -44,7 +45,9 @@ final class Mosaic
     public static function show(Request $req, array $cat): Response
     {
         $slug = $cat['slug'];
-        $root = Categories::root($slug);
+        // Rubrique calculée (« Match officiel ») : fiches données par une liste, pas par leurs rubriques.
+        $virtual = !empty($cat['virtual']);
+        $root = Categories::root($virtual ? (string) $cat['parent'] : $slug);
         $kind = match ($root) {
             Site::C_MATCHS => 'matchs',
             Site::C_LIONS => 'lions',
@@ -65,7 +68,8 @@ final class Mosaic
         $page = max(1, (int) $req->str('page', '1'));
         $state = ['q' => $q, 'tri' => $sort, 'vue' => $view === 'list' ? 'liste' : null];
 
-        $items = Index::inCategory($slug);
+        $items = $virtual ? OfficialPlayers::items() : Index::inCategory($slug);
+        $baseItems = $items;
         $hasOrder = !empty($cat['order']);
         $panel = null;
         $chips = [];
@@ -177,15 +181,18 @@ final class Mosaic
                 foreach (Categories::children($parentForChips) as $ch) {
                     $chips[] = ['label' => t(Categories::label($ch['slug'])), 'on' => $ch['slug'] === $slug, 'href' => url((string) $ch['path']), 'count' => Site::count($ch['slug'])];
                 }
+                if ($parentForChips === Site::C_JOUEURS && ($oc = OfficialPlayers::category())) {
+                    $chips[] = ['label' => t($oc['label']), 'on' => $virtual, 'href' => url(OfficialPlayers::PATH), 'count' => OfficialPlayers::count()];
+                }
             }
-            if (in_array($slug, [Site::C_LIONS, Site::C_JOUEURS], true) || Categories::get($slug)['parent'] === Site::C_JOUEURS) {
+            if (in_array($slug, [Site::C_LIONS, Site::C_JOUEURS], true) || ($cat['parent'] ?? null) === Site::C_JOUEURS) {
                 if ($chips) {
                     $chips[] = ['sep' => true];
                 }
                 foreach (['G' => 'Gardiens', 'D' => 'Défenseurs', 'M' => 'Milieux', 'A' => 'Attaquants'] as $k => $label) {
                     $chips[] = ['label' => t($label), 'on' => $poste === $k, 'href' => url($base) . self::qs(array_filter(['poste' => $poste === $k ? null : $k, 'q' => $q])) ];
                 }
-                if (array_filter(Index::inCategory($slug), fn ($s) => !empty($s['p']['legend']))) {
+                if (array_filter($baseItems, fn ($s) => !empty($s['p']['legend']))) {
                     $chips[] = ['label' => t('Légendes'), 'on' => $legend, 'href' => url($base) . self::qs(array_filter(['f' => $legend ? null : 'legendes']))];
                 }
             }
@@ -209,7 +216,7 @@ final class Mosaic
 
         // Tris
         // Ordre par défaut réglé dans le back-office (Rubriques & menus) : ordre manuel, chronologique ou A–Z.
-        $defaultSort = Categories::displaySort($slug);
+        $defaultSort = $virtual ? 'az' : Categories::displaySort($slug);
         if ($sort === 'selection' && !$hasOrder) {
             $sort = null;
         }
@@ -260,7 +267,7 @@ final class Mosaic
                 ['label' => t('Bilan en Coupe de France'), 'href' => url('/bilans/coupe-de-france/'), 'on' => false],
             ];
         } else {
-            $trail = Categories::trail($slug);
+            $trail = $virtual ? [...Categories::trail((string) $cat['parent']), $cat] : Categories::trail($slug);
             $level1 = $trail[1]['slug'] ?? null;
             $rootCat = Categories::get($root);
             $tabs[] = ['label' => t('Tout'), 'href' => url((string) ($rootCat['path'] ?? '/')), 'on' => $slug === $root];
@@ -273,19 +280,24 @@ final class Mosaic
         }
 
         $crumbs = [['label' => t('Accueil'), 'href' => url('/')]];
-        $trail = Categories::trail($slug);
+        $trail = $virtual ? [...Categories::trail((string) $cat['parent']), $cat] : Categories::trail($slug);
         foreach (array_slice($trail, 0, -1) as $c) {
             if (!empty($c['path'])) {
                 $crumbs[] = ['label' => t(Categories::label($c['slug'])), 'href' => url((string) $c['path'])];
             }
         }
-        $label = t(Categories::label($slug));
+        $label = t($virtual ? (string) $cat['label'] : Categories::label($slug));
         if ($slug === Site::C_MATCHS && isset($comp) && $comp) {
             $label = t(self::COMPS[$comp][0]);
         }
         $parent = count($trail) > 1 ? t(Categories::label($trail[count($trail) - 2]['slug'])) : t($conf['eyebrow']);
         $desc = \App\Services\I18n::isEn() && trim(strip_tags((string) ($cat['description_en'] ?? ''))) !== '' ? $cat['description_en'] : ($cat['description'] ?? '');
         $intro = trim(strip_tags((string) $desc)) ?: ($slug === $root ? t($conf['intro']) : '');
+        $introNote = '';
+        if ($virtual) {
+            $intro = t('Les joueurs qui ont disputé au moins un match officiel avec l’équipe première : championnat, Coupe de France, Coupe de la Ligue et Coupes d’Europe (hors Coupe Intertoto, tours qualificatifs et Coupe Charles Drago), ainsi que la Coupe Peugeot (ou Coupe Sochaux) de 1930-1931 et 1931-1932.');
+            $introNote = e(t('Liste établie d’après le répertoire de')) . ' <a href="' . e(OfficialPlayers::SOURCE_URL) . '" target="_blank" rel="noopener">FCSM Story</a>' . e(t(', complétée par les feuilles de match de la Coupe Peugeot.'));
+        }
         $titleSeo = $label . ($kind === 'matchs' ? ' – ' . t('Matchs {club_de}') : ($kind === 'lions' && $slug !== Site::C_LIONS ? ' – ' . t(club_text('nos_lions', 'Nos joueurs') . ' {sigle_de}') : ''));
         if ($page > 1) {
             $titleSeo .= ' – ' . t('page {n}', ['n' => $page]);
@@ -297,9 +309,10 @@ final class Mosaic
             'label' => $label,
             'eyebrow' => $slug === $root ? t($conf['eyebrow']) : $parent,
             'intro' => $intro,
-            'unit' => t($conf['unit']),
+            'unit' => $virtual ? t('joueurs') : t($conf['unit']),
             'total' => $total,
-            'grandTotal' => $grandTotal ?? Site::count($slug),
+            'grandTotal' => $grandTotal ?? ($virtual ? count($baseItems) : Site::count($slug)),
+            'introNote' => $introNote,
             'countLabel' => self::countLabel($total, $kind),
             'tabs' => $tabs,
             'chips' => $chips,
