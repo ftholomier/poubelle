@@ -207,6 +207,7 @@ final class Explore
             'scorers' => $topScorers,
             'squad' => $squadList,
             'coaches' => $coachList,
+            'album' => SeasonAlbum::build($season),
             'bilan' => $bilan,
             'hero' => $hero,
             'prev' => $prev,

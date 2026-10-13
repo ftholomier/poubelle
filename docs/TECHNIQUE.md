@@ -129,6 +129,7 @@ recadrage). Les originaux sont dans `storage/media/originals/{année}/{mois}/` (
 | `search.php` | index de recherche | à chaque enregistrement |
 | `media.php`, `media/`, `media-versions.php`, `media-usage.json` | médiathèque (entière, et en 16 groupes selon le chemin du fichier : `Media::get()` n'en lit qu'un), versions des fichiers retouchés, « utilisée dans » | à chaque modification |
 | `carte-*.json`, `sitemap.xml`, `share/` | données de la carte, plan du site, images de partage | à la demande |
+| `album/` | album Panini de chaque saison (`App\Front\SeasonAlbum::raw()` : joueurs entrés en jeu, poste, matchs, buts, minutes, entraîneur) | à la demande ; refait quand l'empreinte `Derived::built()` change ; la fiche liée (nom, photo, visibilité) est relue à l'affichage |
 | `pdf/` | PDF exportés (fiches, saisons, face-à-face, bilans, records, kits souvenirs) | à la demande ; nom lié à la date de modification de la fiche et aux données calculées, donc refait dès qu'un contenu change (kit souvenirs : un fichier par langue, refait seulement si le contenu du kit change) ; ménage des fichiers de plus de 30 jours |
 | `correcteur/` | réponses de Gemini au correcteur, une par texte (empreinte du texte, du modèle et des consignes) : un texte inchangé n'est jamais renvoyé | à la demande ; ménage des réponses inutilisées depuis 180 jours |
 | `chiffres-{fr,en}.json` | les 100 chiffres du FCSM (§ 7 nonies), déjà mis en forme dans chaque langue | refaits quand `derived.php`, `index-2.php` ou le dictionnaire anglais changent ; calculés d'avance par la tâche « statistiques » |
@@ -1568,6 +1569,19 @@ commune du back-office —, options affichées selon le type). Adresses : `GET
 
 Tests : `php tests/widgets.php` (stockage isolé dans un dossier temporaire ; vague 3 et mode
 écran compris : accès, playlists, quiz, export PNG, ZIP, vidéo si ffmpeg est présent).
+
+## 7 quattuordecies. Album Panini de la saison (`App\Front\SeasonAlbum`)
+
+Bloc « L'effectif de la saison » des pages `/matchs/AAAA-AAAA/` (`templates/partials/season-album.php`,
+styles `.alb*` dans `explore.css`). `compute()` parcourt les compositions des matchs visibles de la
+saison (`Derived::part('seasons')`, `Fiches::get`) : titulaires et remplaçants avec minute d'entrée,
+joueur identifié par `person_id` ou, à défaut, par le rapprochement de `Derived::lineupLinks()` (même
+règle que l'effectif de `Explore::seasonData`), sinon par le nom ; minutes reprises des apparitions
+calculées (`apps[3]`), poste = poste le plus fréquent (G, D, M, A ; sinon « X », inconnu) ; tri poste
+puis matchs puis nom ; entraîneur = ligne `E` la plus fréquente. Résultat mis en cache
+`storage/cache/album/<saison>.php` avec l'empreinte `Derived::built()`. `build()` résout les fiches
+à l'affichage : fiche visible → vignette collée (lien, photo), sinon case grise « non collée ».
+Saison sans composition : `build()` rend null et le bloc n'est pas affiché. Test : `tests/album-saison.php`.
 
 ## 8. Back-office
 

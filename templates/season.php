@@ -1,7 +1,7 @@
 <?php
 /**
  * Page d'une saison (maquette « Saison ») : chiffres, fil de la saison, résultats, buteurs, effectif.
- * Variables : $season, $label, $matches, $sums, $comps, $scorers, $squad, $coaches, $bilan, $hero, $prev, $next, $current, $catPath,
+ * Variables : $season, $label, $matches, $sums, $comps, $scorers, $squad, $coaches, $album, $bilan, $hero, $prev, $next, $current, $catPath,
  * $audio (bouton « Écouter », App\Services\PageAudio)
  */
 
@@ -30,6 +30,7 @@ $lineLabels = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 
 <nav class="anchornav" data-anchornav aria-label="<?= e(t('Sommaire de la saison')) ?>">
   <div class="wrap anchornav__inner">
     <a href="#resultats"><?= e(t('Résultats')) ?></a>
+    <?php if (!empty($album)): ?><a href="#album"><?= e(t('Album')) ?></a><?php endif; ?>
     <?php if ($squad): ?><a href="#effectif"><?= e(t('Effectif')) ?></a><?php endif; ?>
     <?php if ($scorers): ?><a href="#buteurs"><?= e(t('Buteurs')) ?></a><?php endif; ?>
     <?php if ($bilan): ?><a href="<?= e(url($bilan['path'])) ?>"><?= e(t('Le bilan de la saison')) ?> →</a><?php endif; ?>
@@ -102,6 +103,8 @@ $lineLabels = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 
     <?php endif; ?>
   </div>
 </div>
+
+<?php if (!empty($album)): ?><?= \App\Core\View::partial('partials/season-album', ['album' => $album, 'season' => $season]) ?><?php endif; ?>
 
 <?php if ($squad): ?>
 <section id="effectif" class="ssquad">

@@ -680,3 +680,9 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Liste livrée avec le code (`config/clubs/sochaux/match-officiel.php`), rien d'écrit dans les fiches ; résolution par numéro puis par le nom ; 773/773 retrouvés en local (y compris par le nom seul)
 - [x] Les 5 joueurs donnés « sans fiche » existaient sous une autre graphie (René Collin 7327, Charles Gafanesch 7983, Emile Hartong 8253, Mohamed Kader 5560, Natanaël N’Tolla Thio 9257) : aucun contenu de départ à créer
 - [x] Éditorial › Match officiel (admin) : ajouter / retirer un joueur, annuler, lignes sans fiche ; aide (Accueil, rubriques et menus) ; test `tests/match-officiel.php`
+
+## Album Panini de la saison (13 octobre 2026)
+- [x] Pages saison : bloc « L'effectif de la saison » en page d'album (« Album 1987-1988 », emplacement d'équipe, cases numérotées), une vignette par joueur entré en jeu d'après les compositions, rangée par poste et triée par matchs ; photo, nom, poste, n° d'album, matchs / buts / minutes, lien fiche, retournement au survol
+- [x] Joueurs sans fiche en case grise « non collée » ; vignette spéciale de l'entraîneur principal ; bloc masqué sans composition
+- [x] Cache par saison (`storage/cache/album/`, empreinte Derived), mobile 2 colonnes, images en lazy-loading, impression, anglais, listes et textes alternatifs
+- [x] Aide (Site public), doc technique, test `tests/album-saison.php` (Sochaux et Paris)

@@ -38,13 +38,15 @@ HTML],
 <p>Ces pages n’ont rien à saisir : elles sont construites à partir des fiches match et se mettent à jour à chaque enregistrement.</p>
 <table>
 <tr><th>Page</th><th>Ce qu’elle montre</th><th>D’où viennent les données</th></tr>
-<tr><td>Saisons</td><td>résultats, effectif, buteurs d’une saison</td><td>fiches match et compositions</td></tr>
+<tr><td>Saisons</td><td>résultats, effectif, buteurs d’une saison, et l’<b>album Panini de la saison</b></td><td>fiches match et compositions</td></tr>
 <tr><td>Face-à-face</td><td>bilan contre chaque adversaire</td><td>fiches match (adversaire, score)</td></tr>
 <tr><td>Bilans</td><td>par compétition, par stade</td><td>fiches match (compétition, stade)</td></tr>
 <tr><td>Records</td><td>buteurs, joueurs les plus utilisés, affluences, séries</td><td>compositions, spectateurs, scores</td></tr>
 <tr><td>Les chiffres du FCSM</td><td>100 statistiques en 11 chapitres, de 1929 à aujourd’hui</td><td>tableaux de carrière des fiches joueurs, compositions, temps forts, fiches des personnes</td></tr>
 <tr><td>Carte</td><td>stades, origines des joueurs, épopées, lieux</td><td>fiches match et personnes, outils interactifs</td></tr>
 </table>
+<p><b>L’album de la saison.</b> Chaque page de saison montre « L’effectif de la saison » comme une page d’album Panini (« Album 1987-1988 ») : une vignette par joueur entré en jeu (titulaire ou remplaçant entré), calculée toute seule d’après les compositions des fiches match. Les vignettes sont rangées par poste (gardiens, défenseurs, milieux, attaquants, puis poste inconnu) et triées par nombre de matchs ; chacune porte un numéro d’album, la photo, le nom, le poste, les matchs, les buts et les minutes jouées quand elles sont connues, et mène à la fiche du joueur (elle se retourne au survol). Un joueur sans fiche (ou dont la fiche est masquée) apparaît en <b>case grise « non collée »</b> avec son nom : créez ou reliez sa fiche dans la composition du match et la vignette se colle. L’entraîneur principal a sa vignette à la fin. Une saison sans aucune composition n’a pas d’album.</p>
+
 [[img:site-explorer.webp|Une page face-à-face, entièrement calculée]]
 HTML],
         ['id' => 'chiffres', 'title' => 'Les chiffres du FCSM : 100 statistiques', 'html' => <<<'HTML'

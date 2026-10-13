@@ -167,3 +167,63 @@ a.sq:hover { transform: translate(-4px, -4px); box-shadow: 6px 6px 0 var(--yello
 .rlist__main b { font-family: var(--display); font-weight: 800; font-size: 22px; text-transform: uppercase; }
 .rlist__main small { font-size: 15px; color: var(--muted); }
 .rlist__v { font-family: var(--display); font-weight: 900; font-size: 28px; }
+
+/* Saison : « L'effectif de la saison » en page d'album Panini (partials/season-album.php).
+   Vignettes jaune et marine des cartes du musée (team.css, .tcards--musee), retournées au survol. */
+.alb { background: var(--navy); padding: clamp(40px, 6vw, 80px) 0; scroll-margin-top: 60px; }
+.alb__page { background: var(--cream); color: var(--navy); border: 3px solid var(--yellow); box-shadow: 12px 12px 0 rgb(0 0 0 / .35); padding: clamp(18px, 4vw, 44px);
+  background-image: repeating-linear-gradient(0deg, transparent 0 27px, rgb(var(--navy-rgb) / .05) 27px 28px); }
+.alb__head { display: flex; gap: 20px; align-items: center; border-bottom: 3px double var(--navy); padding-bottom: 18px; margin-bottom: 8px; }
+.alb__team { flex: none; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px; border: 2px dashed rgb(var(--navy-rgb) / .45); background: #fff; }
+.alb__team img { width: 72px; height: 72px; object-fit: contain; }
+.alb__team small { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+.alb__kicker { margin: 0; font-family: var(--display); font-weight: 800; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; }
+.alb__title { margin: 2px 0 6px; font-family: var(--display); font-weight: 900; font-size: clamp(30px, 5vw, 54px); text-transform: uppercase; line-height: .95; }
+.alb__lead { margin: 0; max-width: 62ch; font-style: italic; opacity: .85; }
+.alb__line { margin: 28px 0 12px; font-family: var(--display); font-weight: 900; font-size: 20px; letter-spacing: .14em; text-transform: uppercase; display: flex; gap: 8px; align-items: baseline; }
+.alb__line::after { content: ""; flex: 1; border-bottom: 2px solid var(--navy); }
+.alb__line small { font-size: 14px; opacity: .65; }
+.alb__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px 18px; }
+.alb__item { display: flex; flex-direction: column; min-width: 0; }
+.alb__card { display: flex; flex-direction: column; gap: 6px; color: inherit; text-decoration: none; perspective: 1200px; }
+.alb__in { display: block; position: relative; aspect-ratio: 4/5; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.3, 1.3, .5, 1); }
+@media (hover: hover) and (pointer: fine) { .alb__card:hover .alb__in, .alb__card:focus-visible .alb__in { transform: rotateY(180deg); } }
+@media (prefers-reduced-motion: reduce) { .alb__in { transition: none; } }
+.alb__card:focus-visible { outline: 3px solid var(--yellow); outline-offset: 4px; }
+.alb__face { position: absolute; inset: 0; display: flex; flex-direction: column; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
+.alb__front { background: var(--yellow); border: 3px solid var(--navy); box-shadow: 6px 6px 0 var(--navy); padding: 7px; gap: 6px; }
+.alb__back { transform: rotateY(180deg); background: var(--navy); color: var(--cream); border: 3px solid var(--yellow); box-shadow: 6px 6px 0 var(--yellow); padding: 12px; gap: 8px; justify-content: center; text-align: center; }
+.alb__no { position: absolute; top: 7px; left: 7px; z-index: 1; background: var(--navy); color: var(--yellow); font-family: var(--display); font-weight: 900; font-size: 14px; padding: 1px 6px; }
+.alb__photo { flex: 1; min-height: 0; display: grid; place-items: center; background: var(--sand); border: 2px solid var(--navy); overflow: hidden; }
+.alb__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+.alb__ph { display: grid; place-items: center; width: 100%; height: 100%; color: rgb(var(--navy-rgb) / .45); }
+.alb__ph svg { width: 42%; height: auto; }
+.alb__name { flex: none; display: flex; flex-direction: column; background: var(--navy); color: var(--yellow); padding: 4px 6px; }
+.alb__name b { font-family: var(--display); font-weight: 900; font-size: 15px; text-transform: uppercase; line-height: 1; overflow-wrap: anywhere; }
+.alb__name span { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--cream); }
+.alb__bn { font-family: var(--display); font-weight: 900; font-size: 18px; text-transform: uppercase; color: var(--yellow); line-height: 1; }
+.alb__bs { font-size: 13px; }
+.alb__go { font-family: var(--display); font-weight: 700; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--yellow); }
+.alb__stats { font-size: 12.5px; line-height: 1.3; opacity: .85; padding-top: 4px; }
+/* Case vide de l'album : vignette pas encore collée (joueur sans fiche). */
+.alb__slot.is-empty { position: relative; display: flex; flex-direction: column; gap: 6px; }
+.alb__slot.is-empty::before { content: ""; display: block; aspect-ratio: 4/5; border: 2px dashed rgb(var(--navy-rgb) / .4); background: rgb(var(--navy-rgb) / .07); }
+.alb__slot.is-empty .alb__no { background: rgb(var(--navy-rgb) / .45); color: var(--cream); }
+.alb__slot.is-empty .alb__ph { position: absolute; top: 0; left: 0; aspect-ratio: 4/5; height: auto; }
+.alb__slot.is-empty .alb__name { position: static; margin-top: -58px; padding: 4px 8px 6px; background: none; color: rgb(var(--navy-rgb) / .8); }
+.alb__slot.is-empty .alb__name span { color: rgb(var(--navy-rgb) / .6); }
+.alb__slot.is-empty .alb__stats { margin-top: 16px; }
+@media (max-width: 640px) {
+  .alb__head { flex-direction: column; align-items: flex-start; }
+  .alb__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+}
+@media print {
+  .alb { background: none; padding: 0; break-before: page; }
+  .alb__page { box-shadow: none; border: 1px solid #000; background-image: none; }
+  .alb__grid { grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .alb__item { break-inside: avoid; }
+  .alb__in { transform: none !important; transition: none; }
+  .alb__back { display: none; }
+  .alb__front { box-shadow: none; }
+  .alb__card { color: #000; }
+}
