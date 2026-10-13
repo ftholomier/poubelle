@@ -1283,7 +1283,6 @@ label}]}`, 20 au plus, sans accents ni casse, mêmes règles d'accès et de déb
 |---|---|---|---|
 | `histoire-du-duel` | `adversaire` | search | `auto` (adversaire du dernier match fiché) ou clé de `/face-a-face/<clé>/`, les plus affrontés d'abord (`HistoireDuDuel::choices`) |
 | `carte-legende` | `joueur` | search | `auto` (au hasard, une par heure) ou fin d'adresse de la fiche ; légendes puis plus capés (`CarteLegende::players`) |
-| `maillot` | `epoque` | select | `auto` (un par jour) ou année d'une époque de la collection ; une année quelconque donne l'époque qui la couvre (`Maillot::clean`) |
 | `saison` | `saison` | select | `auto` (en cours ou dernière) ou saison ayant des matchs (`Derived seasons`), la plus récente d'abord |
 | `boutique` | `produit` | select | `auto` (sélection du jour) ou id d'un objet en vente |
 | `boutique` | `affichage` | select | `carte` (carte façon Panini qui se retourne toutes les 5 s, `Boutique::CARDS` objets ; pause au survol ; fondu si mouvement réduit) ou `grille` (trois objets) |
@@ -1328,7 +1327,7 @@ bandeau) + `excerpt` de l'index, `Saison` ← `Explore::seasonData()` + titres d
 (mêmes matchs publiés et mêmes totaux que `Explore::bilanData`, donc que la page face-à-face) +
 « scorers » pour le meilleur buteur du duel (buteurs liés à une fiche publiée), `CarteStades` ←
 référentiel `stades` géolocalisé + `Derived` « stades » (matchs publiés), fond de carte `Map`,
-`Maillot` ← collection `maillots`, `CompteARebours` ← date choisie / centenaire / fondation,
+`CompteARebours` ← date choisie / centenaire / fondation,
 `Soutenir` ← boutons du site (`Menus::button`) seulement s'ils sont ouverts (don : `Donations::methods()`
 non vide ; boutique : `Shop\Orders::open()`), `Recherche` (formulaire GET vers `/recherche/`),
 `RetroDirectWidget` ← `RetroDirect::next()` (direct en cours, du jour, sinon prochain ; sans

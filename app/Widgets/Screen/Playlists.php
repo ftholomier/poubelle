@@ -33,7 +33,6 @@ final class Playlists
         'dernier-match' => ['Dernier match fiché', 12, []],
         'saison' => ['Saison en un coup d’œil', 12, ['saison']],
         'compte-a-rebours' => ['Compte à rebours', 10, []],
-        'maillot' => ['Maillot de l’époque', 10, ['epoque']],
         'retro-direct' => ['Rétro-Direct', 10, []],
         'carte-stades' => ['Carte des stades', 12, ['zone']],
         'soutenir' => ['Soutenir le musée (QR codes)', 10, []],
@@ -59,8 +58,8 @@ final class Playlists
                 'note' => 'Deux à trois minutes pendant la pause : le duel, un chiffre, un quiz, ce jour-là, une anecdote.',
                 'slides' => [$s('histoire-du-duel', 25), $s('chiffre-du-jour', 15), $s('quiz', 45), $s('ce-jour-la', 18), $s('le-saviez-vous', 15), $s('soutenir', 12)]],
             'buvette' => ['id' => 'buvette', 'name' => 'Buvette', 'preset' => true,
-                'note' => 'En continu, sans limite : photos d’archives, la frise, les records, le palmarès, les maillots, la carte des stades.',
-                'slides' => [$s('photo', 12, ['n' => '1']), $s('frise', 14, ['n' => '1']), $s('records', 15, ['cat' => 'buteurs']), $s('photo', 12, ['n' => '2']), $s('maillot', 12),
+                'note' => 'En continu, sans limite : photos d’archives, la frise, les records, le palmarès, la carte des stades.',
+                'slides' => [$s('photo', 12, ['n' => '1']), $s('frise', 14, ['n' => '1']), $s('records', 15, ['cat' => 'buteurs']), $s('photo', 12, ['n' => '2']),
                     $s('records', 15, ['cat' => 'matchs']), $s('frise', 14, ['n' => '2']), $s('photo', 12, ['n' => '3']), $s('palmares', 12), $s('il-y-a', 12), $s('carte-stades', 14),
                     $s('photo', 12, ['n' => '4']), $s('frise', 14, ['n' => '3']), $s('chiffre-du-jour', 10), $s('le-saviez-vous', 10), $s('compte-a-rebours', 10)]],
         ];

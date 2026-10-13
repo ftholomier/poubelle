@@ -5,7 +5,7 @@
  * obligatoires, aucune donnée personnelle, statistiques et clics, photos diffusables seulement ;
  * vague 2 : records, quiz du jour (vérification au serveur), défi, dernier match, saison, palmarès,
  * frise, bandeau, réglage « source » de la carte de légende, script d'intégration /embed.js ;
- * vague 3 : histoire du duel, carte des stades, maillot, compte à rebours, soutenir, recherche,
+ * vague 3 : histoire du duel, carte des stades, compte à rebours, soutenir, recherche,
  * Rétro-Direct, mode écran (/ecran/…, playlists, accès, quiz écran, export PNG, ZIP et vidéo MP4).
  * Usage : php tests/widgets.php (code de sortie 1 en cas d'échec).
  * Réglages, partenaires, statistiques et cache des widgets : dans un dossier temporaire, effacé à
@@ -58,14 +58,14 @@ $keys = array_keys(Registry::CLASSES);
 try {
     // ------------------------------------------------------------------ catalogue
     $ok($keys === ['ce-jour-la', 'chiffre-du-jour', 'il-y-a', 'carte-legende', 'photo-du-jour', 'le-saviez-vous', 'records', 'quiz-du-jour', 'defi-du-jour', 'dernier-match', 'saison', 'palmares', 'frise', 'bandeau',
-        'histoire-du-duel', 'carte-stades', 'maillot', 'compte-a-rebours', 'soutenir', 'recherche', 'retro-direct', 'playlist', 'boutique'], 'registre : les 6 widgets de la phase 1, les 8 de la vague 2, les 8 de la vague 3 et la boutique');
+        'histoire-du-duel', 'carte-stades', 'compte-a-rebours', 'soutenir', 'recherche', 'retro-direct', 'playlist', 'boutique'], 'registre : les 6 widgets de la phase 1, les 8 de la vague 2, les 7 restants de la vague 3 et la boutique');
     $ok(Registry::PLANNED === [], 'plus aucun widget « à venir »');
     $ok(Store::widget('playlist')['access'] === 'reserve', 'mode écran (playlist) : réservé par défaut');
     // Boutique : données seulement boutique ouverte, essayée à part (plus bas).
     $keys = array_values(array_filter($keys, fn ($k) => $k !== 'playlist' && $k !== 'boutique'));
     $r = $get('/api/v1/widgets');
     $c = $json($r);
-    $ok($r->status === 200 && count($c['widgets'] ?? []) === 22 && !in_array('playlist', array_column($c['widgets'], 'key'), true), 'catalogue : 22 widgets libres par défaut (pas le mode écran, réservé)');
+    $ok($r->status === 200 && count($c['widgets'] ?? []) === 21 && !in_array('playlist', array_column($c['widgets'], 'key'), true), 'catalogue : 21 widgets libres par défaut (pas le mode écran, réservé)');
     $ok(($r->headers['Access-Control-Allow-Origin'] ?? '') === '*', 'catalogue : CORS ouvert');
     $ok(str_contains((string) ($c['museum']['mention'] ?? ''), 'non officiel') && str_contains((string) ($c['museum']['url'] ?? ''), '/w/clic/'), 'catalogue : mention « non officiel » et lien vers le musée');
 
@@ -232,14 +232,6 @@ try {
     $ok(str_contains($f, '<svg class="w-map"') && !preg_match('#(src|href)="https?://(?!' . preg_quote(\App\Widgets\Context::host(), '#') . ')#', $f), 'carte des stades : carte SVG, rien chargé hors du musée');
     $ok($d3('carte-stades', ['zone' => 'europe'])['zone'] === 'europe' && $d3('carte-stades', ['zone' => 'lune'])['zone'] === 'france', 'carte des stades : zone France ou Europe');
 
-    // Maillot : époque choisie ou maillot du jour, photo diffusable seulement.
-    $eras = \App\Widgets\Items\Maillot::eras();
-    if ($eras) {
-        $e0 = (int) $eras[0]['era'];
-        $ok($d3('maillot', ['epoque' => (string) ($e0 + 1)])['era'] === $e0, 'maillot : l’époque qui couvre l’année demandée');
-        $m = $d3('maillot');
-        $ok($m['image'] === null || str_starts_with((string) $m['image']['url'], 'http'), 'maillot : photo diffusable ou visuel neutre');
-    }
 
     // Compte à rebours : date choisie, sinon centenaire (s'il est mis en avant), sinon fondation.
     $future = date('Y-m-d', strtotime('+40 days'));
@@ -607,7 +599,7 @@ try {
 
     // ------------------------------------------------------------------ options configurables, catégories
     $types = ['select', 'search', 'date', 'number', 'text'];
-    $expect = ['histoire-du-duel' => ['adversaire'], 'carte-legende' => ['joueur'], 'maillot' => ['epoque'], 'saison' => ['saison'], 'boutique' => ['produit', 'affichage'],
+    $expect = ['histoire-du-duel' => ['adversaire'], 'carte-legende' => ['joueur'], 'saison' => ['saison'], 'boutique' => ['produit', 'affichage'],
         'ce-jour-la' => ['date', 'nombre'], 'compte-a-rebours' => ['date', 'titre'], 'records' => ['cat', 'nombre'], 'il-y-a' => ['ans'], 'palmares' => ['affichage'], 'carte-stades' => ['zone']];
     foreach ($expect as $k => $names) {
         $w = Registry::get($k);
@@ -632,7 +624,6 @@ try {
     $ok($w = Registry::get('ce-jour-la') and $w->clean(['date' => '2024-02-29'])['date'] === '02-29' && $w->clean(['date' => '02-30'])['date'] === '' && $w->clean(['nombre' => '99'])['nombre'] === '3' && $w->clean(['nombre' => '5'])['nombre'] === '5', 'ce jour-là : date du calendrier → MM-JJ ; date impossible et nombre hors bornes refusés');
     $cr = Registry::get('compte-a-rebours');
     $ok($cr->clean(['date' => '2001-01-01'])['date'] === '' && $cr->clean(['date' => date('Y-m-d', strtotime('+3 days'))])['date'] !== '', 'compte à rebours : date passée refusée, date future acceptée');
-    $ok(Registry::get('maillot')->clean(['epoque' => '1935'])['epoque'] !== 'auto' || count(Registry::get('maillot')->optionChoices('epoque')) < 2, 'maillot : une année quelconque donne l’époque qui la couvre');
     $ok(count(Registry::get('carte-legende')->optionChoices('joueur')) > 10, 'carte de légende : liste des joueurs publiés');
 
     // Suggestions (listes longues).

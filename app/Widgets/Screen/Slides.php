@@ -211,14 +211,6 @@ final class Slides
                 return ['layout' => 'countdown', 'eyebrow' => $c->tr('Compte à rebours', 'Countdown'), 'title' => $d['title'], 'big' => (string) $d['days'], 'unit' => $c->tr('jours', 'days'),
                     'countdown' => (int) $d['timestamp'], 'sub' => $c->tr('Rendez-vous le ', 'See you on ') . $date($d['date'])];
 
-            case 'maillot':
-                $d = self::data('maillot', $opt, $c);
-                if (!$d) {
-                    return null;
-                }
-                return ['layout' => 'hero', 'eyebrow' => $c->tr('Le maillot de l’époque', 'Shirt of an era'), 'big' => (string) $d['era'], 'unit' => $d['until'] ? '– ' . $d['until'] : '',
-                    'title' => $d['label'], 'text' => $d['text'], 'image' => self::image($d['image'] ?? null)];
-
             case 'retro-direct':
                 $d = self::data('retro-direct', [], $c);
                 if (!$d) {

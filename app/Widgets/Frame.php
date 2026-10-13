@@ -156,7 +156,7 @@ final class Frame
             . '.w-tk__track{display:flex;width:max-content;animation:w-scroll calc(var(--n,4) * 8s) linear infinite}.w-tk__vp:hover .w-tk__track,.w-tk__vp:focus-within .w-tk__track{animation-play-state:paused}'
             . '.w-tk a{white-space:nowrap;color:var(--fg);text-decoration:none;font-size:15px;padding-left:14px}.w-tk a:hover{text-decoration:underline}.w-tk b{font:800 14px/1 var(--display);text-transform:uppercase;letter-spacing:.06em;color:var(--soft);margin-right:4px}.w-tk a span{color:var(--accent);margin-left:14px}'
             . '@media (prefers-reduced-motion:reduce){.w-tl__track,.w-tk__track,.w-tk__live i{animation:none}.w-tl,.w-tk__vp{overflow-x:auto}}'
-            // Vague 3 : histoire du duel, carte des stades, maillot, compte à rebours, soutenir, recherche, Rétro-Direct
+            // Vague 3 : histoire du duel, carte des stades, compte à rebours, soutenir, recherche, Rétro-Direct
             . '.w-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--line);margin:2px 0 8px}.w-bar i{display:block}.w-bar__v{background:var(--accent)}.w-bar__n{background:var(--soft)}.w-bar__d{background:var(--red)}'
             . '.w-mapbox{display:block;margin:0 0 6px}.w-map{display:block;width:100%;height:auto;max-height:300px;background:var(--line);border-radius:8px}.w-map__land{fill:var(--bg);stroke:var(--soft);stroke-width:.8;stroke-opacity:.6}'
             . '.w-map__pt{fill:var(--accent);fill-opacity:.6;stroke:var(--fg);stroke-width:.8}.w-map__pt.is-home{fill:var(--red);fill-opacity:1;stroke:#fff;stroke-width:2}'

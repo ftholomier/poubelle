@@ -28,7 +28,6 @@ final class Registry
         // Vague 3
         'histoire-du-duel' => Items\HistoireDuDuel::class,
         'carte-stades' => Items\CarteStades::class,
-        'maillot' => Items\Maillot::class,
         'compte-a-rebours' => Items\CompteARebours::class,
         'soutenir' => Items\Soutenir::class,
         'recherche' => Items\Recherche::class,
@@ -67,7 +66,6 @@ final class Registry
         'bandeau' => ['musee'],
         'histoire-du-duel' => ['matchs'],
         'carte-stades' => ['histoire'],
-        'maillot' => ['histoire'],
         'compte-a-rebours' => ['musee'],
         'soutenir' => ['musee'],
         'recherche' => ['musee'],
