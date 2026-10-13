@@ -22,20 +22,25 @@ if (MEDIA_URL !== '/media' && str_starts_with((string) ($_SERVER['REQUEST_URI'] 
 $request = \App\Core\Request::fromGlobals();
 // Pages du musée pour les visiteurs anonymes : resservies depuis le cache quand c'est possible.
 $response = \App\Core\PageCache::serve($request) ?? \App\Core\PageCache::store($request, \App\Kernel::handle($request));
+// Membre de l'équipe connecté : ses visites sont comptées à part (jamais dans l'audience du public).
+$team = isset($_COOKIE['sr_session']) && \App\Core\Auth::user() !== null;
 $response->send();
 
 // Mesure d'audience anonyme (pages HTML publiques uniquement), après l'envoi de la page ; rien
 // tant que le site est fermé au public (seule l'équipe connectée le voit). Le site de
 // l'association a sa propre mesure (jamais l'aperçu du back-office).
-if ($request->method === 'GET' && in_array($response->status, [200, 304], true) && !str_starts_with($request->path, '/admin') && !str_starts_with($request->path, '/api/') && !str_starts_with($request->path, '/w/')
+if ($request->method === 'GET' && in_array($response->status, [200, 304], true) && !str_starts_with($request->path, '/admin') && !str_starts_with($request->path, '/api/') && !str_starts_with($request->path, '/w/') && !str_starts_with($request->path, '/ecran/')
     && str_contains((string) ($response->headers['Content-Type'] ?? 'text/html'), 'text/html') && !\App\Vitrine\Host::isPreview($request->path)) {
     if (\App\Vitrine\Host::matches($request)) {
         if (\App\Vitrine\Site::open()) {
             \App\Core\Response::detach();
             \App\Vitrine\Stats::hit($request->path, (string) ($request->server['HTTP_USER_AGENT'] ?? ''));
         }
-    } elseif (!\App\Front\Seo::closed()) {
+    } elseif ($team || !\App\Front\Seo::closed()) {
         \App\Core\Response::detach();
+        if ($team) {
+            \App\Services\Stats::scope('equipe');
+        }
         \App\Services\Stats::hit($request->path, (string) ($request->server['HTTP_USER_AGENT'] ?? ''), \App\Services\I18n::lang());
     }
 }

@@ -16,11 +16,9 @@ use App\Core\JsonStore;
  */
 final class Stats
 {
-    private const DIR = STORAGE_PATH . '/stats';
-    private const RAW = self::DIR . '/raw';
-    private const DAYS = self::DIR . '/jours.json';
-    private const OFFSETS = self::DIR . '/positions.json';
-    private const STATE = self::DIR . '/visites.json';
+    /** Mesures tenues : « public » (visiteurs) ou « equipe » (membres connectés, comptés à part). */
+    public const SCOPES = ['public' => 'stats', 'equipe' => 'stats-equipe'];
+    private static string $scope = 'public';
     private const BOTS = '/bot|crawl|spider|slurp|bingpreview|facebookexternalhit|embedly|quora|pinterest|whatsapp|telegram|discord|curl|wget|python|java\/|httpclient|headless|lighthouse|monitor|uptime|preview/i';
     /** Une visite se termine après 30 minutes sans page vue. */
     private const GAP = 1800;
@@ -28,6 +26,19 @@ final class Stats
     public const LIVE = 300;
 
     public const DEVICES = ['mobile' => 'Mobile', 'tablette' => 'Tablette', 'ordinateur' => 'Ordinateur'];
+
+    /** Bascule sur une mesure (« public » par défaut) ; renvoie la précédente. */
+    public static function scope(string $scope): string
+    {
+        $old = self::$scope;
+        self::$scope = isset(self::SCOPES[$scope]) ? $scope : 'public';
+        return $old;
+    }
+
+    private static function p(string $suffix): string
+    {
+        return STORAGE_PATH . '/' . self::SCOPES[self::$scope] . $suffix;
+    }
 
     public static function hit(string $path, string $ua, string $lang): void
     {
@@ -57,11 +68,11 @@ final class Stats
                 $ref = preg_replace('/^(www\.|m\.|l\.|lm\.)/', '', $h);
             }
         }
-        if (!is_dir(self::RAW)) {
-            @mkdir(self::RAW, 0775, true);
+        if (!is_dir(self::p('/raw'))) {
+            @mkdir(self::p('/raw'), 0775, true);
         }
         $line = date('H:i:s') . '|' . $lang . '|' . str_replace(["\n", '|'], '', $path) . '|' . $visitor . '|' . $dev . '|' . str_replace(["\n", '|'], '', $ref) . "\n";
-        @file_put_contents(self::RAW . '/' . date('Y-m-d') . '.log', $line, FILE_APPEND | LOCK_EX);
+        @file_put_contents(self::p('/raw') . '/' . date('Y-m-d') . '.log', $line, FILE_APPEND | LOCK_EX);
     }
 
     /** Secret du jour : l'empreinte d'un visiteur change chaque jour. */
@@ -90,15 +101,15 @@ final class Stats
     /** Agrège les journaux bruts (tâche planifiée, et à l'ouverture du tableau de bord). */
     public static function aggregate(): int
     {
-        $files = glob(self::RAW . '/*.log') ?: [];
+        $files = glob(self::p('/raw') . '/*.log') ?: [];
         if (!$files) {
             return 0;
         }
         $n = 0;
-        JsonStore::update(self::DAYS, function ($days) use ($files, &$n) {
+        JsonStore::update(self::p('/jours.json'), function ($days) use ($files, &$n) {
             $days = is_array($days) ? $days : [];
-            $offsets = JsonStore::read(self::OFFSETS, []) ?: [];
-            $state = JsonStore::read(self::STATE, []) ?: [];
+            $offsets = JsonStore::read(self::p('/positions.json'), []) ?: [];
+            $state = JsonStore::read(self::p('/visites.json'), []) ?: [];
             foreach ($files as $f) {
                 $day = basename($f, '.log');
                 $from = (int) ($offsets[$day] ?? 0);
@@ -161,8 +172,8 @@ final class Stats
                 }
             }
             ksort($days);
-            JsonStore::write(self::OFFSETS, $offsets);
-            JsonStore::write(self::STATE, $state);
+            JsonStore::write(self::p('/positions.json'), $offsets);
+            JsonStore::write(self::p('/visites.json'), $state);
             return array_slice($days, -800, null, true); // un peu plus de deux ans
         });
         return $n;
@@ -171,13 +182,13 @@ final class Stats
     /** @return array<string,array> date => totaux du jour */
     public static function days(): array
     {
-        return JsonStore::read(self::DAYS, []) ?: [];
+        return JsonStore::read(self::p('/jours.json'), []) ?: [];
     }
 
     /** Temps réel : visiteurs en ligne (5 min), pages qu'ils regardent, pages vues minute par minute (30 min). */
     public static function live(): array
     {
-        $f = self::RAW . '/' . date('Y-m-d') . '.log';
+        $f = self::p('/raw') . '/' . date('Y-m-d') . '.log';
         $now = (int) date('H') * 3600 + (int) date('i') * 60 + (int) date('s');
         $out = ['online' => 0, 'pages' => [], 'minutes' => array_fill(0, 30, 0), 'today' => 0, 'devices' => []];
         if (!is_file($f)) {
@@ -220,19 +231,19 @@ final class Stats
     /** Remise à zéro (avant l'ouverture) : les données sont mises de côté dans un dossier daté, pas effacées. */
     public static function reset(): string
     {
-        $dest = STORAGE_PATH . '/stats-avant-remise-a-zero-' . date('Y-m-d-His');
-        if (is_dir(self::DIR)) {
-            @rename(self::DIR, $dest);
+        $dest = STORAGE_PATH . '/' . self::SCOPES[self::$scope] . '-avant-remise-a-zero-' . date('Y-m-d-His');
+        if (is_dir(self::p(''))) {
+            @rename(self::p(''), $dest);
         }
         JsonStore::forget();
-        @mkdir(self::RAW, 0775, true);
-        JsonStore::write(self::DIR . '/remise-a-zero.json', ['at' => date('c')]);
+        @mkdir(self::p('/raw'), 0775, true);
+        JsonStore::write(self::p('') . '/remise-a-zero.json', ['at' => date('c')]);
         return basename($dest);
     }
 
     public static function resetAt(): ?string
     {
-        return JsonStore::read(self::DIR . '/remise-a-zero.json', [])['at'] ?? null;
+        return JsonStore::read(self::p('') . '/remise-a-zero.json', [])['at'] ?? null;
     }
 
     // ------------------------------------------------------------------ anciens appels

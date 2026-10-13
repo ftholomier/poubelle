@@ -1,12 +1,13 @@
 <?php
-/** Pilotage › Statistiques. Variables : $r (StatsReport::build), $label, $preset, $live, $resetAt */
+/** Pilotage › Statistiques. Variables : $r (StatsReport::build), $label, $preset, $live, $resetAt, $m (« public » ou « equipe ») */
 use App\Services\Stats;
 use App\Services\StatsReport;
 
 $fmt = fn ($n) => number_format((float) $n, 0, ',', ' ');
 $k = $r['kpi'];
 $p = $r['prev'];
-$q = fn (array $x) => '?' . http_build_query($x);
+$m = $m ?? 'public';
+$q = fn (array $x) => '?' . http_build_query($x + ($m === 'equipe' ? ['m' => 'equipe'] : []));
 $cur = $preset !== '' ? ['p' => $preset] : ['du' => $r['from'], 'au' => $r['to']];
 $delta = function (string $key, bool $lowerIsBetter = false) use ($k, $p) {
     $d = StatsReport::delta($k[$key], $p[$key]);
@@ -81,6 +82,11 @@ $tips = StatsReport::tips($r);
 @media (max-width:900px){.st-live{grid-template-columns:1fr}.st-bar form{margin-left:0}}
 </style>
 
+<div class="st-bar" role="tablist" aria-label="Mesure">
+  <a href="/admin/statistiques"<?= $m === 'public' ? ' class="is-on"' : '' ?>>Visiteurs du musée</a>
+  <a href="/admin/statistiques?m=equipe"<?= $m === 'equipe' ? ' class="is-on"' : '' ?>>Équipe connectée</a>
+  <small class="muted"><?= $m === 'equipe' ? 'Pages vues par les membres connectés, comptées à part, même quand le site est fermé.' : 'Visiteurs anonymes uniquement : rien n’est compté tant que le site est fermé au public.' ?></small>
+</div>
 <div class="st-bar">
   <?php foreach (StatsReport::PRESETS as $key => $lab): ?>
     <a href="<?= e($q(['p' => $key])) ?>"<?= $preset === $key ? ' class="is-on"' : '' ?>><?= e($lab) ?></a>
@@ -88,6 +94,7 @@ $tips = StatsReport::tips($r);
   <form method="get" action="/admin/statistiques">
     <input type="date" name="du" value="<?= e($r['from']) ?>" max="<?= date('Y-m-d') ?>" aria-label="Du">
     <input type="date" name="au" value="<?= e($r['to']) ?>" max="<?= date('Y-m-d') ?>" aria-label="Au">
+    <?php if ($m === 'equipe'): ?><input type="hidden" name="m" value="equipe"><?php endif; ?>
     <button class="btn btn--sm">Filtrer</button>
     <a class="btn btn--sm btn--yellow" href="/admin/statistiques/rapport.pdf<?= e($q($cur)) ?>">Rapport PDF</a>
   </form>
@@ -180,7 +187,7 @@ foreach (\App\Core\Shield::stats() as $d => $row) { if ($d >= $r['from'] && $d <
   <h2 class="card__t card__t--sm">Remise à zéro avant l’ouverture</h2>
   <p class="small">Repart de zéro : tous les compteurs, courbes et classements sont vidés. Les anciennes données ne sont pas effacées, elles sont mises de côté sur le serveur. Pour confirmer, tapez <b>REMETTRE A ZERO</b>.</p>
   <form method="post" action="/admin/statistiques/remise-a-zero" class="row" data-confirm="Remettre les statistiques à zéro ?|Tous les compteurs repartent de zéro (les anciennes données sont gardées de côté).|Remettre à zéro|danger">
-    <?= csrf_field() ?><input class="in in--sm" name="confirm" placeholder="REMETTRE A ZERO" autocomplete="off" required>
+    <?= csrf_field() ?><?php if ($m === 'equipe'): ?><input type="hidden" name="m" value="equipe"><?php endif; ?><input class="in in--sm" name="confirm" placeholder="REMETTRE A ZERO" autocomplete="off" required>
     <button class="btn btn--sm btn--danger">Remettre à zéro</button>
   </form>
 </section>
@@ -192,7 +199,7 @@ foreach (\App\Core\Shield::stats() as $d => $row) { if ($d >= $r['from'] && $d <
   const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const tick = async () => {
     try {
-      const d = await (await fetch('/admin/statistiques/direct', {credentials: 'same-origin'})).json();
+      const d = await (await fetch('/admin/statistiques/direct<?= $m === 'equipe' ? '?m=equipe' : '' ?>', {credentials: 'same-origin'})).json();
       box.querySelector('[data-live-online]').textContent = d.online;
       box.querySelector('[data-live-today]').textContent = d.today.toLocaleString('fr-FR');
       const m = Math.max(1, ...d.minutes);

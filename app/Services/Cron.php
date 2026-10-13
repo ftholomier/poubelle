@@ -160,6 +160,9 @@ final class Cron
 
             case 'audience':
                 $n = Stats::aggregate();
+                $old = Stats::scope('equipe');
+                Stats::aggregate(); // visites de l'équipe, comptées à part
+                Stats::scope($old);
                 \App\Data\Redirects::merge404();
                 return $n ? "$n pages vues agrégées" : null;
 
