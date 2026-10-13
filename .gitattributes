@@ -1,0 +1,4 @@
+# Archive téléchargée par la mise à jour en un clic : sans la documentation ni les tests (inutiles
+# sur le serveur, ~55 Mo de PDF), pour une mise à jour plus rapide.
+/docs export-ignore
+/tests export-ignore
