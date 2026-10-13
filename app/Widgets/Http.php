@@ -127,7 +127,8 @@ final class Http
         if ($cfg['access'] === 'desactive' && !$preview) {
             return [404, 'Ce widget n’est pas disponible.', null];
         }
-        if (Seo::closed() && !$cfg['closed_ok'] && !$preview) {
+        // Le mode écran (réservé, avec clé partenaire) reste visible même quand le musée est fermé.
+        if (Seo::closed() && !$cfg['closed_ok'] && !$preview && $w->key() !== 'playlist') {
             return [503, 'Le musée est fermé au public pour le moment.', null];
         }
         [$code, $error, $partner] = self::partner($req, $domains);
