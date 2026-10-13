@@ -66,7 +66,16 @@ final class Don extends Widget
 
     public static function isOpen(): bool
     {
-        return self::$open ?? isset(Soutenir::open()['don']);
+        // Visible dès que le bouton « don » du site est affiché (page don du musée, ou lien externe
+        // type HelloAsso), même sans paiement en ligne configuré : la page don présente les moyens.
+        return self::$open ?? \App\Front\Menus::button('don') !== null;
+    }
+
+    /** Lien du don : la page du musée, ou l'adresse externe du bouton « don » s'il pointe ailleurs. */
+    public static function external(): ?string
+    {
+        $b = \App\Front\Menus::button('don');
+        return $b && !empty($b['ext']) && preg_match('#^https?://#i', (string) $b['href']) ? (string) $b['href'] : null;
     }
 
     /** Montants suggérés de la page « Faire un don » (dans la langue courante). @return list<array{amount:int,impact:string}> */
@@ -82,6 +91,9 @@ final class Don extends Widget
     /** Adresse complète du don pour le QR code, avec la provenance (et le partenaire). */
     public static function qrUrl(Context $c, string $content = 'qr'): string
     {
+        if (($ext = self::external()) !== null) {
+            return $ext;
+        }
         $q = ['utm_source' => 'widget', 'utm_medium' => 'don', 'utm_content' => $content] + ($c->partner !== '' ? ['utm_campaign' => $c->partner] : []);
         return Context::abs($c->path(self::PATH)) . '?' . http_build_query($q);
     }
@@ -106,7 +118,7 @@ final class Don extends Widget
             'gauge' => $g ? ['raised' => $g['raised'], 'goal' => $g['goal'], 'pct' => $g['pct'], 'donors' => $g['donors'], 'label' => $c->en() ? t($g['label']) : $g['label']] : null,
             'amounts' => $amounts,
             'qr' => ($opt['qr'] ?? 'oui') === 'oui' ? self::qrUrl($c) : null,
-            'href' => self::PATH,
+            'href' => self::external() ?? self::PATH,
         ];
     }
 

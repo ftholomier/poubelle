@@ -144,7 +144,7 @@ final class Slides
         'carte-stades' => 'aucun stade placé sur la carte',
         'soutenir' => 'aucun lien de soutien réglé',
         'boutique' => 'boutique fermée ou aucun objet à montrer',
-        'don' => 'dons fermés (désactivés, sans moyen de paiement ou bouton « don » masqué)',
+        'don' => 'bouton « Faire un don » masqué sur le site',
     ];
 
     /**
@@ -442,7 +442,7 @@ final class Slides
                     'text' => $c->tr('Le musée vit de bénévolat et de dons : chaque euro aide à numériser et partager les archives du club.', 'The museum runs on volunteers and donations: every euro helps digitise and share the club’s archives.'),
                     'gauge' => $g ? ['raised' => $euros($g['raised']), 'goal' => $c->tr('sur ', 'of ') . $euros($g['goal']), 'pct' => (float) $g['pct'],
                         'note' => ($c->en() ? (string) $g['pct'] : str_replace('.', ',', (string) $g['pct'])) . ' % · ' . ($c->en() ? t($g['label']) : $g['label'])] : null,
-                    'qr' => $c->link(\App\Widgets\Items\Don::PATH), 'caption' => $c->tr('Scannez pour donner', 'Scan to donate')];
+                    'qr' => \App\Widgets\Items\Don::external() ?? $c->link(\App\Widgets\Items\Don::PATH), 'caption' => $c->tr('Scannez pour donner', 'Scan to donate')];
         }
         return null;
     }

@@ -335,7 +335,7 @@ try {
 
     // Faire un don : rien si les dons sont fermés ; jauge, bouton compté, QR code selon les options.
     $D = \App\Widgets\Items\Don::class;
-    $ok(($D::isOpen() === isset(\App\Widgets\Items\Soutenir::open()['don'])), 'don : même règle d’ouverture que Soutenir');
+    $ok($D::isOpen() === (\App\Front\Menus::button('don') !== null), 'don : ouvert dès que le bouton « don » du site est affiché (même sans paiement en ligne)');
     $D::$open = false;
     \App\Widgets\Cache::clear();
     $ok($d3('don') === null && str_contains($g3('/w/don')->body, 'Rien à montrer'), 'don : rien à montrer quand les dons sont fermés');
