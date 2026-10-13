@@ -40,6 +40,9 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
         <p class="small muted" data-cfg-warn style="margin:0"></p>
         <label class="f"><span class="f__k">Code script à copier (recommandé : iframe isolée, hauteur automatique, chargement quand le widget arrive à l’écran ; la ligne &lt;script&gt; une seule fois par page)</span><textarea class="in mono" rows="3" readonly data-cfg-out="script"></textarea></label>
         <div class="row"><button type="button" class="btn btn--sm btn--navy" data-cfg-copy="script">Copier le script</button></div>
+        <details data-cfg-dyn><summary class="small">Changer une option depuis le site du partenaire (sans recharger sa page)</summary>
+          <p class="small muted" style="margin:6px 0">Avec le code script, il suffit de modifier l’attribut (ex. <code>data-adversaire</code> avant chaque match) : le widget se recharge seul. Ou appeler <code>MuseeWidgets.reload(el)</code>. Avec l’iframe : changer <code>?adversaire=…</code> dans son adresse. Valeurs possibles : <code>/api/v1/widgets/&lt;widget&gt;/suggestions/&lt;option&gt;?q=…</code> (JSON) ; valeur inconnue : réglage automatique.</p>
+          <textarea class="in mono" rows="5" readonly data-cfg-out="dynamic"></textarea></details>
         <label class="f"><span class="f__k">Ou code iframe (sans script : fonctionne partout)</span><textarea class="in mono" rows="4" readonly data-cfg-out="iframe"></textarea></label>
         <div class="row"><button type="button" class="btn btn--sm" data-cfg-copy="iframe">Copier l’iframe</button><a class="btn btn--sm" href="#" target="_blank" rel="noopener" data-cfg-open>Ouvrir le widget</a></div>
         <label class="f"><span class="f__k">Adresse de l’API (données JSON)</span><input class="in mono" readonly data-cfg-out="api"></label>
@@ -56,10 +59,16 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
 </section>
 
 <h2 class="h3" style="margin:24px 0 10px">Catalogue</h2>
+<?php $catCount = []; $nCustom = 0; foreach ($widgets as $x) { foreach ($x['w']->category() as $ck) { $catCount[$ck] = ($catCount[$ck] ?? 0) + 1; } $nCustom += $x['w']->options() ? 1 : 0; } ?>
+<div class="row wcat-filter" data-cat-filter role="group" aria-label="Filtrer par catégorie" style="margin-bottom:12px">
+  <button type="button" class="chip is-on" data-cat="" aria-pressed="true">Tous <small><?= count($widgets) ?></small></button>
+  <?php foreach (\App\Widgets\Registry::CATEGORIES as $ck => [$cl]): if (empty($catCount[$ck])) continue; ?><button type="button" class="chip" data-cat="<?= e($ck) ?>" aria-pressed="false"><?= e($cl) ?> <small><?= (int) $catCount[$ck] ?></small></button><?php endforeach; ?>
+  <button type="button" class="chip" data-cat="personnalisables" aria-pressed="false">Personnalisables <small><?= $nCustom ?></small></button>
+</div>
 <div class="wcat" data-masonry>
-  <?php foreach ($widgets as $k => $x): $w = $x['w']; $cfg = $x['cfg']; ?>
-  <article class="card" id="w-<?= e($k) ?>">
-    <div class="card__head"><h3 class="card__t"><?= e($w->name()) ?></h3><span class="chip<?= $cfg['access'] === 'libre' ? ' is-on' : '' ?>" style="cursor:default"><?= e($accessLabel[$cfg['access']]) ?></span></div>
+  <?php foreach ($widgets as $k => $x): $w = $x['w']; $cfg = $x['cfg']; $optNames = array_map(fn ($o) => $o['label'], $w->options()); ?>
+  <article class="card" id="w-<?= e($k) ?>" data-cats="<?= e(implode(' ', $w->category()) . ($optNames ? ' personnalisables' : '')) ?>">
+    <div class="card__head"><h3 class="card__t"><?= e($w->name()) ?><?php if ($optNames): ?> <span class="wbadge" title="Options : <?= e(mb_strtolower(implode(', ', $optNames))) ?>">Personnalisable</span><?php endif; ?></h3><span class="chip<?= $cfg['access'] === 'libre' ? ' is-on' : '' ?>" style="cursor:default"><?= e($accessLabel[$cfg['access']]) ?></span></div>
     <div class="card__body stack">
       <p class="small" style="margin:0"><?= e($w->description()) ?></p>
       <iframe src="/w/<?= e($k) ?>?apercu=1" title="Aperçu : <?= e($w->name()) ?>" loading="lazy" style="border:0;width:100%;height:<?= (int) $w->height() ?>px"></iframe>
@@ -161,20 +170,31 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
     <?= Form::repeater('slides', '', $E['slides'], function ($sl) use ($S, $optLabel) {
         $h = '<div class="fgrid">' . Form::select('@type', 'Slide', $sl['type'] ?? 'chiffre-du-jour', array_map(fn ($t) => $t['name'], $S['types']), ['class' => 'f--2', 'data' => ['slide-type' => '1']])
             . Form::number('@duration', 'Durée (s)', $sl['duration'] ?? 10);
-        foreach (['adversaire', 'cat', 'n', 'saison'] as $o) {
-            $for = implode(' ', array_keys(array_filter($S['types'], fn ($t) => in_array($o, $t['options'], true))));
-            $val = (string) ($sl['opt'][$o] ?? '');
-            $field = match ($o) {
-                'adversaire' => Form::select('@opt.adversaire', $optLabel[$o], $val, $S['clubs'], ['empty' => '—']),
-                'cat' => Form::select('@opt.cat', $optLabel[$o], $val ?: 'buteurs', ['buteurs' => 'Meilleurs buteurs', 'matchs' => 'Joueurs les plus utilisés']),
-                'n' => Form::number('@opt.n', $optLabel[$o], $val ?: '1'),
-                'saison' => Form::text('@opt.saison', $optLabel[$o], $val, ['maxlength' => 9, 'placeholder' => 'vide : en cours']),
-            };
-            $h .= '<div data-opt-for="' . e($for) . '" class="f--2">' . $field . '</div>';
+        // Options de chaque type de slide : celles du widget du même nom (listes réelles du musée).
+        $names = array_values(array_unique(array_merge(...array_map(fn ($t) => $t['options'], array_values($S['types'])))));
+        foreach ($names as $o) {
+            $types = array_keys(array_filter($S['types'], fn ($t) => in_array($o, $t['options'], true)));
+            // Une option commune à plusieurs types (« n ») : un seul champ, montré pour chacun d'eux.
+            foreach (in_array($o, ['n', 'adversaire'], true) ? [$types[0]] : $types as $ty) {
+                $for = in_array($o, ['n', 'adversaire'], true) ? implode(' ', $types) : $ty;
+                $val = (string) ($sl['opt'][$o] ?? '');
+                $wo = \App\Widgets\Registry::get($ty)?->describe()['options'][$o] ?? null;
+                $field = match (true) {
+                    $o === 'adversaire' => Form::select('@opt.adversaire', $optLabel[$o], $val, $S['clubs'], ['empty' => 'Celui de la playlist (adversaire du jour)']),
+                    $o === 'n' => Form::number('@opt.n', $optLabel[$o], $val ?: '1'),
+                    $wo !== null && $wo['type'] === 'search' => Form::text('@opt.' . $o, $wo['label'] . ' (tapez un nom ; vide : automatique)', $val, ['list' => 'dl-' . $ty . '-' . $o, 'maxlength' => 80]),
+                    $wo !== null && isset($wo['choices']) => Form::select('@opt.' . $o, $wo['label'], $val !== '' ? $val : $wo['default'], $wo['choices']),
+                    default => '',
+                };
+                $h .= '<div data-opt-for="' . e($for) . '" class="f--2">' . $field . '</div>';
+            }
         }
         return $h . '</div>';
     }, ['compact' => true, 'numbered' => true, 'add' => 'Ajouter une slide', 'blank' => ['type' => 'chiffre-du-jour', 'duration' => 10, 'opt' => []]]) ?>
   </div>
+  <?php foreach ($S['types'] as $ty => $t): foreach ($t['options'] as $o): $wo = \App\Widgets\Registry::get($ty)?->describe()['options'][$o] ?? null; if ($wo && $wo['type'] === 'search'): ?>
+  <datalist id="dl-<?= e($ty . '-' . $o) ?>"><?php foreach (\App\Widgets\Registry::get($ty)->optionChoices($o) as $v => $l): if ($v === 'auto') continue; ?><option value="<?= e((string) $v) ?>"><?= e($l) ?></option><?php endforeach; ?></datalist>
+  <?php endif; endforeach; endforeach; ?>
   <div class="card__foot row">
     <?php if ($ro): ?><span class="small muted">Prête à l’emploi : dupliquez-la (bouton « Dupliquer » ci-dessus) pour la modifier.</span>
     <?php else: ?><button type="submit" class="btn btn--yellow">Enregistrer</button><span class="small muted" data-saved></span><?php endif; ?>

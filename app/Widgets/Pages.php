@@ -16,10 +16,10 @@ final class Pages
         $list = [];
         foreach (Registry::all() as $k => $w) {
             if (Store::widget($k)['access'] === 'libre') {
-                $list[] = ['w' => $w, 'src' => self::src($k, ['lang' => $lang, 'theme' => 'clair']), 'code' => self::iframe($w, ['lang' => $lang, 'theme' => 'clair']), 'script' => self::script($w, ['lang' => $lang, 'theme' => 'clair']), 'api' => Context::abs('/api/v1/widgets/' . $k . ($lang === 'en' ? '?lang=en' : ''))];
+                $list[] = ['w' => $w, 'src' => self::src($k, ['lang' => $lang, 'theme' => 'clair']), 'code' => self::iframe($w, ['lang' => $lang, 'theme' => 'clair']), 'script' => self::script($w, ['lang' => $lang, 'theme' => 'clair']), 'api' => Context::abs('/api/v1/widgets/' . $k . ($lang === 'en' ? '?lang=en' : '')), 'd' => $w->describe($lang)];
             }
         }
-        return \App\Front\Pages::render('widgets/demo', ['list' => $list, 'resize' => self::resizeScript()], [
+        return \App\Front\Pages::render('widgets/demo', ['list' => $list, 'resize' => self::resizeScript(), 'base' => Context::base(), 'loader' => self::loader()], [
             'title' => t('Intégrez le musée sur votre site'),
             'description' => t('Widgets gratuits de {site} à copier-coller sur votre site : ce jour-là, chiffre du jour, quiz du jour, records, palmarès, carte de légende…'),
             'styles' => ['css/widgets.css'],

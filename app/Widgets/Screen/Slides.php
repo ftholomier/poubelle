@@ -91,7 +91,7 @@ final class Slides
                 return ['layout' => 'list', 'eyebrow' => $c->tr('Ce jour-là', 'On this day'), 'title' => $d['date_label'], 'rows' => $rows];
 
             case 'carte-legende':
-                $d = self::data('carte-legende', [], $c);
+                $d = self::data('carte-legende', $opt, $c);
                 if (!$d) {
                     return null;
                 }
@@ -189,7 +189,7 @@ final class Slides
                     'text' => \App\Widgets\Widget::excerpt($d['text'], 220), 'image' => self::image($d['image'] ?? null)];
 
             case 'saison':
-                $d = self::data('saison', ['saison' => $opt['saison'] ?? ''], $c);
+                $d = self::data('saison', $opt, $c);
                 if (!$d) {
                     return null;
                 }
@@ -212,7 +212,7 @@ final class Slides
                     'countdown' => (int) $d['timestamp'], 'sub' => $c->tr('Rendez-vous le ', 'See you on ') . $date($d['date'])];
 
             case 'maillot':
-                $d = self::data('maillot', [], $c);
+                $d = self::data('maillot', $opt, $c);
                 if (!$d) {
                     return null;
                 }
@@ -229,7 +229,7 @@ final class Slides
                     'live' => $d['state'] === 'direct', 'qr' => $c->link($d['href'])];
 
             case 'carte-stades':
-                $d = self::data('carte-stades', ['zone' => 'france'], $c);
+                $d = self::data('carte-stades', $opt + ['zone' => 'france'], $c);
                 if (!$d) {
                     return null;
                 }
@@ -245,7 +245,7 @@ final class Slides
                     'items' => array_map(fn ($l) => ['label' => $l['label'], 'text' => $l['text'], 'qr' => $c->link($l['href'])], array_slice($d['links'], 0, 3))];
 
             case 'boutique':
-                $d = self::data('boutique', [], $c);
+                $d = self::data('boutique', $opt, $c);
                 if (!$d) {
                     return null;
                 }

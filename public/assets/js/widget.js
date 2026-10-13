@@ -43,6 +43,25 @@
     var enc = encodeURIComponent(v);
     window.open(tpl.replace('__Q__', tpl.indexOf('/w/clic/') >= 0 ? encodeURIComponent(enc) : enc), '_blank', 'noopener');
   });
+  // Boutique : la carte se retourne toutes les 5 s pour montrer l'objet suivant (pause au survol
+  // ou au clavier ; mouvement réduit : simple fondu, voir le CSS du cadre).
+  var flip = document.querySelector('[data-flip]');
+  if (flip) {
+    var cards = [].slice.call(flip.children), at = 0, hold = false;
+    var pause = function () { hold = true; }, play = function () { hold = false; };
+    flip.addEventListener('mouseenter', pause); flip.addEventListener('mouseleave', play);
+    flip.addEventListener('focusin', pause); flip.addEventListener('focusout', play);
+    setInterval(function () {
+      if (hold || document.hidden) return;
+      flip.classList.add('is-turning');
+      setTimeout(function () {
+        cards[at].classList.remove('is-on'); cards[at].setAttribute('tabindex', '-1'); cards[at].setAttribute('aria-hidden', 'true');
+        at = (at + 1) % cards.length;
+        cards[at].classList.add('is-on'); cards[at].removeAttribute('tabindex'); cards[at].removeAttribute('aria-hidden');
+        flip.classList.remove('is-turning');
+      }, matchMedia('(prefers-reduced-motion: reduce)').matches ? 400 : 280);
+    }, 5000);
+  }
 
   var qz = document.querySelector('[data-quiz]');
   if (!qz || !window.fetch) return;

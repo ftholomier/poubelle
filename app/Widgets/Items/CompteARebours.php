@@ -35,8 +35,8 @@ final class CompteARebours extends Widget
     public function options(): array
     {
         return [
-            'date' => ['label' => 'Date (AAAA-MM-JJ ; vide : centenaire ou anniversaire de la fondation)', 'label_en' => 'Date (YYYY-MM-DD; empty: centenary or founding anniversary)', 'type' => 'text', 'default' => '', 'pattern' => '/^20\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/'],
-            'titre' => ['label' => 'Titre de l’anniversaire (avec une date)', 'label_en' => 'Anniversary title (with a date)', 'type' => 'text', 'default' => '', 'pattern' => '/^[^<>{}]{2,80}$/u'],
+            'date' => ['label' => 'Date (vide : centenaire ou anniversaire de la fondation)', 'label_en' => 'Date (empty: centenary or founding anniversary)', 'type' => 'date', 'min' => 'today', 'default' => ''],
+            'titre' => ['label' => 'Titre de l’évènement (avec une date)', 'label_en' => 'Event title (with a date)', 'type' => 'text', 'default' => '', 'pattern' => '/^[^<>{}]{2,80}$/u', 'placeholder' => 'Le grand jour'],
         ];
     }
 

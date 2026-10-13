@@ -22,6 +22,8 @@ final class Boutique extends Widget
     public static ?bool $open = null;
 
     public const COUNT = 3;
+    /** Objets qui défilent sur la carte qui se retourne. */
+    public const CARDS = 6;
 
     public function key(): string
     {
@@ -42,8 +44,15 @@ final class Boutique extends Widget
     public function options(): array
     {
         return [
-            'produit' => ['label' => 'Objet (adresse de sa fiche : /boutique/<objet>/ ; vide : trois objets par jour)', 'label_en' => 'Item (from its page: /boutique/<item>/; empty: three items a day)', 'type' => 'text', 'default' => '', 'pattern' => '/^[a-z0-9][a-z0-9-]{0,59}$/'],
-            'affichage' => ['label' => 'Affichage', 'label_en' => 'Layout', 'type' => 'select', 'choices' => ['carrousel' => 'Carrousel', 'grille' => 'Grille'], 'default' => 'carrousel'],
+            'produit' => ['label' => 'Objet', 'label_en' => 'Item', 'type' => 'select', 'default' => 'auto',
+                'choices' => function () {
+                    $out = ['auto' => 'Sélection du jour (au hasard)'];
+                    foreach (self::products() as $m) {
+                        $out[(string) $m['id']] = (string) $m['name'];
+                    }
+                    return $out;
+                }],
+            'affichage' => ['label' => 'Affichage', 'label_en' => 'Layout', 'type' => 'select', 'choices' => ['carte' => 'Carte qui se retourne (un objet après l’autre)', 'grille' => 'Grille (trois objets)'], 'default' => 'carte'],
         ];
     }
 
@@ -78,7 +87,7 @@ final class Boutique extends Widget
             return null;
         }
         $pick = [];
-        if ($opt['produit'] !== '') {
+        if ($opt['produit'] !== 'auto') {
             foreach ($all as $m) {
                 if ($m['id'] === $opt['produit']) {
                     $pick = [$m];
@@ -89,7 +98,7 @@ final class Boutique extends Widget
             // Sélection du jour : même tirage pour tous dans la journée.
             $day = date('Y-m-d');
             usort($all, fn ($a, $b) => crc32('boutique|' . $day . '|' . $a['id']) <=> crc32('boutique|' . $day . '|' . $b['id']));
-            $pick = array_slice($all, 0, self::COUNT);
+            $pick = array_slice($all, 0, $opt['affichage'] === 'carte' ? self::CARDS : self::COUNT);
         }
         $items = [];
         foreach ($pick as $m) {
@@ -111,15 +120,26 @@ final class Boutique extends Widget
     public function body(array $d, Context $c): string
     {
         $h = '<p class="w-eyebrow">' . e($c->tr('La boutique du musée', 'The museum shop')) . '</p>';
-        $h .= '<ul class="w-shop w-shop--' . e($d['layout']) . (count($d['items']) === 1 ? ' w-shop--one' : '') . '">';
-        foreach ($d['items'] as $it) {
-            $h .= '<li><a href="' . e($it['href']) . '" target="_blank" rel="noopener">'
-                . '<span class="w-shop__img"><img src="' . e($it['image']) . '" alt="" loading="lazy" decoding="async"></span>'
-                . '<b>' . e($it['name']) . '</b>'
-                . ($it['kind'] !== '' ? '<small>' . e($it['kind']) . '</small>' : '')
-                . '<span class="w-shop__price">' . e($it['price_label']) . '</span></a></li>';
+        if ($d['layout'] === 'carte') {
+            // Carte façon Panini qui se retourne pour passer à l'objet suivant (comme le pied de page du musée).
+            $h .= '<div class="w-flip"' . (count($d['items']) > 1 ? ' data-flip' : '') . '>';
+            foreach ($d['items'] as $i => $it) {
+                $h .= '<a class="w-flip__card' . ($i === 0 ? ' is-on' : '') . '" href="' . e($it['href']) . '" target="_blank" rel="noopener"' . ($i ? ' tabindex="-1" aria-hidden="true"' : '') . '>'
+                    . '<span class="w-flip__img"><img src="' . e($it['image']) . '" alt="" loading="' . ($i ? 'lazy' : 'eager') . '" decoding="async"></span>'
+                    . '<span class="w-flip__txt">' . ($it['kind'] !== '' ? '<small>' . e($it['kind']) . '</small>' : '') . '<b>' . e($it['name']) . '</b><span>' . e($it['price_label']) . '</span></span></a>';
+            }
+            $h .= '</div>';
+        } else {
+            $h .= '<ul class="w-shop w-shop--grille' . (count($d['items']) === 1 ? ' w-shop--one' : '') . '">';
+            foreach ($d['items'] as $it) {
+                $h .= '<li><a href="' . e($it['href']) . '" target="_blank" rel="noopener">'
+                    . '<span class="w-shop__img"><img src="' . e($it['image']) . '" alt="" loading="lazy" decoding="async"></span>'
+                    . '<b>' . e($it['name']) . '</b>'
+                    . ($it['kind'] !== '' ? '<small>' . e($it['kind']) . '</small>' : '')
+                    . '<span class="w-shop__price">' . e($it['price_label']) . '</span></a></li>';
+            }
+            $h .= '</ul>';
         }
-        $h .= '</ul>';
         return $h . '<p><a class="w-btn" href="' . e($d['href']) . '" target="_blank" rel="noopener">' . e($c->tr('Toute la boutique', 'The whole shop')) . ' →</a></p>';
     }
 }

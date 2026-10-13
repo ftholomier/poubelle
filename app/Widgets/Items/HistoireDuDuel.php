@@ -39,7 +39,10 @@ final class HistoireDuDuel extends Widget
 
     public function options(): array
     {
-        return ['adversaire' => ['label' => 'Adversaire (adresse du face-à-face : « nantes » ; vide : celui du dernier match)', 'label_en' => 'Opponent (head-to-head address: “nantes”; empty: latest match)', 'type' => 'text', 'default' => '', 'pattern' => '/^[a-z0-9-]{2,60}$/']];
+        return ['adversaire' => ['label' => 'Adversaire', 'label_en' => 'Opponent', 'type' => 'search', 'default' => 'auto',
+            'choices' => fn () => ['auto' => 'Automatique : adversaire du dernier match fiché'] + self::choices(),
+            'help' => 'Les plus affrontés d’abord (nombre de matchs entre parenthèses). Valeur : l’adresse du face-à-face (« nantes »).',
+            'help_en' => 'Most played first (number of matches). Value: the head-to-head address (“nantes”).']];
     }
 
     public function height(): int
@@ -86,7 +89,7 @@ final class HistoireDuDuel extends Widget
 
     public function data(array $opt, Context $c): ?array
     {
-        $club = self::resolve($opt['adversaire']);
+        $club = self::resolve($opt['adversaire'] === 'auto' ? '' : $opt['adversaire']);
         if ($club === null) {
             return null;
         }

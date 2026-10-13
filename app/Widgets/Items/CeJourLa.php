@@ -32,8 +32,8 @@ final class CeJourLa extends Widget
     public function options(): array
     {
         return [
-            'date' => ['label' => 'Date (MM-JJ, vide : aujourd’hui)', 'label_en' => 'Date (MM-DD, empty: today)', 'type' => 'text', 'default' => '', 'pattern' => '/^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/'],
-            'nombre' => ['label' => 'Matchs listés', 'label_en' => 'Matches listed', 'type' => 'select', 'default' => '3', 'choices' => ['1' => '1', '3' => '3', '5' => '5']],
+            'date' => ['label' => 'Jour (l’année est ignorée ; vide : aujourd’hui)', 'label_en' => 'Day (year ignored; empty: today)', 'type' => 'date', 'format' => 'md', 'default' => ''],
+            'nombre' => ['label' => 'Matchs listés', 'label_en' => 'Matches listed', 'type' => 'number', 'min' => 1, 'max' => 8, 'default' => '3'],
         ];
     }
 

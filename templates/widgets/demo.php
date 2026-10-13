@@ -1,5 +1,14 @@
 <?php
-/** Page publique « Intégrez le musée sur votre site » (/widgets/). Variables : $list [w, src, code, script, api], $resize */
+/** Page publique « Intégrez le musée sur votre site » (/widgets/). Variables : $list [w, src, code, script, api, d (describe)], $resize, $base, $loader */
+$L = \App\Services\I18n::lang();
+$catCount = [];
+$nCustom = 0;
+foreach ($list as $it) {
+    foreach ($it['d']['category'] as $ck) {
+        $catCount[$ck] = ($catCount[$ck] ?? 0) + 1;
+    }
+    $nCustom += $it['d']['customizable'] ? 1 : 0;
+}
 ?>
 <section class="wrap phead2 wdemo-head">
   <span class="eyebrow eyebrow--lg"><?= e(t('Widgets gratuits')) ?></span>
@@ -15,11 +24,41 @@
   <?php if (!$list): ?>
     <p class="lead"><?= e(t('Aucun widget n’est ouvert à tous pour le moment.')) ?></p>
   <?php endif; ?>
-  <?php foreach ($list as $it): $w = $it['w']; ?>
-  <article class="wdemo-item" id="<?= e($w->key()) ?>">
+  <?php if ($list): ?>
+  <div class="wdemo-filter" data-cat-filter role="group" aria-label="<?= e(($L === 'en' ? 'Filter by category' : 'Filtrer par catégorie')) ?>">
+    <button type="button" class="wdemo-chip is-on" data-cat="" aria-pressed="true"><?= e(($L === 'en' ? 'All' : 'Tous')) ?> <small><?= count($list) ?></small></button>
+    <?php foreach (\App\Widgets\Registry::CATEGORIES as $ck => $cl): if (empty($catCount[$ck])) continue; ?><button type="button" class="wdemo-chip" data-cat="<?= e($ck) ?>" aria-pressed="false"><?= e(\App\Widgets\Registry::categoryLabel($ck, $L)) ?> <small><?= (int) $catCount[$ck] ?></small></button><?php endforeach; ?>
+    <?php if ($nCustom): ?><button type="button" class="wdemo-chip" data-cat="personnalisables" aria-pressed="false"><?= e($L === 'en' ? 'Customisable' : 'Personnalisables') ?> <small><?= $nCustom ?></small></button><?php endif; ?>
+  </div>
+  <?php endif; ?>
+  <?php foreach ($list as $it): $w = $it['w']; $d = $it['d']; $k = $w->key(); ?>
+  <article class="wdemo-item" id="<?= e($k) ?>" data-cats="<?= e(implode(' ', $d['category']) . ($d['customizable'] ? ' personnalisables' : '')) ?>"
+    data-wcfg="<?= e(json_encode(['key' => $k, 'name' => $d['name'], 'height' => $d['height'], 'options' => $d['options'], 'base' => $base, 'loader' => $loader, 'lang' => $L, 'site' => \App\Core\Club::s('site')], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) ?>">
     <div class="wdemo-item__txt">
-      <h2 class="h-3"><?= e($w->name(\App\Services\I18n::lang())) ?></h2>
-      <p><?= e($w->description(\App\Services\I18n::lang())) ?></p>
+      <h2 class="h-3"><?= e($d['name']) ?><?php if ($d['customizable']): ?> <span class="wdemo-badge" title="<?= e(($L === 'en' ? 'Options:' : 'Options :') . ' ' . mb_strtolower(implode(', ', array_column($d['options'], 'label')))) ?>"><?= e($L === 'en' ? 'Customisable' : 'Personnalisable') ?></span><?php endif; ?></h2>
+      <p><?= e($d['description']) ?></p>
+      <?php if ($d['options']): ?>
+      <fieldset class="wdemo-opts">
+        <legend><?= e(($L === 'en' ? 'Set up the widget' : 'Réglez le widget')) ?></legend>
+        <?php foreach ($d['options'] as $on => $o): $fid = 'o-' . $k . '-' . $on; ?>
+        <label class="wdemo-opt" for="<?= e($fid) ?>"><span><?= e($o['label']) ?></span>
+          <?php if ($o['type'] === 'select'): ?>
+            <select id="<?= e($fid) ?>" data-opt="<?= e($on) ?>"><?php foreach ($o['choices'] as $v => $l): ?><option value="<?= e((string) $v) ?>"<?= (string) $v === $o['default'] ? ' selected' : '' ?>><?= e($l) ?></option><?php endforeach; ?></select>
+          <?php elseif ($o['type'] === 'search'): ?>
+            <input id="<?= e($fid) ?>" type="search" data-opt="<?= e($on) ?>" list="dl-<?= e($fid) ?>" autocomplete="off" placeholder="<?= e((string) ($o['choices']['auto'] ?? ($L === 'en' ? 'Type a name' : 'Tapez un nom'))) ?>"<?= $o['total'] > count($o['choices']) ? ' data-suggest="' . e($o['suggest']) . '"' : '' ?>>
+            <datalist id="dl-<?= e($fid) ?>"><?php foreach ($o['choices'] as $v => $l): if ($v === 'auto') continue; ?><option value="<?= e((string) $v) ?>"><?= e($l) ?></option><?php endforeach; ?></datalist>
+          <?php elseif ($o['type'] === 'date'): ?>
+            <input id="<?= e($fid) ?>" type="date" data-opt="<?= e($on) ?>"<?= isset($o['min']) ? ' min="' . e((string) $o['min']) . '"' : '' ?><?= ($o['format'] ?? '') === 'md' ? ' data-md' : '' ?>>
+          <?php elseif ($o['type'] === 'number'): ?>
+            <input id="<?= e($fid) ?>" type="number" data-opt="<?= e($on) ?>" min="<?= (int) $o['min'] ?>" max="<?= (int) $o['max'] ?>" value="<?= e($o['default']) ?>">
+          <?php else: ?>
+            <input id="<?= e($fid) ?>" type="text" data-opt="<?= e($on) ?>" maxlength="80" placeholder="<?= e((string) ($o['placeholder'] ?? '')) ?>">
+          <?php endif; ?>
+          <?php if (!empty($o['help'])): ?><small><?= e($o['help']) ?></small><?php endif; ?>
+        </label>
+        <?php endforeach; ?>
+      </fieldset>
+      <?php endif; ?>
       <label class="wdemo-label" for="script-<?= e($w->key()) ?>"><?= e(t('Code à copier (script : recommandé)')) ?></label>
       <textarea id="script-<?= e($w->key()) ?>" class="wdemo-code" readonly rows="3" data-code="<?= e($w->key()) ?>"><?= e($it['script']) ?></textarea>
       <label class="wdemo-label" for="code-<?= e($w->key()) ?>"><?= e(t('Ou code iframe (sans script)')) ?></label>
@@ -29,10 +68,16 @@
         <button type="button" class="btn btn--sm" data-copy="code-<?= e($w->key()) ?>"><?= e(t('Copier l’iframe')) ?></button>
         <button type="button" class="btn btn--sm btn--ghost" data-theme-toggle="<?= e($w->key()) ?>"><?= e(t('Voir en sombre')) ?></button>
       </p>
-      <p class="wdemo-api"><?= e(t('Données brutes (JSON) :')) ?> <a href="<?= e($it['api']) ?>" rel="nofollow" target="_blank"><code><?= e(preg_replace('#^https?://#', '', $it['api'])) ?></code></a></p>
+      <?php if ($d['options']): $first = array_key_first($d['options']); ?>
+      <details class="wdemo-dyn"><summary><?= e(($L === 'en' ? 'Change the option from your site' : 'Changer l’option depuis votre site')) ?></summary>
+        <p><?= e(($L === 'en' ? 'With the script code, just change the attribute (for instance data-' . $first . ' before each match): the widget reloads itself. With the iframe, change ?' . $first . '=… in its address. An unknown value gives the automatic setting.' : 'Avec le code script, modifiez simplement l’attribut (par exemple data-' . $first . ' avant chaque match) : le widget se recharge seul. Avec l’iframe, changez ?' . $first . '=… dans son adresse. Une valeur inconnue donne le réglage automatique.')) ?></p>
+        <textarea class="wdemo-code" readonly rows="4" data-dyn>document.querySelector('[data-musee-widget="<?= e($k) ?>"]').setAttribute('data-<?= e($first) ?>', '…');</textarea>
+      </details>
+      <?php endif; ?>
+      <p class="wdemo-api"><?= e(t('Données brutes (JSON) :')) ?> <a href="<?= e($it['api']) ?>" rel="nofollow" target="_blank" data-api><code><?= e(preg_replace('#^https?://#', '', $it['api'])) ?></code></a></p>
     </div>
     <div class="wdemo-item__view">
-      <iframe src="<?= e($it['src'] . (str_contains($it['src'], '?') ? '&' : '?') . 'apercu=1') ?>" title="<?= e($w->name(\App\Services\I18n::lang())) ?>" data-musee="<?= e($w->key()) ?>" width="100%" height="<?= (int) $w->height() ?>" loading="lazy"></iframe>
+      <iframe src="<?= e($it['src'] . (str_contains($it['src'], '?') ? '&' : '?') . 'apercu=1') ?>" title="<?= e($d['name']) ?>" data-musee="<?= e($w->key()) ?>" width="100%" height="<?= (int) $w->height() ?>" loading="lazy"></iframe>
     </div>
   </article>
   <?php endforeach; ?>

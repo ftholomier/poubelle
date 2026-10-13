@@ -22,14 +22,68 @@ abstract class Widget
     abstract public function description(string $lang = 'fr'): string;
 
     /**
-     * Options propres au widget : nom => [label, type (select|text), choices (valeur => libellé),
-     * default, pattern (expression régulière pour « text »)]. Les options communes (theme, lang,
-     * format) sont gérées par le cadre.
+     * Options propres au widget, que le site qui l'affiche choisit (?nom=valeur ou data-nom="…") :
+     * nom => [label, label_en, type, default, …] avec pour type :
+     * - « select » : liste fermée, choices (valeur => libellé, ou fonction qui la renvoie) ;
+     * - « search » : longue liste filtrable (joueurs, adversaires) : choices aussi (validation),
+     *   proposés par /api/v1/widgets/<clé>/suggestions/<nom>?q=… et une <datalist> ;
+     * - « date » : AAAA-MM-JJ (format « md » : stocké MM-JJ, l'année est ignorée), min « today » ;
+     * - « number » : entier entre min et max ;
+     * - « text » : texte libre court, pattern (expression régulière).
+     * La valeur « auto » (quand elle est dans choices) laisse le widget décider (dernier match…).
+     * Les options communes (theme, lang, format) sont gérées par le cadre.
      * @return array<string,array>
      */
     public function options(): array
     {
         return [];
+    }
+
+    /** Catégories du catalogue (une ou deux), voir Registry::CATEGORIES. @return list<string> */
+    public function category(): array
+    {
+        return Registry::CATEGORY_OF[$this->key()] ?? [];
+    }
+
+    /** @var array<string,array<string,string>> choix calculés (par musée et par requête) */
+    private static array $choiceMemo = [];
+
+    /** Choix d'une option (liste calculée une fois par musée). @return array<string,string> */
+    public function optionChoices(string $name): array
+    {
+        $o = $this->options()[$name] ?? [];
+        $c = $o['choices'] ?? [];
+        if (!is_callable($c)) {
+            return (array) $c;
+        }
+        $k = \App\Core\Club::id() . '|' . $this->key() . '|' . $name;
+        return self::$choiceMemo[$k] ??= array_map('strval', (array) $c());
+    }
+
+    /** Vide le mémo des choix (tests, changement de musée). */
+    public static function forgetChoices(): void
+    {
+        self::$choiceMemo = [];
+    }
+
+    /**
+     * Suggestions pour une option « search » ou « select » : au plus $max, filtrées sans tenir
+     * compte des accents ni de la casse (libellé ou valeur). @return list<array{value:string,label:string}>
+     */
+    public function suggest(string $name, string $q, int $max = 20): array
+    {
+        $norm = fn (string $s) => strtolower((string) preg_replace('/[^a-z0-9]+/i', ' ', (string) (iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $s) ?: $s)));
+        $q = trim($norm(mb_substr($q, 0, 60)));
+        $out = [];
+        foreach ($this->optionChoices($name) as $v => $label) {
+            if ($q === '' || str_contains($norm((string) $label), $q) || str_contains($norm((string) $v), $q)) {
+                $out[] = ['value' => (string) $v, 'label' => (string) $label];
+                if (count($out) >= $max) {
+                    break;
+                }
+            }
+        }
+        return $out;
     }
 
     /**
@@ -101,7 +155,7 @@ abstract class Widget
     }
 
     /**
-     * Options validées (valeur inconnue ou mal formée : valeur par défaut).
+     * Options validées : valeur hors liste, hors bornes ou mal formée : valeur par défaut.
      * @return array<string,string>
      */
     public function clean(array $query): array
@@ -111,11 +165,28 @@ abstract class Widget
             $v = $query[$name] ?? null;
             $v = is_scalar($v) ? trim((string) $v) : '';
             $def = (string) ($o['default'] ?? '');
-            if (($o['type'] ?? 'select') === 'select') {
-                $out[$name] = $v !== '' && isset($o['choices'][$v]) ? $v : $def;
+            $type = $o['type'] ?? 'select';
+            $ok = null;
+            if ($v === '' || mb_strlen($v) > 80) {
+                $ok = null;
+            } elseif ($type === 'select' || $type === 'search') {
+                $ok = array_key_exists($v, $this->optionChoices($name)) ? $v : null;
+            } elseif ($type === 'number') {
+                $ok = preg_match('/^-?\d{1,6}$/', $v) && (int) $v >= (int) ($o['min'] ?? 0) && (int) $v <= (int) ($o['max'] ?? 999999) ? (string) (int) $v : null;
+            } elseif ($type === 'date') {
+                $md = ($o['format'] ?? '') === 'md';
+                if (preg_match('/^(\d{4})-(\d\d)-(\d\d)$/', $v, $m) && checkdate((int) $m[2], (int) $m[3], (int) $m[1])) {
+                    $ok = $md ? $m[2] . '-' . $m[3] : $v;
+                    if (!$md && ($o['min'] ?? '') === 'today' && $v <= date('Y-m-d')) {
+                        $ok = null;
+                    }
+                } elseif ($md && preg_match('/^(\d\d)-(\d\d)$/', $v, $m) && checkdate((int) $m[1], (int) $m[2], 2000)) {
+                    $ok = $v;
+                }
             } else {
-                $out[$name] = $v !== '' && mb_strlen($v) <= 80 && (!isset($o['pattern']) || preg_match($o['pattern'], $v)) ? $v : $def;
+                $ok = !isset($o['pattern']) || preg_match($o['pattern'], $v) ? $v : null;
             }
+            $out[$name] = $ok ?? $def;
         }
         return $out;
     }
@@ -125,9 +196,30 @@ abstract class Widget
     {
         $opts = [];
         foreach ($this->options() as $name => $o) {
-            $opts[$name] = ['label' => $o['label_' . $lang] ?? $o['label'], 'type' => $o['type'] ?? 'select', 'default' => (string) ($o['default'] ?? '')]
-                + (isset($o['choices']) ? ['choices' => $o['choices']] : []);
+            $type = $o['type'] ?? 'select';
+            $x = ['label' => $o['label_' . $lang] ?? $o['label'], 'type' => $type, 'default' => (string) ($o['default'] ?? '')];
+            if ($type === 'select') {
+                $x['choices'] = $this->optionChoices($name);
+            } elseif ($type === 'search') {
+                // Longue liste : les premiers choix (les plus fréquents) et l'adresse des suggestions.
+                $all = $this->optionChoices($name);
+                $x['choices'] = array_slice($all, 0, 400, true);
+                $x['total'] = count($all);
+                $x['suggest'] = '/api/v1/widgets/' . $this->key() . '/suggestions/' . $name;
+            }
+            foreach (['min', 'max', 'format', 'placeholder'] as $k) {
+                if (isset($o[$k])) {
+                    $x[$k] = $o[$k] === 'today' ? date('Y-m-d', strtotime('+1 day')) : $o[$k];
+                }
+            }
+            $help = $o['help_' . $lang] ?? $o['help'] ?? null;
+            if ($help !== null) {
+                $x['help'] = (string) $help;
+            }
+            $opts[$name] = $x;
         }
-        return ['key' => $this->key(), 'name' => $this->name($lang), 'description' => $this->description($lang), 'options' => $opts, 'height' => $this->height()];
+        $cats = $this->category();
+        return ['key' => $this->key(), 'name' => $this->name($lang), 'description' => $this->description($lang), 'category' => $cats,
+            'category_labels' => array_map(fn ($k) => Registry::CATEGORIES[$k][$lang === 'en' ? 1 : 0] ?? $k, $cats), 'customizable' => $opts !== [], 'options' => $opts, 'height' => $this->height()];
     }
 }

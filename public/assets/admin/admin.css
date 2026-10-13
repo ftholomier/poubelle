@@ -907,6 +907,9 @@ body.has-proof .bo { padding-right: 440px; }
 /* Mosaïque (admin/widgets.js) : rangées de 8 px, chaque carte s'étend sur sa hauteur réelle. */
 .wcat.is-masonry { grid-auto-rows: 8px; row-gap: 0; }
 .wcat.is-masonry > .card { margin-bottom: 16px; }
+.wcat > [hidden] { display: none !important; }
+.wbadge { display: inline-block; vertical-align: middle; margin-left: 6px; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .02em; background: var(--yellow); color: var(--navy); cursor: help; }
+.wcat-filter .chip small { opacity: .7; margin-left: 2px; }
 .mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
 .wbars { display: flex; align-items: flex-end; gap: 2px; height: 120px; }
 .wbars span { flex: 1; background: var(--navy); min-width: 2px; }

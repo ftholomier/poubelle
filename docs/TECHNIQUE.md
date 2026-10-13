@@ -1268,17 +1268,44 @@ préfixe `/en` ; langue par `?lang=fr|en`) :
 | `GET /ecran/{playlist}?key=…&format=paysage\|vertical&lang=fr\|en&adversaire=<club>&horloge=1\|0` | mode écran plein écran (voir plus bas) ; `?slide=N` fige la slide N, `&reponse=1` montre la réponse d'un quiz (aperçus, captures) |
 | `GET /ecran/sw.js` | service worker du mode écran (`public/assets/js/ecran-sw.js`, portée `/ecran/`, `no-cache`) |
 
-Options propres : `ce-jour-la` (`date=MM-JJ`, `nombre=1|3|5`), `il-y-a` (`ans=tous|5|10|20|30`),
-`carte-legende` (`joueur=<slug de la fiche>`), `records` (`cat=buteurs|matchs`), `saison`
-(`saison=AAAA-AAAA`, vide : en cours si un match y est fiché, sinon la dernière qui en a),
-`palmares` (`affichage=liste|bandeau` ; pas `format`, déjà pris par standard / compact) ; vague 3 :
-`histoire-du-duel` (`adversaire=<clé du club>`, celle de `/face-a-face/<clé>/` ; vide, inconnue ou
-le club lui-même : l'adversaire du dernier match fiché), `carte-stades` (`zone=france|europe`),
-`maillot` (`epoque=AAAA` : l'époque qui couvre l'année ; vide : un maillot par jour),
-`compte-a-rebours` (`date=AAAA-MM-JJ` future et `titre=…` ; sinon le centenaire quand
-`Site::centenaryCountdown()`, sinon le prochain anniversaire de `founded_date`), `boutique`
-(`produit=<id>` : celui de `/boutique/<id>/`, inconnu ou vide : trois objets du jour ;
-`affichage=carrousel|grille`). Clé partenaire : `?key=mk_…` ou en-tête `X-Musee-Key`.
+Options propres (`Widget::options()`, validées par `Widget::clean()` : valeur hors liste, hors
+bornes ou mal formée → valeur par défaut). Types : `select` (liste fermée), `search` (longue liste
+filtrable : `<datalist>` et `GET /api/v1/widgets/{clé}/suggestions/{option}?q=…` → `{items:[{value,
+label}]}`, 20 au plus, sans accents ni casse, mêmes règles d'accès et de débit que le widget),
+`date` (AAAA-MM-JJ ; `format: md` → stocké MM-JJ ; `min: today`), `number` (`min`, `max`), `text`
+(`pattern`). `choices` peut être une fonction : liste calculée par musée, mémorisée par requête
+(`Widget::optionChoices()`, clé `Club::id()`). La valeur **`auto`** laisse le widget décider.
+`describe()` (catalogue, configurateurs) donne `type`, `default`, `choices` (400 premiers pour
+`search`, plus `total` et `suggest`), `min`/`max`/`format`/`placeholder`/`help`, `category`,
+`category_labels` et `customizable`.
+
+| Widget | Option | Type | Valeurs |
+|---|---|---|---|
+| `histoire-du-duel` | `adversaire` | search | `auto` (adversaire du dernier match fiché) ou clé de `/face-a-face/<clé>/`, les plus affrontés d'abord (`HistoireDuDuel::choices`) |
+| `carte-legende` | `joueur` | search | `auto` (au hasard, une par heure) ou fin d'adresse de la fiche ; légendes puis plus capés (`CarteLegende::players`) |
+| `maillot` | `epoque` | select | `auto` (un par jour) ou année d'une époque de la collection ; une année quelconque donne l'époque qui la couvre (`Maillot::clean`) |
+| `saison` | `saison` | select | `auto` (en cours ou dernière) ou saison ayant des matchs (`Derived seasons`), la plus récente d'abord |
+| `boutique` | `produit` | select | `auto` (sélection du jour) ou id d'un objet en vente |
+| `boutique` | `affichage` | select | `carte` (carte façon Panini qui se retourne toutes les 5 s, `Boutique::CARDS` objets ; pause au survol ; fondu si mouvement réduit) ou `grille` (trois objets) |
+| `ce-jour-la` | `date`, `nombre` | date (md), number 1–8 | vide : aujourd'hui ; 3 |
+| `compte-a-rebours` | `date`, `titre` | date (future), text | vide : centenaire ou anniversaire de `founded_date` |
+| `records` | `cat`, `nombre` | select, number 3–10 | `buteurs\|matchs` ; 10 |
+| `il-y-a` | `ans` | select | `tous\|5\|10\|20\|30` |
+| `palmares` | `affichage` | select | `liste\|bandeau` (pas `format`, déjà pris par standard / compact) |
+| `carte-stades` | `zone` | select | `france\|europe` |
+
+Catégories (`Registry::CATEGORIES`, `Registry::CATEGORY_OF`, `Widget::category()`, une ou deux par
+widget) : matchs, joueurs, chiffres, jeux, histoire, musee, ecrans. `GET /api/v1/widgets` renvoie
+`categories` et, par widget, `category`, `customizable` et `options` ; `?categorie=<clé>` filtre
+(clé inconnue ignorée). Le catalogue du back-office (mosaïque recalculée après filtrage) et
+`/widgets/` (liste) ont des puces de filtre (« Tous », chaque catégorie, « Personnalisables »),
+état dans l'adresse (`#cat=matchs`), et la pastille « Personnalisable » (infobulle : les options).
+
+Configurateurs : back-office (`public/assets/admin/widgets.js`, champ selon le type) et `/widgets/`
+(`templates/widgets/demo.php` + `public/assets/js/widgets.js`, `data-wcfg` par widget) : aperçu
+rechargé en direct, codes script (options en `data-*`) et iframe (`?option=`) mis à jour.
+`embed.js` recharge seul un widget dont un attribut `data-*` change (MutationObserver) ;
+`MuseeWidgets.reload(el)` et `MuseeWidgets.scan()` restent disponibles. Clé partenaire : `?key=mk_…` ou en-tête `X-Musee-Key`.
 
 **Classes.** `Registry` (widgets prêts : `CLASSES`, à venir : `PLANNED`) ; `Widget` (classe de
 base : `key`, `name`, `description`, `options`, `defaultAccess`, `ttl`, `data` → tableau,

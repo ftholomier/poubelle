@@ -14,7 +14,10 @@ use App\Services\I18n;
 /**
  * Adresses publiques des widgets (appelées par App\Kernel avant la page d'attente) :
  * - GET /api/v1/widgets            catalogue des widgets accessibles (JSON) ;
+ *   (?categorie=<clé> : une catégorie seulement, voir Registry::CATEGORIES) ;
  * - GET /api/v1/widgets/<clé>      données d'un widget (JSON, CORS, ETag) ;
+ * - GET /api/v1/widgets/<clé>/suggestions/<option>?q=…   choix d'une option filtrés (JSON :
+ *                                  [{value, label}], 20 au plus ; mêmes règles d'accès que le widget) ;
  * - GET /w/<clé>                   le widget en page HTML autonome, à mettre dans une iframe ;
  * - GET /w/clic/<clé>/?to=/…       lien vers le musée depuis un widget (compté, puis redirigé) ;
  * - POST /api/v1/widgets/quiz-du-jour/verifier   vérifie une réponse du quiz du jour (la bonne
@@ -63,6 +66,9 @@ final class Http
         try {
             if ($p === '/api/v1/widgets') {
                 return self::catalog($req, $lang);
+            }
+            if (preg_match('#^/api/v1/widgets/([a-z0-9-]{1,40})/suggestions/([a-z0-9_-]{1,40})$#', $p, $m)) {
+                return self::suggestions($req, $m[1], $m[2]);
             }
             if (preg_match('#^/api/v1/widgets/([a-z0-9-]{1,40})$#', $p, $m)) {
                 return self::serve($req, $m[1], $lang, true);
@@ -201,6 +207,8 @@ final class Http
             return self::cors(Response::json(['error' => 'Trop de requêtes, patientez une minute.'], 429), $req, $partner);
         }
         $closed = Seo::closed();
+        $cat = $req->str('categorie');
+        $cat = isset(Registry::CATEGORIES[$cat]) ? $cat : '';
         $list = [];
         foreach (Registry::all() as $k => $w) {
             $cfg = Store::widget($k);
@@ -210,7 +218,7 @@ final class Http
                 'payant' => $partner !== null && Store::paid($partner),
                 default => false,
             };
-            if ($ok && (!$closed || $cfg['closed_ok'])) {
+            if ($ok && (!$closed || $cfg['closed_ok']) && ($cat === '' || in_array($cat, $w->category(), true))) {
                 $q = ['lang' => $lang];
                 $list[] = $w->describe($lang) + [
                     'access' => $cfg['access'],
@@ -219,7 +227,11 @@ final class Http
                 ];
             }
         }
-        $body = ['museum' => self::attribution(new Context('', $lang, 'clair', 'standard', (string) ($partner['id'] ?? ''))), 'widgets' => $list];
+        $cats = [];
+        foreach (Registry::CATEGORIES as $k => $l) {
+            $cats[] = ['key' => $k, 'label' => Registry::categoryLabel($k, $lang)];
+        }
+        $body = ['museum' => self::attribution(new Context('', $lang, 'clair', 'standard', (string) ($partner['id'] ?? ''))), 'categories' => $cats, 'widgets' => $list];
         return self::cached(Response::json($body), $req, $partner, md5(json_encode($body)), self::MAX_AGE_API);
     }
 
@@ -267,7 +279,7 @@ final class Http
                 'generated' => date('c', $hit['at']),
                 'data' => $data,
                 'attribution' => self::attribution($c),
-                'iframe' => Context::abs('/w/' . $key . '?' . http_build_query(array_filter($opt + ['lang' => $lang, 'theme' => $theme], fn ($v) => $v !== ''))),
+                'iframe' => Context::abs('/w/' . $key . '?' . http_build_query(array_filter($opt + ['lang' => $lang, 'theme' => $theme], fn ($v) => $v !== '' && $v !== 'auto'))),
             ];
             $res = self::cached(Response::json($body), $req, $partner, $etag, self::MAX_AGE_API);
             if ($count) {
@@ -281,6 +293,27 @@ final class Http
             Store::hit('vues', $key, $c->partner ?: 'libre');
         }
         return $res;
+    }
+
+    /** Suggestions pour une option (configurateurs, sites partenaires) : mêmes règles d'accès que le widget. */
+    private static function suggestions(Request $req, string $key, string $name): Response
+    {
+        $w = Registry::get($key);
+        $o = $w?->options()[$name] ?? null;
+        if (!$w || !$o || !in_array($o['type'] ?? 'select', ['select', 'search'], true)) {
+            return self::cors(Response::json(['error' => 'Option inconnue.'], 404), $req, null);
+        }
+        $preview = self::preview($req);
+        [$code, $error, $partner] = self::access($w, $req, $preview);
+        if ($error !== null) {
+            return self::cors(Response::json(['error' => $error, 'widget' => $key], $code), $req, null);
+        }
+        if (!$preview && !self::rate($req, $partner)) {
+            return self::cors(Response::json(['error' => 'Trop de requêtes, patientez une minute.'], 429), $req, $partner);
+        }
+        $q = $req->str('q');
+        $body = ['widget' => $key, 'option' => $name, 'q' => mb_substr($q, 0, 60), 'items' => $w->suggest($name, $q)];
+        return self::cached(Response::json($body), $req, $partner, md5(json_encode($body)), self::MAX_AGE_API);
     }
 
     /** Message à la place du widget (accès refusé…), dans le même cadre aux couleurs du musée. */

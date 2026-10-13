@@ -38,6 +38,50 @@ final class Registry
         'boutique' => Items\Boutique::class,
     ];
 
+    /** Catégories du catalogue (filtres du back-office, de /widgets/ et de l'API) : clé => [fr, en]. */
+    public const CATEGORIES = [
+        'matchs' => ['Matchs & adversaires', 'Matches & opponents'],
+        'joueurs' => ['Joueurs & légendes', 'Players & legends'],
+        'chiffres' => ['Chiffres & records', 'Figures & records'],
+        'jeux' => ['Jeux', 'Games'],
+        'histoire' => ['Photos & histoire', 'Photos & history'],
+        'musee' => ['Musée & soutien', 'Museum & support'],
+        'ecrans' => ['Écrans', 'Screens'],
+    ];
+
+    /** Catégories de chaque widget (une ou deux), voir Widget::category(). */
+    public const CATEGORY_OF = [
+        'ce-jour-la' => ['matchs', 'histoire'],
+        'chiffre-du-jour' => ['chiffres'],
+        'il-y-a' => ['matchs', 'histoire'],
+        'carte-legende' => ['joueurs'],
+        'photo-du-jour' => ['histoire'],
+        'le-saviez-vous' => ['histoire'],
+        'records' => ['chiffres', 'joueurs'],
+        'quiz-du-jour' => ['jeux'],
+        'defi-du-jour' => ['jeux'],
+        'dernier-match' => ['matchs'],
+        'saison' => ['chiffres', 'matchs'],
+        'palmares' => ['chiffres'],
+        'frise' => ['histoire'],
+        'bandeau' => ['musee'],
+        'histoire-du-duel' => ['matchs'],
+        'carte-stades' => ['histoire'],
+        'maillot' => ['histoire'],
+        'compte-a-rebours' => ['musee'],
+        'soutenir' => ['musee'],
+        'recherche' => ['musee'],
+        'retro-direct' => ['matchs'],
+        'playlist' => ['ecrans'],
+        'boutique' => ['musee'],
+    ];
+
+    /** Libellé d'une catégorie. */
+    public static function categoryLabel(string $k, string $lang = 'fr'): string
+    {
+        return self::CATEGORIES[$k][$lang === 'en' ? 1 : 0] ?? $k;
+    }
+
     /**
      * Widgets à venir : clé => [nom, description, phase]. Vide depuis la vague 3 (les 8 widgets
      * annoncés sont prêts ; « avant-match » est devenu « histoire-du-duel », « playlist » le mode écran).

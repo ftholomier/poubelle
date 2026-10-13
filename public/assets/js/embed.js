@@ -6,7 +6,9 @@
    la page), chargée quand elle approche de l'écran, à la hauteur exacte du widget (message
    {type: "musee-widget", height} de js/widget.js, accepté seulement depuis l'origine du musée).
    Les autres attributs data-* deviennent des options du widget (data-cat="matchs",
-   data-saison="1987-1988"…) ; data-height : hauteur de départ, data-max-width : largeur maximale. */
+   data-saison="1987-1988"…) ; data-height : hauteur de départ, data-max-width : largeur maximale.
+   Options changées après coup (data-adversaire="nantes" remplacé par un autre club…) : le widget
+   se recharge seul (attribut surveillé) ; ou MuseeWidgets.reload(el) ; nouveaux <div> : MuseeWidgets.scan(). */
 (function (w, d) {
   'use strict';
   var me = d.currentScript || [].slice.call(d.querySelectorAll('script[src*="embed.js"]')).pop();
@@ -26,6 +28,8 @@
     for (var k in el.dataset) {
       if (!SKIP[k] && el.dataset[k] !== '') q.push(encodeURIComponent(kebab(k)) + '=' + encodeURIComponent(el.dataset[k]));
     }
+    var old = el.querySelector('iframe');
+    if (old) { var i = frames.indexOf(old); if (i >= 0) frames.splice(i, 1); }
     var f = d.createElement('iframe');
     f.src = origin + '/w/' + key + (q.length ? '?' + q.join('&') : '');
     f.title = el.getAttribute('data-title') || 'Widget du musée : ' + key;
@@ -68,6 +72,20 @@
       }
     });
   }
-  w.MuseeWidgets = { scan: scan };
+  // Rechargement quand le site change une option (attribut data-*) d'un widget déjà affiché.
+  function reload(el) { if (el && el.querySelector('iframe')) build(el); }
+  if ('MutationObserver' in w && !reg[origin + '#o']) {
+    reg[origin + '#o'] = 1;
+    new MutationObserver(function (ms) {
+      var seen = [];
+      ms.forEach(function (m) {
+        var el = m.target;
+        var n = m.attributeName || '';
+        if (n.indexOf('data-') !== 0 || n === 'data-musee-ready' || n === 'data-height' || seen.indexOf(el) >= 0 || !el.hasAttribute('data-musee-widget') || !el.hasAttribute('data-musee-ready')) return;
+        seen.push(el); reload(el);
+      });
+    }).observe(d.documentElement, { subtree: true, attributes: true });
+  }
+  w.MuseeWidgets = { scan: scan, reload: reload };
   d.readyState === 'loading' ? d.addEventListener('DOMContentLoaded', scan) : scan();
 })(window, document);

@@ -21,7 +21,7 @@ final class Playlists
     public const TYPES = [
         'histoire-du-duel' => ['Histoire du duel (adversaire du jour)', 15, ['adversaire']],
         'ce-jour-la' => ['Ce jour-là', 12, []],
-        'carte-legende' => ['Carte de légende', 12, []],
+        'carte-legende' => ['Carte de légende', 12, ['joueur']],
         'chiffre-du-jour' => ['Chiffre du jour', 10, []],
         'le-saviez-vous' => ['Le saviez-vous ?', 10, []],
         'quiz' => ['Quiz écran (question, compte à rebours, réponse)', 30, []],
@@ -33,11 +33,11 @@ final class Playlists
         'dernier-match' => ['Dernier match fiché', 12, []],
         'saison' => ['Saison en un coup d’œil', 12, ['saison']],
         'compte-a-rebours' => ['Compte à rebours', 10, []],
-        'maillot' => ['Maillot de l’époque', 10, []],
+        'maillot' => ['Maillot de l’époque', 10, ['epoque']],
         'retro-direct' => ['Rétro-Direct', 10, []],
-        'carte-stades' => ['Carte des stades', 12, []],
+        'carte-stades' => ['Carte des stades', 12, ['zone']],
         'soutenir' => ['Soutenir le musée (QR codes)', 10, []],
-        'boutique' => ['Boutique du musée (QR codes)', 10, []],
+        'boutique' => ['Boutique du musée (QR codes)', 10, ['produit']],
     ];
 
     public const FORMATS = ['paysage' => 'Paysage 16:9 (1920 × 1080)', 'vertical' => 'Vertical 9:16 (1080 × 1920)'];
@@ -175,10 +175,8 @@ final class Playlists
                 $v = trim((string) ($s['opt'][$o] ?? $s[$o] ?? ''));
                 $v = match ($o) {
                     'adversaire' => self::slug($v),
-                    'cat' => in_array($v, ['buteurs', 'matchs'], true) ? $v : 'buteurs',
                     'n' => (string) max(1, min(20, (int) $v ?: 1)),
-                    'saison' => preg_match('/^(18|19|20)\d\d-(18|19|20)\d\d$/', $v) ? $v : '',
-                    default => '',
+                    default => self::widgetOption($type, $o, $v),
                 };
                 if ($v !== '') {
                     $opt[$o] = $v;
@@ -187,6 +185,17 @@ final class Playlists
             $out[] = ['type' => $type, 'duration' => $d >= self::MIN ? min(self::MAX, $d) : self::TYPES[$type][1], 'opt' => $opt];
         }
         return $out;
+    }
+
+    /** Option d'une slide validée par le widget du même nom (valeur hors liste : '' ; « auto » : ''). */
+    public static function widgetOption(string $type, string $name, string $v): string
+    {
+        $w = \App\Widgets\Registry::get($type);
+        if (!$w || !isset($w->options()[$name]) || $v === '') {
+            return '';
+        }
+        $c = $w->clean([$name => $v])[$name];
+        return $c === 'auto' || ($c === (string) ($w->options()[$name]['default'] ?? '') && $c !== $v) ? '' : $c;
     }
 
     /** Clé de club (adresse du face-à-face) bien formée, sinon ''. */

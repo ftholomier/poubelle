@@ -35,7 +35,30 @@ final class Maillot extends Widget
 
     public function options(): array
     {
-        return ['epoque' => ['label' => 'Époque (année : 1930 ; vide : un maillot par jour)', 'label_en' => 'Era (year: 1930; empty: one shirt a day)', 'type' => 'text', 'default' => '', 'pattern' => '/^(18|19|20)\d\d$/']];
+        return ['epoque' => ['label' => 'Époque', 'label_en' => 'Era', 'type' => 'select', 'default' => 'auto',
+            'choices' => function () {
+                $out = ['auto' => 'Automatique : un maillot différent chaque jour'];
+                foreach (self::eras() as $e) {
+                    $out[(string) (int) $e['era']] = (int) $e['era'] . ' : ' . (string) ($e['label'] ?? '');
+                }
+                return $out;
+            }]];
+    }
+
+    /** Une année quelconque (?epoque=1935) donne l'époque qui la couvre ; sinon : valeur de la liste. */
+    public function clean(array $query): array
+    {
+        $y = is_scalar($query['epoque'] ?? null) ? trim((string) $query['epoque']) : '';
+        if (preg_match('/^(18|19|20)\d\d$/', $y)) {
+            $cover = null;
+            foreach (self::eras() as $e) {
+                if ((int) $e['era'] <= (int) $y) {
+                    $cover = (string) (int) $e['era'];
+                }
+            }
+            $query['epoque'] = $cover ?? '';
+        }
+        return parent::clean($query);
     }
 
     public function height(): int
@@ -63,7 +86,7 @@ final class Maillot extends Widget
             return null;
         }
         $pick = null;
-        if ($opt['epoque'] !== '') {
+        if ($opt['epoque'] !== 'auto') {
             foreach ($eras as $e) {
                 if ((int) $e['era'] <= (int) $opt['epoque']) {
                     $pick = $e; // l'époque qui couvre l'année demandée

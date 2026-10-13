@@ -34,7 +34,10 @@ final class Records extends Widget
 
     public function options(): array
     {
-        return ['cat' => ['label' => 'Classement', 'label_en' => 'Ranking', 'type' => 'select', 'choices' => ['buteurs' => 'Meilleurs buteurs', 'matchs' => 'Joueurs les plus utilisés'], 'default' => 'buteurs']];
+        return [
+            'cat' => ['label' => 'Classement', 'label_en' => 'Ranking', 'type' => 'select', 'choices' => ['buteurs' => 'Meilleurs buteurs', 'matchs' => 'Joueurs les plus utilisés'], 'default' => 'buteurs'],
+            'nombre' => ['label' => 'Nombre de joueurs', 'label_en' => 'Number of players', 'type' => 'number', 'min' => 3, 'max' => 10, 'default' => '10'],
+        ];
     }
 
     public function height(): int
@@ -46,7 +49,7 @@ final class Records extends Widget
     {
         $cat = $opt['cat'];
         $rows = [];
-        foreach (Explore::recordRows($cat, null, null, 10) as $i => $r) {
+        foreach (Explore::recordRows($cat, null, null, (int) $opt['nombre']) as $i => $r) {
             $rows[] = ['rank' => $i + 1, 'name' => (string) $r['name'], 'meta' => (string) $r['meta'], 'value' => (int) $r['v'], 'href' => self::local($r['href'])];
         }
         if (!$rows) {

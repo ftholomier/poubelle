@@ -268,7 +268,7 @@ try {
         $ok($d === null, 'boutique : rien à montrer sans objet en vente');
     } else {
         $ids = array_column($sell, 'id');
-        $ok(count($d['items']) === min(3, count($sell)) && !array_diff(array_column($d['items'], 'id'), $ids) && count(array_unique(array_column($d['items'], 'id'))) === count($d['items']), 'boutique : trois objets en vente, sans doublon');
+        $ok(count($d['items']) === min($B::CARDS, count($sell)) && !array_diff(array_column($d['items'], 'id'), $ids) && count(array_unique(array_column($d['items'], 'id'))) === count($d['items']), 'boutique : objets en vente qui défilent sur la carte, sans doublon');
         $ok($d3('boutique')['items'] === $d['items'], 'boutique : même sélection dans la journée');
         $it = $d['items'][0];
         $ok(str_contains($it['href'], '/w/clic/boutique/') && str_contains(rawurldecode($it['href']), '/boutique/' . $it['id'] . '/'), 'boutique : lien compté vers la fiche du produit');
@@ -278,12 +278,13 @@ try {
         $last = end($sell);
         $one = $d3('boutique', ['produit' => $last['id'], 'affichage' => 'grille']);
         $ok(count($one['items']) === 1 && $one['items'][0]['id'] === $last['id'] && $one['layout'] === 'grille', 'boutique : un seul objet choisi, en grille');
-        $ok(count($d3('boutique', ['produit' => 'inconnu-42'])['items']) === min(3, count($sell)) && $d3('boutique', ['affichage' => 'mur'])['layout'] === 'carrousel', 'boutique : objet inconnu → sélection du jour ; affichage inconnu → carrousel');
+        $ok(count($d3('boutique', ['produit' => 'inconnu-42'])['items']) === min($B::CARDS, count($sell)) && $d3('boutique', ['affichage' => 'mur'])['layout'] === 'carte', 'boutique : objet inconnu → sélection du jour ; affichage inconnu → carte');
+        $ok(count($d3('boutique', ['affichage' => 'grille'])['items']) === min(3, count($sell)), 'boutique : grille de trois objets');
         $en = $json($g3('/api/v1/widgets/boutique', ['lang' => 'en']))['data'];
         $ok($m['sale']['extra'] === [] || str_starts_with($en['items'][0]['price_label'], 'from'), 'boutique : libellés en anglais');
         foreach (['clair', 'sombre'] as $theme) {
             $f = $g3('/w/boutique', ['theme' => $theme])->body;
-            $ok(str_contains($f, 'class="w-shop w-shop--carrousel') && str_contains($f, 'non officiel') && !str_contains($f, 'src="/') && !preg_match('#href="/(?!/)#', $f), "iframe boutique ($theme) : objets, mention, adresses complètes");
+            $ok(str_contains($f, 'class="w-flip"') && str_contains($f, 'w-flip__card is-on') && (count($sell) < 2 || str_contains($f, 'data-flip')) && str_contains($f, 'non officiel') && !str_contains($f, 'src="/') && !preg_match('#href="/(?!/)#', $f), "iframe boutique ($theme) : carte qui se retourne, mention, adresses complètes");
         }
         $sl = \App\Widgets\Screen\Slides::one(['type' => 'boutique', 'opt' => []], new \App\Widgets\Context('boutique'));
         $ok($sl !== null && $sl['layout'] === 'support' && count($sl['items']) === count($d['items']), 'boutique : slide du mode écran (QR codes)');
@@ -603,9 +604,66 @@ try {
     }
     $ok(count(array_filter($codes, fn ($c) => $c === 429)) === 3, 'débit : 429 au-delà de ' . Http::PER_IP . ' requêtes par minute et par IP');
 
+
+    // ------------------------------------------------------------------ options configurables, catégories
+    $types = ['select', 'search', 'date', 'number', 'text'];
+    $expect = ['histoire-du-duel' => ['adversaire'], 'carte-legende' => ['joueur'], 'maillot' => ['epoque'], 'saison' => ['saison'], 'boutique' => ['produit', 'affichage'],
+        'ce-jour-la' => ['date', 'nombre'], 'compte-a-rebours' => ['date', 'titre'], 'records' => ['cat', 'nombre'], 'il-y-a' => ['ans'], 'palmares' => ['affichage'], 'carte-stades' => ['zone']];
+    foreach ($expect as $k => $names) {
+        $w = Registry::get($k);
+        $ok(array_keys($w->options()) === $names, "options de $k : " . implode(', ', $names));
+        foreach ($w->describe()['options'] as $n => $o) {
+            $ok(in_array($o['type'], $types, true) && $o['label'] !== '', "option $k.$n : type {$o['type']}");
+            if (in_array($o['type'], ['select', 'search'], true)) {
+                $ok(count($o['choices']) >= 2 && isset($o['choices'][$o['default']]), "option $k.$n : choix non vides sur " . \App\Core\Club::id() . ' (' . count($w->optionChoices($n)) . '), défaut dans la liste');
+                // Valeur hors liste ou injection : la valeur par défaut.
+                foreach (['zzz-inconnu', '"><script>alert(1)</script>', '../../etc', str_repeat('a', 200)] as $bad) {
+                    $ok($w->clean([$n => $bad])[$n] === $o['default'], "option $k.$n : « " . mb_substr($bad, 0, 20) . ' » refusée');
+                }
+            }
+        }
+    }
+    $duel = Registry::get('histoire-du-duel');
+    $advs = $duel->optionChoices('adversaire');
+    $first = array_keys($advs)[1];
+    $ok(array_key_first($advs) === 'auto' && preg_match('/\(\d+\)$/', $advs[$first]), 'histoire du duel : « auto » puis les adversaires avec le nombre de matchs');
+    $ok($duel->clean(['adversaire' => $first])['adversaire'] === $first && $d3('histoire-du-duel', ['adversaire' => $first])['club'] === $first, "histoire du duel : adversaire choisi ($first)");
+    $ok($d3('histoire-du-duel', ['adversaire' => 'auto']) !== null, 'histoire du duel : adversaire automatique');
+    $ok($w = Registry::get('ce-jour-la') and $w->clean(['date' => '2024-02-29'])['date'] === '02-29' && $w->clean(['date' => '02-30'])['date'] === '' && $w->clean(['nombre' => '99'])['nombre'] === '3' && $w->clean(['nombre' => '5'])['nombre'] === '5', 'ce jour-là : date du calendrier → MM-JJ ; date impossible et nombre hors bornes refusés');
+    $cr = Registry::get('compte-a-rebours');
+    $ok($cr->clean(['date' => '2001-01-01'])['date'] === '' && $cr->clean(['date' => date('Y-m-d', strtotime('+3 days'))])['date'] !== '', 'compte à rebours : date passée refusée, date future acceptée');
+    $ok(Registry::get('maillot')->clean(['epoque' => '1935'])['epoque'] !== 'auto' || count(Registry::get('maillot')->optionChoices('epoque')) < 2, 'maillot : une année quelconque donne l’époque qui la couvre');
+    $ok(count(Registry::get('carte-legende')->optionChoices('joueur')) > 10, 'carte de légende : liste des joueurs publiés');
+
+    // Suggestions (listes longues).
+    $lbl = preg_replace('/\s*\(\d+\)$/', '', $advs[$first]);
+    $sg = $get('/api/v1/widgets/histoire-du-duel/suggestions/adversaire', ['q' => mb_strtolower($lbl)]);
+    $sj = $json($sg);
+    $ok($sg->status === 200 && in_array($first, array_column($sj['items'], 'value'), true) && count($sj['items']) <= 20, "suggestions : « $lbl » trouvé, 20 au plus");
+    $ok($json($get('/api/v1/widgets/histoire-du-duel/suggestions/adversaire', ['q' => 'zzzzqqq']))['items'] === [], 'suggestions : rien pour un nom inconnu');
+    $ok($get('/api/v1/widgets/histoire-du-duel/suggestions/inconnue')->status === 404 && $get('/api/v1/widgets/ce-jour-la/suggestions/date')->status === 404, 'suggestions : option inconnue ou sans liste → 404');
+    $ok(count($json($get('/api/v1/widgets/carte-legende/suggestions/joueur', ['q' => '']))['items']) === 20, 'suggestions : joueurs (20 premiers)');
+    Store::saveWidget('histoire-du-duel', 'desactive', false);
+    $ok($get('/api/v1/widgets/histoire-du-duel/suggestions/adversaire')->status === 404, 'suggestions : widget désactivé → 404');
+    Store::saveWidget('histoire-du-duel', 'libre', false);
+
+    // Catégories, pastille « Personnalisable ».
+    foreach (Registry::all() as $k => $w) {
+        $ok(count($w->category()) >= 1 && count($w->category()) <= 2 && !array_diff($w->category(), array_keys(Registry::CATEGORIES)), "catégorie de $k : " . implode(', ', $w->category()));
+    }
+    $cat = $json($get('/api/v1/widgets'));
+    $row = array_column($cat['widgets'], null, 'key');
+    $ok(count($cat['categories']) === count(Registry::CATEGORIES) && isset($row['histoire-du-duel']) && $row['histoire-du-duel']['category'] === ['matchs'] && $row['histoire-du-duel']['customizable'] === true && isset($row['histoire-du-duel']['options']['adversaire']), 'API catalogue : catégories, champ category, customizable et options');
+    $ok(isset($row['chiffre-du-jour']) && $row['chiffre-du-jour']['customizable'] === false, 'API catalogue : widget sans option → customizable false');
+    $m = array_column($json($get('/api/v1/widgets', ['categorie' => 'jeux']))['widgets'], 'key');
+    $ok($m !== [] && !array_diff($m, ['quiz-du-jour', 'defi-du-jour']), 'API catalogue : ?categorie=jeux');
+    $ok(count($json($get('/api/v1/widgets', ['categorie' => '<x>']))['widgets']) === count($cat['widgets']), 'API catalogue : catégorie inconnue ignorée');
+
     // ------------------------------------------------------------------ page publique, back-office
     $demo = $get('/widgets/');
     $ok($demo->status === 200 && substr_count($demo->body, 'data-musee=') >= 14 && str_contains($demo->body, '/contact/?objet=partenariat'), 'page /widgets/ : aperçus, code à copier, contact partenaire');
+    $ok(str_contains($demo->body, 'data-cat-filter') && str_contains($demo->body, 'data-cat="matchs"') && str_contains($demo->body, 'data-cats="matchs') && str_contains($demo->body, 'wdemo-badge'), 'page /widgets/ : filtre par catégorie et pastille « Personnalisable »');
+    $ok(str_contains($demo->body, 'data-opt="adversaire"') && str_contains($demo->body, 'data-wcfg='), 'page /widgets/ : réglage des options (adversaire…)');
     $ok(str_contains($get('/')->body, 'href="/widgets/"'), 'lien discret vers /widgets/ dans le pied de page');
     $adm = $get('/admin/widgets');
     $ok($adm->status === 302 && str_contains($adm->headers['Location'] ?? '', '/admin/connexion'), 'back-office : écran réservé aux personnes connectées');

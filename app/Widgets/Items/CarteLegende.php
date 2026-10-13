@@ -40,7 +40,31 @@ final class CarteLegende extends Widget
 
     public function options(): array
     {
-        return ['joueur' => ['label' => 'Joueur (adresse de sa fiche, ex. mecha-bazdarevic ; vide : au hasard)', 'label_en' => 'Player (page slug; empty: random)', 'type' => 'text', 'default' => '', 'pattern' => '/^[a-z0-9][a-z0-9-]{1,79}$/']];
+        return ['joueur' => ['label' => 'Joueur', 'label_en' => 'Player', 'type' => 'search', 'default' => 'auto',
+            'choices' => fn () => ['auto' => 'Au hasard : une légende par heure'] + self::players(),
+            'help' => 'Tapez un nom : légendes et joueurs les plus capés d’abord. Valeur : l’adresse de sa fiche.',
+            'help_en' => 'Type a name: legends and most capped players first. Value: the page address.']];
+    }
+
+    /** Joueurs publiés : adresse (dernier segment) => nom, les légendes puis les plus capés d'abord. @return array<string,string> */
+    public static function players(): array
+    {
+        $tot = Derived::part('person_totals');
+        $ref = Totals::all();
+        $list = [];
+        foreach (Index::published('personne') as $s) {
+            if (!in_array('joueur', (array) ($s['p']['roles'] ?? []), true)) {
+                continue;
+            }
+            $slug = basename(rtrim((string) $s['path'], '/'));
+            if (!preg_match('/^[a-z0-9][a-z0-9-]{1,79}$/', $slug)) {
+                continue;
+            }
+            $caps = (int) ($ref[$s['id']]['matchs'] ?? $tot[$s['id']]['matches'] ?? 0);
+            $list[$slug] = [!empty($s['p']['legend']) ? 1 : 0, $caps, (string) ($s['p']['name'] ?? $s['title']) . ($caps ? ' (' . $caps . ' m.)' : '')];
+        }
+        uasort($list, fn ($a, $b) => [$b[0], $b[1]] <=> [$a[0], $a[1]] ?: strcmp($a[2], $b[2]));
+        return array_map(fn ($x) => $x[2], $list);
     }
 
     public function settings(): array
@@ -101,7 +125,7 @@ final class CarteLegende extends Widget
 
     public function data(array $opt, Context $c): ?array
     {
-        $s = $opt['joueur'] !== '' ? self::bySlug($opt['joueur']) : null;
+        $s = $opt['joueur'] !== 'auto' ? self::bySlug($opt['joueur']) : null;
         if (!$s) {
             $pool = self::pool();
             if (!$pool) {

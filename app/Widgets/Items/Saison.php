@@ -35,7 +35,18 @@ final class Saison extends Widget
 
     public function options(): array
     {
-        return ['saison' => ['label' => 'Saison (AAAA-AAAA ; vide : en cours ou dernière)', 'label_en' => 'Season (YYYY-YYYY; empty: current or latest)', 'type' => 'text', 'default' => '', 'pattern' => '/^(18|19|20)\d\d-(18|19|20)\d\d$/']];
+        return ['saison' => ['label' => 'Saison', 'label_en' => 'Season', 'type' => 'select', 'default' => 'auto',
+            'choices' => function () {
+                $out = ['auto' => 'Automatique : en cours ou dernière'];
+                $S = Derived::part('seasons');
+                krsort($S);
+                foreach ($S as $k => $v) {
+                    if (!empty($v['matches']) && preg_match('/^(18|19|20)\d\d-(18|19|20)\d\d$/', (string) $k)) {
+                        $out[(string) $k] = str_replace('-', '–', (string) $k) . (!empty($v['division']) ? ' · ' . $v['division'] : '');
+                    }
+                }
+                return $out;
+            }]];
     }
 
     public function height(): int
@@ -62,7 +73,7 @@ final class Saison extends Widget
 
     public function data(array $opt, Context $c): ?array
     {
-        $season = $opt['saison'] !== '' ? $opt['saison'] : self::defaultSeason();
+        $season = $opt['saison'] !== 'auto' ? $opt['saison'] : self::defaultSeason();
         $v = $season ? Explore::seasonData($season) : null;
         if (!$v) {
             return null;
