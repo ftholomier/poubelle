@@ -167,6 +167,12 @@ final class Frame
             . '.w-search{display:flex;gap:8px;margin:6px 0 10px}.w-search input{flex:1;min-width:0;font:16px/1.2 var(--serif);color:var(--fg);background:transparent;border:1.5px solid var(--line);border-radius:999px;padding:9px 14px}'
             . '.w-search input:focus{outline:2px solid var(--accent);outline-offset:1px}.w-search .w-btn{border:0;cursor:pointer}.w-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}'
             . '.w-live{display:inline-flex;align-items:center;gap:6px;color:var(--red)}[data-theme=sombre] .w-live{color:var(--accent)}.w-live i{width:8px;height:8px;border-radius:50%;background:currentColor;animation:w-blink 1.6s ease-in-out infinite}'
+            // Boutique : carrousel (défilement horizontal aimanté) ou grille compacte
+            . '.w-shop{list-style:none;margin:4px 0 12px;padding:0;display:grid;gap:10px}.w-shop a{display:flex;flex-direction:column;gap:2px;height:100%;color:var(--fg);text-decoration:none;border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:10px;padding:8px}'
+            . '.w-shop a:hover b{text-decoration:underline}.w-shop__img{display:block;aspect-ratio:1;border-radius:6px;overflow:hidden;background:var(--cream);margin-bottom:6px}.w-shop__img img{display:block;width:100%;height:100%;object-fit:contain}'
+            . '.w-shop b{font:800 16px/1.1 var(--display);text-transform:uppercase}.w-shop small{font-size:12.5px;color:var(--soft)}.w-shop__price{margin-top:auto;padding-top:4px;font:800 15px/1.1 var(--display);letter-spacing:.03em}[data-theme=sombre] .w-shop__price{color:var(--accent)}'
+            . '.w-shop--carrousel{grid-auto-flow:column;grid-auto-columns:minmax(150px,46%);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin}.w-shop--carrousel li{scroll-snap-align:start}'
+            . '.w-shop--grille{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}.w-shop--one{grid-auto-flow:row;grid-template-columns:minmax(0,260px);justify-content:center}'
             . '.w--compact .w-media,.w--compact .w-list:not(.w-palm){display:none}.w--compact .w-main{padding:10px 12px 6px}.w--compact .w-big{font-size:56px}'
             . 'a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}';
     }

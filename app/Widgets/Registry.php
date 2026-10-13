@@ -34,6 +34,8 @@ final class Registry
         'recherche' => Items\Recherche::class,
         'retro-direct' => Items\RetroDirectWidget::class,
         'playlist' => Items\Playlist::class,
+        // Après la vague 3
+        'boutique' => Items\Boutique::class,
     ];
 
     /**

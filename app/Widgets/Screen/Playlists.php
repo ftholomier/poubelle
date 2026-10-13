@@ -37,6 +37,7 @@ final class Playlists
         'retro-direct' => ['Rétro-Direct', 10, []],
         'carte-stades' => ['Carte des stades', 12, []],
         'soutenir' => ['Soutenir le musée (QR codes)', 10, []],
+        'boutique' => ['Boutique du musée (QR codes)', 10, []],
     ];
 
     public const FORMATS = ['paysage' => 'Paysage 16:9 (1920 × 1080)', 'vertical' => 'Vertical 9:16 (1080 × 1920)'];

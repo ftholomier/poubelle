@@ -58,13 +58,14 @@ $keys = array_keys(Registry::CLASSES);
 try {
     // ------------------------------------------------------------------ catalogue
     $ok($keys === ['ce-jour-la', 'chiffre-du-jour', 'il-y-a', 'carte-legende', 'photo-du-jour', 'le-saviez-vous', 'records', 'quiz-du-jour', 'defi-du-jour', 'dernier-match', 'saison', 'palmares', 'frise', 'bandeau',
-        'histoire-du-duel', 'carte-stades', 'maillot', 'compte-a-rebours', 'soutenir', 'recherche', 'retro-direct', 'playlist'], 'registre : les 6 widgets de la phase 1, les 8 de la vague 2 et les 8 de la vague 3');
+        'histoire-du-duel', 'carte-stades', 'maillot', 'compte-a-rebours', 'soutenir', 'recherche', 'retro-direct', 'playlist', 'boutique'], 'registre : les 6 widgets de la phase 1, les 8 de la vague 2, les 8 de la vague 3 et la boutique');
     $ok(Registry::PLANNED === [], 'plus aucun widget « à venir »');
     $ok(Store::widget('playlist')['access'] === 'reserve', 'mode écran (playlist) : réservé par défaut');
-    $keys = array_values(array_filter($keys, fn ($k) => $k !== 'playlist'));
+    // Boutique : données seulement boutique ouverte, essayée à part (plus bas).
+    $keys = array_values(array_filter($keys, fn ($k) => $k !== 'playlist' && $k !== 'boutique'));
     $r = $get('/api/v1/widgets');
     $c = $json($r);
-    $ok($r->status === 200 && count($c['widgets'] ?? []) === 21 && !in_array('playlist', array_column($c['widgets'], 'key'), true), 'catalogue : 21 widgets libres par défaut (pas le mode écran, réservé)');
+    $ok($r->status === 200 && count($c['widgets'] ?? []) === 22 && !in_array('playlist', array_column($c['widgets'], 'key'), true), 'catalogue : 22 widgets libres par défaut (pas le mode écran, réservé)');
     $ok(($r->headers['Access-Control-Allow-Origin'] ?? '') === '*', 'catalogue : CORS ouvert');
     $ok(str_contains((string) ($c['museum']['mention'] ?? ''), 'non officiel') && str_contains((string) ($c['museum']['url'] ?? ''), '/w/clic/'), 'catalogue : mention « non officiel » et lien vers le musée');
 
@@ -253,6 +254,42 @@ try {
     $d = $d3('soutenir');
     $ok(($open === [] && $d === null) || array_column($d['links'], 'kind') === array_keys($open), 'soutenir : liens ouverts seulement (' . implode(', ', array_keys($open)) . ')');
     $ok(!isset($open['don']) || \App\Front\Donations::methods() !== [], 'soutenir : « don » seulement avec les dons ouverts et un moyen de paiement');
+
+    // Boutique : rien si fermée ou sans objet en vente ; un objet choisi, sinon trois par jour.
+    $B = \App\Widgets\Items\Boutique::class;
+    $B::$open = false;
+    \App\Widgets\Cache::clear();
+    $ok($d3('boutique') === null && str_contains($g3('/w/boutique')->body, 'Rien à montrer'), 'boutique : rien à montrer quand elle est fermée');
+    $B::$open = true;
+    \App\Widgets\Cache::clear();
+    $sell = $B::products();
+    $d = $d3('boutique');
+    if (!$sell) {
+        $ok($d === null, 'boutique : rien à montrer sans objet en vente');
+    } else {
+        $ids = array_column($sell, 'id');
+        $ok(count($d['items']) === min(3, count($sell)) && !array_diff(array_column($d['items'], 'id'), $ids) && count(array_unique(array_column($d['items'], 'id'))) === count($d['items']), 'boutique : trois objets en vente, sans doublon');
+        $ok($d3('boutique')['items'] === $d['items'], 'boutique : même sélection dans la journée');
+        $it = $d['items'][0];
+        $ok(str_contains($it['href'], '/w/clic/boutique/') && str_contains(rawurldecode($it['href']), '/boutique/' . $it['id'] . '/'), 'boutique : lien compté vers la fiche du produit');
+        $ok(str_starts_with($it['image'], 'http') || str_starts_with($it['image'], 'data:image/svg'), 'boutique : aperçu du produit en adresse complète');
+        $m = \App\Shop\Catalog::find($it['id']);
+        $ok($it['price'] === $m['sale']['price'] && str_contains($it['price_label'], \App\Shop\Orders::money($m['sale']['price'])) && ($m['sale']['extra'] === [] || str_starts_with($it['price_label'], 'à partir de')), 'boutique : prix « à partir de »');
+        $last = end($sell);
+        $one = $d3('boutique', ['produit' => $last['id'], 'affichage' => 'grille']);
+        $ok(count($one['items']) === 1 && $one['items'][0]['id'] === $last['id'] && $one['layout'] === 'grille', 'boutique : un seul objet choisi, en grille');
+        $ok(count($d3('boutique', ['produit' => 'inconnu-42'])['items']) === min(3, count($sell)) && $d3('boutique', ['affichage' => 'mur'])['layout'] === 'carrousel', 'boutique : objet inconnu → sélection du jour ; affichage inconnu → carrousel');
+        $en = $json($g3('/api/v1/widgets/boutique', ['lang' => 'en']))['data'];
+        $ok($m['sale']['extra'] === [] || str_starts_with($en['items'][0]['price_label'], 'from'), 'boutique : libellés en anglais');
+        foreach (['clair', 'sombre'] as $theme) {
+            $f = $g3('/w/boutique', ['theme' => $theme])->body;
+            $ok(str_contains($f, 'class="w-shop w-shop--carrousel') && str_contains($f, 'non officiel') && !str_contains($f, 'src="/') && !preg_match('#href="/(?!/)#', $f), "iframe boutique ($theme) : objets, mention, adresses complètes");
+        }
+        $sl = \App\Widgets\Screen\Slides::one(['type' => 'boutique', 'opt' => []], new \App\Widgets\Context('boutique'));
+        $ok($sl !== null && $sl['layout'] === 'support' && count($sl['items']) === count($d['items']), 'boutique : slide du mode écran (QR codes)');
+    }
+    $B::$open = null;
+    \App\Widgets\Cache::clear();
 
     // Recherche : champ qui ouvre la recherche du musée (lien compté), formulaire permis à ce widget seul.
     $r = $g3('/w/recherche');

@@ -1276,7 +1276,9 @@ Options propres : `ce-jour-la` (`date=MM-JJ`, `nombre=1|3|5`), `il-y-a` (`ans=to
 le club lui-même : l'adversaire du dernier match fiché), `carte-stades` (`zone=france|europe`),
 `maillot` (`epoque=AAAA` : l'époque qui couvre l'année ; vide : un maillot par jour),
 `compte-a-rebours` (`date=AAAA-MM-JJ` future et `titre=…` ; sinon le centenaire quand
-`Site::centenaryCountdown()`, sinon le prochain anniversaire de `founded_date`). Clé partenaire : `?key=mk_…` ou en-tête `X-Musee-Key`.
+`Site::centenaryCountdown()`, sinon le prochain anniversaire de `founded_date`), `boutique`
+(`produit=<id>` : celui de `/boutique/<id>/`, inconnu ou vide : trois objets du jour ;
+`affichage=carrousel|grille`). Clé partenaire : `?key=mk_…` ou en-tête `X-Musee-Key`.
 
 **Classes.** `Registry` (widgets prêts : `CLASSES`, à venir : `PLANNED`) ; `Widget` (classe de
 base : `key`, `name`, `description`, `options`, `defaultAccess`, `ttl`, `data` → tableau,
@@ -1304,7 +1306,11 @@ référentiel `stades` géolocalisé + `Derived` « stades » (matchs publiés),
 non vide ; boutique : `Shop\Orders::open()`), `Recherche` (formulaire GET vers `/recherche/`),
 `RetroDirectWidget` ← `RetroDirect::next()` (direct en cours, du jour, sinon prochain ; sans
 programme : `RetroDirect::classics()`, un par jour ; jamais le score), `Playlist` (mode écran,
-accès « réservé » par défaut : `defaultAccess()`)) ; `Frame` (cadre HTML commun : logo, mention, lien obligatoires ;
+accès « réservé » par défaut : `defaultAccess()`) ; après la vague 3 : `Boutique` ←
+`Catalog::models()` filtrés par `Catalog::sellable`, aperçu `ShopPages::previewUrl`, prix
+`sale.price` (« à partir de » si `sale.extra`), trois par jour (`crc32(date|id)`) ou `produit`
+choisi ; `null` si `Orders::open()` est faux (`Boutique::$open` le force dans les essais) ou
+sans objet en vente ; slide écran `boutique` (mise en page « soutien », QR codes)) ; `Frame` (cadre HTML commun : logo, mention, lien obligatoires ;
 `finalize()` change chaque `href` des données en lien compté) ; `Context` (langue, thème,
 format, partenaire, liens) ; `Photos` (seules photos diffusables) ; `Cache` ; `Store` (réglages,
 partenaires, statistiques) ; `Http` (accès, en-têtes) ; `Admin\Widgets` (back-office).

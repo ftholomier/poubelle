@@ -243,6 +243,14 @@ final class Slides
                 }
                 return ['layout' => 'support', 'eyebrow' => $c->tr('Soutenir le musée', 'Support the museum'), 'title' => $c->tr('Le musée a besoin de vous', 'The museum needs you'),
                     'items' => array_map(fn ($l) => ['label' => $l['label'], 'text' => $l['text'], 'qr' => $c->link($l['href'])], array_slice($d['links'], 0, 3))];
+
+            case 'boutique':
+                $d = self::data('boutique', [], $c);
+                if (!$d) {
+                    return null;
+                }
+                return ['layout' => 'support', 'eyebrow' => $c->tr('La boutique du musée', 'The museum shop'), 'title' => $c->tr('Aux couleurs du musée', 'In the museum colours'),
+                    'items' => array_map(fn ($i) => ['label' => $i['name'], 'text' => trim($i['kind'] . ' · ' . $i['price_label'], ' ·'), 'qr' => $c->link($i['href'])], $d['items'])];
         }
         return null;
     }
