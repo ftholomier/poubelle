@@ -97,10 +97,16 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
 <?php elseif ($tab === 'ecrans'):
     $S = $screens;
     $dur = fn (int $sec) => ($sec >= 60 ? intdiv($sec, 60) . ' min ' : '') . ($sec % 60 ? ($sec % 60) . ' s' : '');
+    // Panneau « Contrôle » (générateur de lien et éditeur) : slides affichées ou sautées, durée réelle.
+    $controle = fn (string $id) => '<details class="card" data-check="' . $id . '" style="margin:0"><summary class="card__head" style="cursor:pointer"><b class="card__t">Contrôle avant diffusion</b></summary><div class="card__body stack">'
+        . '<p class="small muted" style="margin:0">Pour les réglages choisis (adversaire, langue) et le jour du match, la liste des slides : <b>✓ affichée</b> ou <b>⚠ sautée</b> (et pourquoi : aucun match ce jour-là, boutique fermée…), puis la durée réelle d’une boucle. Une slide sautée ne laisse pas d’écran vide : la suivante prend sa place. Le jour ne change que « Ce jour-là » ; quiz, photo et chiffre sont ceux d’aujourd’hui.</p>'
+        . '<div class="row"><label class="f"><span class="f__k">Jour du match</span><input class="in" type="date" data-check-date value="' . e(date('Y-m-d')) . '"></label><button type="button" class="btn btn--sm btn--navy" data-check-run>Contrôler</button></div>'
+        . '<div data-check-out aria-live="polite"></div></div></details>';
     $optLabel = ['adversaire' => 'Adversaire (vide : celui de la playlist)', 'cat' => 'Classement', 'n' => 'Variante (1, 2, 3…)', 'saison' => 'Saison (AAAA-AAAA)'];
 ?>
 <p class="alert alert--info" style="margin:0">Le <b>mode écran</b> affiche le musée en plein écran sur les écrans du stade, les télés d’une buvette ou une borne : de très gros caractères, des slides qui s’enchaînent seules, le logo du musée, la mention « non officiel » et l’adresse du musée toujours en bas. Une playlist est une suite de slides (les données des widgets, mises en page pour l’écran). Accès du mode écran (widget « Playlist écran ») : <b><?= e(Store::ACCESS[$S['access']]) ?></b> — <a href="/admin/widgets#w-playlist">modifier</a>. Réservé (par défaut) : l’adresse donnée à la régie contient la clé d’un partenaire.</p>
 
+<datalist id="dl-clubs"><?php foreach ($S['clubs'] as $k => $l): ?><option value="<?= e((string) $k) ?>"><?= e($l) ?></option><?php endforeach; ?></datalist>
 <section class="card" id="lien-regie" data-screen-link="<?= e(json_encode(['base' => $base, 'partners' => $keys, 'playlists' => array_map(fn ($p) => ['format' => $p['format'], 'lang' => $p['lang'], 'adversaire' => $p['adversaire']], $S['all'])], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) ?>">
   <div class="card__head"><h2 class="card__t">Lien à donner à la régie</h2></div>
   <div class="card__body stack">
@@ -109,11 +115,13 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
       <label class="f" style="flex:1 1 220px"><span class="f__k">Partenaire (sa clé est ajoutée)</span><select class="in" data-sl="partner"><option value="">Aucun (accès libre seulement)</option><?php foreach ($keys as $k): ?><option value="<?= e($k['id']) ?>"<?= $k['status'] !== 'actif' ? ' disabled' : '' ?>><?= e($k['name']) ?><?= $k['status'] !== 'actif' ? ' (suspendu)' : '' ?></option><?php endforeach; ?></select></label>
       <label class="f"><span class="f__k">Format</span><select class="in" data-sl="format"><option value="">Celui de la playlist</option><?php foreach (Playlists::FORMATS as $f => $l): ?><option value="<?= e($f) ?>"><?= e($l) ?></option><?php endforeach; ?></select></label>
       <label class="f"><span class="f__k">Langue</span><select class="in" data-sl="lang"><option value="">Celle de la playlist</option><option value="fr">Français</option><option value="en">Anglais</option></select></label>
-      <label class="f" style="flex:1 1 200px"><span class="f__k">Adversaire du jour</span><select class="in" data-sl="adversaire"><option value="">Celui de la playlist</option><?php foreach ($S['clubs'] as $k => $l): ?><option value="<?= e($k) ?>"><?= e($l) ?></option><?php endforeach; ?></select></label>
+      <label class="f" style="flex:1 1 220px"><span class="f__k">Adversaire du jour</span><input class="in" data-sl="adversaire" list="dl-clubs" maxlength="40" autocomplete="off" placeholder="Celui de la playlist — ou tapez un nom"></label>
       <label class="f"><span class="f__k">Horloge</span><select class="in" data-sl="horloge"><option value="">Selon la playlist</option><option value="1">Affichée</option><option value="0">Masquée</option></select></label>
     </div>
     <label class="f"><span class="f__k">Adresse à ouvrir en plein écran sur l’écran (navigateur en mode kiosque, touche F11)</span><input class="in mono" readonly data-sl-out></label>
     <div class="row"><button type="button" class="btn btn--sm btn--navy" data-sl-copy>Copier l’adresse</button><a class="btn btn--sm" href="#" target="_blank" rel="noopener" data-sl-open>Aperçu plein écran ↗</a><span class="small muted" data-sl-warn></span></div>
+    <p class="small muted" style="margin:0"><b>Adversaire du jour</b> : choisissez dans la liste un club déjà affronté, ou tapez le nom de n’importe quel club en toutes lettres (« Paris FC ») : s’il n’a jamais été affronté, la slide « Histoire du duel » devient « Première rencontre ». Vérifiez avec le <b>Contrôle</b> ci-dessous avant de donner l’adresse.</p>
+    <?= $controle('sl') ?>
     <p class="small muted" style="margin:0">Une clé limitée à des domaines fonctionne aussi pour l’écran (une page ouverte directement n’a pas de site d’origine) : préférez une clé propre à la régie, à régénérer si l’adresse circule. La page se recharge seule (selon la playlist, toutes les 30 minutes par défaut) et continue de tourner pendant une coupure de réseau.</p>
   </div>
 </section>
@@ -126,7 +134,7 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
     <td><b><?= e($p['name']) ?></b> <?= !empty($p['preset']) ? '<span class="pill">' . (!empty($p['modified']) ? 'prête à l’emploi · modifiée' : 'prête à l’emploi') . '</span>' : '' ?><?php if (!empty($p['note'])): ?><br><small class="muted"><?= e($p['note']) ?></small><?php endif; ?><br><small class="mono muted">/ecran/<?= e($id) ?></small></td>
     <td class="t-num"><?= count($p['slides']) ?></td>
     <td class="t-num"><?= e($dur(Playlists::duration($p))) ?></td>
-    <td class="small"><?= e(Playlists::FORMATS[$p['format']] ?? $p['format']) ?>, <?= $p['lang'] === 'en' ? 'anglais' : 'français' ?><?= $p['adversaire'] !== '' ? '<br>adversaire : ' . e(\App\Front\Fiche::clubName($p['adversaire'])) : '' ?></td>
+    <td class="small"><?= e(Playlists::FORMATS[$p['format']] ?? $p['format']) ?>, <?= $p['lang'] === 'en' ? 'anglais' : 'français' ?><?php $t = $p['adversaire'] !== '' ? \App\Widgets\Items\HistoireDuDuel::target((string) $p['adversaire']) : null; ?><?= $t ? '<br>adversaire : ' . e($t['name']) . ($t['club'] === null ? ' (première rencontre)' : '') : '' ?></td>
     <td class="small">
       <a class="btn btn--sm" href="/admin/widgets/ecrans/zip?id=<?= e(rawurlencode($id)) ?>">Images PNG (ZIP)</a>
       <?php if ($v && $v['status'] === 'pret'): ?>
@@ -164,7 +172,7 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
       <?= Form::text('name', 'Nom', $E['name'], ['maxlength' => 60, 'required' => true, 'class' => 'f--2', 'placeholder' => 'Ex. : Écran géant — avant-match']) ?>
       <?= Form::select('format', 'Format', $E['format'], Playlists::FORMATS) ?>
       <?= Form::select('lang', 'Langue', $E['lang'], ['fr' => 'Français', 'en' => 'Anglais']) ?>
-      <?= Form::select('adversaire', 'Adversaire du jour (histoire du duel)', $E['adversaire'], $S['clubs'], ['empty' => 'Celui du dernier match fiché', 'class' => 'f--2']) ?>
+      <?= Form::text('adversaire', 'Adversaire du jour (histoire du duel) : liste ou nom libre', $E['adversaire'], ['list' => 'dl-clubs', 'maxlength' => 40, 'class' => 'f--2', 'placeholder' => 'Vide : celui du dernier match fiché', 'autocomplete' => 'off']) ?>
       <?= Form::number('reload', 'Rechargement (minutes)', $E['reload']) ?>
       <?= Form::toggle('clock', 'Horloge en bas à droite', !empty($E['clock'])) ?>
     </div>
@@ -182,7 +190,7 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
                 $val = (string) ($sl['opt'][$o] ?? '');
                 $wo = \App\Widgets\Registry::get($ty)?->describe()['options'][$o] ?? null;
                 $field = match (true) {
-                    $o === 'adversaire' => Form::select('@opt.adversaire', $optLabel[$o], $val, $S['clubs'], ['empty' => 'Celui de la playlist (adversaire du jour)']),
+                    $o === 'adversaire' => Form::text('@opt.adversaire', $optLabel[$o], $val, ['list' => 'dl-clubs', 'maxlength' => 40, 'placeholder' => 'Celui de la playlist — ou un nom', 'autocomplete' => 'off']),
                     $o === 'n' => Form::number('@opt.n', $optLabel[$o], $val ?: '1'),
                     $wo !== null && $wo['type'] === 'search' => Form::text('@opt.' . $o, $wo['label'] . ' (tapez un nom ; vide : automatique)', $val, ['list' => 'dl-' . $ty . '-' . $o, 'maxlength' => 80]),
                     $wo !== null && isset($wo['choices']) => Form::select('@opt.' . $o, $wo['label'], $val !== '' ? $val : $wo['default'], $wo['choices']),
@@ -197,6 +205,7 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
   <?php foreach ($S['types'] as $ty => $t): foreach ($t['options'] as $o): $wo = \App\Widgets\Registry::get($ty)?->describe()['options'][$o] ?? null; if ($wo && $wo['type'] === 'search'): ?>
   <datalist id="dl-<?= e($ty . '-' . $o) ?>"><?php foreach (\App\Widgets\Registry::get($ty)->optionChoices($o) as $v => $l): if ($v === 'auto') continue; ?><option value="<?= e((string) $v) ?>"><?= e($l) ?></option><?php endforeach; ?></datalist>
   <?php endif; endforeach; endforeach; ?>
+  <div class="card__body"><?= $controle('ed') ?></div>
   <div class="card__foot row">
     <?php if ($ro): ?><span class="small muted">Prête à l’emploi : dupliquez-la (bouton « Dupliquer » ci-dessus) pour la modifier.</span>
     <?php else: ?><button type="submit" class="btn btn--yellow">Enregistrer</button><span class="small muted" data-saved></span><?php endif; ?>

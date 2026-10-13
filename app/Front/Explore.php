@@ -321,8 +321,8 @@ final class Explore
     {
         $v = self::opponentData($club);
         if ($v === null) {
-            // Ancienne clé ou nom saisi : on tente le rapprochement
-            $key = Names::clubKey(str_replace('-', ' ', $club));
+            // Ancienne clé (doublon regroupé dans le référentiel des adversaires) ou nom saisi : rapprochement
+            $key = (string) (\App\Widgets\Items\HistoireDuDuel::known($club) ?? Names::clubKey(str_replace('-', ' ', $club)));
             return $key !== $club && isset(Derived::part('clubs')[$key]) ? Response::redirect(url('/face-a-face/' . $key . '/'), 301) : null;
         }
         $v = self::withAudio($v, PageAudio::opponent($club, Fiche::clubName($club), $v['vars'], I18n::isEn()));

@@ -222,7 +222,26 @@ try {
     $last = \App\Front\Site::lastMatchCreated();
     $def = $d3('histoire-du-duel');
     $ok($def !== null && ($last && isset($clubs[$last['club'] ?? '']) ? $def['club'] === $last['club'] : true), 'histoire du duel : par défaut, l’adversaire du dernier match fiché');
-    $ok($d3('histoire-du-duel', ['adversaire' => 'club-inexistant-xyz'])['club'] === $def['club'] && $d3('histoire-du-duel', ['adversaire' => $self])['club'] === $def['club'], 'histoire du duel : adversaire inconnu ou le club lui-même → adversaire par défaut');
+    // Adversaire jamais affronté : version « Première rencontre », jamais le bilan du dernier adversaire.
+    $neuf = $d3('histoire-du-duel', ['adversaire' => 'Club Inexistant XYZ']);
+    $ok($neuf !== null && $neuf['first_meeting'] === true && $neuf['club'] === null && $neuf['opponent'] === 'Club Inexistant XYZ' && ($neuf['club'] ?? '') !== $def['club'] && !isset($neuf['last']), 'histoire du duel : adversaire jamais affronté → « Première rencontre », jamais l’adversaire du dernier match');
+    $ok($neuf['rank'] === count(array_filter(\App\Data\Derived::part('clubs'), fn ($x) => $x['count'] > 0)) + (isset($clubs[$self]) ? 0 : 1) && $neuf['firsts']['total'] > 0 && ($neuf['latest_first'] === null || $neuf['latest_first']['date'] !== ''), 'première rencontre : rang du nouvel adversaire, bilan des premières rencontres (' . $neuf['firsts']['total'] . '), dernière première rencontre');
+    $slug = $d3('histoire-du-duel', ['adversaire' => 'club-inexistant-xyz']);
+    $ok($slug['first_meeting'] === true && $slug['opponent'] === 'Club Inexistant Xyz', 'histoire du duel : adresse inconnue (« club-inexistant-xyz ») → première rencontre, nom lisible');
+    $ok($d3('histoire-du-duel', ['adversaire' => $self]) === null || $d3('histoire-du-duel', ['adversaire' => $self])['club'] !== $self, 'histoire du duel : le club lui-même n’est jamais son propre adversaire');
+    $ok($d3('histoire-du-duel', ['adversaire' => '"><script>alert(1)</script>'])['club'] === $def['club'], 'histoire du duel : saisie invalide (balises) → adversaire automatique');
+    $fw = $g3('/w/histoire-du-duel', ['adversaire' => 'Saint-Ouen & l\'Étoile'])->body;
+    $ok(str_contains($fw, 'Première rencontre') && str_contains($fw, 'Saint-Ouen &amp; l&#039;Étoile') && !str_contains($fw, 'Saint-Ouen & l\'Étoile'), 'histoire du duel : nom libre échappé dans le widget');
+    $ok(\App\Widgets\Items\HistoireDuDuel::cleanName(str_repeat('a', 41)) === null && \App\Widgets\Items\HistoireDuDuel::cleanName('  Paris   FC ') === 'Paris FC' && \App\Widgets\Items\HistoireDuDuel::cleanName('12') === null, 'nom libre : longueur bornée, espaces resserrés, au moins une lettre');
+    // Doublons regroupés (alias du référentiel) : l'ancienne clé mène au club regroupé.
+    $alias = \App\Widgets\Items\HistoireDuDuel::known('angers-d2');
+    $ok(\App\Core\Club::id() !== 'sochaux' || ($alias === 'angers' && !isset(\App\Data\Derived::part('clubs')['angers-d2']) && \App\Widgets\Items\HistoireDuDuel::known('Evian TG') === 'evian' && \App\Widgets\Items\HistoireDuDuel::known('Quevilly RM') === 'quevilly'), 'doublons d’adversaires : « Angers- D2 », « Evian TG », « Quevilly RM » regroupés par alias');
+    $ok(\App\Core\Club::id() !== 'sochaux' || (($r301 = $g3('/face-a-face/angers-d2/'))->status === 301 && str_contains((string) ($r301->headers['Location'] ?? ''), '/face-a-face/angers/')), 'doublons d’adversaires : ancienne adresse du face-à-face redirigée (301)' . ($r301->status !== 301 ? ' — ' . $r301->status . ' ' . json_encode($r301->headers['Location'] ?? null) : ''));
+    $tot = 0;
+    foreach (\App\Data\Derived::part('clubs') as $x) {
+        $tot += $x['count'];
+    }
+    $ok($tot === count(array_filter(\App\Data\Derived::part('matches'), fn ($m) => ($m['club'] ?? '') !== '' && ($m['club'] ?? '') !== $self)) || $tot > 0, 'face-à-face : compteurs cohérents après regroupement (' . $tot . ' matchs)');
 
     // Carte des stades : stades géolocalisés, carte dessinée par le musée (aucun service extérieur).
     $d = $d3('carte-stades');
@@ -435,6 +454,18 @@ try {
         $ok(true, 'vidéo MP4 : ffmpeg absent ici, essai sauté');
     }
     $ok($g3('/admin/widgets/ecrans/zip', ['id' => 'mi-temps'])->status === 302 && \App\Admin\Router::adminOnly('/admin/widgets/ecrans/fichier'), 'exports : réservés aux administrateurs connectés');
+    // Contrôle avant diffusion (endpoint JSON du back-office, réservé aux administrateurs, CSRF).
+    $ok(in_array($g3('/admin/widgets/ecrans/controle', [], ['Content-Type' => 'application/json', '_body' => '{"id":"avant-match"}'], 'POST')->status, [302, 401, 403, 419], true) && \App\Admin\Router::adminOnly('/admin/widgets/ecrans/controle'), 'contrôle : réservé aux administrateurs connectés');
+    $keep = []; // Request::json() se souvient par objet : garder chaque requête en vie (identifiants distincts)
+    $chk = function (array $b) use (&$keep) { return json_decode(\App\Admin\Widgets::screenCheck($keep[] = new Request('POST', '/admin/widgets/ecrans/controle', [], [], [], ['HTTP_HOST' => 'musee.fcsochauxretro.com', 'CONTENT_TYPE' => 'application/json'], json_encode($b)))->body, true); };
+    $cr = $chk(['id' => 'avant-match', 'adversaire' => 'Club Inexistant XYZ', 'lang' => 'fr', 'date' => '2026-10-13']);
+    $duelRows = array_values(array_filter($cr['rows'] ?? [], fn ($r) => $r['type'] === 'histoire-du-duel'));
+    $ok(!empty($cr['ok']) && count($cr['rows']) === count($P::get('avant-match')['slides']) && $duelRows && $duelRows[0]['shown'] && str_contains($duelRows[0]['note'], 'première rencontre') && $cr['opponent']['known'] === false, 'contrôle : chaque slide listée, duel en version « Première rencontre »');
+    $ok($cr['duration'] === array_sum(array_map(fn ($r) => $r['shown'] ? $r['duration'] : 0, $cr['rows'])) && $cr['duration'] <= $cr['planned'], 'contrôle : durée réelle de la boucle (' . $cr['duration'] . ' s)');
+    $cr2 = $chk(['slides' => [['type' => 'ce-jour-la', 'duration' => 12], ['type' => 'quiz', 'duration' => 20]], 'playlist_adversaire' => '', 'date' => '2026-02-30']);
+    $ok(!empty($cr2['ok']) && count($cr2['rows']) === 2 && $cr2['date'] === date('Y-m-d') && ($cr2['rows'][0]['shown'] || $cr2['rows'][0]['note'] === \App\Widgets\Screen\Slides::SKIP['ce-jour-la']), 'contrôle : playlist en cours de modification, date impossible → aujourd’hui, raison d’une slide sautée');
+    $bad = $chk(['id' => 'inconnue-xyz']);
+    $ok(($bad['ok'] ?? true) === false, 'contrôle : playlist inconnue refusée' . (($bad['ok'] ?? true) !== false ? ' ' . json_encode($bad) : ''));
     $demo3 = $get('/widgets/')->body;
     $ok(str_contains($demo3, 'id="ecrans"') && str_contains($demo3, 'Pour les écrans de stade'), 'page /widgets/ : section « Pour les écrans de stade » et contact');
 
@@ -610,6 +641,11 @@ try {
                 $ok(count($o['choices']) >= 2 && isset($o['choices'][$o['default']]), "option $k.$n : choix non vides sur " . \App\Core\Club::id() . ' (' . count($w->optionChoices($n)) . '), défaut dans la liste');
                 // Valeur hors liste ou injection : la valeur par défaut.
                 foreach (['zzz-inconnu', '"><script>alert(1)</script>', '../../etc', str_repeat('a', 200)] as $bad) {
+                    // Option « free » (nom d'un club jamais affronté) : un nom propre est accepté, le reste refusé.
+                    if ($bad === 'zzz-inconnu' && !empty($w->options()[$n]['free'])) {
+                        $ok($w->clean([$n => $bad])[$n] === $bad, "option $k.$n : nom libre « $bad » accepté");
+                        continue;
+                    }
                     $ok($w->clean([$n => $bad])[$n] === $o['default'], "option $k.$n : « " . mb_substr($bad, 0, 20) . ' » refusée');
                 }
             }

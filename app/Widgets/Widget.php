@@ -26,6 +26,7 @@ abstract class Widget
      * nom => [label, label_en, type, default, …] avec pour type :
      * - « select » : liste fermée, choices (valeur => libellé, ou fonction qui la renvoie) ;
      * - « search » : longue liste filtrable (joueurs, adversaires) : choices aussi (validation),
+     *   avec « free » => true une valeur hors liste est acceptée si le widget la nettoie (cleanName) ;
      *   proposés par /api/v1/widgets/<clé>/suggestions/<nom>?q=… et une <datalist> ;
      * - « date » : AAAA-MM-JJ (format « md » : stocké MM-JJ, l'année est ignorée), min « today » ;
      * - « number » : entier entre min et max ;
@@ -171,6 +172,10 @@ abstract class Widget
                 $ok = null;
             } elseif ($type === 'select' || $type === 'search') {
                 $ok = array_key_exists($v, $this->optionChoices($name)) ? $v : null;
+                // « free » : valeur hors liste acceptée, nettoyée par le widget (nom d'un club jamais affronté).
+                if ($ok === null && !empty($o['free']) && method_exists($this, 'cleanName')) {
+                    $ok = static::cleanName($v);
+                }
             } elseif ($type === 'number') {
                 $ok = preg_match('/^-?\d{1,6}$/', $v) && (int) $v >= (int) ($o['min'] ?? 0) && (int) $v <= (int) ($o['max'] ?? 999999) ? (string) (int) $v : null;
             } elseif ($type === 'date') {

@@ -437,7 +437,7 @@ final class Http
     // ------------------------------------------------------------------ mode écran
 
     /**
-     * Mode écran : /ecran/<playlist>?key=…&format=paysage|vertical&lang=fr|en&adversaire=<club>&horloge=1|0.
+     * Mode écran : /ecran/<playlist>?key=…&format=paysage|vertical&lang=fr|en&adversaire=<club ou nom en toutes lettres>&horloge=1|0.
      * Accès : celui du widget « playlist » (réservé par défaut : clé partenaire dans l'adresse) ; les
      * domaines d'une clé ne s'appliquent pas (un écran ouvre la page directement, sans page
      * d'origine). L'équipe connectée voit l'aperçu quel que soit l'accès.
@@ -463,7 +463,7 @@ final class Http
             $res->headers['Cache-Control'] = 'no-store';
             return $res;
         }
-        $adv = Screen\Playlists::slug($req->str('adversaire'));
+        $adv = Screen\Playlists::opponent($req->str('adversaire'));
         $clock = $req->str('horloge') !== '' ? $req->str('horloge') === '1' : !empty($p['clock']);
         $slides = Screen\Slides::build($p, $c, $adv);
         $html = Screen\Page::render($slides, $c, ['format' => $format, 'clock' => $clock, 'reload' => (int) $p['reload'], 'name' => (string) $p['name'], 'id' => $id]);

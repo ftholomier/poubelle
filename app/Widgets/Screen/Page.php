@@ -78,10 +78,10 @@ final class Page
             return $h . '</div>';
         };
         $layout = (string) ($s['layout'] ?? 'quote');
-        $h = '<section class="ec-slide ec-l--' . e($layout) . '"' . $attrs . (($s['layout'] ?? '') === 'quiz' ? ' data-answer="' . (int) $s['answerAt'] . '"' : '') . (isset($s['countdown']) ? ' data-countdown="' . (int) $s['countdown'] . '"' : '') . '>';
+        $h = '<section class="ec-slide ec-l--' . e($layout) . (!empty($s['first']) ? ' ec-first' : '') . '"' . $attrs . (($s['layout'] ?? '') === 'quiz' ? ' data-answer="' . (int) $s['answerAt'] . '"' : '') . (isset($s['countdown']) ? ' data-countdown="' . (int) $s['countdown'] . '"' : '') . '>';
         switch ($layout) {
             case 'duel':
-                $h .= '<div class="ec-main">' . $eb . '<h1 class="ec-title">' . e($s['title']) . '</h1>' . $stats($s['stats']);
+                $h .= '<div class="ec-main">' . $eb . '<h1 class="ec-title">' . e($s['title']) . '</h1>' . (!empty($s['lead']) ? '<p class="ec-lead">' . e($s['lead']) . '</p>' : '') . $stats($s['stats']);
                 if (!empty($s['bar'])) {
                     $t = max(1, array_sum($s['bar']));
                     $h .= '<div class="ec-bar"><i class="v" style="width:' . round(100 * $s['bar'][0] / $t, 2) . '%"></i><i class="n" style="width:' . round(100 * $s['bar'][1] / $t, 2) . '%"></i><i class="d" style="width:' . round(100 * $s['bar'][2] / $t, 2) . '%"></i></div>';
@@ -90,7 +90,7 @@ final class Page
                 foreach ($s['rows'] as $r) {
                     $h .= '<li><small>' . e($r[0]) . '</small><b>' . e($r[1]) . '</b><span>' . e($r[2]) . '</span></li>';
                 }
-                $h .= '</ul></div>' . $qr($s['qr'] ?? null, $c->tr('Tout le duel', 'Full record'));
+                $h .= '</ul></div>' . $qr($s['qr'] ?? null, !empty($s['first']) ? $c->tr('Les face-à-face', 'Head-to-heads') : $c->tr('Tout le duel', 'Full record'));
                 break;
             case 'list':
                 $h .= '<div class="ec-main">' . $eb . '<h1 class="ec-title">' . e($s['title']) . '</h1><ul class="ec-rows' . (!empty($s['trophy']) ? ' ec-rows--trophy' : '') . (count($s['rows']) > 3 ? ' ec-rows--dense' : '') . '">';
@@ -186,7 +186,7 @@ final class Page
             . '.ec-live{width:26px;height:26px;border-radius:50%;background:var(--red);animation:ec-blink 1.4s ease-in-out infinite}@keyframes ec-blink{50%{opacity:.3}}'
             . '.ec-title{font:900 112px/.95 var(--display);text-transform:uppercase;letter-spacing:.01em;margin-bottom:34px}'
             . '.ec--vertical .ec-title{font-size:96px}'
-            . '.ec-sub{font:600 40px/1.25 var(--serif);color:var(--mist);margin-top:22px}.ec-center{text-align:center}'
+            . '.ec-sub{font:600 40px/1.25 var(--serif);color:var(--mist);margin-top:22px}.ec-lead{font:700 46px/1.2 var(--serif);color:var(--accent);margin:-14px 0 26px}.ec-first .ec-title{font-size:84px;margin-bottom:22px}.ec-first .ec-stats b{font-size:118px}.ec-first .ec-stats span{font-size:28px;padding:18px 8px 16px}.ec-center{text-align:center}'
             . '.ec-text{font:400 44px/1.3 var(--serif);margin-top:18px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}'
             . '.ec-stats{display:grid;gap:26px;grid-template-columns:repeat(4,1fr)}.ec-stats--3{grid-template-columns:repeat(3,1fr)}'
             . '.ec-stats span{border:4px solid rgba(255,255,255,.22);border-radius:22px;padding:22px 10px 20px;text-align:center;font:800 34px/1 var(--display);text-transform:uppercase;letter-spacing:.06em;color:var(--mist)}'

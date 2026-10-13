@@ -38,14 +38,15 @@
         "id": "paris-saint-germain",
         "name": "Paris SG",
         "aliases": [
-            "PSG"
+            "PSG",
+            "ParisSG"
         ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "saint-etienne",
@@ -154,17 +155,6 @@
         "auto": true
     },
     {
-        "id": "lausanne",
-        "name": "Lausanne",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
         "id": "bordeaux",
         "name": "Bordeaux",
         "aliases": [],
@@ -189,13 +179,15 @@
     {
         "id": "lens",
         "name": "Lens",
-        "aliases": [],
+        "aliases": [
+            "Lens- L2"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "nice",
@@ -264,17 +256,6 @@
         "auto": true
     },
     {
-        "id": "villefranche",
-        "name": "Villefranche",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
         "id": "brest",
         "name": "Brest",
         "aliases": [],
@@ -288,13 +269,15 @@
     {
         "id": "angers",
         "name": "Angers",
-        "aliases": [],
+        "aliases": [
+            "Angers- D2"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "cannes",
@@ -485,14 +468,16 @@
     },
     {
         "id": "wasquehal",
-        "name": "Wasquehal",
-        "aliases": [],
+        "name": "ES Wasquehal",
+        "aliases": [
+            "Wasquehal"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "troyes",
@@ -633,17 +618,6 @@
     {
         "id": "golden-stern",
         "name": "Golden Stern",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
-        "id": "es-wasquehal",
-        "name": "ES Wasquehal",
         "aliases": [],
         "city": "",
         "country": "",
@@ -802,14 +776,15 @@
         "id": "etoile-sahel-sousse",
         "name": "Etoile Sportive du Sahel Sousse",
         "aliases": [
-            "Etoile du Sahel de Sousse"
+            "Etoile du Sahel de Sousse",
+            "ES Sahel de Sousse"
         ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "bohemians-prague",
@@ -860,17 +835,6 @@
         "auto": true
     },
     {
-        "id": "evian-tg",
-        "name": "Evian TG",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
         "id": "deportivo-saprissa",
         "name": "Deportivo Saprissa",
         "aliases": [],
@@ -897,13 +861,15 @@
     {
         "id": "grasshoppers-zurich",
         "name": "Grasshoppers Zurich",
-        "aliases": [],
+        "aliases": [
+            "Grashoppers Zurich"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "dynamo-tbilissi",
@@ -945,13 +911,15 @@
     {
         "id": "chateauroux",
         "name": "Châteauroux",
-        "aliases": [],
+        "aliases": [
+            "Châteauroux- L2"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "creteil",
@@ -1011,13 +979,15 @@
     {
         "id": "reims",
         "name": "Reims",
-        "aliases": [],
+        "aliases": [
+            "Reims- L2"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "sarajevo",
@@ -1033,13 +1003,15 @@
     {
         "id": "young-boys",
         "name": "Young Boys de Berne",
-        "aliases": [],
+        "aliases": [
+            "Young Boys Berne"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "dynamo-berlin",
@@ -1147,17 +1119,6 @@
     {
         "id": "synot",
         "name": "FC Synot",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
-        "id": "charleville",
-        "name": "Charleville",
         "aliases": [],
         "city": "",
         "country": "",
@@ -1347,13 +1308,15 @@
     {
         "id": "paris-fc",
         "name": "Paris FC",
-        "aliases": [],
+        "aliases": [
+            "ParisFC"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "puy",
@@ -1455,17 +1418,6 @@
         "auto": true
     },
     {
-        "id": "angers-d2",
-        "name": "Angers- D2",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
         "id": "saint-quentin",
         "name": "Saint-Quentin",
         "aliases": [],
@@ -1502,14 +1454,15 @@
         "id": "racing-paris",
         "name": "Racing Paris",
         "aliases": [
-            "Matra Racing"
+            "Matra Racing",
+            "Racing Paris 1"
         ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "equipe-france-junior",
@@ -1593,13 +1546,15 @@
     {
         "id": "charleville-mezieres",
         "name": "Charleville-Mézières",
-        "aliases": [],
+        "aliases": [
+            "Charleville"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "chs-vesoul",
@@ -1646,17 +1601,6 @@
         "auto": true
     },
     {
-        "id": "racing-paris-1",
-        "name": "Racing Paris 1",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
         "id": "fiorentina",
         "name": "Fiorentina",
         "aliases": [],
@@ -1669,14 +1613,18 @@
     },
     {
         "id": "evian",
-        "name": "Evian",
-        "aliases": [],
+        "name": "Evian Thonon Gaillard",
+        "aliases": [
+            "Evian",
+            "Evian TG",
+            "EvianTG"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "zeljeznicar-sarajevo",
@@ -1727,47 +1675,19 @@
     },
     {
         "id": "quevilly",
-        "name": "Quevilly",
-        "aliases": [],
+        "name": "Quevilly Rouen Métropole",
+        "aliases": [
+            "Quevilly",
+            "Quevilly RM",
+            "Quevilly Rouen",
+            "Quevilly Rouen Metropole"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
-    },
-    {
-        "id": "lens-l2",
-        "name": "Lens- L2",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
-        "id": "chateauroux-l2",
-        "name": "Châteauroux- L2",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
-        "id": "reims-l2",
-        "name": "Reims- L2",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "thaon-vosges",
@@ -1814,17 +1734,6 @@
         "auto": true
     },
     {
-        "id": "parisfc",
-        "name": "ParisFC",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
         "id": "haguenau",
         "name": "Haguenau",
         "aliases": [],
@@ -1849,17 +1758,6 @@
     {
         "id": "chambly",
         "name": "Chambly",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
-        "id": "parissg",
-        "name": "ParisSG",
         "aliases": [],
         "city": "",
         "country": "",
@@ -1927,14 +1825,15 @@
         "id": "paris-13-atletico",
         "name": "Paris 13 Atletico",
         "aliases": [
-            "Paris 13 Atlético"
+            "Paris 13 Atlético",
+            "Paris 13"
         ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "velez-mostar",
@@ -1981,17 +1880,6 @@
         "auto": true
     },
     {
-        "id": "young-boys-berne",
-        "name": "Young Boys Berne",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
         "id": "asm-belfort",
         "name": "ASM Belfort",
         "aliases": [],
@@ -2025,26 +1913,17 @@
         "auto": true
     },
     {
-        "id": "grashoppers-zurich",
-        "name": "Grashoppers Zurich",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
         "id": "aarau-07-07-2017",
-        "name": "FC Aarau (L2 Sui)- 07/07/2017",
-        "aliases": [],
+        "name": "FC Aarau",
+        "aliases": [
+            "FC Aarau (L2 Sui)- 07/07/2017"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "rheindorf-altach",
@@ -2063,17 +1942,6 @@
         "aliases": [
             "Lucerne"
         ],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
-        "id": "chaux-fond",
-        "name": "La Chaux-de-Fond",
-        "aliases": [],
         "city": "",
         "country": "",
         "logo": null,
@@ -2170,17 +2038,6 @@
         "auto": true
     },
     {
-        "id": "quevilly-rouen",
-        "name": "Quevilly Rouen",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
         "id": "saint-apollinaire",
         "name": "Saint-Apollinaire",
         "aliases": [],
@@ -2216,17 +2073,6 @@
         "auto": true
     },
     {
-        "id": "dudelange-91",
-        "name": "FC Dudelange 91",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
         "id": "fulham",
         "name": "Fulham",
         "aliases": [],
@@ -2238,37 +2084,17 @@
         "auto": true
     },
     {
-        "id": "es-sahel-sousse",
-        "name": "ES Sahel de Sousse",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
         "id": "fleury-91",
         "name": "Fleury 91",
-        "aliases": [],
+        "aliases": [
+            "Fleury"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
-    },
-    {
-        "id": "evian-thonon-gaillard",
-        "name": "Evian Thonon Gaillard",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "sarre-union",
@@ -2306,24 +2132,15 @@
     {
         "id": "f91-dudelange",
         "name": "F91 Dudelange",
-        "aliases": [],
+        "aliases": [
+            "FC Dudelange 91"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
-    },
-    {
-        "id": "fleury",
-        "name": "Fleury",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "bresse-jura",
@@ -2359,41 +2176,18 @@
         "auto": true
     },
     {
-        "id": "paris-13",
-        "name": "Paris 13",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
         "id": "villefranche-beaujolais",
         "name": "Villefranche Beaujolais",
         "aliases": [
-            "Villefranche-Beaujolais"
+            "Villefranche-Beaujolais",
+            "Villefranche"
         ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
-    },
-    {
-        "id": "quevilly-rouen-metropole",
-        "name": "Quevilly Rouen Metropole",
-        "aliases": [
-            "Quevilly Rouen Métropole"
-        ],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "nyons",
@@ -2418,26 +2212,18 @@
         "auto": true
     },
     {
-        "id": "quevilly-rm",
-        "name": "Quevilly RM",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
         "id": "chaux-fonds",
-        "name": "La Chaux De Fonds",
-        "aliases": [],
+        "name": "La Chaux-de-Fonds",
+        "aliases": [
+            "La Chaux De Fonds",
+            "La Chaux-de-Fond"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "saint-louis",
@@ -2508,17 +2294,6 @@
     {
         "id": "bressuire",
         "name": "Bressuire",
-        "aliases": [],
-        "city": "",
-        "country": "",
-        "logo": null,
-        "lat": null,
-        "lng": null,
-        "auto": true
-    },
-    {
-        "id": "eviantg",
-        "name": "EvianTG",
         "aliases": [],
         "city": "",
         "country": "",
@@ -2618,13 +2393,15 @@
     {
         "id": "lausanne-sport",
         "name": "Lausanne Sport",
-        "aliases": [],
+        "aliases": [
+            "Lausanne"
+        ],
         "city": "",
         "country": "",
         "logo": null,
         "lat": null,
         "lng": null,
-        "auto": true
+        "auto": false
     },
     {
         "id": "pagny-sur-moselle",

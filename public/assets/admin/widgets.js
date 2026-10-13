@@ -142,6 +142,7 @@
       box.querySelector('[data-sl-warn]').textContent = p ? '' : 'Sans partenaire, l’adresse ne marche que si le mode écran est en accès libre.';
     };
     box.addEventListener('change', update);
+    box.addEventListener('input', e => { if (e.target.matches('[data-sl]')) update(); });
     box.querySelector('[data-sl-copy]').addEventListener('click', e => {
       out.select();
       (navigator.clipboard ? navigator.clipboard.writeText(out.value) : Promise.reject()).catch(() => document.execCommand('copy'));
@@ -149,8 +150,38 @@
     });
     update();
   }
+  /* Contrôle avant diffusion : POST /admin/widgets/ecrans/controle (jeton CSRF de BO.post). */
+  const esc = t => String(t).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  const dur = s => (s >= 60 ? Math.floor(s / 60) + ' min ' : '') + (s % 60 ? (s % 60) + ' s' : (s ? '' : '0 s'));
+  const runCheck = async (panel, payload) => {
+    const out = panel.querySelector('[data-check-out]');
+    out.innerHTML = '<p class="small muted" style="margin:0">Contrôle en cours…</p>';
+    payload.date = panel.querySelector('[data-check-date]').value;
+    const r = window.BO ? await window.BO.post('/admin/widgets/ecrans/controle', payload) : { error: 'Back-office non chargé.' };
+    if (!r.ok) { out.innerHTML = '<p class="alert alert--error small" style="margin:0">' + esc(r.error || 'Contrôle impossible.') + '</p>'; return; }
+    let h = '<p class="small" style="margin:0 0 8px"><b>Adversaire</b> : ' + esc(r.opponent.text) + '</p>';
+    h += '<div class="table"><table><thead><tr><th class="t-num">#</th><th>Slide</th><th class="t-num">Durée</th><th>État</th></tr></thead><tbody>';
+    r.rows.forEach(x => {
+      h += '<tr' + (x.shown ? '' : ' class="muted"') + '><td class="t-num">' + x.n + '</td><td>' + esc(x.name) + '</td><td class="t-num">' + x.duration + ' s</td><td>'
+        + (x.shown ? '<b style="color:var(--green,#2f8a4f)">✓ affichée</b>' : '<b style="color:var(--red)">⚠ sautée</b>') + (x.note ? ' <small>· ' + esc(x.note) + '</small>' : '') + '</td></tr>';
+    });
+    h += '</tbody></table></div><p class="small" style="margin:8px 0 0"><b>' + r.shown + ' slide' + (r.shown > 1 ? 's' : '') + ' affichée' + (r.shown > 1 ? 's' : '') + '</b>'
+      + (r.skipped ? ', ' + r.skipped + ' sautée' + (r.skipped > 1 ? 's' : '') : '') + ' · une boucle dure réellement <b>' + dur(r.duration) + '</b>'
+      + (r.duration !== r.planned ? ' (au lieu de ' + dur(r.planned) + ' prévues)' : '') + ' · jour contrôlé : ' + esc(r.date.split('-').reverse().join('/')) + ', ' + (r.lang === 'en' ? 'anglais' : 'français') + '.</p>';
+    out.innerHTML = h;
+  };
+  const slPanel = document.querySelector('[data-check="sl"]');
+  if (slPanel && box) {
+    const v = k => box.querySelector('[data-sl="' + k + '"]').value;
+    slPanel.querySelector('[data-check-run]').addEventListener('click', () => runCheck(slPanel, { id: v('id'), adversaire: v('adversaire'), lang: v('lang') }));
+  }
   const form = document.getElementById('editeur');
   if (!form) return;
+  const edPanel = form.querySelector('[data-check="ed"]');
+  if (edPanel) edPanel.querySelector('[data-check-run]').addEventListener('click', () => {
+    const d = window.BO && window.BO.collect ? window.BO.collect(form) : {};
+    runCheck(edPanel, { id: d.id || '', name: d.name || '', slides: d.slides || [], playlist_adversaire: d.adversaire || '', playlist_lang: d.lang || 'fr', adversaire: '', lang: '' });
+  });
   const refresh = () => form.querySelectorAll('[data-item]').forEach(it => {
     const sel = it.querySelector('[data-slide-type]');
     if (!sel) return;

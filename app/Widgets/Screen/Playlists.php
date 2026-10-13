@@ -130,7 +130,7 @@ final class Playlists
             'name' => $name,
             'format' => isset(self::FORMATS[$in['format'] ?? '']) ? (string) $in['format'] : 'paysage',
             'lang' => ($in['lang'] ?? 'fr') === 'en' ? 'en' : 'fr',
-            'adversaire' => self::slug((string) ($in['adversaire'] ?? '')),
+            'adversaire' => self::opponent((string) ($in['adversaire'] ?? '')),
             'clock' => !empty($in['clock']),
             'reload' => max(5, min(240, (int) ($in['reload'] ?? 30))),
             'slides' => $slides,
@@ -177,7 +177,7 @@ final class Playlists
             foreach (self::TYPES[$type][2] as $o) {
                 $v = trim((string) ($s['opt'][$o] ?? $s[$o] ?? ''));
                 $v = match ($o) {
-                    'adversaire' => self::slug($v),
+                    'adversaire' => self::opponent($v),
                     'n' => (string) max(1, min(20, (int) $v ?: 1)),
                     default => self::widgetOption($type, $o, $v),
                 };
@@ -199,6 +199,16 @@ final class Playlists
         }
         $c = $w->clean([$name => $v])[$name];
         return $c === 'auto' || ($c === (string) ($w->options()[$name]['default'] ?? '') && $c !== $v) ? '' : $c;
+    }
+
+    /**
+     * Adversaire du jour : clé du face-à-face (« nantes »), nom d'un club déjà affronté ou nom d'un
+     * club jamais affronté (« Paris FC » : version « Première rencontre »), nettoyé (2 à 40 caractères,
+     * lettres, chiffres, espace, apostrophe, point, tiret, « & ») ; sinon '' (adversaire automatique).
+     */
+    public static function opponent(string $v): string
+    {
+        return \App\Widgets\Items\HistoireDuDuel::cleanName($v) ?? '';
     }
 
     /** Clé de club (adresse du face-à-face) bien formée, sinon ''. */

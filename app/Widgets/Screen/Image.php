@@ -88,6 +88,9 @@ final class Image
                 $y = $eyebrow($x, $y, $cw);
                 $fw = $cw - ($v ? 0 : $qrw + 60);
                 $y = $this->title($s['title'], $x, $y - ($v ? 0 : 20), $cw, $v ? 96 : 104);
+                if (!empty($s['lead'])) {
+                    $y = $this->para($s['lead'], 'Newsreader-SemiBold', 44, $x, $y + 10, $fw, 2, 'accent') + 16;
+                }
                 $y = $this->stats($s['stats'], $x, $y, $cw, $v ? 120 : 118);
                 if (!empty($s['bar'])) {
                     $t = max(1, array_sum($s['bar']));

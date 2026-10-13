@@ -348,7 +348,8 @@ final class Kernel
                 if (isset(Data\Derived::part('clubs')[$club])) {
                     return [200, null, 'page'];
                 }
-                $key = Data\Names::clubKey(str_replace('-', ' ', $club));
+                // Ancienne adresse (doublon regroupé dans Saisons, adversaires, lieux : « angers-d2 » → « angers »).
+                $key = (string) (Widgets\Items\HistoireDuDuel::known($club) ?? Data\Names::clubKey(str_replace('-', ' ', $club)));
                 return $key !== $club && isset(Data\Derived::part('clubs')[$key]) ? [301, $pre . '/face-a-face/' . $key . '/', 'page'] : null;
             case '/bilans/{key}/':
                 $key = (string) $p['key'];

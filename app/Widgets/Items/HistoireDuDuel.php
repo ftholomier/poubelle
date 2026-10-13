@@ -16,8 +16,9 @@ use App\Widgets\Widget;
  * que la page /face-a-face/<club>/ (Derived « clubs » et « matches », matchs publiés seulement) :
  * victoires, nuls, défaites, buts, plus large victoire, meilleur buteur du duel (buts marqués
  * contre cet adversaire, d'après les fiches), dernier match et première rencontre.
- * Adversaire choisi (?adversaire=<slug du club>, celui de l'adresse du face-à-face) ; par défaut
- * l'adversaire du dernier match fiché.
+ * Adversaire choisi (?adversaire=<slug du club>, celui de l'adresse du face-à-face, ou son nom) ; par
+ * défaut (« auto ») l'adversaire du dernier match fiché. Club jamais affronté, tapé en toutes lettres
+ * (?adversaire=Paris%20FC) : version « Première rencontre » (jamais le bilan d'un autre club).
  */
 final class HistoireDuDuel extends Widget
 {
@@ -39,10 +40,10 @@ final class HistoireDuDuel extends Widget
 
     public function options(): array
     {
-        return ['adversaire' => ['label' => 'Adversaire', 'label_en' => 'Opponent', 'type' => 'search', 'default' => 'auto',
+        return ['adversaire' => ['label' => 'Adversaire', 'label_en' => 'Opponent', 'type' => 'search', 'default' => 'auto', 'free' => true,
             'choices' => fn () => ['auto' => 'Automatique : adversaire du dernier match fiché'] + self::choices(),
-            'help' => 'Les plus affrontés d’abord (nombre de matchs entre parenthèses). Valeur : l’adresse du face-à-face (« nantes »).',
-            'help_en' => 'Most played first (number of matches). Value: the head-to-head address (“nantes”).']];
+            'help' => 'Tapez le nom du club : la liste propose les adversaires déjà affrontés (nombre de matchs entre parenthèses). Un club jamais affronté se tape en toutes lettres (« Paris FC ») : version « Première rencontre ».',
+            'help_en' => 'Type the club’s name: the list offers the opponents already met (number of matches). A club never met can be typed in full (“Paris FC”): “First meeting” version.']];
     }
 
     public function height(): int
@@ -50,8 +51,81 @@ final class HistoireDuDuel extends Widget
         return 560;
     }
 
-    /** Clé du club adverse (adresse du face-à-face), ancienne clé ou nom rapproché ; inconnue : l'adversaire par défaut. */
-    public static function resolve(string $slug, bool $fallback = true): ?string
+    /**
+     * Nom de club saisi librement (adversaire jamais affronté) : espaces resserrés, seulement lettres,
+     * chiffres, espace, apostrophe, point, tiret et « & », 2 à 40 caractères, au moins une lettre ;
+     * sinon null. Le résultat est encore échappé à l'affichage.
+     */
+    public static function cleanName(string $v): ?string
+    {
+        $v = trim((string) preg_replace('/\s+/u', ' ', $v));
+        if ($v === '' || !preg_match('/^[\p{L}\p{N} \'’.&-]{2,40}$/u', $v) || !preg_match('/\p{L}/u', $v)) {
+            return null;
+        }
+        return $v;
+    }
+
+    /**
+     * Adversaire demandé : ['club' => clé du face-à-face ou null, 'name' => nom affiché].
+     * Clé connue, ancienne clé, nom ou variante du référentiel : ce club ; « auto », vide ou saisie
+     * invalide : l'adversaire du dernier match fiché ; nom jamais affronté : club null (version
+     * « Première rencontre »), jamais l'adversaire du dernier match. Null : notre propre club.
+     * @return array{club:?string,name:string}|null
+     */
+    public static function target(string $v): ?array
+    {
+        $name = self::cleanName($v === 'auto' ? '' : $v);
+        if ($name === null) {
+            $k = self::resolve('');
+            return $k === null ? null : ['club' => $k, 'name' => Fiche::clubName($k)];
+        }
+        $self = Names::clubKey(\App\Core\Club::team());
+        $k = self::known($name);
+        if ($k !== null) {
+            return $k === $self ? null : ['club' => $k, 'name' => Fiche::clubName($k)];
+        }
+        if (\App\Core\Club::isUs($name) || Names::clubKey($name) === $self) {
+            return null;
+        }
+        // Saisie en adresse (« paris-fc ») : nom lisible ; sinon le nom tel que tapé.
+        $label = preg_match('/^[a-z0-9-]+$/', $name) ? ucwords(str_replace('-', ' ', $name)) : $name;
+        return ['club' => null, 'name' => $label];
+    }
+
+    /** Clé d'un adversaire déjà affronté d'après sa clé, son nom ou une variante (référentiel), sinon null. */
+    public static function known(string $v): ?string
+    {
+        $clubs = Derived::part('clubs');
+        if (isset($clubs[$v])) {
+            return $v;
+        }
+        $key = Names::clubKey(str_replace('-', ' ', $v));
+        if ($key === '') {
+            return null;
+        }
+        if (isset($clubs[$key])) {
+            return $key;
+        }
+        foreach (\App\Data\Collections::get('clubs', []) as $c) {
+            if (!isset($clubs[$c['id'] ?? ''])) {
+                continue;
+            }
+            foreach (array_merge([(string) $c['name']], (array) ($c['aliases'] ?? [])) as $n) {
+                if (Names::clubKey((string) $n) === $key) {
+                    return (string) $c['id'];
+                }
+            }
+        }
+        // Dernier essai : sans les mots génériques en tête de nom (« Racing Club de Lens » ≡ « Lens »).
+        $short = implode('-', array_filter(explode('-', $key), fn ($w) => !in_array($w, ['racing', 'stade', 'olympique', 'sporting', 'union', 'entente'], true)));
+        return $short !== '' && $short !== $key && isset($clubs[$short]) ? $short : null;
+    }
+
+    /**
+     * Clé du club adverse (adresse du face-à-face), ancienne clé, nom ou variante. Vide : l'adversaire
+     * du dernier match fiché. Inconnue : null — jamais l'adversaire du dernier match (voir target()).
+     */
+    public static function resolve(string $slug): ?string
     {
         $clubs = Derived::part('clubs');
         $self = Names::clubKey(\App\Core\Club::team());
@@ -62,17 +136,13 @@ final class HistoireDuDuel extends Widget
                 uasort($clubs, fn ($x, $y) => $y['count'] <=> $x['count']);
                 $slug = (string) (array_key_first(array_diff_key($clubs, [$self => 1])) ?? '');
             }
+            return $slug !== '' && $slug !== $self && isset($clubs[$slug]) ? $slug : null;
         }
-        if (!isset($clubs[$slug])) {
-            $slug = Names::clubKey(str_replace('-', ' ', $slug));
-        }
-        if ($slug !== '' && $slug !== $self && isset($clubs[$slug])) {
-            return $slug;
-        }
-        return $fallback ? self::resolve('', false) : null; // inconnu : l'adversaire par défaut
+        $k = self::known($slug);
+        return $k !== null && $k !== $self ? $k : null;
     }
 
-    /** Adversaires possibles (back-office) : clé => nom, les plus affrontés d'abord. @return array<string,string> */
+    /** Adversaires possibles (back-office) : clé => nom, par ordre alphabétique. @return array<string,string> */
     public static function choices(): array
     {
         // Tous les adversaires affrontés, par ordre alphabétique (sans tenir compte des accents),
@@ -89,24 +159,103 @@ final class HistoireDuDuel extends Widget
         return $out;
     }
 
-    public function data(array $opt, Context $c): ?array
+    /** Matchs publiés contre un club (les plus récents d'abord). @return list<array> */
+    private static function meetings(string $club): array
     {
-        $club = self::resolve($opt['adversaire'] === 'auto' ? '' : $opt['adversaire']);
-        if ($club === null) {
-            return null;
-        }
         $M = Derived::part('matches');
         $list = [];
-        foreach ((array) Derived::part('clubs')[$club]['matches'] as $id) {
+        foreach ((array) (Derived::part('clubs')[$club]['matches'] ?? []) as $id) {
             $x = $M[$id] ?? null;
             if ($x && $x['v']) {
                 $list[] = $x + ['id' => (int) $id];
             }
         }
-        if (!$list) {
+        usort($list, fn ($x, $y) => strcmp((string) $y['date'], (string) $x['date']));
+        return $list;
+    }
+
+    /** Résumé d'un match pour l'affichage. */
+    private static function summary(array $x): array
+    {
+        return ['label' => Site::matchLabel($x), 'home' => (string) $x['home'], 'away' => (string) $x['away'],
+            'score' => $x['us'] !== null ? ($x['sh'] ? $x['us'] . '-' . $x['them'] : $x['them'] . '-' . $x['us']) : '', 'date' => (string) $x['date'],
+            'competition' => (string) (($x['label'] ?? '') ?: ($x['comp'] ?? '')), 'result' => (string) ($x['result'] ?? ''), 'href' => self::local((string) $x['path'])];
+    }
+
+    /**
+     * Version « Première rencontre » (aucun match publié contre ce club) : rien d'inventé, seulement
+     * ce que disent les fiches : le rang de ce nouvel adversaire parmi les clubs différents affrontés,
+     * le bilan des premières rencontres de l'histoire du club, la dernière « première rencontre »
+     * fichée et les clubs déjà affrontés dont le nom partage un mot distinctif (« Lausanne »…).
+     */
+    private static function firstMeeting(string $name): array
+    {
+        $self = Names::clubKey(\App\Core\Club::team());
+        $firsts = ['V' => 0, 'N' => 0, 'D' => 0];
+        $n = 0;
+        $latest = null;
+        $generic = ['stade', 'racing', 'olympique', 'union', 'sporting', 'sport', 'sports', 'club', 'football', 'real', 'athletic', 'atletico', 'saint', 'sainte',
+            'etoile', 'entente', 'star', 'city', 'united', 'association', 'olympic', 'dynamo', 'dinamo', 'sparta', 'young', 'boys', 'inter', 'ville', 'nord', 'ouest', 'sud'];
+        $words = array_values(array_filter(explode('-', Names::clubKey($name)), fn ($w) => strlen($w) >= 4 && !in_array($w, $generic, true)));
+        $same = [];
+        foreach (Derived::part('clubs') as $k => $cl) {
+            if ($k === $self) {
+                continue;
+            }
+            $list = self::meetings((string) $k);
+            if (!$list) {
+                continue;
+            }
+            $n++;
+            $dated = array_values(array_filter($list, fn ($x) => (string) $x['date'] !== ''));
+            if ($dated) {
+                $first = $dated[count($dated) - 1];
+                if (isset($firsts[$first['result'] ?? ''])) {
+                    $firsts[$first['result']]++;
+                }
+                if (!$latest || strcmp((string) $first['date'], (string) $latest['date']) > 0) {
+                    $latest = $first;
+                }
+            }
+            if ($words && array_intersect($words, explode('-', (string) $k))) {
+                $t = ['V' => 0, 'N' => 0, 'D' => 0];
+                foreach ($list as $x) {
+                    if (isset($t[$x['result'] ?? ''])) {
+                        $t[$x['result']]++;
+                    }
+                }
+                $same[] = ['name' => Fiche::clubName((string) $k), 'matches' => count($list), 'wins' => $t['V'], 'draws' => $t['N'], 'defeats' => $t['D'], 'href' => '/face-a-face/' . $k . '/'];
+            }
+        }
+        usort($same, fn ($a, $b) => $b['matches'] <=> $a['matches']);
+        return [
+            'first_meeting' => true,
+            'club' => null,
+            'opponent' => $name,
+            'team' => \App\Core\Club::team(),
+            'rank' => $n + 1,
+            'opponents' => $n,
+            'firsts' => ['wins' => $firsts['V'], 'draws' => $firsts['N'], 'defeats' => $firsts['D'], 'total' => array_sum($firsts)],
+            'latest_first' => $latest ? self::summary($latest) : null,
+            'namesakes' => array_slice($same, 0, 2),
+            'href' => '/face-a-face/',
+        ];
+    }
+
+    public function data(array $opt, Context $c): ?array
+    {
+        $target = self::target((string) $opt['adversaire']);
+        if ($target === null) {
             return null;
         }
-        usort($list, fn ($x, $y) => strcmp((string) $y['date'], (string) $x['date']));
+        if ($target['club'] === null) {
+            return self::firstMeeting($target['name']);
+        }
+        $club = $target['club'];
+        $list = self::meetings($club);
+        if (!$list) {
+            return self::firstMeeting($target['name']);
+        }
         $t = ['V' => 0, 'N' => 0, 'D' => 0, 'gf' => 0, 'ga' => 0];
         $best = null;
         $first = null;
@@ -147,10 +296,9 @@ final class HistoireDuDuel extends Widget
                 break;
             }
         }
-        $match = fn (array $x) => ['label' => Site::matchLabel($x), 'home' => (string) $x['home'], 'away' => (string) $x['away'],
-            'score' => $x['us'] !== null ? ($x['sh'] ? $x['us'] . '-' . $x['them'] : $x['them'] . '-' . $x['us']) : '', 'date' => (string) $x['date'],
-            'competition' => (string) (($x['label'] ?? '') ?: ($x['comp'] ?? '')), 'result' => (string) ($x['result'] ?? ''), 'href' => self::local((string) $x['path'])];
+        $match = fn (array $x) => self::summary($x);
         return [
+            'first_meeting' => false,
             'club' => $club,
             'opponent' => Fiche::clubName($club),
             'team' => \App\Core\Club::team(),
@@ -170,6 +318,9 @@ final class HistoireDuDuel extends Widget
 
     public function body(array $d, Context $c): string
     {
+        if (!empty($d['first_meeting'])) {
+            return self::firstBody($d, $c);
+        }
         $date = fn (string $iso) => $c->en() ? date('j F Y', strtotime($iso)) : date_fr($iso);
         $h = '<p class="w-eyebrow">' . e($c->tr('L’histoire du duel', 'Head-to-head')) . ($d['first_year'] ? ' · ' . e($c->tr('depuis ', 'since ')) . $d['first_year'] : '') . '</p>';
         $h .= '<p class="w-title"><a href="' . e($d['href']) . '" target="_blank" rel="noopener">' . e($d['team']) . ' × ' . e($d['opponent']) . '</a></p>';
@@ -188,5 +339,25 @@ final class HistoireDuDuel extends Widget
         $l = $d['last'];
         $h .= '<li><span class="w-kicker w-inline">' . e($c->tr('Dernier match', 'Last meeting')) . '</span> <a href="' . e($l['href']) . '" target="_blank" rel="noopener">' . e($l['label']) . '</a> <small class="w-score">' . e($date($l['date'])) . '</small></li></ul>';
         return $h . '<p><a class="w-btn" href="' . e($d['href']) . '" target="_blank" rel="noopener">' . e($c->tr('Tout le face-à-face', 'The full head-to-head')) . ' →</a></p>';
+    }
+
+    /** Première rencontre : texte, puis les faits du musée (échappés). */
+    private static function firstBody(array $d, Context $c): string
+    {
+        $date = fn (string $iso) => $c->en() ? date('j F Y', strtotime($iso)) : date_fr($iso);
+        $h = '<p class="w-eyebrow">' . e($c->tr('Première rencontre', 'First meeting')) . '</p>';
+        $h .= '<p class="w-title">' . e($d['team']) . ' × ' . e($d['opponent']) . '</p>';
+        $h .= '<p class="w-text w-center">' . e($c->tr('Premier match officiel entre les deux clubs : aucune rencontre dans les archives du musée.', 'First official match between the two clubs: no meeting in the museum’s archives.')) . '</p>';
+        $f = $d['firsts'];
+        $h .= '<div class="w-stats w-stats--4"><span class="is-key"><b>' . (int) $d['opponents'] . '</b>' . e($c->tr('adversaires déjà affrontés', 'opponents already met')) . '</span><span><b>' . $f['wins'] . '</b>' . e($c->tr('victoires', 'wins')) . '</span><span><b>' . $f['draws'] . '</b>' . e($c->tr('nuls', 'draws')) . '</span><span><b>' . $f['defeats'] . '</b>' . e($c->tr('défaites', 'defeats')) . '</span></div>';
+        $h .= '<p class="w-text w-center small">' . e($c->tr('Bilan de ' . $d['team'] . ' lors de ses ' . $f['total'] . ' premières rencontres fichées', $d['team'] . '’s record in their ' . $f['total'] . ' first meetings on record')) . '</p><ul class="w-list w-list--tight">';
+        if ($d['latest_first']) {
+            $l = $d['latest_first'];
+            $h .= '<li><span class="w-kicker w-inline">' . e($c->tr('Dernière première rencontre', 'Latest first meeting')) . '</span> <a href="' . e($l['href']) . '" target="_blank" rel="noopener">' . e($l['label']) . '</a> <small class="w-score">' . e($date($l['date'])) . '</small></li>';
+        }
+        foreach ($d['namesakes'] as $n) {
+            $h .= '<li><span class="w-kicker w-inline">' . e($c->tr('Déjà affronté', 'Already met')) . '</span> <a href="' . e($n['href']) . '" target="_blank" rel="noopener">' . e($n['name']) . '</a> <small class="w-score">' . e($n['matches'] . ' ' . $c->tr('matchs', 'matches') . ' : ' . $n['wins'] . ' V, ' . $n['draws'] . ' N, ' . $n['defeats'] . ' D') . '</small></li>';
+        }
+        return $h . '</ul><p><a class="w-btn" href="' . e($d['href']) . '" target="_blank" rel="noopener">' . e($c->tr('Tous les face-à-face', 'All head-to-heads')) . ' →</a></p>';
     }
 }

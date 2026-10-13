@@ -80,7 +80,7 @@ final class Export
     /** Clé d'un export (playlist, format, langue, adversaire). */
     public static function key(string $id, string $format, string $lang, string $adv): string
     {
-        return $id . '-' . ($format === 'vertical' ? 'vertical' : 'paysage') . '-' . ($lang === 'en' ? 'en' : 'fr') . ($adv !== '' ? '-' . $adv : '');
+        return $id . '-' . ($format === 'vertical' ? 'vertical' : 'paysage') . '-' . ($lang === 'en' ? 'en' : 'fr') . ($adv !== '' ? '-' . substr(trim(slugify($adv), '-') ?: md5($adv), 0, 40) : '');
     }
 
     /** Context des exports : ni partenaire ni aperçu (les QR codes mènent au musée, comptés « libre »). */

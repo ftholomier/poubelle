@@ -188,6 +188,51 @@ final class Widgets extends Base
         return Response::json(['ok' => true, 'message' => 'Playlist enregistrée.', 'redirect' => '/admin/widgets?onglet=ecrans&ecran=' . rawurlencode($saved['id']) . '#editeur']);
     }
 
+    /**
+     * Contrôle avant diffusion (POST JSON, jeton CSRF en en-tête X-CSRF) : playlist enregistrée (id)
+     * ou en cours de modification (slides, adversaire, lang), réglages du lien de la régie (adversaire,
+     * lang) et jour (AAAA-MM-JJ, aujourd'hui par défaut) ; chaque slide affichée ou sautée et pourquoi,
+     * durée réelle d'une boucle (Slides::check, mêmes calculs que l'écran).
+     */
+    public static function screenCheck(Request $req): Response
+    {
+        $in = $req->json();
+        $pl = Playlists::get((string) ($in['id'] ?? ''));
+        if (isset($in['slides']) && is_array($in['slides'])) {
+            $pl = ['id' => (string) ($in['id'] ?? ''), 'name' => (string) ($in['name'] ?? ''), 'adversaire' => Playlists::opponent((string) ($in['playlist_adversaire'] ?? $in['adversaire'] ?? '')),
+                'lang' => ($in['playlist_lang'] ?? $in['lang'] ?? 'fr') === 'en' ? 'en' : 'fr', 'slides' => Playlists::cleanSlides($in['slides'])];
+        }
+        if (!$pl) {
+            return Response::json(['ok' => false, 'error' => 'Playlist introuvable.'], 422);
+        }
+        if (!$pl['slides']) {
+            return Response::json(['ok' => false, 'error' => 'Ajoutez au moins une slide.'], 422);
+        }
+        $raw = trim((string) ($in['adversaire'] ?? ''));
+        $adv = Playlists::opponent($raw);
+        $lang = in_array($in['lang'] ?? '', ['fr', 'en'], true) ? (string) $in['lang'] : (string) ($pl['lang'] ?? 'fr');
+        $day = (string) ($in['date'] ?? '');
+        if (!preg_match('/^(\d{4})-(\d\d)-(\d\d)$/', $day, $m) || !checkdate((int) $m[2], (int) $m[3], (int) $m[1])) {
+            $day = date('Y-m-d');
+        }
+        \App\Services\I18n::set($lang);
+        $c = new \App\Widgets\Context('playlist', $lang, 'sombre', 'ecran', '', true);
+        try {
+            $r = \App\Widgets\Screen\Slides::check($pl, $c, $adv, $day);
+        } finally {
+            \App\Services\I18n::set('fr');
+        }
+        $o = $r['opponent'];
+        $r['opponent']['text'] = match (true) {
+            $raw !== '' && $adv === '' => 'Nom d’adversaire refusé (2 à 40 caractères : lettres, chiffres, espace, apostrophe, point, tiret) : adversaire automatique, ' . $o['name'] . '.',
+            $o['name'] === '' => 'Aucun adversaire possible.',
+            !$o['known'] => $o['name'] . ' : jamais affronté d’après les fiches publiées → version « Première rencontre ».',
+            $o['auto'] => 'Automatique : ' . $o['name'] . ' (adversaire du dernier match fiché).',
+            default => $o['name'] . ' : déjà affronté → bilan complet du duel.',
+        };
+        return Response::json(['ok' => true, 'date' => $day, 'lang' => $lang] + $r);
+    }
+
     /** ZIP des images PNG d'une playlist (fabriqué à la demande). */
     public static function screenZip(Request $req): Response
     {
@@ -197,7 +242,7 @@ final class Widgets extends Base
         }
         $format = isset(Playlists::FORMATS[$req->str('format')]) ? $req->str('format') : (string) $pl['format'];
         $lang = $req->str('lang') === 'en' ? 'en' : ($req->str('lang') === 'fr' ? 'fr' : (string) $pl['lang']);
-        $adv = $req->str('adversaire') !== '' ? Playlists::slug($req->str('adversaire')) : (string) $pl['adversaire'];
+        $adv = $req->str('adversaire') !== '' ? Playlists::opponent($req->str('adversaire')) : (string) $pl['adversaire'];
         try {
             $file = Export::zip($pl, $format, $lang, $adv);
         } catch (\Throwable $e) {

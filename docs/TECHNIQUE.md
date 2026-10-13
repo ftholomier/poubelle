@@ -1265,7 +1265,7 @@ préfixe `/en` ; langue par `?lang=fr|en`) :
 | `GET /embed.js` | script d'intégration (`public/assets/js/embed.js`, servi par `Http::embed` : `max-age=3600`, ETag, CORS `*`) |
 | `GET /w/clic/{clé}/?to=/chemin&p=<partenaire>` | lien d'un widget vers le musée : compté, puis redirection 302 vers le chemin du musée (jamais ailleurs) avec `utm_source=widget` |
 | `GET /widgets/` | page publique « Intégrez le musée sur votre site » (widgets libres, aperçu, code à copier, section « Pour les écrans de stade » `#ecrans` ; `Widgets\Pages`, `templates/widgets/demo.php`) |
-| `GET /ecran/{playlist}?key=…&format=paysage\|vertical&lang=fr\|en&adversaire=<club>&horloge=1\|0` | mode écran plein écran (voir plus bas) ; `?slide=N` fige la slide N, `&reponse=1` montre la réponse d'un quiz (aperçus, captures) |
+| `GET /ecran/{playlist}?key=…&format=paysage\|vertical&lang=fr\|en&adversaire=<club ou nom>&horloge=1\|0` | mode écran plein écran (voir plus bas) ; `?slide=N` fige la slide N, `&reponse=1` montre la réponse d'un quiz (aperçus, captures) |
 | `GET /ecran/sw.js` | service worker du mode écran (`public/assets/js/ecran-sw.js`, portée `/ecran/`, `no-cache`) |
 
 Options propres (`Widget::options()`, validées par `Widget::clean()` : valeur hors liste, hors
@@ -1451,6 +1451,20 @@ cadre (`Page::notice`, `no-store`). Affichage compté `vues` / `playlist` / part
   `cleanSlides` (type connu, durée 5–120 s, options permises), adresse tirée du nom, jamais celle
   d'une playlist prête à l'emploi ; `delete`). Réglages : `format` (`paysage` 1920 × 1080 ou
   `vertical` 1080 × 1920), `lang`, `adversaire`, `clock`, `reload` (5–240 min, 30 par défaut).
+  **Adversaire du jour** (`Playlists::opponent` = `HistoireDuDuel::cleanName`) : clé du
+  face-à-face (« nantes ») **ou nom libre** (« Paris FC ») : espaces resserrés, lettres, chiffres,
+  espace, apostrophe, point, tiret, « & », 2 à 40 caractères, au moins une lettre ; sinon vide
+  (automatique). Le nom est encore échappé à l'affichage ; dans la clé d'export (nom des
+  fichiers), il passe par `slugify`.
+- `HistoireDuDuel::target($v)` : clé connue, ancienne clé, nom ou variante du référentiel
+  (`known()` : `Derived` « clubs », puis `Names::clubKey`, puis les `aliases` de
+  `data/collections/clubs.json`, puis sans « Racing / Stade / Olympique… » en tête) → ce club ;
+  `auto`, vide ou saisie invalide → adversaire du dernier match fiché ; **nom jamais affronté →
+  `club: null`**, version « Première rencontre » (`first_meeting: true` : rang du nouvel adversaire
+  parmi les clubs différents, bilan V/N/D des premières rencontres fichées, dernière « première
+  rencontre », clubs déjà affrontés dont le nom partage un mot distinctif) — jamais le bilan du
+  dernier adversaire ; notre propre club → `null` (slide sautée). Option `search` avec
+  `free => true` : `Widget::clean` accepte alors une valeur hors liste nettoyée par `cleanName`.
 - `Slides::build()` : chaque slide → un **modèle neutre** (`layout` : duel, list, rank, hero,
   quote, card, match, photo, quiz, timeline, map, countdown, support ; textes, chiffres, image
   avec son fichier local, QR code…) à partir des données du widget du même nom
@@ -1489,8 +1503,13 @@ cadre (`Page::notice`, `no-store`). Affichage compté `vues` / `playlist` / part
   `Store::dir()/exports/` (hors du dossier public), téléchargés par le back-office seulement.
 
 **Back-office** (Communauté › Widgets & partenaires › onglet **Écrans**, administrateurs) : lien
-pour la régie (playlist, partenaire dont la clé est ajoutée, format, langue, adversaire du jour,
-horloge), aperçu plein écran, liste des playlists (durée d'une boucle, exports : ZIP des PNG,
+pour la régie (playlist, partenaire dont la clé est ajoutée, format, langue, adversaire du jour
+— liste `<datalist id="dl-clubs">` ou nom libre —, horloge), panneau **Contrôle avant diffusion**
+(générateur de lien et éditeur : `POST /admin/widgets/ecrans/controle`, JSON, jeton `X-CSRF` de
+`BO.post` ; corps `{id}` ou `{slides, playlist_adversaire, playlist_lang}` + `adversaire`, `lang`,
+`date` AAAA-MM-JJ ; `Slides::check` → chaque slide `shown` / sautée avec sa raison
+(`Slides::SKIP`, ou « première rencontre : version spéciale »), durée réelle et prévue d'une
+boucle ; le jour ne change que « Ce jour-là », option `date` MM-JJ), aperçu plein écran, liste des playlists (durée d'une boucle, exports : ZIP des PNG,
 vidéo MP4 ou message si impossible), dupliquer, nouvelle playlist, éditeur (formulaire JSON
 `POST /admin/widgets/ecrans` : slides triables par glisser-déposer — `Form::repeater` et la poignée
 commune du back-office —, options affichées selon le type). Adresses : `GET

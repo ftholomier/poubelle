@@ -8,6 +8,7 @@ use App\Data\Media;
 use App\Data\Seeds;
 use App\Widgets\Cache;
 use App\Widgets\Context;
+use App\Widgets\Items\HistoireDuDuel;
 use App\Widgets\Items\QuizDuJour;
 use App\Widgets\Photos;
 use App\Widgets\Registry;
@@ -45,6 +46,75 @@ final class Slides
         return $out;
     }
 
+    /** Raison habituelle d'une slide sautée (rien à montrer), par type. */
+    public const SKIP = [
+        'histoire-du-duel' => 'aucun adversaire possible (aucun match fiché, ou nom de notre propre club)',
+        'ce-jour-la' => 'aucun match fiché ce jour-là',
+        'carte-legende' => 'aucune légende à montrer (joueur choisi introuvable ou non publié)',
+        'chiffre-du-jour' => 'aucun chiffre du jour disponible',
+        'le-saviez-vous' => 'aucune anecdote « Le saviez-vous ? » publiée',
+        'quiz' => 'aucune question de quiz active (2 à 4 réponses)',
+        'photo' => 'aucune photo d’archives diffusable',
+        'frise' => 'frise vide',
+        'records' => 'classement vide',
+        'palmares' => 'palmarès vide',
+        'il-y-a' => 'aucun anniversaire de match (5, 10, 20, 30 ans…) ce jour-là',
+        'dernier-match' => 'aucun match fiché',
+        'saison' => 'saison introuvable',
+        'compte-a-rebours' => 'aucune date à venir (réglage du widget Compte à rebours)',
+        'retro-direct' => 'aucun Rétro-Direct programmé',
+        'carte-stades' => 'aucun stade placé sur la carte',
+        'soutenir' => 'aucun lien de soutien réglé',
+        'boutique' => 'boutique fermée ou aucun objet à montrer',
+    ];
+
+    /**
+     * Contrôle avant diffusion : pour une playlist et des réglages (adversaire, langue, jour), chaque
+     * slide affichée ou sautée (avec la raison) et la durée réelle d'une boucle. Mêmes calculs que
+     * l'écran (Slides::one) ; un autre jour que celui-ci ne change que « Ce jour-là » (les autres
+     * slides du jour — quiz, photo, chiffre — sont celles d'aujourd'hui).
+     * @return array{rows:list<array>,shown:int,skipped:int,duration:int,planned:int,opponent:array}
+     */
+    public static function check(array $playlist, Context $c, string $adversaire = '', string $day = ''): array
+    {
+        $adv = $adversaire !== '' ? $adversaire : (string) ($playlist['adversaire'] ?? '');
+        $target = \App\Widgets\Items\HistoireDuDuel::target($adv);
+        $rows = [];
+        $quiz = 0;
+        $total = 0;
+        $planned = 0;
+        $md = $day !== '' && $day !== date('Y-m-d') ? substr($day, 5) : '';
+        foreach ($playlist['slides'] as $i => $s) {
+            $name = Playlists::TYPES[$s['type']][0] ?? $s['type'];
+            $planned += (int) $s['duration'];
+            $note = '';
+            if ($md !== '' && $s['type'] === 'ce-jour-la') {
+                $s['opt'] = ['date' => $md] + (array) ($s['opt'] ?? []);
+            }
+            try {
+                $m = self::one($s, $c, $adv, $s['type'] === 'quiz' ? $quiz++ : 0, (string) ($playlist['id'] ?? ''));
+            } catch (\Throwable $e) {
+                $m = null;
+                $note = 'erreur : ' . $e->getMessage();
+            }
+            if ($m === null) {
+                $note = $note ?: (self::SKIP[$s['type']] ?? 'rien à montrer');
+            } elseif ($s['type'] === 'histoire-du-duel') {
+                $note = !empty($m['first']) ? 'première rencontre : version spéciale (' . $m['title'] . ')' : $m['title'];
+            } elseif (isset($m['title']) && is_string($m['title'])) {
+                $note = $m['title'];
+            }
+            if ($m !== null) {
+                $total += (int) $s['duration'];
+            }
+            $rows[] = ['n' => $i + 1, 'type' => $s['type'], 'name' => $name, 'duration' => (int) $s['duration'], 'shown' => $m !== null, 'note' => $note];
+        }
+        $shown = count(array_filter($rows, fn ($r) => $r['shown']));
+        return ['rows' => $rows, 'shown' => $shown, 'skipped' => count($rows) - $shown, 'duration' => $total, 'planned' => $planned,
+            'opponent' => $target === null ? ['name' => '', 'known' => false, 'auto' => true]
+                : ['name' => $target['name'], 'known' => $target['club'] !== null, 'auto' => HistoireDuDuel::cleanName($adv) === null, 'club' => $target['club']]];
+    }
+
     /** Données d'un widget (cache commun aux iframes et à l'API). */
     private static function data(string $key, array $opt, Context $c): ?array
     {
@@ -64,6 +134,9 @@ final class Slides
                 if (!$d) {
                     return null;
                 }
+                if (!empty($d['first_meeting'])) {
+                    return self::firstMeeting($d, $c, $date);
+                }
                 $rows = [];
                 if ($d['biggest_win']) {
                     $rows[] = [$c->tr('Plus large victoire', 'Biggest win'), $d['biggest_win']['label'], $date($d['biggest_win']['date'])];
@@ -80,7 +153,8 @@ final class Slides
                     'rows' => $rows, 'qr' => $c->link($d['href'])];
 
             case 'ce-jour-la':
-                $d = self::data('ce-jour-la', ['nombre' => '3'], $c);
+                // « date » (MM-JJ) : seulement pour le contrôle avant diffusion (un autre jour que celui-ci).
+                $d = self::data('ce-jour-la', ['nombre' => '3'] + (isset($opt['date']) ? ['date' => (string) $opt['date']] : []), $c);
                 if (!$d || empty($d['matches'])) {
                     return null;
                 }
@@ -245,6 +319,29 @@ final class Slides
                     'items' => array_map(fn ($i) => ['label' => $i['name'], 'text' => trim($i['kind'] . ' · ' . $i['price_label'], ' ·'), 'qr' => $c->link($i['href'])], $d['items'])];
         }
         return null;
+    }
+
+    /**
+     * Histoire du duel contre un club jamais affronté : « Première rencontre » (mise en page duel), avec
+     * les faits du musée (bilan des premières rencontres, dernière première rencontre, clubs du même nom).
+     */
+    private static function firstMeeting(array $d, Context $c, \Closure $date): array
+    {
+        $f = $d['firsts'];
+        $rows = [];
+        if ($d['latest_first']) {
+            $l = $d['latest_first'];
+            $rows[] = [$c->tr('Dernière première rencontre', 'Latest first meeting'), $l['label'], $date($l['date'])];
+        }
+        foreach (array_slice($d['namesakes'], 0, 1) as $n) {
+            $rows[] = [$c->tr('Déjà affronté', 'Already met'), $n['name'], $n['matches'] . ' ' . $c->tr('matchs', 'matches') . ' · ' . $n['wins'] . ' V, ' . $n['draws'] . ' N, ' . $n['defeats'] . ' D'];
+        }
+        return ['layout' => 'duel', 'eyebrow' => $c->tr('Première rencontre', 'First meeting'), 'title' => $d['team'] . ' × ' . $d['opponent'], 'first' => true,
+            'lead' => $c->tr('Premier match officiel entre les deux clubs', 'First official match between the two clubs'),
+            'stats' => [[$d['opponents'], $c->tr('adversaires déjà affrontés', 'opponents already met'), true], [$f['wins'], $c->tr('victoires', 'wins')], [$f['draws'], $c->tr('nuls', 'draws')], [$f['defeats'], $c->tr('défaites', 'defeats')]],
+            'bar' => [$f['wins'], $f['draws'], $f['defeats']],
+            'sub' => $c->tr('Bilan lors des ' . $f['total'] . ' premières rencontres fichées de l’histoire du club', 'Record in the club’s ' . $f['total'] . ' first meetings on record'),
+            'rows' => $rows, 'qr' => $c->link($d['href'])];
     }
 
     /**
