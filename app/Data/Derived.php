@@ -315,17 +315,17 @@ final class Derived
         }
         $files = [];
         foreach ($parts as $p => $v) {
-            $code = '<?php return ' . var_export($v, true) . ";\n";
-            $name = $p . '-' . substr(md5($code), 0, 12) . '.php';
+            $name = $p . '-' . substr(md5(serialize($v)), 0, 12) . '.php';
             if (!is_file(self::DIR . '/' . $name)) {
-                self::write(self::DIR . '/' . $name, $code);
+                self::write(self::DIR . '/' . $name, \App\Core\PhpCache::export(self::DIR . '/' . $name, $v));
             }
             $files[$p] = $name;
         }
         $prev = is_file(self::CACHE) ? @include self::CACHE : null;
         $meta = self::summary($data, $files);
         self::write(self::CACHE, '<?php return ' . var_export($meta, true) . ";\n");
-        $keep = array_flip(array_merge(array_values($files), is_array($prev['parts'] ?? null) ? array_values($prev['parts']) : []));
+        $keepNames = array_merge(array_values($files), is_array($prev['parts'] ?? null) ? array_values($prev['parts']) : []);
+        $keep = array_flip(array_merge($keepNames, array_map(fn ($n) => $n . '.ser', $keepNames)));
         foreach (glob(self::DIR . '/*') ?: [] as $f) {
             if (!isset($keep[basename($f)])) {
                 @unlink($f);

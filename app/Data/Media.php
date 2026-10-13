@@ -262,7 +262,7 @@ final class Media
             $files[self::PARTS . "/$b.php"] = $part;
         }
         foreach ($files as $file => $data) {
-            $code = '<?php return ' . var_export($data, true) . ";\n";
+            $code = \App\Core\PhpCache::export($file, $data);
             // Partie inchangée : pas réécrite (chaque réécriture laisse une copie périmée dans OPcache).
             if (is_file($file) && filesize($file) === strlen($code) && md5_file($file) === md5($code)) {
                 continue;

@@ -698,7 +698,7 @@ final class Rag
         if (!is_dir(dirname(self::VIRTUAL))) {
             mkdir(dirname(self::VIRTUAL), 0775, true);
         }
-        file_put_contents($tmp, '<?php return ' . var_export(['version' => $version, 'day' => date('Y-m-d'), 'docs' => $docs], true) . ';');
+        file_put_contents($tmp, \App\Core\PhpCache::export(self::VIRTUAL, ['version' => $version, 'day' => date('Y-m-d'), 'docs' => $docs]));
         rename($tmp, self::VIRTUAL);
         if (function_exists('opcache_invalidate')) {
             @opcache_invalidate(self::VIRTUAL, true);
