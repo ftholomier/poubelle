@@ -15,6 +15,7 @@
   <?php if (!$list): ?>
     <p class="lead"><?= e(t('Aucun widget n’est ouvert à tous pour le moment.')) ?></p>
   <?php endif; ?>
+  <div class="wdemo-grid" data-masonry>
   <?php foreach ($list as $it): $w = $it['w']; ?>
   <article class="wdemo-item" id="<?= e($w->key()) ?>">
     <div class="wdemo-item__txt">
@@ -36,12 +37,23 @@
     </div>
   </article>
   <?php endforeach; ?>
+  </div>
   <aside class="wdemo-more">
     <h2 class="h-3"><?= e(t('Script ou iframe ?')) ?></h2>
     <p><?= e(t('Le code « script » est le plus simple : plusieurs widgets sur la même page avec une seule balise script, chargés quand ils arrivent à l’écran, toujours à la bonne hauteur, isolés de votre site (ni cookie ni style partagés).')) ?></p>
     <p><?= e(t('Le code iframe fonctionne partout, même là où les scripts sont interdits. Pour qu’il prenne lui aussi la hauteur de son contenu, ajoutez une fois ces quelques lignes dans votre page :')) ?></p>
     <textarea id="code-resize" class="wdemo-code" readonly rows="3"><?= e($resize) ?></textarea>
     <p class="wdemo-btns"><button type="button" class="btn btn--sm" data-copy="code-resize"><?= e(t('Copier le code')) ?></button></p>
+  </aside>
+  <aside class="wdemo-partner wdemo-screens" id="ecrans">
+    <h2 class="h-3"><?= e(t('Pour les écrans de stade')) ?></h2>
+    <p><?= e(t('Écran géant, télés des buvettes et des loges, borne d’accueil : le mode écran affiche le musée en plein écran, en très gros caractères, avec des slides qui s’enchaînent seules (histoire du duel contre l’adversaire du jour, ce jour-là, légendes, chiffres, quiz avec QR code, photos d’archives, records, frise…).')) ?></p>
+    <ul class="wdemo-rules">
+      <li><?= e(t('Trois programmes prêts : avant-match, mi-temps, buvette en continu ; ou un programme sur mesure.')) ?></li>
+      <li><?= e(t('Paysage 16:9 ou vertical 9:16, en français ou en anglais, sans son, et qui continue de tourner pendant une coupure de réseau.')) ?></li>
+      <li><?= e(t('Pour les régies qui ne lisent pas de page web : les images de chaque slide, ou une vidéo.')) ?></li>
+    </ul>
+    <p><a class="btn" href="<?= e(url('/contact/?objet=partenariat')) ?>"><?= e(t('Parlons de vos écrans')) ?> →</a></p>
   </aside>
   <aside class="wdemo-partner">
     <h2 class="h-3"><?= e(t('Devenir partenaire')) ?></h2>

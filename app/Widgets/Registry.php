@@ -25,19 +25,22 @@ final class Registry
         'palmares' => Items\Palmares::class,
         'frise' => Items\Frise::class,
         'bandeau' => Items\Bandeau::class,
+        // Vague 3
+        'histoire-du-duel' => Items\HistoireDuDuel::class,
+        'carte-stades' => Items\CarteStades::class,
+        'maillot' => Items\Maillot::class,
+        'compte-a-rebours' => Items\CompteARebours::class,
+        'soutenir' => Items\Soutenir::class,
+        'recherche' => Items\Recherche::class,
+        'retro-direct' => Items\RetroDirectWidget::class,
+        'playlist' => Items\Playlist::class,
     ];
 
-    /** Widgets à venir (phase 3) : clé => [nom, description, phase]. */
-    public const PLANNED = [
-        'avant-match' => ['Avant-match : l’histoire du duel', 'Bilan historique contre l’adversaire du soir, calculé depuis le face-à-face.', 3],
-        'maillot' => ['Maillot de l’époque', 'Un maillot d’une saison, avec son histoire.', 3],
-        'retro-direct' => ['Rétro-Direct', 'Un grand match rejoué minute par minute le jour anniversaire.', 3],
-        'carte-stades' => ['Carte des stades', 'La carte des stades et des lieux du club.', 3],
-        'compte-a-rebours' => ['Compte à rebours', 'Jusqu’à un anniversaire (centenaire, date ronde d’un titre).', 3],
-        'soutenir' => ['Soutenir le musée', 'Encart don, boutique, contribuer.', 3],
-        'recherche' => ['Recherche du musée', 'Un champ « cherchez un match, un joueur » qui ouvre le musée.', 3],
-        'playlist' => ['Playlist écran', 'Enchaînement de plusieurs widgets en plein écran.', 3],
-    ];
+    /**
+     * Widgets à venir : clé => [nom, description, phase]. Vide depuis la vague 3 (les 8 widgets
+     * annoncés sont prêts ; « avant-match » est devenu « histoire-du-duel », « playlist » le mode écran).
+     */
+    public const PLANNED = [];
 
     /** @var array<string,Widget> */
     private static array $made = [];

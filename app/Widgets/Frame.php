@@ -156,6 +156,17 @@ final class Frame
             . '.w-tk__track{display:flex;width:max-content;animation:w-scroll calc(var(--n,4) * 8s) linear infinite}.w-tk__vp:hover .w-tk__track,.w-tk__vp:focus-within .w-tk__track{animation-play-state:paused}'
             . '.w-tk a{white-space:nowrap;color:var(--fg);text-decoration:none;font-size:15px;padding-left:14px}.w-tk a:hover{text-decoration:underline}.w-tk b{font:800 14px/1 var(--display);text-transform:uppercase;letter-spacing:.06em;color:var(--soft);margin-right:4px}.w-tk a span{color:var(--accent);margin-left:14px}'
             . '@media (prefers-reduced-motion:reduce){.w-tl__track,.w-tk__track,.w-tk__live i{animation:none}.w-tl,.w-tk__vp{overflow-x:auto}}'
+            // Vague 3 : histoire du duel, carte des stades, maillot, compte à rebours, soutenir, recherche, Rétro-Direct
+            . '.w-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--line);margin:2px 0 8px}.w-bar i{display:block}.w-bar__v{background:var(--accent)}.w-bar__n{background:var(--soft)}.w-bar__d{background:var(--red)}'
+            . '.w-mapbox{display:block;margin:0 0 6px}.w-map{display:block;width:100%;height:auto;max-height:300px;background:var(--line);border-radius:8px}.w-map__land{fill:var(--bg);stroke:var(--soft);stroke-width:.8;stroke-opacity:.6}'
+            . '.w-map__pt{fill:var(--accent);fill-opacity:.6;stroke:var(--fg);stroke-width:.8}.w-map__pt.is-home{fill:var(--red);fill-opacity:1;stroke:#fff;stroke-width:2}'
+            . '.w-era{display:grid;place-items:center;aspect-ratio:16/9;border-radius:8px;background:var(--head);color:var(--accent);margin:0 0 8px;text-align:center}.w-era b{font:900 84px/1 var(--display)}.w-era span{display:block;font:700 16px/1 var(--display);letter-spacing:.1em;color:var(--on-head)}'
+            . '.w-cd{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.w-cd span{border:1.5px solid var(--line);border-radius:10px;padding:10px 4px;text-align:center;font:700 13px/1 var(--display);text-transform:uppercase;letter-spacing:.06em;color:var(--soft)}'
+            . '.w-cd b{display:block;font:900 46px/1 var(--display);color:var(--fg);margin-bottom:4px}.w-cd span:first-child{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}.w-cd span:first-child b{color:var(--on-accent)}'
+            . '.w-help{list-style:none;margin:8px 0 4px;padding:0;display:grid;gap:12px}.w-help li{display:grid;gap:5px;justify-items:start}.w-btn--ghost{background:transparent;color:var(--link);border:1.5px solid var(--line)}'
+            . '.w-search{display:flex;gap:8px;margin:6px 0 10px}.w-search input{flex:1;min-width:0;font:16px/1.2 var(--serif);color:var(--fg);background:transparent;border:1.5px solid var(--line);border-radius:999px;padding:9px 14px}'
+            . '.w-search input:focus{outline:2px solid var(--accent);outline-offset:1px}.w-search .w-btn{border:0;cursor:pointer}.w-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}'
+            . '.w-live{display:inline-flex;align-items:center;gap:6px;color:var(--red)}[data-theme=sombre] .w-live{color:var(--accent)}.w-live i{width:8px;height:8px;border-radius:50%;background:currentColor;animation:w-blink 1.6s ease-in-out infinite}'
             . '.w--compact .w-media,.w--compact .w-list:not(.w-palm){display:none}.w--compact .w-main{padding:10px 12px 6px}.w--compact .w-big{font-size:56px}'
             . 'a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}';
     }

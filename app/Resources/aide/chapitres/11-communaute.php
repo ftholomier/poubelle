@@ -98,7 +98,7 @@ HTML, 'admin' => true],
 [[auto|<p>Les messages sont chiffrés pour le seul navigateur abonné (norme Web Push) : Google, Apple, Mozilla ou Microsoft les acheminent sans pouvoir les lire. Le musée ne garde ni nom, ni e-mail, ni adresse IP : seulement l’adresse technique fournie par le navigateur, les sujets et la langue. Un abonnement disparu (appli supprimée) est effacé au premier envoi.</p>]]
 HTML],
         ['id' => 'widgets', 'title' => 'Widgets & partenaires : le musée sur d’autres sites', 'admin' => true, 'html' => <<<'HTML'
-<p>Communauté › <b>Widgets &amp; partenaires</b> (administrateurs) : un widget est un petit encart du musée qu’un autre site affiche en copiant quelques lignes de code (un <b>script</b> ou une <i>iframe</i>), ou dont il lit les données brutes (API JSON). Ils se mettent à jour seuls. Quatorze widgets sont prêts :</p>
+<p>Communauté › <b>Widgets &amp; partenaires</b> (administrateurs) : un widget est un petit encart du musée qu’un autre site affiche en copiant quelques lignes de code (un <b>script</b> ou une <i>iframe</i>), ou dont il lit les données brutes (API JSON). Ils se mettent à jour seuls. Vingt et un widgets sont prêts, plus le <b>mode écran</b> (voir plus bas) :</p>
 <ul>
 <li><b>Ce jour-là</b>, <b>Chiffre du jour</b>, <b>Il y a 5, 10, 20, 30 ans</b>, <b>Photo du jour</b>, <b>Le saviez-vous ?</b> ;</li>
 <li><b>Carte de légende</b> : au hasard ou joueur choisi (voir son réglage « Joueurs tirés au hasard » ci-dessous) ;</li>
@@ -109,7 +109,14 @@ HTML],
 <li><b>Saison en un coup d’œil</b> : saison choisie (« 1987-1988 » ; vide : la saison en cours si un match y est fiché, sinon la dernière) : classement, victoires, nuls, défaites, meilleurs buteurs, entraîneur et titres ;</li>
 <li><b>Palmarès</b> : les titres du club, en liste ou en bandeau (option « Affichage ») ;</li>
 <li><b>Frise express</b> : les dates de la frise qui défilent (pause au survol) ;</li>
-<li><b>Bandeau « En direct du musée »</b> : les mêmes messages que le bandeau du site (Éditorial › Accueil &amp; bandeau), qui défilent sur une ligne de hauteur fixe, à mettre en haut ou en bas d’une page.</li>
+<li><b>Bandeau « En direct du musée »</b> : les mêmes messages que le bandeau du site (Éditorial › Accueil &amp; bandeau), qui défilent sur une ligne de hauteur fixe, à mettre en haut ou en bas d’une page ;</li>
+<li><b>Histoire du duel</b> : le bilan contre un adversaire (option « Adversaire » : l’adresse de son face-à-face, « nantes » ; vide : l’adversaire du dernier match fiché) : victoires, nuls, défaites, buts, plus large victoire, meilleur buteur du duel, dernier match. Mêmes chiffres que la page face-à-face ;</li>
+<li><b>Carte des stades</b> : les stades où le club a joué, sur une carte dessinée par le musée (France ou Europe), et les plus fréquentés ;</li>
+<li><b>Maillot de l’époque</b> : un maillot de la page Maillots, avec son histoire (une époque choisie, ou un maillot différent chaque jour) ;</li>
+<li><b>Compte à rebours</b> : jusqu’à une date choisie (avec son titre), sinon jusqu’au centenaire quand il approche, sinon jusqu’au prochain anniversaire de la fondation ;</li>
+<li><b>Soutenir le musée</b> : faire un don, la boutique, contribuer — seulement ce qui est ouvert (dons activés avec un moyen de paiement, boutique ouverte, boutons du site affichés) ;</li>
+<li><b>Recherche du musée</b> : un petit champ qui ouvre la recherche du musée dans un nouvel onglet ;</li>
+<li><b>Rétro-Direct</b> : le match rejoué du jour (ou en direct), sinon le prochain au programme, sinon un classique à revivre ; jamais le score final.</li>
 </ul>
 <h3>Ce qui ne change jamais</h3>
 <ul>
@@ -144,6 +151,17 @@ Le script remplace chaque <code>div</code> par une iframe isolée (le widget ne 
 <h3>Statistiques</h3>
 <p>Onglet <b>Statistiques</b> : affichages des widgets, appels de l’API et <b>clics vers le musée</b>, par widget et par partenaire, sur 7, 30, 90 ou 365 jours. Comptés par jour, sans adresse IP ni cookie ; les aperçus du back-office et de la page de démonstration ne comptent pas.</p>
 [[attention|<p>Les widgets sont gardés en cache (une heure au plus, et jamais au-delà de minuit). Après une correction urgente (une photo à retirer), cliquez <b>Vider le cache des widgets</b> en bas du catalogue.</p>]]
+<h3>Les écrans : le musée sur l’écran du stade, à la buvette, sur une borne</h3>
+<p>Onglet <b>Écrans</b> : le <b>mode écran</b> affiche le musée en plein écran, en très gros caractères lisibles de loin, sans souris ni défilement et sans son. Les slides s’enchaînent seules avec un fondu et une barre de progression ; le logo du musée, la mention « non officiel » et l’adresse du musée restent toujours en bas ; l’horloge est facultative. Chaque slide reprend les données d’un widget (histoire du duel, ce jour-là, légende, chiffre, le saviez-vous, quiz, photos d’archives, frise, records, palmarès, il y a…, dernier match, saison, compte à rebours, maillot, Rétro-Direct, carte des stades, soutenir avec QR codes), mises en page pour l’écran.</p>
+<ul>
+<li><b>Trois playlists prêtes à l’emploi</b> : <b>Avant-match</b> (le quart d’heure avant le coup d’envoi, en boucle : histoire du duel contre l’adversaire du jour, ce jour-là, une légende, un chiffre, une anecdote, des quiz…), <b>Mi-temps</b> (un peu plus de 2 minutes) et <b>Buvette</b> (en continu : photos, frise, records, palmarès, maillots, carte des stades…). Elles ne se modifient pas : « Dupliquer » en fait une copie à personnaliser.</li>
+<li><b>Vos playlists</b> : « + Nouvelle playlist » : nom, format (paysage 16:9 ou vertical 9:16 pour un écran posé debout), langue, adversaire du jour, rechargement (en minutes), horloge, puis les slides : type, durée en secondes et, selon le type, l’adversaire, le classement, la variante (une autre photo, une autre partie de la frise) ou la saison. Réordonnez-les par glisser-déposer (poignée quatre flèches) ou avec ↑ / ↓. Une slide sans rien à montrer ce jour-là est simplement sautée.</li>
+<li><b>Le quiz à l’écran</b> : la question s’affiche avec un compte à rebours, puis la bonne réponse en vert et l’explication ; un QR code mène au quiz du musée. Ce n’est jamais la question du « quiz du jour » des widgets, dont la réponse reste secrète.</li>
+<li><b>Accès</b> : le mode écran est un widget comme les autres (« Playlist écran » dans le catalogue), <b>réservé</b> par défaut : l’adresse donnée à la régie contient la clé d’un partenaire. Une clé limitée à des domaines marche aussi pour l’écran ; préférez une clé propre à la régie et régénérez-la si l’adresse circule. Vous, connecté, voyez l’aperçu quel que soit l’accès.</li>
+<li><b>Lien à donner à la régie</b> : choisissez la playlist, le partenaire, le format, la langue, l’adversaire du jour et l’horloge, puis « Copier l’adresse ». La régie l’ouvre dans un navigateur en plein écran (F11 ou mode kiosque). La page se recharge seule (30 minutes par défaut) et, pendant une coupure de réseau, continue de tourner avec la dernière version ; après un redémarrage sans réseau, elle repart de la copie gardée par le navigateur.</li>
+<li><b>Régies qui ne lisent pas de page web</b> : « Images PNG (ZIP) » donne une image par slide (1920 × 1080 ou 1080 × 1920, le quiz en deux images : question puis réponse), l’ordre et les durées, et la commande pour en faire une vidéo sur un ordinateur. « Fabriquer la vidéo MP4 » (H.264, sans son) la prépare en tâche de fond : rechargez la page une à deux minutes plus tard pour la télécharger.</li>
+</ul>
+[[attention|<p>La vidéo MP4 demande le programme <b>ffmpeg</b> sur le serveur. Les hébergements mutualisés (o2switch) ne l’ont généralement pas : l’onglet Écrans l’indique alors en clair et propose le ZIP des images, que la plupart des logiciels d’affichage dynamique savent enchaîner.</p>]]
 HTML],
         ['id' => 'dons', 'title' => 'Le suivi des dons', 'html' => <<<'HTML'
 <p>Communauté › <b>Dons</b> : jauge de la collecte, liste des dons (carte bancaire via Stripe, PayPal, hors ligne), dons mensuels, export CSV pour la comptabilité.</p>

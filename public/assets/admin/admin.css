@@ -904,6 +904,9 @@ body.has-proof .bo { padding-right: 440px; }
 
 /* Communauté › Widgets & partenaires */
 .wcat { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; align-items: start; }
+/* Mosaïque (admin/widgets.js) : rangées de 8 px, chaque carte s'étend sur sa hauteur réelle. */
+.wcat.is-masonry { grid-auto-rows: 8px; row-gap: 0; }
+.wcat.is-masonry > .card { margin-bottom: 16px; }
 .mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
 .wbars { display: flex; align-items: flex-end; gap: 2px; height: 120px; }
 .wbars span { flex: 1; background: var(--navy); min-width: 2px; }

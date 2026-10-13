@@ -10,17 +10,22 @@ use App\Data\Activity;
 use App\Widgets\Cache;
 use App\Widgets\Context;
 use App\Widgets\Pages;
+use App\Widgets\Items\HistoireDuDuel;
 use App\Widgets\Registry;
+use App\Widgets\Screen\Export;
+use App\Widgets\Screen\Playlists;
 use App\Widgets\Store;
 
 /**
  * Communauté › Widgets & partenaires (administrateurs) : catalogue avec aperçu en direct, accès de
  * chaque widget et ses réglages propres, configurateur (code script, code iframe et adresse de l'API à copier), partenaires (clé,
- * domaines, statut, offre) et statistiques (affichages, appels de l'API, clics vers le musée).
+ * domaines, statut, offre), écrans (playlists du mode écran : liste, création et modification,
+ * aperçu plein écran, lien pour la régie, export PNG et vidéo) et statistiques (affichages, appels
+ * de l'API, clics vers le musée).
  */
 final class Widgets extends Base
 {
-    private const TABS = ['catalogue' => 'Catalogue & configurateur', 'partenaires' => 'Partenaires', 'statistiques' => 'Statistiques'];
+    private const TABS = ['catalogue' => 'Catalogue & configurateur', 'ecrans' => 'Écrans', 'partenaires' => 'Partenaires', 'statistiques' => 'Statistiques'];
 
     public static function index(Request $req): Response
     {
@@ -54,7 +59,35 @@ final class Widgets extends Base
             'closed' => \App\Front\Seo::closed(),
             'newKey' => Session::pull('widget_new_key'),
             'edit' => $req->str('partenaire') !== '' ? Store::partner($req->str('partenaire')) : null,
+            'screens' => $tab === 'ecrans' ? self::screens($req) : null,
         ], ['title' => 'Widgets & partenaires', 'crumb' => 'Communauté', 'nav' => 'widgets', 'tabs' => $tabs, 'scripts' => ['admin/widgets.js']]);
+    }
+
+    /** Onglet Écrans : playlists, playlist en cours de modification, exports, adversaires possibles. */
+    private static function screens(Request $req): array
+    {
+        $all = Playlists::all();
+        $sel = $req->str('ecran');
+        $edit = null;
+        if ($sel === 'nouveau') {
+            $edit = ['id' => '', 'name' => '', 'preset' => false, 'slides' => Playlists::presets()['mi-temps']['slides']] + Playlists::defaults();
+        } elseif (isset($all[$sel])) {
+            $edit = $all[$sel];
+        }
+        $exports = [];
+        foreach ($all as $id => $p) {
+            $k = Export::key($id, (string) $p['format'], (string) $p['lang'], (string) $p['adversaire']);
+            $exports[$id] = ['key' => $k, 'video' => Export::status($k)];
+        }
+        return [
+            'all' => $all,
+            'edit' => $edit,
+            'exports' => $exports,
+            'types' => array_map(fn ($t) => ['name' => $t[0], 'duration' => $t[1], 'options' => $t[2]], Playlists::TYPES),
+            'clubs' => HistoireDuDuel::choices(),
+            'access' => Store::widget('playlist')['access'],
+            'video' => Export::videoUnavailable(),
+        ];
     }
 
     public static function action(Request $req): Response
@@ -94,6 +127,35 @@ final class Widgets extends Base
                     Store::deletePartner($id);
                     Activity::log($who, 'a supprimé le partenaire des widgets « ' . $name . ' »', null);
                     return self::back('/admin/widgets?onglet=partenaires', 'Partenaire supprimé : sa clé ne fonctionne plus.');
+                case 'ecran-supprimer':
+                    $id = (string) ($p['id'] ?? '');
+                    $pl = Playlists::custom()[$id] ?? null;
+                    if (!$pl) {
+                        return self::back('/admin/widgets?onglet=ecrans', null, 'Playlist introuvable (les playlists prêtes à l’emploi ne se suppriment pas).');
+                    }
+                    Playlists::delete($id);
+                    Activity::log($who, 'a supprimé la playlist d’écran « ' . $pl['name'] . ' »', null);
+                    return self::back('/admin/widgets?onglet=ecrans', 'Playlist supprimée : son adresse d’écran ne fonctionne plus.');
+                case 'ecran-dupliquer':
+                    $src = Playlists::get((string) ($p['id'] ?? ''));
+                    if (!$src) {
+                        return self::back('/admin/widgets?onglet=ecrans', null, 'Playlist introuvable.');
+                    }
+                    $copy = Playlists::save(null, ['name' => $src['name'] . ' (copie)'] + $src);
+                    Activity::log($who, 'a créé la playlist d’écran « ' . $copy['name'] . ' »', null);
+                    return self::back('/admin/widgets?onglet=ecrans&ecran=' . rawurlencode($copy['id']) . '#editeur', 'Copie créée : modifiez-la ci-dessous.');
+                case 'ecran-video':
+                    $pl = Playlists::get((string) ($p['id'] ?? ''));
+                    if (!$pl) {
+                        return self::back('/admin/widgets?onglet=ecrans', null, 'Playlist introuvable.');
+                    }
+                    try {
+                        Export::requestVideo($pl, (string) $pl['format'], (string) $pl['lang'], (string) $pl['adversaire']);
+                    } catch (\RuntimeException $e) {
+                        return self::back('/admin/widgets?onglet=ecrans#e-' . $pl['id'], null, $e->getMessage());
+                    }
+                    Activity::log($who, 'a demandé la vidéo de la playlist d’écran « ' . $pl['name'] . ' »', null);
+                    return self::back('/admin/widgets?onglet=ecrans#e-' . $pl['id'], 'Vidéo en préparation (une à deux minutes, davantage pour une longue playlist) : rechargez la page pour la télécharger.');
                 case 'cache':
                     $n = Cache::clear();
                     return self::back('/admin/widgets', 'Cache des widgets vidé (' . $n . ' fichier' . ($n > 1 ? 's' : '') . ').');
@@ -102,5 +164,59 @@ final class Widgets extends Base
             return self::back('/admin/widgets?onglet=partenaires' . (($p['id'] ?? '') !== '' ? '&partenaire=' . rawurlencode((string) $p['id']) : ''), null, $e->getMessage());
         }
         return self::back('/admin/widgets', null, 'Action inconnue.');
+    }
+
+    /** Enregistre une playlist (formulaire JSON de l'onglet Écrans). */
+    public static function screenSave(Request $req): Response
+    {
+        $in = $req->json();
+        $id = (string) ($in['id'] ?? '');
+        if ($id !== '' && !isset(Playlists::custom()[$id])) {
+            return Response::json(['ok' => false, 'error' => 'Les playlists prêtes à l’emploi ne se modifient pas : dupliquez-la.'], 422);
+        }
+        try {
+            $saved = Playlists::save($id !== '' ? $id : null, $in);
+        } catch (\InvalidArgumentException $e) {
+            return Response::json(['ok' => false, 'error' => $e->getMessage()], 422);
+        }
+        Cache::clear();
+        Activity::log(self::actor(), ($id === '' ? 'a créé' : 'a modifié') . ' la playlist d’écran « ' . $saved['name'] . ' »', null);
+        return Response::json(['ok' => true, 'message' => 'Playlist enregistrée.', 'redirect' => '/admin/widgets?onglet=ecrans&ecran=' . rawurlencode($saved['id']) . '#editeur']);
+    }
+
+    /** ZIP des images PNG d'une playlist (fabriqué à la demande). */
+    public static function screenZip(Request $req): Response
+    {
+        $pl = Playlists::get($req->str('id'));
+        if (!$pl) {
+            return self::back('/admin/widgets?onglet=ecrans', null, 'Playlist introuvable.');
+        }
+        $format = isset(Playlists::FORMATS[$req->str('format')]) ? $req->str('format') : (string) $pl['format'];
+        $lang = $req->str('lang') === 'en' ? 'en' : ($req->str('lang') === 'fr' ? 'fr' : (string) $pl['lang']);
+        $adv = $req->str('adversaire') !== '' ? Playlists::slug($req->str('adversaire')) : (string) $pl['adversaire'];
+        try {
+            $file = Export::zip($pl, $format, $lang, $adv);
+        } catch (\Throwable $e) {
+            return self::back('/admin/widgets?onglet=ecrans#e-' . $pl['id'], null, 'Images impossibles à préparer : ' . $e->getMessage());
+        }
+        return self::download($file, 'application/zip', 'ecran-' . basename($file));
+    }
+
+    /** Téléchargement d'un export déjà fabriqué (vidéo MP4). */
+    public static function screenFile(Request $req): Response
+    {
+        $file = Export::file($req->str('f'));
+        if (!$file) {
+            return self::back('/admin/widgets?onglet=ecrans', null, 'Fichier introuvable : refaites l’export.');
+        }
+        return self::download($file, str_ends_with($file, '.mp4') ? 'video/mp4' : 'application/zip', 'ecran-' . basename($file));
+    }
+
+    private static function download(string $file, string $type, string $name): Response
+    {
+        $res = new Response('', 200, ['Content-Type' => $type, 'Content-Length' => (string) filesize($file), 'Cache-Control' => 'no-store',
+            'Content-Disposition' => 'attachment; filename="' . $name . '"']);
+        $res->file = $file;
+        return $res;
     }
 }

@@ -27,3 +27,21 @@
     document.querySelectorAll('iframe[data-musee]').forEach(f => { if (f.contentWindow === e.source) f.style.height = d.height + 'px'; });
   });
 })();
+
+/* Mosaïque : [data-masonry] (grille CSS à rangées de 8 px) ; chaque enfant prend autant de
+   rangées que sa hauteur réelle, recalculé à chaque changement de taille (aperçus en iframe). */
+(() => {
+  'use strict';
+  document.querySelectorAll('[data-masonry]').forEach(g => {
+    g.classList.add('is-masonry');
+    const row = 8;
+    const fit = el => {
+      const mb = parseFloat(getComputedStyle(el).marginBottom) || 0;
+      el.style.gridRowEnd = 'span ' + Math.max(1, Math.ceil((el.getBoundingClientRect().height + mb) / row));
+    };
+    const ro = 'ResizeObserver' in window ? new ResizeObserver(es => es.forEach(e => fit(e.target))) : null;
+    [...g.children].forEach(el => { fit(el); if (ro) ro.observe(el); });
+    addEventListener('resize', () => [...g.children].forEach(fit));
+    addEventListener('load', () => [...g.children].forEach(fit));
+  });
+})();

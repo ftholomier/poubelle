@@ -81,3 +81,62 @@
   renderOptions();
   update();
 })();
+
+/* Onglet Écrans : lien à donner à la régie (clé du partenaire, format, langue, adversaire,
+   horloge) et, dans l'éditeur de playlist, options utiles seulement pour le type de slide choisi. */
+(() => {
+  'use strict';
+  const box = document.querySelector('[data-screen-link]');
+  if (box) {
+    const C = JSON.parse(box.dataset.screenLink);
+    const val = k => box.querySelector('[data-sl="' + k + '"]').value;
+    const out = box.querySelector('[data-sl-out]');
+    const update = () => {
+      const q = new URLSearchParams();
+      const p = C.partners.find(x => x.id === val('partner'));
+      if (p && p.key) q.set('key', p.key);
+      ['format', 'lang', 'adversaire', 'horloge'].forEach(k => { if (val(k) !== '') q.set(k, val(k)); });
+      const path = '/ecran/' + val('id');
+      out.value = C.base + path + (q.toString() ? '?' + q.toString() : '');
+      q.delete('key');
+      box.querySelector('[data-sl-open]').href = path + (q.toString() ? '?' + q.toString() : '');
+      box.querySelector('[data-sl-warn]').textContent = p ? '' : 'Sans partenaire, l’adresse ne marche que si le mode écran est en accès libre.';
+    };
+    box.addEventListener('change', update);
+    box.querySelector('[data-sl-copy]').addEventListener('click', e => {
+      out.select();
+      (navigator.clipboard ? navigator.clipboard.writeText(out.value) : Promise.reject()).catch(() => document.execCommand('copy'));
+      const b = e.currentTarget, t = b.textContent; b.textContent = 'Copié ✓'; setTimeout(() => { b.textContent = t; }, 1500);
+    });
+    update();
+  }
+  const form = document.getElementById('editeur');
+  if (!form) return;
+  const refresh = () => form.querySelectorAll('[data-item]').forEach(it => {
+    const sel = it.querySelector('[data-slide-type]');
+    if (!sel) return;
+    it.querySelectorAll('[data-opt-for]').forEach(o => { o.hidden = !o.dataset.optFor.split(' ').includes(sel.value); });
+  });
+  form.addEventListener('change', e => { if (e.target.matches('[data-slide-type]')) refresh(); });
+  form.addEventListener('input', () => setTimeout(refresh, 0));
+  if (form.querySelector('[data-save], button[type="submit"]') === null) form.querySelectorAll('input, select, textarea, button').forEach(el => { el.disabled = true; });
+  refresh();
+})();
+
+/* Mosaïque : [data-masonry] (grille CSS à rangées de 8 px) ; chaque enfant prend autant de
+   rangées que sa hauteur réelle, recalculé à chaque changement de taille (aperçus en iframe). */
+(() => {
+  'use strict';
+  document.querySelectorAll('[data-masonry]').forEach(g => {
+    g.classList.add('is-masonry');
+    const row = 8;
+    const fit = el => {
+      const mb = parseFloat(getComputedStyle(el).marginBottom) || 0;
+      el.style.gridRowEnd = 'span ' + Math.max(1, Math.ceil((el.getBoundingClientRect().height + mb) / row));
+    };
+    const ro = 'ResizeObserver' in window ? new ResizeObserver(es => es.forEach(e => fit(e.target))) : null;
+    [...g.children].forEach(el => { fit(el); if (ro) ro.observe(el); });
+    addEventListener('resize', () => [...g.children].forEach(fit));
+    addEventListener('load', () => [...g.children].forEach(fit));
+  });
+})();

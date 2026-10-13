@@ -4,7 +4,9 @@
  * clé invalide ou suspendue, domaine non autorisé, site fermé, cache (ETag, 304), mention et lien
  * obligatoires, aucune donnée personnelle, statistiques et clics, photos diffusables seulement ;
  * vague 2 : records, quiz du jour (vérification au serveur), défi, dernier match, saison, palmarès,
- * frise, bandeau, réglage « source » de la carte de légende, script d'intégration /embed.js.
+ * frise, bandeau, réglage « source » de la carte de légende, script d'intégration /embed.js ;
+ * vague 3 : histoire du duel, carte des stades, maillot, compte à rebours, soutenir, recherche,
+ * Rétro-Direct, mode écran (/ecran/…, playlists, accès, quiz écran, export PNG, ZIP et vidéo MP4).
  * Usage : php tests/widgets.php (code de sortie 1 en cas d'échec).
  * Réglages, partenaires, statistiques et cache des widgets : dans un dossier temporaire, effacé à
  * la fin ; seuls des compteurs de débit (storage/ratelimit) sont écrits ailleurs.
@@ -55,11 +57,14 @@ $keys = array_keys(Registry::CLASSES);
 
 try {
     // ------------------------------------------------------------------ catalogue
-    $ok($keys === ['ce-jour-la', 'chiffre-du-jour', 'il-y-a', 'carte-legende', 'photo-du-jour', 'le-saviez-vous', 'records', 'quiz-du-jour', 'defi-du-jour', 'dernier-match', 'saison', 'palmares', 'frise', 'bandeau'], 'registre : les 6 widgets de la phase 1 et les 8 de la vague 2');
-    $ok(count(Registry::PLANNED) === 8 && !array_intersect_key(Registry::PLANNED, Registry::CLASSES), '8 widgets à venir, distincts des widgets prêts');
+    $ok($keys === ['ce-jour-la', 'chiffre-du-jour', 'il-y-a', 'carte-legende', 'photo-du-jour', 'le-saviez-vous', 'records', 'quiz-du-jour', 'defi-du-jour', 'dernier-match', 'saison', 'palmares', 'frise', 'bandeau',
+        'histoire-du-duel', 'carte-stades', 'maillot', 'compte-a-rebours', 'soutenir', 'recherche', 'retro-direct', 'playlist'], 'registre : les 6 widgets de la phase 1, les 8 de la vague 2 et les 8 de la vague 3');
+    $ok(Registry::PLANNED === [], 'plus aucun widget « à venir »');
+    $ok(Store::widget('playlist')['access'] === 'reserve', 'mode écran (playlist) : réservé par défaut');
+    $keys = array_values(array_filter($keys, fn ($k) => $k !== 'playlist'));
     $r = $get('/api/v1/widgets');
     $c = $json($r);
-    $ok($r->status === 200 && count($c['widgets'] ?? []) === 14, 'catalogue : 14 widgets libres par défaut');
+    $ok($r->status === 200 && count($c['widgets'] ?? []) === 21 && !in_array('playlist', array_column($c['widgets'], 'key'), true), 'catalogue : 21 widgets libres par défaut (pas le mode écran, réservé)');
     $ok(($r->headers['Access-Control-Allow-Origin'] ?? '') === '*', 'catalogue : CORS ouvert');
     $ok(str_contains((string) ($c['museum']['mention'] ?? ''), 'non officiel') && str_contains((string) ($c['museum']['url'] ?? ''), '/w/clic/'), 'catalogue : mention « non officiel » et lien vers le musée');
 
@@ -196,6 +201,212 @@ try {
     $ok(str_contains($src, 'sandbox') && str_contains($src, 'e.origin !== origin') && str_contains($src, 'IntersectionObserver') && !preg_match('/document\.cookie|localStorage/', $src), '/embed.js : iframe isolée, origine vérifiée, chargement paresseux, aucun cookie');
     $demo = $get('/widgets/')->body;
     $ok(str_contains($demo, 'data-musee-widget=&quot;records&quot;') && str_contains($demo, '/embed.js&quot; async'), 'page /widgets/ : code script et code iframe');
+
+    // ------------------------------------------------------------------ vague 3 : widgets
+    $ip3 = '203.0.113.' . random_int(1, 250);
+    $g3 = fn (string $path, array $q = [], array $h = [], string $m = 'GET') => $get($path, $q, $h + ['_ip' => $ip3], $m);
+    $d3 = fn (string $k, array $q = []) => $json($g3('/api/v1/widgets/' . $k, $q))['data'] ?? null;
+    \App\Services\I18n::set('fr');
+
+    // Histoire du duel : mêmes chiffres que la page face-à-face.
+    $clubs = \App\Data\Derived::part('clubs');
+    uasort($clubs, fn ($a, $b) => $b['count'] <=> $a['count']);
+    $self = \App\Data\Names::clubKey(\App\Core\Club::team());
+    $opp = (string) array_key_first(array_diff_key($clubs, [$self => 1]));
+    $ref = \App\Front\Explore::bilanData($clubs[$opp]['matches'])['t'];
+    $d = $d3('histoire-du-duel', ['adversaire' => $opp]);
+    $ok($d !== null && $d['club'] === $opp && $d['matches'] === $ref['count'] && [$d['wins'], $d['draws'], $d['defeats'], $d['goals_for'], $d['goals_against']] === [$ref['V'], $ref['N'], $ref['D'], $ref['gf'], $ref['ga']], "histoire du duel ($opp) : bilan identique au face-à-face");
+    $ok(str_contains((string) $d['href'], rawurlencode('/face-a-face/' . $opp . '/')) && $d['last']['date'] !== '' && ($d['biggest_win'] === null || $d['biggest_win']['result'] === 'V'), 'histoire du duel : dernier match, plus large victoire, lien vers le face-à-face');
+    $ok($d['top_scorer'] === null || ($d['top_scorer']['goals'] > 0 && str_contains((string) $d['top_scorer']['href'], '%2F')), 'histoire du duel : meilleur buteur du duel (fiche publiée)' . ($d['top_scorer'] ? ' : ' . $d['top_scorer']['name'] . ', ' . $d['top_scorer']['goals'] . ' buts' : ''));
+    $last = \App\Front\Site::lastMatchCreated();
+    $def = $d3('histoire-du-duel');
+    $ok($def !== null && ($last && isset($clubs[$last['club'] ?? '']) ? $def['club'] === $last['club'] : true), 'histoire du duel : par défaut, l’adversaire du dernier match fiché');
+    $ok($d3('histoire-du-duel', ['adversaire' => 'club-inexistant-xyz'])['club'] === $def['club'] && $d3('histoire-du-duel', ['adversaire' => $self])['club'] === $def['club'], 'histoire du duel : adversaire inconnu ou le club lui-même → adversaire par défaut');
+
+    // Carte des stades : stades géolocalisés, carte dessinée par le musée (aucun service extérieur).
+    $d = $d3('carte-stades');
+    $ok($d !== null && count($d['points']) + $d['outside'] === $d['stadiums'] && count($d['top']) <= 5 && $d['map']['land'] !== [], 'carte des stades : ' . $d['stadiums'] . ' stades, fond de carte (' . count($d['map']['land']) . ' contours)');
+    $ok(array_column($d['top'], 'matches') === array_values(array_reverse(array_values(array_unique(array_merge(array_column($d['top'], 'matches')))))) || array_column($d['top'], 'matches') == (function ($a) { rsort($a); return $a; })(array_column($d['top'], 'matches')), 'carte des stades : les plus fréquentés d’abord');
+    $f = $g3('/w/carte-stades')->body;
+    $ok(str_contains($f, '<svg class="w-map"') && !preg_match('#(src|href)="https?://(?!' . preg_quote(\App\Widgets\Context::host(), '#') . ')#', $f), 'carte des stades : carte SVG, rien chargé hors du musée');
+    $ok($d3('carte-stades', ['zone' => 'europe'])['zone'] === 'europe' && $d3('carte-stades', ['zone' => 'lune'])['zone'] === 'france', 'carte des stades : zone France ou Europe');
+
+    // Maillot : époque choisie ou maillot du jour, photo diffusable seulement.
+    $eras = \App\Widgets\Items\Maillot::eras();
+    if ($eras) {
+        $e0 = (int) $eras[0]['era'];
+        $ok($d3('maillot', ['epoque' => (string) ($e0 + 1)])['era'] === $e0, 'maillot : l’époque qui couvre l’année demandée');
+        $m = $d3('maillot');
+        $ok($m['image'] === null || str_starts_with((string) $m['image']['url'], 'http'), 'maillot : photo diffusable ou visuel neutre');
+    }
+
+    // Compte à rebours : date choisie, sinon centenaire (s'il est mis en avant), sinon fondation.
+    $future = date('Y-m-d', strtotime('+40 days'));
+    $d = $d3('compte-a-rebours', ['date' => $future, 'titre' => 'Jubilé']);
+    $ok($d['date'] === $future && $d['title'] === 'Jubilé' && $d['days'] === 40, 'compte à rebours : date et titre choisis (J-40)');
+    $d = $d3('compte-a-rebours', ['date' => '2001-01-01']);
+    $ok($d['date'] > date('Y-m-d') && (\App\Front\Site::centenaryCountdown() ? $d['date'] === \App\Front\Site::centenaryDate() : str_ends_with($d['date'], substr((string) \App\Core\Club::s('founded_date'), 4))), 'compte à rebours : date passée → ' . (\App\Front\Site::centenaryCountdown() ? 'centenaire' : 'anniversaire de la fondation'));
+    $ok(str_contains($g3('/w/compte-a-rebours')->body, 'data-countdown='), 'compte à rebours : décompte animé dans le widget');
+
+    // Soutenir : seulement les liens ouverts.
+    $open = \App\Widgets\Items\Soutenir::open();
+    $d = $d3('soutenir');
+    $ok(($open === [] && $d === null) || array_column($d['links'], 'kind') === array_keys($open), 'soutenir : liens ouverts seulement (' . implode(', ', array_keys($open)) . ')');
+    $ok(!isset($open['don']) || \App\Front\Donations::methods() !== [], 'soutenir : « don » seulement avec les dons ouverts et un moyen de paiement');
+
+    // Recherche : champ qui ouvre la recherche du musée (lien compté), formulaire permis à ce widget seul.
+    $r = $g3('/w/recherche');
+    $ok(str_contains($r->body, 'data-search="') && str_contains($r->body, '%2Frecherche%2F%3Fq%3D__Q__') && str_contains($r->body, 'target="_blank"'), 'recherche : formulaire vers la recherche du musée, nouvel onglet');
+    $ok(str_contains($r->headers['Content-Security-Policy'] ?? '', "form-action 'self'") && str_contains($g3('/w/records')->headers['Content-Security-Policy'] ?? '', "form-action 'none'"), 'recherche : envoi de formulaire permis à ce seul widget');
+    $loc = $g3('/w/clic/recherche/', ['to' => '/recherche/?q=Bonal%20' . rawurlencode('épopée')])->headers['Location'] ?? '';
+    $ok(str_starts_with($loc, '/recherche/?q=Bonal%20') && str_contains($loc, 'utm_medium=recherche'), 'recherche : passage par le lien compté puis la recherche du musée');
+
+    // Rétro-Direct : direct du jour, prochain, sinon classique ; jamais le score final.
+    \App\Services\RetroDirect::$entries = [];
+    \App\Widgets\Cache::clear();
+    $d = $d3('retro-direct');
+    $ok($d === null || $d['state'] === 'classique', 'rétro-direct : sans programme, un classique à revivre');
+    $cl = \App\Services\RetroDirect::classics(1)[0] ?? null;
+    if ($cl) {
+        \App\Services\RetroDirect::$entries = [['id' => $cl['id'], 'date' => date('Y-m-d'), 'time' => '23:59', 'intro' => 'Ce soir, on rejoue.']];
+        \App\Widgets\Cache::clear();
+        $d = $d3('retro-direct');
+        $ok($d['state'] === 'aujourdhui' && $d['time'] === '23:59' && $d['intro'] === 'Ce soir, on rejoue.' && !array_key_exists('score', $d), 'rétro-direct : le direct du jour, sans le score');
+        \App\Services\RetroDirect::$entries = [['id' => $cl['id'], 'date' => date('Y-m-d', strtotime('+3 days')), 'time' => '20:00', 'intro' => '']];
+        \App\Widgets\Cache::clear();
+        $ok($d3('retro-direct')['state'] === 'avenir', 'rétro-direct : sinon le prochain au programme');
+    }
+    \App\Services\RetroDirect::$entries = null;
+    \App\Widgets\Cache::clear();
+
+    // ------------------------------------------------------------------ vague 3 : mode écran
+    $P = \App\Widgets\Screen\Playlists::class;
+    $presets = $P::presets();
+    $ok(array_keys($presets) === ['avant-match', 'mi-temps', 'buvette'], 'écrans : 3 playlists prêtes à l’emploi');
+    $ok($P::duration($presets['mi-temps']) >= 120 && $P::duration($presets['mi-temps']) <= 180, 'écrans : mi-temps entre 2 et 3 minutes (' . $P::duration($presets['mi-temps']) . ' s)');
+    $types = array_column($presets['avant-match']['slides'], 'type');
+    $ok(!array_diff(['histoire-du-duel', 'ce-jour-la', 'carte-legende', 'chiffre-du-jour', 'le-saviez-vous', 'quiz'], $types), 'écrans : l’avant-match a duel, ce jour-là, légende, chiffre, saviez-vous, quiz');
+    $ok(!array_diff(['photo', 'frise', 'records'], array_column($presets['buvette']['slides'], 'type')), 'écrans : la buvette a photos, frise, records');
+
+    $scr = Store::savePartner(null, ['name' => 'Régie essai', 'domains' => 'stade-essai.fr', 'status' => 'actif', 'offer' => 'gratuite']);
+    $scrKey = Store::keyOf($scr);
+    $r = $g3('/ecran/avant-match');
+    $ok($r->status === 401 && str_contains($r->body, 'clé requise') && str_contains($r->body, 'non officiel') && str_contains($r->body, 'ec-foot'), 'écran réservé sans clé : 401, message plein écran aux couleurs du musée');
+    $r = $g3('/ecran/avant-match', ['key' => $scrKey, 'adversaire' => $opp]);
+    $html = $r->body;
+    $c3 = new \App\Widgets\Context('playlist', 'fr', 'sombre', 'ecran', $scr['id']);
+    $n = count(\App\Widgets\Screen\Slides::build($presets['avant-match'] + $P::defaults(), $c3, $opp));
+    $ok($r->status === 200 && substr_count($html, '<section class="ec-slide') === $n && $n >= 10, "écran avant-match avec clé (limitée à un domaine, sans page d'origine) : 200, $n slides");
+    $ok(str_contains($html, 'class="ec-foot"><img src="' . \App\Widgets\Context::abs((string) \App\Core\Club::s('logo_400'))) && str_contains($html, 'Musée indépendant, non officiel') && str_contains($html, '<span class="ec-url">' . \App\Widgets\Context::host()), 'écran : logo, mention « non officiel » et adresse du musée toujours en bas');
+    $ok(str_contains($html, \App\Core\Club::color('navy')) && str_contains($html, 'cursor:none') && str_contains($html, 'overflow:hidden') && !preg_match('/<(audio|video)\b/', $html), 'écran : charte du club, ni souris ni défilement, aucun son');
+    $ok(str_contains($html, 'data-reload="30"') && str_contains($html, '/ecran/sw.js') && str_contains($html, '/assets/js/ecran.js'), 'écran : rechargement automatique et service worker (hors connexion)');
+    $ok(str_contains($html, 'ec-l--duel') && str_contains($html, '× ' . e(\App\Front\Fiche::clubName($opp))), 'écran : histoire du duel contre l’adversaire du jour');
+    $ok(!str_contains($html, $scrKey) && !str_contains($html, 'mk_') && !isset($r->headers['Set-Cookie']), 'écran : jamais la clé dans la page, aucun cookie');
+    $ok(!preg_match('#(src|href)="https?://(?!' . preg_quote(\App\Widgets\Context::host(), '#') . ')#', $html) && str_contains($r->headers['Content-Security-Policy'] ?? '', "default-src 'none'") && str_contains($r->headers['Content-Security-Policy'] ?? '', "worker-src 'self'"), 'écran : rien chargé hors du musée, CSP stricte');
+    $ok(!preg_match('/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}/', $html), 'écran : aucune adresse e-mail');
+    $ok(str_contains($g3('/ecran/mi-temps', ['key' => $scrKey, 'format' => 'vertical'])->body, 'class="ec ec--vertical"') && str_contains($g3('/ecran/mi-temps', ['key' => $scrKey, 'format' => 'vertical'])->body, 'data-w="1080" data-h="1920"'), 'écran : format vertical 9:16');
+    $en = $g3('/ecran/mi-temps', ['key' => $scrKey, 'lang' => 'en'])->body;
+    $ok(str_contains($en, 'lang="en"') && str_contains($en, 'Independent, unofficial museum'), 'écran : en anglais');
+    \App\Services\I18n::set('fr');
+    $ok(str_contains($g3('/ecran/buvette', ['key' => $scrKey, 'horloge' => '1'])->body, 'data-clock') && !str_contains($g3('/ecran/buvette', ['key' => $scrKey])->body, 'data-clock'), 'écran : horloge facultative');
+    $ok($g3('/ecran/inconnue', ['key' => $scrKey])->status === 404, 'écran : playlist inconnue → 404');
+    $sw = $g3('/ecran/sw.js');
+    $ok($sw->status === 200 && str_contains($sw->headers['Content-Type'] ?? '', 'javascript') && str_contains($sw->body, "startsWith('/ecran/')"), 'écran : service worker /ecran/sw.js');
+    Store::savePartner($scr['id'], ['name' => 'Régie essai', 'domains' => 'stade-essai.fr', 'status' => 'suspendu', 'offer' => 'gratuite']);
+    $ok($g3('/ecran/avant-match', ['key' => $scrKey])->status === 403, 'écran : partenaire suspendu → 403');
+    Store::savePartner($scr['id'], ['name' => 'Régie essai', 'domains' => 'stade-essai.fr', 'status' => 'actif', 'offer' => 'gratuite']);
+    Store::saveWidget('playlist', 'payant', false);
+    $ok($g3('/ecran/avant-match', ['key' => $scrKey])->status === 402, 'écran payant, offre gratuite → 402');
+    Store::saveWidget('playlist', 'libre', false);
+    $ok($g3('/ecran/avant-match')->status === 200, 'écran en accès libre : sans clé');
+    Store::saveWidget('playlist', 'desactive', false);
+    $ok($g3('/ecran/avant-match', ['key' => $scrKey])->status === 404, 'écran désactivé → 404');
+    Store::saveWidget('playlist', 'reserve', false);
+    $before = Store::stats(1)['widgets']['playlist']['vues'] ?? 0;
+    $g3('/ecran/mi-temps', ['key' => $scrKey]);
+    $ok((Store::stats(1)['widgets']['playlist']['vues'] ?? 0) === $before + 1, 'écran : affichage compté (widget « playlist », par partenaire)');
+
+    // Quiz écran : question, compte à rebours, réponse et explication, QR code ; jamais la question du quiz du jour.
+    $q = \App\Widgets\Screen\Slides::quiz(date('Y-m-d'), 'fr', 0, 'mi-temps');
+    $mt = $g3('/ecran/mi-temps', ['key' => $scrKey])->body;
+    $ok($q !== null && str_contains($mt, e($q['q'])) && str_contains($mt, 'class="is-good"><em>' . chr(65 + $q['c']) . '</em>') && str_contains($mt, 'data-answer=') && str_contains($mt, 'data-timer'), 'quiz écran : question, compte à rebours, bonne réponse révélée ensuite');
+    $daily = \App\Widgets\Items\QuizDuJour::question(date('Y-m-d'), 'fr');
+    $ok($daily === null || $q['q'] !== $daily['q'], 'quiz écran : jamais la question du quiz du jour (sa réponse reste secrète)');
+    $ok(substr_count($mt, '<svg xmlns="http://www.w3.org/2000/svg"') >= 1 && str_contains($mt, 'Plus de questions'), 'quiz écran : QR code vers le quiz du musée');
+    $ok(\App\Widgets\Screen\Slides::quiz(date('Y-m-d'), 'fr', 1, 'avant-match')['q'] !== \App\Widgets\Screen\Slides::quiz(date('Y-m-d'), 'fr', 0, 'avant-match')['q'] || count((array) \App\Data\Collections::get('quiz', \App\Data\Seeds::quiz())) < 3, 'quiz écran : deux quiz d’une playlist, deux questions');
+
+    // Playlists personnalisées
+    $pl = $P::save(null, ['name' => 'Écran géant', 'format' => 'vertical', 'lang' => 'en', 'adversaire' => $opp, 'clock' => true, 'reload' => 2, 'slides' => [
+        ['type' => 'records', 'duration' => 3, 'opt' => ['cat' => 'matchs', 'adversaire' => 'x']], ['type' => 'inconnu', 'duration' => 10], ['type' => 'histoire-du-duel', 'duration' => 999, 'opt' => ['adversaire' => 'NANTES!!']], ['type' => 'quiz', 'duration' => 20]]]);
+    $ok($pl['id'] === 'ecran-geant' && $pl['format'] === 'vertical' && $pl['reload'] === 5 && count($pl['slides']) === 3, 'playlist personnalisée : adresse, format, rechargement borné, type inconnu écarté');
+    $ok($pl['slides'][0] === ['type' => 'records', 'duration' => 15, 'opt' => ['cat' => 'matchs']] && $pl['slides'][1]['duration'] === $P::MAX && $pl['slides'][1]['opt'] === [], 'playlist personnalisée : durées bornées, options permises et bien formées seulement');
+    $ok($P::save(null, ['name' => 'Avant-match', 'slides' => [['type' => 'quiz']]])['id'] === 'avant-match-2' && $P::get('avant-match')['preset'] === true, 'playlist personnalisée : ne remplace jamais une playlist prête à l’emploi');
+    $err = [];
+    foreach ([['name' => '', 'slides' => [['type' => 'quiz']]], ['name' => 'Vide', 'slides' => []]] as $bad) {
+        try {
+            $P::save(null, $bad);
+        } catch (\InvalidArgumentException $e) {
+            $err[] = $e->getMessage();
+        }
+    }
+    $ok(count($err) === 2, 'playlist personnalisée : nom et au moins une slide obligatoires');
+    $r = $g3('/ecran/ecran-geant', ['key' => $scrKey]);
+    $ok($r->status === 200 && str_contains($r->body, 'ec--vertical') && str_contains($r->body, 'lang="en"') && str_contains($r->body, 'data-clock') && str_contains($r->body, 'data-reload="5"'), 'playlist personnalisée : servie avec ses réglages');
+    $P::delete('ecran-geant');
+    $P::delete('avant-match-2');
+    $ok($g3('/ecran/ecran-geant', ['key' => $scrKey])->status === 404, 'playlist supprimée : 404');
+
+    // Export PNG (GD) et vidéo
+    $c3 = new \App\Widgets\Context('playlist', 'fr', 'sombre', 'ecran');
+    $all3 = [];
+    foreach ($presets as $p) {
+        foreach (\App\Widgets\Screen\Slides::build($p + $P::defaults(), $c3, $opp) as $s) {
+            $all3[$s['layout']] ??= $s;
+        }
+    }
+    $okPng = true;
+    foreach ($all3 as $lay => $s) {
+        foreach ([false, true] as $vert) {
+            $png = \App\Widgets\Screen\Image::png($s, $c3, $vert, $lay === 'quiz');
+            $sz = @getimagesizefromstring($png);
+            $okPng = $okPng && $sz && $sz[2] === IMAGETYPE_PNG && [$sz[0], $sz[1]] === ($vert ? [1080, 1920] : [1920, 1080]);
+        }
+    }
+    $ok($okPng && count($all3) >= 12, 'export PNG : ' . count($all3) . ' mises en page, en 1920 × 1080 et 1080 × 1920');
+    $fr = \App\Widgets\Screen\Image::frames($all3['quiz'], $c3, false);
+    $ok(count($fr) === 2 && array_sum(array_column($fr, 1)) === $all3['quiz']['duration'], 'export PNG : un quiz donne deux images (question, réponse) pour la même durée');
+    $zipFile = \App\Widgets\Screen\Export::zip($presets['mi-temps'] + $P::defaults(), 'paysage', 'fr', $opp);
+    $z = new \ZipArchive();
+    $z->open($zipFile);
+    $names = [];
+    for ($i = 0; $i < $z->numFiles; $i++) {
+        $names[] = $z->getNameIndex($i);
+    }
+    $ok(count(preg_grep('/\.png$/', $names)) >= 6 && in_array('ordre.txt', $names, true) && in_array('video-ffmpeg.txt', $names, true) && str_contains((string) $z->getFromName('video-ffmpeg.txt'), 'libx264'), 'export ZIP : images, ordre et durées, commande ffmpeg (' . count($names) . ' fichiers)');
+    $z->close();
+    $ok(\App\Widgets\Screen\Export::file('../reglages.json') === null && \App\Widgets\Screen\Export::file(basename($zipFile)) === $zipFile, 'export : seuls les fichiers d’export se téléchargent');
+    \App\Widgets\Screen\Export::$ffmpegPath = '';
+    $msg = '';
+    try {
+        \App\Widgets\Screen\Export::requestVideo($presets['mi-temps'] + $P::defaults(), 'paysage', 'fr', '', true);
+    } catch (\RuntimeException $e) {
+        $msg = $e->getMessage();
+    }
+    $ok(str_contains($msg, 'ffmpeg') && str_contains($msg, 'ZIP'), 'vidéo sans ffmpeg (o2switch) : message clair, le ZIP proposé');
+    \App\Widgets\Screen\Export::$ffmpegPath = null;
+    if (\App\Widgets\Screen\Export::ffmpeg()) {
+        $tiny = ['id' => 'essai-video', 'name' => 'Essai', 'slides' => [['type' => 'chiffre-du-jour', 'duration' => 5, 'opt' => []], ['type' => 'quiz', 'duration' => 8, 'opt' => []]]] + $P::defaults();
+        $k = \App\Widgets\Screen\Export::requestVideo($tiny, 'paysage', 'fr', '', true);
+        $st = \App\Widgets\Screen\Export::status($k);
+        $probe = [];
+        exec('ffprobe -v error -show_entries stream=codec_name,width,height -of csv=p=0 ' . escapeshellarg(\App\Widgets\Screen\Export::dir() . '/' . ($st['file'] ?? 'x')) . ' 2>&1', $probe);
+        $ok(($st['status'] ?? '') === 'pret' && ($st['duration'] ?? 0) === 13 && trim(implode('', $probe)) === 'h264,1920,1080', 'vidéo MP4 : H.264, 1920 × 1080, fabriquée par ffmpeg (' . ($st['status'] ?? '?') . ')');
+    } else {
+        $ok(true, 'vidéo MP4 : ffmpeg absent ici, essai sauté');
+    }
+    $ok($g3('/admin/widgets/ecrans/zip', ['id' => 'mi-temps'])->status === 302 && \App\Admin\Router::adminOnly('/admin/widgets/ecrans/fichier'), 'exports : réservés aux administrateurs connectés');
+    $demo3 = $get('/widgets/')->body;
+    $ok(str_contains($demo3, 'id="ecrans"') && str_contains($demo3, 'Pour les écrans de stade'), 'page /widgets/ : section « Pour les écrans de stade » et contact');
 
     // ------------------------------------------------------------------ aucune donnée personnelle
     $ok(!preg_match('/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}/', $allJson), 'aucune adresse e-mail dans les données');

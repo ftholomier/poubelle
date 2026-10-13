@@ -204,6 +204,9 @@ final class Router
         $r->get('/admin/newsletter/apercu', fn ($q) => Community::newsletterPreview($q));
         $r->get('/admin/widgets', fn ($q) => Widgets::index($q));
         $r->post('/admin/widgets', fn ($q) => Widgets::action($q));
+        $r->post('/admin/widgets/ecrans', fn ($q) => Widgets::screenSave($q));
+        $r->get('/admin/widgets/ecrans/zip', fn ($q) => Widgets::screenZip($q));
+        $r->get('/admin/widgets/ecrans/fichier', fn ($q) => Widgets::screenFile($q));
         $r->get('/admin/dons', fn ($q) => Donations::index($q));
         $r->post('/admin/dons', fn ($q) => Donations::action($q));
         $r->get('/admin/dons/export.csv', fn ($q) => Donations::export($q));

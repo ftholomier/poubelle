@@ -19,7 +19,9 @@ use App\Services\I18n;
  * - GET /w/clic/<clé>/?to=/…       lien vers le musée depuis un widget (compté, puis redirigé) ;
  * - POST /api/v1/widgets/quiz-du-jour/verifier   vérifie une réponse du quiz du jour (la bonne
  *                                  réponse n'est jamais dans les données du widget) ;
- * - GET /embed.js                  script d'intégration (une iframe isolée par <div data-musee-widget>).
+ * - GET /embed.js                  script d'intégration (une iframe isolée par <div data-musee-widget>) ;
+ * - GET /ecran/<playlist>          mode écran plein écran (accès du widget « playlist ») ;
+ * - GET /ecran/sw.js               service worker du mode écran (dernière version gardée).
  * Clé partenaire : ?key=… ou en-tête X-Musee-Key. Aucun cookie posé, aucune donnée personnelle.
  */
 final class Http
@@ -36,6 +38,9 @@ final class Http
         $p = rtrim($req->path, '/');
         if ($p === '/embed.js') {
             return self::embed($req);
+        }
+        if ($p === '/ecran/sw.js') {
+            return self::screenWorker();
         }
         $api = str_starts_with($p, '/api/');
         if ($req->method === 'OPTIONS' && $api) {
@@ -67,6 +72,9 @@ final class Http
             }
             if (preg_match('#^/w/([a-z0-9-]{1,40})$#', $p, $m)) {
                 return self::serve($req, $m[1], $lang, false);
+            }
+            if (preg_match('#^/ecran/([a-z0-9-]{1,40})$#', $p, $m)) {
+                return self::screen($req, $m[1]);
             }
         } catch (\Throwable $e) {
             error_log((string) $e);
@@ -107,7 +115,7 @@ final class Http
      * Ordre : widget désactivé, site fermé, clé (invalide, suspendue, domaine), accès réservé ou payant.
      * @return array{0:int,1:?string,2:?array}
      */
-    public static function access(Widget $w, Request $req, bool $preview): array
+    public static function access(Widget $w, Request $req, bool $preview, bool $domains = true): array
     {
         $cfg = Store::widget($w->key());
         if ($cfg['access'] === 'desactive' && !$preview) {
@@ -116,7 +124,7 @@ final class Http
         if (Seo::closed() && !$cfg['closed_ok'] && !$preview) {
             return [503, 'Le musée est fermé au public pour le moment.', null];
         }
-        [$code, $error, $partner] = self::partner($req);
+        [$code, $error, $partner] = self::partner($req, $domains);
         if ($error !== null) {
             return [$code, $error, null];
         }
@@ -137,7 +145,7 @@ final class Http
      * invalide, suspendue, ou page appelante hors des domaines autorisés de la clé).
      * @return array{0:int,1:?string,2:?array}
      */
-    public static function partner(Request $req): array
+    public static function partner(Request $req, bool $domains = true): array
     {
         $key = self::key($req);
         if ($key === '') {
@@ -150,7 +158,7 @@ final class Http
         if (($p['status'] ?? '') !== 'actif') {
             return [403, 'Clé partenaire suspendue : contactez le musée.', null];
         }
-        if (!empty($p['domains'])) {
+        if ($domains && !empty($p['domains'])) {
             $host = self::caller($req);
             if ($host === '') {
                 return [403, 'Clé limitée à des domaines : page d’origine inconnue (en-tête Origin ou Referer absent).', null];
@@ -267,7 +275,7 @@ final class Http
             }
             return $res;
         }
-        $res = self::frameHeaders(Response::html(Frame::page($w, $data, $c)), $partner, $preview);
+        $res = self::frameHeaders(Response::html(Frame::page($w, $data, $c)), $partner, $preview, $key === 'recherche');
         $res = $preview ? $res : self::cached($res, $req, $partner, $etag, self::MAX_AGE_FRAME);
         if ($count) {
             Store::hit('vues', $key, $c->partner ?: 'libre');
@@ -284,9 +292,10 @@ final class Http
         return $res;
     }
 
-    private static function frameHeaders(Response $res, ?array $partner, bool $preview): Response
+    /** $form : le widget envoie un formulaire au musée (recherche : form-action 'self'). */
+    private static function frameHeaders(Response $res, ?array $partner, bool $preview, bool $form = false): Response
     {
-        $res->headers['Content-Security-Policy'] = "default-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors " . ($preview ? "'self'" : self::ancestors($partner));
+        $res->headers['Content-Security-Policy'] = "default-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'none'; form-action " . ($form ? "'self'" : "'none'") . '; frame-ancestors ' . ($preview ? "'self'" : self::ancestors($partner));
         $res->headers['X-Content-Type-Options'] = 'nosniff';
         $res->headers['Referrer-Policy'] = 'strict-origin-when-cross-origin';
         $res->headers['X-Robots-Tag'] = 'noindex';
@@ -389,6 +398,63 @@ final class Http
         $res = Response::json(['correct' => (int) $choice === $q['c'], 'bonne' => $q['c'], 'reponse' => $q['a'][$q['c']], 'explication' => $q['fact']]);
         $res->headers['Cache-Control'] = 'no-store';
         return self::cors($res, $req, $partner);
+    }
+
+    // ------------------------------------------------------------------ mode écran
+
+    /**
+     * Mode écran : /ecran/<playlist>?key=…&format=paysage|vertical&lang=fr|en&adversaire=<club>&horloge=1|0.
+     * Accès : celui du widget « playlist » (réservé par défaut : clé partenaire dans l'adresse) ; les
+     * domaines d'une clé ne s'appliquent pas (un écran ouvre la page directement, sans page
+     * d'origine). L'équipe connectée voit l'aperçu quel que soit l'accès.
+     */
+    private static function screen(Request $req, string $id): Response
+    {
+        $w = Registry::get('playlist');
+        $p = Screen\Playlists::get($id);
+        $lang = in_array($req->str('lang'), ['fr', 'en'], true) ? $req->str('lang') : (string) ($p['lang'] ?? 'fr');
+        I18n::set($lang);
+        $format = in_array($req->str('format'), ['paysage', 'vertical'], true) ? $req->str('format') : (string) ($p['format'] ?? 'paysage');
+        $preview = self::preview($req);
+        [$code, $error, $partner] = self::access($w, $req, $preview, false);
+        $c = new Context('playlist', $lang, 'sombre', 'ecran', (string) ($partner['id'] ?? ''), $preview);
+        if ($error === null && !$p) {
+            [$code, $error] = [404, $c->tr('Playlist inconnue.', 'Unknown playlist.')];
+        }
+        if ($error === null && !$preview && !self::rate($req, $partner)) {
+            [$code, $error] = [429, 'Trop de requêtes, patientez une minute.'];
+        }
+        if ($error !== null) {
+            $res = self::screenHeaders(Response::html(Screen\Page::notice($error, $c, $format), $code), $partner);
+            $res->headers['Cache-Control'] = 'no-store';
+            return $res;
+        }
+        $adv = Screen\Playlists::slug($req->str('adversaire'));
+        $clock = $req->str('horloge') !== '' ? $req->str('horloge') === '1' : !empty($p['clock']);
+        $slides = Screen\Slides::build($p, $c, $adv);
+        $html = Screen\Page::render($slides, $c, ['format' => $format, 'clock' => $clock, 'reload' => (int) $p['reload'], 'name' => (string) $p['name'], 'id' => $id]);
+        $res = self::screenHeaders(Response::html($html), $partner);
+        $res->headers['Cache-Control'] = 'private, no-cache';
+        if (!$preview && $req->str('apercu') !== '1') {
+            Store::hit('vues', 'playlist', $c->partner ?: 'libre');
+        }
+        return $res;
+    }
+
+    private static function screenHeaders(Response $res, ?array $partner): Response
+    {
+        $res->headers['Content-Security-Policy'] = "default-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors " . self::ancestors($partner);
+        $res->headers['X-Content-Type-Options'] = 'nosniff';
+        $res->headers['Referrer-Policy'] = 'no-referrer';
+        $res->headers['X-Robots-Tag'] = 'noindex';
+        return $res;
+    }
+
+    /** Service worker du mode écran (portée /ecran/). */
+    private static function screenWorker(): Response
+    {
+        $body = (string) @file_get_contents(dirname(__DIR__, 2) . '/public/assets/js/ecran-sw.js');
+        return new Response($body, $body === '' ? 404 : 200, ['Content-Type' => 'application/javascript; charset=UTF-8', 'Cache-Control' => 'no-cache', 'X-Content-Type-Options' => 'nosniff']);
     }
 
     /**

@@ -1247,7 +1247,10 @@ service worker lui-même se retire dès qu'il voit une page ainsi marquée.
 Les contenus vivants du musée en encarts à afficher sur d'autres sites (proposition :
 `docs/widgets-proposition.pdf`). Phase 1 : socle, mode iframe, API en lecture et 6 widgets.
 Vague 2 : script d'intégration `/embed.js` et 8 widgets (records, quiz du jour, défi du jour,
-dernier match fiché, saison, palmarès, frise, bandeau).
+dernier match fiché, saison, palmarès, frise, bandeau). Vague 3 (dernière) : 7 widgets (histoire
+du duel, carte des stades, maillot, compte à rebours, soutenir, recherche, Rétro-Direct) et le
+**mode écran** (`/ecran/…`, widget « playlist ») avec export PNG / ZIP / MP4 ; `Registry::PLANNED`
+est vide.
 
 **Adresses** (toutes en GET, traitées par `App\Widgets\Http` avant la page d'attente et le
 préfixe `/en` ; langue par `?lang=fr|en`) :
@@ -1261,12 +1264,19 @@ préfixe `/en` ; langue par `?lang=fr|en`) :
 | `POST /api/v1/widgets/quiz-du-jour/verifier` | vérifie une réponse du quiz du jour : corps JSON (ou formulaire) `{date, choix, lang, key?}` → `{correct, bonne, reponse, explication}` ; date du jour ou de la veille seulement, mêmes règles d'accès que le widget (la page du widget, d'origine le musée, passe le contrôle des domaines de la clé), 60 par minute et par IP (`widgets-quiz`), `no-store`, rien d'enregistré |
 | `GET /embed.js` | script d'intégration (`public/assets/js/embed.js`, servi par `Http::embed` : `max-age=3600`, ETag, CORS `*`) |
 | `GET /w/clic/{clé}/?to=/chemin&p=<partenaire>` | lien d'un widget vers le musée : compté, puis redirection 302 vers le chemin du musée (jamais ailleurs) avec `utm_source=widget` |
-| `GET /widgets/` | page publique « Intégrez le musée sur votre site » (widgets libres, aperçu, code à copier ; `Widgets\Pages`, `templates/widgets/demo.php`) |
+| `GET /widgets/` | page publique « Intégrez le musée sur votre site » (widgets libres, aperçu, code à copier, section « Pour les écrans de stade » `#ecrans` ; `Widgets\Pages`, `templates/widgets/demo.php`) |
+| `GET /ecran/{playlist}?key=…&format=paysage\|vertical&lang=fr\|en&adversaire=<club>&horloge=1\|0` | mode écran plein écran (voir plus bas) ; `?slide=N` fige la slide N, `&reponse=1` montre la réponse d'un quiz (aperçus, captures) |
+| `GET /ecran/sw.js` | service worker du mode écran (`public/assets/js/ecran-sw.js`, portée `/ecran/`, `no-cache`) |
 
 Options propres : `ce-jour-la` (`date=MM-JJ`, `nombre=1|3|5`), `il-y-a` (`ans=tous|5|10|20|30`),
 `carte-legende` (`joueur=<slug de la fiche>`), `records` (`cat=buteurs|matchs`), `saison`
 (`saison=AAAA-AAAA`, vide : en cours si un match y est fiché, sinon la dernière qui en a),
-`palmares` (`affichage=liste|bandeau` ; pas `format`, déjà pris par standard / compact). Clé partenaire : `?key=mk_…` ou en-tête `X-Musee-Key`.
+`palmares` (`affichage=liste|bandeau` ; pas `format`, déjà pris par standard / compact) ; vague 3 :
+`histoire-du-duel` (`adversaire=<clé du club>`, celle de `/face-a-face/<clé>/` ; vide, inconnue ou
+le club lui-même : l'adversaire du dernier match fiché), `carte-stades` (`zone=france|europe`),
+`maillot` (`epoque=AAAA` : l'époque qui couvre l'année ; vide : un maillot par jour),
+`compte-a-rebours` (`date=AAAA-MM-JJ` future et `titre=…` ; sinon le centenaire quand
+`Site::centenaryCountdown()`, sinon le prochain anniversaire de `founded_date`). Clé partenaire : `?key=mk_…` ou en-tête `X-Musee-Key`.
 
 **Classes.** `Registry` (widgets prêts : `CLASSES`, à venir : `PLANNED`) ; `Widget` (classe de
 base : `key`, `name`, `description`, `options`, `defaultAccess`, `ttl`, `data` → tableau,
@@ -1285,7 +1295,16 @@ choix dans un ordre fixe pour la date (même question et même ordre en françai
 gardant la partie au serveur), `DernierMatch` ← `Site::lastMatchCreated()` (le même que le
 bandeau) + `excerpt` de l'index, `Saison` ← `Explore::seasonData()` + titres de
 `Palmares::data()`, `Palmares` ← `Front\Palmares::data()`, `Frise` ← collection `frise`,
-`Bandeau` ← `Site::ticker()`) ; `Frame` (cadre HTML commun : logo, mention, lien obligatoires ;
+`Bandeau` ← `Site::ticker()` ; vague 3 : `HistoireDuDuel` ← `Derived` « clubs » / « matches »
+(mêmes matchs publiés et mêmes totaux que `Explore::bilanData`, donc que la page face-à-face) +
+« scorers » pour le meilleur buteur du duel (buteurs liés à une fiche publiée), `CarteStades` ←
+référentiel `stades` géolocalisé + `Derived` « stades » (matchs publiés), fond de carte `Map`,
+`Maillot` ← collection `maillots`, `CompteARebours` ← date choisie / centenaire / fondation,
+`Soutenir` ← boutons du site (`Menus::button`) seulement s'ils sont ouverts (don : `Donations::methods()`
+non vide ; boutique : `Shop\Orders::open()`), `Recherche` (formulaire GET vers `/recherche/`),
+`RetroDirectWidget` ← `RetroDirect::next()` (direct en cours, du jour, sinon prochain ; sans
+programme : `RetroDirect::classics()`, un par jour ; jamais le score), `Playlist` (mode écran,
+accès « réservé » par défaut : `defaultAccess()`)) ; `Frame` (cadre HTML commun : logo, mention, lien obligatoires ;
 `finalize()` change chaque `href` des données en lien compté) ; `Context` (langue, thème,
 format, partenaire, liens) ; `Photos` (seules photos diffusables) ; `Cache` ; `Store` (réglages,
 partenaires, statistiques) ; `Http` (accès, en-têtes) ; `Admin\Widgets` (back-office).
@@ -1373,7 +1392,82 @@ aussitôt ; le back-office vide aussi le cache à l'enregistrement). Seul régla
 `carte-legende.source` = `capes` (défaut, proposition à valider : légendes cochées, sinon les
 plus capés) ou `legendes` (seulement les fiches cochées « Légende »).
 
-Tests : `php tests/widgets.php` (stockage isolé dans un dossier temporaire).
+**Fond de carte** (`Map`) : les contours de `public/assets/vendor/countries-110m.topojson` (celui
+de Carto), décodés en PHP (arcs delta, `transform`), projetés en équirectangulaire corrigée
+(cos de la latitude moyenne) sur une zone (`Map::ZONES` : France, Europe) élargie pour garder les
+proportions ; points hors de la vue ramenés au bord (données légères, ~5 Ko). Dessin en SVG
+(`CarteStades::svg`, iframe et écran) ou avec GD (PNG). Aucune tuile ni service extérieur.
+
+**Recherche.** Le formulaire ouvre `/w/clic/recherche/?to=/recherche/?q=…` dans un nouvel onglet
+(lien compté puis redirection) : `js/widget.js` remplace `__Q__` du modèle `data-search`
+(l'iframe du script d'intégration n'a pas `allow-forms`, mais peut ouvrir un onglet) ; sans
+script, le formulaire s'envoie lui-même (`target="_blank"`). Seule iframe avec `form-action 'self'`.
+
+### Mode écran (`App\Widgets\Screen`, `/ecran/…`)
+
+Plein écran pour écrans de stade, télés, bornes. **Accès** : celui du widget `playlist`
+(`Http::screen` → `Http::access(…, $domains = false)` : les domaines d'une clé ne s'appliquent pas,
+une page ouverte directement n'ayant pas de page d'origine) ; « réservé » par défaut, clé dans
+l'adresse (`?key=`) ; l'équipe connectée voit l'aperçu. Refus : message plein écran dans le même
+cadre (`Page::notice`, `no-store`). Affichage compté `vues` / `playlist` / partenaire.
+
+- `Playlists` : `TYPES` (18 types de slides : clé → nom, durée par défaut, options permises
+  `adversaire`, `cat`, `n` (variante : autre photo, autre fenêtre de la frise), `saison`) ;
+  `presets()` (`avant-match` ≈ 3 min 40 en boucle pour le quart d'heure d'avant-match,
+  `mi-temps` ≈ 2 min 10, `buvette` en continu ≈ 3 min 20), playlists du musée dans
+  `Store::dir()/ecrans.json` (`save` : nom obligatoire, au moins une slide, slides validées par
+  `cleanSlides` (type connu, durée 5–120 s, options permises), adresse tirée du nom, jamais celle
+  d'une playlist prête à l'emploi ; `delete`). Réglages : `format` (`paysage` 1920 × 1080 ou
+  `vertical` 1080 × 1920), `lang`, `adversaire`, `clock`, `reload` (5–240 min, 30 par défaut).
+- `Slides::build()` : chaque slide → un **modèle neutre** (`layout` : duel, list, rank, hero,
+  quote, card, match, photo, quiz, timeline, map, countdown, support ; textes, chiffres, image
+  avec son fichier local, QR code…) à partir des données du widget du même nom
+  (`Cache::get` : même cache que les iframes et l'API) ; une slide sans rien à montrer ce jour-là
+  est omise. Types propres à l'écran : `quiz` (`Slides::quiz` : collection `quiz`, tirage par
+  date, playlist et rang du quiz dans la playlist, jamais la question du quiz du jour, dont la
+  réponse doit rester secrète dans le widget ; ici la réponse est dans la page puisqu'elle
+  s'affiche) et `photo` (`Photos::pool`, variante `n`).
+- `Page` : HTML plein écran, scène fixe 1920 × 1080 (ou 1080 × 1920) mise à l'échelle par
+  `js/ecran.js` (`transform: scale`), thème sombre aux couleurs du club, très gros caractères,
+  `cursor:none`, aucun défilement, aucun son ; pied fixe : logo, nom, mention « non officiel »,
+  adresse du musée, horloge facultative ; barre de progression ; QR codes (`Services\Qr::svg`,
+  liens comptés `/w/clic/playlist/…&p=<partenaire>`). CSP : `default-src 'none'`, `script-src
+  'self'`, `worker-src 'self'`, `frame-ancestors` comme les iframes ; `private, no-cache` ;
+  `.htaccess` n'envoie pas `X-Frame-Options` sous `/ecran/` (logiciels d'affichage dynamique) ;
+  pas de cache de pages ni de mesure d'audience.
+- `js/ecran.js` : enchaînement (durée `data-duration`, fondu 0,9 s), quiz (compte à rebours
+  `data-timer` puis classe `is-answer` à `data-answer` secondes de la fin : bonne réponse en
+  vert, explication), comptes à rebours, horloge ; rechargement toutes les `reload` minutes
+  **seulement si** un `fetch` de la page réussit (appliqué au début de la boucle suivante ;
+  sinon nouvel essai une minute plus tard : la page en mémoire continue de tourner) ; service
+  worker `/ecran/sw.js` (réseau d'abord pour la page, dernière version gardée ; styles, scripts,
+  polices et photos gardés d'abord) pour redémarrer sans réseau ; `navigator.wakeLock`.
+- `Image` (GD, polices TTF de `app/Resources/fonts`) : les mêmes modèles en PNG 1920 × 1080 ou
+  1080 × 1920, pied identique (logo, mention, adresse) ; un quiz donne deux images (question
+  avec le compte à rebours, réponse).
+- `Export` : `zip()` (PNG dans l'ordre, `ordre.txt` avec les durées, `concat.txt` et
+  `video-ffmpeg.txt` : la commande pour faire la vidéo ailleurs) ; vidéo MP4 (`requestVideo` :
+  état `attente` puis fabrication après l'envoi de la page via `register_shutdown_function` +
+  `Response::detach()` ; `makeVideo` : PNG dans un dossier temporaire, `ffmpeg -f concat … -vf
+  fps=25,format=yuv420p -c:v libx264 -preset veryfast -crf 20 -tune stillimage -an -movflags
+  +faststart` ; état `pret` / `erreur` dans `exports/<clé>.json`, « interrompue » au-delà de 15 min).
+  `Export::ffmpeg()` : `exec` permis et un ffmpeg avec l'encodeur `libx264` (`command -v`,
+  `/usr/bin`, `/usr/local/bin`…) ; sinon `videoUnavailable()` explique et le back-office
+  propose le ZIP (o2switch mutualisé : pas de ffmpeg d'ordinaire). Fichiers dans
+  `Store::dir()/exports/` (hors du dossier public), téléchargés par le back-office seulement.
+
+**Back-office** (Communauté › Widgets & partenaires › onglet **Écrans**, administrateurs) : lien
+pour la régie (playlist, partenaire dont la clé est ajoutée, format, langue, adversaire du jour,
+horloge), aperçu plein écran, liste des playlists (durée d'une boucle, exports : ZIP des PNG,
+vidéo MP4 ou message si impossible), dupliquer, nouvelle playlist, éditeur (formulaire JSON
+`POST /admin/widgets/ecrans` : slides triables par glisser-déposer — `Form::repeater` et la poignée
+commune du back-office —, options affichées selon le type). Adresses : `GET
+/admin/widgets/ecrans/zip?id=…&format=…&lang=…&adversaire=…`, `GET
+/admin/widgets/ecrans/fichier?f=<nom>.mp4|zip`, actions `ecran-dupliquer`, `ecran-supprimer`,
+`ecran-video` sur `POST /admin/widgets`.
+
+Tests : `php tests/widgets.php` (stockage isolé dans un dossier temporaire ; vague 3 et mode
+écran compris : accès, playlists, quiz, export PNG, ZIP, vidéo si ffmpeg est présent).
 
 ## 8. Back-office
 

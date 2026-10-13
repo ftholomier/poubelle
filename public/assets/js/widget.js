@@ -19,6 +19,31 @@
   document.addEventListener('change', send);
   send();
 
+  // Compte à rebours : jours, heures, minutes jusqu'à la date (horodatage du musée).
+  var cd = document.querySelector('[data-countdown]');
+  if (cd) {
+    var two = function (n) { return (n < 10 ? '0' : '') + n; };
+    var upd = function () {
+      var left = Math.max(0, +cd.getAttribute('data-countdown') * 1000 - Date.now());
+      var put = function (k, v) { var b = cd.querySelector('[data-cd="' + k + '"]'); if (b) b.textContent = v; };
+      put('j', Math.floor(left / 864e5)); put('h', two(Math.floor(left / 36e5) % 24)); put('m', two(Math.floor(left / 6e4) % 60));
+    };
+    upd();
+    setInterval(upd, 15000);
+  }
+
+  // Recherche : ouvre la recherche du musée dans un nouvel onglet (l'iframe du script
+  // d'intégration n'a pas le droit d'envoyer un formulaire, mais peut ouvrir un onglet).
+  var sf = document.querySelector('[data-search]');
+  if (sf) sf.addEventListener('submit', function (e) {
+    var v = sf.querySelector('input').value.trim();
+    if (!v) return;
+    e.preventDefault();
+    var tpl = sf.getAttribute('data-search');
+    var enc = encodeURIComponent(v);
+    window.open(tpl.replace('__Q__', tpl.indexOf('/w/clic/') >= 0 ? encodeURIComponent(enc) : enc), '_blank', 'noopener');
+  });
+
   var qz = document.querySelector('[data-quiz]');
   if (!qz || !window.fetch) return;
   var btns = qz.querySelectorAll('.w-qz__c');

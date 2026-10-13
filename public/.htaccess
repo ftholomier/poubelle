@@ -58,9 +58,9 @@ AddDefaultCharset UTF-8
     # Réserve de fouille de textes et de données (protocole TDMRep, droit européen)
     Header always set tdm-reservation "1"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
-    # Partout sauf les widgets du musée (/w/…), faits pour être affichés dans une iframe chez les
+    # Partout sauf les widgets du musée (/w/…) et le mode écran (/ecran/…), faits pour être affichés dans une iframe chez les
     # partenaires : leur page fixe elle-même les sites autorisés (Content-Security-Policy frame-ancestors).
-    Header always set X-Frame-Options "SAMEORIGIN" "expr=%{THE_REQUEST} !~ m#^[A-Z]+ /w/#"
+    Header always set X-Frame-Options "SAMEORIGIN" "expr=%{THE_REQUEST} !~ m#^[A-Z]+ /(w|ecran)/#"
     Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(self)"
     # Fichiers à adresse versionnée (?v=…) : gardés un an par le navigateur, sans revalidation.
     <FilesMatch "\.(woff2|webp|avif|jpg|jpeg|png|gif|svg|css|js|ico|mp3|wav|mp4)$">
