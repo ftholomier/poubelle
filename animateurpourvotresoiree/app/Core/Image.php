@@ -82,6 +82,7 @@ final class Image
         if ($err !== null) {
             throw new \RuntimeException($err);
         }
+        self::ensureMemory($source);
         $img = self::load($source);
         $w = imagesx($img);
         $h = imagesy($img);
@@ -107,6 +108,36 @@ final class Image
         }
         imagedestroy($img);
         return ['id' => $id, 'w' => $w, 'h' => $h, 'ext' => $ext, 'sizes' => $out];
+    }
+
+    /**
+     * Une photo de téléphone (12 à 50 Mpx) décompressée prend 50 à 250 Mo : on relève la limite de mémoire de PHP le
+     * temps du traitement (128 Mo chez beaucoup d'hébergeurs), sinon le script s'arrête net.
+     */
+    private static function ensureMemory(string $path): void
+    {
+        $info = @getimagesize($path);
+        if (!$info) {
+            return;
+        }
+        $need = (int) ($info[0] * $info[1] * 5 * 1.6) + 48 * 1024 * 1024; // image d'origine + copie redimensionnée
+        $limit = self::bytes((string) ini_get('memory_limit'));
+        if ($limit > 0 && memory_get_usage() + $need > $limit) {
+            $want = min(1024 * 1024 * 1024, memory_get_usage() + $need);
+            if (@ini_set('memory_limit', (string) $want) === false || self::bytes((string) ini_get('memory_limit')) < $want) {
+                throw new \RuntimeException('Photo trop grande pour le serveur (' . $info[0] . ' × ' . $info[1] . ' px) : réduisez-la sous 4 000 px de large et renvoyez-la.');
+            }
+        }
+    }
+
+    private static function bytes(string $v): int
+    {
+        $v = trim($v);
+        if ($v === '' || $v === '-1') {
+            return -1;
+        }
+        $n = (int) $v;
+        return match (strtolower(substr($v, -1))) { 'g' => $n << 30, 'm' => $n << 20, 'k' => $n << 10, default => $n };
     }
 
     /** @return \GdImage */

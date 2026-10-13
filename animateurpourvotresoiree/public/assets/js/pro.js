@@ -38,9 +38,26 @@
   if (dz) {
     const input = $('input[type=file]', dz);
     const bar = $('.dz-progress', dz);
-    const send = () => {
+    /* les photos de téléphone sont réduites dans le navigateur avant l'envoi (2 400 px max) :
+       envoi plus rapide et pas de surcharge mémoire du serveur */
+    const shrink = (file) => new Promise((resolve) => {
+      if (!/^image\/(jpeg|png|webp)$/.test(file.type) || !window.createImageBitmap) return resolve(file);
+      createImageBitmap(file).then((bmp) => {
+        const max = 2400;
+        const r = Math.min(1, max / Math.max(bmp.width, bmp.height));
+        if (r === 1 && file.size < 3e6) return resolve(file);
+        const c = document.createElement('canvas');
+        c.width = Math.round(bmp.width * r); c.height = Math.round(bmp.height * r);
+        c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+        c.toBlob((b) => resolve(b ? new File([b], file.name.replace(/\.\w+$/, '') + '.jpg', { type: 'image/jpeg' }) : file), 'image/jpeg', 0.88);
+      }).catch(() => resolve(file));
+    });
+    const send = async () => {
       if (!input.files.length) return;
       const fd = new FormData(dz);
+      const files = await Promise.all(Array.from(input.files).map(shrink));
+      fd.delete(input.name);
+      files.forEach((f) => fd.append(input.name, f, f.name));
       const xhr = new XMLHttpRequest();
       xhr.open('POST', dz.action);
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
