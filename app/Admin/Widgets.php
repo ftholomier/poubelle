@@ -134,6 +134,10 @@ final class Widgets extends Base
                         return self::back('/admin/widgets?onglet=ecrans', null, 'Playlist introuvable (les playlists prêtes à l’emploi ne se suppriment pas).');
                     }
                     Playlists::delete($id);
+                    if (isset(Playlists::presets()[$id])) {
+                        Activity::log($who, 'a rétabli la playlist d’écran « ' . Playlists::presets()[$id]['name'] . ' » d’origine', null);
+                        return self::back('/admin/widgets?onglet=ecrans', 'Playlist rétablie dans sa version d’origine.');
+                    }
                     Activity::log($who, 'a supprimé la playlist d’écran « ' . $pl['name'] . ' »', null);
                     return self::back('/admin/widgets?onglet=ecrans', 'Playlist supprimée : son adresse d’écran ne fonctionne plus.');
                 case 'ecran-dupliquer':
@@ -171,8 +175,8 @@ final class Widgets extends Base
     {
         $in = $req->json();
         $id = (string) ($in['id'] ?? '');
-        if ($id !== '' && !isset(Playlists::custom()[$id])) {
-            return Response::json(['ok' => false, 'error' => 'Les playlists prêtes à l’emploi ne se modifient pas : dupliquez-la.'], 422);
+        if ($id !== '' && !isset(Playlists::custom()[$id]) && !isset(Playlists::presets()[$id])) {
+            return Response::json(['ok' => false, 'error' => 'Playlist introuvable.'], 422);
         }
         try {
             $saved = Playlists::save($id !== '' ? $id : null, $in);

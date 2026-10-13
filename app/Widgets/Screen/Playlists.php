@@ -45,7 +45,7 @@ final class Playlists
     public const MIN = 5;
     public const MAX = 120;
 
-    /** Les 3 playlists prêtes à l'emploi (non modifiables ; à dupliquer pour les personnaliser). */
+    /** Les 3 playlists prêtes à l'emploi (modifiables : la version modifiée est gardée dans ecrans.json sous la même clé ; supprimer = rétablir). */
     public static function presets(): array
     {
         $s = fn (string $type, ?int $d = null, array $opt = []) => ['type' => $type, 'duration' => $d ?? self::TYPES[$type][1], 'opt' => $opt];
@@ -75,10 +75,14 @@ final class Playlists
     public static function all(): array
     {
         $out = [];
+        $custom = self::custom();
         foreach (self::presets() as $id => $p) {
-            $out[$id] = $p + self::defaults();
+            // Une playlist prête à l'emploi peut être modifiée : sa version modifiée remplace
+            // l'originale (même adresse d'écran) ; « Rétablir » revient à l'originale.
+            $out[$id] = isset($custom[$id]) ? ['preset' => true, 'modified' => true, 'note' => $p['note'] ?? ''] + $custom[$id] + self::defaults() : $p + self::defaults();
+            unset($custom[$id]);
         }
-        foreach (self::custom() as $id => $p) {
+        foreach ($custom as $id => $p) {
             $out[$id] = $p + ['preset' => false] + self::defaults();
         }
         return $out;
@@ -108,7 +112,7 @@ final class Playlists
     }
 
     /**
-     * Crée ou modifie une playlist du musée (jamais une prête à l'emploi). Champs : name, format,
+     * Crée ou modifie une playlist (une prête à l'emploi modifiée garde son adresse). Champs : name, format,
      * lang, adversaire, clock, reload, slides [{type, duration, opt}].
      * @return array la playlist enregistrée
      */
@@ -135,7 +139,7 @@ final class Playlists
         $saved = null;
         JsonStore::update(self::file(), function ($all) use ($id, $p, &$saved) {
             $all = is_array($all) ? $all : [];
-            if ($id === null || !isset($all[$id])) {
+            if ($id === null || (!isset($all[$id]) && !isset(self::presets()[$id]))) {
                 $base = trim(slugify($p['name']), '-') ?: 'ecran';
                 $base = substr($base, 0, 30);
                 $id = $base;

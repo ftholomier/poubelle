@@ -123,7 +123,7 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
 <div class="table"><table><thead><tr><th>Playlist</th><th class="t-num">Slides</th><th class="t-num">Une boucle</th><th>Format, langue</th><th>Exports</th><th></th></tr></thead><tbody>
 <?php foreach ($S['all'] as $id => $p): $x = $S['exports'][$id]; $v = $x['video']; ?>
   <tr id="e-<?= e($id) ?>">
-    <td><b><?= e($p['name']) ?></b> <?= !empty($p['preset']) ? '<span class="pill">prête à l’emploi</span>' : '' ?><?php if (!empty($p['note'])): ?><br><small class="muted"><?= e($p['note']) ?></small><?php endif; ?><br><small class="mono muted">/ecran/<?= e($id) ?></small></td>
+    <td><b><?= e($p['name']) ?></b> <?= !empty($p['preset']) ? '<span class="pill">' . (!empty($p['modified']) ? 'prête à l’emploi · modifiée' : 'prête à l’emploi') . '</span>' : '' ?><?php if (!empty($p['note'])): ?><br><small class="muted"><?= e($p['note']) ?></small><?php endif; ?><br><small class="mono muted">/ecran/<?= e($id) ?></small></td>
     <td class="t-num"><?= count($p['slides']) ?></td>
     <td class="t-num"><?= e($dur(Playlists::duration($p))) ?></td>
     <td class="small"><?= e(Playlists::FORMATS[$p['format']] ?? $p['format']) ?>, <?= $p['lang'] === 'en' ? 'anglais' : 'français' ?><?= $p['adversaire'] !== '' ? '<br>adversaire : ' . e(\App\Front\Fiche::clubName($p['adversaire'])) : '' ?></td>
@@ -142,8 +142,10 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
     </td>
     <td class="row" style="flex-wrap:nowrap">
       <a class="btn btn--sm" href="/ecran/<?= e($id) ?>" target="_blank" rel="noopener">Aperçu ↗</a>
-      <?php if (empty($p['preset'])): ?>
-        <a class="btn btn--sm" href="/admin/widgets?onglet=ecrans&amp;ecran=<?= e(rawurlencode($id)) ?>#editeur">Modifier</a>
+      <a class="btn btn--sm" href="/admin/widgets?onglet=ecrans&amp;ecran=<?= e(rawurlencode($id)) ?>#editeur">Modifier</a>
+      <?php if (!empty($p['preset']) && !empty($p['modified'])): ?>
+        <form method="post" action="/admin/widgets" data-confirm="Rétablir la version d’origine ?|Vos modifications de cette playlist seront perdues (l’adresse d’écran ne change pas).|Rétablir"><?= csrf_field() ?><input type="hidden" name="action" value="ecran-supprimer"><input type="hidden" name="id" value="<?= e($id) ?>"><button class="btn btn--sm btn--ghost">Rétablir l’original</button></form>
+      <?php elseif (empty($p['preset'])): ?>
         <form method="post" action="/admin/widgets" data-confirm="Supprimer cette playlist ?|Son adresse d’écran ne fonctionnera plus.|Supprimer"><?= csrf_field() ?><input type="hidden" name="action" value="ecran-supprimer"><input type="hidden" name="id" value="<?= e($id) ?>"><button class="btn btn--sm btn--danger">Supprimer</button></form>
       <?php endif; ?>
       <form method="post" action="/admin/widgets"><?= csrf_field() ?><input type="hidden" name="action" value="ecran-dupliquer"><input type="hidden" name="id" value="<?= e($id) ?>"><button class="btn btn--sm btn--ghost">Dupliquer</button></form>
@@ -151,9 +153,9 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
   </tr>
 <?php endforeach; ?>
 </tbody></table></div>
-<p class="row" style="margin-top:12px"><a class="btn btn--navy" href="/admin/widgets?onglet=ecrans&amp;ecran=nouveau#editeur">+ Nouvelle playlist</a><span class="small muted">Les trois playlists prêtes à l’emploi ne se modifient pas : dupliquez-en une pour la personnaliser.</span></p>
+<p class="row" style="margin-top:12px"><a class="btn btn--navy" href="/admin/widgets?onglet=ecrans&amp;ecran=nouveau#editeur">+ Nouvelle playlist</a><span class="small muted">Toutes les playlists se modifient, y compris les trois prêtes à l’emploi (« Rétablir l’original » les remet comme au départ) ; « Dupliquer » en fait une variante.</span></p>
 
-<?php if ($S['edit']): $E = $S['edit']; $ro = !empty($E['preset']); ?>
+<?php if ($S['edit']): $E = $S['edit']; $ro = false; ?>
 <form class="card stack" id="editeur" data-json-form data-url="/admin/widgets/ecrans" novalidate>
   <div class="card__head"><h2 class="card__t"><?= $E['id'] === '' ? 'Nouvelle playlist' : ($ro ? 'Playlist « ' . e($E['name']) . ' » (prête à l’emploi : lecture seule)' : 'Modifier « ' . e($E['name']) . ' »') ?></h2></div>
   <div class="card__body stack">

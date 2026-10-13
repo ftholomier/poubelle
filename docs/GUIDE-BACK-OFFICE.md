@@ -407,7 +407,7 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   Page publique de présentation : /widgets/.
 - **Écrans** (onglet de Widgets & partenaires) : le mode écran pour l'écran géant du stade,
   les télés des buvettes ou une borne. Playlists prêtes (avant-match, mi-temps, buvette) ou
-  sur mesure (glisser-déposer, options par slide), lien pour la régie (partenaire, paysage ou
+  sur mesure (glisser-déposer, options par slide) ; les playlists prêtes se modifient aussi (« Rétablir l'original » pour revenir au départ), lien pour la régie (partenaire, paysage ou
   vertical, langue, adversaire du jour, horloge), export en images PNG (ZIP) ou vidéo MP4 si
   le serveur a ffmpeg. Toujours visible, même musée fermé (clé partenaire exigée) ; les QR
   codes mènent au musée, donc à la page d'attente tant qu'il est fermé.
