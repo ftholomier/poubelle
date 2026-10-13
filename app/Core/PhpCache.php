@@ -38,8 +38,12 @@ final class PhpCache
         return is_array($data) ? $data : null;
     }
 
-    /** Au-delà, les données vont dans un fichier à côté (« .ser ») et le .php n'est qu'un chargeur. */
-    public const BIG = 65536;
+    /**
+     * Au-delà, les données vont dans un fichier à côté (« .ser ») et le .php n'est qu'un chargeur.
+     * Seuls les très gros caches (recherche, médiathèque complète) : en dessous, OPcache reste bien plus
+     * rapide (index des fiches, calculs des matchs, lus à chaque page, sans rien relire).
+     */
+    public const BIG = 5_000_000;
 
     /**
      * Code PHP d'un cache de données. Petites données : `<?php return [...]`. Grosses données (index,
