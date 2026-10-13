@@ -48,7 +48,7 @@ final class FicheForm
         }
         if ($has('categories') || $has('categories__present')) {
             $known = Categories::all();
-            $offered = Fiches::catOptions();
+            $offered = Fiches::catOptions((string) ($doc['type'] ?? ''));
             $checked = array_filter(array_map('strval', (array) ($in['categories'] ?? [])), fn ($c) => isset($known[$c], $offered[$c]));
             // Rubriques que le formulaire ne propose pas (« À la une », rubriques techniques) : conservées.
             $kept = array_filter(array_map('strval', $doc['categories'] ?? []), fn ($c) => !isset($offered[$c]));

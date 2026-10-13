@@ -4,7 +4,7 @@ use App\Admin\Fiches;
 use App\Admin\Form;
 use App\Data\Categories;
 
-$opts = Fiches::catOptions();
+$opts = Fiches::catOptions((string) ($doc['type'] ?? ''));
 $sel = $doc['categories'] ?? [];
 $roots = [];
 foreach ($opts as $slug => $label) {
@@ -12,6 +12,7 @@ foreach ($opts as $slug => $label) {
 }
 // Sous-rubrique « Joueurs › Match officiel » (liste livrée avec le code) : sa case est rangée avec les autres rubriques de Nos lions.
 $mo = ($doc['type'] ?? '') === 'personne' && \App\Data\OfficialPlayers::enabled();
+$moShown = false;
 $moOn = $mo && !empty($doc['id']) && \App\Data\OfficialPlayers::has((int) $doc['id']);
 $site = parse_url(base_url(), PHP_URL_HOST) ?: \App\Core\Club::s('domain');
 ?>
@@ -48,7 +49,7 @@ $site = parse_url(base_url(), PHP_URL_HOST) ?: \App\Core\Club::s('domain');
         <div class="checklist" style="margin:8px 0 6px">
           <?php foreach ($singles as $slug => $text): ?>
             <?= $box($slug, $text) ?>
-            <?php if ($mo && $slug === \App\Front\Site::C_JOUEURS): ?>
+            <?php if ($mo && !$moShown && $slug === \App\Front\Site::C_JOUEURS): $moShown = true; ?>
               <label title="Au moins un match officiel avec le club (liste aussi réglable dans Éditorial › Match officiel)"><input type="checkbox" name="match_officiel"<?= $moOn ? ' checked' : '' ?>> Joueurs › Match officiel</label>
             <?php endif; ?>
           <?php endforeach; ?>
@@ -56,11 +57,12 @@ $site = parse_url(base_url(), PHP_URL_HOST) ?: \App\Core\Club::s('domain');
         <?php foreach ($rows as $name => $r): ?>
           <div class="catrow">
             <div class="catrow__k"><?= isset($r['head']) ? $box($r['head'], $name) : '<span>' . e($name) . '</span>' ?></div>
-            <div class="checklist catrow__v"><?php foreach ($r['kids'] as $slug => $text): ?><?= $box($slug, $text) ?><?php endforeach; ?></div>
+            <div class="checklist catrow__v"><?php if ($mo && !$moShown && ($r['head'] ?? '') === \App\Front\Site::C_JOUEURS): $moShown = true; ?><label title="Au moins un match officiel avec le club (liste aussi réglable dans Éditorial › Match officiel)"><input type="checkbox" name="match_officiel"<?= $moOn ? ' checked' : '' ?>> Match officiel</label><?php endif; ?><?php foreach ($r['kids'] as $slug => $text): ?><?= $box($slug, $text) ?><?php endforeach; ?></div>
           </div>
         <?php endforeach; ?>
       </details>
     <?php endforeach; ?>
+    <?php if ($mo && !$moShown): $moShown = true; ?><div class="checklist" style="margin:8px 0 6px"><label title="Au moins un match officiel avec le club (liste aussi réglable dans Éditorial › Match officiel)"><input type="checkbox" name="match_officiel"<?= $moOn ? ' checked' : '' ?>> Joueurs › Match officiel</label></div><?php endif; ?>
     <input type="hidden" name="categories__present" value="1">
     <?php if ($mo): ?><input type="hidden" name="match_officiel__present" value="1"><?php endif; ?>
     <?php

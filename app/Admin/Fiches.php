@@ -570,10 +570,28 @@ final class Fiches extends Base
         return $c;
     }
 
-    public static function catOptions(): array
+    /** Rubrique racine des matchs (celle des saisons). */
+    private static function matchRoot(): ?string
     {
+        foreach (Categories::all() as $slug => $c) {
+            if (!empty($c['season'])) {
+                $t = Categories::trail($slug);
+                $r = $t[0] ?? null;
+                return $r === null ? null : (string) ($r['slug'] ?? $r);
+            }
+        }
+        return null;
+    }
+
+    public static function catOptions(string $type = ''): array
+    {
+        // Fiches de personnes : pas de groupe « Matchs » (décennies, saisons, compétitions), réservé aux fiches de match.
+        $matchRoot = $type === 'personne' ? self::matchRoot() : null;
         $out = [];
         foreach (Categories::all() as $slug => $c) {
+            if ($matchRoot !== null && ($slug === $matchRoot || in_array($matchRoot, array_map(fn ($t) => (string) ($t['slug'] ?? $t), Categories::trail($slug)), true))) {
+                continue;
+            }
             if (!empty($c['technical'])) { // saisons comprises (Matchs › Années 80 › 1985-1986)
                 continue;
             }
