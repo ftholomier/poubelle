@@ -574,7 +574,7 @@ final class Fiches extends Base
     {
         $out = [];
         foreach (Categories::all() as $slug => $c) {
-            if (!empty($c['technical']) || !empty($c['season'])) {
+            if (!empty($c['technical'])) { // saisons comprises (Matchs › Années 80 › 1985-1986)
                 continue;
             }
             $trail = array_map(fn ($t) => Categories::label($t['slug'] ?? $t), Categories::trail($slug));

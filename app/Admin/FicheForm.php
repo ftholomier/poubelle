@@ -50,7 +50,7 @@ final class FicheForm
             $known = Categories::all();
             $offered = Fiches::catOptions();
             $checked = array_filter(array_map('strval', (array) ($in['categories'] ?? [])), fn ($c) => isset($known[$c], $offered[$c]));
-            // Rubriques que le formulaire ne propose pas (saisons, « À la une », rubriques techniques) : conservées.
+            // Rubriques que le formulaire ne propose pas (« À la une », rubriques techniques) : conservées.
             $kept = array_filter(array_map('strval', $doc['categories'] ?? []), fn ($c) => !isset($offered[$c]));
             $doc['categories'] = array_values(array_unique(array_merge($checked, $kept)));
         }
