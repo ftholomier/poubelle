@@ -130,6 +130,9 @@ HTML],
         ['id' => 'depart', 'title' => '… remplir un nouveau musée avec ses contenus de départ', 'admin' => true, 'html' => <<<'HTML'
 <p>Système › <b>Contenus de départ</b> › <b>Créer et publier les fiches</b>, page ouverte. Les fiches sont en ligne tout de suite ; relancer après une mise à jour applique les nouvelles versions aux seules fiches que personne n’a modifiées. Voir [[aide:administration#depart|Contenus de départ]].</p>
 HTML],
+        ['id' => 'widget-partenaire', 'title' => '… donner un widget du musée à un site partenaire', 'admin' => true, 'html' => <<<'HTML'
+<p>Communauté › <b>Widgets &amp; partenaires</b>. Widget libre : configurateur › choisissez le widget, le thème et la langue › « Copier le code » › envoyez-le. Widget réservé ou payant : onglet Partenaires › ajoutez le partenaire (domaines de son site, offre) › copiez sa clé › dans le configurateur, choisissez ce partenaire : sa clé est ajoutée au code. Pour couper l’accès : statut « Suspendu » ou « Nouvelle clé ».</p>
+HTML],
         ['id' => 'perdu', 'title' => '… retrouver un texte non enregistré', 'html' => <<<'HTML'
 <p>Rouvrez la fiche sur le même ordinateur et le même navigateur : un bandeau propose « Le récupérer ». Sinon, l’onglet Historique contient la dernière version enregistrée.</p>
 HTML],

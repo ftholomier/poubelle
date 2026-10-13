@@ -1242,6 +1242,92 @@ service worker lui-même se retire dès qu'il voit une page ainsi marquée.
   de notifications sur 127.0.0.1 ; `tests/notifications.php` déchiffre chaque message envoyé
   avec une implémentation indépendante et vérifie le jeton VAPID.
 
+## 7 terdecies. Widgets du musée (`App\Widgets`, `/w/…`, `/api/v1/widgets`)
+
+Les contenus vivants du musée en encarts à afficher sur d'autres sites (proposition :
+`docs/widgets-proposition.pdf`). Phase 1 : socle, mode iframe, API en lecture et 6 widgets.
+
+**Adresses** (toutes en GET, traitées par `App\Widgets\Http` avant la page d'attente et le
+préfixe `/en` ; langue par `?lang=fr|en`) :
+
+| Adresse | Rôle |
+|---|---|
+| `GET /api/v1/widgets` | catalogue JSON des widgets accessibles (libres, plus réservés / payants si la clé y donne droit), avec l'adresse de l'API et de l'iframe de chacun |
+| `GET /api/v1/widgets/{clé}` | données JSON d'un widget : `widget`, `name`, `lang`, `options`, `generated`, `data`, `attribution` (nom du musée, mention « non officiel », lien et logo, à afficher), `iframe` |
+| `OPTIONS /api/v1/widgets…` | pré-vol CORS (en-tête `X-Musee-Key`) |
+| `GET /w/{clé}?theme=clair\|sombre&lang=fr\|en&format=standard\|compact&…` | le widget en page HTML autonome (CSS en ligne, polices du site, `js/widget.js`), à mettre dans une iframe |
+| `GET /w/clic/{clé}/?to=/chemin&p=<partenaire>` | lien d'un widget vers le musée : compté, puis redirection 302 vers le chemin du musée (jamais ailleurs) avec `utm_source=widget` |
+| `GET /widgets/` | page publique « Intégrez le musée sur votre site » (widgets libres, aperçu, code à copier ; `Widgets\Pages`, `templates/widgets/demo.php`) |
+
+Options propres : `ce-jour-la` (`date=MM-JJ`, `nombre=1|3|5`), `il-y-a` (`ans=tous|5|10|20|30`),
+`carte-legende` (`joueur=<slug de la fiche>`). Clé partenaire : `?key=mk_…` ou en-tête `X-Musee-Key`.
+
+**Classes.** `Registry` (widgets prêts : `CLASSES`, à venir : `PLANNED`) ; `Widget` (classe de
+base : `key`, `name`, `description`, `options`, `defaultAccess`, `ttl`, `data` → tableau,
+`body` → HTML, `height`, `clean`, `describe`) ; un widget par classe dans `app/Widgets/Items/`
+(`CeJourLa` ← `Derived::onThisDay`, `ChiffreDuJour` ← `Chiffres::daily`, `IlYA` ←
+`Front\Pages::yearsAgo([5,10,20,30])`, `CarteLegende` ← `Pages::legends` + `person_totals`,
+`PhotoDuJour` ← `Photos::pool`, `LeSaviezVous` ← banque de textes validée, `boutique.php` du club
+(« banque »), frise) ; `Frame` (cadre HTML commun : logo, mention, lien obligatoires ;
+`finalize()` change chaque `href` des données en lien compté) ; `Context` (langue, thème,
+format, partenaire, liens) ; `Photos` (seules photos diffusables) ; `Cache` ; `Store` (réglages,
+partenaires, statistiques) ; `Http` (accès, en-têtes) ; `Admin\Widgets` (back-office).
+
+**Accès** (`Store::widget`, réglé par widget dans Communauté › Widgets & partenaires,
+administrateurs) : `libre` (par défaut), `reserve` (clé d'un partenaire actif), `payant` (clé et
+offre payante en cours : `offer=payante`, `until` vide ou non dépassé), `desactive`. Ordre des
+contrôles (`Http::access`) : désactivé → 404 ; site fermé (`Seo::closed()` : page d'attente ou
+mot de passe) sans « actif même site fermé » → 503 ; clé inconnue → 401 ; partenaire suspendu →
+403 ; clé limitée à des domaines et page appelante (Origin, sinon Referer) absente ou hors liste
+→ 403 ; réservé sans clé → 401 ; payant sans offre en cours → 402. L'équipe connectée au
+back-office voit tout (aperçu), sans compter dans les statistiques ; `?apercu=1` (page de
+démonstration) ne compte pas non plus.
+
+**En-têtes.** API : CORS `*` sans clé (ou clé sans domaine), l'origine elle-même pour une clé
+limitée ; `Cache-Control: public, max-age=300` (`private` pour une clé limitée), `ETag` et
+réponse 304 sur `If-None-Match`, `Vary: Origin, X-Musee-Key`. Iframe : `Content-Security-Policy`
+propre (`default-src 'none'`, `frame-ancestors *` pour un widget sans clé limitée, sinon
+`'self'` et les domaines du partenaire, sous-domaines compris), `max-age=120` ;
+`public/.htaccess` n'envoie pas `X-Frame-Options` sous `/w/`. Aucun cookie posé (la session
+n'est lue que si le navigateur en a déjà une). Pas de cache de pages (`PageCache::SKIP`) ni de
+mesure d'audience du musée (`public/index.php`) pour `/w/`.
+
+**Débit.** `RateLimiter` : 1 200 requêtes par minute et par clé (`widgets-cle`), 240 par minute
+et par IP sans clé (`widgets-ip`), clics comptés 30 par minute et par IP au plus. `Core\Shield`
+s'applique (robots d'IA, aspirateurs) sauf le filtre des agents (curl, clients HTTP) pour
+`/api/v1/widgets` appelé avec une clé : les serveurs des partenaires passent, la clé est vérifiée
+par l'API.
+
+**Cache des données** (`Cache`, `STORAGE_PATH/widgets/cache/`) : une entrée par widget,
+options et langue, pour `Widget::ttl()` (une heure) et jamais au-delà de minuit ; bouton « Vider
+le cache des widgets » dans le back-office.
+
+**Photos** (`Photos::safe`, `Photos::pool`) : photos livrées avec le club sous licence libre
+(CC BY, CC BY-SA, CC0, domaine public : auteur, licence, lien de la licence et source), et photos
+de la médiathèque retenues par les murs de photos (`PhotoWall` : crédit, ni DR ni source à risque,
+fiche publiée, 300 px au moins), sauf celles créditées au club lui-même (`Photos::official` :
+nom, nom court ou sigle du club). Toute autre image est omise (carte de légende : initiales).
+
+**Stockage** (par musée, `STORAGE_PATH/widgets/`) : `reglages.json` (accès, « actif même site
+fermé »), `partenaires.json` (identifiant public `p` + 8 hex, nom, contact, domaines, statut,
+offre, échéance, clé : empreinte SHA-256 pour la vérification et clé chiffrée par
+`Settings::encrypt` pour l'afficher à l'administrateur), `stats/AAAA-MM-JJ.json` (`vues`, `api`,
+`clics` → widget → partenaire ou `libre`), `cache/`. Aucune différence de code entre musées :
+couleurs (`Club::color`), logo (`logo_400`), nom, adresse et contenus viennent du club servi.
+
+**Ajouter un widget** : une classe `app/Widgets/Items/<Nom>.php` qui étend `Widget` (données en
+tableau, liens en chemins `href` du musée, images passées par `Photos::safe`, aucune donnée
+personnelle), sa clé dans `Registry::CLASSES` (et retirée de `PLANNED`), ses styles éventuels
+dans `Frame::css()` (préfixe `w-`), un test dans `tests/widgets.php`. Accès, cadre, API,
+cache, statistiques, configurateur, page de démonstration et aide suivent seuls.
+
+**Hauteur automatique.** `public/assets/js/widget.js` envoie à la page parente
+`{type: "musee-widget", widget, height, src}` (`postMessage`) à chaque changement de taille ;
+`Widgets\Pages::resizeScript()` donne les quatre lignes à coller chez le partenaire (base du
+script d'intégration de la phase 2).
+
+Tests : `php tests/widgets.php` (stockage isolé dans un dossier temporaire).
+
 ## 8. Back-office
 
 - `App\Admin\Router` : connexion obligatoire (sauf connexion, premier accès, invitation,

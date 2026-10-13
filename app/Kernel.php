@@ -160,6 +160,12 @@ final class Kernel
             return Admin\Router::handle($req);
         }
 
+        // Widgets du musée (API en lecture /api/v1/widgets, iframes /w/<clé>) : leurs propres règles
+        // d'accès (libre, réservé, payant, désactivé) et du site fermé (« actif même site fermé »).
+        if (preg_match('#^/(api/v1/widgets|w)(/|$)#', $path)) {
+            return Widgets\Http::handle($req);
+        }
+
         // Langue : préfixe /en
         if (preg_match('#^/en(/.*)?$#', $path, $m)) {
             I18n::set('en');
@@ -507,6 +513,7 @@ final class Kernel
         $r->get('/newsletter/c/{week}/{token}/{i}/', fn ($q, $week, $token, $i) => \App\Services\NewsletterStats::click($q, $week, $token, $i));
         $r->get('/newsletter/o/{week}/{token}/', fn ($q, $week, $token) => \App\Services\NewsletterStats::open($q, $week, $token));
         $r->get('/partage-et-newsletter/', fn ($q) => Front\Community::sharePage($q));
+        $r->get('/widgets/', fn ($q) => Widgets\Pages::demo($q));
         return $r;
     }
 }

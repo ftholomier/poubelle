@@ -2386,5 +2386,21 @@
     "J’ai soutenu le musée {site} !": "I supported the {site} museum!",
     "Générée automatiquement à partir des matchs de la semaine, avec un rappel aux dons.": "Generated automatically from the week's matches, with a reminder about donations.",
     "Le coup d’envoi d’un Rétro-Direct, les nouvelles du musée, le kit du mois : choisissez ce qui vous intéresse. Jamais la nuit, et désactivable d’un clic.": "The kick-off of a Rétro-Direct, news from the museum, the kit of the month: choose what interests you. Never at night, and can be switched off in one click.",
-    "Carte mystère · à débloquer au fil des visites": "Mystery card · unlocked as you visit"
+    "Carte mystère · à débloquer au fil des visites": "Mystery card · unlocked as you visit",
+    "Widgets pour votre site": "Widgets for your website",
+    "Widgets gratuits": "Free widgets",
+    "Intégrez le musée sur votre site": "Add the museum to your website",
+    "Copiez une ligne de code et votre site affiche, chaque jour, un contenu du musée {site} : toujours à jour, sans rien installer, aux couleurs du musée.": "Copy one line of code and your website shows something new from the {site} museum every day: always up to date, nothing to install, in the museum’s colours.",
+    "Gratuit pour les widgets ci-dessous, sur tout site.": "The widgets below are free, on any website.",
+    "Le logo du musée, la mention « non officiel » et le lien vers le musée restent toujours visibles.": "The museum logo, the “unofficial” mention and the link to the museum always stay visible.",
+    "Thème clair ou sombre, en français ou en anglais.": "Light or dark theme, in French or English.",
+    "Aucun widget n’est ouvert à tous pour le moment.": "No widget is open to everyone at the moment.",
+    "Code à copier": "Code to copy",
+    "Copier le code": "Copy the code",
+    "Voir en sombre": "See in dark",
+    "Données brutes (JSON) :": "Raw data (JSON):",
+    "Hauteur automatique (facultatif)": "Automatic height (optional)",
+    "Ajoutez une fois ces quelques lignes dans votre page : chaque widget prend alors exactement la hauteur de son contenu.": "Add these few lines once to your page: each widget then takes exactly the height of its content.",
+    "Club, média, office de tourisme, association : d’autres widgets, l’accès aux données brutes et les écrans de stade sont réservés aux partenaires du musée, avec une clé.": "Club, media, tourist office, association: more widgets, raw data access and stadium screens are reserved for museum partners, with a key.",
+    "Widgets gratuits de {site} à copier-coller sur votre site : ce jour-là, chiffre du jour, carte de légende, photo du jour…": "Free {site} widgets to copy and paste on your website: on this day, stat of the day, legend card, photo of the day…"
 }

@@ -901,3 +901,10 @@ body.has-proof .bo { padding-right: 440px; }
 .club-switch > .btn { max-width: 190px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; }
 .top:has(.club-switch) .top__search { flex-basis: 220px; }
 .top:has(.club-switch) .me__who span { display: none; }
+
+/* Communauté › Widgets & partenaires */
+.wcat { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; align-items: start; }
+.mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+.wbars { display: flex; align-items: flex-end; gap: 2px; height: 120px; }
+.wbars span { flex: 1; background: var(--navy); min-width: 2px; }
+.wbars span:hover { background: var(--yellow); }

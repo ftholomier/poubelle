@@ -17,7 +17,7 @@ use App\Data\Activity;
 final class Router
 {
     /** Adresses réservées aux administrateurs (en plus des comptes et des réglages, contrôlés écran par écran). */
-    private const ADMIN_ONLY = '#^/admin/(assistant|audio|couts-ia|sauvegardes|taches|api/couts|dons/recu|statistiques|association|boutique|notifications)(/|$)#';
+    private const ADMIN_ONLY = '#^/admin/(assistant|audio|couts-ia|sauvegardes|taches|api/couts|dons/recu|statistiques|association|boutique|notifications|widgets)(/|$)#';
 
     public static function handle(Request $req): Response
     {
@@ -202,6 +202,8 @@ final class Router
         $r->get('/admin/newsletter', fn ($q) => Community::newsletter($q));
         $r->post('/admin/newsletter', fn ($q) => Community::newsletterAction($q));
         $r->get('/admin/newsletter/apercu', fn ($q) => Community::newsletterPreview($q));
+        $r->get('/admin/widgets', fn ($q) => Widgets::index($q));
+        $r->post('/admin/widgets', fn ($q) => Widgets::action($q));
         $r->get('/admin/dons', fn ($q) => Donations::index($q));
         $r->post('/admin/dons', fn ($q) => Donations::action($q));
         $r->get('/admin/dons/export.csv', fn ($q) => Donations::export($q));

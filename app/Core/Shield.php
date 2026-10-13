@@ -50,7 +50,10 @@ final class Shield
             return null;
         }
         $ua = trim((string) $req->header('User-Agent'));
-        if ($ua === '' || self::blocked($ua)) {
+        // API des widgets appelée avec une clé partenaire (serveur du partenaire, souvent curl ou
+        // un client HTTP) : la clé est vérifiée par l'API, qui a ses propres limites de débit.
+        $keyed = str_starts_with($path, '/api/v1/widgets') && (isset($req->query['key']) || $req->header('X-Musee-Key') !== null);
+        if (!$keyed && ($ua === '' || self::blocked($ua))) {
             self::log('robot');
             return self::deny(403);
         }

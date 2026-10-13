@@ -27,7 +27,7 @@ $response->send();
 // Mesure d'audience anonyme (pages HTML publiques uniquement), après l'envoi de la page ; rien
 // tant que le site est fermé au public (seule l'équipe connectée le voit). Le site de
 // l'association a sa propre mesure (jamais l'aperçu du back-office).
-if ($request->method === 'GET' && in_array($response->status, [200, 304], true) && !str_starts_with($request->path, '/admin') && !str_starts_with($request->path, '/api/')
+if ($request->method === 'GET' && in_array($response->status, [200, 304], true) && !str_starts_with($request->path, '/admin') && !str_starts_with($request->path, '/api/') && !str_starts_with($request->path, '/w/')
     && str_contains((string) ($response->headers['Content-Type'] ?? 'text/html'), 'text/html') && !\App\Vitrine\Host::isPreview($request->path)) {
     if (\App\Vitrine\Host::matches($request)) {
         if (\App\Vitrine\Site::open()) {

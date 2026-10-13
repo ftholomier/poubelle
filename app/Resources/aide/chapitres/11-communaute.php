@@ -1,8 +1,8 @@
 <?php
 return [
     'slug' => 'communaute',
-    'title' => 'Contributions, messages, newsletter, notifications, dons',
-    'summary' => 'Traiter ce que proposent les visiteurs, leur répondre, envoyer la lettre « Ce jour-là » et les notifications de l’appli, suivre les dons.',
+    'title' => 'Contributions, messages, newsletter, notifications, widgets, dons',
+    'summary' => 'Traiter ce que proposent les visiteurs, leur répondre, envoyer la lettre « Ce jour-là » et les notifications de l’appli, diffuser le musée chez les partenaires (widgets), suivre les dons.',
     'sections' => [
         ['id' => 'contributions', 'title' => 'Les contributions des visiteurs', 'html' => <<<'HTML'
 <p>Sur le site, « Contribuer au musée » permet de proposer une correction, des photos ou des documents (avec cession de droits). Elles arrivent dans Communauté › <b>Contributions</b>, onglet « À traiter ».</p>
@@ -96,6 +96,32 @@ HTML, 'admin' => true],
 [[img:carnets.webp|Communauté › Carnets du supporter : nombre de carnets et matchs les plus vécus]]
 [[attention|<p>Une notification envoyée ne peut pas être rattrapée. Avant une annonce importante, abonnez votre propre téléphone et faites un essai. Restez rare : au-delà d’une ou deux par semaine, les abonnés se désabonnent.</p>]]
 [[auto|<p>Les messages sont chiffrés pour le seul navigateur abonné (norme Web Push) : Google, Apple, Mozilla ou Microsoft les acheminent sans pouvoir les lire. Le musée ne garde ni nom, ni e-mail, ni adresse IP : seulement l’adresse technique fournie par le navigateur, les sujets et la langue. Un abonnement disparu (appli supprimée) est effacé au premier envoi.</p>]]
+HTML],
+        ['id' => 'widgets', 'title' => 'Widgets & partenaires : le musée sur d’autres sites', 'admin' => true, 'html' => <<<'HTML'
+<p>Communauté › <b>Widgets &amp; partenaires</b> (administrateurs) : un widget est un petit encart du musée qu’un autre site affiche en copiant une ligne de code (une <i>iframe</i>), ou dont il lit les données brutes (API JSON). Six widgets sont prêts : <b>Ce jour-là</b>, <b>Chiffre du jour</b>, <b>Il y a 5, 10, 20, 30 ans</b>, <b>Carte de légende</b> (au hasard ou joueur choisi), <b>Photo du jour</b> et <b>Le saviez-vous ?</b>. Ils se mettent à jour seuls.</p>
+<h3>Ce qui ne change jamais</h3>
+<ul>
+<li>Toujours aux couleurs et avec les polices du musée ; le partenaire ne choisit que le <b>thème</b> (clair ou sombre), la <b>langue</b> et le <b>format</b> (standard ou compact).</li>
+<li>Toujours le <b>logo du musée</b>, la mention <b>« Musée indépendant, non officiel »</b> et l’<b>adresse du musée</b> cliquable : impossible à retirer.</li>
+<li>Seules sortent les photos diffusables : photos livrées sous licence libre (avec auteur et licence) et photos créditées des murs de photos ; jamais une photo « DR », d’agence ou créditée au club lui-même. Une carte de légende sans photo diffusable affiche les initiales du joueur.</li>
+<li>Aucune donnée personnelle, aucun cookie chez le visiteur ; « Le saviez-vous ? » ne montre que des anecdotes déjà validées (banque de textes de la boutique, frise publiée), jamais un texte inventé.</li>
+</ul>
+<h3>Régler l’accès de chaque widget</h3>
+<p>Onglet <b>Catalogue &amp; configurateur</b> : chaque widget a son aperçu en direct et son <b>accès</b>, modifiable à tout moment :</p>
+<ul>
+<li><b>Libre</b> : tout site peut l’afficher, sans clé ; il figure sur la page publique <a href="/widgets/" target="_blank" rel="noopener">/widgets/</a> (« Intégrez le musée sur votre site », lien en pied de page).</li>
+<li><b>Réservé</b> : seulement avec la clé d’un partenaire actif.</li>
+<li><b>Payant</b> : seulement avec la clé d’un partenaire dont l’offre payante est en cours.</li>
+<li><b>Désactivé</b> : servi à personne.</li>
+</ul>
+<p><b>Actif même site fermé</b> : quand le musée est en page d’attente (ou protégé par mot de passe), les widgets ne sont plus servis, sauf ceux qui ont cette case cochée.</p>
+<h3>Le configurateur</h3>
+<p>Choisissez le widget, le thème, la langue, le format, ses options (date, joueur, écart d’années…) et, pour un widget réservé ou payant, le partenaire : l’aperçu se met à jour, le <b>code iframe</b> et l’<b>adresse de l’API</b> sont prêts à copier et à envoyer au partenaire. Le petit code « Hauteur automatique » est facultatif : il ajuste la hauteur de l’iframe au contenu.</p>
+<h3>Les partenaires</h3>
+<p>Onglet <b>Partenaires</b> › « Ajouter un partenaire » : nom, contact, <b>domaines autorisés</b> (la clé ne marche que sur ces sites ; vide : partout, y compris depuis un serveur), statut (<b>actif</b> ou <b>suspendu</b>), <b>offre</b> (gratuite ou payante, avec sa date d’échéance ; pas de paiement en ligne pour l’instant, l’offre se note ici). La <b>clé</b> est créée au hasard et affichée une fois en haut de l’écran : transmettez-la au partenaire. <b>Nouvelle clé</b> en crée une autre (l’ancienne cesse aussitôt de fonctionner, par exemple si elle a circulé).</p>
+<h3>Statistiques</h3>
+<p>Onglet <b>Statistiques</b> : affichages des widgets, appels de l’API et <b>clics vers le musée</b>, par widget et par partenaire, sur 7, 30, 90 ou 365 jours. Comptés par jour, sans adresse IP ni cookie ; les aperçus du back-office et de la page de démonstration ne comptent pas.</p>
+[[attention|<p>Les widgets sont gardés en cache (une heure au plus, et jamais au-delà de minuit). Après une correction urgente (une photo à retirer), cliquez <b>Vider le cache des widgets</b> en bas du catalogue.</p>]]
 HTML],
         ['id' => 'dons', 'title' => 'Le suivi des dons', 'html' => <<<'HTML'
 <p>Communauté › <b>Dons</b> : jauge de la collecte, liste des dons (carte bancaire via Stripe, PayPal, hors ligne), dons mensuels, export CSV pour la comptabilité.</p>

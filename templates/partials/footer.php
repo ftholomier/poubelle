@@ -105,6 +105,7 @@ $asso = \App\Vitrine\Host::base();
     <a href="<?= e(url((string) Settings::get('privacy.legal_page', '/mentions-legales/'))) ?>"><?= e(t('Mentions légales')) ?></a>
     <a href="<?= e(url('/confidentialite/')) ?>"><?= e(t('Confidentialité')) ?></a>
     <a href="<?= e(url('/cookies/')) ?>"><?= e(t('Cookies')) ?></a>
+    <a href="<?= e(url('/widgets/')) ?>"><?= e(t('Widgets pour votre site')) ?></a>
     <?php if ($credit !== '' || $creditName !== ''): ?><span><?= e($credit) ?><?php if ($creditName !== ''): ?> <a href="<?= e($creditLink) ?>" rel="noopener" target="_blank"><?= e($creditName) ?></a><?php endif; ?></span><?php endif; ?>
   </div>
   <p class="club-disclaimer"><?= e(\App\Core\Club::disclaimer()) ?></p>

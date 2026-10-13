@@ -59,6 +59,7 @@ class Base
             ['newsletter', 'Newsletter', '/admin/newsletter', false],
             ['notifications', 'Notifications', '/admin/notifications', true],
             ['carnets', 'Carnets du supporter', '/admin/carnets', false],
+            ['widgets', 'Widgets & partenaires', '/admin/widgets', true],
             ['dons', 'Dons', '/admin/dons', false],
         ],
         'Boutique' => [
