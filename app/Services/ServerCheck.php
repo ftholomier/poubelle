@@ -45,8 +45,11 @@ final class ServerCheck
         if (PHP_SAPI !== 'cli' && !(extension_loaded('Zend OPcache') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN))) {
             $out[] = 'OPcache désactivé : chaque page relit tout le code, le site et le back-office sont nettement plus lents (cPanel › Sélectionner une version de PHP › Extensions : cocher « opcache »).';
         }
-        if (($o = self::opcache()) && ($o['full'] || $o['oom'] > 0)) {
-            $out[] = 'Mémoire d’OPcache trop petite (' . $o['used'] . ' Mo utilisés sur ' . $o['total'] . ') : le code et les données sont relus et recompilés trop souvent. À augmenter (réglage opcache.memory_consumption, 256 Mo) dans cPanel › Sélectionner une version de PHP › Options, ou auprès de l’hébergeur.';
+        // Vraiment trop petite seulement si elle est pleine maintenant et petite (moins de 256 Mo) ; avec
+        // 256 Mo ou plus, les redémarrages viennent de la mémoire « gaspillée » par les fichiers réécrits
+        // (mises à jour, données recalculées) : sans gravité, l'OPcache se vide et se remplit seul.
+        if (($o = self::opcache()) && $o['full'] && $o['total'] < 256) {
+            $out[] = 'Mémoire d’OPcache trop petite (' . $o['used'] . ' Mo utilisés sur ' . $o['total'] . ') : le code est recompilé trop souvent. À augmenter (réglage opcache.memory_consumption, 256 Mo) dans cPanel › Sélectionner une version de PHP › Options, ou auprès de l’hébergeur.';
         }
         if (PHP_SAPI !== 'cli' && !self::finishesEarly()) {
             $out[] = 'PHP ne sait pas terminer une page avant la fin du travail qui la suit (mode ' . PHP_SAPI . ') : après un enregistrement, le recalcul des statistiques fait attendre la personne. Un PHP en mode PHP-FPM ou LiteSpeed (cPanel, ou l’hébergeur) l’évite.';
@@ -83,6 +86,7 @@ final class ServerCheck
             'total' => (int) round(($used + (int) ($m['free_memory'] ?? 0)) / 1048576),
             'full' => !empty($st['cache_full']),
             'oom' => (int) ($st['opcache_statistics']['oom_restarts'] ?? 0),
+            'wasted' => (int) round((int) ($m['wasted_memory'] ?? 0) / 1048576),
             'scripts' => (int) ($st['opcache_statistics']['num_cached_scripts'] ?? 0),
             'hits' => round((float) ($st['opcache_statistics']['opcache_hit_rate'] ?? 0), 1),
         ];
