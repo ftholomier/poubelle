@@ -164,6 +164,13 @@ final class Page
                 }
                 $h .= '</ul></div>';
                 break;
+            case 'don':
+                $h .= '<div class="ec-main">' . $eb . '<h1 class="ec-title">' . e($s['title']) . '</h1><p class="ec-text ec-don__text">' . e($s['text']) . '</p>';
+                if ($g = $s['gauge']) {
+                    $h .= '<div class="ec-gauge"><p><b>' . e($g['raised']) . '</b> ' . e($g['goal']) . '</p><div class="ec-gauge__bar"><i style="width:' . e((string) $g['pct']) . '%"></i></div><span>' . e($g['note']) . '</span></div>';
+                }
+                $h .= '</div>' . $qr($s['qr'], $s['caption']);
+                break;
         }
         return $h . '</section>';
     }
@@ -244,6 +251,11 @@ final class Page
             . '.ec-support{list-style:none;display:grid;gap:60px;grid-template-columns:repeat(3,1fr)}.ec-support--1{grid-template-columns:420px}.ec-support--2{grid-template-columns:repeat(2,460px)}'
             . '.ec-support li{text-align:center}.ec-support .ec-qr{width:340px;margin:0 auto 26px}.ec-support b{display:block;font:900 64px/1 var(--display);text-transform:uppercase;color:var(--accent)}.ec-support span{display:block;font:500 32px/1.3 var(--serif);margin-top:12px;color:var(--mist)}'
             . '.ec--vertical .ec-support{grid-template-columns:1fr;gap:40px}.ec--vertical .ec-support .ec-qr{width:260px}'
+            . '.ec-l--don{gap:90px}.ec-l--don .ec-qr{flex:none;align-self:center;width:600px;margin:0;padding:24px}.ec-l--don .ec-qr figcaption{font:900 46px/1 var(--display);text-transform:uppercase;letter-spacing:.06em;color:var(--navy);text-align:center;margin-top:14px}'
+            . '.ec-don__text{font:500 48px/1.3 var(--serif);color:var(--cream);margin:10px 0 0}'
+            . '.ec-gauge{margin-top:56px}.ec-gauge p{font:800 48px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;color:var(--mist);margin:0 0 22px}.ec-gauge b{font:900 120px/1 var(--display);color:var(--accent);letter-spacing:0;margin-right:10px}'
+            . '.ec-gauge__bar{height:44px;border-radius:22px;background:rgba(255,255,255,.14);overflow:hidden}.ec-gauge__bar i{display:block;height:100%;min-width:44px;background:var(--accent);border-radius:22px}.ec-gauge span{display:block;font:500 36px/1.3 var(--serif);color:var(--mist);margin-top:18px}'
+            . '.ec--vertical .ec-l--don{gap:50px}.ec--vertical .ec-l--don .ec-qr{width:560px;align-self:center}.ec--vertical .ec-gauge b{font-size:100px}'
             . '.ec-progress{position:absolute;left:0;right:0;bottom:120px;height:10px;background:rgba(255,255,255,.12)}.ec-progress i{display:block;height:100%;width:0;background:var(--accent)}'
             . '.ec-foot{position:absolute;left:0;right:0;bottom:0;height:120px;display:flex;align-items:center;gap:26px;padding:0 60px;background:var(--navy2);border-top:6px solid var(--accent)}'
             . '.ec-foot img{height:84px;width:auto}.ec-foot__id{flex:1;min-width:0}.ec-foot__id b{display:block;font:900 46px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'

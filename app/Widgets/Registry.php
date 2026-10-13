@@ -35,6 +35,7 @@ final class Registry
         'playlist' => Items\Playlist::class,
         // Après la vague 3
         'boutique' => Items\Boutique::class,
+        'don' => Items\Don::class,
     ];
 
     /** Catégories du catalogue (filtres du back-office, de /widgets/ et de l'API) : clé => [fr, en]. */
@@ -72,6 +73,7 @@ final class Registry
         'retro-direct' => ['matchs'],
         'playlist' => ['ecrans'],
         'boutique' => ['musee'],
+        'don' => ['musee'],
     ];
 
     /** Libellé d'une catégorie. */

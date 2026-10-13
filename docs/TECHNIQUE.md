@@ -1286,6 +1286,8 @@ label}]}`, 20 au plus, sans accents ni casse, mêmes règles d'accès et de déb
 | `saison` | `saison` | select | `auto` (en cours ou dernière) ou saison ayant des matchs (`Derived seasons`), la plus récente d'abord |
 | `boutique` | `produit` | select | `auto` (sélection du jour) ou id d'un objet en vente |
 | `boutique` | `affichage` | select | `carte` (carte façon Panini qui se retourne toutes les 5 s, `Boutique::CARDS` objets ; pause au survol ; fondu si mouvement réduit) ou `grille` (trois objets) |
+| `don` | `qr`, `jauge` | select | `oui` (par défaut) ou `non` |
+| `don` | `montants` | select | `non` (par défaut) ou `oui` (quatre premiers montants suggérés de la page « Faire un don ») ; option absente si la page n'en propose pas |
 | `ce-jour-la` | `date`, `nombre` | date (md), number 1–8 | vide : aujourd'hui ; 3 |
 | `compte-a-rebours` | `date`, `titre` | date (future), text | vide : centenaire ou anniversaire de `founded_date` |
 | `records` | `cat`, `nombre` | select, number 3–10 | `buteurs\|matchs` ; 10 |
@@ -1336,7 +1338,13 @@ accès « réservé » par défaut : `defaultAccess()`) ; après la vague 3 : `B
 `Catalog::models()` filtrés par `Catalog::sellable`, aperçu `ShopPages::previewUrl`, prix
 `sale.price` (« à partir de » si `sale.extra`), trois par jour (`crc32(date|id)`) ou `produit`
 choisi ; `null` si `Orders::open()` est faux (`Boutique::$open` le force dans les essais) ou
-sans objet en vente ; slide écran `boutique` (mise en page « soutien », QR codes)) ; `Frame` (cadre HTML commun : logo, mention, lien obligatoires ;
+sans objet en vente ; slide écran `boutique` (mise en page « soutien », QR codes) ; `Don` ← même ouverture
+que le lien « don » de `Soutenir::open()` (`Don::$open` la force dans les essais), jauge `Donations::gauge()`
+seulement si `goal > 0` (comme la page publique : collecté, objectif, %, donateurs), montants suggérés
+`Donations::content()['tiers']` (option `montants` proposée seulement s'il y en a), bouton `href` compté vers
+`/faire-un-don/`, QR code `Services\Qr::svg` (SVG en ligne, fond blanc) vers `Don::qrUrl` = adresse complète
+`/faire-un-don/?utm_source=widget&utm_medium=don&utm_content=qr` (+ `utm_campaign` = partenaire), slide écran
+`don` (QR en lien compté `/w/clic/playlist/`, comme les autres slides)) ; `Frame` (cadre HTML commun : logo, mention, lien obligatoires ;
 `finalize()` change chaque `href` des données en lien compté) ; `Context` (langue, thème,
 format, partenaire, liens) ; `Photos` (seules photos diffusables) ; `Cache` ; `Store` (réglages,
 partenaires, statistiques) ; `Http` (accès, en-têtes) ; `Admin\Widgets` (back-office).
@@ -1443,10 +1451,10 @@ une page ouverte directement n'ayant pas de page d'origine) ; « réservé » pa
 l'adresse (`?key=`) ; l'équipe connectée voit l'aperçu. Refus : message plein écran dans le même
 cadre (`Page::notice`, `no-store`). Affichage compté `vues` / `playlist` / partenaire.
 
-- `Playlists` : `TYPES` (18 types de slides : clé → nom, durée par défaut, options permises
+- `Playlists` : `TYPES` (19 types de slides, dont `don` : mise en page `don`, grand QR code et jauge : clé → nom, durée par défaut, options permises
   `adversaire`, `cat`, `n` (variante : autre photo, autre fenêtre de la frise), `saison`) ;
   `presets()` (`avant-match` ≈ 3 min 40 en boucle pour le quart d'heure d'avant-match,
-  `mi-temps` ≈ 2 min 10, `buvette` en continu ≈ 3 min 20), playlists du musée dans
+  `mi-temps` ≈ 2 min 10, `buvette` en continu ≈ 3 min 30, qui finit par la slide `don` ; pas de `don` à la mi-temps, qui a déjà `soutenir`), playlists du musée dans
   `Store::dir()/ecrans.json` (`save` : nom obligatoire, au moins une slide, slides validées par
   `cleanSlides` (type connu, durée 5–120 s, options permises), adresse tirée du nom, jamais celle
   d'une playlist prête à l'emploi ; `delete`). Réglages : `format` (`paysage` 1920 × 1080 ou

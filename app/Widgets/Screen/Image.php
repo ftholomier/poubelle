@@ -410,6 +410,30 @@ final class Image
                     $this->para($it['text'], 'Newsreader-Regular', 32, $ix, $iy + $qs + 96, $colw, 3, 'mist', 1.3, true);
                 }
                 break;
+
+            case 'don':
+                // Grand QR code (lisible de loin) à droite, ou en bas en vertical ; texte et jauge à côté.
+                $qs = $v ? 600 : 620;
+                $cap = 76;
+                [$qx, $qy] = $v ? [(int) (($this->w - $qs) / 2), $bottom - $qs - $cap] : [$x + $cw - $qs, (int) (($y + $bottom - $qs - $cap) / 2)];
+                $tw = $v ? $cw : $cw - $qs - 90;
+                $y = $eyebrow($x, $y, $tw);
+                $y = $this->title($s['title'], $x, $y, $tw, $v ? 110 : 120);
+                $y = $this->para($s['text'], 'Newsreader-Regular', $v ? 42 : 46, $x, $y + 10, $tw, 4, 'cream', 1.3);
+                if ($g = $s['gauge']) {
+                    $y += 60;
+                    $rw = $this->width($g['raised'], 'BigShouldersDisplay-Black', 120);
+                    $this->line($g['raised'], 'BigShouldersDisplay-Black', 120, $x, $y + 100, $tw, 'accent');
+                    $this->line(mb_strtoupper($g['goal']), 'BigShouldersDisplay-ExtraBold', 48, $x + min($tw - 200, $rw + 24), $y + 100, max(200, $tw - $rw - 24), 'mist', 2);
+                    $y += 130;
+                    $this->rect($x, $y, $x + $tw, $y + 44, 'navy2');
+                    $this->rect($x, $y, $x + max(44, (int) round($tw * min(100, $g['pct']) / 100)), $y + 44, 'accent');
+                    $y = $this->para($g['note'], 'Newsreader-Regular', 36, $x, $y + 62, $tw, 2, 'mist');
+                }
+                $this->qr($s['qr'], $qx, $qy, $qs);
+                $this->rect($qx, $qy + $qs, $qx + $qs, $qy + $qs + $cap, 'white');
+                $this->line(mb_strtoupper($s['caption']), 'BigShouldersDisplay-Black', 46, $qx + 20, $qy + $qs + 52, $qs - 40, 'navy', 2, true);
+                break;
         }
     }
 
@@ -679,6 +703,8 @@ final class Image
     private static function printable(string $s): string
     {
         $s = (string) preg_replace('/[\x{2190}-\x{21FF}\x{2600}-\x{27BF}\x{2B00}-\x{2BFF}\x{FE00}-\x{FE0F}\x{200D}\x{20E3}\x{1F000}-\x{1FAFF}\x{E0000}-\x{E007F}]/u', '', $s);
+        // Espaces fines insécables (milliers « 3 450 € ») : absentes des polices, remplacées par une espace insécable.
+        $s = str_replace(["\u{202F}", "\u{2009}"], "\u{A0}", $s);
         return trim((string) preg_replace('/ {2,}/', ' ', $s));
     }
 }

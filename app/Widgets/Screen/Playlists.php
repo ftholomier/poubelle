@@ -37,6 +37,7 @@ final class Playlists
         'carte-stades' => ['Carte des stades', 12, ['zone']],
         'soutenir' => ['Soutenir le musée (QR codes)', 10, []],
         'boutique' => ['Boutique du musée (QR codes)', 10, ['produit']],
+        'don' => ['Faire un don (jauge et grand QR code)', 12, []],
     ];
 
     public const FORMATS = ['paysage' => 'Paysage 16:9 (1920 × 1080)', 'vertical' => 'Vertical 9:16 (1080 × 1920)'];
@@ -61,7 +62,7 @@ final class Playlists
                 'note' => 'En continu, sans limite : photos d’archives, la frise, les records, le palmarès, la carte des stades.',
                 'slides' => [$s('photo', 12, ['n' => '1']), $s('frise', 14, ['n' => '1']), $s('records', 15, ['cat' => 'buteurs']), $s('photo', 12, ['n' => '2']),
                     $s('records', 15, ['cat' => 'matchs']), $s('frise', 14, ['n' => '2']), $s('photo', 12, ['n' => '3']), $s('palmares', 12), $s('il-y-a', 12), $s('carte-stades', 14),
-                    $s('photo', 12, ['n' => '4']), $s('frise', 14, ['n' => '3']), $s('chiffre-du-jour', 10), $s('le-saviez-vous', 10), $s('compte-a-rebours', 10)]],
+                    $s('photo', 12, ['n' => '4']), $s('frise', 14, ['n' => '3']), $s('chiffre-du-jour', 10), $s('le-saviez-vous', 10), $s('compte-a-rebours', 10), $s('don', 12)]],
         ];
     }
 

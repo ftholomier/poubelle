@@ -58,14 +58,15 @@ $keys = array_keys(Registry::CLASSES);
 try {
     // ------------------------------------------------------------------ catalogue
     $ok($keys === ['ce-jour-la', 'chiffre-du-jour', 'il-y-a', 'carte-legende', 'photo-du-jour', 'le-saviez-vous', 'records', 'quiz-du-jour', 'defi-du-jour', 'dernier-match', 'saison', 'palmares', 'frise', 'bandeau',
-        'histoire-du-duel', 'carte-stades', 'compte-a-rebours', 'soutenir', 'recherche', 'retro-direct', 'playlist', 'boutique'], 'registre : les 6 widgets de la phase 1, les 8 de la vague 2, les 7 restants de la vague 3 et la boutique');
+        'histoire-du-duel', 'carte-stades', 'compte-a-rebours', 'soutenir', 'recherche', 'retro-direct', 'playlist', 'boutique', 'don'], 'registre : les 6 widgets de la phase 1, les 8 de la vague 2, les 7 restants de la vague 3, la boutique et le don');
+    $ok(Registry::get('don')->category() === ['musee'] && Store::widget('don')['access'] === 'libre', 'don : catégorie « Musée & soutien », accès libre par défaut');
     $ok(Registry::PLANNED === [], 'plus aucun widget « à venir »');
     $ok(Store::widget('playlist')['access'] === 'reserve', 'mode écran (playlist) : réservé par défaut');
-    // Boutique : données seulement boutique ouverte, essayée à part (plus bas).
-    $keys = array_values(array_filter($keys, fn ($k) => $k !== 'playlist' && $k !== 'boutique'));
+    // Boutique et don : données seulement boutique / dons ouverts, essayés à part (plus bas).
+    $keys = array_values(array_filter($keys, fn ($k) => !in_array($k, ['playlist', 'boutique', 'don'], true)));
     $r = $get('/api/v1/widgets');
     $c = $json($r);
-    $ok($r->status === 200 && count($c['widgets'] ?? []) === 21 && !in_array('playlist', array_column($c['widgets'], 'key'), true), 'catalogue : 21 widgets libres par défaut (pas le mode écran, réservé)');
+    $ok($r->status === 200 && count($c['widgets'] ?? []) === 22 && !in_array('playlist', array_column($c['widgets'], 'key'), true), 'catalogue : 22 widgets libres par défaut (pas le mode écran, réservé)');
     $ok(($r->headers['Access-Control-Allow-Origin'] ?? '') === '*', 'catalogue : CORS ouvert');
     $ok(str_contains((string) ($c['museum']['mention'] ?? ''), 'non officiel') && str_contains((string) ($c['museum']['url'] ?? ''), '/w/clic/'), 'catalogue : mention « non officiel » et lien vers le musée');
 
@@ -301,6 +302,45 @@ try {
         $ok($sl !== null && $sl['layout'] === 'support' && count($sl['items']) === count($d['items']), 'boutique : slide du mode écran (QR codes)');
     }
     $B::$open = null;
+    \App\Widgets\Cache::clear();
+
+    // Faire un don : rien si les dons sont fermés ; jauge, bouton compté, QR code selon les options.
+    $D = \App\Widgets\Items\Don::class;
+    $ok(($D::isOpen() === isset(\App\Widgets\Items\Soutenir::open()['don'])), 'don : même règle d’ouverture que Soutenir');
+    $D::$open = false;
+    \App\Widgets\Cache::clear();
+    $ok($d3('don') === null && str_contains($g3('/w/don')->body, 'Rien à montrer'), 'don : rien à montrer quand les dons sont fermés');
+    $ok(\App\Widgets\Screen\Slides::one(['type' => 'don', 'opt' => []], new \App\Widgets\Context('playlist')) === null, 'don : slide écran sautée quand les dons sont fermés');
+    $D::$open = true;
+    \App\Widgets\Cache::clear();
+    $d = $d3('don');
+    $gg = \App\Front\Donations::gauge();
+    $ok($d !== null && str_contains($d['href'], '/w/clic/don/') && str_contains(rawurldecode($d['href']), 'to=/faire-un-don/'), 'don : bouton « Faire un don » en lien compté vers /faire-un-don/');
+    $ok(is_string($d['qr']) && str_starts_with($d['qr'], \App\Widgets\Context::base() . '/faire-un-don/?') && str_contains($d['qr'], 'utm_source=widget') && str_contains($d['qr'], 'utm_medium=don'), 'don : QR code vers l’adresse complète du don, avec la provenance');
+    $ok($gg['goal'] > 0 ? ($d['gauge']['raised'] === $gg['raised'] && $d['gauge']['goal'] === $gg['goal'] && (float) $d['gauge']['pct'] === (float) $gg['pct']) : $d['gauge'] === null, 'don : jauge identique à la page « Faire un don » (absente sans objectif)');
+    $ok($d3('don', ['jauge' => 'non'])['gauge'] === null && $d3('don', ['qr' => 'non'])['qr'] === null && $d3('don', ['qr' => 'peut-etre'])['qr'] !== null, 'don : options jauge et QR (valeur inconnue → oui)');
+    $ok($d['amounts'] === [] && ($D::tiers() === [] || count($d3('don', ['montants' => 'oui'])['amounts']) === min(4, count($D::tiers()))), 'don : montants suggérés seulement sur demande');
+    $ok(array_key_exists('montants', Registry::get('don')->options()) === ($D::tiers() !== []), 'don : option « montants » seulement si la page en propose');
+    $ok(!empty($json($g3('/api/v1/widgets'))['widgets'][array_search('don', array_column($json($g3('/api/v1/widgets'))['widgets'], 'key'))]['customizable']), 'don : pastille « Personnalisable » (options)');
+    foreach (['clair', 'sombre'] as $theme) {
+        $f = $g3('/w/don', ['theme' => $theme])->body;
+        $ok(str_contains($f, 'data-theme="' . $theme . '"') && str_contains($f, '<figure class="w-qr"><svg') && str_contains($f, 'Scannez pour donner') && str_contains($f, 'non officiel') && str_contains($f, 'class="w-url"') && !preg_match('#href="/(?!/)#', $f), "iframe don ($theme) : QR code en SVG, légende, mention et lien du musée");
+    }
+    $ok(!str_contains($g3('/w/don', ['qr' => 'non'])->body, '<svg') && str_contains($g3('/w/don', ['qr' => 'non'])->body, 'w-btn'), 'iframe don : sans QR code (qr=non), bouton toujours là');
+    $ok(str_contains($g3('/w/don', ['lang' => 'en'])->body, 'Scan to donate') && str_contains($d3('don', ['lang' => 'en'])['qr'], '/en/faire-un-don/'), 'don : en anglais (« Donate », « Scan to donate »)');
+    \App\Services\I18n::set('fr');
+    $sl = \App\Widgets\Screen\Slides::one(['type' => 'don', 'opt' => []], new \App\Widgets\Context('playlist', 'fr', 'sombre', 'ecran'));
+    $ok($sl !== null && $sl['layout'] === 'don' && str_contains($sl['qr'], '/w/clic/playlist/') && ($gg['goal'] > 0) === ($sl['gauge'] !== null), 'don : slide du mode écran (grand QR code, jauge)');
+    $sh = \App\Widgets\Screen\Page::slide($sl + ['type' => 'don', 'duration' => 12], new \App\Widgets\Context('playlist', 'fr', 'sombre', 'ecran'));
+    $ok(str_contains($sh, 'ec-l--don') && str_contains($sh, '<figure class="ec-qr"><svg') && str_contains($sh, 'Scannez pour donner'), 'don : slide HTML avec QR code et légende');
+    $okp = true;
+    foreach ([false, true] as $vert) {
+        $sz = @getimagesizefromstring(\App\Widgets\Screen\Image::png($sl + ['type' => 'don', 'duration' => 12, 'n' => 1], new \App\Widgets\Context('playlist', 'fr', 'sombre', 'ecran'), $vert));
+        $okp = $okp && $sz && [$sz[0], $sz[1]] === ($vert ? [1080, 1920] : [1920, 1080]);
+    }
+    $ok($okp, 'don : slide en image PNG (paysage et vertical)');
+    $ok(in_array('don', array_column(\App\Widgets\Screen\Playlists::presets()['buvette']['slides'] ?? [], 'type'), true) && !in_array('don', array_column(\App\Widgets\Screen\Playlists::presets()['mi-temps']['slides'] ?? [], 'type'), true), 'don : dans la playlist « Buvette » (pas à la mi-temps, déjà « Soutenir »)');
+    $D::$open = null;
     \App\Widgets\Cache::clear();
 
     // Recherche : champ qui ouvre la recherche du musée (lien compté), formulaire permis à ce widget seul.
