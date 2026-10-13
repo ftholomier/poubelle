@@ -82,7 +82,7 @@
   var app = box && box.querySelector('[data-mya-app]');
   if (!app) return;
   var T = JSON.parse((document.getElementById('mya-i18n') || {}).textContent || '{}');
-  var API = box.getAttribute('data-api'), SHARE = box.getAttribute('data-share');
+  var API = box.getAttribute('data-api'), SHARE = box.getAttribute('data-share-base');
   var pool = {}, order = [], st = null, chap = 'general', page = 0, tab = 'album';
   var PER = 60;
   function fmt(s, v) { return String(s || '').replace(/\{(\w+)\}/g, function (_, k) { return v && v[k] !== undefined ? v[k] : ''; }); }

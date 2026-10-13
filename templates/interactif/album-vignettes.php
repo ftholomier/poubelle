@@ -89,7 +89,7 @@ $curCat = $cat[$type] ?? [];
 </section>
 <?php endif; ?>
 
-<section id="mon-album" class="wrap mya" aria-labelledby="mya-t" data-mya data-api="<?= e('/api/album-vignettes') ?>" data-pool="<?= e('/api/album-vignettes/vignettes.json') ?>" data-share="<?= e('/api/album-vignettes/partage/') ?>">
+<section id="mon-album" class="wrap mya" aria-labelledby="mya-t" data-mya data-api="<?= e('/api/album-vignettes') ?>" data-pool="<?= e('/api/album-vignettes/vignettes.json') ?>" data-share-base="<?= e('/api/album-vignettes/partage/') ?>">
   <div class="mya__head">
     <div>
       <span class="eyebrow"><?= e(t('Ma collection')) ?></span>
