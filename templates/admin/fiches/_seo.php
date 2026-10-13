@@ -22,14 +22,43 @@ $site = parse_url(base_url(), PHP_URL_HOST) ?: \App\Core\Club::s('domain');
     <?php foreach ($roots as $root => $items): ?>
       <details<?= array_intersect(array_keys($items), $sel) ? ' open' : '' ?>>
         <summary class="d" style="font-weight:800;text-transform:uppercase;cursor:pointer;padding:4px 0"><?= e($root) ?> <span class="xs muted">(<?= count(array_intersect(array_keys($items), $sel)) ?> cochée<?= count(array_intersect(array_keys($items), $sel)) > 1 ? 's' : '' ?>)</span></summary>
+        <?php
+        // Rangement : rubriques simples d'abord, puis une ligne par sous-groupe (ex. « Années 80 » et ses saisons, dans l'ordre chronologique).
+        $box = function (string $slug, string $text) use ($sel) {
+            return '<label><input type="checkbox" name="categories" data-multi data-value="' . e($slug) . '"' . (in_array($slug, $sel, true) ? ' checked' : '') . '> ' . e($text) . '</label>';
+        };
+        $parts = array_map(fn ($l) => explode(' › ', $l), $items);
+        $rows = [];
+        foreach ($parts as $slug => $pp) {
+            if (count($pp) >= 3) {
+                $rows[$pp[1]]['kids'][$slug] = implode(' › ', array_slice($pp, 2));
+            }
+        }
+        $singles = [];
+        foreach ($parts as $slug => $pp) {
+            if (count($pp) === 2 && isset($rows[$pp[1]])) {
+                $rows[$pp[1]]['head'] = $slug;
+            } elseif (count($pp) <= 2) {
+                $singles[$slug] = $pp[1] ?? $pp[0];
+            }
+        }
+        $rank = fn (string $n) => preg_match('/(\d+)/', $n, $m) ? sprintf('%06d', (int) $m[1] < 100 ? 1900 + (int) $m[1] : (int) $m[1]) : $n;
+        uksort($rows, fn ($x, $y) => strnatcasecmp($rank($x), $rank($y)));
+        ?>
         <div class="checklist" style="margin:8px 0 6px">
-          <?php foreach ($items as $slug => $label): ?>
-            <label><input type="checkbox" name="categories" data-multi data-value="<?= e($slug) ?>"<?= in_array($slug, $sel, true) ? ' checked' : '' ?>> <?= e(mb_substr($label, mb_strlen($root) + 3) ?: $label) ?></label>
+          <?php foreach ($singles as $slug => $text): ?>
+            <?= $box($slug, $text) ?>
             <?php if ($mo && $slug === \App\Front\Site::C_JOUEURS): ?>
               <label title="Au moins un match officiel avec le club (liste aussi réglable dans Éditorial › Match officiel)"><input type="checkbox" name="match_officiel"<?= $moOn ? ' checked' : '' ?>> Joueurs › Match officiel</label>
             <?php endif; ?>
           <?php endforeach; ?>
         </div>
+        <?php foreach ($rows as $name => $r): ?>
+          <div class="catrow">
+            <div class="catrow__k"><?= isset($r['head']) ? $box($r['head'], $name) : '<span>' . e($name) . '</span>' ?></div>
+            <div class="checklist catrow__v"><?php foreach ($r['kids'] as $slug => $text): ?><?= $box($slug, $text) ?><?php endforeach; ?></div>
+          </div>
+        <?php endforeach; ?>
       </details>
     <?php endforeach; ?>
     <input type="hidden" name="categories__present" value="1">
