@@ -407,6 +407,18 @@ final class Fiches extends Base
             $message = Html::line('En-tête corrigé (même match) : ' . implode(', ', $switch['changes']), 160);
         }
         $saved = Store::save($doc, self::actor(), $message);
+        // Case « Joueurs › Match officiel » : liste livrée avec le code, ajustée ici (ajout ou retrait).
+        if (array_key_exists('match_officiel__present', $in) && ($saved['type'] ?? '') === 'personne' && \App\Data\OfficialPlayers::enabled()) {
+            $sid = (int) $saved['id'];
+            $want = !empty($in['match_officiel']);
+            if ($want !== \App\Data\OfficialPlayers::has($sid)) {
+                $a = \App\Data\OfficialPlayers::adjustments();
+                $add = array_values(array_diff($a['add'], [$sid]));
+                $remove = array_values(array_diff($a['remove'], [$sid]));
+                $want ? $add[] = $sid : $remove[] = $sid;
+                \App\Data\OfficialPlayers::saveAdjustments($add, $remove, self::actor());
+            }
+        }
         if (!$isNew && ($before['path'] ?? '') !== '' && $before['path'] !== $saved['path'] && $wasPublished) {
             Redirects::add($before['path'], $saved['path']);
         }

@@ -27,6 +27,10 @@ $site = parse_url(base_url(), PHP_URL_HOST) ?: \App\Core\Club::s('domain');
       </details>
     <?php endforeach; ?>
     <input type="hidden" name="categories__present" value="1">
+    <?php if (($doc['type'] ?? '') === 'personne' && \App\Data\OfficialPlayers::enabled()): ?>
+      <?= Form::toggle('match_officiel', 'Joueurs › Match officiel', !empty($doc['id']) && \App\Data\OfficialPlayers::has((int) $doc['id']), ['help' => 'Au moins un match officiel avec le club : la fiche apparaît dans cette sous-rubrique (liste aussi réglable dans Éditorial › Match officiel).']) ?>
+      <input type="hidden" name="match_officiel__present" value="1">
+    <?php endif; ?>
     <?php
     // Tirage au hasard du grand slider : seulement les vraies photos assez grandes pour rester nettes en plein écran.
     $uneImg = (string) ($doc['featured_image'] ?? '');
