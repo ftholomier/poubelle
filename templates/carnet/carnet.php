@@ -19,6 +19,7 @@ $public = $c['public'] ? \App\Services\Carnet::publicUrl($c) : '';
     <section class="cncard"><p><?= e(t('Votre carnet est vide pour l’instant. Ajoutez vos matchs saison par saison, ou touchez « J’y étais ! » sur la fiche d’un match.')) ?></p></section>
   <?php else: ?>
     <?= View::partial('carnet/_bilan', ['s' => $s, 'mine' => true]) ?>
+    <?= View::partial('partials/vignettes-badges', ['cid' => $c['id']]) ?>
     <section class="cncard cnshare" id="ma-carte">
       <h2 class="cncard__t"><?= e(t('Ma carte de supporter')) ?></h2>
       <p class="cnnote"><?= e(t('Deux designs au choix, en PDF (format carte postale, 14,8 × 10,5 cm) : à imprimer, à envoyer, à publier où vous voulez.')) ?></p>

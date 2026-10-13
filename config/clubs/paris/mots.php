@@ -11,6 +11,8 @@ return [
     'yellow and blue' => 'red and blue', 'yellow-and-blue' => 'red-and-blue',
     'Ma vie en jaune et bleu' => 'Ma vie en bleu & rouge',
     'Our Lions' => 'Our players',
+    // Album Parini : les formés au club sont les « Titis ».
+    'Les Lionceaux' => 'Les Titis', 'The Lion cubs' => 'The Titis',
     // var(--yellow) vaut le rouge de Paris : la poignée des maillots, les étoiles du Fil bleu.
     'Glissez la poignée jaune' => 'Glissez la poignée rouge', 'Drag the yellow handle' => 'Drag the red handle',
     'En jaune : les dix plus fidèles' => 'En rouge : les dix plus fidèles', 'In yellow: the ten most loyal' => 'In red: the ten most loyal',

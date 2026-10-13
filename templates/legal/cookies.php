@@ -9,12 +9,16 @@ $rows = $en ? [
     ['fcsm-textsize', 'Local storage', 'Preference', 'Text size you have chosen.', 'Until you change it'],
     ['fcsm-album', 'Local storage', 'Feature', 'Cards unlocked in your centenary album.', 'Until you clear your browser'],
     ['fcsm-chat', 'Session storage', 'Feature', 'Current conversation with the assistant.', 'Closing the tab'],
+    ['sr_vignettes', 'Cookie', 'Feature', 'Opens your sticker collection (“My album”) on this device: an anonymous random identifier, no personal data. Only set once you open your first pack.', '18 months'],
+    ['sr-vig', 'Local storage', 'Feature', 'Remembers that you collect stickers, for the bonus sticker of a newly visited player page.', 'Until you clear your browser'],
 ] : [
     ['sr_session', 'Cookie', 'Nécessaire', 'Maintient votre session (formulaires, jeton de sécurité, suivi d’un don).', 'Fin de la session'],
     ['fcsm-consent', 'Stockage local', 'Nécessaire', 'Mémorise vos choix en matière de cookies.', '6 mois'],
     ['fcsm-textsize', 'Stockage local', 'Préférence', 'Taille du texte que vous avez choisie.', 'Jusqu’à modification'],
     ['fcsm-album', 'Stockage local', 'Fonctionnalité', 'Cartes débloquées dans votre album du centenaire.', 'Jusqu’à effacement par vos soins'],
     ['fcsm-chat', 'Stockage de session', 'Fonctionnalité', 'Conversation en cours avec l’assistant.', 'Fermeture de l’onglet'],
+    ['sr_vignettes', 'Cookie', 'Fonctionnalité', 'Ouvre votre collection de vignettes (« Mon album ») sur cet appareil : un identifiant aléatoire anonyme, sans donnée personnelle. Déposé seulement à l’ouverture de votre première pochette.', '18 mois'],
+    ['sr-vig', 'Stockage local', 'Fonctionnalité', 'Mémorise que vous collectionnez les vignettes, pour la vignette bonus d’une fiche joueur visitée pour la première fois.', 'Jusqu’à effacement par vos soins'],
 ];
 $third = $en ? [
     ['YouTube, Dailymotion', 'Videos', 'Set when you play a video, only after you have accepted the “Videos” category.'],

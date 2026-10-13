@@ -4,6 +4,7 @@ return [
     'nos_lions' => 'Nos joueurs',
     'tous_les_lions' => 'Tous les joueurs',
     'journal' => 'Le Parc illustré',
+    'album_vignettes' => 'Album Parini',
     'album_d' => 'Collectionnez les cartes des Parisiens.',
     'album_title' => 'L’album du musée : collectionnez les Rouge et Bleu',
     'carto_desc' => 'Une carte interactive : partout où Paris a joué, d’où viennent nos joueurs, les grandes campagnes européennes et les lieux du club.',

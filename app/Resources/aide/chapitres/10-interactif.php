@@ -2,7 +2,7 @@
 return [
     'slug' => 'interactif',
     'title' => 'Les outils interactifs',
-    'summary' => 'Quiz, frise, maillots, carte, partenaires, page « Faire un don », Onze de légende et album, Rétro-Direct, quiz du club-house, défi du jour, kit souvenirs, murs de photos.',
+    'summary' => 'Quiz, frise, maillots, carte, partenaires, page « Faire un don », Onze de légende et album, Rétro-Direct, quiz du club-house, défi du jour, kit souvenirs, murs de photos, Mon album (vignettes).',
     'sections' => [
         ['id' => 'principe', 'title' => 'Le principe', 'html' => <<<'HTML'
 <p>Interactif › <b>Quiz, frise, carte…</b> : chaque outil est une liste d’éléments (une question, une date, une époque, un lieu…) qu’on ajoute, modifie, réordonne par glisser-déposer et traduit. La carte de chaque outil indique les éléments <b>à valider</b> et ceux <b>sans anglais</b>.</p>
@@ -95,6 +95,10 @@ HTML],
 <p>Interactif › <b>Kit souvenirs</b> : pour le mois en cours et les deux suivants, le match choisi automatiquement (le plus marquant : temps forts, coupe, anniversaire rond, 30 à 60 ans d’âge, belle photo), les autres propositions et « Ou un autre match » ; un <b>mot d’introduction</b> facultatif ; le PDF à télécharger pour vérifier.</p>
 [[auto|<p>Le kit se refait tout seul quand une fiche change. Le QR code mène à l’adresse courte <code>/souvenir/{n° du match}/</code>, qui ouvre le formulaire « Contribuer » avec « Un témoignage » coché et le match rempli. Les témoignages reçus se publient sur la fiche du match (voir [[aide:communaute#contributions|Les contributions]]).</p>]]
 [[astuce|<p>Relisez la fiche du match du mois : temps forts, buteurs, photo à la une et une brève. Les visages viennent de la composition (joueurs reliés avec une vraie photo) : une composition complète donne un meilleur jeu.</p>]]
+HTML],
+        ['id' => 'mon-album', 'title' => 'Mon album : la collection de vignettes des visiteurs', 'html' => <<<'HTML'
+<p>Interactif › <b>Mon album (vignettes)</b> : les chiffres (collectionneurs, actifs sur 30 jours, pochettes ouvertes, vignettes tirées et bonus, échanges, pages complétées) et les réglages : activer ou fermer « Mon album », pochettes gratuites par jour, vignettes par pochette, chance d’une brillante et d’une dorée (en %), bonus « fiche visitée » (chance et plafond par jour), vignettes offertes pour le défi du jour réussi. Les albums eux-mêmes (Album Sochini) sont calculés d’après les fiches matchs : rien à régler.</p>
+[[astuce|<p>Les tirages sont faits par le serveur, jamais dans le navigateur, et chaque pochette ou code d’échange est signé : un visiteur ne peut pas se fabriquer des vignettes. Un code d’échange ne sert qu’une fois ; non utilisé, il expire au bout de 14 jours et le double revient à son propriétaire.</p>]]
 HTML],
         ['id' => 'murs-photos', 'title' => 'Les murs de photos', 'html' => <<<'HTML'
 <p>Quatre pages de la rubrique Interactif montrent les photos de la médiathèque, <b>tirées au hasard à chaque visite</b> (bouton « Nouveau tirage » sans recharger la page), avec un filtre par décennie et par photographe ou source :</p>

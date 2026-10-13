@@ -85,6 +85,7 @@ $rowsHtml = function (array $list, bool $coach) {
     return (string) ob_get_clean();
 };
 ?>
+<span hidden data-vig-pid="<?= (int) $doc['id'] ?>" data-vig-msg="<?= e(t('Vignette bonus gagnée pour votre album : {n} !', ['n' => $name])) ?>" data-vig-href="<?= e(url(\App\Front\AlbumBook::PATH . '#mon-album')) ?>"></span>
 <?php if ($albumNo): ?><span hidden data-album-card="<?= (int) $doc['id'] ?>" data-album-n="<?= e($cardNo) ?>"></span><?php endif; ?>
 <section class="phero">
   <div class="wrap phero__inner">

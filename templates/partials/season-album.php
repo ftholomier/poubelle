@@ -37,6 +37,7 @@ $sticker = function (array $p, string $role) use ($album): string {
           <p class="alb__kicker"><?= e(t("L'effectif de la saison")) ?></p>
           <h2 id="alb-title" class="alb__title"><?= e(t('Album {s}', ['s' => $season])) ?></h2>
           <p class="alb__lead"><?= e(t('{n} joueurs entrés en jeu, d’après les compositions des matchs fichés. Une case grise : joueur sans fiche, vignette pas encore collée.', ['n' => $album['count']])) ?></p>
+          <?php if (\App\Front\AlbumBook::raw('saison', $season)): ?><p class="alb__lead"><a href="<?= e(\App\Front\AlbumBook::url('saison', $season)) ?>"><?= e(t('Voir dans l’{a}', ['a' => \App\Front\AlbumBook::name()])) ?> →</a></p><?php endif; ?>
         </div>
       </header>
       <?php foreach ($lines as $k => $title): if (empty($album['groups'][$k])) continue; ?>

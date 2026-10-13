@@ -19,6 +19,10 @@ $fmt = fn ($n) => number_format((int) $n, 0, ',', ' ');
     <div class="row" style="justify-content:space-between;align-items:baseline"><h2 class="card__t"><?= e(\App\Admin\Collections::albumLabel()) ?></h2><span class="d" style="font-weight:900;font-size:32px;line-height:1"><?= (int) $album ?></span></div>
     <span class="small"><?= $album ? 'cartes choisies par les historiens' : 'proposition automatique en ligne (à valider)' ?></span><span class="linkbtn">Composer →</span>
   </a>
+  <a class="card card--pad" href="/admin/mon-album" style="color:var(--navy)">
+    <div class="row" style="justify-content:space-between;align-items:baseline"><h2 class="card__t"><?= e(\App\Front\AlbumBook::name()) ?> · Mon album</h2><span class="d" style="font-weight:900;font-size:32px;line-height:1"><?= $fmt(\App\Services\Vignettes::stats()['collectors']) ?></span></div>
+    <span class="small">collectionneurs · pochettes, rareté, échanges</span><span class="linkbtn">Régler →</span>
+  </a>
   <a class="card card--pad" href="/admin/retro-direct" style="color:var(--navy)">
     <div class="row" style="justify-content:space-between;align-items:baseline"><h2 class="card__t">Rétro-Direct</h2><span class="d" style="font-weight:900;font-size:32px;line-height:1"><?= (int) $retro ?></span></div>
     <span class="small">direct(s) à venir · grands matchs rejoués le jour anniversaire</span><span class="linkbtn">Programmer →</span>

@@ -53,6 +53,7 @@ final class Menus
                     $tool('%', 'Les chiffres', '100 statistiques depuis ' . ((int) \App\Core\Club::s('founded') + 1) . '.', '/chiffres/'),
                     $tool('→', 'Frise', club("De {founded} à aujourd'hui."), '/interactif/frise/'),
                     $tool('↔', 'Maillots', 'Deux époques, un curseur.', '/interactif/maillots/'),
+                    $tool('▤', \App\Front\AlbumBook::name(), 'Les albums de vignettes : saisons, décennies, entraîneurs, épopées… et le vôtre.', \App\Front\AlbumBook::PATH),
                 ]],
                 ['title' => 'Les murs de photos', 'title_en' => '', 'auto' => 'walls', 'tools' => []],
                 ['title' => 'Jouer', 'title_en' => '', 'tools' => [
@@ -112,6 +113,21 @@ final class Menus
                 }
             }
             $menus['footer'][$k]['links'][] = ['label' => 'Vidéo teaser', 'label_en' => '', 'href' => '/teaser/'];
+        }
+        // Album Sochini ajouté après coup : présent dans « Explorer l'histoire » même si les menus ont déjà été enregistrés.
+        $hasAlbum = false;
+        foreach ((array) ($menus['interactif'] ?? []) as $col) {
+            foreach ((array) ($col['tools'] ?? []) as $x) {
+                $hasAlbum = $hasAlbum || ($x['href'] ?? '') === \App\Front\AlbumBook::PATH;
+            }
+        }
+        if (!$hasAlbum) {
+            foreach ((array) ($menus['interactif'] ?? []) as $i => $col) {
+                if (($col['title'] ?? '') === "Explorer l'histoire") {
+                    $menus['interactif'][$i]['tools'][] = ['icon' => '▤', 'label' => \App\Front\AlbumBook::name(), 'label_en' => '', 'd' => 'Les albums de vignettes : saisons, décennies, entraîneurs, épopées… et le vôtre.', 'd_en' => '', 'href' => \App\Front\AlbumBook::PATH];
+                    break;
+                }
+            }
         }
         return $menus;
     }

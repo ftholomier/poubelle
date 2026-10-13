@@ -160,6 +160,8 @@ final class Router
         $r->post('/admin/retro-direct', fn ($q) => Retro::action($q));
         $r->get('/admin/quiz-club-house', fn ($q) => QuizClub::index($q));
         $r->post('/admin/quiz-club-house', fn ($q) => QuizClub::action($q));
+        $r->get('/admin/mon-album', fn ($q) => StickerAlbum::index($q));
+        $r->post('/admin/mon-album', fn ($q) => StickerAlbum::save($q));
         $r->get('/admin/souvenirs', fn ($q) => Kit::index($q));
         $r->post('/admin/souvenirs', fn ($q) => Kit::save($q));
         // Boutique (administrateurs seulement : voir ADMIN_ONLY)

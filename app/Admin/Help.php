@@ -47,6 +47,7 @@ final class Help extends Base
         'retro' => 'interactif#retro-direct',
         'souvenirs' => 'interactif#souvenirs',
         'murs' => 'interactif#murs-photos',
+        'mon-album' => 'interactif#mon-album',
         'boutique' => 'boutique',
         'boutique-modeles' => 'boutique#modeles',
         'boutique-supports' => 'boutique#supports',

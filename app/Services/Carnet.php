@@ -535,6 +535,7 @@ final class Carnet
     {
         QuizChampionship::forget($id);
         DailyQuiz::forget($id);
+        Vignettes::forget($id);
         @unlink(self::file($id));
         @unlink(self::file($id) . '.lock');
         JsonStore::update(self::indexFile(), function ($idx) use ($id) {

@@ -137,6 +137,32 @@ final class Share
         });
     }
 
+    /** Page d'album complétée (Mon album de l'Album Sochini) : nom de l'album, titre de la page, nombre de vignettes. */
+    public static function albumPage(string $album, string $title, int $count): Response
+    {
+        $key = 'vignettes-' . substr(md5(json_encode([$album, $title, $count, self::VERSION])), 0, 16);
+        return self::cached($key, function () use ($album, $title, $count) {
+            $navy = sscanf(Club::color('navy'), '#%02x%02x%02x');
+            $cream = sscanf(Club::color('cream'), '#%02x%02x%02x');
+            $yellow = sscanf(Club::color('yellow'), '#%02x%02x%02x');
+            $im = self::canvas($navy);
+            imagefilledrectangle($im, 0, 0, self::W, 12, self::color($im, $yellow));
+            self::logo($im, 62, 120, 300, Club::s('logo_400'));
+            // Cadre de vignette
+            imagesetthickness($im, 6);
+            imagerectangle($im, 420, 70, 1140, 560, self::color($im, $yellow));
+            $k = mb_strtoupper(self::printable($album));
+            self::text($im, $k, 'BigShouldersDisplay-700', min(34, self::fit($k, 'BigShouldersDisplay-700', 660, 34, 18)), 460, 140, $yellow, 4);
+            $t = mb_strtoupper(self::printable($title));
+            self::text($im, $t, 'BigShouldersDisplay-900', min(84, self::fit($t, 'BigShouldersDisplay-900', 660, 84, 30)), 456, 270, $cream);
+            $l = mb_strtoupper(t('Page complétée'));
+            self::text($im, $l, 'BigShouldersDisplay-900', 64, 456, 380, $yellow);
+            $n = self::printable(t('{n} vignettes collées', ['n' => $count]));
+            self::text($im, $n, 'Newsreader-400-italic', 36, 460, 470, $cream);
+            return $im;
+        });
+    }
+
     private static function cached(string $key, callable $draw): Response
     {
         $file = self::CACHE . '/' . $key . '.png';

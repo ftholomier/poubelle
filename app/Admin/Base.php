@@ -53,6 +53,7 @@ class Base
             ['quizlive', 'Quiz du club-house', '/admin/quiz-club-house', false],
             ['souvenirs', 'Kit souvenirs', '/admin/souvenirs', false],
             ['murs', 'Murs de photos', '/admin/murs-photos', false],
+            ['mon-album', 'Mon album (vignettes)', '/admin/mon-album', false],
         ],
         'Communauté' => [
             ['contributions', 'Contributions', '/admin/contributions', false],

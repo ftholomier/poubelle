@@ -437,6 +437,7 @@ final class Kernel
         $r->get('/interactif/quiz-live/championnat/', fn ($q) => Front\QuizLivePages::championship($q));
         $r->get('/interactif/quiz-live/ecran/{code}/{key}/', fn ($q, $code, $key) => Front\QuizLivePages::screen($q, $code, $key));
         $r->get('/interactif/album/', fn ($q) => Front\Interactive::album($q));
+        $r->get(Front\AlbumBook::PATH, fn ($q) => Front\AlbumPages::page($q));
         $r->get('/interactif/maillots/', fn ($q) => Front\Interactive::jerseys($q));
         $r->get('/interactif/frise/', fn ($q) => Front\Interactive::timeline($q));
         $r->get('/interactif/carto/', fn ($q) => Front\Interactive::carto($q));

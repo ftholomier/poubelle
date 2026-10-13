@@ -57,52 +57,26 @@ final class SeasonAlbum
             }
             // Matchs amicaux comptés à part : les chiffres de l'album sont ceux des matchs officiels.
             $amical = ($x['comp'] ?? '') === 'Amical';
-            $doc = Fiches::get((int) $mid);
-            $apps = Derived::lineupLinks((int) $mid);
-            $minByPid = [];
-            foreach ($apps as $ap) {
-                if (($ap[6] ?? '') === 'player') {
-                    $minByPid[$ap[0]] = (int) $ap[3];
-                }
-            }
             $seen = [];
-            foreach ($doc['match']['lineup']['rows'] ?? [] as $r) {
-                $name = trim((string) ($r['name'] ?? ''));
-                if ($name === '') {
-                    continue;
-                }
-                $pos = (string) ($r['position'] ?? '');
-                $pid = $r['person_id'] ?? null;
-                if (!$pid) {
-                    foreach ($apps as $ap) {
-                        $s = Index::get($ap[0]);
-                        if ($ap[8] === $pos && $s && Names::lineupLastName($name) === implode(' ', Names::tokens($s['p']['last'] ?? ''))) {
-                            $pid = $ap[0];
-                            break;
-                        }
-                    }
-                }
-                $key = $pid ? 'p' . $pid : 'n' . Names::personKey($name);
+            foreach (self::lineup((int) $mid) as $r) {
+                [$key, $pid, $name, $pos, $goals, $min] = $r;
                 if ($pos === 'E') {
-                    $coaches[$key] ??= ['pid' => $pid ? (int) $pid : null, 'name' => Names::display($name), 'n' => 0];
+                    $coaches[$key] ??= ['pid' => $pid, 'name' => $name, 'n' => 0];
                     $coaches[$key]['n']++;
                     continue;
                 }
-                $played = $pos !== 'R' || (($r['sub_in'] ?? null) !== null && $r['sub_in'] !== '');
-                if (!$played || isset($seen[$key])) {
+                if (isset($seen[$key])) {
                     continue;
                 }
                 $seen[$key] = true;
-                $squad[$key] ??= ['pid' => $pid ? (int) $pid : null, 'name' => Names::display($name), 'mj' => 0, 'goals' => 0, 'min' => 0, 'amic' => 0, 'pos' => []];
+                $squad[$key] ??= ['pid' => $pid, 'name' => $name, 'mj' => 0, 'goals' => 0, 'min' => 0, 'amic' => 0, 'pos' => []];
                 if ($amical) {
                     $squad[$key]['amic']++;
                     continue;
                 }
                 $squad[$key]['mj']++;
-                $squad[$key]['goals'] += count($r['goals'] ?? []);
-                if ($pid && isset($minByPid[$pid])) {
-                    $squad[$key]['min'] += $minByPid[$pid];
-                }
+                $squad[$key]['goals'] += $goals;
+                $squad[$key]['min'] += $min;
                 if (isset(self::ORDER[$pos])) {
                     $squad[$key]['pos'][$pos] = ($squad[$key]['pos'][$pos] ?? 0) + 1;
                 }
@@ -118,6 +92,48 @@ final class SeasonAlbum
         usort($players, fn ($a, $b) => self::ORDER[$a['line']] <=> self::ORDER[$b['line']] ?: $b['mj'] <=> $a['mj'] ?: strcmp($a['name'], $b['name']));
         uasort($coaches, fn ($a, $b) => $b['n'] <=> $a['n']);
         return ['players' => $players, 'coach' => $coaches ? reset($coaches) : null];
+    }
+
+    /**
+     * Composition d'un match, ligne par ligne : [clé, fiche, nom, poste, buts, minutes] pour chaque
+     * joueur entré en jeu (titulaire ou remplaçant entré) et pour l'entraîneur (poste « E »).
+     * Partagé avec l'Album Sochini (App\Front\AlbumBook), qui compte sur d'autres périmètres.
+     * @return list<array{0:string,1:?int,2:string,3:string,4:int,5:int}>
+     */
+    public static function lineup(int $mid): array
+    {
+        $doc = Fiches::get($mid);
+        $apps = Derived::lineupLinks($mid);
+        $minByPid = [];
+        foreach ($apps as $ap) {
+            if (($ap[6] ?? '') === 'player') {
+                $minByPid[$ap[0]] = (int) $ap[3];
+            }
+        }
+        $out = [];
+        foreach ($doc['match']['lineup']['rows'] ?? [] as $r) {
+            $name = trim((string) ($r['name'] ?? ''));
+            if ($name === '') {
+                continue;
+            }
+            $pos = (string) ($r['position'] ?? '');
+            $pid = $r['person_id'] ?? null;
+            if (!$pid) {
+                foreach ($apps as $ap) {
+                    $s = Index::get($ap[0]);
+                    if ($ap[8] === $pos && $s && Names::lineupLastName($name) === implode(' ', Names::tokens($s['p']['last'] ?? ''))) {
+                        $pid = $ap[0];
+                        break;
+                    }
+                }
+            }
+            $key = $pid ? 'p' . $pid : 'n' . Names::personKey($name);
+            if ($pos !== 'E' && $pos === 'R' && (($r['sub_in'] ?? null) === null || $r['sub_in'] === '')) {
+                continue;
+            }
+            $out[] = [$key, $pid ? (int) $pid : null, Names::display($name), $pos, count($r['goals'] ?? []), $pid && isset($minByPid[$pid]) ? $minByPid[$pid] : 0];
+        }
+        return $out;
     }
 
     /**

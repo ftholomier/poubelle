@@ -53,3 +53,21 @@
     btn.remove();
   }));
 })();
+
+/* Album Sochini : première visite de cette fiche par un collectionneur → chance de vignette bonus (tirage côté serveur). */
+(function () {
+  var el = document.querySelector('[data-vig-pid]');
+  var on = false;
+  try { on = localStorage.getItem('sr-vig') === '1'; } catch (e) {}
+  if (!el || !on) return;
+  fetch('/api/album-vignettes', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'bonus', kind: 'fiche', pid: +el.getAttribute('data-vig-pid'), lang: document.documentElement.lang })
+  }).then(function (r) { return r.json(); }).then(function (r) {
+    if (!r.ok || !r.pack || !r.pack.length) return;
+    var a = document.createElement('a');
+    a.href = el.getAttribute('data-vig-href'); a.textContent = el.getAttribute('data-vig-msg'); a.setAttribute('role', 'status');
+    a.style.cssText = 'position:fixed;left:16px;right:16px;bottom:16px;z-index:999;max-width:420px;margin:auto;background:var(--navy);color:var(--yellow);padding:14px 18px;font-weight:700;border:3px solid var(--yellow);text-decoration:none';
+    document.body.appendChild(a);
+    setTimeout(function () { a.remove(); }, 8000);
+  }).catch(function () {});
+})();

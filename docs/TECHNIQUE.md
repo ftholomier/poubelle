@@ -129,7 +129,7 @@ recadrage). Les originaux sont dans `storage/media/originals/{année}/{mois}/` (
 | `search.php` | index de recherche | à chaque enregistrement |
 | `media.php`, `media/`, `media-versions.php`, `media-usage.json` | médiathèque (entière, et en 16 groupes selon le chemin du fichier : `Media::get()` n'en lit qu'un), versions des fichiers retouchés, « utilisée dans » | à chaque modification |
 | `carte-*.json`, `sitemap.xml`, `share/` | données de la carte, plan du site, images de partage | à la demande |
-| `album/` | album Panini de chaque saison (`App\Front\SeasonAlbum::raw()` : joueurs entrés en jeu, poste, matchs, buts, minutes, entraîneur) | à la demande ; refait quand l'empreinte `Derived::built()` change ; la fiche liée (nom, photo, visibilité) est relue à l'affichage |
+| `album/` | album de chaque saison ; `album/sochini/` : catalogue et albums de l'Album Sochini (`AlbumBook`), vignettes de « Mon album » (`App\Front\SeasonAlbum::raw()` : joueurs entrés en jeu, poste, matchs, buts, minutes, entraîneur) | à la demande ; refait quand l'empreinte `Derived::built()` change ; la fiche liée (nom, photo, visibilité) est relue à l'affichage |
 | `pdf/` | PDF exportés (fiches, saisons, face-à-face, bilans, records, kits souvenirs) | à la demande ; nom lié à la date de modification de la fiche et aux données calculées, donc refait dès qu'un contenu change (kit souvenirs : un fichier par langue, refait seulement si le contenu du kit change) ; ménage des fichiers de plus de 30 jours |
 | `correcteur/` | réponses de Gemini au correcteur, une par texte (empreinte du texte, du modèle et des consignes) : un texte inchangé n'est jamais renvoyé | à la demande ; ménage des réponses inutilisées depuis 180 jours |
 | `chiffres-{fr,en}.json` | les 100 chiffres du FCSM (§ 7 nonies), déjà mis en forme dans chaque langue | refaits quand `derived.php`, `index-2.php` ou le dictionnaire anglais changent ; calculés d'avance par la tâche « statistiques » |
@@ -1582,6 +1582,53 @@ puis matchs puis nom ; entraîneur = ligne `E` la plus fréquente. Résultat mis
 `storage/cache/album/<saison>.php` avec l'empreinte `Derived::built()`. `build()` résout les fiches
 à l'affichage : fiche visible → vignette collée (lien, photo), sinon case grise « non collée ».
 Saison sans composition : `build()` rend null et le bloc n'est pas affiché. Test : `tests/album-saison.php`.
+
+## 7 quindecies. Album Sochini / Parini et « Mon album » (`App\Front\AlbumBook`, `AlbumPages`, `App\Services\Vignettes`)
+
+Page unique `/interactif/album-vignettes/` (`AlbumBook::PATH`, route `Kernel`, menu Interactif ›
+Explorer l'histoire ajouté par `Menus::defaults()` et réinjecté par `Menus::get()` si les menus ont
+déjà été enregistrés ; sitemap : la page et chaque album). Nom par club : `libelles.php`, clé
+`album_vignettes` (« Album Sochini », « Album Parini ») ; « Les Lionceaux » → « Les Titis » par
+`mots.php` de Paris. Gabarit `templates/interactif/album-vignettes.php`, vignettes
+`partials/album-book-items.php` (classes `.alb*` d'`explore.css`), styles `css/sochini.css`, script
+`js/sochini.js`.
+
+- **Calcul** : `SeasonAlbum::lineup($mid)` (extrait de `SeasonAlbum::compute`, partagé) donne les
+  lignes de composition ; `AlbumBook::matrix()` les matchs visibles avec composition (saison,
+  décennie, coupe harmonisée `cupOf()`, finale `Palmares::isFinal()`, amical) ; `tally()` compte sur un
+  périmètre (matchs officiels ; amicaux à part ; joueur vu seulement en amical : pas de vignette).
+  `computeAll()` fabrique les 10 types : `saison`, `decennie`, `entraineur` (≥ `MIN_COACH` = 20 matchs
+  dirigés, v = slug du nom), `epopee` (candidats : palmarès titres/finales des coupes,
+  `Palmares::data()`, + finales des fiches + campagnes européennes ; v = `coupe-de-france-1987-1988` ;
+  `shine` = a joué la finale), `lionceaux` (rubrique `…/joueurs/formes-au-club/` ou `formed_at_club`),
+  `internationaux` (rubrique ou drapeau, groupe = pays lu dans `personne.international`),
+  `gardiens` (chronologique), `buteurs` (`TOP_SCORERS` = 50, `SHINY_SCORERS` = 10), `fideles`
+  (`LOYAL_MATCHES` = 200 ou `LOYAL_SEASONS` = 10), `staff`. Album vide : absent du catalogue.
+- **Cache** : `storage/cache/album/sochini/catalogue.php` (titres, nombres, couvertures) + un fichier par
+  album, empreinte `Derived::built()` + `AlbumBook::VERSION`. Fiches (nom, photo, visibilité) relues à
+  l'affichage (`resolve()`).
+- **Page** : `?album=type&v=valeur&p=page` ; sans paramètre, la saison la plus récente ; type ou valeur
+  inconnus → 404 `noindex` avec le kiosque. `PAGE` = 60 vignettes par page ; `&part=suite` renvoie
+  seulement les vignettes (chargées par `sochini.js`, sinon lien classique). Navigation du kiosque
+  par `fetch` + `history.pushState` (repli : rechargement). Lien « Voir dans l'Album Sochini » sur la
+  page saison (`partials/season-album.php`).
+- **Mon album** (`Vignettes`) : vignettes = rubrique « Match officiel » (`OfficialPlayers::items()`,
+  sinon joueurs avec fiche des albums de décennie), rareté `o` dorée (légende), `b` brillante (top
+  buteurs, fidèles, internationaux), `n`. Collections `storage/vignettes/c/{a…|k…}.json` (JsonStore, verrous) :
+  `a` = anonyme, cookie `sr_vignettes` = `id.jeton` (empreinte SHA-256 seule gardée ; même valeur =
+  code de sauvegarde) ; `k<id carnet>` = rattachée au carnet du supporter (`Carnet::current()`), la
+  collection anonyme y est versée (`merge()`). Tirages `random_int` côté serveur, pochette signée
+  HMAC (`site_key('vignettes')`), `packs` par jour ; bonus `fiche` (première visite, `fiche.js` si
+  `localStorage sr-vig`) et `defi` (`DailyQuiz::state` fini, ≥ 5 bonnes). Échanges
+  `storage/vignettes/echanges/{CODE}.json` signés, double mis de côté, code consommé sous verrou (une
+  seule fois), expiré à 14 jours (`purge()` rend le double). Chapitres = album général + décennies,
+  épopées, Lionceaux, gardiens, buteurs, fidèles ; page complétée → `done`, badge
+  `partials/vignettes-badges.php` sur le carnet, image `Share::albumPage()`
+  (`/api/album-vignettes/partage/<chapitre>.png`). API JSON `POST /api/album-vignettes`, vignettes
+  `GET /api/album-vignettes/vignettes.json`. Réglages et stats : `storage/vignettes/reglages.json`,
+  `stats.json`, écran `App\Admin\StickerAlbum` (`/admin/mon-album`). Purge cron (`Cron::housekeeping`) :
+  inactives 18 mois ; carnet supprimé → collection supprimée. Cookies et confidentialité mis à jour.
+- Test : `tests/album-sochini.php` (Sochaux et `MUSEE_CLUB=paris`).
 
 ## 8. Back-office
 

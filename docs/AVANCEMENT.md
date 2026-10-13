@@ -686,3 +686,11 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Joueurs sans fiche en case grise « non collée » ; vignette spéciale de l'entraîneur principal ; bloc masqué sans composition
 - [x] Cache par saison (`storage/cache/album/`, empreinte Derived), mobile 2 colonnes, images en lazy-loading, impression, anglais, listes et textes alternatifs
 - [x] Aide (Site public), doc technique, test `tests/album-saison.php` (Sochaux et Paris)
+
+## Album Sochini / Parini et « Mon album » (13 octobre 2026)
+- [x] Page unique `/interactif/album-vignettes/` (menu Interactif › Explorer l'histoire, nom par club) : kiosque (familles, sélecteurs type → album, couvertures), album choisi dans l'adresse (`?album=…&v=…`), précédent / suivant, navigation sans rechargement, suite au-delà de 60 vignettes
+- [x] 10 types calculés depuis les compositions (Sochaux) : 36 saisons, 6 décennies (1970 → 2020), 19 entraîneurs, 4 épopées (CDF 1987-1988 avec finale, UEFA 1989-1990, Intertoto 2002-2003, C3 2011-2012), Lionceaux (140), internationaux (128, par pays), gardiens (29), buteurs (50), fidèles (10), entraîneurs (27) ; matchs officiels, amicaux à part ; albums vides non proposés (Paris : aucun tant qu'il n'y a pas de compositions)
+- [x] Mon album : pochette quotidienne tirée par le serveur et signée, raretés, bonus fiche / défi du jour, doubles, échanges par code (usage unique, expiration 14 jours), sauvegarde par code ou carnet du supporter, pages complétées (badge carnet, image de partage), animation (prefers-reduced-motion), purge 18 mois, back-office Interactif › Mon album, cookies et confidentialité
+- [x] Sitemap, lien depuis la page saison, aide (site public, interactif), doc technique, anglais, test `tests/album-sochini.php`
+- [ ] Décennies 1920-1960 et épopées CDL 2004 / CDF 2007 : apparaîtront dès que leurs compositions seront saisies
+
