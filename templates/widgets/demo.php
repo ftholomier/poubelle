@@ -15,7 +15,6 @@
   <?php if (!$list): ?>
     <p class="lead"><?= e(t('Aucun widget n’est ouvert à tous pour le moment.')) ?></p>
   <?php endif; ?>
-  <div class="wdemo-grid" data-masonry>
   <?php foreach ($list as $it): $w = $it['w']; ?>
   <article class="wdemo-item" id="<?= e($w->key()) ?>">
     <div class="wdemo-item__txt">
@@ -37,7 +36,6 @@
     </div>
   </article>
   <?php endforeach; ?>
-  </div>
   <aside class="wdemo-more">
     <h2 class="h-3"><?= e(t('Script ou iframe ?')) ?></h2>
     <p><?= e(t('Le code « script » est le plus simple : plusieurs widgets sur la même page avec une seule balise script, chargés quand ils arrivent à l’écran, toujours à la bonne hauteur, isolés de votre site (ni cookie ni style partagés).')) ?></p>

@@ -15,10 +15,3 @@
 .wdemo .btn--sm { padding: 9px 14px; font-size: 14px; }
 .wdemo-head { padding-top: clamp(28px, 4vw, 48px); }
 .wdemo-partner .btn { background: var(--yellow); color: var(--navy); border-color: var(--yellow); }
-/* Mosaïque (masonry) : grille à rangées fines, chaque carte s'étend sur le nombre de rangées de sa
-   hauteur réelle (js/widgets.js, recalculé quand un aperçu change de hauteur) ; ordre de lecture
-   gauche → droite conservé. Sans script : grille simple alignée en haut. */
-.wdemo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); column-gap: 24px; row-gap: 24px; align-items: start; }
-.wdemo-grid.is-masonry { grid-auto-rows: 8px; row-gap: 0; }
-.wdemo-grid.is-masonry > .wdemo-item { margin-bottom: 24px; }
-.wdemo-grid .wdemo-item { grid-template-columns: 1fr; gap: 14px; }
