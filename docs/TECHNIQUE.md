@@ -1281,7 +1281,7 @@ label}]}`, 20 au plus, sans accents ni casse, mêmes règles d'accès et de déb
 
 | Widget | Option | Type | Valeurs |
 |---|---|---|---|
-| `histoire-du-duel` | `adversaire` | search | `auto` (adversaire du dernier match fiché) ou clé de `/face-a-face/<clé>/`, les plus affrontés d'abord (`HistoireDuDuel::choices`) |
+| `histoire-du-duel` | `adversaire` | search | `auto` (adversaire du dernier match fiché) ou clé de `/face-a-face/<clé>/`, tous les adversaires affrontés par ordre alphabétique (`HistoireDuDuel::choices`) |
 | `carte-legende` | `joueur` | search | `auto` (au hasard, une par heure) ou fin d'adresse de la fiche ; légendes puis plus capés (`CarteLegende::players`) |
 | `saison` | `saison` | select | `auto` (en cours ou dernière) ou saison ayant des matchs (`Derived seasons`), la plus récente d'abord |
 | `boutique` | `produit` | select | `auto` (sélection du jour) ou id d'un objet en vente |

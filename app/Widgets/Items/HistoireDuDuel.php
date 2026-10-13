@@ -73,17 +73,19 @@ final class HistoireDuDuel extends Widget
     }
 
     /** Adversaires possibles (back-office) : clé => nom, les plus affrontés d'abord. @return array<string,string> */
-    public static function choices(int $limit = 300): array
+    public static function choices(): array
     {
-        $clubs = Derived::part('clubs');
-        uasort($clubs, fn ($x, $y) => $y['count'] <=> $x['count']);
+        // Tous les adversaires affrontés, par ordre alphabétique (sans tenir compte des accents),
+        // avec le nombre de matchs entre parenthèses.
         $self = Names::clubKey(\App\Core\Club::team());
         $out = [];
-        foreach (array_slice($clubs, 0, $limit, true) as $k => $c) {
+        foreach (Derived::part('clubs') as $k => $c) {
             if ($k !== $self && (int) $c['count'] > 0) {
                 $out[(string) $k] = Fiche::clubName((string) $k) . ' (' . (int) $c['count'] . ')';
             }
         }
+        $key = fn (string $l) => strtolower((string) (function_exists('iconv') ? iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $l) : $l));
+        uasort($out, fn ($x, $y) => strnatcmp($key($x), $key($y)));
         return $out;
     }
 

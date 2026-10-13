@@ -149,7 +149,7 @@ Le script remplace chaque <code>div</code> par une iframe isolée (le widget ne 
 <h3>Les options de chaque widget</h3>
 <p>Les widgets marqués <b>Personnalisable</b> dans le catalogue ont des options, choisies dans des listes tirées du musée (plus besoin de taper une adresse) :</p>
 <ul>
-<li><b>Histoire du duel › Adversaire</b> : tapez le nom du club, la liste propose les adversaires du face-à-face, les plus affrontés d’abord (nombre de matchs entre parenthèses). « Automatique » : l’adversaire du dernier match fiché ;</li>
+<li><b>Histoire du duel › Adversaire</b> : tapez le nom du club, la liste propose tous les adversaires déjà affrontés, par ordre alphabétique (nombre de matchs entre parenthèses) ; un club jamais rencontré n’a pas d’histoire à raconter et n’y figure donc pas. « Automatique » : l’adversaire du dernier match fiché ;</li>
 <li><b>Carte de légende › Joueur</b> : tapez un nom (légendes et joueurs les plus capés d’abord) ; « Au hasard » par défaut ;</li>
 <li><b>Saison</b>, <b>Boutique › Objet</b> : listes des saisons fichées, des objets en vente ;</li>
 <li><b>Ce jour-là</b> (un jour du calendrier, nombre de matchs), <b>Compte à rebours</b> (date à venir, titre), <b>Records</b> (classement, nombre de joueurs), <b>Il y a…</b>, <b>Palmarès</b>, <b>Carte des stades</b> (zone).</li>
