@@ -262,8 +262,13 @@ final class Media
             $files[self::PARTS . "/$b.php"] = $part;
         }
         foreach ($files as $file => $data) {
+            $code = '<?php return ' . var_export($data, true) . ";\n";
+            // Partie inchangée : pas réécrite (chaque réécriture laisse une copie périmée dans OPcache).
+            if (is_file($file) && filesize($file) === strlen($code) && md5_file($file) === md5($code)) {
+                continue;
+            }
             $tmp = $file . '.' . bin2hex(random_bytes(4));
-            file_put_contents($tmp, '<?php return ' . var_export($data, true) . ";\n", LOCK_EX);
+            file_put_contents($tmp, $code, LOCK_EX);
             rename($tmp, $file);
             if (function_exists('opcache_invalidate')) {
                 @opcache_invalidate($file, true);

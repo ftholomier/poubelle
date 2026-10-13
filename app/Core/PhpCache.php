@@ -19,14 +19,19 @@ final class PhpCache
     /** @var array<string,true> verrous déjà tenus par ce processus (appels imbriqués) */
     private static array $held = [];
 
-    /** Lecture fraîche (sans la version compilée d'OPcache) ; null si absent ou illisible. */
-    public static function read(string $file): ?array
+    /**
+     * Lecture ; null si absent ou illisible. $fresh : sans la version compilée d'OPcache (sous verrou,
+     * avant de réécrire). Ailleurs, jamais : forcer la recompilation à chaque lecture remplit OPcache
+     * de copies périmées (mémoire « gaspillée ») jusqu'à son redémarrage, et tout le site ralentit.
+     * write() invalide déjà le fichier réécrit : une lecture normale voit la nouvelle version.
+     */
+    public static function read(string $file, bool $fresh = false): ?array
     {
         clearstatcache(true, $file);
         if (!is_file($file)) {
             return null;
         }
-        if (function_exists('opcache_invalidate')) {
+        if ($fresh && function_exists('opcache_invalidate')) {
             @opcache_invalidate($file, true);
         }
         $data = include $file;
@@ -39,8 +44,13 @@ final class PhpCache
         if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
             throw new RuntimeException("Dossier impossible à créer : $dir");
         }
+        $code = '<?php return ' . var_export($data, true) . ";\n";
+        // Contenu identique : pas de réécriture (elle laisserait une copie périmée dans OPcache).
+        if (is_file($file) && filesize($file) === strlen($code) && md5_file($file) === md5($code)) {
+            return;
+        }
         $tmp = $file . '.' . bin2hex(random_bytes(4));
-        if (file_put_contents($tmp, '<?php return ' . var_export($data, true) . ";\n", LOCK_EX) === false) {
+        if (file_put_contents($tmp, $code, LOCK_EX) === false) {
             throw new RuntimeException("Écriture impossible : $tmp");
         }
         if (!rename($tmp, $file)) {
@@ -71,7 +81,7 @@ final class PhpCache
     public static function update(string $file, callable $fn, bool $onlyIfMissing = false): array
     {
         if (isset(self::$held[$file])) {
-            $cur = self::read($file);
+            $cur = self::read($file, true);
             $data = $fn($cur);
             if (!($onlyIfMissing && $cur !== null)) {
                 self::write($file, $data);
@@ -88,7 +98,7 @@ final class PhpCache
         }
         self::$held[$file] = true;
         try {
-            $cur = self::read($file);
+            $cur = self::read($file, true);
             $data = $fn($cur);
             // Déjà fait par un autre processus pendant l'attente : rien à réécrire.
             if (!($onlyIfMissing && $cur !== null)) {

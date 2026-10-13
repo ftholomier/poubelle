@@ -49,7 +49,7 @@ final class Memo
         try {
             if (!$mine) {
                 // Calculé par un autre processus pendant l'attente du verrou ?
-                $c = PhpCache::read($file);
+                $c = PhpCache::read($file, true);
                 if (is_array($c) && ($c['name'] ?? null) === $name && ($c['stamp'] ?? null) === $stamp) {
                     return self::$seen["$name|$stamp"] = $c['value'];
                 }
