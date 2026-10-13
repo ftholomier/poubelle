@@ -31,12 +31,12 @@ final class SeasonAlbum
         $file = STORAGE_PATH . '/cache/album/' . preg_replace('/[^0-9-]/', '', $season) . '.php';
         $built = Derived::built();
         $c = PhpCache::read($file);
-        if ($c && ($c['built'] ?? null) === $built) {
+        if ($c && ($c['built'] ?? null) === $built && ($c['v'] ?? 0) === 2) { // v2 : amicaux comptés à part
             return $c['data'];
         }
         $data = self::compute($season);
         try {
-            PhpCache::write($file, ['built' => $built, 'data' => $data]);
+            PhpCache::write($file, ['built' => $built, 'v' => 2, 'data' => $data]);
         } catch (\Throwable) {
             // Cache en lecture seule : on sert le calcul sans l'enregistrer.
         }
@@ -55,6 +55,8 @@ final class SeasonAlbum
             if (!$x || !$x['v']) {
                 continue;
             }
+            // Matchs amicaux comptés à part : les chiffres de l'album sont ceux des matchs officiels.
+            $amical = ($x['comp'] ?? '') === 'Amical';
             $doc = Fiches::get((int) $mid);
             $apps = Derived::lineupLinks((int) $mid);
             $minByPid = [];
@@ -91,7 +93,11 @@ final class SeasonAlbum
                     continue;
                 }
                 $seen[$key] = true;
-                $squad[$key] ??= ['pid' => $pid ? (int) $pid : null, 'name' => Names::display($name), 'mj' => 0, 'goals' => 0, 'min' => 0, 'pos' => []];
+                $squad[$key] ??= ['pid' => $pid ? (int) $pid : null, 'name' => Names::display($name), 'mj' => 0, 'goals' => 0, 'min' => 0, 'amic' => 0, 'pos' => []];
+                if ($amical) {
+                    $squad[$key]['amic']++;
+                    continue;
+                }
                 $squad[$key]['mj']++;
                 $squad[$key]['goals'] += count($r['goals'] ?? []);
                 if ($pid && isset($minByPid[$pid])) {

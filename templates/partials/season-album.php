@@ -7,9 +7,10 @@ $lines = ['G' => t('Gardiens'), 'D' => t('Défenseurs'), 'M' => t('Milieux'), 'A
 $one = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 'A' => t('Attaquant'), 'X' => t('Poste inconnu')];
 $logo = \App\Core\Club::s('logo_400');
 $sticker = function (array $p, string $role) use ($album): string {
-    $stats = (int) $p['mj'] . ' ' . ($p['mj'] > 1 ? t('matchs') : t('match'))
+    $stats = (int) $p['mj'] . ' ' . ($p['mj'] > 1 ? t('matchs officiels') : t('match officiel'))
         . ' · ' . (int) $p['goals'] . ' ' . ($p['goals'] > 1 || ($p['goals'] === 0 && \App\Services\I18n::isEn()) ? t('buts') : t('but'))
-        . ($album['minutes'] && $p['min'] > 0 ? ' · ' . number_format((int) $p['min'], 0, ',', ' ') . ' ' . t('min') : '');
+        . ($album['minutes'] && $p['min'] > 0 ? ' · ' . number_format((int) $p['min'], 0, ',', ' ') . ' ' . t('min') : '')
+        . (!empty($p['amic']) ? ' · +' . (int) $p['amic'] . ' ' . ((int) $p['amic'] > 1 ? t('amicaux') : t('amical')) : '');
     if (!$p['stuck']) {
         return '<div class="alb__slot is-empty"><span class="alb__no" aria-hidden="true">' . (int) $p['no'] . '</span>'
             . '<span class="alb__ph" aria-hidden="true">' . icon_photo() . '</span>'
