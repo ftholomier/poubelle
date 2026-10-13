@@ -388,7 +388,7 @@ try {
     $pl = $P::save(null, ['name' => 'Écran géant', 'format' => 'vertical', 'lang' => 'en', 'adversaire' => $opp, 'clock' => true, 'reload' => 2, 'slides' => [
         ['type' => 'records', 'duration' => 3, 'opt' => ['cat' => 'matchs', 'adversaire' => 'x']], ['type' => 'inconnu', 'duration' => 10], ['type' => 'histoire-du-duel', 'duration' => 999, 'opt' => ['adversaire' => 'NANTES!!']], ['type' => 'quiz', 'duration' => 20]]]);
     $ok($pl['id'] === 'ecran-geant' && $pl['format'] === 'vertical' && $pl['reload'] === 5 && count($pl['slides']) === 3, 'playlist personnalisée : adresse, format, rechargement borné, type inconnu écarté');
-    $ok($pl['slides'][0] === ['type' => 'records', 'duration' => 15, 'opt' => ['cat' => 'matchs']] && $pl['slides'][1]['duration'] === $P::MAX && $pl['slides'][1]['opt'] === [], 'playlist personnalisée : durées bornées, options permises et bien formées seulement');
+    $ok($pl['slides'][0] === ['type' => 'records', 'duration' => 3, 'opt' => ['cat' => 'matchs']] && $pl['slides'][1]['duration'] === $P::MAX && $pl['slides'][1]['opt'] === [], 'playlist personnalisée : durées bornées, options permises et bien formées seulement');
     $ok($P::save(null, ['name' => 'Avant-match', 'slides' => [['type' => 'quiz']]])['id'] === 'avant-match-2' && $P::get('avant-match')['preset'] === true, 'playlist personnalisée : ne remplace jamais une playlist prête à l’emploi');
     $err = [];
     foreach ([['name' => '', 'slides' => [['type' => 'quiz']]], ['name' => 'Vide', 'slides' => []]] as $bad) {

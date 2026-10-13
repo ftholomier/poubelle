@@ -42,7 +42,7 @@ final class Playlists
     public const FORMATS = ['paysage' => 'Paysage 16:9 (1920 × 1080)', 'vertical' => 'Vertical 9:16 (1080 × 1920)'];
 
     /** Durée d'une slide : bornes (secondes). */
-    public const MIN = 5;
+    public const MIN = 2;
     public const MAX = 120;
 
     /** Les 3 playlists prêtes à l'emploi (modifiables : la version modifiée est gardée dans ecrans.json sous la même clé ; supprimer = rétablir). */
@@ -185,7 +185,7 @@ final class Playlists
                     $opt[$o] = $v;
                 }
             }
-            $out[] = ['type' => $type, 'duration' => $d >= self::MIN ? min(self::MAX, $d) : self::TYPES[$type][1], 'opt' => $opt];
+            $out[] = ['type' => $type, 'duration' => $d > 0 ? max(self::MIN, min(self::MAX, $d)) : self::TYPES[$type][1], 'opt' => $opt];
         }
         return $out;
     }

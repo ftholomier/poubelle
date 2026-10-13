@@ -66,7 +66,7 @@ final class Page
     /** Une slide en HTML (échappé). */
     public static function slide(array $s, Context $c, bool $vertical = false): string
     {
-        $attrs = ' data-duration="' . max(3, (int) ($s['duration'] ?? 10)) . '" data-type="' . e((string) ($s['type'] ?? '')) . '"';
+        $attrs = ' data-duration="' . max(2, (int) ($s['duration'] ?? 10)) . '" data-type="' . e((string) ($s['type'] ?? '')) . '"';
         $eb = !empty($s['eyebrow']) ? '<p class="ec-eyebrow">' . (!empty($s['live']) ? '<i class="ec-live"></i>' : '') . e($s['eyebrow']) . '</p>' : '';
         $qr = fn (?string $url, string $label = '') => $url ? '<figure class="ec-qr">' . Qr::svg($url, 6, Club::color('navy')) . ($label !== '' ? '<figcaption>' . e($label) . '</figcaption>' : '') . '</figure>' : '';
         $img = fn (?array $im, string $cls = 'ec-img') => $im ? '<figure class="' . $cls . '"><img src="' . e($im['url']) . '" alt="" decoding="async">' . ($im['credit'] !== '' ? '<figcaption>' . e($im['credit']) . '</figcaption>' : '') . '</figure>' : '';

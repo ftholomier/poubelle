@@ -39,7 +39,7 @@
     var s = slides[i];
     slides.forEach(function (x, k) { x.classList.toggle('is-on', k === i); x.classList.remove('is-answer'); });
     cur = i;
-    var dur = Math.max(3, +s.getAttribute('data-duration')) * 1000;
+    var dur = Math.max(2, +s.getAttribute('data-duration')) * 1000;
     clearInterval(tick);
     var t0 = Date.now();
     var ans = s.hasAttribute('data-answer') ? dur - (+s.getAttribute('data-answer')) * 1000 : 0;

@@ -3,7 +3,7 @@
    (redémarrage de la borne pendant une coupure). Styles, scripts, polices et photos : la copie
    gardée d'abord. Rien d'autre n'est gardé ; aucune donnée personnelle. */
 'use strict';
-const CACHE = 'musee-ecran-v1';
+const CACHE = 'musee-ecran-v2';
 const MAX = 250;
 
 self.addEventListener('install', () => self.skipWaiting());
