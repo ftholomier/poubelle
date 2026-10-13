@@ -1,5 +1,5 @@
 <?php
-/** Page publique « Intégrez le musée sur votre site » (/widgets/). Variables : $list [w, src, code, api], $resize */
+/** Page publique « Intégrez le musée sur votre site » (/widgets/). Variables : $list [w, src, code, script, api], $resize */
 ?>
 <section class="wrap phead2 wdemo-head">
   <span class="eyebrow eyebrow--lg"><?= e(t('Widgets gratuits')) ?></span>
@@ -20,10 +20,13 @@
     <div class="wdemo-item__txt">
       <h2 class="h-3"><?= e($w->name(\App\Services\I18n::lang())) ?></h2>
       <p><?= e($w->description(\App\Services\I18n::lang())) ?></p>
-      <label class="wdemo-label" for="code-<?= e($w->key()) ?>"><?= e(t('Code à copier')) ?></label>
-      <textarea id="code-<?= e($w->key()) ?>" class="wdemo-code" readonly rows="4"><?= e($it['code']) ?></textarea>
+      <label class="wdemo-label" for="script-<?= e($w->key()) ?>"><?= e(t('Code à copier (script : recommandé)')) ?></label>
+      <textarea id="script-<?= e($w->key()) ?>" class="wdemo-code" readonly rows="3" data-code="<?= e($w->key()) ?>"><?= e($it['script']) ?></textarea>
+      <label class="wdemo-label" for="code-<?= e($w->key()) ?>"><?= e(t('Ou code iframe (sans script)')) ?></label>
+      <textarea id="code-<?= e($w->key()) ?>" class="wdemo-code" readonly rows="3" data-code="<?= e($w->key()) ?>"><?= e($it['code']) ?></textarea>
       <p class="wdemo-btns">
-        <button type="button" class="btn btn--sm" data-copy="code-<?= e($w->key()) ?>"><?= e(t('Copier le code')) ?></button>
+        <button type="button" class="btn btn--sm" data-copy="script-<?= e($w->key()) ?>"><?= e(t('Copier le script')) ?></button>
+        <button type="button" class="btn btn--sm" data-copy="code-<?= e($w->key()) ?>"><?= e(t('Copier l’iframe')) ?></button>
         <button type="button" class="btn btn--sm btn--ghost" data-theme-toggle="<?= e($w->key()) ?>"><?= e(t('Voir en sombre')) ?></button>
       </p>
       <p class="wdemo-api"><?= e(t('Données brutes (JSON) :')) ?> <a href="<?= e($it['api']) ?>" rel="nofollow" target="_blank"><code><?= e(preg_replace('#^https?://#', '', $it['api'])) ?></code></a></p>
@@ -34,8 +37,9 @@
   </article>
   <?php endforeach; ?>
   <aside class="wdemo-more">
-    <h2 class="h-3"><?= e(t('Hauteur automatique (facultatif)')) ?></h2>
-    <p><?= e(t('Ajoutez une fois ces quelques lignes dans votre page : chaque widget prend alors exactement la hauteur de son contenu.')) ?></p>
+    <h2 class="h-3"><?= e(t('Script ou iframe ?')) ?></h2>
+    <p><?= e(t('Le code « script » est le plus simple : plusieurs widgets sur la même page avec une seule balise script, chargés quand ils arrivent à l’écran, toujours à la bonne hauteur, isolés de votre site (ni cookie ni style partagés).')) ?></p>
+    <p><?= e(t('Le code iframe fonctionne partout, même là où les scripts sont interdits. Pour qu’il prenne lui aussi la hauteur de son contenu, ajoutez une fois ces quelques lignes dans votre page :')) ?></p>
     <textarea id="code-resize" class="wdemo-code" readonly rows="3"><?= e($resize) ?></textarea>
     <p class="wdemo-btns"><button type="button" class="btn btn--sm" data-copy="code-resize"><?= e(t('Copier le code')) ?></button></p>
   </aside>

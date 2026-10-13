@@ -14,12 +14,11 @@
   document.querySelectorAll('[data-theme-toggle]').forEach(b => b.addEventListener('click', () => {
     const k = b.dataset.themeToggle;
     const f = document.querySelector('iframe[data-musee="' + k + '"]');
-    const code = document.getElementById('code-' + k);
     if (!f) return;
     const dark = !f.src.includes('theme=sombre');
-    const swap = s => s.replace(/theme=(clair|sombre)/, 'theme=' + (dark ? 'sombre' : 'clair'));
+    const swap = s => s.replace(/theme=(clair|sombre)/, 'theme=' + (dark ? 'sombre' : 'clair')).replace(/data-theme="(clair|sombre)"/, 'data-theme="' + (dark ? 'sombre' : 'clair') + '"');
     f.src = swap(f.src);
-    if (code) code.value = swap(code.value);
+    document.querySelectorAll('[data-code="' + k + '"]').forEach(c => { c.value = swap(c.value); });
     b.textContent = dark ? (EN ? 'See in light' : 'Voir en clair') : (EN ? 'See in dark' : 'Voir en sombre');
   }));
   addEventListener('message', e => {

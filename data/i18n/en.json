@@ -2402,5 +2402,13 @@
     "Hauteur automatique (facultatif)": "Automatic height (optional)",
     "Ajoutez une fois ces quelques lignes dans votre page : chaque widget prend alors exactement la hauteur de son contenu.": "Add these few lines once to your page: each widget then takes exactly the height of its content.",
     "Club, média, office de tourisme, association : d’autres widgets, l’accès aux données brutes et les écrans de stade sont réservés aux partenaires du musée, avec une clé.": "Club, media, tourist office, association: more widgets, raw data access and stadium screens are reserved for museum partners, with a key.",
-    "Widgets gratuits de {site} à copier-coller sur votre site : ce jour-là, chiffre du jour, carte de légende, photo du jour…": "Free {site} widgets to copy and paste on your website: on this day, stat of the day, legend card, photo of the day…"
+    "Widgets gratuits de {site} à copier-coller sur votre site : ce jour-là, chiffre du jour, carte de légende, photo du jour…": "Free {site} widgets to copy and paste on your website: on this day, stat of the day, legend card, photo of the day…",
+    "Code à copier (script : recommandé)": "Code to copy (script: recommended)",
+    "Ou code iframe (sans script)": "Or iframe code (no script)",
+    "Copier le script": "Copy the script",
+    "Copier l’iframe": "Copy the iframe",
+    "Script ou iframe ?": "Script or iframe?",
+    "Le code « script » est le plus simple : plusieurs widgets sur la même page avec une seule balise script, chargés quand ils arrivent à l’écran, toujours à la bonne hauteur, isolés de votre site (ni cookie ni style partagés).": "The “script” code is the simplest: several widgets on the same page with a single script tag, loaded as they come into view, always at the right height, isolated from your site (no shared cookies or styles).",
+    "Le code iframe fonctionne partout, même là où les scripts sont interdits. Pour qu’il prenne lui aussi la hauteur de son contenu, ajoutez une fois ces quelques lignes dans votre page :": "The iframe code works everywhere, even where scripts are not allowed. To make it take the height of its content too, add these few lines once to your page:",
+    "Widgets gratuits de {site} à copier-coller sur votre site : ce jour-là, chiffre du jour, quiz du jour, records, palmarès, carte de légende…": "Free {site} widgets to copy and paste on your site: on this day, stat of the day, quiz of the day, records, honours, legend card…"
 }

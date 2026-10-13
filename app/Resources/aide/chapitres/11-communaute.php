@@ -98,7 +98,19 @@ HTML, 'admin' => true],
 [[auto|<p>Les messages sont chiffrés pour le seul navigateur abonné (norme Web Push) : Google, Apple, Mozilla ou Microsoft les acheminent sans pouvoir les lire. Le musée ne garde ni nom, ni e-mail, ni adresse IP : seulement l’adresse technique fournie par le navigateur, les sujets et la langue. Un abonnement disparu (appli supprimée) est effacé au premier envoi.</p>]]
 HTML],
         ['id' => 'widgets', 'title' => 'Widgets & partenaires : le musée sur d’autres sites', 'admin' => true, 'html' => <<<'HTML'
-<p>Communauté › <b>Widgets &amp; partenaires</b> (administrateurs) : un widget est un petit encart du musée qu’un autre site affiche en copiant une ligne de code (une <i>iframe</i>), ou dont il lit les données brutes (API JSON). Six widgets sont prêts : <b>Ce jour-là</b>, <b>Chiffre du jour</b>, <b>Il y a 5, 10, 20, 30 ans</b>, <b>Carte de légende</b> (au hasard ou joueur choisi), <b>Photo du jour</b> et <b>Le saviez-vous ?</b>. Ils se mettent à jour seuls.</p>
+<p>Communauté › <b>Widgets &amp; partenaires</b> (administrateurs) : un widget est un petit encart du musée qu’un autre site affiche en copiant quelques lignes de code (un <b>script</b> ou une <i>iframe</i>), ou dont il lit les données brutes (API JSON). Ils se mettent à jour seuls. Quatorze widgets sont prêts :</p>
+<ul>
+<li><b>Ce jour-là</b>, <b>Chiffre du jour</b>, <b>Il y a 5, 10, 20, 30 ans</b>, <b>Photo du jour</b>, <b>Le saviez-vous ?</b> ;</li>
+<li><b>Carte de légende</b> : au hasard ou joueur choisi (voir son réglage « Joueurs tirés au hasard » ci-dessous) ;</li>
+<li><b>Records</b> : le top 10 des buteurs ou des joueurs les plus utilisés (option « Classement »), avec exactement les chiffres de la page Records (totaux de référence compris) ;</li>
+<li><b>Quiz du jour</b> : une question du quiz du site, la même pour tous dans la journée, <b>jouable dans le widget</b> (sans compte ni cookie) : le visiteur choisit, le musée affiche la bonne réponse et l’explication. La bonne réponse n’est jamais dans le code de la page ni dans l’API ;</li>
+<li><b>Défi du jour</b> : invitation au défi quotidien (10 questions chronométrées), avec le nombre de joueurs classés et le meilleur score du jour (jamais de pseudo) ; on joue sur le musée, où le défi garde la partie et les classements ;</li>
+<li><b>Dernier match fiché</b> : score, date, compétition et début du récit ;</li>
+<li><b>Saison en un coup d’œil</b> : saison choisie (« 1987-1988 » ; vide : la saison en cours si un match y est fiché, sinon la dernière) : classement, victoires, nuls, défaites, meilleurs buteurs, entraîneur et titres ;</li>
+<li><b>Palmarès</b> : les titres du club, en liste ou en bandeau (option « Affichage ») ;</li>
+<li><b>Frise express</b> : les dates de la frise qui défilent (pause au survol) ;</li>
+<li><b>Bandeau « En direct du musée »</b> : les mêmes messages que le bandeau du site (Éditorial › Accueil &amp; bandeau), qui défilent sur une ligne de hauteur fixe, à mettre en haut ou en bas d’une page.</li>
+</ul>
 <h3>Ce qui ne change jamais</h3>
 <ul>
 <li>Toujours aux couleurs et avec les polices du musée ; le partenaire ne choisit que le <b>thème</b> (clair ou sombre), la <b>langue</b> et le <b>format</b> (standard ou compact).</li>
@@ -115,8 +127,18 @@ HTML],
 <li><b>Désactivé</b> : servi à personne.</li>
 </ul>
 <p><b>Actif même site fermé</b> : quand le musée est en page d’attente (ou protégé par mot de passe), les widgets ne sont plus servis, sauf ceux qui ont cette case cochée.</p>
+<p><b>Carte de légende › Joueurs tirés au hasard</b> (réglage propre à ce widget) : « Légendes cochées ; si aucune, les plus capés » (par défaut) tire parmi les fiches cochées « Légende » et, tant qu’aucune ne l’est, parmi les 24 joueurs les plus capés d’après les totaux de référence du club ; « Seulement les fiches cochées « Légende » » n’affiche rien tant qu’aucune fiche n’est cochée. C’est une proposition : choisissez ce qui convient au musée.</p>
 <h3>Le configurateur</h3>
-<p>Choisissez le widget, le thème, la langue, le format, ses options (date, joueur, écart d’années…) et, pour un widget réservé ou payant, le partenaire : l’aperçu se met à jour, le <b>code iframe</b> et l’<b>adresse de l’API</b> sont prêts à copier et à envoyer au partenaire. Le petit code « Hauteur automatique » est facultatif : il ajuste la hauteur de l’iframe au contenu.</p>
+<p>Choisissez le widget, le thème, la langue, le format, ses options (date, joueur, écart d’années, classement, saison, affichage…) et, pour un widget réservé ou payant, le partenaire : l’aperçu se met à jour, et trois codes sont prêts à copier et à envoyer au partenaire :</p>
+<ul>
+<li><b>Code script</b> (recommandé) : une ligne <code>&lt;div data-musee-widget="…"&gt;</code> par widget, à l’endroit voulu, et une seule fois par page la ligne <code>&lt;script src="…/embed.js" async&gt;</code>. Exemple avec deux widgets :
+<pre>&lt;div data-musee-widget="ce-jour-la" data-theme="sombre"&gt;&lt;/div&gt;
+&lt;div data-musee-widget="records" data-cat="matchs" data-key="mk_…"&gt;&lt;/div&gt;
+&lt;script src="https://adresse-du-musee/embed.js" async&gt;&lt;/script&gt;</pre>
+Le script remplace chaque <code>div</code> par une iframe isolée (le widget ne voit pas la page du partenaire, la page du partenaire ne déforme pas le widget, aucun cookie), chargée quand elle arrive à l’écran et toujours à la bonne hauteur. Les options se mettent en attributs <code>data-…</code> (<code>data-theme</code>, <code>data-lang</code>, <code>data-format</code>, <code>data-key</code>, <code>data-cat</code>, <code>data-saison</code>, <code>data-affichage</code>…).</li>
+<li><b>Code iframe</b> : fonctionne partout, même sur les sites qui interdisent les scripts. Le petit code « Hauteur automatique » est alors facultatif : il ajuste la hauteur de l’iframe au contenu.</li>
+<li><b>Adresse de l’API</b> : les données brutes (JSON), pour un partenaire qui affiche lui-même les données (avec le nom du musée, la mention « non officiel » et le lien).</li>
+</ul>
 <h3>Les partenaires</h3>
 <p>Onglet <b>Partenaires</b> › « Ajouter un partenaire » : nom, contact, <b>domaines autorisés</b> (la clé ne marche que sur ces sites ; vide : partout, y compris depuis un serveur), statut (<b>actif</b> ou <b>suspendu</b>), <b>offre</b> (gratuite ou payante, avec sa date d’échéance ; pas de paiement en ligne pour l’instant, l’offre se note ici). La <b>clé</b> est créée au hasard et affichée une fois en haut de l’écran : transmettez-la au partenaire. <b>Nouvelle clé</b> en crée une autre (l’ancienne cesse aussitôt de fonctionner, par exemple si elle a circulé).</p>
 <h3>Statistiques</h3>

@@ -8,7 +8,8 @@ use App\Core\JsonStore;
 /**
  * Données des widgets déjà calculées (Store::dir()/cache/) : une entrée par widget, options et
  * langue, gardée le temps du widget (Widget::ttl) et jamais au-delà de minuit. Les données sont
- * celles d'avant Frame::finalize (sans partenaire) : la même entrée sert à tous.
+ * celles d'avant Frame::finalize (sans partenaire) : la même entrée sert à tous. Les réglages propres
+ * du widget (Widget::settings) font partie de la clé : un changement de réglage prend effet aussitôt.
  */
 final class Cache
 {
@@ -16,7 +17,7 @@ final class Cache
     public static function get(Widget $w, array $opt, Context $c): array
     {
         ksort($opt);
-        $file = Store::dir() . '/cache/' . $w->key() . '-' . substr(md5(json_encode([$opt, $c->lang])), 0, 12) . '.json';
+        $file = Store::dir() . '/cache/' . $w->key() . '-' . substr(md5(json_encode([$opt, $c->lang, Store::widget($w->key())['settings']])), 0, 12) . '.json';
         $hit = JsonStore::read($file);
         $now = time();
         if (is_array($hit) && ($hit['day'] ?? '') === date('Y-m-d') && $now - (int) ($hit['at'] ?? 0) < $w->ttl() && array_key_exists('data', $hit)) {

@@ -16,7 +16,10 @@ use App\Services\I18n;
  * - GET /api/v1/widgets            catalogue des widgets accessibles (JSON) ;
  * - GET /api/v1/widgets/<clé>      données d'un widget (JSON, CORS, ETag) ;
  * - GET /w/<clé>                   le widget en page HTML autonome, à mettre dans une iframe ;
- * - GET /w/clic/<clé>/?to=/…       lien vers le musée depuis un widget (compté, puis redirigé).
+ * - GET /w/clic/<clé>/?to=/…       lien vers le musée depuis un widget (compté, puis redirigé) ;
+ * - POST /api/v1/widgets/quiz-du-jour/verifier   vérifie une réponse du quiz du jour (la bonne
+ *                                  réponse n'est jamais dans les données du widget) ;
+ * - GET /embed.js                  script d'intégration (une iframe isolée par <div data-musee-widget>).
  * Clé partenaire : ?key=… ou en-tête X-Musee-Key. Aucun cookie posé, aucune donnée personnelle.
  */
 final class Http
@@ -31,9 +34,21 @@ final class Http
     public static function handle(Request $req): Response
     {
         $p = rtrim($req->path, '/');
+        if ($p === '/embed.js') {
+            return self::embed($req);
+        }
         $api = str_starts_with($p, '/api/');
         if ($req->method === 'OPTIONS' && $api) {
-            return self::cors(new Response('', 204, ['Access-Control-Allow-Methods' => 'GET, OPTIONS', 'Access-Control-Allow-Headers' => 'X-Musee-Key, If-None-Match', 'Access-Control-Max-Age' => '86400', 'Cache-Control' => 'public, max-age=86400']), $req, null);
+            return self::cors(new Response('', 204, ['Access-Control-Allow-Methods' => 'GET, POST, OPTIONS', 'Access-Control-Allow-Headers' => 'X-Musee-Key, If-None-Match, Content-Type', 'Access-Control-Max-Age' => '86400', 'Cache-Control' => 'public, max-age=86400']), $req, null);
+        }
+        if ($req->method === 'POST' && $p === '/api/v1/widgets/quiz-du-jour/verifier') {
+            I18n::set(self::input($req, 'lang') === 'en' ? 'en' : 'fr');
+            try {
+                return self::verify($req);
+            } catch (\Throwable $e) {
+                error_log((string) $e);
+                return self::cors(Response::json(['error' => 'Erreur interne.'], 500), $req, null);
+            }
         }
         if (!in_array($req->method, ['GET', 'HEAD'], true)) {
             return $api ? Response::json(['error' => 'Méthode non autorisée.'], 405) : Response::html('Méthode non autorisée.', 405);
@@ -271,7 +286,7 @@ final class Http
 
     private static function frameHeaders(Response $res, ?array $partner, bool $preview): Response
     {
-        $res->headers['Content-Security-Policy'] = "default-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors " . ($preview ? "'self'" : self::ancestors($partner));
+        $res->headers['Content-Security-Policy'] = "default-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors " . ($preview ? "'self'" : self::ancestors($partner));
         $res->headers['X-Content-Type-Options'] = 'nosniff';
         $res->headers['Referrer-Policy'] = 'strict-origin-when-cross-origin';
         $res->headers['X-Robots-Tag'] = 'noindex';
@@ -312,6 +327,89 @@ final class Http
         }
         $res->headers['Access-Control-Expose-Headers'] = 'ETag';
         $res->headers['X-Content-Type-Options'] = 'nosniff';
+        return $res;
+    }
+
+    /** Champ d'une requête POST (JSON ou formulaire), sinon de l'adresse. */
+    private static function input(Request $req, string $name): string
+    {
+        $json = is_array($j = json_decode((string) $req->body, true)) ? $j : [];
+        $v = $json[$name] ?? $req->post[$name] ?? $req->query[$name] ?? '';
+        return is_scalar($v) ? trim((string) $v) : '';
+    }
+
+    /**
+     * Vérifie une réponse du quiz du jour : {date, choix, lang, key?} → {correct, bonne, reponse,
+     * explication}. Mêmes règles d'accès que le widget ; la page du widget elle-même (servie par le
+     * musée, donc d'origine le musée) passe le contrôle des domaines de la clé. Rien n'est enregistré.
+     */
+    private static function verify(Request $req): Response
+    {
+        $w = Registry::get('quiz-du-jour');
+        $cfg = Store::widget('quiz-du-jour');
+        if (!$w || ($cfg['access'] === 'desactive' && !self::preview($req))) {
+            return self::cors(Response::json(['error' => 'Ce widget n’est pas disponible.'], 404), $req, null);
+        }
+        if (Seo::closed() && !$cfg['closed_ok'] && !self::preview($req)) {
+            return self::cors(Response::json(['error' => 'Le musée est fermé au public pour le moment.'], 503), $req, null);
+        }
+        $key = self::input($req, 'key') ?: (string) ($req->header('X-Musee-Key') ?? '');
+        $partner = null;
+        if ($key !== '') {
+            $partner = Store::partnerByKey($key);
+            if (!$partner || ($partner['status'] ?? '') !== 'actif') {
+                return self::cors(Response::json(['error' => 'Clé partenaire invalide ou suspendue.'], 401), $req, null);
+            }
+            $host = self::caller($req);
+            if (!empty($partner['domains']) && $host !== Context::host() && !Store::hostAllowed($host, (array) $partner['domains'])) {
+                return self::cors(Response::json(['error' => 'Clé non autorisée sur ce domaine.'], 403), $req, null);
+            }
+        }
+        if (!self::preview($req)) {
+            if (in_array($cfg['access'], ['reserve', 'payant'], true) && !$partner) {
+                return self::cors(Response::json(['error' => 'Widget réservé aux partenaires du musée : clé requise.'], 401), $req, null);
+            }
+            if ($cfg['access'] === 'payant' && !Store::paid($partner)) {
+                return self::cors(Response::json(['error' => 'Widget réservé aux partenaires ayant une offre payante en cours.'], 402), $req, null);
+            }
+        }
+        if (!RateLimiter::hit('widgets-quiz', $req->ip(), 60, 60)) {
+            return self::cors(Response::json(['error' => 'Trop de requêtes, patientez une minute.'], 429), $req, null);
+        }
+        $date = self::input($req, 'date');
+        $choice = self::input($req, 'choix');
+        // Question du jour, ou de la veille (page ouverte avant minuit) : pas d'autre date.
+        if (!in_array($date, [date('Y-m-d'), date('Y-m-d', strtotime('-1 day'))], true) || !ctype_digit($choice)) {
+            return self::cors(Response::json(['error' => 'Question inconnue ou expirée : rechargez le widget.'], 400), $req, null);
+        }
+        $q = Items\QuizDuJour::question($date, I18n::lang());
+        if (!$q || !isset($q['a'][(int) $choice])) {
+            return self::cors(Response::json(['error' => 'Question inconnue ou expirée : rechargez le widget.'], 400), $req, null);
+        }
+        $res = Response::json(['correct' => (int) $choice === $q['c'], 'bonne' => $q['c'], 'reponse' => $q['a'][$q['c']], 'explication' => $q['fact']]);
+        $res->headers['Cache-Control'] = 'no-store';
+        return self::cors($res, $req, $partner);
+    }
+
+    /**
+     * Script d'intégration (/embed.js, aussi /assets/js/embed.js) : adresse fixe, gardé une heure,
+     * chargeable depuis tout site (aucun cookie, aucune donnée).
+     */
+    private static function embed(Request $req): Response
+    {
+        $file = dirname(__DIR__, 2) . '/public/assets/js/embed.js';
+        $body = (string) @file_get_contents($file);
+        $res = new Response($body, $body === '' ? 404 : 200, ['Content-Type' => 'application/javascript; charset=UTF-8']);
+        $res->headers['Cache-Control'] = 'public, max-age=3600';
+        $res->headers['Access-Control-Allow-Origin'] = '*';
+        $res->headers['Cross-Origin-Resource-Policy'] = 'cross-origin';
+        $res->headers['X-Content-Type-Options'] = 'nosniff';
+        $etag = '"' . md5($body) . '"';
+        $res->headers['ETag'] = $etag;
+        if (trim((string) ($req->header('If-None-Match') ?? '')) === $etag) {
+            $res->status = 304;
+            $res->body = '';
+        }
         return $res;
     }
 

@@ -35,26 +35,46 @@ final class Store
 
     // ------------------------------------------------------------------ réglages des widgets
 
-    /** @return array{access:string,closed_ok:bool} */
+    /**
+     * Réglages d'un widget : accès, « actif même site fermé » et réglages propres (Widget::settings,
+     * valeurs validées, défaut sinon).
+     * @return array{access:string,closed_ok:bool,settings:array<string,string>}
+     */
     public static function widget(string $key): array
     {
         $all = (array) (JsonStore::read(self::dir() . '/reglages.json', []) ?: []);
         $w = (array) ($all['widgets'][$key] ?? []);
         $access = (string) ($w['access'] ?? '');
+        $obj = Registry::get($key);
         if (!isset(self::ACCESS[$access])) {
-            $access = Registry::get($key)?->defaultAccess() ?? 'desactive';
+            $access = $obj?->defaultAccess() ?? 'desactive';
         }
-        return ['access' => $access, 'closed_ok' => !empty($w['closed_ok'])];
+        return ['access' => $access, 'closed_ok' => !empty($w['closed_ok']), 'settings' => $obj ? self::cleanSettings($obj, (array) ($w['settings'] ?? [])) : []];
     }
 
-    public static function saveWidget(string $key, string $access, bool $closedOk): void
+    /** Réglages propres d'un widget, validés (valeur inconnue : valeur par défaut). @return array<string,string> */
+    public static function cleanSettings(Widget $w, array $in): array
+    {
+        $out = [];
+        foreach ($w->settings() as $name => $o) {
+            $v = $in[$name] ?? null;
+            $out[$name] = is_string($v) && isset($o['choices'][$v]) ? $v : (string) $o['default'];
+        }
+        return $out;
+    }
+
+    /** @param array<string,string>|null $settings réglages propres (null : inchangés) */
+    public static function saveWidget(string $key, string $access, bool $closedOk, ?array $settings = null): void
     {
         if (!isset(self::ACCESS[$access])) {
             throw new \InvalidArgumentException('Accès inconnu.');
         }
-        JsonStore::update(self::dir() . '/reglages.json', function ($all) use ($key, $access, $closedOk) {
+        $obj = Registry::get($key);
+        JsonStore::update(self::dir() . '/reglages.json', function ($all) use ($key, $access, $closedOk, $settings, $obj) {
             $all = is_array($all) ? $all : [];
-            $all['widgets'][$key] = ['access' => $access, 'closed_ok' => $closedOk, 'at' => date('c')];
+            $keep = (array) ($all['widgets'][$key]['settings'] ?? []);
+            $set = $obj ? self::cleanSettings($obj, $settings ?? $keep) : [];
+            $all['widgets'][$key] = ['access' => $access, 'closed_ok' => $closedOk, 'at' => date('c')] + ($set ? ['settings' => $set] : []);
             return $all;
         }, []);
     }

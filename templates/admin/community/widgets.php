@@ -1,7 +1,7 @@
 <?php
 /**
  * Widgets & partenaires. Variables : $tab, $widgets [clé => w, cfg, describe], $planned, $partners, $keys,
- * $stats, $days, $base, $resize, $closed, $newKey, $edit
+ * $stats, $days, $base, $resize, $loader, $closed, $newKey, $edit
  */
 use App\Widgets\Store;
 
@@ -10,13 +10,14 @@ $accessLabel = Store::ACCESS;
 $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (string) ($partners[$id]['name'] ?? $id . ' (supprimé)');
 ?>
 <?php if ($tab === 'catalogue'): ?>
-<p class="alert alert--info" style="margin:0">Les widgets affichent un contenu du musée sur d’autres sites, toujours aux couleurs du musée, avec son logo, la mention « non officiel » et un lien vers le musée (impossibles à retirer). Réglez l’accès de chacun, puis copiez le code dans le configurateur. Page publique de démonstration : <a href="/widgets/" target="_blank" rel="noopener">/widgets/</a> (widgets libres seulement).<?= $closed ? ' <b>Le musée est fermé au public</b> : seuls les widgets cochés « actif même site fermé » sont servis.' : '' ?></p>
+<p class="alert alert--info" style="margin:0">Les widgets affichent un contenu du musée sur d’autres sites, toujours aux couleurs du musée, avec son logo, la mention « non officiel » et un lien vers le musée (impossibles à retirer). Réglez l’accès de chacun, puis copiez le code (script ou iframe) dans le configurateur. Page publique de démonstration : <a href="/widgets/" target="_blank" rel="noopener">/widgets/</a> (widgets libres seulement).<?= $closed ? ' <b>Le musée est fermé au public</b> : seuls les widgets cochés « actif même site fermé » sont servis.' : '' ?></p>
 
 <section class="card" id="configurateur" data-widget-config="<?= e(json_encode([
     'base' => $base,
     'widgets' => array_map(fn ($x) => $x['describe'] + ['access' => $x['cfg']['access']], $widgets),
     'partners' => $keys,
     'resize' => $resize,
+    'loader' => $loader,
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) ?>">
   <div class="card__head"><h2 class="card__t">Configurateur</h2></div>
   <div class="card__body">
@@ -35,11 +36,13 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
             <?php foreach ($keys as $k): ?><option value="<?= e($k['id']) ?>"<?= $k['status'] !== 'actif' ? ' disabled' : '' ?>><?= e($k['name']) ?><?= $k['status'] !== 'actif' ? ' (suspendu)' : ($k['paid'] ? ' · offre payante' : '') ?><?= $k['domains'] ? ' · ' . e(implode(', ', $k['domains'])) : '' ?></option><?php endforeach; ?>
           </select></label>
         <p class="small muted" data-cfg-warn style="margin:0"></p>
-        <label class="f"><span class="f__k">Code iframe à copier</span><textarea class="in mono" rows="4" readonly data-cfg-out="iframe"></textarea></label>
-        <div class="row"><button type="button" class="btn btn--sm btn--navy" data-cfg-copy="iframe">Copier le code</button><a class="btn btn--sm" href="#" target="_blank" rel="noopener" data-cfg-open>Ouvrir le widget</a></div>
+        <label class="f"><span class="f__k">Code script à copier (recommandé : iframe isolée, hauteur automatique, chargement quand le widget arrive à l’écran ; la ligne &lt;script&gt; une seule fois par page)</span><textarea class="in mono" rows="3" readonly data-cfg-out="script"></textarea></label>
+        <div class="row"><button type="button" class="btn btn--sm btn--navy" data-cfg-copy="script">Copier le script</button></div>
+        <label class="f"><span class="f__k">Ou code iframe (sans script : fonctionne partout)</span><textarea class="in mono" rows="4" readonly data-cfg-out="iframe"></textarea></label>
+        <div class="row"><button type="button" class="btn btn--sm" data-cfg-copy="iframe">Copier l’iframe</button><a class="btn btn--sm" href="#" target="_blank" rel="noopener" data-cfg-open>Ouvrir le widget</a></div>
         <label class="f"><span class="f__k">Adresse de l’API (données JSON)</span><input class="in mono" readonly data-cfg-out="api"></label>
         <div class="row"><button type="button" class="btn btn--sm" data-cfg-copy="api">Copier l’adresse</button><span class="small muted">Clé aussi possible dans l’en-tête <code>X-Musee-Key</code>.</span></div>
-        <details><summary class="small">Hauteur automatique (facultatif, à donner au partenaire)</summary>
+        <details><summary class="small">Hauteur automatique du code iframe (facultatif, à donner au partenaire ; inutile avec le code script)</summary>
           <textarea class="in mono" rows="3" readonly data-cfg-out="resize"><?= e($resize) ?></textarea></details>
       </div>
       <div class="stack">
@@ -61,6 +64,9 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
       <form method="post" action="/admin/widgets" class="stack" style="gap:8px">
         <?= csrf_field() ?><input type="hidden" name="action" value="acces"><input type="hidden" name="widget" value="<?= e($k) ?>">
         <label class="f"><span class="f__k">Accès</span><select class="in" name="access"><?php foreach ($accessLabel as $a => $label): ?><option value="<?= e($a) ?>"<?= $cfg['access'] === $a ? ' selected' : '' ?>><?= e($label) ?></option><?php endforeach; ?></select></label>
+        <?php foreach ($w->settings() as $sk => $so): ?>
+        <label class="f"><span class="f__k"><?= e($so['label']) ?></span><select class="in" name="settings[<?= e($sk) ?>]"><?php foreach ($so['choices'] as $v => $label): ?><option value="<?= e($v) ?>"<?= ($cfg['settings'][$sk] ?? '') === $v ? ' selected' : '' ?>><?= e($label) ?></option><?php endforeach; ?></select><?php if (!empty($so['help'])): ?><small class="muted"><?= e($so['help']) ?></small><?php endif; ?></label>
+        <?php endforeach; ?>
         <label class="small"><input type="checkbox" name="closed_ok" value="1"<?= $cfg['closed_ok'] ? ' checked' : '' ?>> Actif même site fermé (page d’attente, mot de passe d’accès)</label>
         <div class="row"><button class="btn btn--sm btn--navy">Enregistrer</button><button type="button" class="btn btn--sm btn--ghost" data-cfg-pick="<?= e($k) ?>">Configurer ↑</button></div>
       </form>

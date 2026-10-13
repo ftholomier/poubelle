@@ -1246,6 +1246,8 @@ service worker lui-même se retire dès qu'il voit une page ainsi marquée.
 
 Les contenus vivants du musée en encarts à afficher sur d'autres sites (proposition :
 `docs/widgets-proposition.pdf`). Phase 1 : socle, mode iframe, API en lecture et 6 widgets.
+Vague 2 : script d'intégration `/embed.js` et 8 widgets (records, quiz du jour, défi du jour,
+dernier match fiché, saison, palmarès, frise, bandeau).
 
 **Adresses** (toutes en GET, traitées par `App\Widgets\Http` avant la page d'attente et le
 préfixe `/en` ; langue par `?lang=fr|en`) :
@@ -1256,19 +1258,34 @@ préfixe `/en` ; langue par `?lang=fr|en`) :
 | `GET /api/v1/widgets/{clé}` | données JSON d'un widget : `widget`, `name`, `lang`, `options`, `generated`, `data`, `attribution` (nom du musée, mention « non officiel », lien et logo, à afficher), `iframe` |
 | `OPTIONS /api/v1/widgets…` | pré-vol CORS (en-tête `X-Musee-Key`) |
 | `GET /w/{clé}?theme=clair\|sombre&lang=fr\|en&format=standard\|compact&…` | le widget en page HTML autonome (CSS en ligne, polices du site, `js/widget.js`), à mettre dans une iframe |
+| `POST /api/v1/widgets/quiz-du-jour/verifier` | vérifie une réponse du quiz du jour : corps JSON (ou formulaire) `{date, choix, lang, key?}` → `{correct, bonne, reponse, explication}` ; date du jour ou de la veille seulement, mêmes règles d'accès que le widget (la page du widget, d'origine le musée, passe le contrôle des domaines de la clé), 60 par minute et par IP (`widgets-quiz`), `no-store`, rien d'enregistré |
+| `GET /embed.js` | script d'intégration (`public/assets/js/embed.js`, servi par `Http::embed` : `max-age=3600`, ETag, CORS `*`) |
 | `GET /w/clic/{clé}/?to=/chemin&p=<partenaire>` | lien d'un widget vers le musée : compté, puis redirection 302 vers le chemin du musée (jamais ailleurs) avec `utm_source=widget` |
 | `GET /widgets/` | page publique « Intégrez le musée sur votre site » (widgets libres, aperçu, code à copier ; `Widgets\Pages`, `templates/widgets/demo.php`) |
 
 Options propres : `ce-jour-la` (`date=MM-JJ`, `nombre=1|3|5`), `il-y-a` (`ans=tous|5|10|20|30`),
-`carte-legende` (`joueur=<slug de la fiche>`). Clé partenaire : `?key=mk_…` ou en-tête `X-Musee-Key`.
+`carte-legende` (`joueur=<slug de la fiche>`), `records` (`cat=buteurs|matchs`), `saison`
+(`saison=AAAA-AAAA`, vide : en cours si un match y est fiché, sinon la dernière qui en a),
+`palmares` (`affichage=liste|bandeau` ; pas `format`, déjà pris par standard / compact). Clé partenaire : `?key=mk_…` ou en-tête `X-Musee-Key`.
 
 **Classes.** `Registry` (widgets prêts : `CLASSES`, à venir : `PLANNED`) ; `Widget` (classe de
 base : `key`, `name`, `description`, `options`, `defaultAccess`, `ttl`, `data` → tableau,
 `body` → HTML, `height`, `clean`, `describe`) ; un widget par classe dans `app/Widgets/Items/`
 (`CeJourLa` ← `Derived::onThisDay`, `ChiffreDuJour` ← `Chiffres::daily`, `IlYA` ←
-`Front\Pages::yearsAgo([5,10,20,30])`, `CarteLegende` ← `Pages::legends` + `person_totals`,
+`Front\Pages::yearsAgo([5,10,20,30])`, `CarteLegende` ← fiches cochées « Légende » (ou, réglage `source=capes` par défaut et aucune
+légende cochée, les 24 plus capés : `Totals::all()` puis `person_totals`) ; matchs et buts de la
+carte : totaux de référence s'ils existent, sinon `person_totals`,
 `PhotoDuJour` ← `Photos::pool`, `LeSaviezVous` ← banque de textes validée, `boutique.php` du club
-(« banque »), frise) ; `Frame` (cadre HTML commun : logo, mention, lien obligatoires ;
+(« banque »), frise ; vague 2 : `Records` ← `Explore::recordRows(cat, null, null, 10)` (totaux de
+référence `Data\Totals` compris, mêmes chiffres que `/records/`), `QuizDuJour` ← collection
+`quiz` (celle de `/interactif/quiz/`), une question par jour tirée par `crc32(date + site_key)`,
+choix dans un ordre fixe pour la date (même question et même ordre en français et en anglais),
+`DefiDuJour` ← `Services\DailyQuiz` (`COUNT`, `DURATION`, `players()`, meilleur score de
+`ranking('jour')` : un nombre, jamais de pseudo ; on joue sur `/interactif/defi/`, le défi
+gardant la partie au serveur), `DernierMatch` ← `Site::lastMatchCreated()` (le même que le
+bandeau) + `excerpt` de l'index, `Saison` ← `Explore::seasonData()` + titres de
+`Palmares::data()`, `Palmares` ← `Front\Palmares::data()`, `Frise` ← collection `frise`,
+`Bandeau` ← `Site::ticker()`) ; `Frame` (cadre HTML commun : logo, mention, lien obligatoires ;
 `finalize()` change chaque `href` des données en lien compté) ; `Context` (langue, thème,
 format, partenaire, liens) ; `Photos` (seules photos diffusables) ; `Cache` ; `Store` (réglages,
 partenaires, statistiques) ; `Http` (accès, en-têtes) ; `Admin\Widgets` (back-office).
@@ -1323,8 +1340,38 @@ cache, statistiques, configurateur, page de démonstration et aide suivent seuls
 
 **Hauteur automatique.** `public/assets/js/widget.js` envoie à la page parente
 `{type: "musee-widget", widget, height, src}` (`postMessage`) à chaque changement de taille ;
-`Widgets\Pages::resizeScript()` donne les quatre lignes à coller chez le partenaire (base du
-script d'intégration de la phase 2).
+`Widgets\Pages::resizeScript()` donne les quatre lignes à coller chez le partenaire qui utilise
+le code iframe. `widget.js` fait aussi jouer le quiz du jour (POST vers `…/verifier`,
+`credentials: 'omit'` ; d'où `connect-src 'self'` dans la CSP des iframes).
+
+**Script d'intégration** (`public/assets/js/embed.js`, servi en `/embed.js`, ~3 Ko sans
+commentaires) : `<div data-musee-widget="clé" data-theme=… data-lang=… data-key=… data-<option>=…>`
+puis, une fois par page, `<script src="https://<musée>/embed.js" async>`. L'origine du musée est
+celle du script (`document.currentScript`). Chaque `div` (marqué `data-musee-ready`) devient,
+quand il approche de l'écran (`IntersectionObserver`, marge 300 px ; sans lui : tout de suite),
+une iframe `/w/<clé>?<data-* en paramètres>` : `sandbox="allow-scripts allow-same-origin
+allow-popups allow-popups-to-escape-sandbox"` (scripts du widget, liens dans un nouvel onglet ;
+ni formulaire, ni navigation de la page hôte, ni fenêtre modale), `credentialless` (Chromium :
+aucun cookie envoyé), `referrerpolicy="strict-origin-when-cross-origin"` (l'origine du
+partenaire reste connue pour les clés limitées à des domaines), styles en ligne (largeur 100 %,
+`max-width` 440 px ou `data-max-width`, hauteur de départ `data-height` ou celle du widget). Un
+seul écouteur `message` par musée : il n'accepte que les messages dont `e.origin` est le musée et
+dont `e.source` est l'une de ses iframes (hauteur bornée 40–4 000 px). `MuseeWidgets.scan()`
+traite les `div` ajoutés après coup. Pourquoi l'iframe et pas un rendu natif en Shadow DOM :
+l'iframe isole tout (CSS, scripts, cookies, polices) dans les deux sens, garde la CSP et le
+`frame-ancestors` des clés limitées, réutilise le rendu `/w/` et ses statistiques sans second
+moteur ; un Shadow DOM obligerait à servir le HTML en CORS, à charger les polices dans la page
+du partenaire et laisserait fuir l'héritage CSS (`color`, `font`, variables) dans le widget.
+Le configurateur du back-office et la page `/widgets/` (`Pages::script()`, `Pages::loader()`)
+proposent le code script et le code iframe.
+
+**Réglages propres** (`Widget::settings()`, choisis par l'administrateur, à la différence des
+options choisies par le site qui affiche le widget) : rangés dans `reglages.json`
+(`widgets.<clé>.settings`), validés par `Store::cleanSettings()`, lus par
+`Store::widget($clé)['settings']`, inclus dans la clé du cache (un changement prend effet
+aussitôt ; le back-office vide aussi le cache à l'enregistrement). Seul réglage pour l'instant :
+`carte-legende.source` = `capes` (défaut, proposition à valider : légendes cochées, sinon les
+plus capés) ou `legendes` (seulement les fiches cochées « Légende »).
 
 Tests : `php tests/widgets.php` (stockage isolé dans un dossier temporaire).
 

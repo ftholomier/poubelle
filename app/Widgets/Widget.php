@@ -32,6 +32,45 @@ abstract class Widget
         return [];
     }
 
+    /**
+     * Réglages propres au widget, choisis par l'administrateur dans le back-office (et non par le
+     * site qui l'affiche) : nom => [label, choices (valeur => libellé), default, help]. Lus dans
+     * data() par Store::widget($this->key())['settings'].
+     * @return array<string,array>
+     */
+    public function settings(): array
+    {
+        return [];
+    }
+
+    /** Réglages propres en vigueur (validés). @return array<string,string> */
+    protected function setting(string $name): string
+    {
+        return (string) (Store::widget($this->key())['settings'][$name] ?? ($this->settings()[$name]['default'] ?? ''));
+    }
+
+    /**
+     * Chemin du musée sans préfixe de langue (« /en/records/ » → « /records/ ») : les pages du site
+     * donnent des liens déjà traduits (url()) ; Context::link remet la langue du widget.
+     */
+    public static function local(?string $href): string
+    {
+        $href = (string) $href;
+        return (string) preg_replace('#^/en(?=/|$)#', '', $href) ?: '/';
+    }
+
+    /** Début d'un texte (sans balises), coupé proprement vers $max caractères. */
+    public static function excerpt(string $html, int $max = 280): string
+    {
+        $t = trim((string) preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags($html), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+        if (mb_strlen($t) <= $max) {
+            return $t;
+        }
+        $cut = mb_substr($t, 0, $max);
+        $sp = mb_strrpos($cut, ' ');
+        return rtrim(mb_substr($cut, 0, $sp !== false && $sp > $max * 0.6 ? $sp : $max), " ,;:.–-") . '…';
+    }
+
     /** Accès par défaut tant que l'administrateur n'a rien réglé. */
     public function defaultAccess(): string
     {

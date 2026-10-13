@@ -241,7 +241,8 @@ final class Site
         return trim(($m['home'] ?? '') . ' – ' . ($m['away'] ?? '') . ' ' . $score);
     }
 
-    private static function lastMatchCreated(): ?array
+    /** Dernier match fiché (le plus récent par sa date ; bandeau et widget « dernier-match »). */
+    public static function lastMatchCreated(): ?array
     {
         $id = Memo::get('dernier-match-fiche', [Index::CACHE, __FILE__], '', function () {
             $best = null;

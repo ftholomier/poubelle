@@ -1,4 +1,4 @@
-/* Communauté › Widgets & partenaires : configurateur (aperçu en direct, code iframe et adresse de l'API à copier). */
+/* Communauté › Widgets & partenaires : configurateur (aperçu en direct, code script, code iframe et adresse de l'API à copier). */
 (() => {
   'use strict';
   const box = document.querySelector('[data-widget-config]');
@@ -45,6 +45,9 @@
     const title = w.name + ' · musée';
     $('[data-cfg-out="iframe"]').value = '<iframe src="' + esc(src) + '" title="' + esc(title) + '" data-musee="' + key + '" width="100%" height="' + w.height + '" style="border:0;max-width:440px" loading="lazy"></iframe>';
     $('[data-cfg-out="api"]').value = apiUrl;
+    // Code script : mêmes réglages en attributs data-* (theme, lang, format, options, key).
+    const attrs = [...q.entries()].map(([k, v]) => ' data-' + k + '="' + esc(v) + '"').join('');
+    $('[data-cfg-out="script"]').value = '<div data-musee-widget="' + key + '"' + attrs + '></div>\n' + C.loader;
     $('[data-cfg-open]').href = src;
     const warn = [];
     if ((w.access === 'reserve' || w.access === 'payant') && !p) warn.push('Ce widget est ' + (w.access === 'reserve' ? 'réservé' : 'payant') + ' : choisissez un partenaire, sinon le code affichera « clé requise ».');

@@ -162,7 +162,7 @@ final class Kernel
 
         // Widgets du musée (API en lecture /api/v1/widgets, iframes /w/<clé>) : leurs propres règles
         // d'accès (libre, réservé, payant, désactivé) et du site fermé (« actif même site fermé »).
-        if (preg_match('#^/(api/v1/widgets|w)(/|$)#', $path)) {
+        if (preg_match('#^/(api/v1/widgets|w)(/|$)#', $path) || $path === '/embed.js') {
             return Widgets\Http::handle($req);
         }
 

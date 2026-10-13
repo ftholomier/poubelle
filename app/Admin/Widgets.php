@@ -15,7 +15,7 @@ use App\Widgets\Store;
 
 /**
  * Communauté › Widgets & partenaires (administrateurs) : catalogue avec aperçu en direct, accès de
- * chaque widget, configurateur (code iframe et adresse de l'API à copier), partenaires (clé,
+ * chaque widget et ses réglages propres, configurateur (code script, code iframe et adresse de l'API à copier), partenaires (clé,
  * domaines, statut, offre) et statistiques (affichages, appels de l'API, clics vers le musée).
  */
 final class Widgets extends Base
@@ -50,6 +50,7 @@ final class Widgets extends Base
             'days' => max(7, min(365, (int) $req->str('jours', '30'))),
             'base' => Context::base(),
             'resize' => Pages::resizeScript(),
+            'loader' => Pages::loader(),
             'closed' => \App\Front\Seo::closed(),
             'newKey' => Session::pull('widget_new_key'),
             'edit' => $req->str('partenaire') !== '' ? Store::partner($req->str('partenaire')) : null,
@@ -68,7 +69,8 @@ final class Widgets extends Base
                     if (!Registry::get($key)) {
                         return self::back('/admin/widgets', null, 'Widget inconnu.');
                     }
-                    Store::saveWidget($key, (string) ($p['access'] ?? ''), !empty($p['closed_ok']));
+                    Store::saveWidget($key, (string) ($p['access'] ?? ''), !empty($p['closed_ok']), isset($p['settings']) && is_array($p['settings']) ? array_map('strval', array_filter($p['settings'], 'is_scalar')) : null);
+                    Cache::clear();
                     Activity::log($who, 'a réglé l’accès du widget « ' . $key . ' » : ' . (Store::ACCESS[(string) $p['access']] ?? ''), null);
                     return self::back('/admin/widgets#w-' . $key, 'Accès du widget enregistré.');
                 case 'partenaire':

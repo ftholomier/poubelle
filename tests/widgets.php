@@ -2,7 +2,9 @@
 /**
  * Widgets du musée (App\Widgets) : API JSON, iframe, accès libre / réservé / payant / désactivé,
  * clé invalide ou suspendue, domaine non autorisé, site fermé, cache (ETag, 304), mention et lien
- * obligatoires, aucune donnée personnelle, statistiques et clics, photos diffusables seulement.
+ * obligatoires, aucune donnée personnelle, statistiques et clics, photos diffusables seulement ;
+ * vague 2 : records, quiz du jour (vérification au serveur), défi, dernier match, saison, palmarès,
+ * frise, bandeau, réglage « source » de la carte de légende, script d'intégration /embed.js.
  * Usage : php tests/widgets.php (code de sortie 1 en cas d'échec).
  * Réglages, partenaires, statistiques et cache des widgets : dans un dossier temporaire, effacé à
  * la fin ; seuls des compteurs de débit (storage/ratelimit) sont écrits ailleurs.
@@ -46,18 +48,18 @@ $get = function (string $path, array $query = [], array $headers = [], string $m
             $server['HTTP_' . strtoupper(str_replace('-', '_', $k))] = $v;
         }
     }
-    return Kernel::handle(new Request($method, $path, $query, [], [], $server, ''));
+    return Kernel::handle(new Request($method, $path, $query, [], [], $server, $headers['_body'] ?? ''));
 };
 $json = fn (Response $r) => json_decode($r->body, true);
 $keys = array_keys(Registry::CLASSES);
 
 try {
     // ------------------------------------------------------------------ catalogue
-    $ok($keys === ['ce-jour-la', 'chiffre-du-jour', 'il-y-a', 'carte-legende', 'photo-du-jour', 'le-saviez-vous'], 'registre : les 6 widgets de la phase 1');
-    $ok(count(Registry::PLANNED) === 16 && !array_intersect_key(Registry::PLANNED, Registry::CLASSES), '16 widgets à venir, distincts des widgets prêts');
+    $ok($keys === ['ce-jour-la', 'chiffre-du-jour', 'il-y-a', 'carte-legende', 'photo-du-jour', 'le-saviez-vous', 'records', 'quiz-du-jour', 'defi-du-jour', 'dernier-match', 'saison', 'palmares', 'frise', 'bandeau'], 'registre : les 6 widgets de la phase 1 et les 8 de la vague 2');
+    $ok(count(Registry::PLANNED) === 8 && !array_intersect_key(Registry::PLANNED, Registry::CLASSES), '8 widgets à venir, distincts des widgets prêts');
     $r = $get('/api/v1/widgets');
     $c = $json($r);
-    $ok($r->status === 200 && count($c['widgets'] ?? []) === 6, 'catalogue : 6 widgets libres par défaut');
+    $ok($r->status === 200 && count($c['widgets'] ?? []) === 14, 'catalogue : 14 widgets libres par défaut');
     $ok(($r->headers['Access-Control-Allow-Origin'] ?? '') === '*', 'catalogue : CORS ouvert');
     $ok(str_contains((string) ($c['museum']['mention'] ?? ''), 'non officiel') && str_contains((string) ($c['museum']['url'] ?? ''), '/w/clic/'), 'catalogue : mention « non officiel » et lien vers le musée');
 
@@ -80,12 +82,120 @@ try {
         }
         $ok(str_contains($f->headers['Content-Security-Policy'] ?? '', 'frame-ancestors *') && !isset($f->headers['X-Frame-Options']) && !isset($f->headers['Set-Cookie']), "iframe $k : intégrable partout, sans cookie");
         $ok(str_contains($f->body, '/assets/js/widget.js'), "iframe $k : script de hauteur automatique");
+        $ok(!str_contains($f->body, 'src="/') && !preg_match('#href="/(?!/)#', $f->body), "iframe $k : liens et images en adresses complètes");
     }
     $en = $get('/w/chiffre-du-jour', ['lang' => 'en']);
     $ok(str_contains($en->body, 'lang="en"') && str_contains($en->body, 'Independent, unofficial museum') && str_contains($en->body, 'to=%2Fen%2F'), 'iframe en anglais : mention et liens en anglais');
     \App\Services\I18n::set('fr');
     $compact = $get('/w/ce-jour-la', ['format' => 'compact']);
     $ok(str_contains($compact->body, 'w--compact'), 'format compact');
+
+
+    // ------------------------------------------------------------------ vague 2
+    $data = fn (string $k, array $q = []) => $json($get('/api/v1/widgets/' . $k, $q))['data'] ?? null;
+    $frame = fn (string $k, array $q = []) => $get('/w/' . $k, $q)->body;
+    \App\Services\I18n::set('fr');
+
+    // Records : mêmes chiffres que /records/ (totaux de référence compris).
+    foreach (['buteurs', 'matchs'] as $cat) {
+        $ref = \App\Front\Explore::recordRows($cat, null, null, 10);
+        $d = $data('records', ['cat' => $cat]);
+        $ok($d !== null && count($d['rows']) === min(10, count($ref)) && array_column($d['rows'], 'value') === array_map(fn ($r) => (int) $r['v'], $ref) && array_column($d['rows'], 'name') === array_column($ref, 'name'), "records ($cat) : le top 10 de /records/");
+    }
+    $ok($data('records', ['cat' => 'minutes'])['cat'] === 'buteurs', 'records : classement inconnu → buteurs');
+    $ok(str_contains($frame('records', ['cat' => 'matchs']), 'w-rank') && str_contains($frame('records', ['cat' => 'matchs']), '%2Frecords%2F%3Fcat%3Dmatchs'), 'records : liste et lien vers /records/?cat=matchs');
+
+    // Quiz du jour : jamais la bonne réponse dans les données ; vérification par POST.
+    $q = \App\Widgets\Items\QuizDuJour::question(date('Y-m-d'), 'fr');
+    $raw = $get('/api/v1/widgets/quiz-du-jour')->body;
+    $d = json_decode($raw, true)['data'];
+    $ok($q !== null && $d['question'] === $q['q'] && $d['choices'] === $q['a'] && !array_intersect_key($d, ['c' => 1, 'reponse' => 1, 'answer' => 1, 'explication' => 1, 'fact' => 1]), 'quiz : question et choix, sans la bonne réponse');
+    $ok($q['fact'] === '' || (!str_contains($raw, json_encode($q['fact'])) && !str_contains($frame('quiz-du-jour'), e($q['fact']))), 'quiz : explication absente de l’API et de l’iframe');
+    $ok(\App\Widgets\Items\QuizDuJour::question(date('Y-m-d'), 'en')['c'] === $q['c'], 'quiz : même question et même ordre en anglais');
+    $post = fn (array $body, array $h = []) => $get('/api/v1/widgets/quiz-du-jour/verifier', [], $h + ['Content-Type' => 'application/json', '_body' => json_encode($body)], 'POST');
+    $good = $json($post(['date' => date('Y-m-d'), 'choix' => $q['c']]));
+    $bad = $json($post(['date' => date('Y-m-d'), 'choix' => ($q['c'] + 1) % count($q['a'])]));
+    $ok($good['correct'] === true && $good['bonne'] === $q['c'] && $good['explication'] === $q['fact'], 'quiz : bonne réponse reconnue, avec l’explication');
+    $ok($bad['correct'] === false && $bad['bonne'] === $q['c'] && $bad['reponse'] === $q['a'][$q['c']], 'quiz : mauvaise réponse, la bonne est donnée');
+    $ok($post(['date' => '2020-01-01', 'choix' => 0])->status === 400 && $post(['date' => date('Y-m-d'), 'choix' => 99])->status === 400, 'quiz : date passée ou choix inconnu refusés');
+    $ok(str_contains($get('/w/quiz-du-jour')->headers['Content-Security-Policy'] ?? '', "connect-src 'self'") && str_contains($frame('quiz-du-jour'), 'data-verify='), 'quiz : vérification depuis l’iframe permise (connect-src) ');
+    Store::saveWidget('quiz-du-jour', 'reserve', false);
+    $ok($post(['date' => date('Y-m-d'), 'choix' => 0])->status === 401 && $post(['date' => date('Y-m-d'), 'choix' => 0, 'key' => 'mk_' . str_repeat('0', 32)])->status === 401, 'quiz réservé : vérification refusée sans clé');
+    Store::saveWidget('quiz-du-jour', 'libre', false);
+
+    // Défi du jour : le défi existant, sans aucun pseudo.
+    $d = $data('defi-du-jour');
+    $ok($d['questions'] === \App\Services\DailyQuiz::COUNT && $d['players'] === \App\Services\DailyQuiz::players(date('Y-m-d')) && !isset($d['pseudo']) && !str_contains(json_encode($d), 'pseudo'), 'défi du jour : 10 questions, joueurs du jour, aucun pseudo');
+    $ok(str_contains($frame('defi-du-jour'), '%2Finteractif%2Fdefi%2F'), 'défi du jour : lien vers le défi du musée');
+
+    // Dernier match fiché : celui du bandeau du site.
+    $last = \App\Front\Site::lastMatchCreated();
+    $d = $data('dernier-match');
+    $ok($last && str_contains((string) $d['href'], rawurlencode((string) $last['path'])) && $d['date'] === $last['date'] && mb_strlen($d['text']) <= 321, 'dernier match : le dernier fiché, avec le début du récit');
+
+    // Saison : choisie, ou en cours / dernière par défaut.
+    $seasons = array_keys(array_filter(\App\Data\Derived::part('seasons'), fn ($x) => !empty($x['matches'])));
+    $pick = $seasons[intdiv(count($seasons), 2)] ?? null;
+    if ($pick) {
+        $d = $data('saison', ['saison' => $pick]);
+        $ok($d['season'] === $pick && $d['wins'] + $d['draws'] + $d['defeats'] <= $d['matches'] && count($d['scorers']) <= 5, "saison choisie ($pick) : bilan et buteurs");
+    }
+    $ok($data('saison', ['saison' => 'n-importe'])['season'] === \App\Widgets\Items\Saison::defaultSeason(), 'saison : valeur invalide → saison par défaut');
+    $titled = null;
+    foreach (\App\Front\Palmares::data()['groups'] as $g) {
+        foreach ($g['titles'] as $t) {
+            if (isset(\App\Data\Derived::part('seasons')[$t['season']])) {
+                $titled = [$t['season'], $g['comp']];
+            }
+        }
+    }
+    if ($titled) {
+        $ok(in_array($titled[1], array_column($data('saison', ['saison' => $titled[0]])['titles'], 'competition'), true), 'saison : titres de la saison (' . $titled[0] . ', ' . $titled[1] . ')');
+    }
+
+    // Palmarès : mêmes données que /palmares/, en liste ou en bandeau.
+    $pal = \App\Front\Palmares::data();
+    $d = $data('palmares');
+    $ok($d['total'] === $pal['count']['titre'] && array_sum(array_column($d['groups'], 'count')) === $pal['count']['titre'], 'palmarès : autant de titres que /palmares/');
+    $ok(str_contains($frame('palmares', ['affichage' => 'bandeau']), 'w-cups') && str_contains($frame('palmares'), 'w-palm'), 'palmarès : bandeau ou liste');
+
+    // Frise : les dates de la frise publique, qui défilent.
+    $events = array_filter((array) \App\Data\Collections::get('frise', \App\Data\Seeds::frise()), fn ($e) => is_array($e) && (int) ($e['year'] ?? 0) > 0 && trim((string) ($e['title'] ?? '')) !== '');
+    $d = $data('frise');
+    $years = array_map(fn ($e) => (int) $e['year'], $events);
+    sort($years);
+    $ok(array_column($d['events'], 'year') === $years, 'frise : toutes les dates de la frise publique, dans l’ordre');
+    $ok(preg_match_all('/<li[ >]/', $frame('frise')) === 2 * count($events) && str_contains($frame('frise'), 'prefers-reduced-motion'), 'frise : défilement continu (liste doublée), arrêt si moins d’animations');
+
+    // Bandeau : mêmes messages que le site.
+    $ticker = \App\Front\Site::ticker();
+    $d = $data('bandeau');
+    $ok(array_column($d['messages'], 'text') === array_column($ticker, 'v'), 'bandeau : les messages du bandeau du site');
+    $bf = $frame('bandeau');
+    $ok(str_contains($bf, 'w-tk__track') && str_contains($bf, 'Musée indépendant, non officiel') && str_contains($bf, 'class="w-url"') && \App\Widgets\Registry::get('bandeau')->height() <= 70, 'bandeau : défilement CSS, hauteur fixe, mention et lien');
+
+    // Carte de légende : réglage « source » (proposition à valider).
+    $legends = array_filter(\App\Data\Index::published('personne'), fn ($s) => !empty($s['p']['legend']) && in_array('joueur', (array) ($s['p']['roles'] ?? []), true));
+    $ok(Store::widget('carte-legende')['settings'] === ['source' => 'capes'], 'carte de légende : repli « plus capés » activé par défaut');
+    $pool = array_map(fn ($s) => (int) $s['id'], CarteLegende::pool());
+ $ok($pool !== [] && !array_diff($pool, array_map(fn ($s) => (int) $s['id'], $legends ?: CarteLegende::mostCapped(24))), 'carte de légende : légendes cochées, sinon les plus capés (' . count($legends) . ' légende(s) cochée(s))');
+    Store::saveWidget('carte-legende', 'libre', false, ['source' => 'legendes']);
+    $ok(Store::widget('carte-legende')['settings']['source'] === 'legendes' && ($legends ? $data('carte-legende') !== null : CarteLegende::pool() === [] && $data('carte-legende') === null), 'carte de légende : « seulement les légendes cochées » (rien à montrer sans légende)');
+    Store::saveWidget('carte-legende', 'libre', false, ['source' => 'n-importe']);
+    $ok(Store::widget('carte-legende')['settings']['source'] === 'capes', 'carte de légende : réglage inconnu → valeur par défaut');
+    Store::saveWidget('carte-legende', 'libre', false);
+    $ok(Store::widget('carte-legende')['settings']['source'] === 'capes', 'réglage gardé quand seul l’accès change');
+
+    // Script d'intégration.
+    $js = $get('/embed.js');
+    $src = (string) file_get_contents(__DIR__ . '/../public/assets/js/embed.js');
+    $ok($js->status === 200 && str_contains($js->headers['Content-Type'] ?? '', 'javascript') && $js->body === $src && ($js->headers['Access-Control-Allow-Origin'] ?? '') === '*' && !isset($js->headers['Set-Cookie']), '/embed.js : servi par le musée, sans cookie');
+    $ok($get('/embed.js', [], ['If-None-Match' => $js->headers['ETag']])->status === 304, '/embed.js : 304 sur If-None-Match');
+    $min = preg_replace(['#/\*.*?\*/#s', '#^\s*//.*$#m', '#\s+#'], ['', '', ' '], $src);
+    $ok(strlen($min) < 5120, '/embed.js : moins de 5 Ko sans commentaires ni espaces (' . strlen($min) . ' octets)');
+    $ok(str_contains($src, 'sandbox') && str_contains($src, 'e.origin !== origin') && str_contains($src, 'IntersectionObserver') && !preg_match('/document\.cookie|localStorage/', $src), '/embed.js : iframe isolée, origine vérifiée, chargement paresseux, aucun cookie');
+    $demo = $get('/widgets/')->body;
+    $ok(str_contains($demo, 'data-musee-widget=&quot;records&quot;') && str_contains($demo, '/embed.js&quot; async'), 'page /widgets/ : code script et code iframe');
 
     // ------------------------------------------------------------------ aucune donnée personnelle
     $ok(!preg_match('/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}/', $allJson), 'aucune adresse e-mail dans les données');
@@ -247,7 +357,7 @@ try {
 
     // ------------------------------------------------------------------ page publique, back-office
     $demo = $get('/widgets/');
-    $ok($demo->status === 200 && substr_count($demo->body, 'data-musee=') >= 6 && str_contains($demo->body, '/contact/?objet=partenariat'), 'page /widgets/ : aperçus, code à copier, contact partenaire');
+    $ok($demo->status === 200 && substr_count($demo->body, 'data-musee=') >= 14 && str_contains($demo->body, '/contact/?objet=partenariat'), 'page /widgets/ : aperçus, code à copier, contact partenaire');
     $ok(str_contains($get('/')->body, 'href="/widgets/"'), 'lien discret vers /widgets/ dans le pied de page');
     $adm = $get('/admin/widgets');
     $ok($adm->status === 302 && str_contains($adm->headers['Location'] ?? '', '/admin/connexion'), 'back-office : écran réservé aux personnes connectées');

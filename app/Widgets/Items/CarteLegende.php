@@ -5,14 +5,20 @@ namespace App\Widgets\Items;
 
 use App\Data\Derived;
 use App\Data\Index;
-use App\Front\Pages;
+use App\Data\Totals;
 use App\Widgets\Context;
 use App\Widgets\Photos;
+use App\Widgets\Store;
 use App\Widgets\Widget;
 
 /**
  * Carte de légende façon Panini : photo (si diffusable), poste, période, matchs, buts, saisons.
  * Au hasard parmi les légendes du musée (une autre chaque heure), ou le joueur choisi (?joueur=<slug>).
+ *
+ * Réglage de l'administrateur « source » (Widget::settings, back-office) : « legendes » (seulement
+ * les fiches cochées « Légende ») ou « capes » (par défaut, proposition à valider : les légendes
+ * cochées, et si aucune ne l'est, les 24 joueurs les plus capés d'après les totaux de référence
+ * du club, App\Data\Totals, à défaut d'après les matchs fichés).
  */
 final class CarteLegende extends Widget
 {
@@ -37,6 +43,16 @@ final class CarteLegende extends Widget
         return ['joueur' => ['label' => 'Joueur (adresse de sa fiche, ex. mecha-bazdarevic ; vide : au hasard)', 'label_en' => 'Player (page slug; empty: random)', 'type' => 'text', 'default' => '', 'pattern' => '/^[a-z0-9][a-z0-9-]{1,79}$/']];
     }
 
+    public function settings(): array
+    {
+        return ['source' => [
+            'label' => 'Joueurs tirés au hasard',
+            'choices' => ['capes' => 'Légendes cochées ; si aucune, les plus capés (totaux de référence)', 'legendes' => 'Seulement les fiches cochées « Légende »'],
+            'default' => 'capes',
+            'help' => 'Proposition à valider : sans légende cochée, la carte montre les joueurs les plus capés.',
+        ]];
+    }
+
     public function ttl(): int
     {
         return 3600;
@@ -47,13 +63,29 @@ final class CarteLegende extends Widget
         return 520;
     }
 
-    /** Légendes tirées au hasard : celles du musée (ou les plus capés, voir Pages::legends). @return list<array> */
+    /** Joueurs tirés au hasard : les légendes cochées, ou les plus capés (réglage « source »). @return list<array> */
     public static function pool(): array
     {
-        $all = array_values(array_filter(Pages::legends(24), fn ($s) => in_array('joueur', (array) ($s['p']['roles'] ?? []), true)));
+        $isPlayer = fn ($s) => in_array('joueur', (array) ($s['p']['roles'] ?? []), true);
+        $all = array_values(array_filter(Index::published('personne'), fn ($s) => !empty($s['p']['legend']) && $isPlayer($s)));
+        $source = Store::widget('carte-legende')['settings']['source'] ?? 'capes';
+        if (!$all && $source === 'capes') {
+            $all = self::mostCapped(24);
+        }
         // De préférence les légendes dont la photo peut sortir du musée (sinon : initiales sur la carte).
         $withPhoto = array_values(array_filter($all, fn ($s) => Photos::safe((string) ($s['image'] ?? '')) !== null));
         return count($withPhoto) >= 4 ? $withPhoto : $all;
+    }
+
+    /** Les joueurs les plus capés : totaux de référence du club, sinon matchs fichés. @return list<array> */
+    public static function mostCapped(int $n): array
+    {
+        $ref = Totals::all();
+        $tot = Derived::part('person_totals');
+        $caps = fn ($s) => (int) ($ref[$s['id']]['matchs'] ?? $tot[$s['id']]['matches'] ?? 0);
+        $list = array_values(array_filter(Index::published('personne'), fn ($s) => in_array('joueur', (array) ($s['p']['roles'] ?? []), true) && $caps($s) > 0));
+        usort($list, fn ($a, $b) => $caps($b) <=> $caps($a) ?: $a['id'] <=> $b['id']);
+        return array_slice($list, 0, $n);
     }
 
     /** Fiche publiée d'un joueur d'après le dernier segment de son adresse. */
@@ -79,6 +111,7 @@ final class CarteLegende extends Widget
         }
         $p = (array) $s['p'];
         $tot = Derived::part('person_totals')[$s['id']] ?? [];
+        $ref = Totals::all()[$s['id']] ?? [];
         $photo = Photos::safe((string) ($s['image'] ?? ''), 480);
         $name = (string) ($p['name'] ?? $s['title']);
         $arr = (int) ($p['arrival'] ?? 0);
@@ -90,8 +123,8 @@ final class CarteLegende extends Widget
             'last' => (string) (($p['last'] ?? '') ?: $name),
             'position' => (string) ($p['position'] ?? ''),
             'period' => $arr ? $arr . ($dep && $dep !== $arr ? '–' . $dep : '') : '',
-            'matches' => (int) ($tot['matches'] ?? 0),
-            'goals' => (int) ($tot['goals'] ?? 0),
+            'matches' => (int) ($ref['matchs'] ?? $tot['matches'] ?? 0),
+            'goals' => (int) ($ref['buts'] ?? $tot['goals'] ?? 0),
             'seasons' => (int) ($tot['seasons'] ?? 0),
             'international' => !empty($p['intl']),
             'initials' => mb_strtoupper(mb_substr((string) ($p['first'] ?? $name), 0, 1) . mb_substr((string) (($p['last'] ?? '') ?: $name), 0, 1)),
