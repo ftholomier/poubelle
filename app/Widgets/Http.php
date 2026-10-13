@@ -20,7 +20,7 @@ use App\Services\I18n;
  *                                  [{value, label}], 20 au plus ; mêmes règles d'accès que le widget) ;
  * - GET /w/<clé>                   le widget en page HTML autonome, à mettre dans une iframe ;
  * - GET /w/clic/<clé>/?to=/…       lien vers le musée depuis un widget (compté, puis redirigé) ;
- * - POST /api/v1/widgets/quiz-du-jour/verifier   vérifie une réponse du quiz du jour (la bonne
+ * - POST /api/v1/widgets/quiz-du-jour/verifier   vérifie une réponse du quiz du jour ({date} ou {jeton} signé ; la bonne
  *                                  réponse n'est jamais dans les données du widget) ;
  * - GET /embed.js                  script d'intégration (une iframe isolée par <div data-musee-widget>) ;
  * - GET /ecran/<playlist>          mode écran plein écran (accès du widget « playlist ») ;
@@ -282,17 +282,24 @@ final class Http
                 'attribution' => self::attribution($c),
                 'iframe' => Context::abs('/w/' . $key . '?' . http_build_query(array_filter($opt + ['lang' => $lang, 'theme' => $theme], fn ($v) => $v !== '' && $v !== 'auto'))),
             ];
-            $res = self::cached(Response::json($body), $req, $partner, $etag, self::MAX_AGE_API);
+            $res = $w->cacheable($opt) ? self::cached(Response::json($body), $req, $partner, $etag, self::MAX_AGE_API) : self::noStore(Response::json($body));
             if ($count) {
                 Store::hit('api', $key, $c->partner ?: 'libre');
             }
             return $res;
         }
         $res = self::frameHeaders(Response::html(Frame::page($w, $data, $c)), $partner, $preview, $key === 'recherche');
-        $res = $preview ? $res : self::cached($res, $req, $partner, $etag, self::MAX_AGE_FRAME);
+        $res = !$w->cacheable($opt) ? self::noStore($res) : ($preview ? $res : self::cached($res, $req, $partner, $etag, self::MAX_AGE_FRAME));
         if ($count) {
             Store::hit('vues', $key, $c->partner ?: 'libre');
         }
+        return $res;
+    }
+
+    /** Tirage propre à chaque chargement : ni cache navigateur, ni cache intermédiaire. */
+    private static function noStore(Response $res): Response
+    {
+        $res->headers['Cache-Control'] = 'no-store';
         return $res;
     }
 
@@ -421,11 +428,16 @@ final class Http
         }
         $date = self::input($req, 'date');
         $choice = self::input($req, 'choix');
-        // Question du jour, ou de la veille (page ouverte avant minuit) : pas d'autre date.
-        if (!in_array($date, [date('Y-m-d'), date('Y-m-d', strtotime('-1 day'))], true) || !ctype_digit($choice)) {
+        $token = self::input($req, 'jeton');
+        if ($token !== '') {
+            // Mode « chargement » : la question affichée, d'après son jeton signé (valable 2 h).
+            $q = ctype_digit($choice) ? Items\QuizDuJour::fromToken($token, I18n::lang()) : null;
+        } elseif (!in_array($date, [date('Y-m-d'), date('Y-m-d', strtotime('-1 day'))], true) || !ctype_digit($choice)) {
+            // Question du jour, ou de la veille (page ouverte avant minuit) : pas d'autre date.
             return self::cors(Response::json(['error' => 'Question inconnue ou expirée : rechargez le widget.'], 400), $req, null);
+        } else {
+            $q = Items\QuizDuJour::question($date, I18n::lang());
         }
-        $q = Items\QuizDuJour::question($date, I18n::lang());
         if (!$q || !isset($q['a'][(int) $choice])) {
             return self::cors(Response::json(['error' => 'Question inconnue ou expirée : rechargez le widget.'], 400), $req, null);
         }
@@ -465,7 +477,10 @@ final class Http
         }
         $adv = Screen\Playlists::opponent($req->str('adversaire'));
         $clock = $req->str('horloge') !== '' ? $req->str('horloge') === '1' : !empty($p['clock']);
-        $slides = Screen\Slides::build($p, $c, $adv);
+        // Variantes par tour de boucle (réglage « Varier les slides ») : graine = minute en cours, ou
+        // ?graine=N (aperçus, captures) ; chaque rechargement repart donc d'un autre tirage.
+        $seed = preg_match('/^\d{1,9}$/', $req->str('graine')) ? (int) $req->str('graine') : Screen\Slides::seed();
+        $slides = Screen\Slides::build($p, $c, $adv, $seed);
         $html = Screen\Page::render($slides, $c, ['format' => $format, 'clock' => $clock, 'reload' => (int) $p['reload'], 'name' => (string) $p['name'], 'id' => $id]);
         $res = self::screenHeaders(Response::html($html), $partner);
         $res->headers['Cache-Control'] = 'private, no-cache';

@@ -132,6 +132,15 @@ abstract class Widget
         return 'libre';
     }
 
+    /**
+     * Les données peuvent-elles être gardées en cache (Cache) et par les navigateurs ? Non pour un
+     * tirage propre à chaque chargement (quiz « nouvelle question à chaque chargement ») : no-store.
+     */
+    public function cacheable(array $opt): bool
+    {
+        return true;
+    }
+
     /** Durée de vie des données en cache, en secondes (jamais au-delà de minuit : voir Cache). */
     public function ttl(): int
     {

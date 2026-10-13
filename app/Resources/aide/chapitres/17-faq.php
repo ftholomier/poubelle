@@ -135,6 +135,7 @@ HTML],
 HTML],
         ['id' => 'ecran-stade', 'title' => '… afficher le musée sur l’écran du stade ou à la buvette', 'admin' => true, 'html' => <<<'HTML'
 <p>Communauté › <b>Widgets &amp; partenaires</b> › onglet <b>Écrans</b> › « Lien à donner à la régie » : choisissez la playlist (avant-match, mi-temps, buvette, ou la vôtre), le partenaire (sa clé est ajoutée), le format (paysage ou vertical) et l’adversaire du jour (dans la liste, ou le nom de n’importe quel club tapé en toutes lettres : un club jamais affronté donne une slide « Première rencontre ») › <b>Contrôle avant diffusion</b> › jour du match › « Contrôler » pour voir les slides affichées ou sautées et la durée réelle de la boucle › « Copier l’adresse » › la régie l’ouvre en plein écran (touche F11 ou mode kiosque). Si la régie ne sait pas afficher une page web : « Images PNG (ZIP) », ou « Fabriquer la vidéo MP4 » quand le serveur le permet. Le mode écran fonctionne même quand le musée est encore fermé au public.</p>
+<p>Les supporters voient l’écran longtemps ? Laissez cochée « <b>Varier les slides à chaque tour</b> » dans la playlist : quiz, photos, frise, chiffres, anecdotes… changent à chaque boucle (jusqu’à 6 versions), sauf les slides dont vous avez fixé la variante.</p>
 HTML],
         ['id' => 'perdu', 'title' => '… retrouver un texte non enregistré', 'html' => <<<'HTML'
 <p>Rouvrez la fiche sur le même ordinateur et le même navigateur : un bandeau propose « Le récupérer ». Sinon, l’onglet Historique contient la dernière version enregistrée.</p>

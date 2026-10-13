@@ -131,7 +131,8 @@ final class CarteLegende extends Widget
             if (!$pool) {
                 return null;
             }
-            $s = $pool[crc32(date('Y-m-d H')) % count($pool)];
+            // « _r » (mode écran, une variante par tour) : la légende suivante.
+            $s = $pool[(crc32(date('Y-m-d H')) + (int) ($opt['_r'] ?? 0)) % count($pool)];
         }
         $p = (array) $s['p'];
         $tot = Derived::part('person_totals')[$s['id']] ?? [];

@@ -2,12 +2,31 @@
    enchaînées (fondu, barre de progression), quiz (compte à rebours puis réponse), comptes à
    rebours, horloge ; rechargement toutes les X minutes seulement si le musée répond (sinon la
    page continue de tourner hors connexion) ; service worker /ecran/sw.js pour repartir sans
-   réseau. Ni son, ni cookie, ni donnée personnelle. ?slide=N fige la slide N (aperçus) et
-   ?reponse=1 montre la réponse d'un quiz. */
+   réseau. Ni son, ni cookie, ni donnée personnelle. ?slide=N fige la slide N (aperçus),
+   ?tour=K en montre la variante du tour K et ?reponse=1 montre la réponse d'un quiz.
+   Variantes : les sections d'un même data-group sont les contenus d'une slide pour des tours
+   successifs ; à chaque nouveau tour de boucle, la variante suivante. Leurs images (data-src)
+   ne sont chargées qu'au tour d'avant (préchargement de la seule variante suivante). */
 (function () {
   'use strict';
   var stage = document.querySelector('.ec-stage');
-  var slides = [].slice.call(document.querySelectorAll('.ec-slide'));
+  var all = [].slice.call(document.querySelectorAll('.ec-slide'));
+  // Groupes : une entrée par slide de la playlist, avec ses variantes (une par tour).
+  var groups = [], byKey = {};
+  all.forEach(function (el) {
+    var g = el.getAttribute('data-group');
+    if (g === null) { groups.push([el]); return; }
+    if (!byKey[g]) { byKey[g] = []; groups.push(byKey[g]); }
+    byKey[g].push(el);
+  });
+  var slides = groups;
+  var turn = Math.max(0, parseInt(q0('tour') || '1', 10) - 1);
+  function q0(k) { return new URLSearchParams(location.search).get(k); }
+  function load(el) {
+    if (!el) return;
+    [].slice.call(el.querySelectorAll('img[data-src]')).forEach(function (im) { im.src = im.getAttribute('data-src'); im.removeAttribute('data-src'); });
+  }
+  function pick(g, t) { return g[t % g.length]; }
   var bar = document.querySelector('.ec-progress i');
   var q = new URLSearchParams(location.search);
   var freeze = parseInt(q.get('slide') || '0', 10);
@@ -35,9 +54,14 @@
   }
 
   function show(i) {
+    if (i === 0 && cur >= 0 && !freeze) turn++;
     if (wantReload && i === 0 && slides.length > 1) { location.reload(); return; }
-    var s = slides[i];
-    slides.forEach(function (x, k) { x.classList.toggle('is-on', k === i); x.classList.remove('is-answer'); });
+    var s = pick(slides[i], turn);
+    load(s);
+    // Précharge la variante du tour suivant de cette slide (une seule image à la fois).
+    if (slides[i].length > 1) load(pick(slides[i], turn + 1));
+    all.forEach(function (x) { x.classList.toggle('is-on', x === s); x.classList.remove('is-answer'); });
+    if (document.body) document.body.setAttribute('data-turn', String(turn + 1));
     cur = i;
     var dur = Math.max(2, +s.getAttribute('data-duration')) * 1000;
     clearInterval(tick);

@@ -98,7 +98,13 @@ final class Boutique extends Widget
             // Sélection du jour : même tirage pour tous dans la journée.
             $day = date('Y-m-d');
             usort($all, fn ($a, $b) => crc32('boutique|' . $day . '|' . $a['id']) <=> crc32('boutique|' . $day . '|' . $b['id']));
-            $pick = array_slice($all, 0, $opt['affichage'] === 'carte' ? self::CARDS : self::COUNT);
+            $n = $opt['affichage'] === 'carte' ? self::CARDS : self::COUNT;
+            // « _r » (mode écran, une variante par tour) : la sélection suivante, en boucle.
+            if (isset($opt['_r']) && count($all) > $n) {
+                $from = ((int) $opt['_r'] * $n) % count($all);
+                $all = array_merge(array_slice($all, $from), array_slice($all, 0, $from));
+            }
+            $pick = array_slice($all, 0, $n);
         }
         $items = [];
         foreach ($pick as $m) {

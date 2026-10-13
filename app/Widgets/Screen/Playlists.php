@@ -54,22 +54,22 @@ final class Playlists
             'avant-match' => ['id' => 'avant-match', 'name' => 'Avant-match', 'preset' => true,
                 'note' => 'Les 15 minutes avant le coup d’envoi, en boucle (une boucle ≈ 3 min 40, répétée) : l’histoire du duel contre l’adversaire du jour, ce jour-là, une légende, un chiffre, une anecdote, un quiz.',
                 'slides' => [$s('histoire-du-duel', 20), $s('ce-jour-la'), $s('carte-legende'), $s('quiz', 35), $s('chiffre-du-jour'), $s('le-saviez-vous'),
-                    $s('histoire-du-duel', 15), $s('records', 15, ['cat' => 'buteurs']), $s('photo', 10, ['n' => '1']), $s('quiz', 35), $s('palmares'), $s('dernier-match'), $s('compte-a-rebours'), $s('soutenir')]],
+                    $s('histoire-du-duel', 15), $s('records', 15, ['cat' => 'buteurs']), $s('photo', 10), $s('quiz', 35), $s('palmares'), $s('dernier-match'), $s('compte-a-rebours'), $s('soutenir')]],
             'mi-temps' => ['id' => 'mi-temps', 'name' => 'Mi-temps', 'preset' => true,
                 'note' => 'Deux à trois minutes pendant la pause : le duel, un chiffre, un quiz, ce jour-là, une anecdote.',
                 'slides' => [$s('histoire-du-duel', 25), $s('chiffre-du-jour', 15), $s('quiz', 45), $s('ce-jour-la', 18), $s('le-saviez-vous', 15), $s('soutenir', 12)]],
             'buvette' => ['id' => 'buvette', 'name' => 'Buvette', 'preset' => true,
                 'note' => 'En continu, sans limite : photos d’archives, la frise, les records, le palmarès, la carte des stades.',
-                'slides' => [$s('photo', 12, ['n' => '1']), $s('frise', 14, ['n' => '1']), $s('records', 15, ['cat' => 'buteurs']), $s('photo', 12, ['n' => '2']),
-                    $s('records', 15, ['cat' => 'matchs']), $s('frise', 14, ['n' => '2']), $s('photo', 12, ['n' => '3']), $s('palmares', 12), $s('il-y-a', 12), $s('carte-stades', 14),
-                    $s('photo', 12, ['n' => '4']), $s('frise', 14, ['n' => '3']), $s('chiffre-du-jour', 10), $s('le-saviez-vous', 10), $s('compte-a-rebours', 10), $s('don', 12)]],
+                'slides' => [$s('photo', 12), $s('frise', 14), $s('records', 15, ['cat' => 'buteurs']), $s('photo', 12),
+                    $s('records', 15, ['cat' => 'matchs']), $s('frise', 14), $s('photo', 12), $s('palmares', 12), $s('il-y-a', 12), $s('carte-stades', 14),
+                    $s('photo', 12), $s('frise', 14), $s('chiffre-du-jour', 10), $s('le-saviez-vous', 10), $s('compte-a-rebours', 10), $s('don', 12)]],
         ];
     }
 
     /** Réglages communs par défaut d'une playlist. */
     public static function defaults(): array
     {
-        return ['format' => 'paysage', 'lang' => 'fr', 'adversaire' => '', 'clock' => false, 'reload' => 30];
+        return ['format' => 'paysage', 'lang' => 'fr', 'adversaire' => '', 'clock' => false, 'reload' => 30, 'vary' => true];
     }
 
     /** Toutes les playlists : prêtes à l'emploi d'abord, puis celles du musée. @return array<string,array> */
@@ -114,7 +114,7 @@ final class Playlists
 
     /**
      * Crée ou modifie une playlist (une prête à l'emploi modifiée garde son adresse). Champs : name, format,
-     * lang, adversaire, clock, reload, slides [{type, duration, opt}].
+     * lang, adversaire, clock, reload, vary, slides [{type, duration, opt}].
      * @return array la playlist enregistrée
      */
     public static function save(?string $id, array $in): array
@@ -134,6 +134,8 @@ final class Playlists
             'adversaire' => self::opponent((string) ($in['adversaire'] ?? '')),
             'clock' => !empty($in['clock']),
             'reload' => max(5, min(240, (int) ($in['reload'] ?? 30))),
+            // Varier les slides à chaque tour de boucle (oui par défaut ; voir Slides::variants).
+            'vary' => !array_key_exists('vary', $in) || !empty($in['vary']),
             'slides' => $slides,
             'updated' => date('c'),
         ];
@@ -179,7 +181,8 @@ final class Playlists
                 $v = trim((string) ($s['opt'][$o] ?? $s[$o] ?? ''));
                 $v = match ($o) {
                     'adversaire' => self::opponent($v),
-                    'n' => (string) max(1, min(20, (int) $v ?: 1)),
+                    // Variante : vide (ou 0, « auto ») = le contenu change à chaque tour ; 1 à 20 = fixe.
+                    'n' => (int) $v > 0 ? (string) min(20, (int) $v) : '',
                     default => self::widgetOption($type, $o, $v),
                 };
                 if ($v !== '') {

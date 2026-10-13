@@ -69,13 +69,38 @@
   var out = qz.querySelector('.w-qz__r');
   var fact = qz.querySelector('.w-qz__f');
   var pkey = new URLSearchParams(location.search).get('key') || '';
+  // Mode « nouvelle question à chaque chargement » : jeton signé de la question affichée, et
+  // dernières questions vues gardées dans l'iframe (sessionStorage, pas de cookie) pour éviter de
+  // les revoir aussitôt : une question déjà vue est retirée (deux fois au plus).
+  var token = qz.getAttribute('data-token');
+  if (token) {
+    var store = null;
+    try { store = window.sessionStorage; } catch (e) { store = null; }
+    var seen = [], retry = 0, qid = qz.getAttribute('data-qid');
+    try { seen = JSON.parse(store.getItem('mq-seen') || '[]'); retry = +(store.getItem('mq-retry') || 0); } catch (e) { seen = []; }
+    if (store && seen.indexOf(qid) >= 0 && retry < 2) {
+      try { store.setItem('mq-retry', String(retry + 1)); } catch (e) {}
+      location.reload();
+      return;
+    }
+    try { store.setItem('mq-retry', '0'); seen = seen.filter(function (x) { return x !== qid; }); seen.push(qid); store.setItem('mq-seen', JSON.stringify(seen.slice(-8))); } catch (e) {}
+  }
+  function next() {
+    if (!token || qz.querySelector('.w-qz__next')) return;
+    var nb = document.createElement('button');
+    nb.type = 'button';
+    nb.className = 'w-btn w-qz__next';
+    nb.textContent = qz.getAttribute('data-next') + ' →';
+    nb.addEventListener('click', function () { nb.disabled = true; location.reload(); });
+    fact.parentNode.insertBefore(nb, fact.nextSibling);
+  }
   function pick(b) {
     var i = +b.getAttribute('data-i');
     for (var k = 0; k < btns.length; k++) btns[k].disabled = true;
     fetch(qz.getAttribute('data-verify'), {
       method: 'POST', credentials: 'omit', cache: 'no-store',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ date: qz.getAttribute('data-date'), choix: i, lang: qz.getAttribute('data-lang'), key: pkey })
+      body: JSON.stringify(token ? { jeton: token, choix: i, lang: qz.getAttribute('data-lang'), key: pkey } : { date: qz.getAttribute('data-date'), choix: i, lang: qz.getAttribute('data-lang'), key: pkey })
     }).then(function (r) { return r.json(); }).then(function (d) {
       if (typeof d.bonne !== 'number') throw new Error(d.error || '');
       btns[d.bonne].classList.add('is-good');
@@ -83,6 +108,7 @@
       out.textContent = d.correct ? qz.getAttribute('data-ok') : qz.getAttribute('data-ko') + ' ' + d.reponse;
       out.hidden = false;
       if (d.explication) { fact.textContent = d.explication; fact.hidden = false; }
+      next();
       send();
     }).catch(function (e) {
       for (var k = 0; k < btns.length; k++) btns[k].disabled = false;

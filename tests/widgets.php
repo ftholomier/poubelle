@@ -130,6 +130,35 @@ try {
     $ok($post(['date' => date('Y-m-d'), 'choix' => 0])->status === 401 && $post(['date' => date('Y-m-d'), 'choix' => 0, 'key' => 'mk_' . str_repeat('0', 32)])->status === 401, 'quiz réservé : vérification refusée sans clé');
     Store::saveWidget('quiz-du-jour', 'libre', false);
 
+    // Quiz : « nouvelle question à chaque chargement » (rotation=chargement) : jeton signé, no-store.
+    $QZ = \App\Widgets\Items\QuizDuJour::class;
+    $ok($json($get('/api/v1/widgets/quiz-du-jour'))['options']['rotation'] === 'jour' && !str_contains($frame('quiz-du-jour'), 'data-token='), 'quiz : une question par jour par défaut (sans jeton)');
+    $seenQ = [];
+    $pageOk = true;
+    for ($k = 0; $k < 8; $k++) {
+        $r = $get('/w/quiz-du-jour', ['rotation' => 'chargement']);
+        preg_match('/data-token="([^"]+)"/', $r->body, $tm);
+        $tq = isset($tm[1]) ? $QZ::fromToken(html_entity_decode($tm[1]), 'fr') : null;
+        $pageOk = $pageOk && $tq !== null && ($r->headers['Cache-Control'] ?? '') === 'no-store' && str_contains($r->body, e($tq['q']))
+            && ($tq['fact'] === '' || !str_contains($r->body, e($tq['fact']))) && !str_contains($r->body, 'w-qz__c is-good') && !preg_match('/data-(c|bonne|answer)=/', $r->body);
+        $seenQ[$tq['q'] ?? ''] = true;
+    }
+    $ok($pageOk, 'quiz chargement : jeton valide, Cache-Control no-store, ni réponse ni explication dans le HTML');
+    $ok(count($seenQ) >= 2 || count($QZ::pool()) < 2, 'quiz chargement : questions différentes d’un chargement à l’autre (' . count($seenQ) . ' sur 8)');
+    $ad = $json($get('/api/v1/widgets/quiz-du-jour', ['rotation' => 'chargement']))['data'];
+    $ok(isset($ad['token']) && !array_intersect_key($ad, ['c' => 1, 'reponse' => 1, 'explication' => 1, 'fact' => 1, 'date' => 1]), 'quiz chargement : API avec jeton, sans la bonne réponse');
+    [$rq, $tok] = $QZ::random('fr');
+    $good = $json($post(['jeton' => $tok, 'choix' => $rq['c']]));
+    $bad = $json($post(['jeton' => $tok, 'choix' => ($rq['c'] + 1) % count($rq['a'])]));
+    $ok($good['correct'] === true && $good['bonne'] === $rq['c'] && $bad['correct'] === false && $bad['reponse'] === $rq['a'][$rq['c']], 'quiz chargement : vérification par jeton (bonne et mauvaise réponse)');
+    [$oq, $old] = $QZ::random('fr', [], time() - $QZ::TOKEN_TTL - 10);
+    $forged = substr($tok, 0, -1) . (substr($tok, -1) === '0' ? '1' : '0');
+    $parts = explode('.', $tok);
+    $moved = $parts[0] . '.' . (time() + 3600) . '.' . $parts[2] . '.' . $parts[3];
+    $ok($post(['jeton' => $old, 'choix' => 0])->status === 400 && $post(['jeton' => $forged, 'choix' => 0])->status === 400 && $post(['jeton' => $moved, 'choix' => 0])->status === 400 && $post(['jeton' => 'abc', 'choix' => 0])->status === 400 && $post(['jeton' => $tok, 'choix' => 99])->status === 400, 'quiz chargement : jeton expiré, falsifié, mal formé ou choix inconnu refusés');
+    $one = $QZ::pool();
+    $ok(count($one) < 2 || $QZ::random('fr', array_map([$QZ, 'qid'], array_slice($one, 1)))[0]['id'] === $QZ::qid($one[0]), 'quiz chargement : questions déjà vues évitées quand c’est possible');
+
     // Défi du jour : le défi existant, sans aucun pseudo.
     $d = $data('defi-du-jour');
     $ok($d['questions'] === \App\Services\DailyQuiz::COUNT && $d['players'] === \App\Services\DailyQuiz::players(date('Y-m-d')) && !isset($d['pseudo']) && !str_contains(json_encode($d), 'pseudo'), 'défi du jour : 10 questions, joueurs du jour, aucun pseudo');
@@ -385,7 +414,7 @@ try {
     $html = $r->body;
     $c3 = new \App\Widgets\Context('playlist', 'fr', 'sombre', 'ecran', $scr['id']);
     $n = count(\App\Widgets\Screen\Slides::build($presets['avant-match'] + $P::defaults(), $c3, $opp));
-    $ok($r->status === 200 && substr_count($html, '<section class="ec-slide') === $n && $n >= 10, "écran avant-match avec clé (limitée à un domaine, sans page d'origine) : 200, $n slides");
+    $ok($r->status === 200 && substr_count($html, 'data-variant="0" class="ec-slide') === $n && $n >= 10, "écran avant-match avec clé (limitée à un domaine, sans page d'origine) : 200, $n slides");
     $ok(str_contains($html, 'class="ec-foot"><img src="' . \App\Widgets\Context::abs((string) \App\Core\Club::s('logo_400'))) && str_contains($html, 'Musée indépendant, non officiel') && str_contains($html, '<span class="ec-url">' . \App\Widgets\Context::host()), 'écran : logo, mention « non officiel » et adresse du musée toujours en bas');
     $ok(str_contains($html, \App\Core\Club::color('navy')) && str_contains($html, 'cursor:none') && str_contains($html, 'overflow:hidden') && !preg_match('/<(audio|video)\b/', $html), 'écran : charte du club, ni souris ni défilement, aucun son');
     $ok(str_contains($html, 'data-reload="30"') && str_contains($html, '/ecran/sw.js') && str_contains($html, '/assets/js/ecran.js'), 'écran : rechargement automatique et service worker (hors connexion)');
@@ -416,13 +445,57 @@ try {
     $ok((Store::stats(1)['widgets']['playlist']['vues'] ?? 0) === $before + 1, 'écran : affichage compté (widget « playlist », par partenaire)');
 
     // Quiz écran : question, compte à rebours, réponse et explication, QR code ; jamais la question du quiz du jour.
-    $q = \App\Widgets\Screen\Slides::quiz(date('Y-m-d'), 'fr', 0, 'mi-temps');
-    $mt = $g3('/ecran/mi-temps', ['key' => $scrKey])->body;
+    $q = \App\Widgets\Screen\Slides::build($P::get('mi-temps'), new \App\Widgets\Context('playlist', 'fr', 'sombre', 'ecran'), '', 4242);
+    $q = array_values(array_filter($q, fn ($m) => $m['type'] === 'quiz'))[0]['quiz'] ?? null;
+    $mt = $g3('/ecran/mi-temps', ['key' => $scrKey, 'graine' => '4242'])->body;
     $ok($q !== null && str_contains($mt, e($q['q'])) && str_contains($mt, 'class="is-good"><em>' . chr(65 + $q['c']) . '</em>') && str_contains($mt, 'data-answer=') && str_contains($mt, 'data-timer'), 'quiz écran : question, compte à rebours, bonne réponse révélée ensuite');
     $daily = \App\Widgets\Items\QuizDuJour::question(date('Y-m-d'), 'fr');
     $ok($daily === null || $q['q'] !== $daily['q'], 'quiz écran : jamais la question du quiz du jour (sa réponse reste secrète)');
     $ok(substr_count($mt, '<svg xmlns="http://www.w3.org/2000/svg"') >= 1 && str_contains($mt, 'Plus de questions'), 'quiz écran : QR code vers le quiz du musée');
     $ok(\App\Widgets\Screen\Slides::quiz(date('Y-m-d'), 'fr', 1, 'avant-match')['q'] !== \App\Widgets\Screen\Slides::quiz(date('Y-m-d'), 'fr', 0, 'avant-match')['q'] || count((array) \App\Data\Collections::get('quiz', \App\Data\Seeds::quiz())) < 3, 'quiz écran : deux quiz d’une playlist, deux questions');
+
+    // Variantes à chaque tour de boucle (« Varier les slides », oui par défaut).
+    $SL = \App\Widgets\Screen\Slides::class;
+    $cv = new \App\Widgets\Context('playlist', 'fr', 'sombre', 'ecran');
+    $buv = $P::get('buvette');
+    $b1 = $SL::build($buv, $cv, '', 5000);
+    $nv = fn (array $m) => 1 + count($m['variants'] ?? []);
+    $byType = [];
+    foreach ($b1 as $m) {
+        $byType[$m['type']][] = $m;
+    }
+    $photo = $byType['photo'][0] ?? null;
+    $ok($photo !== null && $nv($photo) >= 2 && $nv($photo) <= $SL::VARIANTS, 'écran : plusieurs variantes pour une photo d’archives (' . ($photo ? $nv($photo) : 0) . ')');
+    $nodup = true;
+    foreach ($b1 as $m) {
+        $all = array_map(fn ($v) => json_encode(array_diff_key($v, ['variants' => 1])), array_merge([$m], $m['variants'] ?? []));
+        $nodup = $nodup && count(array_unique($all)) === count($all);
+    }
+    $ok($nodup, 'écran : aucune variante en double dans une slide');
+    $ph = array_map(fn ($m) => $m['image']['url'], $byType['photo'] ?? []);
+    $ok(count(array_unique($ph)) === count($ph), 'écran : deux slides photo d’une playlist, deux photos différentes au même tour');
+    $fixed = array_filter($b1, fn ($m) => in_array($m['type'], ['compte-a-rebours', 'don', 'carte-stades'], true));
+    $ok(!array_filter($fixed, fn ($m) => isset($m['variants'])), 'écran : slides fixes (compte à rebours, don, carte) sans variante');
+    $quizPl = ['id' => 'essai', 'slides' => [['type' => 'quiz', 'duration' => 20, 'opt' => []], ['type' => 'chiffre-du-jour', 'duration' => 10, 'opt' => []], ['type' => 'le-saviez-vous', 'duration' => 10, 'opt' => []]]];
+    $vq = $SL::build($quizPl, $cv, '', 5000);
+    $qq = array_map(fn ($v) => $v['quiz']['q'], array_merge([$vq[0]], $vq[0]['variants'] ?? []));
+    $ok(count($qq) >= min(3, count(\App\Widgets\Items\QuizDuJour::pool()) - 1) && count(array_unique($qq)) === count($qq), 'écran : quiz, une autre question à chaque tour (' . count($qq) . ' variantes)');
+    $ok(($vq[1]['type'] ?? '') !== 'chiffre-du-jour' || $nv($vq[1]) >= 2, 'écran : chiffre du jour, un autre chiffre à chaque tour');
+    $later = $SL::build($quizPl, $cv, '', 5030);
+    $ok($later[0]['quiz']['q'] !== $vq[0]['quiz']['q'] || count($qq) < 2, 'écran : un rechargement (autre graine) ne repart pas de la même variante 1');
+    $fix = $SL::build(['id' => 'essai', 'slides' => [['type' => 'photo', 'duration' => 10, 'opt' => ['n' => '2']], ['type' => 'records', 'duration' => 10, 'opt' => ['cat' => 'matchs']]]], $cv, '', 5000);
+    $ok(!isset($fix[0]['variants']) && !isset($fix[1]['variants']) && $fix[0] == $SL::build(['id' => 'essai', 'slides' => [['type' => 'photo', 'duration' => 10, 'opt' => ['n' => '2']]]], $cv, '', 9999)[0], 'écran : variante « n » ou classement fixés par l’admin → contenu fixe');
+    $rec = $SL::build(['id' => 'essai', 'slides' => [['type' => 'records', 'duration' => 10, 'opt' => []]]], $cv, '', 5000)[0];
+    $ok($nv($rec) === 2 && $rec['title'] !== $rec['variants'][0]['title'], 'écran : records automatiques, l’autre classement au tour suivant');
+    $off = $SL::build(['vary' => false] + $quizPl, $cv, '', 5000);
+    $ok(!isset($off[0]['variants']) && $off[0] == $SL::build($quizPl, $cv)[0], 'écran : « Varier les slides » décoché → mêmes slides à chaque tour');
+    $ok($P::cleanSlides([['type' => 'photo', 'opt' => ['n' => '']], ['type' => 'photo', 'opt' => ['n' => '3']]])[0]['opt'] === [] && $P::cleanSlides([['type' => 'photo', 'opt' => ['n' => '3']]])[0]['opt'] === ['n' => '3'], 'écran : « n » vide = varie, « n » fixé = gardé');
+    $vb = $g3('/ecran/buvette', ['key' => $scrKey, 'graine' => '5000'])->body;
+    $eager = preg_match_all('/<img src="[^"]*\/media\//', $vb);
+    $ok(str_contains($vb, 'data-variant="1"') && str_contains($vb, '<img data-src=') && $eager <= count($byType['photo'] ?? []) + 4, "écran : variantes dans la page, images des tours suivants différées (data-src ; $eager chargées d'emblée)");
+    $ck = $SL::check($buv, $cv, '', '', 5000);
+    $rowPhoto = array_values(array_filter($ck['rows'], fn ($r) => $r['type'] === 'photo'))[0] ?? [];
+    $ok($ck['vary'] === true && ($rowPhoto['variants'] ?? 0) === $nv($photo) && array_values(array_filter($ck['rows'], fn ($r) => $r['type'] === 'don'))[0]['varies'] === false, 'contrôle : nombre de variantes par slide');
 
     // Playlists personnalisées
     $pl = $P::save(null, ['name' => 'Écran géant', 'format' => 'vertical', 'lang' => 'en', 'adversaire' => $opp, 'clock' => true, 'reload' => 2, 'slides' => [

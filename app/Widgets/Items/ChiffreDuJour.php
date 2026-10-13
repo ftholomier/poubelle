@@ -33,7 +33,9 @@ final class ChiffreDuJour extends Widget
 
     public function data(array $opt, Context $c): ?array
     {
-        $day = Chiffres::daily(null, Chiffres::cached() ?? Chiffres::all());
+        // « _r » (mode écran, une variante par tour) : le chiffre d'un autre jour.
+        $date = isset($opt['_r']) ? date('Y-m-d', strtotime('+' . (int) $opt['_r'] . ' days')) : null;
+        $day = Chiffres::daily($date, Chiffres::cached() ?? Chiffres::all());
         if (!$day) {
             return null;
         }

@@ -29,7 +29,15 @@ final class Page
         $vertical = $o['format'] === 'vertical';
         $html = '';
         foreach ($slides as $i => $s) {
-            $html .= self::slide($s, $c, $vertical);
+            // Variantes (une par tour de boucle, js/ecran.js) : même groupe ; seules les images de la
+            // première sont chargées d'emblée, les autres (data-src) le sont juste avant leur tour.
+            $vars = array_merge([$s], (array) ($s['variants'] ?? []));
+            foreach ($vars as $k => $v) {
+                unset($v['variants']);
+                $one = self::slide($v, $c, $vertical);
+                $one = (string) preg_replace('/^<section /', '<section data-group="' . $i . '" data-variant="' . $k . '" ', $one, 1);
+                $html .= $k === 0 ? $one : str_replace('<img src=', '<img data-src=', $one);
+            }
         }
         if ($html === '') {
             $html = self::slide(['layout' => 'quote', 'eyebrow' => Club::s('site'), 'text' => $c->tr('Le musée revient dans un instant.', 'The museum will be back in a moment.'), 'duration' => 30, 'type' => 'vide'], $c, $vertical);
@@ -98,7 +106,7 @@ final class Page
                     $res = (string) ($r[3] ?? '');
                     $h .= '<li><em>' . e($r[0]) . '</em><div><b>' . e($r[1]) . '</b><span>' . e($r[2]) . '</span></div>' . ($res !== '' ? '<i class="ec-res ec-res--' . e(strtolower($res)) . '">' . e(match ($res) { 'V' => $c->tr('Victoire', 'Win'), 'N' => $c->tr('Nul', 'Draw'), 'D' => $c->tr('Défaite', 'Defeat'), default => $res }) . '</i>' : '') . '</li>';
                 }
-                $h .= '</ul></div>';
+                $h .= '</ul>' . (!empty($s['sub']) ? '<p class="ec-sub">' . e($s['sub']) . '</p>' : '') . '</div>';
                 break;
             case 'rank':
                 $h .= '<div class="ec-main">' . $eb . '<h1 class="ec-title">' . e($s['title']) . '</h1><ol class="ec-rank">';

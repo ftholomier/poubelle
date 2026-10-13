@@ -102,7 +102,7 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
         . '<p class="small muted" style="margin:0">Pour les réglages choisis (adversaire, langue) et le jour du match, la liste des slides : <b>✓ affichée</b> ou <b>⚠ sautée</b> (et pourquoi : aucun match ce jour-là, boutique fermée…), puis la durée réelle d’une boucle. Une slide sautée ne laisse pas d’écran vide : la suivante prend sa place. Le jour ne change que « Ce jour-là » ; quiz, photo et chiffre sont ceux d’aujourd’hui.</p>'
         . '<div class="row"><label class="f"><span class="f__k">Jour du match</span><input class="in" type="date" data-check-date value="' . e(date('Y-m-d')) . '"></label><button type="button" class="btn btn--sm btn--navy" data-check-run>Contrôler</button></div>'
         . '<div data-check-out aria-live="polite"></div></div></details>';
-    $optLabel = ['adversaire' => 'Adversaire (vide : celui de la playlist)', 'cat' => 'Classement', 'n' => 'Variante (1, 2, 3…)', 'saison' => 'Saison (AAAA-AAAA)'];
+    $optLabel = ['adversaire' => 'Adversaire (vide : celui de la playlist)', 'cat' => 'Classement', 'n' => 'Variante fixe (1, 2, 3… ; vide : change à chaque tour)', 'saison' => 'Saison (AAAA-AAAA)'];
 ?>
 <p class="alert alert--info" style="margin:0">Le <b>mode écran</b> affiche le musée en plein écran sur les écrans du stade, les télés d’une buvette ou une borne : de très gros caractères, des slides qui s’enchaînent seules, le logo du musée, la mention « non officiel » et l’adresse du musée toujours en bas. Une playlist est une suite de slides (les données des widgets, mises en page pour l’écran). Accès du mode écran (widget « Playlist écran ») : <b><?= e(Store::ACCESS[$S['access']]) ?></b> — <a href="/admin/widgets#w-playlist">modifier</a>. Réservé (par défaut) : l’adresse donnée à la régie contient la clé d’un partenaire.</p>
 
@@ -175,6 +175,7 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
       <?= Form::text('adversaire', 'Adversaire du jour (histoire du duel) : liste ou nom libre', $E['adversaire'], ['list' => 'dl-clubs', 'maxlength' => 40, 'class' => 'f--2', 'placeholder' => 'Vide : celui du dernier match fiché', 'autocomplete' => 'off']) ?>
       <?= Form::number('reload', 'Rechargement (minutes)', $E['reload']) ?>
       <?= Form::toggle('clock', 'Horloge en bas à droite', !empty($E['clock'])) ?>
+      <?= Form::toggle('vary', 'Varier les slides à chaque tour', !array_key_exists('vary', $E) || !empty($E['vary']), ['help' => 'Quiz, photo, frise, chiffre, anecdote, légende, records, ce jour-là, il y a, palmarès, boutique : jusqu’à 6 contenus différents, un par tour de boucle (sauf variante ou choix fixé sur la slide).']) ?>
     </div>
     <p class="small muted" style="margin:0">Slides dans l’ordre (glisser-déposer avec la poignée, ou flèches ↑ ↓). Durée en secondes (<?= Playlists::MIN ?> à <?= Playlists::MAX ?>). Une slide sans rien à montrer ce jour-là (aucun match « ce jour-là »…) est sautée.</p>
     <?= Form::repeater('slides', '', $E['slides'], function ($sl) use ($S, $optLabel) {
@@ -191,8 +192,10 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
                 $wo = \App\Widgets\Registry::get($ty)?->describe()['options'][$o] ?? null;
                 $field = match (true) {
                     $o === 'adversaire' => Form::text('@opt.adversaire', $optLabel[$o], $val, ['list' => 'dl-clubs', 'maxlength' => 40, 'placeholder' => 'Celui de la playlist — ou un nom', 'autocomplete' => 'off']),
-                    $o === 'n' => Form::number('@opt.n', $optLabel[$o], $val ?: '1'),
+                    $o === 'n' => Form::number('@opt.n', $optLabel[$o], $val, ['placeholder' => 'Vide : change à chaque tour']),
                     $wo !== null && $wo['type'] === 'search' => Form::text('@opt.' . $o, $wo['label'] . ' (tapez un nom ; vide : automatique)', $val, ['list' => 'dl-' . $ty . '-' . $o, 'maxlength' => 80]),
+                    // Classement des records : « automatique » (l'un puis l'autre, à chaque tour) possible.
+                    $wo !== null && isset($wo['choices']) && $o === 'cat' => Form::select('@opt.' . $o, $wo['label'], $val, ['' => 'Automatique (change à chaque tour)'] + $wo['choices']),
                     $wo !== null && isset($wo['choices']) => Form::select('@opt.' . $o, $wo['label'], $val !== '' ? $val : $wo['default'], $wo['choices']),
                     default => '',
                 };

@@ -87,7 +87,8 @@ final class LeSaviezVous extends Widget
         if (!$facts) {
             return null;
         }
-        $f = $facts[crc32(date('Y-m-d H') . '|saviez') % count($facts)];
+        // « _r » (mode écran, une variante par tour) : l'anecdote suivante.
+        $f = $facts[(crc32(date('Y-m-d H') . '|saviez') + (int) ($opt['_r'] ?? 0)) % count($facts)];
         return $f + ['count' => count($facts)];
     }
 

@@ -160,14 +160,15 @@
     const r = window.BO ? await window.BO.post('/admin/widgets/ecrans/controle', payload) : { error: 'Back-office non chargé.' };
     if (!r.ok) { out.innerHTML = '<p class="alert alert--error small" style="margin:0">' + esc(r.error || 'Contrôle impossible.') + '</p>'; return; }
     let h = '<p class="small" style="margin:0 0 8px"><b>Adversaire</b> : ' + esc(r.opponent.text) + '</p>';
-    h += '<div class="table"><table><thead><tr><th class="t-num">#</th><th>Slide</th><th class="t-num">Durée</th><th>État</th></tr></thead><tbody>';
+    h += '<div class="table"><table><thead><tr><th class="t-num">#</th><th>Slide</th><th class="t-num">Durée</th><th class="t-num" title="Contenus différents préparés : un par tour de boucle">Variantes</th><th>État</th></tr></thead><tbody>';
     r.rows.forEach(x => {
-      h += '<tr' + (x.shown ? '' : ' class="muted"') + '><td class="t-num">' + x.n + '</td><td>' + esc(x.name) + '</td><td class="t-num">' + x.duration + ' s</td><td>'
+      h += '<tr' + (x.shown ? '' : ' class="muted"') + '><td class="t-num">' + x.n + '</td><td>' + esc(x.name) + '</td><td class="t-num">' + x.duration + ' s</td><td class="t-num">'
+        + (x.shown ? (x.variants > 1 ? '<b>' + x.variants + '</b>' : '1' + (x.varies ? '' : ' <small class="muted">(fixe)</small>')) : '–') + '</td><td>'
         + (x.shown ? '<b style="color:var(--green,#2f8a4f)">✓ affichée</b>' : '<b style="color:var(--red)">⚠ sautée</b>') + (x.note ? ' <small>· ' + esc(x.note) + '</small>' : '') + '</td></tr>';
     });
     h += '</tbody></table></div><p class="small" style="margin:8px 0 0"><b>' + r.shown + ' slide' + (r.shown > 1 ? 's' : '') + ' affichée' + (r.shown > 1 ? 's' : '') + '</b>'
       + (r.skipped ? ', ' + r.skipped + ' sautée' + (r.skipped > 1 ? 's' : '') : '') + ' · une boucle dure réellement <b>' + dur(r.duration) + '</b>'
-      + (r.duration !== r.planned ? ' (au lieu de ' + dur(r.planned) + ' prévues)' : '') + ' · jour contrôlé : ' + esc(r.date.split('-').reverse().join('/')) + ', ' + (r.lang === 'en' ? 'anglais' : 'français') + '.</p>';
+      + (r.duration !== r.planned ? ' (au lieu de ' + dur(r.planned) + ' prévues)' : '') + (r.vary ? ' · contenus variés à chaque tour' : ' · mêmes slides à chaque tour') + ' · jour contrôlé : ' + esc(r.date.split('-').reverse().join('/')) + ', ' + (r.lang === 'en' ? 'anglais' : 'français') + '.</p>';
     out.innerHTML = h;
   };
   const slPanel = document.querySelector('[data-check="sl"]');
@@ -180,7 +181,7 @@
   const edPanel = form.querySelector('[data-check="ed"]');
   if (edPanel) edPanel.querySelector('[data-check-run]').addEventListener('click', () => {
     const d = window.BO && window.BO.collect ? window.BO.collect(form) : {};
-    runCheck(edPanel, { id: d.id || '', name: d.name || '', slides: d.slides || [], playlist_adversaire: d.adversaire || '', playlist_lang: d.lang || 'fr', adversaire: '', lang: '' });
+    runCheck(edPanel, { id: d.id || '', name: d.name || '', slides: d.slides || [], vary: d.vary !== false, playlist_adversaire: d.adversaire || '', playlist_lang: d.lang || 'fr', adversaire: '', lang: '' });
   });
   const refresh = () => form.querySelectorAll('[data-item]').forEach(it => {
     const sel = it.querySelector('[data-slide-type]');

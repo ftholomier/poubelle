@@ -1261,7 +1261,7 @@ préfixe `/en` ; langue par `?lang=fr|en`) :
 | `GET /api/v1/widgets/{clé}` | données JSON d'un widget : `widget`, `name`, `lang`, `options`, `generated`, `data`, `attribution` (nom du musée, mention « non officiel », lien et logo, à afficher), `iframe` |
 | `OPTIONS /api/v1/widgets…` | pré-vol CORS (en-tête `X-Musee-Key`) |
 | `GET /w/{clé}?theme=clair\|sombre&lang=fr\|en&format=standard\|compact&…` | le widget en page HTML autonome (CSS en ligne, polices du site, `js/widget.js`), à mettre dans une iframe |
-| `POST /api/v1/widgets/quiz-du-jour/verifier` | vérifie une réponse du quiz du jour : corps JSON (ou formulaire) `{date, choix, lang, key?}` → `{correct, bonne, reponse, explication}` ; date du jour ou de la veille seulement, mêmes règles d'accès que le widget (la page du widget, d'origine le musée, passe le contrôle des domaines de la clé), 60 par minute et par IP (`widgets-quiz`), `no-store`, rien d'enregistré |
+| `POST /api/v1/widgets/quiz-du-jour/verifier` | vérifie une réponse du quiz du jour : corps JSON (ou formulaire) `{date, choix, lang, key?}` ou, en mode `rotation=chargement`, `{jeton, choix, lang, key?}` (jeton signé valable 2 h) → `{correct, bonne, reponse, explication}` ; date du jour ou de la veille seulement, mêmes règles d'accès que le widget (la page du widget, d'origine le musée, passe le contrôle des domaines de la clé), 60 par minute et par IP (`widgets-quiz`), `no-store`, rien d'enregistré |
 | `GET /embed.js` | script d'intégration (`public/assets/js/embed.js`, servi par `Http::embed` : `max-age=3600`, ETag, CORS `*`) |
 | `GET /w/clic/{clé}/?to=/chemin&p=<partenaire>` | lien d'un widget vers le musée : compté, puis redirection 302 vers le chemin du musée (jamais ailleurs) avec `utm_source=widget` |
 | `GET /widgets/` | page publique « Intégrez le musée sur votre site » (widgets libres, aperçu, code à copier, section « Pour les écrans de stade » `#ecrans` ; `Widgets\Pages`, `templates/widgets/demo.php`) |
@@ -1403,6 +1403,19 @@ cache, statistiques, configurateur, page de démonstration et aide suivent seuls
 le code iframe. `widget.js` fait aussi jouer le quiz du jour (POST vers `…/verifier`,
 `credentials: 'omit'` ; d'où `connect-src 'self'` dans la CSP des iframes).
 
+**Quiz du jour, option `rotation`** (`jour` par défaut | `chargement`). En `chargement`,
+`QuizDuJour::random()` tire une question au hasard (`random_int`) et un ordre des choix
+(`nonce` de 8 hexadécimaux) ; les données portent `token` = `qid.horodatage.nonce.signature`
+(`qid` : 10 premiers hexadécimaux du md5 du texte français ; signature : HMAC-SHA256 tronqué
+à 32 caractères, clé `site_key('quiz-du-jour-jeton')`), jamais la bonne réponse.
+`Widget::cacheable($opt)` est faux pour ce mode : `Cache::get` recalcule à chaque requête et
+`Http::serve` répond `Cache-Control: no-store` (iframe et API). La vérification accepte
+`{jeton, choix}` : `QuizDuJour::fromToken` (signature `hash_equals`, âge de -60 s à
+`TOKEN_TTL` = 7 200 s, question toujours au quiz) ; même limite de débit (`widgets-quiz`, 60
+par minute et par IP). `widget.js` envoie le jeton, ajoute « Question suivante » (rechargement
+de l'iframe) après la réponse, et garde les 8 derniers `qid` en `sessionStorage` (`mq-seen`) :
+une question déjà vue est retirée (rechargement, deux fois au plus, compteur `mq-retry`).
+
 **Script d'intégration** (`public/assets/js/embed.js`, servi en `/embed.js`, ~3 Ko sans
 commentaires) : `<div data-musee-widget="clé" data-theme=… data-lang=… data-key=… data-<option>=…>`
 puis, une fois par page, `<script src="https://<musée>/embed.js" async>`. L'origine du musée est
@@ -1458,7 +1471,10 @@ cadre (`Page::notice`, `no-store`). Affichage compté `vues` / `playlist` / part
   `Store::dir()/ecrans.json` (`save` : nom obligatoire, au moins une slide, slides validées par
   `cleanSlides` (type connu, durée 5–120 s, options permises), adresse tirée du nom, jamais celle
   d'une playlist prête à l'emploi ; `delete`). Réglages : `format` (`paysage` 1920 × 1080 ou
-  `vertical` 1080 × 1920), `lang`, `adversaire`, `clock`, `reload` (5–240 min, 30 par défaut).
+  `vertical` 1080 × 1920), `lang`, `adversaire`, `clock`, `reload` (5–240 min, 30 par défaut),
+  `vary` (« Varier les slides à chaque tour », vrai par défaut et pour les playlists enregistrées
+  sans ce champ). Option `n` : vide (ou 0) = la slide varie, 1 à 20 = variante fixe ; les
+  playlists prêtes à l'emploi n'en fixent plus (elles varient).
   **Adversaire du jour** (`Playlists::opponent` = `HistoireDuDuel::cleanName`) : clé du
   face-à-face (« nantes ») **ou nom libre** (« Paris FC ») : espaces resserrés, lettres, chiffres,
   espace, apostrophe, point, tiret, « & », 2 à 40 caractères, au moins une lettre ; sinon vide
@@ -1481,6 +1497,31 @@ cadre (`Page::notice`, `no-store`). Affichage compté `vues` / `playlist` / part
   date, playlist et rang du quiz dans la playlist, jamais la question du quiz du jour, dont la
   réponse doit rester secrète dans le widget ; ici la réponse est dans la page puisqu'elle
   s'affiche) et `photo` (`Photos::pool`, variante `n`).
+- **Variantes par tour de boucle** (`Slides::build($p, $c, $adv, $seed)`, `$seed` non nul et
+  `vary`) : `Slides::variants()` appelle `one()` avec un rang de tirage `$rot = (graine + k) ×
+  (nombre de slides du même type) + rang de la slide parmi elles`, k = 0, 1, 2…, et garde au plus
+  `Slides::VARIANTS` (6) modèles **distincts** (empreinte JSON ; 12 essais au plus) ; le modèle
+  rendu porte les suivants dans `variants`. Types qui varient (`Slides::VARYING`) et comment :
+  `quiz` (question suivante de la liste), `photo` (photo suivante du lot), `frise` (cinq dates
+  suivantes), `chiffre-du-jour` (`_r` : le chiffre d'un autre jour, `Chiffres::daily`),
+  `le-saviez-vous` (`_r` : anecdote suivante), `carte-legende` (joueur automatique : `_r`,
+  légende suivante), `records` (classement vide : `buteurs` / `matchs` en alternance),
+  `ce-jour-la` (8 matchs demandés, fenêtre glissante de 3), `il-y-a` (fenêtre de 4),
+  `palmares` (un titre « à l'honneur » dans `sub`), `boutique` (objet automatique : `_r`,
+  sélection suivante). `_r` est une clé interne ajoutée **après** `Widget::clean` (jamais une
+  option publique) et ces données-là ne passent pas par `Cache` (une entrée par tirage le
+  remplirait). `Slides::varies()` : faux pour les autres types et quand l'admin a fixé `n`,
+  `joueur`, `cat` ou `produit`. Graine : `Slides::seed()` = numéro de la minute (`?graine=N`
+  pour les aperçus et les tests) : chaque rechargement repart d'un tirage décalé. `$seed` nul
+  (exports PNG/ZIP/MP4, `Image`, `Export`) : contenu habituel, une seule version — **les exports
+  ne contiennent que la variante 1** (rotation null : rang de la slide).
+  `Page::render` : chaque variante est une `<section data-group="i" data-variant="k">` ; à
+  partir de k = 1, `<img src=` devient `<img data-src=` (rien de chargé d'emblée).
+  `js/ecran.js` regroupe les sections par `data-group`, compte les tours (`turn`, +1 à chaque
+  retour à la première slide), montre la variante `turn % n`, charge ses images et précharge
+  celles de la variante du tour suivant seulement ; `?slide=N&tour=K` fige la variante K de la
+  slide N. `Slides::check` renvoie `variants` (nombre de versions) et `varies` par ligne, et
+  `vary` ; le panneau Contrôle les affiche (colonne « Variantes »).
 - `Page` : HTML plein écran, scène fixe 1920 × 1080 (ou 1080 × 1920) mise à l'échelle par
   `js/ecran.js` (`transform: scale`), thème sombre aux couleurs du club, très gros caractères,
   `cursor:none`, aucun défilement, aucun son ; pied fixe : logo, nom, mention « non officiel »,

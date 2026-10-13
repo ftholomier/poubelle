@@ -16,6 +16,9 @@ final class Cache
     /** @return array{at:int,data:?array} */
     public static function get(Widget $w, array $opt, Context $c): array
     {
+        if (!$w->cacheable($opt)) {
+            return ['at' => time(), 'data' => $w->data($opt, $c)];
+        }
         ksort($opt);
         $file = Store::dir() . '/cache/' . $w->key() . '-' . substr(md5(json_encode([$opt, $c->lang, Store::widget($w->key())['settings']])), 0, 12) . '.json';
         $hit = JsonStore::read($file);

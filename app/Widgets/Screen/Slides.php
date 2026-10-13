@@ -28,19 +28,97 @@ final class Slides
      * Modèles de toutes les slides d'une playlist (les slides sans rien à montrer sont omises).
      * @return list<array>
      */
-    public static function build(array $playlist, Context $c, string $adversaire = ''): array
+    public static function build(array $playlist, Context $c, string $adversaire = '', ?int $seed = null): array
     {
         $out = [];
-        $quiz = 0;
+        $adv = $adversaire !== '' ? $adversaire : (string) ($playlist['adversaire'] ?? '');
+        $vary = $seed !== null && self::varyOn($playlist);
+        $per = array_count_values(array_map(fn ($s) => (string) $s['type'], $playlist['slides']));
+        $slot = [];
         foreach ($playlist['slides'] as $i => $s) {
+            $k = $slot[$s['type']] = ($slot[$s['type']] ?? -1) + 1;
             try {
-                $m = self::one($s, $c, $adversaire !== '' ? $adversaire : (string) ($playlist['adversaire'] ?? ''), $s['type'] === 'quiz' ? $quiz++ : 0, (string) $playlist['id']);
+                $list = $vary ? self::variants($s, $c, $adv, $k, $per[$s['type']], (string) $playlist['id'], (int) $seed)
+                    : array_values(array_filter([self::one($s, $c, $adv, $k, (string) $playlist['id'])]));
             } catch (\Throwable $e) {
                 error_log('Écran ' . $playlist['id'] . ', slide ' . $s['type'] . ' : ' . $e->getMessage());
-                $m = null;
+                $list = [];
             }
-            if ($m !== null) {
-                $out[] = $m + ['type' => $s['type'], 'duration' => (int) $s['duration'], 'n' => $i + 1];
+            if ($list) {
+                $extra = ['type' => $s['type'], 'duration' => (int) $s['duration'], 'n' => $i + 1];
+                $m = $list[0] + $extra;
+                if (count($list) > 1) {
+                    $m['variants'] = array_map(fn ($v) => $v + $extra, array_slice($list, 1));
+                }
+                $out[] = $m;
+            }
+        }
+        return $out;
+    }
+
+    /** Nombre maximal de variantes préparées par slide (une par tour de boucle, puis on recommence). */
+    public const VARIANTS = 6;
+
+    /** Types de slides dont le contenu peut changer d'un tour à l'autre (les autres restent fixes). */
+    public const VARYING = ['quiz', 'photo', 'frise', 'chiffre-du-jour', 'le-saviez-vous', 'carte-legende', 'records', 'ce-jour-la', 'il-y-a', 'palmares', 'boutique'];
+
+    /** « Varier les slides à chaque tour » (réglage de la playlist, oui par défaut). */
+    public static function varyOn(array $playlist): bool
+    {
+        return !array_key_exists('vary', $playlist) || !empty($playlist['vary']);
+    }
+
+    /**
+     * Graine du tirage des variantes : le numéro de la minute. Chaque rechargement de la page (toutes
+     * les X minutes) repart donc d'un tirage décalé, jamais de la même variante 1.
+     */
+    public static function seed(?int $now = null): int
+    {
+        return intdiv($now ?? time(), 60);
+    }
+
+    /**
+     * Une slide peut-elle varier ? Non si son type est fixe (histoire du duel, compte à rebours,
+     * soutenir, don…) ou si l'administrateur a fixé son contenu : variante « n », joueur, classement
+     * ou objet choisis. « n » vide (ou automatique) : la slide varie.
+     */
+    public static function varies(array $s): bool
+    {
+        $opt = (array) ($s['opt'] ?? []);
+        if (!in_array($s['type'], self::VARYING, true)) {
+            return false;
+        }
+        $fix = ['photo' => 'n', 'frise' => 'n', 'carte-legende' => 'joueur', 'records' => 'cat', 'boutique' => 'produit'][$s['type']] ?? null;
+        return $fix === null || (string) ($opt[$fix] ?? '') === '';
+    }
+
+    /**
+     * Variantes d'une slide (au plus VARIANTS, sans doublon, la première montrée au premier tour) :
+     * tirages consécutifs à partir de la graine, entrelacés entre les slides du même type de la
+     * playlist (rotation = tour × nombre de slides du type + rang de la slide) : deux slides « photo »
+     * ne montrent jamais la même photo au même tour.
+     * @return list<array>
+     */
+    public static function variants(array $s, Context $c, string $adversaire, int $slot, int $per, string $pid, int $seed, int $max = self::VARIANTS): array
+    {
+        if (!self::varies($s)) {
+            $m = self::one($s, $c, $adversaire, $slot, $pid);
+            return $m === null ? [] : [$m];
+        }
+        $out = [];
+        $seen = [];
+        for ($k = 0; $k < $max * 2 && count($out) < $max; $k++) {
+            $m = self::one($s, $c, $adversaire, $slot, $pid, ($seed + $k) * max(1, $per) + $slot);
+            if ($m === null) {
+                if ($k === 0) {
+                    return [];
+                }
+                continue;
+            }
+            $h = md5(json_encode($m));
+            if (!isset($seen[$h])) {
+                $seen[$h] = true;
+                $out[] = $m;
             }
         }
         return $out;
@@ -76,12 +154,15 @@ final class Slides
      * slides du jour — quiz, photo, chiffre — sont celles d'aujourd'hui).
      * @return array{rows:list<array>,shown:int,skipped:int,duration:int,planned:int,opponent:array}
      */
-    public static function check(array $playlist, Context $c, string $adversaire = '', string $day = ''): array
+    public static function check(array $playlist, Context $c, string $adversaire = '', string $day = '', ?int $seed = null): array
     {
+        $vary = self::varyOn($playlist);
+        $seed ??= self::seed();
+        $per = array_count_values(array_map(fn ($s) => (string) $s['type'], $playlist['slides']));
+        $slot = [];
         $adv = $adversaire !== '' ? $adversaire : (string) ($playlist['adversaire'] ?? '');
         $target = \App\Widgets\Items\HistoireDuDuel::target($adv);
         $rows = [];
-        $quiz = 0;
         $total = 0;
         $planned = 0;
         $md = $day !== '' && $day !== date('Y-m-d') ? substr($day, 5) : '';
@@ -92,8 +173,17 @@ final class Slides
             if ($md !== '' && $s['type'] === 'ce-jour-la') {
                 $s['opt'] = ['date' => $md] + (array) ($s['opt'] ?? []);
             }
+            $k = $slot[$s['type']] = ($slot[$s['type']] ?? -1) + 1;
+            $variants = 0;
             try {
-                $m = self::one($s, $c, $adv, $s['type'] === 'quiz' ? $quiz++ : 0, (string) ($playlist['id'] ?? ''));
+                if ($vary) {
+                    $list = self::variants($s, $c, $adv, $k, $per[$s['type']], (string) ($playlist['id'] ?? ''), $seed);
+                    $m = $list[0] ?? null;
+                    $variants = count($list);
+                } else {
+                    $m = self::one($s, $c, $adv, $k, (string) ($playlist['id'] ?? ''));
+                    $variants = $m === null ? 0 : 1;
+                }
             } catch (\Throwable $e) {
                 $m = null;
                 $note = 'erreur : ' . $e->getMessage();
@@ -108,23 +198,32 @@ final class Slides
             if ($m !== null) {
                 $total += (int) $s['duration'];
             }
-            $rows[] = ['n' => $i + 1, 'type' => $s['type'], 'name' => $name, 'duration' => (int) $s['duration'], 'shown' => $m !== null, 'note' => $note];
+            $rows[] = ['n' => $i + 1, 'type' => $s['type'], 'name' => $name, 'duration' => (int) $s['duration'], 'shown' => $m !== null, 'note' => $note, 'variants' => $variants,
+                'varies' => $vary && self::varies($s)];
         }
         $shown = count(array_filter($rows, fn ($r) => $r['shown']));
-        return ['rows' => $rows, 'shown' => $shown, 'skipped' => count($rows) - $shown, 'duration' => $total, 'planned' => $planned,
+        return ['rows' => $rows, 'vary' => $vary, 'shown' => $shown, 'skipped' => count($rows) - $shown, 'duration' => $total, 'planned' => $planned,
             'opponent' => $target === null ? ['name' => '', 'known' => false, 'auto' => true]
                 : ['name' => $target['name'], 'known' => $target['club'] !== null, 'auto' => HistoireDuDuel::cleanName($adv) === null, 'club' => $target['club']]];
     }
 
     /** Données d'un widget (cache commun aux iframes et à l'API). */
-    private static function data(string $key, array $opt, Context $c): ?array
+    private static function data(string $key, array $opt, Context $c, ?int $rot = null): ?array
     {
         $w = Registry::get($key);
-        return $w ? Cache::get($w, $w->clean($opt), $c)['data'] : null;
+        if (!$w) {
+            return null;
+        }
+        // Variante d'un tour de boucle (« _r » : rang du tirage, lu par le widget) : calculée à part,
+        // sans passer par le cache (une entrée par tirage le remplirait pour rien).
+        return $rot === null ? Cache::get($w, $w->clean($opt), $c)['data'] : $w->data($w->clean($opt) + ['_r' => $rot], $c);
     }
 
-    /** Une slide, ou null si rien à montrer. */
-    public static function one(array $s, Context $c, string $adversaire = '', int $quizSlot = 0, string $pid = ''): ?array
+    /**
+     * Une slide, ou null si rien à montrer. $slot : rang de la slide parmi celles du même type ;
+     * $rot : rang du tirage d'une variante (null : contenu habituel, celui des exports et du contrôle).
+     */
+    public static function one(array $s, Context $c, string $adversaire = '', int $slot = 0, string $pid = '', ?int $rot = null): ?array
     {
         $opt = (array) ($s['opt'] ?? []);
         $date = fn (string $iso) => $c->en() ? date('j F Y', strtotime($iso)) : date_fr($iso);
@@ -155,18 +254,18 @@ final class Slides
 
             case 'ce-jour-la':
                 // « date » (MM-JJ) : seulement pour le contrôle avant diffusion (un autre jour que celui-ci).
-                $d = self::data('ce-jour-la', ['nombre' => '3'] + (isset($opt['date']) ? ['date' => (string) $opt['date']] : []), $c);
+                $d = self::data('ce-jour-la', ['nombre' => $rot === null ? '3' : '8'] + (isset($opt['date']) ? ['date' => (string) $opt['date']] : []), $c);
                 if (!$d || empty($d['matches'])) {
                     return null;
                 }
                 $rows = [];
-                foreach (array_slice($d['matches'], 0, 3) as $m) {
+                foreach (self::window($d['matches'], 3, $rot) as $m) {
                     $rows[] = [$c->tr('il y a ' . $m['years_ago'] . ' ans', $m['years_ago'] . ' years ago'), $m['label'], trim($m['competition'] . ($m['round'] !== '' ? ' · ' . $m['round'] : '') . ' · ' . substr($m['date'], 0, 4)), $m['result'] ?? ''];
                 }
                 return ['layout' => 'list', 'eyebrow' => $c->tr('Ce jour-là', 'On this day'), 'title' => $d['date_label'], 'rows' => $rows];
 
             case 'carte-legende':
-                $d = self::data('carte-legende', $opt, $c);
+                $d = self::data('carte-legende', $opt, $c, ($opt['joueur'] ?? '') === '' ? $rot : null);
                 if (!$d) {
                     return null;
                 }
@@ -176,7 +275,7 @@ final class Slides
                     'image' => self::image($d['image'] ?? null), 'badge' => $d['international'] ? $c->tr('International', 'International') : ''];
 
             case 'chiffre-du-jour':
-                $d = self::data('chiffre-du-jour', [], $c);
+                $d = self::data('chiffre-du-jour', [], $c, $rot);
                 if (!$d) {
                     return null;
                 }
@@ -184,14 +283,14 @@ final class Slides
                     'title' => (string) $d['label'], 'text' => (string) $d['text'], 'sub' => implode(', ', array_column((array) ($d['who'] ?? []), 'name'))];
 
             case 'le-saviez-vous':
-                $d = self::data('le-saviez-vous', [], $c);
+                $d = self::data('le-saviez-vous', [], $c, $rot);
                 if (!$d) {
                     return null;
                 }
                 return ['layout' => 'quote', 'eyebrow' => $c->tr('Le saviez-vous ?', 'Did you know?'), 'text' => (string) $d['text'], 'sub' => (string) ($d['source'] ?? ''), 'big' => $d['year'] ? (string) $d['year'] : ''];
 
             case 'quiz':
-                $q = self::quiz(date('Y-m-d'), $c->lang, $quizSlot, $pid);
+                $q = self::quiz(date('Y-m-d'), $c->lang, $slot, $pid, $rot);
                 if (!$q) {
                     return null;
                 }
@@ -206,7 +305,9 @@ final class Slides
                     return null;
                 }
                 usort($pool, fn ($a, $b) => strcmp($a['rel'], $b['rel']));
-                $p = $pool[(crc32(date('Y-m-d')) + 7 * ((int) ($opt['n'] ?? 1) - 1)) % count($pool)];
+                // « n » fixé : toujours la même photo du jour ; sinon une par tour (ou par slide « photo »).
+                $k = ($opt['n'] ?? '') !== '' ? 7 * ((int) $opt['n'] - 1) : ($rot ?? 7 * $slot);
+                $p = $pool[(crc32(date('Y-m-d')) + $k) % count($pool)];
                 $cap = $c->en() && $p['caption_en'] !== '' ? $p['caption_en'] : $p['caption'];
                 return ['layout' => 'photo', 'eyebrow' => $c->tr('Photo d’archives', 'Archive photo') . ($p['year'] ? ' · ' . $p['year'] : ''), 'text' => $cap,
                     'image' => ['url' => $p['url'], 'file' => Media::file($p['rel']), 'credit' => '© ' . $p['credit'] . ($p['license'] !== '' ? ' · ' . $p['license'] : '')]];
@@ -218,7 +319,8 @@ final class Slides
                 }
                 $ev = $d['events'];
                 $per = min(5, count($ev));
-                $start = (((int) (time() / 86400)) * $per + ((int) ($opt['n'] ?? 1) - 1) * $per) % count($ev);
+                $k = ($opt['n'] ?? '') !== '' ? (int) $opt['n'] - 1 : ($rot ?? $slot);
+                $start = (((int) (time() / 86400)) * $per + $k * $per) % count($ev);
                 $pick = [];
                 for ($k = 0; $k < $per; $k++) {
                     $pick[] = $ev[($start + $k) % count($ev)];
@@ -227,7 +329,9 @@ final class Slides
                 return ['layout' => 'timeline', 'eyebrow' => $c->tr('La frise du club', 'The club’s timeline'), 'events' => array_map(fn ($e) => [$e['year'], $e['title'], $e['text']], $pick)];
 
             case 'records':
-                $d = self::data('records', ['cat' => $opt['cat'] ?? 'buteurs'], $c);
+                // Classement choisi, sinon automatique : l'un puis l'autre (d'un tour ou d'une slide à l'autre).
+                $cats = array_keys(\App\Widgets\Items\Records::CATS);
+                $d = self::data('records', ['cat' => ($opt['cat'] ?? '') !== '' ? $opt['cat'] : $cats[($rot ?? $slot) % count($cats)]], $c);
                 if (!$d) {
                     return null;
                 }
@@ -244,14 +348,23 @@ final class Slides
                     $years = array_map(fn ($t) => (string) $t['year'], $g['titles']);
                     $rows[] = [(string) $g['count'], $g['competition'], implode(', ', count($years) > 8 ? array_merge(array_slice($years, 0, 7), ['…']) : $years)];
                 }
-                return ['layout' => 'list', 'eyebrow' => $c->tr('Le palmarès', 'Honours'), 'title' => $c->tr($d['total'] . ' titres', $d['total'] . ' titles'), 'rows' => $rows, 'trophy' => true];
+                // Un titre mis en avant (un autre à chaque tour).
+                $all = [];
+                foreach ($d['groups'] as $g) {
+                    foreach ($g['titles'] as $t) {
+                        $all[] = $g['competition'] . ' ' . ($t['season'] !== '' ? $t['season'] : $t['year']);
+                    }
+                }
+                $feat = $all ? $all[(crc32(date('Y-m-d')) + ($rot ?? $slot)) % count($all)] : '';
+                return ['layout' => 'list', 'eyebrow' => $c->tr('Le palmarès', 'Honours'), 'title' => $c->tr($d['total'] . ' titres', $d['total'] . ' titles'), 'rows' => $rows, 'trophy' => true,
+                    'sub' => $feat !== '' ? '🏆 ' . $c->tr('À l’honneur : ', 'In the spotlight: ') . $feat : ''];
 
             case 'il-y-a':
                 $d = self::data('il-y-a', [], $c);
                 if (!$d || empty($d['items'])) {
                     return null;
                 }
-                $rows = array_map(fn ($it) => [$c->tr($it['years'] . ' ans', $it['years'] . ' years'), $it['title'] . ($it['score'] ? ' ' . $it['score'] : ''), $it['kind'] . ' · ' . $date($it['date'])], array_slice($d['items'], 0, 4));
+                $rows = array_map(fn ($it) => [$c->tr($it['years'] . ' ans', $it['years'] . ' years'), $it['title'] . ($it['score'] ? ' ' . $it['score'] : ''), $it['kind'] . ' · ' . $date($it['date'])], self::window($d['items'], 4, $rot));
                 return ['layout' => 'list', 'eyebrow' => $c->tr('Il y a…', 'Years ago…'), 'title' => $c->tr('5, 10, 20, 30 ans', '5, 10, 20, 30 years'), 'rows' => $rows];
 
             case 'dernier-match':
@@ -312,7 +425,7 @@ final class Slides
                     'items' => array_map(fn ($l) => ['label' => $l['label'], 'text' => $l['text'], 'qr' => $c->link($l['href'])], array_slice($d['links'], 0, 3))];
 
             case 'boutique':
-                $d = self::data('boutique', $opt, $c);
+                $d = self::data('boutique', $opt, $c, ($opt['produit'] ?? '') === '' ? $rot : null);
                 if (!$d) {
                     return null;
                 }
@@ -363,7 +476,7 @@ final class Slides
      * « quiz du jour » (dont la réponse reste secrète dans le widget).
      * @return array{q:string,a:list<string>,c:int,fact:string}|null
      */
-    public static function quiz(string $date, string $lang, int $slot, string $pid = ''): ?array
+    public static function quiz(string $date, string $lang, int $slot, string $pid = '', ?int $rot = null): ?array
     {
         $all = [];
         foreach (Collections::get('quiz', Seeds::quiz()) as $q) {
@@ -376,13 +489,31 @@ final class Slides
         if (!$list) {
             return null;
         }
-        $pick = $list[(crc32('ecran|' . $date . '|' . $pid) + $slot * 7) % count($list)];
+        $pick = $list[(crc32('ecran|' . $date . '|' . $pid) + ($rot ?? $slot * 7)) % count($list)];
         $loc = $lang === 'en' ? Collections::loc($pick, ['q', 'a', 'fact']) : $pick;
         $a = array_values(array_map('strval', (array) $loc['a']));
         if (count($a) !== count((array) $pick['a'])) {
             $a = array_values(array_map('strval', (array) $pick['a']));
         }
         return ['q' => (string) $loc['q'], 'a' => $a, 'c' => (int) $pick['c'], 'fact' => \App\Widgets\Widget::excerpt((string) ($loc['fact'] ?? ''), 260)];
+    }
+
+    /**
+     * $n éléments consécutifs d'une liste (dans l'ordre), à partir du tirage $rot (fenêtre glissante,
+     * en boucle) ; la liste entière ou son début si elle est courte ou sans tirage.
+     */
+    private static function window(array $list, int $n, ?int $rot): array
+    {
+        $list = array_values($list);
+        $total = count($list);
+        if ($rot === null || $total <= $n) {
+            return array_slice($list, 0, $n);
+        }
+        $out = [];
+        for ($k = 0; $k < $n; $k++) {
+            $out[] = $list[($rot * $n + $k) % $total];
+        }
+        return $out;
     }
 
     /** Image d'un widget (adresse complète, crédit) avec son fichier local pour le rendu PNG. */

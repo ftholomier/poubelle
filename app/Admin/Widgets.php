@@ -200,7 +200,8 @@ final class Widgets extends Base
         $pl = Playlists::get((string) ($in['id'] ?? ''));
         if (isset($in['slides']) && is_array($in['slides'])) {
             $pl = ['id' => (string) ($in['id'] ?? ''), 'name' => (string) ($in['name'] ?? ''), 'adversaire' => Playlists::opponent((string) ($in['playlist_adversaire'] ?? $in['adversaire'] ?? '')),
-                'lang' => ($in['playlist_lang'] ?? $in['lang'] ?? 'fr') === 'en' ? 'en' : 'fr', 'slides' => Playlists::cleanSlides($in['slides'])];
+                'lang' => ($in['playlist_lang'] ?? $in['lang'] ?? 'fr') === 'en' ? 'en' : 'fr', 'slides' => Playlists::cleanSlides($in['slides']),
+                'vary' => !array_key_exists('vary', $in) || !empty($in['vary'])];
         }
         if (!$pl) {
             return Response::json(['ok' => false, 'error' => 'Playlist introuvable.'], 422);
