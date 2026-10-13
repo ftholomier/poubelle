@@ -10,6 +10,9 @@ $roots = [];
 foreach ($opts as $slug => $label) {
     $roots[explode(' › ', $label)[0]][$slug] = $label;
 }
+// Sous-rubrique « Joueurs › Match officiel » (liste livrée avec le code) : sa case est rangée avec les autres rubriques de Nos lions.
+$mo = ($doc['type'] ?? '') === 'personne' && \App\Data\OfficialPlayers::enabled();
+$moOn = $mo && !empty($doc['id']) && \App\Data\OfficialPlayers::has((int) $doc['id']);
 $site = parse_url(base_url(), PHP_URL_HOST) ?: \App\Core\Club::s('domain');
 ?>
 <div class="fpanel" data-panel="seo">
@@ -22,15 +25,15 @@ $site = parse_url(base_url(), PHP_URL_HOST) ?: \App\Core\Club::s('domain');
         <div class="checklist" style="margin:8px 0 6px">
           <?php foreach ($items as $slug => $label): ?>
             <label><input type="checkbox" name="categories" data-multi data-value="<?= e($slug) ?>"<?= in_array($slug, $sel, true) ? ' checked' : '' ?>> <?= e(mb_substr($label, mb_strlen($root) + 3) ?: $label) ?></label>
+            <?php if ($mo && $slug === \App\Front\Site::C_JOUEURS): ?>
+              <label title="Au moins un match officiel avec le club (liste aussi réglable dans Éditorial › Match officiel)"><input type="checkbox" name="match_officiel"<?= $moOn ? ' checked' : '' ?>> Joueurs › Match officiel</label>
+            <?php endif; ?>
           <?php endforeach; ?>
         </div>
       </details>
     <?php endforeach; ?>
     <input type="hidden" name="categories__present" value="1">
-    <?php if (($doc['type'] ?? '') === 'personne' && \App\Data\OfficialPlayers::enabled()): ?>
-      <?= Form::toggle('match_officiel', 'Joueurs › Match officiel', !empty($doc['id']) && \App\Data\OfficialPlayers::has((int) $doc['id']), ['help' => 'Au moins un match officiel avec le club : la fiche apparaît dans cette sous-rubrique (liste aussi réglable dans Éditorial › Match officiel).']) ?>
-      <input type="hidden" name="match_officiel__present" value="1">
-    <?php endif; ?>
+    <?php if ($mo): ?><input type="hidden" name="match_officiel__present" value="1"><?php endif; ?>
     <?php
     // Tirage au hasard du grand slider : seulement les vraies photos assez grandes pour rester nettes en plein écran.
     $uneImg = (string) ($doc['featured_image'] ?? '');
