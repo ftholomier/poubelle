@@ -914,3 +914,11 @@ body.has-proof .bo { padding-right: 440px; }
 .wbars { display: flex; align-items: flex-end; gap: 2px; height: 120px; }
 .wbars span { flex: 1; background: var(--navy); min-width: 2px; }
 .wbars span:hover { background: var(--yellow); }
+/* Écrans › éditeur de playlist : une ligne par slide (type, durée, option), champs alignés en bas. */
+.ec-row { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: flex-end; }
+.ec-row > .f { margin: 0; }
+.ec-row > .f:first-child { flex: 2 1 260px; }
+.ec-row > .f:nth-child(2) { flex: 0 0 110px; }
+.ec-row > [data-opt-for] { flex: 2 1 260px; }
+.ec-row > [data-opt-for][hidden] { display: none; }
+.ec-row > [data-opt-for] > .f { margin: 0; }

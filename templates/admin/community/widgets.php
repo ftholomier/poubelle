@@ -178,7 +178,7 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
     </div>
     <p class="small muted" style="margin:0">Slides dans l’ordre (glisser-déposer avec la poignée, ou flèches ↑ ↓). Durée en secondes (<?= Playlists::MIN ?> à <?= Playlists::MAX ?>). Une slide sans rien à montrer ce jour-là (aucun match « ce jour-là »…) est sautée.</p>
     <?= Form::repeater('slides', '', $E['slides'], function ($sl) use ($S, $optLabel) {
-        $h = '<div class="fgrid">' . Form::select('@type', 'Slide', $sl['type'] ?? 'chiffre-du-jour', array_map(fn ($t) => $t['name'], $S['types']), ['class' => 'f--2', 'data' => ['slide-type' => '1']])
+        $h = '<div class="ec-row">' . Form::select('@type', 'Slide', $sl['type'] ?? 'chiffre-du-jour', array_map(fn ($t) => $t['name'], $S['types']), ['class' => 'f--2', 'data' => ['slide-type' => '1']])
             . Form::number('@duration', 'Durée (s)', $sl['duration'] ?? 10);
         // Options de chaque type de slide : celles du widget du même nom (listes réelles du musée).
         $names = array_values(array_unique(array_merge(...array_map(fn ($t) => $t['options'], array_values($S['types'])))));
