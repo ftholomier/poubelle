@@ -659,6 +659,12 @@ final class System extends Base
             return $deny;
         }
         $task = (string) ($req->post['task'] ?? '');
+        if ($task === 'opcache-reset') {
+            // Vide la mémoire OPcache (code recompilé à la demande, quelques secondes plus lentes ensuite).
+            $ok = function_exists('opcache_reset') && @opcache_reset();
+            Activity::log(self::actor(), 'a vidé la mémoire OPcache', null);
+            return self::back('/admin/taches#serveur', $ok ? 'Mémoire OPcache vidée : les premières pages seront un peu plus lentes le temps de tout recompiler.' : null, $ok ? null : 'Impossible de vider OPcache sur ce serveur (fonction désactivée par l’hébergeur) : redémarrez PHP depuis cPanel.');
+        }
         if (!isset(Cron::tasks()[$task])) {
             return self::back('/admin/taches', null, 'Tâche inconnue.');
         }

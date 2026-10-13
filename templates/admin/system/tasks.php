@@ -70,6 +70,9 @@ $op = \App\Services\ServerCheck::opcache();
 <div class="card" id="serveur">
   <div class="card__head"><h2 class="card__t">Serveur</h2><span class="card__note">PHP <?= e(PHP_VERSION) ?> (<?= e(PHP_SAPI) ?><?= $op ? ', OPcache ' . $op['used'] . ' Mo sur ' . $op['total'] . ', ' . $op['scripts'] . ' fichiers, ' . $op['hits'] . ' % trouvés en mémoire' : (extension_loaded('Zend OPcache') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN) ? ', OPcache' : '') ?>) · mémoire <?= e((string) ini_get('memory_limit')) ?> · durée maximale d’une page <?= e((string) ini_get('max_execution_time')) ?> s</span></div>
   <div class="card--pad stack" style="gap:10px">
+    <?php if (Auth::isAdmin() && $op): ?>
+      <form method="post" action="/admin/taches" class="row" data-confirm="Vider la mémoire OPcache ?|Le code sera recompilé : les premières pages seront un peu plus lentes pendant quelques secondes.|Vider"><?= csrf_field() ?><input type="hidden" name="task" value="opcache-reset"><button type="submit" class="btn btn--sm">Vider OPcache</button><span class="small muted">À utiliser si la mémoire OPcache est presque pleine et que le site ralentit.</span></form>
+    <?php endif; ?>
     <?php if ($srv): ?>
       <ul class="small ko" style="margin:0;padding-left:18px"><?php foreach ($srv as $p): ?><li><?= e($p) ?></li><?php endforeach; ?></ul>
     <?php else: ?>
