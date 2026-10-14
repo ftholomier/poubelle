@@ -66,7 +66,7 @@ $long = ['recit', 'info', 'composition', 'buteurs', 'piste', 'feuille'];
           <p class="small" style="margin:0" data-trv-live>Tant que cette page reste ouverte, elle fait avancer la recherche elle-même, un match à la fois (environ une à deux minutes chacun) : <span data-trv-last>démarrage…</span></p>
           <p class="small" style="margin:0" data-trv-new hidden><b data-trv-found>0</b> nouvelle(s) proposition(s) : <a href="/admin/trouvailles">afficher</a>.</p>
         <?php endif; ?>
-        <p class="xs muted" style="margin:0"><?= $cronOk ? 'La tâche planifiée du serveur passe aussi régulièrement (dernier passage ' . e(\App\Admin\Base::ago(date('c', $cronAt))) . ') : la recherche continue page fermée.' : '<b class="ko">La tâche planifiée du serveur ne passe pas</b> (' . ($cronAt ? 'dernier passage ' . e(\App\Admin\Base::ago(date('c', $cronAt))) : 'jamais') . ') : page fermée, la recherche s’arrête. Gardez cette page ouverte, ou vérifiez le cron dans <a href="/admin/taches">Système › Tâches planifiées</a>.' ?></p>
+        <p class="xs muted" style="margin:0"><?= $cronOk ? 'La tâche planifiée du serveur passe aussi régulièrement (dernier passage ' . e(\App\Admin\Base::ago(date('c', $cronAt))) . ') : la recherche continue page fermée.' : '<b class="ko">La tâche planifiée du serveur ne passe pas</b> (' . ($cronAt ? 'dernier passage ' . e(\App\Admin\Base::ago(date('c', $cronAt))) : 'jamais') . ') : page fermée, la recherche s’arrête. Gardez cette page ouverte, ou vérifiez le cron dans <a href="/admin/taches">Système › Serveur / tâches planifiées</a>.' ?></p>
       </div>
     <?php endif; ?>
     <form method="post" action="/admin/trouvailles" class="row" style="gap:8px;flex-wrap:wrap;align-items:flex-end">

@@ -15,7 +15,7 @@ return [
 HTML],
         ['id' => 'taches', 'title' => 'Les tâches automatiques', 'html' => <<<'HTML'
 <p>Toutes les cinq minutes, le serveur lance les tâches planifiées : publication des fiches programmées, statistiques, traductions, correcteur d’orthographe, newsletter, géolocalisation des stades et lieux de naissance, vignettes des vidéos, assistant IA, synchronisation des dons, plan du site, sauvegarde, effacement des données personnelles trop anciennes (RGPD).</p>
-<p>Système › <b>Tâches planifiées</b> (administrateurs) montre le dernier passage de chacune ; « Lancer » en exécute une tout de suite.</p>
+<p>Système › <b>Serveur / tâches planifiées</b> (administrateurs) montre le dernier passage de chacune ; « Lancer » en exécute une tout de suite.</p>
 [[img:taches.webp|Les tâches planifiées et leur dernier passage]]
 HTML],
         ['id' => 'sauvegardes', 'title' => 'Les sauvegardes', 'html' => <<<'HTML'

@@ -19,7 +19,7 @@ use App\Data\Names;
  *
  * Garde-fous : si le relevé compte nettement moins de joueurs que le précédent, ou si des totaux baissent
  * fortement (page en travaux, mise en page changée), rien n'est écrit ; l'anomalie est journalisée et
- * affichée dans Système › Tâches planifiées. Musée sans sources : rien ne se passe.
+ * affichée dans Système › Serveur / tâches planifiées. Musée sans sources : rien ne se passe.
  */
 final class ReferenceTotals
 {

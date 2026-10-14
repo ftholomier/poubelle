@@ -40,7 +40,7 @@ $added = array_sum(array_column($seasons, 'added'));
         <?php if ($queue && $state['on']): ?><button class="btn" type="submit" name="action" value="pause">Mettre en pause</button><?php elseif ($queue): ?><button class="btn" type="submit" name="action" value="reprendre">Reprendre</button><?php endif; ?>
         <?php if ($queue): ?><button class="btn btn--ghost" type="submit" name="action" value="vider">Vider la file</button><?php endif; ?>
       </div>
-      <p class="xs muted" style="margin:0">Compter 20 à 60 secondes par match selon les sources cochées. La tâche planifiée « Contrôle des compositions » avance la file à chaque passage (Système › Tâches planifiées).</p>
+      <p class="xs muted" style="margin:0">Compter 20 à 60 secondes par match selon les sources cochées. La tâche planifiée « Contrôle des compositions » avance la file à chaque passage (Système › Serveur / tâches planifiées).</p>
     </form>
   </div>
 </section>

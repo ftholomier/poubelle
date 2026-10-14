@@ -29,7 +29,7 @@ if (\App\Core\Club::isDefault()) {
 }
 
 // Hébergement mal réglé (version de PHP, extension indispensable absente) : un message clair
-// plutôt qu'une erreur 500 muette. Liste complète : back-office › Tâches planifiées › Serveur.
+// plutôt qu'une erreur 500 muette. Liste complète : back-office › Serveur / tâches planifiées.
 (function (): void {
     $missing = array_values(array_filter(['mbstring', 'intl', 'dom', 'sodium', 'ctype'], fn (string $ext) => !extension_loaded($ext)));
     if (PHP_VERSION_ID >= 80300 && !$missing && defined('PASSWORD_ARGON2ID')) {

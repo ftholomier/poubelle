@@ -40,7 +40,7 @@ a{display:inline-block;align-self:flex-start;background:#F6C400;color:#0E1F4D;pa
   <section style="margin-top:12px;padding:16px;border:2px solid #F6C400;font-size:15px;line-height:1.5">
     <p style="font-size:15px"><b>Pour l’administrateur</b> (visible de vous seul) : <code style="word-break:break-word"><?= htmlspecialchars($admin['error'], ENT_QUOTES, 'UTF-8') ?></code></p>
     <?php if ($admin['checks']): ?><ul style="margin:8px 0 0;padding-left:18px"><?php foreach ($admin['checks'] as $c): ?><li><?= htmlspecialchars($c, ENT_QUOTES, 'UTF-8') ?></li><?php endforeach; ?></ul><?php endif; ?>
-    <p style="font-size:15px;margin-top:8px">Détail : back-office › Tâches planifiées › Serveur.</p>
+    <p style="font-size:15px;margin-top:8px">Détail : back-office › Serveur / tâches planifiées.</p>
   </section>
   <?php endif; ?>
 </main>

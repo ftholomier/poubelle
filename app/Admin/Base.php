@@ -95,7 +95,7 @@ class Base
             ['utilisateurs', 'Utilisateurs', '/admin/utilisateurs', true],
             ['reglages', 'Réglages', '/admin/reglages', true],
             ['sauvegardes', 'Sauvegardes', '/admin/sauvegardes', true],
-            ['taches', 'Tâches planifiées', '/admin/taches', true],
+            ['taches', 'Serveur / tâches planifiées', '/admin/taches', true],
             ['majs', 'Mises à jour', '/admin/mises-a-jour', true],
         ],
         'Aide' => [

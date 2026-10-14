@@ -122,7 +122,7 @@ HTML],
 <p>Système › <b>Mises à jour</b> (administrateurs) › <b>Appliquer la mise à jour</b> : seuls les fichiers du code qui ont changé sont remplacés, jamais les fiches, photos ou réglages, et un retour arrière reste possible. Voir [[aide:administration#majs|Mises à jour du site]].</p>
 HTML],
         ['id' => 'totaux', 'title' => '… savoir d’où viennent les totaux de matchs et de buts d’un joueur', 'html' => <<<'HTML'
-<p>Dans les musées qui déclarent un site de référence, ils sont relevés chaque jour dans ses classements officiels : Système › <b>Tâches planifiées</b>, carte <b>Totaux de référence des joueurs</b> (dernier relevé, noms non rapprochés, <b>Relever maintenant</b>). Ailleurs, ils sont calculés depuis les compositions. Voir [[aide:administration#totaux-reference|Totaux de référence des joueurs]].</p>
+<p>Dans les musées qui déclarent un site de référence, ils sont relevés chaque jour dans ses classements officiels : Système › <b>Serveur / tâches planifiées</b>, carte <b>Totaux de référence des joueurs</b> (dernier relevé, noms non rapprochés, <b>Relever maintenant</b>). Ailleurs, ils sont calculés depuis les compositions. Voir [[aide:administration#totaux-reference|Totaux de référence des joueurs]].</p>
 HTML],
         ['id' => 'autre-musee', 'title' => '… passer au back-office d’un autre musée', 'html' => <<<'HTML'
 <p>En haut du back-office, ouvrez le <b>sélecteur de musée</b> (nom du musée et pastille de couleur) › choisissez le musée : vous y arrivez déjà connecté. Le sélecteur n’apparaît que si votre compte a accès à plusieurs musées. Voir [[aide:administration#musees|Plusieurs musées]].</p>

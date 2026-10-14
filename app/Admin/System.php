@@ -649,7 +649,7 @@ final class System extends Base
     public static function tasks(Request $req): Response
     {
         $state = Cron::state();
-        return self::html('admin/system/tasks', ['state' => $state, 'tasks' => Cron::tasks(), 'last' => $state['_last'] ?? null], ['title' => 'Tâches planifiées', 'crumb' => 'Système', 'nav' => 'taches']);
+        return self::html('admin/system/tasks', ['state' => $state, 'tasks' => Cron::tasks(), 'last' => $state['_last'] ?? null], ['title' => 'Serveur / tâches planifiées', 'crumb' => 'Système', 'nav' => 'taches']);
     }
 
     public static function tasksRun(Request $req): Response
