@@ -37,6 +37,8 @@ final class PageCache
     private const VARIANTS = '#^/(en/)?(|interactif/(planche-contact|le-lion-illustre|mur-du-vestiaire|mosaique)/)$#';
 
     private static ?string $key = null;
+    /** Page dont la visite est comptée par le navigateur (et donc pas par le serveur). */
+    public static bool $beacon = false;
 
     public static function enabled(): bool
     {
@@ -128,9 +130,38 @@ final class PageCache
         }
     }
 
-    /** Vide le cache (réglage, commande « pages-vider »). */
+    /**
+     * LSCache (cache de LiteSpeed chez o2switch, devant PHP) piloté par le site : il garde seulement
+     * les pages que ce cache-ci garde (mêmes règles : visiteurs anonymes, pages publiques), une minute
+     * au plus ; une session (équipe, formulaires) a sa propre variante, jamais gardée. Tout enregistrement
+     * au back-office vide LSCache : le public voit tout de suite la
+     * modification. Sans LiteSpeed, ces en-têtes sont simplement ignorés.
+     */
+    public static function lite(Request $req, Response $res): Response
+    {
+        $tagged = in_array($res->headers['X-Page-Cache'] ?? '', ['HIT', 'MISS'], true);
+        $res->headers['X-LiteSpeed-Vary'] = 'cookie=sr_session';
+        $cacheable = $tagged && $res->status === 200 && self::enabled();
+        $res->headers['X-LiteSpeed-Cache-Control'] = $cacheable ? 'public,max-age=' . self::FRESH : 'no-cache';
+        if ($cacheable) {
+            // Page que LiteSpeed resservira sans PHP : la visite est comptée par le navigateur (/api/vu).
+            $res->body = (string) preg_replace('/<head\b[^>]*>/i', '$0<meta name="sr-vu" content="1">', $res->body, 1);
+            self::$beacon = true;
+        }
+        // Enregistrement au back-office (ou chez l'imprimeur) : contenu modifié. Les envois du public
+        // (votes, album, comptage des visites) ne changent pas les pages gardées.
+        if (!in_array($req->method, ['GET', 'HEAD', 'OPTIONS'], true) && preg_match('#^/(admin|imprimeur)(/|$)#', $req->path)) {
+            $res->headers['X-LiteSpeed-Purge'] = '*';
+        }
+        return $res;
+    }
+
+    /** Vide le cache (réglage, commande « pages-vider »), et LSCache avec. */
     public static function purge(): int
     {
+        if (!headers_sent()) {
+            header('X-LiteSpeed-Purge: *');
+        }
         $n = 0;
         foreach (glob(self::DIR . '/*/*') ?: [] as $f) {
             $n += @unlink($f) ? 1 : 0;

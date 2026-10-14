@@ -31,6 +31,7 @@ final class Api
             $res = match (true) {
                 $p === '/api/recherche' => self::search($req),
                 $p === '/api/consentement' && $post => self::consent($req),
+                $p === '/api/vu' && $post => self::seen($req),
                 $p === '/api/ce-jour-la' => self::onThisDay($req),
                 $p === '/api/chat' && $post => \App\Services\Rag::endpoint($req),
                 $p === '/api/chat/avis' && $post => \App\Services\Rag::feedback($req),
@@ -89,6 +90,23 @@ final class Api
                 'snippet' => Search::snippet($s, $r['tokens']),
             ], $r['items']),
         ]);
+    }
+
+    /**
+     * Visite d'une page gardée en cache (la page porte <meta name="sr-vu">) : comptée ici, envoyée par
+     * le navigateur, car LSCache peut la servir sans passer par PHP. Même mesure anonyme que les autres.
+     */
+    private static function seen(Request $req): Response
+    {
+        $in = $req->json() ?: [];
+        $path = (string) ($in['p'] ?? '');
+        if (!preg_match('#^/[^\s?#]{0,200}$#', $path) || preg_match('#^/(en/)?(admin|api|w|ecran)(/|$)#', $path)
+            || \App\Front\Seo::closed() || !\App\Core\RateLimiter::hit('vu', $req->ip(), 120, 60)) {
+            return new Response('', 204);
+        }
+        $_SERVER['HTTP_REFERER'] = substr((string) ($in['r'] ?? ''), 0, 500);
+        \App\Services\Stats::hit($path, (string) ($req->server['HTTP_USER_AGENT'] ?? ''), str_starts_with($path, '/en/') || $path === '/en' ? 'en' : 'fr');
+        return new Response('', 204);
     }
 
     /** Preuve du consentement aux cookies (RGPD) : choix, date, empreinte anonymisée. */

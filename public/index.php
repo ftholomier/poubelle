@@ -22,6 +22,8 @@ if (MEDIA_URL !== '/media' && str_starts_with((string) ($_SERVER['REQUEST_URI'] 
 $request = \App\Core\Request::fromGlobals();
 // Pages du musée pour les visiteurs anonymes : resservies depuis le cache quand c'est possible.
 $response = \App\Core\PageCache::serve($request) ?? \App\Core\PageCache::store($request, \App\Kernel::handle($request));
+// LSCache (LiteSpeed, o2switch) : mêmes règles, piloté par ces en-têtes.
+$response = \App\Core\PageCache::lite($request, $response);
 // Membre de l'équipe connecté : ses visites sont comptées à part (jamais dans l'audience du public).
 $team = isset($_COOKIE['sr_session']) && \App\Core\Auth::user() !== null;
 $response->send();
@@ -36,6 +38,8 @@ if ($request->method === 'GET' && in_array($response->status, [200, 304], true) 
             \App\Core\Response::detach();
             \App\Vitrine\Stats::hit($request->path, (string) ($request->server['HTTP_USER_AGENT'] ?? ''));
         }
+    } elseif (\App\Core\PageCache::$beacon) {
+        // Comptée par le navigateur (/api/vu), aussi quand LSCache la sert sans passer par PHP.
     } elseif ($team || !\App\Front\Seo::closed()) {
         \App\Core\Response::detach();
         if ($team) {

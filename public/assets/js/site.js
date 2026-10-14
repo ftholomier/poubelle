@@ -539,3 +539,11 @@
   }).observe(document.body, { childList: true, subtree: true, characterData: true });
   }
 })();
+
+// Visite d'une page gardée en cache (LSCache peut la servir sans PHP) : comptée par le navigateur.
+if (document.querySelector('meta[name="sr-vu"]')) {
+  try {
+    const b = new Blob([JSON.stringify({ p: location.pathname, r: document.referrer })], { type: 'application/json' });
+    if (!(navigator.sendBeacon && navigator.sendBeacon('/api/vu', b))) fetch('/api/vu', { method: 'POST', body: b, headers: { 'Content-Type': 'application/json' }, keepalive: true }).catch(() => {});
+  } catch (e) {}
+}
