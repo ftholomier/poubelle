@@ -663,7 +663,7 @@ final class System extends Base
             // Vide la mémoire OPcache (code recompilé à la demande, quelques secondes plus lentes ensuite).
             $ok = \App\Core\OpcacheGuard::reset();
             Activity::log(self::actor(), 'a vidé la mémoire OPcache', null);
-            return self::back('/admin/taches#serveur', $ok ? 'OPcache vidé (redémarrage de PHP demandé à LiteSpeed) : le chiffre baisse dans quelques secondes, rechargez la page ; les premières pages seront un peu plus lentes le temps de tout recompiler.' : null, $ok ? null : 'Impossible de vider OPcache sur ce serveur (fonction désactivée par l’hébergeur) : redémarrez PHP depuis cPanel.');
+            return self::back('/admin/taches#serveur', $ok ? 'Vidage d’OPcache demandé (' . \App\Core\OpcacheGuard::$detail . ') : rechargez la page dans quelques secondes et regardez la ligne « Diagnostic OPcache ».' : null, $ok ? null : 'Impossible de vider OPcache (' . \App\Core\OpcacheGuard::$detail . ') : redémarrez PHP depuis cPanel.');
         }
         if ($task === 'redis-save') {
             // Mot de passe Redis (cPanel › Redis Manager), gardé hors du code dans storage/redis.json.

@@ -14,6 +14,8 @@ namespace App\Core;
  */
 final class OpcacheGuard
 {
+    /** Ce qui a été tenté au dernier vidage (affiché après le bouton). */
+    public static string $detail = '';
     private const STATE = STORAGE_PATH . '/opcache-guard.json';
     private const EVERY = 300;
     /** Part de la mémoire d'OPcache perdue au-delà de laquelle il est vidé. */
@@ -55,8 +57,11 @@ final class OpcacheGuard
     public static function reset(): bool
     {
         $ok = function_exists('opcache_reset') && @opcache_reset();
-        if (preg_match('#^(/home\d*/[^/]+)/#', APP_ROOT . '/', $m) && is_dir($m[1]) && is_writable($m[1])) {
-            $ok = @touch($m[1] . '/.lsphp_restart.txt') || $ok;
+        self::$detail = 'opcache_reset : ' . ($ok ? 'accepté' : 'refusé');
+        if (preg_match('#^(/home\d*/[^/]+)/#', APP_ROOT . '/', $m)) {
+            $t = @touch($m[1] . '/.lsphp_restart.txt');
+            self::$detail .= ' · ' . $m[1] . '/.lsphp_restart.txt : ' . ($t ? 'créé' : 'impossible à créer');
+            $ok = $t || $ok;
         }
         return $ok;
     }

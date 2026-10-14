@@ -88,6 +88,14 @@ final class ServerCheck
             'oom' => (int) ($st['opcache_statistics']['oom_restarts'] ?? 0),
             'wasted' => (int) round((int) ($m['wasted_memory'] ?? 0) / 1048576),
             'scripts' => (int) ($st['opcache_statistics']['num_cached_scripts'] ?? 0),
+            'useful' => (int) round((int) ($m['used_memory'] ?? 0) / 1048576),
+            'free' => (int) round((int) ($m['free_memory'] ?? 0) / 1048576),
+            'start' => (int) ($st['opcache_statistics']['start_time'] ?? 0),
+            'restart' => (int) ($st['opcache_statistics']['last_restart_time'] ?? 0),
+            'manual' => (int) ($st['opcache_statistics']['manual_restarts'] ?? 0),
+            'pending' => !empty($st['restart_pending']),
+            'restrict' => (string) ini_get('opcache.restrict_api'),
+            'pid' => getmypid(),
             'hits' => round((float) ($st['opcache_statistics']['opcache_hit_rate'] ?? 0), 1),
         ];
     }
