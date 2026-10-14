@@ -49,6 +49,8 @@ final class PhpCache
      * rapide (index des fiches, calculs des matchs, lus à chaque page, sans rien relire).
      */
     public const BIG = 5_000_000;
+    /** Plafond des caches « chauds » dans OPcache quand Redis est là. */
+    public const HOT_REDIS = 1_500_000;
 
     /**
      * Seuil effectif. OPcache est partagé par tous les musées (même code, mêmes processus PHP) : avec
@@ -80,7 +82,10 @@ final class PhpCache
     private static function threshold(string $file): int
     {
         if (preg_match('#/cache/(index-\d+\.php|derived/)#', str_replace('\\', '/', $file))) {
-            return self::BIG;
+            // Avec Redis, les très grosses parties (toutes les apparitions de joueurs : plusieurs Mo,
+            // déjà découpées par décennie pour les pages) n'occupent plus OPcache : elles y prenaient
+            // à elles seules des dizaines de Mo par musée, pour quelques pages et tâches seulement.
+            return self::redis() ? self::HOT_REDIS : self::BIG;
         }
         // Avec Redis, tous les autres y vont, même petits : albums (un fichier par album), mémos…
         // Des centaines de fichiers refaits à chaque recalcul ne s'empilent plus dans OPcache.
