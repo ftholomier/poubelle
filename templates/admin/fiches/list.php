@@ -77,19 +77,20 @@ $roleLabel = ['joueur' => 'Joueur', 'entraineur' => 'Entraîneur', 'dirigeant' =
         <th>Statut</th><th>Qualité</th><th>EN</th><th>Modifié</th>
       </tr></thead>
       <tbody>
-      <?php foreach ($rows as $id => $s): ?>
-        <?php $al = $quality[(int) $s['id']] ?? []; $hi = count(array_filter($al, fn ($a) => $a['sev'] === 'haute')); ?>
+      <?php $valid = \App\Services\Validation::all(); foreach ($rows as $id => $s): ?>
+        <?php $al = $quality[(int) $s['id']] ?? []; $hi = count(array_filter($al, fn ($a) => $a['sev'] === 'haute'));
+        $vd = $valid[(int) $s['id']] ?? null; $vmark = $vd ? ' <span class="vmark" title="Validée par ' . e($vd['by']) . ' le ' . e(date('d/m/Y', strtotime($vd['at']))) . '">✔</span>' : ''; ?>
         <tr data-href="/admin/fiche/<?= (int) $s['id'] ?>">
           <td><input type="checkbox" class="check" name="ids[]" value="<?= (int) $s['id'] ?>" aria-label="Sélectionner"></td>
           <?php if ($slug === 'matchs'): $m = $s['m']; ?>
             <td class="t-num"><?= e(date_num($m['date'])) ?></td>
-            <td><a class="rowlink" href="/admin/fiche/<?= (int) $s['id'] ?>"><?= e($m['home'] && $m['away'] ? $m['home'] . ' – ' . $m['away'] : $s['title']) ?></a><?= $m['event'] ? ' <span class="xs muted">' . e($m['event']) . '</span>' : '' ?></td>
+            <td><a class="rowlink" href="/admin/fiche/<?= (int) $s['id'] ?>"><?= e($m['home'] && $m['away'] ? $m['home'] . ' – ' . $m['away'] : $s['title']) ?></a><?= $vmark ?><?= $m['event'] ? ' <span class="xs muted">' . e($m['event']) . '</span>' : '' ?></td>
             <?php $lbl = (string) ($m['label'] ?: $m['competition']); $rd = trim((string) ($m['round'] ?? '')); ?>
             <td class="ellipsis"><?= e(trim($lbl . (mb_strtolower($rd) !== mb_strtolower($lbl) ? ' ' . $rd : ''))) ?></td>
             <td class="t-num"><?= is_array($m['sh_score']) ? (int) $m['sh_score'][0] . '-' . (int) $m['sh_score'][1] : '—' ?></td>
           <?php elseif ($slug === 'personnes'): $p = $s['p']; ?>
             <td><?php if ($s['image']): ?><img class="thumb" src="<?= e(img($s['image'], 160)) ?>" alt="" loading="lazy"><?php endif; ?></td>
-            <td><a class="rowlink" href="/admin/fiche/<?= (int) $s['id'] ?>"><?= e($p['name']) ?></a><?= $p['legend'] ? ' <span class="pill pill--yellow">Légende</span>' : '' ?></td>
+            <td><a class="rowlink" href="/admin/fiche/<?= (int) $s['id'] ?>"><?= e($p['name']) ?></a><?= $vmark ?><?= $p['legend'] ? ' <span class="pill pill--yellow">Légende</span>' : '' ?></td>
             <td><?= e(implode(', ', array_map(fn ($r) => $roleLabel[$r] ?? $r, $p['roles']))) ?></td>
             <td class="ellipsis" style="max-width:180px"><?= e((string) ($p['position'] ?? '')) ?></td>
             <td><?= $p['birth_place'] ? e($p['birth_place']) : '<span class="warn">⚠ inconnu</span>' ?></td>
@@ -97,7 +98,7 @@ $roleLabel = ['joueur' => 'Joueur', 'entraineur' => 'Entraîneur', 'dirigeant' =
             <td><?= !empty($p['album']['in']) ? '<span class="pill pill--yellow">N° ' . (int) ($p['album']['number'] ?? 0) . '</span>' : '' ?></td>
           <?php else: ?>
             <td><?php if ($s['image']): ?><img class="thumb" src="<?= e(img($s['image'], 160)) ?>" alt="" loading="lazy"><?php endif; ?></td>
-            <td class="ellipsis"><a class="rowlink" href="/admin/fiche/<?= (int) $s['id'] ?>"><?= e($s['title']) ?></a></td>
+            <td class="ellipsis"><?= $vmark ?> <a class="rowlink" href="/admin/fiche/<?= (int) $s['id'] ?>"><?= e($s['title']) ?></a></td>
             <td class="ellipsis" style="max-width:220px"><?= e(($c = Categories::primaryOf($s['categories'])) ? Categories::label($c) : '—') ?></td>
             <td><?= e(Fiches::TYPES[$s['type']] ?? $s['type']) ?></td>
           <?php endif; ?>

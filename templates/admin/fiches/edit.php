@@ -40,6 +40,17 @@ $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' =>
   <div class="stack">
     <?php if ($doc['status'] === 'corbeille'): ?><p class="alert alert--error">Cette fiche est à la corbeille : elle n’est pas visible sur le site.</p><?php endif; ?>
     <?php if ($type === 'match' && !$isNew && ($why = \App\Services\MatchText::otherMatch($doc))): ?><p class="alert alert--error" role="alert">⚠ <?= e($why) ?></p><?php endif; ?>
+    <?php if (!$isNew): $val = \App\Services\Validation::get($id); ?>
+    <div class="fvalid<?= $val ? ' is-on' : '' ?>">
+      <?php if ($val): ?>
+        <span class="fvalid__t"><b>✔ Fiche validée</b> par <?= e($val['by']) ?> le <?= e(date('d/m/Y à H:i', strtotime($val['at']))) ?> : relue et contrôlée.</span>
+        <button type="submit" form="validate-off-form" class="linkbtn xs">Retirer la validation</button>
+      <?php else: ?>
+        <span class="fvalid__t">Pas encore validée. Quand vous avez tout relu et corrigé, validez-la : les autres historiens sauront qu’elle est contrôlée.</span>
+        <button type="submit" form="validate-form" class="btn btn--sm btn--green">✔ Valider cette fiche</button>
+      <?php endif; ?>
+    </div>
+    <?php endif; ?>
     <div class="ftabs" data-ftabs role="tablist">
       <?php foreach ($tabs as $k => $l): ?><button type="button" data-tab="<?= e($k) ?>" role="tab"><?= e($l) ?><?php if (!empty($counts[$k])): ?><em><?= (int) $counts[$k] ?></em><?php endif; ?></button><?php endforeach; ?>
     </div>
@@ -195,6 +206,8 @@ $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' =>
   <form id="untrash-form" method="post" action="/admin/fiche/<?= $id ?>/sortir-corbeille"><?= csrf_field() ?></form>
   <form id="quality-reset-form" method="post" action="/admin/fiche/<?= $id ?>/qualite-zero" data-confirm="Remettre à zéro le contrôle qualité ?|Les alertes affichées ne seront plus signalées pour cette fiche, ni ici, ni dans l’écran Qualité, ni lors d’un prochain contrôle. Une alerte pour une autre raison réapparaîtra.|Remettre à zéro"><?= csrf_field() ?></form>
   <?php if ($type === 'match'): ?><form id="compos-form" method="post" enctype="multipart/form-data" action="/admin/fiche/<?= $id ?>/controler-composition" data-confirm="Contrôler la composition ?|Transfermarkt, pari-et-gagne.com, footballdatabase.eu, worldfootball.net, FCSM Story et la presse d’époque sont consultés (une à deux minutes). Enregistrez d’abord vos modifications : les écarts sont comparés à la fiche enregistrée et envoyés dans Trouvailles.|Contrôler"><?= csrf_field() ?></form><?php endif; ?>
+  <form id="validate-form" method="post" action="/admin/fiche/<?= $id ?>/valider" data-confirm="Valider cette fiche ?|Vous confirmez l’avoir entièrement relue et corrigée (pensez à enregistrer vos modifications avant).|Valider"><?= csrf_field() ?><input type="hidden" name="valider" value="1"></form>
+  <form id="validate-off-form" method="post" action="/admin/fiche/<?= $id ?>/valider" data-confirm="Retirer la validation ?|La fiche sera de nouveau signalée comme à contrôler.|Retirer"><?= csrf_field() ?><input type="hidden" name="valider" value="0"></form>
   <form id="quality-reopen-form" method="post" action="/admin/fiche/<?= $id ?>/qualite-reafficher"><?= csrf_field() ?></form>
   <form id="destroy-form" method="post" action="/admin/fiche/<?= $id ?>/supprimer" data-confirm="Supprimer définitivement ?|Cette action est irréversible (une copie reste dans l’historique des versions).|Supprimer|danger"><?= csrf_field() ?></form>
 <?php endif; ?>

@@ -471,6 +471,23 @@ final class Fiches extends Base
         return self::back('/admin/fiche/' . $id . '#qualite', $n ? 'Contrôle qualité remis à zéro : ' . $n . ' alerte' . ($n > 1 ? 's' : '') . ' mise' . ($n > 1 ? 's' : '') . ' de côté. Seule une alerte pour une autre raison sera signalée.' : 'Aucune alerte à mettre de côté.');
     }
 
+    /** « Valider cette fiche » : un historien a tout relu et corrigé. */
+    public static function validate(Request $req, int $id): Response
+    {
+        $doc = Store::get($id);
+        if (!$doc) {
+            return self::back('/admin', null, 'Fiche introuvable.');
+        }
+        $on = (string) ($req->post['valider'] ?? '1') === '1';
+        if ($on) {
+            \App\Services\Validation::set($id, (array) Auth::user());
+        } else {
+            \App\Services\Validation::clear($id);
+        }
+        \App\Data\Activity::log(self::actor(), $on ? 'a validé la fiche' : 'a retiré la validation de la fiche', $doc);
+        return self::back('/admin/fiche/' . $id, $on ? 'Fiche validée : les autres historiens voient qu’elle a été relue et contrôlée.' : 'Validation retirée : la fiche est de nouveau à contrôler.');
+    }
+
     public static function qualityReopen(Request $req, int $id): Response
     {
         \App\Services\QualityAck::reopen($id);

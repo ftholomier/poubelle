@@ -935,3 +935,11 @@ body.has-proof .bo { padding-right: 440px; }
 .top__mem span.warn::before { background: #E08A00; } .top__mem span.ko::before { background: var(--red); }
 .top__mem b { font-size: 15px; } .top__mem small { color: var(--muted); }
 @media (max-width: 900px) { .top__mem { display: none; } }
+/* Validation des fiches par un historien */
+.fvalid { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; padding: 10px 14px; border: 2px dashed #1f8f4e; background: #fff; }
+.fvalid.is-on { border-style: solid; background: #e7f6ec; }
+.fvalid__t { font-size: 14px; }
+.fvalid.is-on b { color: #1f8f4e; }
+.btn--green { background: #1f8f4e; color: #fff; border-color: #1f8f4e; }
+.btn--green:hover { background: #17723e; color: #fff; }
+.vmark { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: #1f8f4e; color: #fff; font-size: 10px; font-weight: 900; vertical-align: 1px; margin-left: 4px; }

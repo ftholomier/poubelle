@@ -115,6 +115,7 @@ final class Router
         $r->post('/admin/fiche/{id}/enregistrer', fn ($q, $id) => ctype_digit($id) ? Fiches::save($q, (int) $id) : null);
         $r->post('/admin/fiche/{id}/corbeille', fn ($q, $id) => ctype_digit($id) ? Fiches::trash($q, (int) $id) : null);
         $r->post('/admin/fiche/{id}/qualite-zero', fn ($q, $id) => ctype_digit($id) ? Fiches::qualityReset($q, (int) $id) : null);
+        $r->post('/admin/fiche/{id}/valider', fn ($q, $id) => ctype_digit($id) ? Fiches::validate($q, (int) $id) : null);
         $r->post('/admin/fiche/{id}/qualite-reafficher', fn ($q, $id) => ctype_digit($id) ? Fiches::qualityReopen($q, (int) $id) : null);
         $r->post('/admin/fiche/{id}/sortir-corbeille', fn ($q, $id) => ctype_digit($id) ? Fiches::untrash($q, (int) $id) : null);
         $r->post('/admin/fiche/{id}/supprimer', fn ($q, $id) => ctype_digit($id) ? Fiches::destroy($q, (int) $id) : null);
