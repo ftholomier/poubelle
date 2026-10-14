@@ -21,7 +21,7 @@ final class OpcacheGuard
 
     public static function tick(): void
     {
-        if (!function_exists('opcache_get_status') || !function_exists('opcache_reset')) {
+        if (!function_exists('opcache_get_status')) {
             return;
         }
         $mt = @filemtime(self::STATE);
@@ -40,10 +40,25 @@ final class OpcacheGuard
         if ($total <= 0 || ($wasted / $total < self::WASTED && empty($st['cache_full']))) {
             return;
         }
-        if (@opcache_reset()) {
+        if (self::reset()) {
             $s = self::state();
             JsonStore::write(self::STATE, ['count' => $s['count'] + 1, 'last' => date('c'), 'freed' => (int) round($wasted / 1048576)]);
         }
+    }
+
+    /**
+     * Vide OPcache pour de bon. opcache_reset() seul ne suffit pas toujours chez o2switch : LiteSpeed
+     * fait tourner PHP en mode « détaché », et la fonction peut répondre oui sans rien vider. On demande
+     * donc aussi à LiteSpeed de redémarrer les processus PHP du compte (fichier ~/.lsphp_restart.txt,
+     * prévu pour ça) : OPcache repart vide, sans coupure (les pages en cours se terminent).
+     */
+    public static function reset(): bool
+    {
+        $ok = function_exists('opcache_reset') && @opcache_reset();
+        if (preg_match('#^(/home\d*/[^/]+)/#', APP_ROOT . '/', $m) && is_dir($m[1]) && is_writable($m[1])) {
+            $ok = @touch($m[1] . '/.lsphp_restart.txt') || $ok;
+        }
+        return $ok;
     }
 
     /** @return array{count:int,last:?string,freed:int} */
