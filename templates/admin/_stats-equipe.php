@@ -44,7 +44,7 @@ $smax = max(1, max(array_map(fn ($x) => $x['bo'] + $x['site'], $t['series'] ?: [
   <div><div class="st-live__n"><i></i><span data-tlive-n><?= count($people) ?></span></div><small>historien<?= count($people) > 1 ? 's' : '' ?> connecté<?= count($people) > 1 ? 's' : '' ?> en ce moment (actifs dans les 5 dernières minutes), back-office et site</small></div>
   <ul class="te-who" data-tlive-who>
     <?php foreach ($people as $p): ?>
-      <li><b><?= e($p['name']) ?></b><span class="te-tag<?= $p['side'] === 'Site' ? ' te-tag--site' : '' ?>"><?= e($p['side']) ?></span><span><?= e($p['path']) ?> · <?= e($ago((int) $p['ago'])) ?></span></li>
+      <li><a href="/admin/journal?qui=<?= e(rawurlencode((string) $p['name'])) ?>" style="color:inherit"><b><?= e($p['name']) ?></b></a><span class="te-tag<?= $p['side'] === 'Site' ? ' te-tag--site' : '' ?>"><?= e($p['side']) ?></span><span><?= e($p['path']) ?> · <?= e($ago((int) $p['ago'])) ?></span></li>
     <?php endforeach; ?>
     <?php if (!$people): ?><li><span>Personne de l’équipe en ce moment.</span></li><?php endif; ?>
   </ul>
@@ -59,11 +59,11 @@ $smax = max(1, max(array_map(fn ($x) => $x['bo'] + $x['site'], $t['series'] ?: [
   <div class="kpi"><b><?= (int) $t['days_active'] ?></b><span>jours d’activité</span></div>
 </div>
 
-<div class="card card--pad" style="margin-top:16px"><h2 class="card__t card__t--sm">Qui fait quoi</h2>
+<div class="card card--pad" style="margin-top:16px"><h2 class="card__t card__t--sm">Qui fait quoi <small class="muted" style="font-size:14px">· cliquez un nom pour voir son journal d’activité</small></h2>
   <?php if ($t['people']): ?>
   <table class="te-tbl"><thead><tr><th>Historien</th><th style="text-align:right">Actions</th><th style="text-align:right">Pages back-office</th><th style="text-align:right">Pages du site</th><th style="text-align:right">Jours présents</th><th>Dernière action</th></tr></thead><tbody>
     <?php foreach ($t['people'] as $n => $x): ?>
-      <tr><td><b><?= e($n) ?></b></td><td class="n"><?= $fmt($x['edits']) ?></td><td class="n"><?= $fmt($x['bo']) ?></td><td class="n"><?= $fmt($x['site']) ?></td><td class="n"><?= (int) $x['days'] ?></td><td class="small"><?= $x['last'] ? e(date('d/m/Y H:i', strtotime($x['last']))) : '—' ?></td></tr>
+      <tr><td><a href="/admin/journal?qui=<?= e(rawurlencode((string) $n)) ?>" title="Voir son journal d’activité"><b><?= e($n) ?></b></a></td><td class="n"><?= $fmt($x['edits']) ?></td><td class="n"><?= $fmt($x['bo']) ?></td><td class="n"><?= $fmt($x['site']) ?></td><td class="n"><?= (int) $x['days'] ?></td><td class="small"><?= $x['last'] ? e(date('d/m/Y H:i', strtotime($x['last']))) : '—' ?></td></tr>
     <?php endforeach; ?>
   </tbody></table>
   <?php else: ?><p class="muted small">Pas encore de données sur la période.</p><?php endif; ?>
@@ -97,7 +97,7 @@ $smax = max(1, max(array_map(fn ($x) => $x['bo'] + $x['site'], $t['series'] ?: [
       const d = await (await fetch('/admin/statistiques/direct?m=equipe', {credentials: 'same-origin'})).json();
       const p = d.people || [];
       box.querySelector('[data-tlive-n]').textContent = p.length;
-      box.querySelector('[data-tlive-who]').innerHTML = p.length ? p.map(x => '<li><b>' + esc(x.name) + '</b><span class="te-tag' + (x.side === 'Site' ? ' te-tag--site' : '') + '">' + esc(x.side) + '</span><span>' + esc(x.path) + ' · ' + ago(x.ago) + '</span></li>').join('') : '<li><span>Personne de l’équipe en ce moment.</span></li>';
+      box.querySelector('[data-tlive-who]').innerHTML = p.length ? p.map(x => '<li><a href="/admin/journal?qui=' + encodeURIComponent(x.name) + '" style="color:inherit"><b>' + esc(x.name) + '</b></a><span class="te-tag' + (x.side === 'Site' ? ' te-tag--site' : '') + '">' + esc(x.side) + '</span><span>' + esc(x.path) + ' · ' + ago(x.ago) + '</span></li>').join('') : '<li><span>Personne de l’équipe en ce moment.</span></li>';
     } catch (e) {}
   }, 15000);
 })();

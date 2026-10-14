@@ -225,7 +225,8 @@ final class Dashboard extends Base
     public static function journal(Request $req): Response
     {
         $who = $req->str('qui');
-        $rows = Activity::recent(800);
+        // Journal d'une personne (lien depuis les statistiques de l'équipe) : on remonte plus loin.
+        $rows = Activity::recent($who !== '' ? 6000 : 800);
         $people = array_values(array_unique(array_column($rows, 'by')));
         sort($people);
         if ($who !== '') {
