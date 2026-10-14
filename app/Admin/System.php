@@ -682,13 +682,8 @@ final class System extends Base
             return self::back('/admin/taches#serveur', $ok ? 'Redis connecté : les gros caches sont maintenant servis depuis la mémoire.' : null, $ok ? null : 'Redis ne répond pas (' . (\App\Core\PhpCache::$redisError ?? 'extension redis absente') . ') : vérifiez qu’il est « Actif » dans cPanel › Redis Manager et le mot de passe.');
         }
         if ($task === 'redis-flush') {
-            $r = \App\Core\PhpCache::redis();
-            $n = 0;
-            if ($r) {
-                foreach ($r->keys('*') ?: [] as $k) {
-                    $n += (int) $r->unlink(substr($k, 6));
-                }
-            }
+            $n = \App\Core\PhpCache::flushRedis();
+            $r = $n !== null;
             Activity::log(self::actor(), 'a vidé le cache Redis', null);
             return self::back('/admin/taches#serveur', $r ? "Cache Redis vidé ($n entrées) : il se remplit de nouveau tout seul." : null, $r ? null : 'Redis n’est pas connecté.');
         }

@@ -51,6 +51,13 @@ final class ServerCheck
         if (($o = self::opcache()) && $o['full'] && $o['total'] < 256) {
             $out[] = 'Mémoire d’OPcache trop petite (' . $o['used'] . ' Mo utilisés sur ' . $o['total'] . ') : le code est recompilé trop souvent. À augmenter (réglage opcache.memory_consumption, 256 Mo) dans cPanel › Sélectionner une version de PHP › Options, ou auprès de l’hébergeur.';
         }
+        // Alerte à 90 % : OPcache (mémoire utile + copies périmées) et Redis.
+        if (($o = self::opcache()) && $o['total'] > 0 && $o['used'] / $o['total'] >= 0.9) {
+            $out[] = 'OPcache presque plein : ' . $o['used'] . ' Mo sur ' . $o['total'] . ' (' . round(100 * $o['used'] / $o['total']) . ' %). Serveur / tâches planifiées › « Vider OPcache ».';
+        }
+        if (($rd = self::redis()) && $rd['max'] > 0 && $rd['used'] / $rd['max'] >= 0.9) {
+            $out[] = 'Redis presque plein : ' . $rd['used'] . ' Mo sur ' . $rd['max'] . ' (' . round(100 * $rd['used'] / $rd['max']) . ' %). Serveur / tâches planifiées › « Vider le cache Redis ».';
+        }
         if (PHP_SAPI !== 'cli' && !self::finishesEarly()) {
             $out[] = 'PHP ne sait pas terminer une page avant la fin du travail qui la suit (mode ' . PHP_SAPI . ') : après un enregistrement, le recalcul des statistiques fait attendre la personne. Un PHP en mode PHP-FPM ou LiteSpeed (cPanel, ou l’hébergeur) l’évite.';
         }
@@ -98,6 +105,29 @@ final class ServerCheck
             'pid' => getmypid(),
             'hits' => round((float) ($st['opcache_statistics']['opcache_hit_rate'] ?? 0), 1),
         ];
+    }
+
+    /**
+     * Mémoire de Redis (tous musées confondus) : null s'il n'est pas connecté.
+     * @return array{used:float,max:float,keys:int,where:string}|null
+     */
+    public static function redis(): ?array
+    {
+        $r = \App\Core\PhpCache::redis();
+        if (!$r) {
+            return null;
+        }
+        try {
+            $i = $r->info('memory');
+            $max = (int) ($i['maxmemory'] ?? 0);
+            if ($max <= 0) {
+                $cfg = @$r->config('GET', 'maxmemory');
+                $max = (int) (is_array($cfg) ? ($cfg['maxmemory'] ?? 0) : 0);
+            }
+            return ['used' => round((int) ($i['used_memory'] ?? 0) / 1048576, 1), 'max' => round(($max ?: 128 * 1048576) / 1048576), 'keys' => count($r->keys('*') ?: []), 'where' => (string) \App\Core\PhpCache::$redisWhere];
+        } catch (\Throwable) {
+            return null;
+        }
     }
 
     /** La page part avant le travail fait après elle (recalculs, mesure d'audience) : PHP-FPM ou LiteSpeed. */

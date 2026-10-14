@@ -19,22 +19,91 @@ $srv = \App\Services\ServerCheck::problems();
 $errs = \App\Services\ServerCheck::lastErrors(10);
 $op = \App\Services\ServerCheck::opcache();
 ?>
+<?php
+$rdi = Auth::isAdmin() ? \App\Services\ServerCheck::redis() : null;
+$og = \App\Core\OpcacheGuard::state();
+$lr = preg_match('#^(/home\d*/[^/]+)/#', APP_ROOT . '/', $hm) ? @filemtime($hm[1] . '/.lsphp_restart.txt') : false;
+// Jauge : segments [part (0-1), couleur, libellé] ; couleur de l'ensemble selon le remplissage.
+$gauge = function (array $segs, float $fill): string {
+    $h = '<div class="srvg__bar" role="img" aria-label="' . e(implode(', ', array_map(fn ($x) => $x[2], $segs))) . '">';
+    foreach ($segs as [$part, $color]) {
+        $h .= '<span style="width:' . max(0, min(100, round($part * 100, 1))) . '%;background:' . $color . '"></span>';
+    }
+    return $h . '</div>';
+};
+$level = fn (float $r) => $r >= 0.9 ? ['ko', 'Presque plein'] : ($r >= 0.7 ? ['warn', 'À surveiller'] : ['ok', 'Normal']);
+?>
+<style>
+.srv__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.srvg { border: 2px solid var(--navy); background: var(--paper); padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.srvg__t { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin: 0; font-family: var(--display); font-size: 20px; text-transform: uppercase; }
+.srvg__big { font-family: var(--display); font-size: 34px; line-height: 1; }
+.srvg__big small { font-size: 16px; color: var(--muted); }
+.srvg__bar { display: flex; height: 16px; background: var(--sand); border: 1px solid var(--navy); overflow: hidden; }
+.srvg__bar span { display: block; height: 100%; }
+.srvg__leg { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; padding: 0; list-style: none; font-size: 14px; }
+.srvg__leg i { display: inline-block; width: 10px; height: 10px; margin-right: 5px; border: 1px solid var(--navy); vertical-align: -1px; }
+.srvg__pill { font: 600 13px var(--display); letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border: 1px solid currentColor; }
+.srvg__pill.ok { color: var(--okd); } .srvg__pill.warn { color: var(--warn); } .srvg__pill.ko { color: var(--red); }
+.srvg form { margin: 0; }
+.srv__info { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; margin: 0; }
+.srv__info div { background: var(--paper); border: 1px solid var(--mist); padding: 8px 10px; }
+.srv__info dt { font-size: 13px; color: var(--muted); } .srv__info dd { margin: 0; font-family: var(--display); font-size: 18px; }
+</style>
 <div class="card" id="serveur">
-  <div class="card__head"><h2 class="card__t">Serveur</h2><span class="card__note">PHP <?= e(PHP_VERSION) ?> (<?= e(PHP_SAPI) ?><?= $op ? ', OPcache ' . $op['used'] . ' Mo sur ' . $op['total'] . ($op['wasted'] ? ' (dont ' . $op['wasted'] . ' Mo de copies périmées, récupérés au prochain nettoyage)' : '') . ', ' . $op['scripts'] . ' fichiers, ' . $op['hits'] . ' % trouvés en mémoire' : (extension_loaded('Zend OPcache') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN) ? ', OPcache' : '') ?>) · mémoire <?= e((string) ini_get('memory_limit')) ?> · durée maximale d’une page <?= e((string) ini_get('max_execution_time')) ?> s</span></div>
-  <div class="card--pad stack" style="gap:10px">
-    <?php if (Auth::isAdmin() && $op): ?>
-      <?php $og = \App\Core\OpcacheGuard::state(); $lr = preg_match('#^(/home\d*/[^/]+)/#', APP_ROOT . '/', $hm) ? @filemtime($hm[1] . '/.lsphp_restart.txt') : false; ?>
-      <p class="xs muted" style="margin:0;font-family:monospace">Diagnostic OPcache : utile <?= $op['useful'] ?> Mo · périmé <?= $op['wasted'] ?> Mo · libre <?= $op['free'] ?> Mo · <?= $op['scripts'] ?> fichiers · démarré <?= $op['start'] ? e(date('d/m H:i:s', $op['start'])) : '?' ?> · dernier vidage <?= $op['restart'] ? e(date('d/m H:i:s', $op['restart'])) : 'jamais' ?> · vidages manuels <?= $op['manual'] ?> · vidage en attente <?= $op['pending'] ? 'OUI' : 'non' ?> · restrict_api « <?= e($op['restrict']) ?> » · processus <?= (int) $op['pid'] ?> · redémarrage LiteSpeed demandé <?= $lr ? e(date('d/m H:i:s', $lr)) : 'jamais' ?> · opcache_reset <?= function_exists('opcache_reset') ? 'disponible' : 'DÉSACTIVÉE par l’hébergeur' ?> · dossier du compte <?= !empty($hm[1]) ? (@is_writable($hm[1]) ? 'accessible' : 'INACCESSIBLE') : '?' ?> · open_basedir « <?= e((string) ini_get('open_basedir')) ?> » · max_wasted <?= e((string) ini_get('opcache.max_wasted_percentage')) ?> %</p>
-      <p class="small muted" style="margin:0">Nettoyage automatique d’OPcache : dès que les copies périmées dépassent le quart de sa mémoire (vérifié toutes les 5 min). <?= $og['count'] ? $og['count'] . ' nettoyage(s), le dernier ' . e(\App\Admin\Base::ago((string) $og['last'])) . ' (' . $og['freed'] . ' Mo récupérés).' : 'Aucun pour l’instant.' ?></p>
-      <form method="post" action="/admin/taches" class="row" data-confirm="Vider la mémoire OPcache ?|Le code sera recompilé : les premières pages seront un peu plus lentes pendant quelques secondes.|Vider"><?= csrf_field() ?><input type="hidden" name="task" value="opcache-reset"><button type="submit" class="btn btn--sm">Vider OPcache</button><span class="small muted">À utiliser si la mémoire OPcache est presque pleine et que le site ralentit.</span></form>
+  <div class="card__head"><h2 class="card__t">Serveur</h2><span class="card__note">Mémoire du site et réglages de PHP<?= Auth::isAdmin() ? ' · alerte par e-mail aux administrateurs à 90 %' : '' ?></span></div>
+  <div class="card--pad stack" style="gap:14px">
+    <dl class="srv__info">
+      <div><dt>PHP</dt><dd><?= e(PHP_VERSION) ?> <small class="muted">(<?= e(PHP_SAPI) ?>)</small></dd></div>
+      <div><dt>Mémoire d’une page</dt><dd><?= e((string) ini_get('memory_limit')) ?></dd></div>
+      <div><dt>Durée maximale d’une page</dt><dd><?= e((string) ini_get('max_execution_time')) ?> s</dd></div>
+      <?php if ($op): ?><div><dt>Trouvé en mémoire (OPcache)</dt><dd><?= e((string) $op['hits']) ?> %</dd></div><?php endif; ?>
+    </dl>
+    <?php if (Auth::isAdmin()): ?>
+    <div class="srv__grid">
+      <?php if ($op): $r = $op['total'] ? $op['used'] / $op['total'] : 0; [$cls, $lab] = $level($r); ?>
+      <section class="srvg" aria-labelledby="srvg-op">
+        <h3 class="srvg__t" id="srvg-op">OPcache <span class="srvg__pill <?= $cls ?>"><?= $lab ?></span></h3>
+        <p class="small muted" style="margin:0">Le code et les données lues à chaque page, gardés compilés en mémoire.</p>
+        <div class="srvg__big"><?= $op['used'] ?> <small>Mo sur <?= $op['total'] ?> · <?= round($r * 100) ?> %</small></div>
+        <?= $gauge([[$op['total'] ? $op['useful'] / $op['total'] : 0, 'var(--navy)', 'utile ' . $op['useful'] . ' Mo'], [$op['total'] ? $op['wasted'] / $op['total'] : 0, 'var(--yellow)', 'copies périmées ' . $op['wasted'] . ' Mo']], $r) ?>
+        <ul class="srvg__leg">
+          <li><i style="background:var(--navy)"></i>Utile <?= $op['useful'] ?> Mo</li>
+          <li><i style="background:var(--yellow)"></i>Copies périmées <?= $op['wasted'] ?> Mo</li>
+          <li><i style="background:var(--sand)"></i>Libre <?= $op['free'] ?> Mo</li>
+          <li><?= $op['scripts'] ?> fichiers</li>
+        </ul>
+        <p class="xs muted" style="margin:0">Nettoyage automatique dès 25 % de copies périmées : <?= $og['count'] ? $og['count'] . ' fois, le dernier ' . e(\App\Admin\Base::ago((string) $og['last'])) . ' (' . $og['freed'] . ' Mo récupérés)' : 'aucun pour l’instant' ?>.</p>
+        <form method="post" action="/admin/taches" data-confirm="Vider la mémoire OPcache ?|Le code sera recompilé : les premières pages seront un peu plus lentes pendant quelques secondes.|Vider"><?= csrf_field() ?><input type="hidden" name="task" value="opcache-reset"><button type="submit" class="btn btn--sm">Vider OPcache</button></form>
+      </section>
+      <?php endif; ?>
+      <section class="srvg" aria-labelledby="srvg-rd">
+        <?php if ($rdi): $r = $rdi['max'] ? $rdi['used'] / $rdi['max'] : 0; [$cls, $lab] = $level($r); ?>
+        <h3 class="srvg__t" id="srvg-rd">Redis <span class="srvg__pill <?= $cls ?>"><?= $lab ?></span></h3>
+        <p class="small muted" style="margin:0">Les autres caches (médiathèque, albums, recherche…), partagés par tous les musées.</p>
+        <div class="srvg__big"><?= e((string) $rdi['used']) ?> <small>Mo sur <?= e((string) $rdi['max']) ?> · <?= round($r * 100) ?> %</small></div>
+        <?= $gauge([[$r, 'var(--blue)', 'utilisé ' . $rdi['used'] . ' Mo']], $r) ?>
+        <ul class="srvg__leg">
+          <li><i style="background:var(--blue)"></i>Utilisé <?= e((string) $rdi['used']) ?> Mo</li>
+          <li><i style="background:var(--sand)"></i>Libre <?= e((string) max(0, round($rdi['max'] - $rdi['used'], 1))) ?> Mo</li>
+          <li><?= (int) $rdi['keys'] ?> entrées du musée</li>
+        </ul>
+        <p class="xs muted" style="margin:0">Connecté par <?= e($rdi['where']) ?>.</p>
+        <form method="post" action="/admin/taches" data-confirm="Vider le cache Redis ?|Il se remplit de nouveau tout seul au fil des pages.|Vider"><?= csrf_field() ?><input type="hidden" name="task" value="redis-flush"><button type="submit" class="btn btn--sm">Vider le cache Redis</button></form>
+        <?php else: ?>
+        <h3 class="srvg__t" id="srvg-rd">Redis <span class="srvg__pill warn">Non connecté</span></h3>
+        <p class="small muted" style="margin:0"><?= !class_exists('Redis') ? 'Extension PHP « redis » absente : les caches restent sur disque (cPanel › Sélectionner une version de PHP › Extensions).' : 'Les caches restent sur disque' . (\App\Core\PhpCache::$redisError ? ' (' . e(\App\Core\PhpCache::$redisError) . ')' : '') . '. Installez Redis (cPanel › Redis Manager, mode Socket) ; s’il est actif, collez son mot de passe ci-dessous.' ?></p>
+        <?php endif; ?>
+        <details><summary class="small">Mot de passe Redis</summary>
+          <form method="post" action="/admin/taches" class="row" style="margin-top:8px"><?= csrf_field() ?><input type="hidden" name="task" value="redis-save"><input type="password" name="password" class="in" placeholder="cPanel › Redis Manager" autocomplete="off" style="max-width:260px"><button type="submit" class="btn btn--sm">Enregistrer et tester</button></form>
+        </details>
+      </section>
+    </div>
+    <?php if ($op): ?>
+    <details><summary class="small">Diagnostic technique d’OPcache</summary>
+      <p class="xs muted" style="margin:8px 0 0;font-family:monospace">démarré <?= $op['start'] ? e(date('d/m H:i:s', $op['start'])) : '?' ?> · dernier vidage <?= $op['restart'] ? e(date('d/m H:i:s', $op['restart'])) : 'jamais' ?> · vidages manuels <?= $op['manual'] ?> · vidage en attente <?= $op['pending'] ? 'OUI' : 'non' ?> · redémarrage LiteSpeed demandé <?= $lr ? e(date('d/m H:i:s', $lr)) : 'jamais' ?> · opcache_reset <?= function_exists('opcache_reset') ? 'disponible' : 'DÉSACTIVÉE' ?> · restrict_api « <?= e($op['restrict']) ?> » · open_basedir « <?= e((string) ini_get('open_basedir')) ?> » · max_wasted <?= e((string) ini_get('opcache.max_wasted_percentage')) ?> % · processus <?= (int) $op['pid'] ?></p>
+    </details>
     <?php endif; ?>
-    <?php if (Auth::isAdmin()): $rd = \App\Core\PhpCache::redis(); $rinfo = null; if ($rd) { try { $rinfo = $rd->info('memory'); $rkeys = count($rd->keys('*') ?: []); } catch (\Throwable) {} } ?>
-      <p class="small" style="margin:0"><b>Redis</b> (mémoire partagée pour les gros caches, tous musées) :
-        <?php if ($rd): ?><span class="ok">✓ connecté</span> (<?= e((string) \App\Core\PhpCache::$redisWhere) ?><?= $rinfo ? ', ' . e((string) ($rinfo['used_memory_human'] ?? '?')) . ' utilisés, ' . (int) $rkeys . ' entrées du musée' : '' ?>)
-        <?php elseif (!class_exists('Redis')): ?><span class="muted">extension PHP « redis » absente : les caches restent sur disque (cPanel › Sélectionner une version de PHP › Extensions).</span>
-        <?php else: ?><span class="muted">non connecté<?= \App\Core\PhpCache::$redisError ? ' (' . e(\App\Core\PhpCache::$redisError) . ')' : '' ?> : les caches restent sur disque. Installez Redis (cPanel › Redis Manager, mode Socket) ; s’il est actif, collez son mot de passe ci-dessous.</span><?php endif; ?></p>
-      <form method="post" action="/admin/taches" class="row"><?= csrf_field() ?><input type="hidden" name="task" value="redis-save"><input type="password" name="password" class="in" placeholder="Mot de passe Redis (cPanel › Redis Manager)" autocomplete="off" style="max-width:340px"><button type="submit" class="btn btn--sm">Enregistrer et tester</button></form>
-      <?php if ($rd): ?><form method="post" action="/admin/taches" class="row" data-confirm="Vider le cache Redis ?|Il se remplit de nouveau tout seul au fil des pages.|Vider"><?= csrf_field() ?><input type="hidden" name="task" value="redis-flush"><button type="submit" class="btn btn--sm">Vider le cache Redis</button></form><?php endif; ?>
     <?php endif; ?>
     <?php if ($srv): ?>
       <ul class="small ko" style="margin:0;padding-left:18px"><?php foreach ($srv as $p): ?><li><?= e($p) ?></li><?php endforeach; ?></ul>

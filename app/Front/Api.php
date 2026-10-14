@@ -32,6 +32,7 @@ final class Api
                 $p === '/api/recherche' => self::search($req),
                 $p === '/api/consentement' && $post => self::consent($req),
                 $p === '/api/vu' && $post => self::seen($req),
+                $p === '/api/memoire/vider' => self::memoryFlush($req, $post),
                 $p === '/api/ce-jour-la' => self::onThisDay($req),
                 $p === '/api/chat' && $post => \App\Services\Rag::endpoint($req),
                 $p === '/api/chat/avis' && $post => \App\Services\Rag::feedback($req),
@@ -90,6 +91,28 @@ final class Api
                 'snippet' => Search::snippet($s, $r['tokens']),
             ], $r['items']),
         ]);
+    }
+
+    /**
+     * Lien de l'e-mail d'alerte mémoire (OPcache ou Redis à 90 %) : la page demande une confirmation
+     * (les antivirus de messagerie ouvrent les liens tout seuls), puis le vidage est fait en POST JSON.
+     */
+    private static function memoryFlush(Request $req, bool $post): Response
+    {
+        if ($post) {
+            $in = $req->json() ?: [];
+            $msg = \App\Core\OpcacheGuard::fromLink((string) ($in['k'] ?? ''), (int) ($in['e'] ?? 0), (string) ($in['s'] ?? ''));
+            return Response::json($msg === null ? ['error' => 'Lien invalide, expiré ou déjà utilisé.'] : ['ok' => true, 'message' => $msg], $msg === null ? 403 : 200);
+        }
+        $k = (string) ($req->query['k'] ?? '');
+        $name = $k === 'redis' ? 'Redis' : 'OPcache';
+        $data = json_encode(['k' => $k, 'e' => (int) ($req->query['e'] ?? 0), 's' => (string) ($req->query['s'] ?? '')], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+        $html = '<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Vider ' . $name . '</title>'
+            . '<body style="font-family:Georgia,serif;background:#F3EDDF;color:#0E1F4D;max-width:520px;margin:60px auto;padding:0 16px">'
+            . '<h1 style="font-family:Arial Narrow,sans-serif">Vider ' . $name . '</h1><p>La mémoire se remplit de nouveau toute seule ; les premières pages seront un peu plus lentes pendant quelques secondes.</p>'
+            . '<p><button id="go" style="font:bold 18px Arial Narrow,sans-serif;background:#F6C400;color:#0E1F4D;border:0;padding:12px 22px;cursor:pointer">Vider ' . $name . ' maintenant</button></p><p id="out" role="status"></p>'
+            . '<script nonce="' . csp_nonce() . '">document.getElementById("go").onclick=function(){var b=this;b.disabled=true;fetch(location.pathname,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(' . $data . ')}).then(function(r){return r.json()}).then(function(r){document.getElementById("out").textContent=r.message||r.error}).catch(function(){document.getElementById("out").textContent="Erreur réseau.";b.disabled=false})}</script>';
+        return new Response($html, 200, ['Content-Type' => 'text/html; charset=utf-8', 'Cache-Control' => 'no-store']);
     }
 
     /**

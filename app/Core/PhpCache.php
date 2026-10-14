@@ -193,6 +193,20 @@ final class PhpCache
         return "<?php return \\App\\Core\\PhpCache::load(__FILE__);\n";
     }
 
+    /** Vide les entrées du musée dans Redis (elles se refont seules) ; nombre effacé, ou null sans Redis. */
+    public static function flushRedis(): ?int
+    {
+        $r = self::redis();
+        if (!$r) {
+            return null;
+        }
+        $n = 0;
+        foreach ($r->keys('*') ?: [] as $k) {
+            $n += (int) $r->unlink(substr((string) $k, 6));
+        }
+        return $n;
+    }
+
     /** Données d'un cache écrit par export() (relues une seule fois par requête tant qu'elles ne changent pas). */
     public static function load(string $file): mixed
     {
