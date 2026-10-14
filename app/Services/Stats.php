@@ -40,9 +40,10 @@ final class Stats
         return STORAGE_PATH . '/' . self::SCOPES[self::$scope] . $suffix;
     }
 
-    public static function hit(string $path, string $ua, string $lang): void
+    /** $who : membre de l'équipe (mesure « equipe ») : ses pages sont rattachées à son compte, pas à une empreinte. */
+    public static function hit(string $path, string $ua, string $lang, ?string $who = null): void
     {
-        if ($ua === '' || preg_match(self::BOTS, $ua)) {
+        if ($who === null && ($ua === '' || preg_match(self::BOTS, $ua))) {
             return;
         }
         $s = $_SERVER;
@@ -57,7 +58,7 @@ final class Stats
             $path .= '?q=' . $q;
         }
         $ip = (string) ($s['HTTP_CF_CONNECTING_IP'] ?? $s['REMOTE_ADDR'] ?? '');
-        $visitor = substr(hash_hmac('sha256', $ip . '|' . $ua, self::salt()), 0, 12);
+        $visitor = $who !== null ? 'u' . preg_replace('/[^A-Za-z0-9_-]/', '', $who) : substr(hash_hmac('sha256', $ip . '|' . $ua, self::salt()), 0, 12);
         $dev = preg_match('/ipad|tablet|kindle|silk|(android(?!.*mobile))/i', $ua) ? 'tablette' : (preg_match('/mobi|iphone|ipod|android|phone/i', $ua) ? 'mobile' : 'ordinateur');
         $ref = '';
         $r = (string) ($s['HTTP_REFERER'] ?? '');
@@ -136,6 +137,10 @@ final class Stats
                     }
                     $d['hours'][$x['h']] = ($d['hours'][$x['h']] ?? 0) + 1;
                     $d['pages'][$x['path']] = ($d['pages'][$x['path']] ?? 0) + 1;
+                    if (self::$scope === 'equipe' && str_starts_with($x['v'], 'u')) {
+                        $side = str_starts_with($x['path'], '/admin') ? 'bo' : 'site';
+                        $d['who'][$x['v']][$side] = ($d['who'][$x['v']][$side] ?? 0) + 1;
+                    }
                     if ($x['v'] !== '') {
                         $v = $vs[$x['v']] ?? null;
                         if ($v === null || $x['sec'] - $v[0] > self::GAP) {
@@ -224,6 +229,19 @@ final class Stats
         arsort($out['pages']);
         $out['pages'] = array_slice($out['pages'], 0, 8, true);
         $out['online'] = count($who);
+        if (self::$scope === 'equipe') {
+            // Historiens en ligne : nom, page en cours, back-office ou site.
+            $names = [];
+            foreach (\App\Core\Auth::users() as $uid => $u) {
+                $names['u' . ($u['id'] ?? $uid)] = (string) ($u['name'] ?? '');
+            }
+            $out['people'] = [];
+            foreach ($who as $v => $x) {
+                $out['people'][] = ['name' => $names[$v] ?? 'Membre de l’équipe', 'path' => preg_replace('/\?.*$/', '', $x['path']),
+                    'side' => str_starts_with($x['path'], '/admin') ? 'Back-office' : 'Site', 'ago' => max(0, $now - $x['sec'])];
+            }
+            usort($out['people'], fn ($a, $b) => $a['ago'] <=> $b['ago']);
+        }
         $out['today'] = (int) ((self::days()[date('Y-m-d')]['total'] ?? 0));
         return $out;
     }

@@ -85,7 +85,7 @@ $tips = StatsReport::tips($r);
 <div class="st-bar" role="tablist" aria-label="Mesure">
   <a href="/admin/statistiques"<?= $m === 'public' ? ' class="is-on"' : '' ?>>Visiteurs du musée</a>
   <a href="/admin/statistiques?m=equipe"<?= $m === 'equipe' ? ' class="is-on"' : '' ?>>Équipe connectée</a>
-  <small class="muted"><?= $m === 'equipe' ? 'Pages vues par les membres connectés, comptées à part, même quand le site est fermé.' : 'Visiteurs anonymes uniquement : rien n’est compté tant que le site est fermé au public.' ?></small>
+  <small class="muted"><?= $m === 'equipe' ? 'Les historiens et l’équipe : qui est connecté, ce qu’ils consultent au back-office et sur le site, ce qu’ils ont fait.' : 'Visiteurs anonymes uniquement : rien n’est compté tant que le site est fermé au public.' ?></small>
 </div>
 <div class="st-bar">
   <?php foreach (StatsReport::PRESETS as $key => $lab): ?>
@@ -100,6 +100,9 @@ $tips = StatsReport::tips($r);
   </form>
 </div>
 
+<?php if ($m === 'equipe'): ?>
+<?= \App\Core\View::partial('admin/_stats-equipe', ['t' => $team, 'live' => $live, 'r' => $r, 'label' => $label, 'fmt' => $fmt]) ?>
+<?php else: ?>
 <section class="st-live" data-live>
   <div><div class="st-live__n"><i></i><span data-live-online><?= (int) $live['online'] ?></span></div><small>visiteur<?= $live['online'] > 1 ? 's' : '' ?> en ligne maintenant (5 dernières minutes) · <span data-live-today><?= $fmt($live['today']) ?></span> pages vues aujourd’hui</small></div>
   <div><small>Pages vues, minute par minute (30 min)</small><div class="st-mini" data-live-minutes><?php $mm = max(1, max($live['minutes'])); foreach ($live['minutes'] as $c): ?><i style="height:<?= max(3, round($c / $mm * 100)) ?>%"></i><?php endforeach; ?></div></div>
@@ -182,6 +185,8 @@ foreach (\App\Core\Shield::stats() as $d => $row) { if ($d >= $r['from'] && $d <
   <p class="xs muted" style="margin:8px 0 0">Compté par le site (PHP). Les refus faits directement par le serveur web pour les fichiers déjà prêts (photos) ne sont pas comptés ici.</p>
 </section>
 <p class="small muted" style="margin-top:16px">Mesure interne sans cookie et sans adresse IP conservée (exemptée de consentement) : un visiteur est reconnu par une empreinte anonyme qui change chaque jour, un même visiteur revenu un autre jour compte donc à nouveau. Une visite s’arrête après 30 minutes sans page vue. Les robots d’indexation et l’équipe tant que le site est fermé ne sont pas comptés.</p>
+
+<?php endif; ?>
 
 <?php if (\App\Core\Auth::isAdmin()): ?>
 <section class="card card--pad" style="margin-top:20px;border-color:#c0392b">

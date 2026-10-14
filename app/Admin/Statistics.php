@@ -34,7 +34,7 @@ final class Statistics extends Base
         $m = self::scope($req);
         $r = StatsReport::build($from, $to);
         return self::html('admin/statistiques', ['r' => $r, 'label' => $label, 'preset' => (string) ($req->query['p'] ?? (isset($req->query['du']) ? '' : '30j')),
-            'm' => $m, 'live' => Stats::live(), 'resetAt' => Stats::resetAt()], ['title' => 'Statistiques', 'crumb' => 'Pilotage', 'nav' => 'stats']);
+            'm' => $m, 'live' => Stats::live(), 'resetAt' => Stats::resetAt(), 'team' => $m === 'equipe' ? StatsReport::team($from, $to) : null], ['title' => 'Statistiques', 'crumb' => 'Pilotage', 'nav' => 'stats']);
     }
 
     /** GET /admin/statistiques/direct : temps réel (rafraîchi toutes les 15 s par la page). */

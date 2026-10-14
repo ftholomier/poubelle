@@ -25,13 +25,20 @@ $response = \App\Core\PageCache::serve($request) ?? \App\Core\PageCache::store($
 // LSCache (LiteSpeed, o2switch) : mêmes règles, piloté par ces en-têtes.
 $response = \App\Core\PageCache::lite($request, $response);
 // Membre de l'équipe connecté : ses visites sont comptées à part (jamais dans l'audience du public).
-$team = isset($_COOKIE['sr_session']) && \App\Core\Auth::user() !== null;
+$teamUser = isset($_COOKIE['sr_session']) ? \App\Core\Auth::user() : null;
+$team = $teamUser !== null;
 $response->send();
 
 // Mesure d'audience anonyme (pages HTML publiques uniquement), après l'envoi de la page ; rien
 // tant que le site est fermé au public (seule l'équipe connectée le voit). Le site de
 // l'association a sa propre mesure (jamais l'aperçu du back-office).
-if ($request->method === 'GET' && in_array($response->status, [200, 304], true) && !str_starts_with($request->path, '/admin') && !str_starts_with($request->path, '/api/') && !str_starts_with($request->path, '/w/') && !str_starts_with($request->path, '/ecran/')
+if ($team && $request->method === 'GET' && $response->status === 200 && str_starts_with($request->path, '/admin')
+    && str_contains((string) ($response->headers['Content-Type'] ?? 'text/html'), 'text/html')) {
+    // Back-office : pages vues par chaque historien (mesure de l'équipe, à son nom).
+    \App\Core\Response::detach();
+    \App\Services\Stats::scope('equipe');
+    \App\Services\Stats::hit($request->path, (string) ($request->server['HTTP_USER_AGENT'] ?? ''), 'fr', (string) ($teamUser['id'] ?? ''));
+} elseif ($request->method === 'GET' && in_array($response->status, [200, 304], true) && !str_starts_with($request->path, '/admin') && !str_starts_with($request->path, '/api/') && !str_starts_with($request->path, '/w/') && !str_starts_with($request->path, '/ecran/')
     && str_contains((string) ($response->headers['Content-Type'] ?? 'text/html'), 'text/html') && !\App\Vitrine\Host::isPreview($request->path)) {
     if (\App\Vitrine\Host::matches($request)) {
         if (\App\Vitrine\Site::open()) {
@@ -45,7 +52,7 @@ if ($request->method === 'GET' && in_array($response->status, [200, 304], true) 
         if ($team) {
             \App\Services\Stats::scope('equipe');
         }
-        \App\Services\Stats::hit($request->path, (string) ($request->server['HTTP_USER_AGENT'] ?? ''), \App\Services\I18n::lang());
+        \App\Services\Stats::hit($request->path, (string) ($request->server['HTTP_USER_AGENT'] ?? ''), \App\Services\I18n::lang(), $team ? (string) ($teamUser['id'] ?? '') : null);
     }
 }
 

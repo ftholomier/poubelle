@@ -235,6 +235,89 @@ final class StatsReport
         return $tips;
     }
 
+    /**
+     * Tableau de bord de l'équipe : qui travaille, où (back-office ou site), et ce qui a été fait
+     * (journal d'activité : fiches créées, modifiées, publiées…), sur la période.
+     */
+    public static function team(string $from, string $to): array
+    {
+        Stats::aggregate();
+        $names = [];
+        foreach (\App\Core\Auth::users() as $uid => $u) {
+            $names['u' . ($u['id'] ?? $uid)] = (string) ($u['name'] ?? '');
+        }
+        $r = ['people' => [], 'bo' => 0, 'site' => 0, 'hours' => array_fill(0, 24, 0), 'series' => [], 'sections' => [], 'site_pages' => [],
+            'actions' => [], 'fiches' => [], 'edits' => 0, 'days_active' => 0];
+        foreach (Stats::days() as $d => $v) {
+            if ($d < $from || $d > $to) {
+                continue;
+            }
+            $bo = $site = 0;
+            foreach ($v['pages'] ?? [] as $path => $c) {
+                if (str_starts_with($path, '/admin')) {
+                    $bo += $c;
+                    $seg = explode('/', trim(substr($path, 6), '/'))[0] ?? '';
+                    $sec = $seg === '' ? 'Tableau de bord' : ucfirst(str_replace('-', ' ', $seg));
+                    $r['sections'][$sec] = ($r['sections'][$sec] ?? 0) + $c;
+                } else {
+                    $site += $c;
+                    $p = (string) preg_replace('#^/en(/|$)#', '/', strtok($path, '?'));
+                    $r['site_pages'][$p] = ($r['site_pages'][$p] ?? 0) + $c;
+                }
+            }
+            foreach ($v['hours'] ?? [] as $h => $c) {
+                $r['hours'][$h] += $c;
+            }
+            foreach ($v['who'] ?? [] as $uid => $x) {
+                $n = $names[$uid] ?? 'Ancien membre';
+                $r['people'][$n] ??= ['bo' => 0, 'site' => 0, 'edits' => 0, 'days' => 0, 'last' => ''];
+                $r['people'][$n]['bo'] += (int) ($x['bo'] ?? 0);
+                $r['people'][$n]['site'] += (int) ($x['site'] ?? 0);
+                $r['people'][$n]['days']++;
+            }
+            $r['bo'] += $bo;
+            $r['site'] += $site;
+            $r['series'][$d] = ['bo' => $bo, 'site' => $site];
+            if ($bo + $site) {
+                $r['days_active']++;
+            }
+        }
+        // Journal d'activité : ce qui a été fait, par qui.
+        $months = [];
+        for ($t = strtotime(substr($from, 0, 7) . '-01'); $t <= strtotime($to); $t = strtotime('+1 month', $t)) {
+            $months[] = date('Y-m', $t);
+        }
+        foreach ($months as $mo) {
+            $f = STORAGE_PATH . '/activity/' . $mo . '.jsonl';
+            if (!is_file($f)) {
+                continue;
+            }
+            foreach (\App\Core\JsonStore::readLines($f) as $e) {
+                $day = substr((string) ($e['at'] ?? ''), 0, 10);
+                if ($day < $from || $day > $to || ($e['by'] ?? 'Système') === 'Système') {
+                    continue;
+                }
+                $n = (string) $e['by'];
+                $r['people'][$n] ??= ['bo' => 0, 'site' => 0, 'edits' => 0, 'days' => 0, 'last' => ''];
+                $r['people'][$n]['edits']++;
+                $r['people'][$n]['last'] = max($r['people'][$n]['last'], (string) $e['at']);
+                $a = (string) ($e['action'] ?? '');
+                $r['actions'][$a] = ($r['actions'][$a] ?? 0) + 1;
+                if (!empty($e['title'])) {
+                    $r['fiches'][(string) $e['title']] = ($r['fiches'][(string) $e['title']] ?? 0) + 1;
+                }
+                $r['edits']++;
+            }
+        }
+        uasort($r['people'], fn ($a, $b) => ($b['edits'] * 5 + $b['bo'] + $b['site']) <=> ($a['edits'] * 5 + $a['bo'] + $a['site']));
+        foreach (['sections' => 12, 'site_pages' => 10, 'actions' => 10, 'fiches' => 12] as $k => $lim) {
+            arsort($r[$k]);
+            $r[$k] = array_slice($r[$k], 0, $lim, true);
+        }
+        ksort($r['series']);
+        return $r;
+    }
+
     /** Libellé lisible d'une adresse. */
     public static function label(array $r, string $path): string
     {
