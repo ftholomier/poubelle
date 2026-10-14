@@ -591,7 +591,7 @@ html { scroll-padding-top: var(--head-h, 0px); }
 @keyframes kenburns { from { transform: scale(1.12); } to { transform: scale(1); } }
 .hero__shade { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(90deg, rgb(var(--navy-rgb) / .92) 0%, rgb(var(--navy-rgb) / .55) 45%, rgb(var(--navy-rgb) / .05) 80%); }
 /* Hauteur : celle de l'écran (bornée), ou plus si le texte le demande : rien n'est jamais coupé. */
-.hero__ui { position: relative; z-index: 4; min-height: max(600px, min(86vh, 840px)); display: flex; flex-direction: column; justify-content: space-between; padding-top: clamp(40px, 6vw, 80px); pointer-events: none; }
+.hero__ui { position: relative; z-index: 4; min-height: max(560px, calc(100vh - var(--hero-top, 150px))); min-height: max(560px, calc(100svh - var(--hero-top, 150px))); display: flex; flex-direction: column; justify-content: space-between; padding-top: clamp(40px, 6vw, 80px); pointer-events: none; }
 .hero__top { display: flex; justify-content: space-between; gap: 32px; flex-wrap: wrap; align-items: flex-start; }
 .hero__text { position: relative; max-width: 640px; flex: 1 1 420px; min-width: 0; display: grid; }
 /* Textes des diapositives superposés : la plus haute fixe la hauteur, le slider ne saute pas. */

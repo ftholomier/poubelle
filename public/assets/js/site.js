@@ -547,3 +547,15 @@ if (document.querySelector('meta[name="sr-vu"]')) {
     if (!(navigator.sendBeacon && navigator.sendBeacon('/api/vu', b))) fetch('/api/vu', { method: 'POST', body: b, headers: { 'Content-Type': 'application/json' }, keepalive: true }).catch(() => {});
   } catch (e) {}
 }
+
+// Diaporama de l'accueil : plein écran exact, sous le bandeau et l'en-tête (quelle que soit leur hauteur).
+(() => {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+  const fit = () => document.documentElement.style.setProperty('--hero-top', Math.max(0, Math.round(hero.getBoundingClientRect().top + window.scrollY)) + 'px');
+  fit();
+  addEventListener('resize', fit);
+  addEventListener('load', fit);
+  if (window.ResizeObserver) { const h = document.querySelector('header'); if (h) new ResizeObserver(fit).observe(h); }
+})();
+
