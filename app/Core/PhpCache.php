@@ -219,7 +219,15 @@ final class PhpCache
                 $val = $raw === false ? null : @unserialize($raw, ['allowed_classes' => false]);
                 if ($redis && $val !== null) {
                     try {
-                        $redis->setex($rk, 3 * 86400, $val);
+                        // Une seule version par cache dans Redis : la précédente (fichier réécrit depuis)
+                        // est effacée tout de suite, sinon elles s'empileraient jusqu'à expiration.
+                        $ptr = 'v:' . md5($ser);
+                        $old = $redis->get($ptr);
+                        if (is_string($old) && $old !== $rk) {
+                            $redis->unlink($old);
+                        }
+                        $redis->setex($rk, 86400, $val);
+                        $redis->setex($ptr, 86400, $rk);
                     } catch (\Throwable) {
                     }
                 }
