@@ -75,6 +75,14 @@ $level = fn (float $r) => $r >= 0.9 ? ['ko', 'Presque plein'] : ($r >= 0.7 ? ['w
         </ul>
         <p class="xs muted" style="margin:0">Nettoyage automatique dès 25 % de copies périmées : <?= $og['count'] ? $og['count'] . ' fois, le dernier ' . e(\App\Admin\Base::ago((string) $og['last'])) . ' (' . $og['freed'] . ' Mo récupérés)' : 'aucun pour l’instant' ?>.</p>
         <form method="post" action="/admin/taches" data-confirm="Vider la mémoire OPcache ?|Le code sera recompilé : les premières pages seront un peu plus lentes pendant quelques secondes.|Vider"><?= csrf_field() ?><input type="hidden" name="task" value="opcache-reset"><button type="submit" class="btn btn--sm">Vider OPcache</button></form>
+        <details><summary class="small">Diagnostic technique d’OPcache</summary>
+          <p class="xs muted" style="margin:8px 0 0;font-family:monospace">démarré <?= $op['start'] ? e(date('d/m H:i:s', $op['start'])) : '?' ?> · dernier vidage <?= $op['restart'] ? e(date('d/m H:i:s', $op['restart'])) : 'jamais' ?> · vidages manuels <?= $op['manual'] ?> · vidage en attente <?= $op['pending'] ? 'OUI' : 'non' ?> · redémarrage LiteSpeed demandé <?= $lr ? e(date('d/m H:i:s', $lr)) : 'jamais' ?> · opcache_reset <?= function_exists('opcache_reset') ? 'disponible' : 'DÉSACTIVÉE' ?> · restrict_api « <?= e($op['restrict']) ?> » · open_basedir « <?= e((string) ini_get('open_basedir')) ?> » · max_wasted <?= e((string) ini_get('opcache.max_wasted_percentage')) ?> % · processus <?= (int) $op['pid'] ?></p>
+        </details>
+        <?php $byDir = \App\Services\ServerCheck::opcacheByDir(); if ($byDir): ?>
+        <details><summary class="small">Ce qui occupe OPcache (par dossier, tous musées confondus)</summary>
+          <table class="xs" style="margin:8px 0 0;font-family:monospace;border-collapse:collapse"><?php foreach ($byDir as $d): ?><tr><td style="padding:1px 14px 1px 0;word-break:break-all"><?= e($d['dir']) ?></td><td style="text-align:right;padding-right:14px;white-space:nowrap"><?= e(number_format($d['mb'], 1, ',', ' ')) ?> Mo</td><td class="muted"><?= (int) $d['n'] ?> fichiers</td></tr><?php endforeach; ?></table>
+        </details>
+        <?php endif; ?>
       </section>
       <?php endif; ?>
       <section class="srvg" aria-labelledby="srvg-rd">
@@ -97,23 +105,13 @@ $level = fn (float $r) => $r >= 0.9 ? ['ko', 'Presque plein'] : ($r >= 0.7 ? ['w
         <details><summary class="small">Mot de passe Redis</summary>
           <form method="post" action="/admin/taches" class="row" style="margin-top:8px"><?= csrf_field() ?><input type="hidden" name="task" value="redis-save"><input type="password" name="password" class="in" placeholder="cPanel › Redis Manager" autocomplete="off" style="max-width:260px"><button type="submit" class="btn btn--sm">Enregistrer et tester</button></form>
         </details>
+        <?php $rdDir = \App\Services\ServerCheck::redisByDir(); if ($rdDir): ?>
+        <details><summary class="small">Ce qui occupe Redis (par dossier, ce musée)</summary>
+          <table class="xs" style="margin:8px 0 0;font-family:monospace;border-collapse:collapse"><?php foreach ($rdDir as $d): ?><tr><td style="padding:1px 14px 1px 0;word-break:break-all"><?= e($d['dir']) ?></td><td style="text-align:right;padding-right:14px;white-space:nowrap"><?= $d['mb'] > 0 ? e(number_format($d['mb'], 1, ',', ' ')) . ' Mo' : '' ?></td><td class="muted"><?= (int) $d['n'] ?> entrées</td></tr><?php endforeach; ?></table>
+        </details>
+        <?php endif; ?>
       </section>
     </div>
-    <?php if ($op): ?>
-    <details><summary class="small">Diagnostic technique d’OPcache</summary>
-      <p class="xs muted" style="margin:8px 0 0;font-family:monospace">démarré <?= $op['start'] ? e(date('d/m H:i:s', $op['start'])) : '?' ?> · dernier vidage <?= $op['restart'] ? e(date('d/m H:i:s', $op['restart'])) : 'jamais' ?> · vidages manuels <?= $op['manual'] ?> · vidage en attente <?= $op['pending'] ? 'OUI' : 'non' ?> · redémarrage LiteSpeed demandé <?= $lr ? e(date('d/m H:i:s', $lr)) : 'jamais' ?> · opcache_reset <?= function_exists('opcache_reset') ? 'disponible' : 'DÉSACTIVÉE' ?> · restrict_api « <?= e($op['restrict']) ?> » · open_basedir « <?= e((string) ini_get('open_basedir')) ?> » · max_wasted <?= e((string) ini_get('opcache.max_wasted_percentage')) ?> % · processus <?= (int) $op['pid'] ?></p>
-    </details>
-    <?php $byDir = \App\Services\ServerCheck::opcacheByDir(); if ($byDir): ?>
-    <details><summary class="small">Ce qui occupe OPcache (par dossier, tous musées confondus)</summary>
-      <table class="xs" style="margin:8px 0 0;font-family:monospace;border-collapse:collapse"><?php foreach ($byDir as $d): ?><tr><td style="padding:1px 14px 1px 0"><?= e($d['dir']) ?></td><td style="text-align:right;padding-right:14px"><?= e(number_format($d['mb'], 1, ',', ' ')) ?> Mo</td><td class="muted"><?= (int) $d['n'] ?> fichiers</td></tr><?php endforeach; ?></table>
-    </details>
-    <?php endif; ?>
-    <?php $rdDir = \App\Services\ServerCheck::redisByDir(); if ($rdDir): ?>
-    <details><summary class="small">Ce qui occupe Redis (par dossier, ce musée)</summary>
-      <table class="xs" style="margin:8px 0 0;font-family:monospace;border-collapse:collapse"><?php foreach ($rdDir as $d): ?><tr><td style="padding:1px 14px 1px 0"><?= e($d['dir']) ?></td><td style="text-align:right;padding-right:14px"><?= $d['mb'] > 0 ? e(number_format($d['mb'], 1, ',', ' ')) . ' Mo' : '' ?></td><td class="muted"><?= (int) $d['n'] ?> entrées</td></tr><?php endforeach; ?></table>
-    </details>
-    <?php endif; ?>
-    <?php endif; ?>
     <?php endif; ?>
     <?php if ($srv): ?>
       <ul class="small ko" style="margin:0;padding-left:18px"><?php foreach ($srv as $p): ?><li><?= e($p) ?></li><?php endforeach; ?></ul>
