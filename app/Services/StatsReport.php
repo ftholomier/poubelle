@@ -294,7 +294,8 @@ final class StatsReport
             }
             foreach (\App\Core\JsonStore::readLines($f) as $e) {
                 $day = substr((string) ($e['at'] ?? ''), 0, 10);
-                if ($day < $from || $day > $to || ($e['by'] ?? 'Système') === 'Système') {
+                // Seulement les vrais comptes de l'équipe (pas les traitements automatiques : traduction, reprises, IA…).
+                if ($day < $from || $day > $to || !in_array((string) ($e['by'] ?? ''), $names, true)) {
                     continue;
                 }
                 $n = (string) $e['by'];
