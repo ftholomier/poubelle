@@ -265,8 +265,26 @@
       api({ action: 'restaurer', code: f.code.value }).then(function (r) { if (!r.ok) { msg(r.error); return; } st = r.state; tab = 'album'; render(); msg(T.restored); });
     }
   });
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); load(); } }, { rootMargin: '400px' });
+  // Chargé à l'approche (ou tout de suite via le bouton « Mon album » / l'adresse #mon-album).
+  var started = false, jump = false, io = null;
+  function start() { if (started) return; started = true; if (io) io.disconnect(); load(); }
+  function goMine() {
+    jump = true; start();
+    box.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+  // Après l'affichage de l'album (qui change la hauteur de la page), on se recale dessus.
+  var render0 = render;
+  render = function () { render0(); if (jump) { jump = false; box.scrollIntoView({ block: 'start' }); } };
+  document.addEventListener('click', function (ev) {
+    var a = ev.target.closest('a[href="#mon-album"]');
+    if (!a || ev.metaKey || ev.ctrlKey || ev.shiftKey) return;
+    ev.preventDefault();
+    if (location.hash !== '#mon-album') history.pushState(null, '', '#mon-album');
+    goMine();
+  });
+  if (location.hash === '#mon-album') goMine();
+  else if ('IntersectionObserver' in window) {
+    io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) start(); }, { rootMargin: '400px' });
     io.observe(box);
-  } else load();
+  } else start();
 })();
