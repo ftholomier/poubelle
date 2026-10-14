@@ -71,7 +71,7 @@ $smax = max(1, max(array_map(fn ($x) => $x['bo'] + $x['site'], $t['series'] ?: [
   <?php foreach ($t['people'] as $n => $x): ?>
   <article class="card card--pad te-card">
     <h3><a href="/admin/journal?qui=<?= e(rawurlencode((string) $n)) ?>"><?= e($n) ?></a></h3>
-    <p class="te-nums"><span><b><?= $fmt($x['edits']) ?></b> actions</span><span><b><?= $fmt($x['bo']) ?></b> pages BO</span><span><b><?= $fmt($x['site']) ?></b> pages site</span><span><b><?= (int) $x['days'] ?></b> j présents</span></p>
+    <p class="te-nums"><span><b><?= $fmt($x['logins'] ?? 0) ?></b> connexion<?= ($x['logins'] ?? 0) > 1 ? 's' : '' ?> au BO</span><span><b><?= $fmt($x['edits']) ?></b> actions</span><span><b><?= $fmt($x['bo']) ?></b> pages BO</span><span><b><?= $fmt($x['site']) ?></b> pages site</span><span><b><?= (int) $x['days'] ?></b> j présents</span></p>
     <?php if ($x['recent']): ?>
     <ol class="te-acts"><?php foreach ($x['recent'] as $a): ?><li><time><?= e(date('d/m H:i', strtotime($a['at']))) ?></time> <?= e($a['action']) ?><?= $a['title'] !== '' ? ' <i>' . e(mb_strimwidth($a['title'], 0, 70, '…')) . '</i>' : '' ?></li><?php endforeach; ?></ol>
     <?php else: ?><p class="muted small">Aucune action enregistrée.</p><?php endif; ?>

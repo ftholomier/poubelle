@@ -275,7 +275,7 @@ final class StatsPdf
             $l->rect(self::M, $y, $w, $h, 'white', 'navy', 1);
             $l->rect(self::M, $y, 5, $h, 'yellow');
             $l->text(self::M + 14, $y + 20, mb_strtoupper((string) $name), 'display', 13, 'navy', 0.5);
-            $nums = $this->fmt($x['edits']) . ' actions · ' . $this->fmt($x['bo']) . ' pages back-office · ' . $this->fmt($x['site']) . ' pages du site · ' . (int) $x['days'] . ' jours présents';
+            $nums = $this->fmt($x['logins'] ?? 0) . ' connexion' . (($x['logins'] ?? 0) > 1 ? 's' : '') . ' au back-office · ' . $this->fmt($x['edits']) . ' actions · ' . $this->fmt($x['bo']) . ' pages back-office · ' . $this->fmt($x['site']) . ' pages du site · ' . (int) $x['days'] . ' jours présents';
             $l->text(self::M + 14, $y + 34, $nums, 'serif', 8.5, 'muted');
             $yy = $y + 50;
             foreach ($x['recent'] as $a) {

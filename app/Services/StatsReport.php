@@ -270,7 +270,7 @@ final class StatsReport
             }
             foreach ($v['who'] ?? [] as $uid => $x) {
                 $n = $names[$uid] ?? 'Ancien membre';
-                $r['people'][$n] ??= ['bo' => 0, 'site' => 0, 'edits' => 0, 'days' => 0, 'last' => ''];
+                $r['people'][$n] ??= ['bo' => 0, 'site' => 0, 'edits' => 0, 'days' => 0, 'last' => '', 'logins' => 0];
                 $r['people'][$n]['bo'] += (int) ($x['bo'] ?? 0);
                 $r['people'][$n]['site'] += (int) ($x['site'] ?? 0);
                 $r['people'][$n]['days']++;
@@ -299,10 +299,13 @@ final class StatsReport
                     continue;
                 }
                 $n = (string) $e['by'];
-                $r['people'][$n] ??= ['bo' => 0, 'site' => 0, 'edits' => 0, 'days' => 0, 'last' => ''];
+                $r['people'][$n] ??= ['bo' => 0, 'site' => 0, 'edits' => 0, 'days' => 0, 'last' => '', 'logins' => 0];
                 $r['people'][$n]['edits']++;
                 $r['people'][$n]['last'] = max($r['people'][$n]['last'], (string) $e['at']);
                 $a = (string) ($e['action'] ?? '');
+                if (str_starts_with($a, 's’est connecté') || str_starts_with($a, "s'est connecté")) {
+                    $r['people'][$n]['logins']++;
+                }
                 $r['actions'][$a] = ($r['actions'][$a] ?? 0) + 1;
                 if (!empty($e['title'])) {
                     $r['fiches'][(string) $e['title']] = ($r['fiches'][(string) $e['title']] ?? 0) + 1;
@@ -314,7 +317,7 @@ final class StatsReport
         // actions (toutes périodes confondues).
         foreach ($names as $n) {
             if ($n !== '') {
-                $r['people'][$n] ??= ['bo' => 0, 'site' => 0, 'edits' => 0, 'days' => 0, 'last' => ''];
+                $r['people'][$n] ??= ['bo' => 0, 'site' => 0, 'edits' => 0, 'days' => 0, 'last' => '', 'logins' => 0];
             }
         }
         foreach ($r['people'] as &$x) {

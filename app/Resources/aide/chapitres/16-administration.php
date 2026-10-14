@@ -11,7 +11,7 @@ return [
 <ul>
 <li><b>En direct</b> : les historiens connectés (actifs dans les 5 dernières minutes), à leur nom, avec la page où ils sont et l’étiquette <b>Back-office</b> ou <b>Site</b>.</li>
 <li><b>Chiffres de la période</b> : historiens actifs, actions enregistrées (créations, modifications, publications…), pages du back-office, pages du site relues, jours d’activité.</li>
-<li><b>Un pavé par historien</b> : ses chiffres de la période et ses <b>10 dernières actions</b> (date, heure, action, fiche). Un clic sur son nom ouvre son <b>journal d’activité</b> complet (Pilotage › Journal, filtré sur lui).</li>
+<li><b>Un pavé par historien</b> : ses chiffres de la période (dont son <b>nombre de connexions au back-office</b>) et ses <b>10 dernières actions</b> (date, heure, action, fiche). Un clic sur son nom ouvre son <b>journal d’activité</b> complet (Pilotage › Journal, filtré sur lui).</li>
 <li>L’activité jour par jour (back-office et site), ce qui a été fait, les fiches les plus travaillées, les rubriques du back-office les plus utilisées, les pages du site relues et les heures de travail.</li>
 <li><b>Rapport PDF</b> « Activité de l’équipe » : les mêmes chiffres, un pavé par historien avec ses 10 dernières actions, et les classements.</li>
 </ul>
