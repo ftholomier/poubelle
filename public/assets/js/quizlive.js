@@ -33,6 +33,17 @@
     return fetch(P + '/api/quiz-live', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), credentials: 'same-origin' })
       .then(function (r) { return r.json().then(function (j) { j._status = r.status; return j; }); });
   }
+  // Soirée entre amis : créer sa partie, puis ouvrir le grand écran (il porte la clé secrète de la partie).
+  var hf = $('[data-ql-hostform]'), herr = $('[data-ql-hosterr]');
+  if (hf) hf.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var b = hf.querySelector('button'); b.disabled = true; herr.hidden = true;
+    api({ action: 'creer', count: +hf.count.value, duration: +hf.duration.value }).then(function (r) {
+      if (r && r.url) { location.href = r.url; return; }
+      herr.textContent = (r && r.error) || T.error; herr.hidden = false; b.disabled = false;
+    }).catch(function () { herr.textContent = T.error; herr.hidden = false; b.disabled = false; });
+  });
+
 
   function show(step) {
     root.querySelectorAll('[data-step]').forEach(function (el) { el.hidden = el.getAttribute('data-step') !== step; });

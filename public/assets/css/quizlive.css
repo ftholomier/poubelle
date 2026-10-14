@@ -207,3 +207,12 @@ body.qls { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 
 .df-wrap .qc__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 420px); }
 @media (max-width: 900px) { .df-wrap .qc__grid { grid-template-columns: minmax(0, 1fr); } }
 .df .ql__final { font-size: clamp(44px, 11vw, 72px); margin: 4px 0 0; }
+
+/* Soirée entre amis : créer sa partie depuis la page des joueurs */
+.ql__host { margin-top: 34px; padding: 22px; border: 2px dashed currentColor; border-radius: 6px; }
+.ql__htitle { margin: 0 0 8px; font-family: var(--display); font-weight: 800; font-size: 26px; text-transform: uppercase; }
+.ql__hform { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-end; margin-top: 12px; }
+.ql__hform label { display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+.ql__hform select { font: inherit; padding: 8px 10px; border: 2px solid currentColor; background: transparent; color: inherit; }
+.ql__hform select option { color: #0E1F4D; }
+.ql__hform .ql__err { flex-basis: 100%; }

@@ -11,6 +11,11 @@ $fmt = fn ($n) => number_format((int) $n, 0, ',', ' ');
 $current = $season === QuizChampionship::season();
 ?>
 <?= View::partial('carnet/_head', ['title' => t('Championnat du club-house'), 'intro' => t('Le classement des soirées quiz : chaque partie rapporte des points selon votre rang, que la partie compte 6 ou 30 questions. Saison {s}.', ['s' => $season]), 'crumb' => t('Championnat du club-house'), 'eyebrow' => t('Quiz du club-house')]) ?>
+<?php $L = $league === 'amis' ? '&ligue=amis' : ''; $base = url('/interactif/quiz-live/championnat/'); ?>
+<div class="wrap cnwrap"><nav class="qc__seasons qc__leagues" aria-label="<?= e(t('Classements')) ?>" style="margin:0 0 18px">
+  <a href="<?= e($base) ?>"<?= $league === 'club' ? ' aria-current="page"' : '' ?>><?= e(t('Soirées du club-house')) ?></a>
+  <a href="<?= e($base . '?ligue=amis') ?>"<?= $league === 'amis' ? ' aria-current="page"' : '' ?>><?= e(t('Entre amis')) ?></a>
+</nav><?php if ($league === 'amis'): ?><p class="cnnote"><?= e(t('Les parties organisées par les supporters, chez eux, entre amis (au plus 3 parties comptées par jour et par joueur). Pour en créer une : page Quiz du club-house › « Organiser une soirée entre amis ».')) ?></p><?php endif; ?></div>
 <div class="wrap cnwrap qc" data-qc data-lang="<?= e(\App\Services\I18n::lang()) ?>">
   <script type="application/json" id="qc-i18n"><?= json_encode(['mailed' => t('C’est parti : un lien vient d’être envoyé à cette adresse. Ouvrez-le sur votre téléphone pour valider votre place (pensez aux indésirables).'), 'saved' => t('Pseudo enregistré.'), 'error' => t('Connexion perdue, réessayez.')], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) ?></script>
   <?php if ($welcome && $me): ?><p class="cnwelcome"><?= e(t('C’est validé : ce téléphone vous reconnaîtra à chaque partie, sous le nom {p}.', ['p' => $me['pseudo']])) ?></p><?php endif; ?>
@@ -19,7 +24,7 @@ $current = $season === QuizChampionship::season();
       <div class="qc__head">
         <h2 class="cncard__t"><?= e(t('Classement {s}', ['s' => $season])) ?></h2>
         <?php if (count($seasons) > 1): ?>
-        <nav class="qc__seasons" aria-label="<?= e(t('Saisons')) ?>"><?php foreach ($seasons as $s): ?><a href="<?= e(url('/interactif/quiz-live/championnat/') . '?saison=' . $s) ?>"<?= $s === $season ? ' aria-current="page"' : '' ?>><?= e($s) ?></a><?php endforeach; ?></nav>
+        <nav class="qc__seasons" aria-label="<?= e(t('Saisons')) ?>"><?php foreach ($seasons as $s): ?><a href="<?= e(url('/interactif/quiz-live/championnat/') . '?saison=' . $s . $L) ?>"<?= $s === $season ? ' aria-current="page"' : '' ?>><?= e($s) ?></a><?php endforeach; ?></nav>
         <?php endif; ?>
       </div>
       <p class="cnnote"><?= e(tn((int) $stats['games'], '{n} partie comptée', '{n} parties comptées', ['n' => $stats['games']])) ?> · <?= e(tn((int) $stats['players'], '{n} joueur classé', '{n} joueurs classés', ['n' => $stats['players']])) ?></p>

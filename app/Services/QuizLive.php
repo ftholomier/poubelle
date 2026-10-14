@@ -49,7 +49,7 @@ final class QuizLive
     // ------------------------------------------------------------------ parties
 
     /** @return array{code:string,key:string} */
-    public static function create(int $count, int $duration, string $lang, string $mix, string $by = '', bool $friendly = false): array
+    public static function create(int $count, int $duration, string $lang, string $mix, string $by = '', bool $friendly = false, string $league = 'club'): array
     {
         $count = max(3, min(30, $count));
         $duration = in_array($duration, self::DURATIONS, true) ? $duration : 20;
@@ -66,7 +66,7 @@ final class QuizLive
         } while (is_file(self::file($code)));
         $key = bin2hex(random_bytes(12));
         JsonStore::write(self::file($code), [
-            'code' => $code, 'key' => $key, 'created' => time(), 'by' => $by, 'lang' => $lang, 'duration' => $duration, 'friendly' => $friendly,
+            'code' => $code, 'key' => $key, 'created' => time(), 'by' => $by, 'lang' => $lang, 'duration' => $duration, 'friendly' => $friendly, 'league' => $league === 'amis' ? 'amis' : 'club',
             'questions' => $questions, 'phase' => 'lobby', 'idx' => -1, 't0' => 0, 'players' => [], 'answers' => [], 'v' => 1,
         ]);
         return ['code' => $code, 'key' => $key];
@@ -358,6 +358,12 @@ final class QuizLive
     }
 
     /** État vu par le grand écran. */
+    /** Classement de la partie : championnat du club-house, ou classement des soirées entre amis. */
+    public static function board(array $g): string
+    {
+        return QuizChampionship::key(QuizChampionship::season((int) $g['created']), (string) ($g['league'] ?? 'club'));
+    }
+
     public static function screenState(array $g): array
     {
         $now = self::now();
@@ -370,7 +376,8 @@ final class QuizLive
         if ($phase === 'lobby') {
             $out['names'] = array_values(array_map(fn ($pid, $p) => ['id' => (string) $pid, 'name' => $p['name'], 'm' => isset($p['cid'])], array_keys($g['players']), $g['players']));
             if (empty($g['friendly'])) {
-                $out['champ'] = array_map(fn ($r) => ['name' => $r['pseudo'], 'pts' => $r['pts'], 'rank' => $r['rank']], array_slice(QuizChampionship::ranking(), 0, 8));
+                $out['champ'] = array_map(fn ($r) => ['name' => $r['pseudo'], 'pts' => $r['pts'], 'rank' => $r['rank']], array_slice(QuizChampionship::ranking(self::board($g)), 0, 8));
+                $out['league'] = $g['league'] ?? 'club';
             }
         }
         if ($q && in_array($phase, ['question', 'reveal'], true)) {
@@ -398,7 +405,7 @@ final class QuizLive
             // Le championnat après cette partie : les dix premiers, et ceux de la soirée qui ont bougé.
             $moves = (array) ($g['moves'] ?? []);
             $out['champ'] = [];
-            foreach (QuizChampionship::ranking(QuizChampionship::season((int) $g['created'])) as $r) {
+            foreach (QuizChampionship::ranking(self::board($g)) as $r) {
                 $m = $moves[$r['id']] ?? null;
                 if ($r['rank'] <= 10 || $m) {
                     $out['champ'][] = ['name' => $r['pseudo'], 'pts' => $r['pts'], 'rank' => $r['rank'], 'here' => (bool) $m,
@@ -432,8 +439,8 @@ final class QuizLive
             $out['confirm'] = true; // points gardés : ils apparaîtront quand le lien de l'e-mail sera ouvert
         }
         if ($phase === 'end' && isset($me['cid'], $g['moves'][$me['cid']])) {
-            $r = QuizChampionship::rankOf((string) $me['cid'], QuizChampionship::season((int) $g['created']));
-            $out['champ'] = $r ? ['rank' => $r['rank'], 'pts' => $r['pts'], 'label' => t('{r} du championnat · {n} pts', ['r' => ordinal($r['rank']), 'n' => $r['pts']])] : null;
+            $r = QuizChampionship::rankOf((string) $me['cid'], self::board($g));
+            $out['champ'] = $r ? ['rank' => $r['rank'], 'pts' => $r['pts'], 'label' => (($g['league'] ?? 'club') === 'amis' ? t('{r} du classement entre amis · {n} pts', ['r' => ordinal($r['rank']), 'n' => $r['pts']]) : t('{r} du championnat · {n} pts', ['r' => ordinal($r['rank']), 'n' => $r['pts']]))] : null;
         }
         if ($q && in_array($phase, ['question', 'reveal'], true)) {
             $out['q'] = ['q' => $q['q'], 'a' => $q['a']];

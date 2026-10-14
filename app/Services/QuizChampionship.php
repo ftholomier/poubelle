@@ -46,10 +46,27 @@ final class QuizChampionship
         return (int) date('n', $ts) >= 8 ? $y . '-' . ($y + 1) : ($y - 1) . '-' . $y;
     }
 
-    /** @return list<string> saisons ayant au moins un score, la plus récente d'abord */
-    public static function seasons(): array
+    /** Parties « entre amis » (créées par les supporters) : comptées au plus 3 par jour et par joueur. */
+    public const FRIENDS_PER_DAY = 3;
+
+    /**
+     * Clé de saison d'un classement : le championnat du club-house (« 2026-2027 ») ou le classement
+     * des soirées entre amis, créées par les supporters (« amis-2026-2027 »), tenu à part.
+     */
+    public static function key(string $season, string $league = 'club'): string
     {
-        $s = array_keys(array_filter(self::data()['seasons'], fn ($x) => !empty($x['scores'])));
+        return $league === 'amis' ? 'amis-' . $season : $season;
+    }
+
+    /** @return list<string> saisons ayant au moins un score, la plus récente d'abord ($league : club ou amis) */
+    public static function seasons(string $league = 'club'): array
+    {
+        $s = [];
+        foreach (self::data()['seasons'] as $k => $x) {
+            if (!empty($x['scores']) && str_starts_with((string) $k, 'amis-') === ($league === 'amis')) {
+                $s[] = $league === 'amis' ? substr((string) $k, 5) : (string) $k;
+            }
+        }
         rsort($s);
         return $s;
     }
@@ -268,11 +285,13 @@ final class QuizChampionship
         if (!empty($g['friendly']) || count($g['players']) < self::MIN_PLAYERS || !$mine) {
             return ['counted' => false, 'moves' => []];
         }
-        $season = self::season((int) $g['created']);
+        $league = ($g['league'] ?? 'club') === 'amis' ? 'amis' : 'club';
+        $season = self::key(self::season((int) $g['created']), $league);
+        $day = date('Y-m-d', (int) $g['created']);
         $moves = [];
         $done = false;
         $counted = 0;
-        JsonStore::update(self::$file, function ($d) use ($key, $season, $mine, $g, &$moves, &$done, &$counted) {
+        JsonStore::update(self::$file, function ($d) use ($key, $season, $mine, $g, $league, $day, &$moves, &$done, &$counted) {
             $d = (is_array($d) ? $d : []) + ['players' => [], 'seasons' => []];
             if (isset($d['seasons'][$season]['games'][$key])) {
                 $done = true;
@@ -288,6 +307,14 @@ final class QuizChampionship
                     continue;
                 }
                 $s = $d['seasons'][$season]['scores'][$cid] ?? ['pts' => 0, 'games' => 0, 'wins' => 0, 'podiums' => 0, 'best' => 0];
+                // Entre amis : au plus quelques parties comptées par jour (pas de points gonflés en enchaînant).
+                if ($league === 'amis') {
+                    $s['days'] = array_filter((array) ($s['days'] ?? []), fn ($k) => $k >= date('Y-m-d', strtotime($day . ' -7 days')), ARRAY_FILTER_USE_KEY);
+                    if (($s['days'][$day] ?? 0) >= self::FRIENDS_PER_DAY) {
+                        continue;
+                    }
+                    $s['days'][$day] = ($s['days'][$day] ?? 0) + 1;
+                }
                 $s['pts'] += self::points($rank);
                 $s['games']++;
                 $s['wins'] += $rank === 1 ? 1 : 0;

@@ -45,18 +45,20 @@ final class QuizLivePages
     /** Classement public du championnat (saison en cours, ou ?saison=). */
     public static function championship(Request $req): Response
     {
-        $seasons = QuizChampionship::seasons();
+        $league = $req->str('ligue') === 'amis' ? 'amis' : 'club';
+        $seasons = QuizChampionship::seasons($league);
         $current = QuizChampionship::season();
         if (!in_array($current, $seasons, true)) {
             array_unshift($seasons, $current);
         }
         $season = in_array($req->str('saison'), $seasons, true) ? $req->str('saison') : $current;
+        $board = QuizChampionship::key($season, $league);
         $c = Carnet::current();
         $me = $c ? QuizChampionship::player($c['id']) : null;
         $res = Pages::render('interactif/quiz-championnat', [
-            'season' => $season, 'seasons' => $seasons, 'rows' => array_slice(QuizChampionship::ranking($season), 0, 200),
-            'stats' => QuizChampionship::stats($season), 'account' => (bool) $c, 'welcome' => isset($req->query['bienvenue']),
-            'me' => $me ? ['id' => $c['id'], 'pseudo' => $me['pseudo'], 'rank' => QuizChampionship::rankOf($c['id'], $season), 'ok' => QuizChampionship::confirmed($c['id'])] : null,
+            'season' => $season, 'seasons' => $seasons, 'rows' => array_slice(QuizChampionship::ranking($board), 0, 200),
+            'stats' => QuizChampionship::stats($board), 'league' => $league, 'account' => (bool) $c, 'welcome' => isset($req->query['bienvenue']),
+            'me' => $me ? ['id' => $c['id'], 'pseudo' => $me['pseudo'], 'rank' => QuizChampionship::rankOf($c['id'], $board), 'ok' => QuizChampionship::confirmed($c['id'])] : null,
         ], [
             'title' => t('Championnat du club-house {s}', ['s' => $season]),
             'description' => t('Le classement des soirées quiz du club-house : chaque partie rapporte des points selon votre rang.'),
@@ -103,6 +105,15 @@ final class QuizLivePages
                 $g = QuizLive::get($code) ?? $g;
             }
             return Response::json(['ok' => true] + QuizLive::screenState($g));
+        }
+        if ($action === 'creer') {
+            // Soirée entre amis : un supporter crée sa partie (5 par jour et par connexion au plus).
+            if (!RateLimiter::hit('quizlive-create', $req->ip(), 5, 86400)) {
+                return Response::json(['error' => t('Vous avez déjà créé plusieurs parties aujourd’hui : revenez demain.')], 429);
+            }
+            $lang = I18n::lang() === 'en' ? 'en' : 'fr';
+            $r = QuizLive::create((int) ($in['count'] ?? 12), (int) ($in['duration'] ?? 20), $lang, 'mix', 'supporter', false, 'amis');
+            return Response::json(['ok' => true, 'url' => url('/interactif/quiz-live/ecran/' . $r['code'] . '/' . $r['key'] . '/')]);
         }
         if ($action === 'rejoindre') {
             // Un club-house partage une seule connexion (une adresse pour toute la salle) : limite large.

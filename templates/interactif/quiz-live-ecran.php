@@ -7,7 +7,7 @@ $i18n = [
     'podium' => t('Voir le podium'), 'qn' => t('Question {i} / {n}'), 'answered' => t('{a} / {n} réponses'),
     'ready' => t('Préparez-vous…'), 'top' => t('Classement après la question {i}'), 'end' => t('Le podium'),
     'pts' => t('{n} pts'), 'kick' => t('Retirer {p} de la partie ?'), 'finished' => t('Merci d’avoir joué !'),
-    'champTitle' => t('Championnat {s}', ['s' => \App\Services\QuizChampionship::season((int) $g['created'])]), 'champBtn' => t('Le championnat'), 'podiumBtn' => t('Le podium'),
+    'champTitle' => (($g['league'] ?? '') === 'amis' ? t('Classement entre amis {s}', ['s' => \App\Services\QuizChampionship::season((int) $g['created'])]) : t('Championnat {s}', ['s' => \App\Services\QuizChampionship::season((int) $g['created'])])), 'champBtn' => t('Le championnat'), 'podiumBtn' => t('Le podium'),
     'champNew' => t('entrée'), 'notCounted' => t('Partie amicale : elle ne compte pas au championnat.'),
     'kinds' => ['quiz' => t('Histoire du club'), 'score' => t('Le score'), 'year' => t('L’année'), 'opp' => t('L’adversaire'), 'scorer' => t('Le buteur')],
 ];
@@ -44,10 +44,10 @@ $i18n = [
       </ol>
       <p class="qls__count" data-qls-count></p>
       <ul class="qls__names" data-qls-names></ul>
-      <p class="qls__member"><?= !empty($g['friendly']) ? e(t('Partie amicale : elle ne compte pas au championnat.')) : '★ ' . e(t('joue pour le championnat : laissez votre e-mail en rejoignant la partie pour y entrer.')) ?></p>
+      <p class="qls__member"><?= !empty($g['friendly']) ? e(t('Partie amicale : elle ne compte pas au championnat.')) : '★ ' . e(($g['league'] ?? '') === 'amis' ? t('joue pour le classement entre amis : laissez votre e-mail en rejoignant la partie pour y entrer.') : t('joue pour le championnat : laissez votre e-mail en rejoignant la partie pour y entrer.')) ?></p>
     </div>
     <aside class="qls__champ" data-qls-champ hidden>
-      <h2><?= e(t('Championnat {s}', ['s' => \App\Services\QuizChampionship::season((int) $g['created'])])) ?></h2>
+      <h2><?= e((($g['league'] ?? '') === 'amis' ? t('Classement entre amis {s}', ['s' => \App\Services\QuizChampionship::season((int) $g['created'])]) : t('Championnat {s}', ['s' => \App\Services\QuizChampionship::season((int) $g['created'])]))) ?></h2>
       <ol data-qls-champ-list></ol>
     </aside>
   </section>
@@ -69,9 +69,9 @@ $i18n = [
     <p class="qls__thanks"><?= e(t('Merci d’avoir joué !')) ?> <?= e(t('Toute l’histoire {sigle_de} sur')) ?> <b><?= e(preg_replace('#^https?://#', '', base_url())) ?></b></p>
   </section>
   <section class="qls__board qls__season" data-qls-view="champ" hidden>
-    <h1><?= e(t('Championnat {s}', ['s' => \App\Services\QuizChampionship::season((int) $g['created'])])) ?></h1>
+    <h1><?= e((($g['league'] ?? '') === 'amis' ? t('Classement entre amis {s}', ['s' => \App\Services\QuizChampionship::season((int) $g['created'])]) : t('Championnat {s}', ['s' => \App\Services\QuizChampionship::season((int) $g['created'])]))) ?></h1>
     <ol class="qls__rank" data-qls-season></ol>
-    <p class="qls__thanks"><?= e(t('Le classement complet :')) ?> <b><?= e(preg_replace('#^https?://#', '', base_url()) . ($g['lang'] === 'en' ? '/en' : '') . '/interactif/quiz-live/championnat/') ?></b></p>
+    <p class="qls__thanks"><?= e(t('Le classement complet :')) ?> <b><?= e(preg_replace('#^https?://#', '', base_url()) . ($g['lang'] === 'en' ? '/en' : '') . '/interactif/quiz-live/championnat/' . (($g['league'] ?? '') === 'amis' ? '?ligue=amis' : '')) ?></b></p>
   </section>
 </main>
 <footer class="qls__foot">
