@@ -22,6 +22,12 @@ final class StatsPdf
         return (new self())->render($r, $label);
     }
 
+    /** Rapport de l'équipe (historiens) : chiffres, activité par jour, un pavé par personne, classements. */
+    public static function team(array $t, array $r, string $label): string
+    {
+        return (new self())->renderTeam($t, $r, $label);
+    }
+
     private function fmt(float|int $n): string
     {
         return number_format((float) $n, 0, ',', "\u{202F}");
@@ -208,6 +214,124 @@ final class StatsPdf
         for ($pg = 0; $pg < $total; $pg++) {
             $l->page = $pg;
             $f = 'Musée ' . Club::s('site') . ' · statistiques · ' . ($pg + 1) . ' / ' . $total;
+            $l->text($l->pw - self::M - $l->width($f, 'serif', 8), $l->ph - 20, $f, 'serif', 8, 'muted');
+        }
+        return $l->pdf->output();
+    }
+
+    private function renderTeam(array $t, array $r, string $label): string
+    {
+        $this->l = $l = new Layout();
+        $l->pw = 595.28;
+        $l->ph = 841.89;
+        $w = $l->pw - 2 * self::M;
+        $this->page();
+        $l->rect(0, 0, $l->pw, 120, 'navy');
+        $l->rect(0, 120, $l->pw, 4, 'yellow');
+        $l->logo(self::M, 22, 76);
+        $l->text(self::M + 80, 52, 'ACTIVITÉ DE L’ÉQUIPE', 'display', 26, 'yellow', 0.5);
+        $l->text(self::M + 80, 74, $label . ' · du ' . date('d/m/Y', strtotime($r['from'])) . ' au ' . date('d/m/Y', strtotime($r['to'])), 'serif-i', 11, 'cream');
+        $l->text(self::M + 80, 92, 'Historiens et équipe du musée · rapport du ' . date('d/m/Y à H:i'), 'serif', 9, 'mist');
+        $this->y = 146;
+        $active = count(array_filter($t['people'], fn ($x) => $x['bo'] + $x['site'] + $x['edits'] > 0));
+        $tiles = [[$this->fmt($active), 'historiens actifs'], [$this->fmt($t['edits']), 'actions enregistrées'], [$this->fmt($t['bo']), 'pages du back-office'],
+            [$this->fmt($t['site']), 'pages du site relues'], [(string) $t['days_active'], 'jours d’activité']];
+        $tw = ($w - 4 * 8) / 5;
+        foreach ($tiles as $i => [$val, $lab]) {
+            $x = self::M + $i * ($tw + 8);
+            $l->rect($x, $this->y, $tw, 60, 'white', 'navy', 1.2);
+            $l->text($x + 8, $this->y + 30, $val, 'display', 22, 'navy');
+            $l->text($x + 8, $this->y + 46, $lab, 'serif', 8, 'muted');
+        }
+        $this->y += 80;
+        // Activité jour par jour
+        $this->title('Activité jour par jour');
+        $ser = $t['series'];
+        $ch = 120;
+        $mx = max(1, max(array_map(fn ($x) => $x['bo'] + $x['site'], $ser ?: [['bo' => 0, 'site' => 0]])));
+        $n = max(1, count($ser));
+        $bw = $w / $n;
+        $i = 0;
+        $every = max(1, (int) ceil($n / 8));
+        foreach ($ser as $d => $x) {
+            $hb = $x['bo'] / $mx * ($ch - 20);
+            $hs = $x['site'] / $mx * ($ch - 20);
+            $l->rect(self::M + $i * $bw + $bw * 0.15, $this->y + $ch - 14 - $hb, $bw * 0.7, $hb, 'navy');
+            $l->rect(self::M + $i * $bw + $bw * 0.15, $this->y + $ch - 14 - $hb - $hs, $bw * 0.7, $hs, 'yellow');
+            if ($i % $every === 0) {
+                $l->text(self::M + $i * $bw, $this->y + $ch, date('d/m', strtotime($d)), 'serif', 7, 'muted');
+            }
+            $i++;
+        }
+        $l->rect(self::M, $this->y + $ch - 14, $w, 0.8, 'line');
+        $l->text(self::M + $w - 150, $this->y + 8, 'bleu : back-office · jaune : site', 'serif-i', 8, 'muted');
+        $this->y += $ch + 24;
+        // Un pavé par historien
+        $this->title('Historien par historien');
+        foreach ($t['people'] as $name => $x) {
+            $h = 52 + max(1, count($x['recent'])) * 14;
+            $this->need($h + 10);
+            $y = $this->y;
+            $l->rect(self::M, $y, $w, $h, 'white', 'navy', 1);
+            $l->rect(self::M, $y, 5, $h, 'yellow');
+            $l->text(self::M + 14, $y + 20, mb_strtoupper((string) $name), 'display', 13, 'navy', 0.5);
+            $nums = $this->fmt($x['edits']) . ' actions · ' . $this->fmt($x['bo']) . ' pages back-office · ' . $this->fmt($x['site']) . ' pages du site · ' . (int) $x['days'] . ' jours présents';
+            $l->text(self::M + 14, $y + 34, $nums, 'serif', 8.5, 'muted');
+            $yy = $y + 50;
+            foreach ($x['recent'] as $a) {
+                $l->text(self::M + 14, $yy, date('d/m H:i', strtotime($a['at'])), 'display-b', 8, 'blue');
+                $txt = mb_strimwidth($a['action'] . ($a['title'] !== '' ? ' · ' . $a['title'] : ''), 0, 95, '…');
+                $l->text(self::M + 70, $yy, $txt, 'serif', 8.5, 'ink');
+                $yy += 14;
+            }
+            if (!$x['recent']) {
+                $l->text(self::M + 14, $yy, 'Aucune action enregistrée.', 'serif-i', 8.5, 'muted');
+            }
+            $this->y = $y + $h + 10;
+        }
+        // Classements
+        $lists = [['Ce qui a été fait', $t['actions']], ['Fiches les plus travaillées', $t['fiches']], ['Rubriques du back-office', $t['sections']], ['Pages du site relues', $t['site_pages']]];
+        $col = ($w - 20) / 2;
+        $this->need(240);
+        $this->title('Classements');
+        $ys = [$this->y, $this->y];
+        foreach ($lists as [$tt, $list]) {
+            $c = $ys[0] <= $ys[1] ? 0 : 1;
+            $x = self::M + $c * ($col + 20);
+            $y = $ys[$c];
+            $hh = 26 + max(1, count($list)) * 16;
+            if ($y + $hh > $l->ph - self::M) {
+                $this->page();
+                $ys = [$this->y, $this->y];
+                $c = 0;
+                $x = self::M;
+                $y = $this->y;
+            }
+            $l->text($x, $y + 12, mb_strtoupper($tt), 'display-b', 10, 'navy', 0.8);
+            $l->rect($x, $y + 16, $col, 1.2, 'yellow');
+            $y += 26;
+            $m = max(1, max($list ?: [0]));
+            $rank = 0;
+            foreach ($list as $key => $nv) {
+                $rank++;
+                $l->rect($x, $y + 10, $col * $nv / $m, 2, 'butter');
+                $l->text($x, $y + 9, $rank . '.', 'display-b', 8.5, 'blue');
+                $l->text($x + 16, $y + 9, mb_strimwidth((string) $key, 0, 50, '…'), 'serif', 8.5, 'ink');
+                $v = $this->fmt($nv);
+                $l->text($x + $col - $l->width($v, 'display-b', 8.5), $y + 9, $v, 'display-b', 8.5, 'navy');
+                $y += 16;
+            }
+            if (!$list) {
+                $l->text($x, $y + 9, 'Rien sur la période.', 'serif-i', 8.5, 'muted');
+                $y += 16;
+            }
+            $ys[$c] = $y + 16;
+        }
+        $this->y = max($ys);
+        $total = $l->pdf->pageCount();
+        for ($pg = 0; $pg < $total; $pg++) {
+            $l->page = $pg;
+            $f = 'Musée ' . Club::s('site') . ' · activité de l’équipe · ' . ($pg + 1) . ' / ' . $total;
             $l->text($l->pw - self::M - $l->width($f, 'serif', 8), $l->ph - 20, $f, 'serif', 8, 'muted');
         }
         return $l->pdf->output();

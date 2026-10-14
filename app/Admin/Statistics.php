@@ -48,8 +48,10 @@ final class Statistics extends Base
     public static function pdf(Request $req): Response
     {
         [$from, $to, $label] = self::range($req);
-        $pdf = \App\Pdf\StatsPdf::build(StatsReport::build($from, $to), $label);
-        return new Response($pdf, 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="statistiques-musee-' . $from . '-' . $to . '.pdf"', 'Cache-Control' => 'private, no-store']);
+        $team = self::scope($req) === 'equipe';
+        $r = StatsReport::build($from, $to);
+        $pdf = $team ? \App\Pdf\StatsPdf::team(StatsReport::team($from, $to), $r, $label) : \App\Pdf\StatsPdf::build($r, $label);
+        return new Response($pdf, 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="statistiques-' . ($team ? 'equipe' : 'musee') . '-' . $from . '-' . $to . '.pdf"', 'Cache-Control' => 'private, no-store']);
     }
 
     /** POST /admin/statistiques/remise-a-zero : tout repart de zéro (anciennes données mises de côté). */

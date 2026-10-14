@@ -37,6 +37,13 @@ $smax = max(1, max(array_map(fn ($x) => $x['bo'] + $x['site'], $t['series'] ?: [
 .te-days div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
 .te-days i{display:block;background:var(--navy)}
 .te-days i+i{background:var(--yellow)}
+.te-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px}
+.te-card h3{margin:0 0 6px;font-family:var(--display);text-transform:uppercase;font-size:20px}
+.te-nums{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--yellow)}
+.te-nums b{font-family:var(--display);font-size:16px}
+.te-acts{list-style:none;margin:0;padding:0;font-size:13px}
+.te-acts li{padding:4px 0;border-bottom:1px solid rgba(0,0,0,.06);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.te-acts time{font-weight:700;color:var(--blue);margin-right:4px}
 @media (max-width:900px){.te-live{grid-template-columns:1fr}}
 </style>
 
@@ -59,14 +66,18 @@ $smax = max(1, max(array_map(fn ($x) => $x['bo'] + $x['site'], $t['series'] ?: [
   <div class="kpi"><b><?= (int) $t['days_active'] ?></b><span>jours d’activité</span></div>
 </div>
 
-<div class="card card--pad" style="margin-top:16px"><h2 class="card__t card__t--sm">Qui fait quoi <small class="muted" style="font-size:14px">· cliquez un nom pour voir son journal d’activité</small></h2>
-  <?php if ($t['people']): ?>
-  <table class="te-tbl"><thead><tr><th>Historien</th><th style="text-align:right">Actions</th><th style="text-align:right">Pages back-office</th><th style="text-align:right">Pages du site</th><th style="text-align:right">Jours présents</th><th>Dernière action</th></tr></thead><tbody>
-    <?php foreach ($t['people'] as $n => $x): ?>
-      <tr><td><a href="/admin/journal?qui=<?= e(rawurlencode((string) $n)) ?>" title="Voir son journal d’activité"><b><?= e($n) ?></b></a></td><td class="n"><?= $fmt($x['edits']) ?></td><td class="n"><?= $fmt($x['bo']) ?></td><td class="n"><?= $fmt($x['site']) ?></td><td class="n"><?= (int) $x['days'] ?></td><td class="small"><?= $x['last'] ? e(date('d/m/Y H:i', strtotime($x['last']))) : '—' ?></td></tr>
-    <?php endforeach; ?>
-  </tbody></table>
-  <?php else: ?><p class="muted small">Pas encore de données sur la période.</p><?php endif; ?>
+<h2 class="card__t card__t--sm" style="margin:22px 0 10px">L’équipe, historien par historien <small class="muted" style="font-size:14px">· cliquez un nom pour voir tout son journal</small></h2>
+<div class="te-cards">
+  <?php foreach ($t['people'] as $n => $x): ?>
+  <article class="card card--pad te-card">
+    <h3><a href="/admin/journal?qui=<?= e(rawurlencode((string) $n)) ?>"><?= e($n) ?></a></h3>
+    <p class="te-nums"><span><b><?= $fmt($x['edits']) ?></b> actions</span><span><b><?= $fmt($x['bo']) ?></b> pages BO</span><span><b><?= $fmt($x['site']) ?></b> pages site</span><span><b><?= (int) $x['days'] ?></b> j présents</span></p>
+    <?php if ($x['recent']): ?>
+    <ol class="te-acts"><?php foreach ($x['recent'] as $a): ?><li><time><?= e(date('d/m H:i', strtotime($a['at']))) ?></time> <?= e($a['action']) ?><?= $a['title'] !== '' ? ' <i>' . e(mb_strimwidth($a['title'], 0, 70, '…')) . '</i>' : '' ?></li><?php endforeach; ?></ol>
+    <?php else: ?><p class="muted small">Aucune action enregistrée.</p><?php endif; ?>
+  </article>
+  <?php endforeach; ?>
+  <?php if (!$t['people']): ?><p class="muted small">Pas encore de données.</p><?php endif; ?>
 </div>
 
 <div class="card card--pad" style="margin-top:16px"><h2 class="card__t card__t--sm">Activité jour par jour <small class="muted" style="font-size:14px"><span style="color:var(--navy)">■</span> back-office · <span style="color:#d9a800">■</span> site</small></h2>

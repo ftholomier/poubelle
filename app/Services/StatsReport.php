@@ -309,6 +309,23 @@ final class StatsReport
                 $r['edits']++;
             }
         }
+        // Un pavé par membre de l'équipe du musée, même sans activité sur la période ; ses 10 dernières
+        // actions (toutes périodes confondues).
+        foreach ($names as $n) {
+            if ($n !== '') {
+                $r['people'][$n] ??= ['bo' => 0, 'site' => 0, 'edits' => 0, 'days' => 0, 'last' => ''];
+            }
+        }
+        foreach ($r['people'] as &$x) {
+            $x['recent'] = [];
+        }
+        unset($x);
+        foreach (\App\Data\Activity::recent(6000) as $e) {
+            $n = (string) ($e['by'] ?? '');
+            if (isset($r['people'][$n]) && count($r['people'][$n]['recent']) < 10) {
+                $r['people'][$n]['recent'][] = ['at' => (string) ($e['at'] ?? ''), 'action' => (string) ($e['action'] ?? ''), 'title' => (string) ($e['title'] ?? '')];
+            }
+        }
         uasort($r['people'], fn ($a, $b) => ($b['edits'] * 5 + $b['bo'] + $b['site']) <=> ($a['edits'] * 5 + $a['bo'] + $a['site']));
         foreach (['sections' => 12, 'site_pages' => 10, 'actions' => 10, 'fiches' => 12] as $k => $lim) {
             arsort($r[$k]);
