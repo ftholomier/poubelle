@@ -23,8 +23,25 @@ $champ = url('/interactif/quiz-live/championnat/');
   <div class="ql__inner">
     <div class="ql__join" data-step="join">
       <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('Quiz du club-house')) ?></span>
-      <h1 class="ql__title"><?= e(t('Rejoindre la partie')) ?></h1>
-      <p class="ql__lead"><?= e(t('Saisissez le code affiché sur le grand écran et choisissez un pseudo. Les questions s’affichent à l’écran, vous répondez ici.')) ?></p>
+      <h1 class="ql__title"><?= e(t('Jouer au quiz')) ?></h1>
+      <p class="ql__lead"><?= e(t('Deux façons de jouer : organisez votre propre partie entre amis, ou rejoignez une partie déjà lancée sur un grand écran (club-house ou chez des amis).')) ?></p>
+      <div class="ql__duo">
+      <div class="ql__card ql__host" id="organiser" data-ql-host>
+        <p class="ql__ck"><?= e(t('À la maison')) ?></p>
+        <h2 class="ql__htitle"><?= e(t('Organiser une soirée entre amis')) ?></h2>
+        <p class="ql__hint"><?= e(t('Chez vous, sur la télé ou l’ordinateur : créez une partie, le grand écran affiche le QR code, vos amis le scannent avec leur téléphone. Vous lancez chaque question avec la barre d’espace. Les joueurs qui ont laissé leur e-mail marquent des points au classement « Entre amis ».')) ?></p>
+        <form class="ql__hform" data-ql-hostform>
+          <label><?= e(t('Questions')) ?> <select name="count"><option value="8">8</option><option value="12" selected>12</option><option value="20">20</option></select></label>
+          <label><?= e(t('Temps pour répondre')) ?> <select name="duration"><option value="15">15 s</option><option value="20" selected>20 s</option><option value="30">30 s</option></select></label>
+          <button type="submit" class="qbtn qbtn--sm"><?= e(t('Créer la partie et ouvrir le grand écran')) ?></button>
+          <p class="ql__err" data-ql-hosterr role="alert" hidden></p>
+        </form>
+        <p class="ql__note"><a href="<?= e($champ) ?>?ligue=amis"><?= e(t('Voir le classement entre amis')) ?></a></p>
+      </div>
+      <div class="ql__card ql__card--join">
+        <p class="ql__ck"><?= e(t('Une partie est lancée')) ?></p>
+        <h2 class="ql__htitle"><?= e(t('Rejoindre la partie')) ?></h2>
+        <p class="ql__hint"><?= e(t('Saisissez le code affiché sur le grand écran et choisissez un pseudo. Les questions s’affichent à l’écran, vous répondez ici.')) ?></p>
       <form class="ql__form" data-ql-form data-member="<?= $me ? '1' : '0' ?>" data-account="<?= $account ? '1' : '0' ?>">
         <label for="ql-code"><?= e(t('Code de la partie')) ?></label>
         <input id="ql-code" name="code" inputmode="numeric" pattern="\d{5}" maxlength="5" autocomplete="off" required value="<?= e($code) ?>" placeholder="12345">
@@ -47,16 +64,7 @@ $champ = url('/interactif/quiz-live/championnat/');
         <button type="submit" class="qbtn"><?= e(t('C’est parti !')) ?></button>
         <p class="ql__err" data-ql-err role="alert" hidden></p>
       </form>
-      <p class="ql__note"><?= e(t('Pseudo visible de toute la salle : restez fair-play.')) ?> <a href="<?= e($champ) ?>"><?= e(t('Voir le championnat')) ?></a></p>      <div class="ql__host" id="organiser" data-ql-host>
-        <h2 class="ql__htitle"><?= e(t('Organiser une soirée entre amis')) ?></h2>
-        <p class="ql__hint"><?= e(t('Chez vous, sur la télé ou l’ordinateur : créez une partie, le grand écran affiche le QR code, vos amis le scannent avec leur téléphone. Vous lancez chaque question avec la barre d’espace. Les joueurs qui ont laissé leur e-mail marquent des points au classement « Entre amis ».')) ?></p>
-        <form class="ql__hform" data-ql-hostform>
-          <label><?= e(t('Questions')) ?> <select name="count"><option value="8">8</option><option value="12" selected>12</option><option value="20">20</option></select></label>
-          <label><?= e(t('Temps pour répondre')) ?> <select name="duration"><option value="15">15 s</option><option value="20" selected>20 s</option><option value="30">30 s</option></select></label>
-          <button type="submit" class="qbtn qbtn--sm"><?= e(t('Créer la partie et ouvrir le grand écran')) ?></button>
-          <p class="ql__err" data-ql-hosterr role="alert" hidden></p>
-        </form>
-        <p class="ql__note"><a href="<?= e($champ) ?>?ligue=amis"><?= e(t('Voir le classement entre amis')) ?></a></p>
+      <p class="ql__note"><?= e(t('Pseudo visible de toute la salle : restez fair-play.')) ?> <a href="<?= e($champ) ?>"><?= e(t('Voir le championnat')) ?></a></p>      </div>
       </div>
     </div>
     <div class="ql__play" data-step="play" hidden>
