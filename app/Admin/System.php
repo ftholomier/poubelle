@@ -679,7 +679,7 @@ final class System extends Base
             @chmod(APP_ROOT . '/storage/redis.json', 0600);
             Activity::log(self::actor(), 'a réglé Redis', null);
             $ok = \App\Core\PhpCache::redis(true) !== null;
-            return self::back('/admin/taches#serveur', $ok ? 'Redis connecté : les gros caches sont maintenant servis depuis la mémoire.' : null, $ok ? null : 'Redis ne répond pas avec ce réglage : vérifiez qu’il est « Actif » dans cPanel › Redis Manager et le mot de passe.');
+            return self::back('/admin/taches#serveur', $ok ? 'Redis connecté : les gros caches sont maintenant servis depuis la mémoire.' : null, $ok ? null : 'Redis ne répond pas (' . (\App\Core\PhpCache::$redisError ?? 'extension redis absente') . ') : vérifiez qu’il est « Actif » dans cPanel › Redis Manager et le mot de passe.');
         }
         if ($task === 'redis-flush') {
             $r = \App\Core\PhpCache::redis();

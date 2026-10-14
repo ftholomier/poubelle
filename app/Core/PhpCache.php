@@ -21,6 +21,8 @@ final class PhpCache
 
     /** Prise ou hôte Redis utilisé (affiché dans Tâches › Serveur). */
     public static ?string $redisWhere = null;
+    /** Dernière erreur de connexion à Redis (diagnostic affiché dans Tâches › Serveur). */
+    public static ?string $redisError = null;
 
     /**
      * Lecture ; null si absent ou illisible. $fresh : sans la version compilée d'OPcache (sous verrou,
@@ -93,10 +95,17 @@ final class PhpCache
         } elseif (!empty($cfg['host'])) {
             $targets[] = [(string) $cfg['host'], (int) ($cfg['port'] ?? 6379)];
         } else {
-            $home = (string) (getenv('HOME') ?: (function_exists('posix_getpwuid') ? (posix_getpwuid(posix_geteuid())['dir'] ?? '') : ''));
-            foreach ([$home . '/.cpanel/redis/redis.sock', $home . '/.redis/redis.sock', $home . '/redis/redis.sock', $home . '/tmp/redis.sock'] as $sock) {
-                if ($home !== '' && @file_exists($sock)) {
-                    $targets[] = [$sock, 0];
+            // Dossier du compte : sous LiteSpeed, HOME est souvent vide ; on le déduit du chemin du site
+            // (/home/compte/…). Pas de file_exists : open_basedir peut le refuser alors que la prise marche.
+            $homes = array_filter(array_unique([
+                preg_match('#^(/home\d*/[^/]+)/#', APP_ROOT . '/', $m) ? $m[1] : '',
+                (string) getenv('HOME'),
+                function_exists('posix_getpwuid') ? (string) (@posix_getpwuid(posix_geteuid())['dir'] ?? '') : '',
+            ]));
+            $home = (string) reset($homes);
+            foreach ($homes as $h) {
+                foreach (['/.cpanel/redis/redis.sock', '/.redis/redis.sock'] as $sock) {
+                    $targets[] = [$h . $sock, 0];
                 }
             }
             // o2switch (cPanel › Redis Manager) : mot de passe lu dans la configuration du serveur Redis.
@@ -113,16 +122,20 @@ final class PhpCache
             try {
                 $c = new \Redis();
                 if (!@$c->connect($where, $port ?: 0, 0.2)) {
+                    self::$redisError ??= "prise $where injoignable";
                     continue;
                 }
                 if (!empty($cfg['password']) && !$c->auth((string) $cfg['password'])) {
+                    self::$redisError ??= "mot de passe refusé par $where";
                     continue;
                 }
+                $c->ping();
                 $c->setOption(\Redis::OPT_SERIALIZER, defined('Redis::SERIALIZER_IGBINARY') ? \Redis::SERIALIZER_IGBINARY : \Redis::SERIALIZER_PHP);
                 $c->setOption(\Redis::OPT_PREFIX, 'musee:');
                 self::$redisWhere = $where;
                 return $r = $c;
-            } catch (\Throwable) {
+            } catch (\Throwable $e) {
+                self::$redisError ??= $where . " : " . $e->getMessage();
             }
         }
         return null;
