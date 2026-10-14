@@ -31,6 +31,7 @@ $roleLabel = ['joueur' => 'Joueur', 'entraineur' => 'Entraîneur', 'dirigeant' =
 
 <form class="toolbar" method="get" action="<?= e($base) ?>">
   <?php if ($status !== ''): ?><input type="hidden" name="statut" value="<?= e($status) ?>"><?php endif; ?>
+  <select name="valid" aria-label="Validation" data-autosubmit><option value="">Validées ou non</option><option value="validees"<?= ($query['valid'] ?? '') === 'validees' ? ' selected' : '' ?>>✔ Validées · <?= (int) ($vcount['validees'] ?? 0) ?></option><option value="a-valider"<?= ($query['valid'] ?? '') === 'a-valider' ? ' selected' : '' ?>>À valider · <?= (int) ($vcount['a-valider'] ?? 0) ?></option></select>
   <div class="search"><input type="search" name="q" value="<?= e($q) ?>" placeholder="Rechercher dans <?= e(mb_strtolower($conf['title'])) ?>…" aria-label="Rechercher"><button type="submit" aria-label="Rechercher">→</button></div>
   <?php if ($slug === 'matchs'): ?>
     <select name="saison" aria-label="Saison" data-autosubmit><option value="">Toutes les saisons</option><?php foreach ($seasons as $s): ?><option<?= ($query['saison'] ?? '') === $s ? ' selected' : '' ?>><?= e($s) ?></option><?php endforeach; ?></select>

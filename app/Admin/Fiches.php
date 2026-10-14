@@ -59,8 +59,20 @@ final class Fiches extends Base
         }
         $totals = Derived::part('person_totals');
         $geo = \App\Data\Collections::get('geo', []);
+        // Validation par un historien : « validees » ou « a-valider ».
+        $valid = \App\Services\Validation::all();
+        $vf = $req->str('valid');
+        $vcount = ['validees' => 0, 'a-valider' => 0];
+        foreach ($all as $s) {
+            if ($s['status'] !== 'corbeille') {
+                $vcount[isset($valid[(int) $s['id']]) ? 'validees' : 'a-valider']++;
+            }
+        }
         // Filtres
-        $items = array_filter($all, function ($s) use ($status, $q, $req, $slug) {
+        $items = array_filter($all, function ($s) use ($status, $q, $req, $slug, $valid, $vf) {
+            if (($vf === 'validees' && !isset($valid[(int) $s['id']])) || ($vf === 'a-valider' && isset($valid[(int) $s['id']]))) {
+                return false;
+            }
             if ($s['status'] === 'corbeille' || ($status !== '' && $s['status'] !== $status)) {
                 return false;
             }
@@ -127,7 +139,7 @@ final class Fiches extends Base
             'slug' => $slug, 'conf' => $conf, 'rows' => $rows, 'total' => $total, 'counts' => $counts, 'status' => $status,
             'q' => $req->str('q'), 'page' => $page, 'pages' => $pages, 'sort' => $sort, 'quality' => $quality, 'totals' => $totals, 'geo' => $geo,
             'seasons' => array_keys($seasons), 'comps' => array_keys($comps), 'query' => $req->query,
-            'locks' => EditLock::fiches(), 'me' => (string) (Auth::actor()['id'] ?? ''),
+            'locks' => EditLock::fiches(), 'me' => (string) (Auth::actor()['id'] ?? ''), 'vcount' => $vcount,
         ], ['title' => $conf['title'], 'crumb' => 'Contenus', 'nav' => $slug]);
     }
 
