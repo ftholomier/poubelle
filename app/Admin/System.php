@@ -665,6 +665,33 @@ final class System extends Base
             Activity::log(self::actor(), 'a vidé la mémoire OPcache', null);
             return self::back('/admin/taches#serveur', $ok ? 'Mémoire OPcache vidée : les premières pages seront un peu plus lentes le temps de tout recompiler.' : null, $ok ? null : 'Impossible de vider OPcache sur ce serveur (fonction désactivée par l’hébergeur) : redémarrez PHP depuis cPanel.');
         }
+        if ($task === 'redis-save') {
+            // Mot de passe Redis (cPanel › Redis Manager), gardé hors du code dans storage/redis.json.
+            $pw = trim((string) ($req->post['password'] ?? ''));
+            $cfg = @json_decode((string) @file_get_contents(APP_ROOT . '/storage/redis.json'), true);
+            $cfg = is_array($cfg) ? $cfg : [];
+            if ($pw === '') {
+                unset($cfg['password']);
+            } else {
+                $cfg['password'] = $pw;
+            }
+            \App\Core\JsonStore::write(APP_ROOT . '/storage/redis.json', $cfg);
+            @chmod(APP_ROOT . '/storage/redis.json', 0600);
+            Activity::log(self::actor(), 'a réglé Redis', null);
+            $ok = \App\Core\PhpCache::redis(true) !== null;
+            return self::back('/admin/taches#serveur', $ok ? 'Redis connecté : les gros caches sont maintenant servis depuis la mémoire.' : null, $ok ? null : 'Redis ne répond pas avec ce réglage : vérifiez qu’il est « Actif » dans cPanel › Redis Manager et le mot de passe.');
+        }
+        if ($task === 'redis-flush') {
+            $r = \App\Core\PhpCache::redis();
+            $n = 0;
+            if ($r) {
+                foreach ($r->keys('*') ?: [] as $k) {
+                    $n += (int) $r->unlink(substr($k, 6));
+                }
+            }
+            Activity::log(self::actor(), 'a vidé le cache Redis', null);
+            return self::back('/admin/taches#serveur', $r ? "Cache Redis vidé ($n entrées) : il se remplit de nouveau tout seul." : null, $r ? null : 'Redis n’est pas connecté.');
+        }
         if (!isset(Cron::tasks()[$task])) {
             return self::back('/admin/taches', null, 'Tâche inconnue.');
         }

@@ -19,6 +19,9 @@ final class PhpCache
     /** @var array<string,true> verrous déjà tenus par ce processus (appels imbriqués) */
     private static array $held = [];
 
+    /** Prise ou hôte Redis utilisé (affiché dans Tâches › Serveur). */
+    public static ?string $redisWhere = null;
+
     /**
      * Lecture ; null si absent ou illisible. $fresh : sans la version compilée d'OPcache (sous verrou,
      * avant de réécrire). Ailleurs, jamais : forcer la recompilation à chaque lecture remplit OPcache
@@ -62,13 +65,16 @@ final class PhpCache
 
     /**
      * Redis de l'hébergement (o2switch : cPanel › Redis), partagé par tous les musées, en mémoire vive.
-     * Réglage dans storage/redis.json : {"socket": "/home/compte/.redis/redis.sock"} ou {"host": "127.0.0.1",
+     * o2switch : prise ~/.cpanel/redis/redis.sock et mot de passe trouvés seuls. Sinon, réglage dans storage/redis.json : {"socket": "/home/compte/.redis/redis.sock"} ou {"host": "127.0.0.1",
      * "port": 6379, "password": "…"} ; sans fichier, les emplacements habituels de la prise sont essayés.
      * Absent ou en panne : null, et tout continue avec les fichiers .ser (rien ne casse).
      */
-    public static function redis(): ?\Redis
+    public static function redis(bool $retry = false): ?\Redis
     {
         static $r = false;
+        if ($retry) {
+            $r = false;
+        }
         if ($r !== false) {
             return $r;
         }
@@ -88,9 +94,18 @@ final class PhpCache
             $targets[] = [(string) $cfg['host'], (int) ($cfg['port'] ?? 6379)];
         } else {
             $home = (string) (getenv('HOME') ?: (function_exists('posix_getpwuid') ? (posix_getpwuid(posix_geteuid())['dir'] ?? '') : ''));
-            foreach ([$home . '/.redis/redis.sock', $home . '/redis/redis.sock', $home . '/tmp/redis.sock'] as $sock) {
+            foreach ([$home . '/.cpanel/redis/redis.sock', $home . '/.redis/redis.sock', $home . '/redis/redis.sock', $home . '/tmp/redis.sock'] as $sock) {
                 if ($home !== '' && @file_exists($sock)) {
                     $targets[] = [$sock, 0];
+                }
+            }
+            // o2switch (cPanel › Redis Manager) : mot de passe lu dans la configuration du serveur Redis.
+            if (empty($cfg['password']) && $home !== '') {
+                foreach (glob($home . '/.cpanel/redis/*.conf') ?: [] as $conf) {
+                    if (preg_match('/^\s*requirepass\s+"?([^"\s]+)"?/m', (string) @file_get_contents($conf), $m)) {
+                        $cfg['password'] = $m[1];
+                        break;
+                    }
                 }
             }
         }
@@ -105,6 +120,7 @@ final class PhpCache
                 }
                 $c->setOption(\Redis::OPT_SERIALIZER, defined('Redis::SERIALIZER_IGBINARY') ? \Redis::SERIALIZER_IGBINARY : \Redis::SERIALIZER_PHP);
                 $c->setOption(\Redis::OPT_PREFIX, 'musee:');
+                self::$redisWhere = $where;
                 return $r = $c;
             } catch (\Throwable) {
             }

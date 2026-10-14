@@ -73,6 +73,14 @@ $op = \App\Services\ServerCheck::opcache();
     <?php if (Auth::isAdmin() && $op): ?>
       <form method="post" action="/admin/taches" class="row" data-confirm="Vider la mémoire OPcache ?|Le code sera recompilé : les premières pages seront un peu plus lentes pendant quelques secondes.|Vider"><?= csrf_field() ?><input type="hidden" name="task" value="opcache-reset"><button type="submit" class="btn btn--sm">Vider OPcache</button><span class="small muted">À utiliser si la mémoire OPcache est presque pleine et que le site ralentit.</span></form>
     <?php endif; ?>
+    <?php if (Auth::isAdmin()): $rd = \App\Core\PhpCache::redis(); $rinfo = null; if ($rd) { try { $rinfo = $rd->info('memory'); $rkeys = count($rd->keys('*') ?: []); } catch (\Throwable) {} } ?>
+      <p class="small" style="margin:0"><b>Redis</b> (mémoire partagée pour les gros caches, tous musées) :
+        <?php if ($rd): ?><span class="ok">✓ connecté</span> (<?= e((string) \App\Core\PhpCache::$redisWhere) ?><?= $rinfo ? ', ' . e((string) ($rinfo['used_memory_human'] ?? '?')) . ' utilisés, ' . (int) $rkeys . ' entrées du musée' : '' ?>)
+        <?php elseif (!class_exists('Redis')): ?><span class="muted">extension PHP « redis » absente : les caches restent sur disque (cPanel › Sélectionner une version de PHP › Extensions).</span>
+        <?php else: ?><span class="muted">non connecté : les caches restent sur disque. Installez Redis (cPanel › Redis Manager, mode Socket) ; s’il est actif, collez son mot de passe ci-dessous.</span><?php endif; ?></p>
+      <form method="post" action="/admin/taches" class="row"><?= csrf_field() ?><input type="hidden" name="task" value="redis-save"><input type="password" name="password" class="in" placeholder="Mot de passe Redis (cPanel › Redis Manager)" autocomplete="off" style="max-width:340px"><button type="submit" class="btn btn--sm">Enregistrer et tester</button></form>
+      <?php if ($rd): ?><form method="post" action="/admin/taches" class="row" data-confirm="Vider le cache Redis ?|Il se remplit de nouveau tout seul au fil des pages.|Vider"><?= csrf_field() ?><input type="hidden" name="task" value="redis-flush"><button type="submit" class="btn btn--sm">Vider le cache Redis</button></form><?php endif; ?>
+    <?php endif; ?>
     <?php if ($srv): ?>
       <ul class="small ko" style="margin:0;padding-left:18px"><?php foreach ($srv as $p): ?><li><?= e($p) ?></li><?php endforeach; ?></ul>
     <?php else: ?>
