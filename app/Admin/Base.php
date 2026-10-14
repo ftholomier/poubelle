@@ -22,7 +22,7 @@ class Base
     public const NAV = [
         'Pilotage' => [
             ['dash', 'Tableau de bord', '/admin', false],
-            ['stats', 'Statistiques', '/admin/statistiques', true],
+            ['stats', 'Statistiques', '/admin/statistiques', false],
             ['qualite', 'Qualité', '/admin/qualite', false],
             ['journal', 'Journal', '/admin/journal', false],
         ],
@@ -62,7 +62,7 @@ class Base
             ['notifications', 'Notifications', '/admin/notifications', true],
             ['carnets', 'Carnets du supporter', '/admin/carnets', false],
             ['widgets', 'Widgets & partenaires', '/admin/widgets', true],
-            ['dons', 'Dons', '/admin/dons', false],
+            ['dons', 'Dons', '/admin/dons', true],
         ],
         'Boutique' => [
             ['boutique', 'Tableau de bord', '/admin/boutique', true],
@@ -71,7 +71,7 @@ class Base
             ['boutique-promos', 'Codes promo', '/admin/boutique/promos', true],
             ['boutique-modeles', 'Modèles', '/admin/boutique/modeles', true],
             ['livre', 'Livre des récits', '/admin/livre', true],
-            ['maillots', 'Maillots du livre', '/admin/maillots', false],
+            ['maillots', 'Maillots du livre', '/admin/maillots', true],
             ['boutique-textes', 'Banque de textes', '/admin/boutique/textes', true],
             ['boutique-reglages', 'Réglages', '/admin/boutique/reglages', true],
             ['boutique-supports', 'Supports', '/admin/boutique/supports', true],

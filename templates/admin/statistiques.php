@@ -183,6 +183,7 @@ foreach (\App\Core\Shield::stats() as $d => $row) { if ($d >= $r['from'] && $d <
 </section>
 <p class="small muted" style="margin-top:16px">Mesure interne sans cookie et sans adresse IP conservée (exemptée de consentement) : un visiteur est reconnu par une empreinte anonyme qui change chaque jour, un même visiteur revenu un autre jour compte donc à nouveau. Une visite s’arrête après 30 minutes sans page vue. Les robots d’indexation et l’équipe tant que le site est fermé ne sont pas comptés.</p>
 
+<?php if (\App\Core\Auth::isAdmin()): ?>
 <section class="card card--pad" style="margin-top:20px;border-color:#c0392b">
   <h2 class="card__t card__t--sm">Remise à zéro avant l’ouverture</h2>
   <p class="small">Repart de zéro : tous les compteurs, courbes et classements sont vidés. Les anciennes données ne sont pas effacées, elles sont mises de côté sur le serveur. Pour confirmer, tapez <b>REMETTRE A ZERO</b>.</p>
@@ -191,6 +192,7 @@ foreach (\App\Core\Shield::stats() as $d => $row) { if ($d >= $r['from'] && $d <
     <button class="btn btn--sm btn--danger">Remettre à zéro</button>
   </form>
 </section>
+<?php endif; ?>
 
 <script nonce="<?= e(csp_nonce()) ?>">
 (() => {

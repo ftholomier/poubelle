@@ -17,7 +17,7 @@ use App\Data\Activity;
 final class Router
 {
     /** Adresses réservées aux administrateurs (en plus des comptes et des réglages, contrôlés écran par écran). */
-    private const ADMIN_ONLY = '#^/admin/(assistant|audio|couts-ia|sauvegardes|taches|api/couts|dons/recu|statistiques|association|boutique|notifications|widgets)(/|$)#';
+    private const ADMIN_ONLY = '#^/admin/(assistant|audio|couts-ia|sauvegardes|taches|api/couts|dons|statistiques/remise-a-zero|association|boutique|livre|maillots|notifications|widgets)(/|$)#';
 
     public static function handle(Request $req): Response
     {

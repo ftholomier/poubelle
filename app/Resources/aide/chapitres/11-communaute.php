@@ -178,7 +178,7 @@ Le script remplace chaque <code>div</code> par une iframe isolée (le widget ne 
 </ul>
 [[attention|<p>La vidéo MP4 demande le programme <b>ffmpeg</b> sur le serveur. Les hébergements mutualisés (o2switch) ne l’ont généralement pas : l’onglet Écrans l’indique alors en clair et propose le ZIP des images, que la plupart des logiciels d’affichage dynamique savent enchaîner.</p>]]
 HTML],
-        ['id' => 'dons', 'title' => 'Le suivi des dons', 'html' => <<<'HTML'
+        ['id' => 'dons', 'title' => 'Le suivi des dons', 'admin' => true, 'html' => <<<'HTML'
 <p>Communauté › <b>Dons</b> : jauge de la collecte, liste des dons (carte bancaire via Stripe, PayPal, hors ligne), dons mensuels, export CSV pour la comptabilité.</p>
 <ul>
 <li><b>Enregistrer un don hors ligne</b> (chèque, virement, espèces ; administrateurs) : il compte dans la jauge. Son remboursement éventuel se note aussi par un administrateur.</li>

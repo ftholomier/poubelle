@@ -12,7 +12,7 @@ $pl = fn ($n, string $one, string $many): string => (int) $n > 1 ? $many : $one;
   <a class="kpi" href="/admin/personnes"><b><?= $fmt($counts['personne']) ?></b><span><?= $pl($counts['personne'], 'personne', 'personnes') ?></span><small><?= $fmt($noBirth) ?> sans lieu de naissance</small></a>
   <a class="kpi<?= $contribs ? ' kpi--yellow' : '' ?>" href="/admin/contributions"><b><?= $fmt($contribs) ?></b><span><?= $pl($contribs, 'contribution à valider', 'contributions à valider') ?></span><small><?= $oldest ? 'plus ancienne : ' . e(Base::ago(date('c', $oldest))) : 'file vide' ?></small></a>
   <a class="kpi<?= $high ? ' kpi--pink' : '' ?>" href="/admin/qualite"><b><?= $fmt($qualityTotal) ?></b><span><?= $pl($qualityTotal, 'alerte qualité', 'alertes qualité') ?></span><small><?= $fmt($high) ?> haute<?= $high > 1 ? 's' : '' ?></small></a>
-  <a class="kpi" href="/admin/dons"><b><?= e(Donations::money($monthDons)) ?></b><span>dons ce mois</span><small><?= $fmt($gauge['raised']) ?> € au total</small></a>
+  <?php if (\App\Core\Auth::isAdmin()): ?>  <a class="kpi" href="/admin/dons"><b><?= e(Donations::money($monthDons)) ?></b><span>dons ce mois</span><small><?= $fmt($gauge['raised']) ?> € au total</small></a><?php endif; ?>
   <a class="kpi" href="/admin/newsletter"><b><?= $fmt($subs) ?></b><span><?= $pl($subs, 'abonné newsletter', 'abonnés newsletter') ?></span><small>« Ce jour-là », chaque semaine</small></a>
 </div>
 
