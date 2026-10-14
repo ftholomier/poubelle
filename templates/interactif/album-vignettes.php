@@ -19,7 +19,7 @@ $curCat = $cat[$type] ?? [];
   <span class="eyebrow eyebrow--lg"><?= e(t('Interactif')) ?></span>
   <h1 class="h-xl snb__title"><?= e($name) ?></h1>
   <p class="muted snb__lead"><?= e(t('Des albums de vignettes calculés d’après les compositions des matchs officiels : par saison, par décennie, par entraîneur, les grandes épopées… Et, plus bas, votre propre album à compléter.')) ?></p>
-  <p class="snb__jump"><a class="linkbtn" href="#mon-album"><?= e(t('Mon album')) ?> ↓</a></p>
+  <a class="btn btn--yellow snb__mine" href="#mon-album"><?= e(t('Mon album {n}', ['n' => trim((string) preg_replace('/^album\s+/iu', '', $name))])) ?> <span aria-hidden="true">↓</span></a>
 </section>
 
 <section class="wrap snk" aria-labelledby="snk-t" data-snb-kiosk>

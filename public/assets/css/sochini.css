@@ -3,7 +3,7 @@
 .snb__head { padding-top: clamp(28px, 5vw, 56px); padding-bottom: 8px; display: flex; flex-direction: column; gap: 10px; }
 .snb__title { margin: 0; }
 .snb__lead { font-size: 19px; margin: 0; max-width: 70ch; }
-.snb__jump { margin: 0; }
+.snb__mine { display: flex; justify-content: center; align-items: center; gap: .5em; width: 100%; margin: .5rem 0 0; padding: 1rem 1.25rem; font-size: 1.15rem; font-weight: 800; text-align: center; }
 
 .snk { padding-bottom: 28px; }
 .snk__types ul { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
@@ -103,6 +103,6 @@
   .mya__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 }
 @media print {
-  .snk, .snb__nav, .snb__more, .mya, .snb__jump { display: none !important; }
+  .snk, .snb__nav, .snb__more, .mya, .snb__mine { display: none !important; }
   .alb__card--shine .alb__front { animation: none; background: var(--yellow); }
 }

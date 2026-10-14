@@ -115,11 +115,25 @@ final class AlbumPages
         }
         $action = (string) ($in['action'] ?? '');
         $carnet = Carnet::current();
-        [$c, $cookie] = Vignettes::current($_COOKIE[Vignettes::COOKIE] ?? null, $carnet);
+        // Copie de secours de l'identifiant gardée par le navigateur (localStorage) : si le cookie a été
+        // perdu (navigateur qui l'efface, appli installée…), la collection est retrouvée ; si une
+        // nouvelle collection a été créée entre-temps, l'ancienne y est versée.
+        $ck = isset($_COOKIE[Vignettes::COOKIE]) && Vignettes::open((string) $_COOKIE[Vignettes::COOKIE]) ? (string) $_COOKIE[Vignettes::COOKIE] : null;
+        $bk = is_string($in['cred'] ?? null) && ($b = Vignettes::open($in['cred'])) ? $b : null;
+        $cred = null;
+        if ($bk && !$ck) {
+            $ck = $bk['id'] . '.' . substr(strtolower(str_replace(['-', ' ', '.'], '', $in['cred'])), 17);
+            self::setCookie($ck);
+            $cred = $ck;
+        } elseif ($bk && !str_starts_with($ck, $bk['id'] . '.')) {
+            Vignettes::merge($bk, substr($ck, 0, 17));
+            $cred = $ck;
+        }
+        [$c, $cookie] = Vignettes::current($ck, $carnet);
         if ($cookie !== null) {
             self::setCookie($cookie);
+            $cred = $cookie;
         }
-        $cred = null;
         // Première action qui écrit : on crée la collection (cookie de l'appareil, ou carnet).
         $writes = ['ouvrir', 'bonus', 'offrir', 'accepter', 'annuler'];
         if (!$c && in_array($action, $writes, true)) {
@@ -142,8 +156,7 @@ final class AlbumPages
             'voir' => ($t = Vignettes::trade((string) ($in['code'] ?? ''))) && empty($t['used']) ? ['trade' => ['give' => $t['give'], 'want' => $t['want']]] : ['error' => t('Code d’échange inconnu, expiré ou déjà utilisé.')],
             'accepter' => Vignettes::accept($id, (string) ($in['code'] ?? '')),
             'annuler' => Vignettes::cancel($id, (string) ($in['code'] ?? '')) ? ['ok' => true] : ['error' => t('Offre introuvable.')],
-            'sauvegarde' => $c && str_starts_with($c['id'], 'a') && isset($_COOKIE[Vignettes::COOKIE]) && Vignettes::open((string) $_COOKIE[Vignettes::COOKIE])
-                ? ['code' => Vignettes::saveCode((string) $_COOKIE[Vignettes::COOKIE])] : ['error' => t('Rien à sauvegarder pour le moment.')],
+            'sauvegarde' => $c && str_starts_with($c['id'], 'a') && $ck ? ['code' => Vignettes::saveCode($ck)] : ['error' => t('Rien à sauvegarder pour le moment.')],
             'restaurer' => ($r = Vignettes::open((string) ($in['code'] ?? ''))) ? self::restore($r, (string) $in['code'], $carnet) : ['error' => t('Code de sauvegarde inconnu.')],
             default => ['error' => t('Ressource introuvable')],
         };
@@ -153,6 +166,9 @@ final class AlbumPages
         $sid = $action === 'restaurer' ? $out['id'] : $id;
         $c = $sid ? Vignettes::get($sid) : null;
         unset($out['id']);
+        if ($cred !== null && !isset($out['cred'])) {
+            $out['cred'] = $cred;
+        }
         return Response::json(['ok' => true] + $out + ['state' => Vignettes::state($c)]);
     }
 
@@ -164,6 +180,6 @@ final class AlbumPages
         }
         $cred = $r['id'] . '.' . substr(strtolower(str_replace(['-', ' ', '.'], '', $code)), 17);
         self::setCookie($cred);
-        return ['id' => $r['id'], 'restored' => true];
+        return ['id' => $r['id'], 'restored' => true, 'cred' => $cred];
     }
 }

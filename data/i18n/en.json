@@ -2469,6 +2469,7 @@
     "Il vous faut la vignette demandée en double pour cet échange.": "You need the requested sticker as a duplicate for this swap.",
     "Des albums de vignettes calculés d’après les compositions des matchs officiels : par saison, par décennie, par entraîneur, les grandes épopées… Et, plus bas, votre propre album à compléter.": "Sticker albums calculated from the line-ups of competitive matches: by season, by decade, by coach, the great cup runs… And, further down, your own album to complete.",
     "Mon album": "My album",
+    "Mon album {n}": "My {n} album",
     "Le kiosque des albums": "The album kiosk",
     "Familles d’albums": "Album families",
     "{n} albums": "{n} albums",

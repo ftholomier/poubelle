@@ -89,8 +89,14 @@
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function api(body) {
     body.lang = lang;
+    // Copie de secours de la collection : retrouvée même si le navigateur a effacé le cookie.
+    try { var k = localStorage.getItem('mya:cred'); if (k) body.cred = k; } catch (e) {}
     return fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify(body) })
-      .then(function (r) { return r.json(); });
+      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        if (r && typeof r.cred === 'string') { try { if (r.cred) localStorage.setItem('mya:cred', r.cred); else localStorage.removeItem('mya:cred'); } catch (e) {} }
+        return r;
+      });
   }
   function msg(t) { var m = app.querySelector('[data-mya-msg]'); if (m) { m.textContent = t || ''; m.hidden = !t; } }
   function name(pid) { return pool[pid] ? pool[pid].name : '#' + pid; }
