@@ -163,6 +163,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
 
       <?php if ($s['key'] === 'resume' && $s['struct'] && !$timelineDone): $timelineDone = true; ?>
         <?php if ($intro = Fiche::resumeIntro($html)): ?><div class="prose"><?= safe_html($intro) ?></div><?php endif; ?>
+        <?php $tweets = tweets_by_minute($html); ?>
         <ol class="timeline">
           <?php $prev = [0, 0];
           foreach ($m['highlights'] as $h):
@@ -186,10 +187,12 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
             <div class="timeline__body">
               <?php if ($goal): ?><span class="timeline__goal"><?= e(t('But !')) ?> <?= e($h['score']) ?></span><?php endif; ?>
               <span class="timeline__text"><?= e($txt) ?></span>
+              <?php foreach ($tweets as $ti => $tw): if ($min !== '' && $tw['min'] === preg_replace('/\s+/', '', $min)): unset($tweets[$ti]); ?><?= tweet_embed($tw['id']) ?><?php endif; endforeach; ?>
             </div>
           </li>
           <?php endforeach; ?>
         </ol>
+        <?php foreach ($tweets as $tw): ?><?= tweet_embed($tw['id']) ?><?php endforeach; ?>
       <?php elseif ($s['key'] === 'resume' && $s['struct']): ?>
         <?php if ($intro = Fiche::resumeIntro($html)): ?><div class="prose"><?= safe_html($intro) ?></div><?php endif; ?>
 

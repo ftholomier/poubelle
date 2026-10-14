@@ -243,8 +243,52 @@ function safe_html(?string $html): string
     for ($i = 0; $i < 5 && preg_match('#(?:<(?:ul|ol)\b[^>]*>|</li>)\s*<blockquote\b#i', $html); $i++) {
         $html = (string) preg_replace('#(<(?:ul|ol)\b[^>]*>|</li>)(\s*)(<blockquote\b(?:(?!<blockquote\b).)*?</blockquote>)#is', '$1$2<li class="li-quote">$3</li>', $html);
     }
+    // Tweets cités par l'ancien site (le texte seul, la vidéo ou la photo perdue) : la vraie publication.
+    $html = (string) preg_replace_callback('#<blockquote\b(?:(?!<blockquote\b).)*?</blockquote>#is', function ($m) {
+        $id = tweet_id($m[0]);
+        return $id ? tweet_embed($id) : $m[0];
+    }, $html);
     // Liens vers d'anciennes adresses : redirigés par le serveur, on garde tels quels.
     return $html;
+}
+
+/** Numéro de la publication X (Twitter) citée dans un bloc, ou null. */
+function tweet_id(string $html): ?string
+{
+    return preg_match('#(?:twitter|x)\.com/[A-Za-z0-9_]{1,15}/status(?:es)?/(\d{5,25})#i', $html, $m) ? $m[1] : null;
+}
+
+/**
+ * Publication X (Twitter) affichée en vrai (vidéo, photos) par le lecteur officiel, sans suivi
+ * publicitaire (dnt). La hauteur s'ajuste toute seule (site.js).
+ */
+function tweet_embed(string $id): string
+{
+    $id = preg_replace('/\D/', '', $id);
+    $src = 'https://platform.twitter.com/embed/Tweet.html?dnt=true&lang=' . (\App\Services\I18n::lang() === 'en' ? 'en' : 'fr') . '&id=' . $id;
+    return '<div class="tweet"><iframe src="' . e($src) . '" loading="lazy" title="' . e(t('Publication X')) . '" scrolling="no" allowfullscreen></iframe>'
+        . '<a class="tweet__link" href="https://x.com/i/status/' . $id . '" target="_blank" rel="noopener">' . e(t('Voir sur X')) . ' ↗</a></div>';
+}
+
+/**
+ * Tweets d'une section, chacun avec la minute du fait qu'il illustre (dernière minute citée juste
+ * avant lui), pour les poser dans le déroulé du match.
+ * @return list<array{min:string,id:string}>
+ */
+function tweets_by_minute(string $html): array
+{
+    $out = [];
+    if (preg_match_all('#<blockquote\b(?:(?!<blockquote\b).)*?</blockquote>#is', $html, $all, PREG_OFFSET_CAPTURE)) {
+        foreach ($all[0] as [$bq, $pos]) {
+            if (!$id = tweet_id($bq)) {
+                continue;
+            }
+            $before = strip_tags(substr($html, max(0, $pos - 600), min(600, $pos)));
+            $min = preg_match_all("/(\d{1,3}(?:\s*\+\s*\d+)?)\s*(?:'|’|e\s*min)/u", $before, $mm) ? preg_replace('/\s+/', '', end($mm[1])) : '';
+            $out[] = ['min' => (string) $min, 'id' => $id];
+        }
+    }
+    return $out;
 }
 
 /** Pictogramme « photo » des emplacements vides (maquette). */

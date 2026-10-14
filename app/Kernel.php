@@ -101,7 +101,7 @@ final class Kernel
      */
     private static function csp(Request $req): string
     {
-        $frames = 'https://www.youtube-nocookie.com https://www.youtube.com https://geo.dailymotion.com https://www.dailymotion.com https://player.vimeo.com https://rutube.ru';
+        $frames = 'https://www.youtube-nocookie.com https://www.youtube.com https://geo.dailymotion.com https://www.dailymotion.com https://player.vimeo.com https://rutube.ru https://platform.twitter.com';
         $pay = 'https://checkout.stripe.com https://www.paypal.com https://www.sandbox.paypal.com';
         $rules = [
             "default-src 'self'",

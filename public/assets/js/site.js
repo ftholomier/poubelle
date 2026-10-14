@@ -559,3 +559,14 @@ if (document.querySelector('meta[name="sr-vu"]')) {
   if (window.ResizeObserver) { const h = document.querySelector('header'); if (h) new ResizeObserver(fit).observe(h); }
 })();
 
+
+// Publications X : le lecteur officiel donne sa hauteur, le cadre s'y ajuste.
+window.addEventListener('message', (ev) => {
+  if (ev.origin !== 'https://platform.twitter.com') return;
+  let d = ev.data;
+  try { if (typeof d === 'string') d = JSON.parse(d); } catch (e) { return; }
+  const p = d && d['twttr.embed'];
+  const h = p && p.method === 'twttr.private.resize' && p.params && p.params[0] && p.params[0].height;
+  if (!h) return;
+  document.querySelectorAll('.tweet iframe').forEach((f) => { if (f.contentWindow === ev.source) f.style.height = Math.ceil(h) + 'px'; });
+});
