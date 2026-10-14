@@ -32,7 +32,10 @@ final class Memo
         $file = self::DIR . '/' . substr((string) preg_replace('/[^a-z0-9-]/i', '-', $name), 0, 80) . '-' . substr(md5($name), 0, 8) . '.php';
         $c = is_file($file) ? @include $file : null;
         $mine = is_array($c) && ($c['name'] ?? null) === $name;
-        if ($mine && ($c['stamp'] ?? null) === $stamp && ($c['at'] ?? 0) > time() - self::TTL) {
+        // Fraîcheur dans un petit fichier à côté (« .at ») : la reconfirmer ne réécrit pas le cache PHP,
+        // sinon OPcache en garderait une copie périmée toutes les 5 minutes (mémoire qui grimpe).
+        $at = $mine ? max((int) ($c['at'] ?? 0), (int) @filemtime($file . '.at')) : 0;
+        if ($mine && ($c['stamp'] ?? null) === $stamp && $at > time() - self::TTL) {
             return self::$seen["$name|$stamp"] = $c['value'];
         }
         // Un seul processus recalcule ; pendant ce temps, les autres visiteurs reçoivent la valeur
@@ -56,7 +59,12 @@ final class Memo
             }
             $value = $compute();
             try {
-                PhpCache::write($file, ['name' => $name, 'stamp' => $stamp, 'at' => time(), 'value' => $value]);
+                if ($mine && ($c['stamp'] ?? null) === $stamp && ($c['value'] ?? null) === $value) {
+                    @touch($file . '.at'); // même résultat : seulement reconfirmé
+                } else {
+                    PhpCache::write($file, ['name' => $name, 'stamp' => $stamp, 'at' => time(), 'value' => $value]);
+                    @unlink($file . '.at');
+                }
             } catch (\Throwable $e) {
                 // cache facultatif : la valeur calculée sert quand même
             }

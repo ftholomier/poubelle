@@ -54,3 +54,6 @@ if ($request->method === 'GET' && in_array($response->status, [200, 304], true) 
 if (is_file(STORAGE_PATH . '/cache/apres-mise-a-jour')) {
     \App\Services\Updater::refresh();
 }
+
+// OPcache : anciennes versions des caches réécrits récupérées dès qu'elles pèsent trop (5 min au plus).
+\App\Core\OpcacheGuard::tick();

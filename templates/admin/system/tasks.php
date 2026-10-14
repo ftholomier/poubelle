@@ -20,9 +20,11 @@ $errs = \App\Services\ServerCheck::lastErrors(10);
 $op = \App\Services\ServerCheck::opcache();
 ?>
 <div class="card" id="serveur">
-  <div class="card__head"><h2 class="card__t">Serveur</h2><span class="card__note">PHP <?= e(PHP_VERSION) ?> (<?= e(PHP_SAPI) ?><?= $op ? ', OPcache ' . $op['used'] . ' Mo sur ' . $op['total'] . ', ' . $op['scripts'] . ' fichiers, ' . $op['hits'] . ' % trouvés en mémoire' : (extension_loaded('Zend OPcache') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN) ? ', OPcache' : '') ?>) · mémoire <?= e((string) ini_get('memory_limit')) ?> · durée maximale d’une page <?= e((string) ini_get('max_execution_time')) ?> s</span></div>
+  <div class="card__head"><h2 class="card__t">Serveur</h2><span class="card__note">PHP <?= e(PHP_VERSION) ?> (<?= e(PHP_SAPI) ?><?= $op ? ', OPcache ' . $op['used'] . ' Mo sur ' . $op['total'] . ($op['wasted'] ? ' (dont ' . $op['wasted'] . ' Mo de copies périmées, récupérés au prochain nettoyage)' : '') . ', ' . $op['scripts'] . ' fichiers, ' . $op['hits'] . ' % trouvés en mémoire' : (extension_loaded('Zend OPcache') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN) ? ', OPcache' : '') ?>) · mémoire <?= e((string) ini_get('memory_limit')) ?> · durée maximale d’une page <?= e((string) ini_get('max_execution_time')) ?> s</span></div>
   <div class="card--pad stack" style="gap:10px">
     <?php if (Auth::isAdmin() && $op): ?>
+      <?php $og = \App\Core\OpcacheGuard::state(); ?>
+      <p class="small muted" style="margin:0">Nettoyage automatique d’OPcache : dès que les copies périmées dépassent le quart de sa mémoire (vérifié toutes les 5 min). <?= $og['count'] ? $og['count'] . ' nettoyage(s), le dernier ' . e(\App\Admin\Base::ago((string) $og['last'])) . ' (' . $og['freed'] . ' Mo récupérés).' : 'Aucun pour l’instant.' ?></p>
       <form method="post" action="/admin/taches" class="row" data-confirm="Vider la mémoire OPcache ?|Le code sera recompilé : les premières pages seront un peu plus lentes pendant quelques secondes.|Vider"><?= csrf_field() ?><input type="hidden" name="task" value="opcache-reset"><button type="submit" class="btn btn--sm">Vider OPcache</button><span class="small muted">À utiliser si la mémoire OPcache est presque pleine et que le site ralentit.</span></form>
     <?php endif; ?>
     <?php if (Auth::isAdmin()): $rd = \App\Core\PhpCache::redis(); $rinfo = null; if ($rd) { try { $rinfo = $rd->info('memory'); $rkeys = count($rd->keys('*') ?: []); } catch (\Throwable) {} } ?>

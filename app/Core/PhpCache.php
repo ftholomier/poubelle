@@ -61,8 +61,25 @@ final class PhpCache
         if ($big === null) {
             $n = count(glob(APP_ROOT . '/config/clubs/*.php') ?: []);
             $big = $n <= 4 ? self::BIG : max(300_000, intdiv(self::BIG * 4, $n));
+            // Avec Redis : les données de plus de 100 Ko y vont. Elles changent à chaque fiche modifiée
+            // (tâches planifiées : reprise, feuilles, traductions, correcteur…) ; dans OPcache, chaque
+            // nouvelle version laissait l'ancienne en mémoire « perdue » jusqu'au redémarrage.
+            if (self::redis()) {
+                $big = min($big, 100_000);
+            }
         }
         return $big;
+    }
+
+    /**
+     * Caches « chauds », lus à chaque page (index des fiches, données calculées) : gardés dans OPcache
+     * jusqu'à BIG, car les relire depuis Redis coûterait ~9 ms par page. Leurs anciennes versions
+     * sont récupérées par OpcacheGuard. Les autres (médiathèque, mémos, albums, recherche…) passent
+     * par Redis dès 100 Ko.
+     */
+    private static function threshold(string $file): int
+    {
+        return preg_match('#/cache/(index-\d+\.php|derived/)#', str_replace('\\', '/', $file)) ? self::BIG : self::big();
     }
 
     /**
@@ -102,15 +119,14 @@ final class PhpCache
                 (string) getenv('HOME'),
                 function_exists('posix_getpwuid') ? (string) (@posix_getpwuid(posix_geteuid())['dir'] ?? '') : '',
             ]));
-            $home = (string) reset($homes);
             foreach ($homes as $h) {
                 foreach (['/.cpanel/redis/redis.sock', '/.redis/redis.sock'] as $sock) {
                     $targets[] = [$h . $sock, 0];
                 }
             }
             // o2switch (cPanel › Redis Manager) : mot de passe lu dans la configuration du serveur Redis.
-            if (empty($cfg['password']) && $home !== '') {
-                foreach (glob($home . '/.cpanel/redis/*.conf') ?: [] as $conf) {
+            if (empty($cfg['password'])) {
+                foreach (array_merge(...array_map(fn ($h) => glob($h . '/.cpanel/redis/*.conf') ?: [], array_values($homes) ?: [''])) as $conf) {
                     if (preg_match('/^\s*requirepass\s+"?([^"\s]+)"?/m', (string) @file_get_contents($conf), $m)) {
                         $cfg['password'] = $m[1];
                         break;
@@ -151,7 +167,7 @@ final class PhpCache
     public static function export(string $file, mixed $data): string
     {
         $ser = serialize($data);
-        if (strlen($ser) < self::big()) {
+        if (strlen($ser) < self::threshold($file)) {
             if (is_file($file . '.ser')) {
                 @unlink($file . '.ser');
             }
