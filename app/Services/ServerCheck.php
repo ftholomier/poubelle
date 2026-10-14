@@ -194,10 +194,19 @@ final class ServerCheck
             foreach (array_slice($g, 0, $limit, true) as $k => $v) {
                 $out[] = ['dir' => $k, 'mb' => round($v['mb'] / 1048576, 1), 'n' => $v['n']];
             }
-            $total = count($r->keys('*') ?: []);
-            $other = $total - $known * 2 - 1; // chaque cache : la donnée + son pointeur ; plus le répertoire
-            if ($other > 0) {
-                $out[] = ['dir' => '(entrées plus anciennes, pas encore répertoriées)', 'mb' => 0.0, 'n' => $other];
+            // Le reste (entrées d'avant le répertoire, pointeurs) : mesuré aussi, sur une seule ligne.
+            $seen = array_flip(array_keys($r->hGetAll('idx') ?: []));
+            $om = $on = 0;
+            foreach ($r->keys('*') ?: [] as $full) {
+                $k = substr((string) $full, strlen($prefix));
+                if (isset($seen[$k]) || $k === 'idx' || str_starts_with($k, 'v:')) {
+                    continue;
+                }
+                $om += (int) $r->rawCommand('MEMORY', 'USAGE', (string) $full);
+                $on++;
+            }
+            if ($on > 0) {
+                $out[] = ['dir' => '(entrées d’avant le répertoire : videz Redis une fois pour les ranger)', 'mb' => round($om / 1048576, 1), 'n' => $on];
             }
             return $out;
         } catch (\Throwable) {
