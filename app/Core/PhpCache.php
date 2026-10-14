@@ -244,9 +244,12 @@ final class PhpCache
                         $old = $redis->get($ptr);
                         if (is_string($old) && $old !== $rk) {
                             $redis->unlink($old);
+                            $redis->hDel('idx', $old);
                         }
                         $redis->setex($rk, 86400, $val);
                         $redis->setex($ptr, 86400, $rk);
+                        // Répertoire des entrées (pavé Serveur : ce qui occupe Redis, par dossier).
+                        $redis->hSet('idx', $rk, $ser);
                     } catch (\Throwable) {
                     }
                 }

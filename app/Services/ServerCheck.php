@@ -161,6 +161,50 @@ final class ServerCheck
         }
     }
 
+    /**
+     * Ce qui occupe Redis pour ce musée, par dossier du cache (même présentation que pour OPcache).
+     * @return list<array{dir:string,mb:float,n:int}>
+     */
+    public static function redisByDir(int $limit = 15): array
+    {
+        $r = \App\Core\PhpCache::redis();
+        if (!$r) {
+            return [];
+        }
+        try {
+            $prefix = (string) $r->getOption(\Redis::OPT_PREFIX);
+            $root = rtrim(str_replace('\\', '/', dirname(APP_ROOT)), '/') . '/';
+            $g = [];
+            $known = 0;
+            foreach ($r->hGetAll('idx') ?: [] as $rk => $file) {
+                $mem = (int) $r->rawCommand('MEMORY', 'USAGE', $prefix . $rk);
+                if ($mem <= 0) {
+                    $r->hDel('idx', (string) $rk); // entrée expirée ou effacée
+                    continue;
+                }
+                $f = str_replace('\\', '/', (string) $file);
+                $rel = str_starts_with($f, $root) ? substr($f, strlen($root)) : $f;
+                $k = dirname($rel);
+                $g[$k]['mb'] = ($g[$k]['mb'] ?? 0) + $mem;
+                $g[$k]['n'] = ($g[$k]['n'] ?? 0) + 1;
+                $known++;
+            }
+            uasort($g, fn ($a, $b) => $b['mb'] <=> $a['mb']);
+            $out = [];
+            foreach (array_slice($g, 0, $limit, true) as $k => $v) {
+                $out[] = ['dir' => $k, 'mb' => round($v['mb'] / 1048576, 1), 'n' => $v['n']];
+            }
+            $total = count($r->keys('*') ?: []);
+            $other = $total - $known * 2 - 1; // chaque cache : la donnée + son pointeur ; plus le répertoire
+            if ($other > 0) {
+                $out[] = ['dir' => '(entrées plus anciennes, pas encore répertoriées)', 'mb' => 0.0, 'n' => $other];
+            }
+            return $out;
+        } catch (\Throwable) {
+            return [];
+        }
+    }
+
     /** La page part avant le travail fait après elle (recalculs, mesure d'audience) : PHP-FPM ou LiteSpeed. */
     public static function finishesEarly(): bool
     {

@@ -108,6 +108,11 @@ $level = fn (float $r) => $r >= 0.9 ? ['ko', 'Presque plein'] : ($r >= 0.7 ? ['w
       <table class="xs" style="margin:8px 0 0;font-family:monospace;border-collapse:collapse"><?php foreach ($byDir as $d): ?><tr><td style="padding:1px 14px 1px 0"><?= e($d['dir']) ?></td><td style="text-align:right;padding-right:14px"><?= e(number_format($d['mb'], 1, ',', ' ')) ?> Mo</td><td class="muted"><?= (int) $d['n'] ?> fichiers</td></tr><?php endforeach; ?></table>
     </details>
     <?php endif; ?>
+    <?php $rdDir = \App\Services\ServerCheck::redisByDir(); if ($rdDir): ?>
+    <details><summary class="small">Ce qui occupe Redis (par dossier, ce musée)</summary>
+      <table class="xs" style="margin:8px 0 0;font-family:monospace;border-collapse:collapse"><?php foreach ($rdDir as $d): ?><tr><td style="padding:1px 14px 1px 0"><?= e($d['dir']) ?></td><td style="text-align:right;padding-right:14px"><?= $d['mb'] > 0 ? e(number_format($d['mb'], 1, ',', ' ')) . ' Mo' : '' ?></td><td class="muted"><?= (int) $d['n'] ?> entrées</td></tr><?php endforeach; ?></table>
+    </details>
+    <?php endif; ?>
     <?php endif; ?>
     <?php endif; ?>
     <?php if ($srv): ?>
