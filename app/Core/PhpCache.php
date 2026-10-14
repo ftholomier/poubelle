@@ -74,12 +74,17 @@ final class PhpCache
     /**
      * Caches « chauds », lus à chaque page (index des fiches, données calculées) : gardés dans OPcache
      * jusqu'à BIG, car les relire depuis Redis coûterait ~9 ms par page. Leurs anciennes versions
-     * sont récupérées par OpcacheGuard. Les autres (médiathèque, mémos, albums, recherche…) passent
-     * par Redis dès 100 Ko.
+     * sont récupérées par OpcacheGuard. Avec Redis, tous les autres (médiathèque, mémos, albums,
+     * recherche…) y passent, quelle que soit leur taille.
      */
     private static function threshold(string $file): int
     {
-        return preg_match('#/cache/(index-\d+\.php|derived/)#', str_replace('\\', '/', $file)) ? self::BIG : self::big();
+        if (preg_match('#/cache/(index-\d+\.php|derived/)#', str_replace('\\', '/', $file))) {
+            return self::BIG;
+        }
+        // Avec Redis, tous les autres y vont, même petits : albums (un fichier par album), mémos…
+        // Des centaines de fichiers refaits à chaque recalcul ne s'empilent plus dans OPcache.
+        return self::redis() ? 0 : self::big();
     }
 
     /**
