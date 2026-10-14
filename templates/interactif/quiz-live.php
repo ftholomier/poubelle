@@ -47,7 +47,7 @@ $champ = url('/interactif/quiz-live/championnat/');
         <button type="submit" class="qbtn"><?= e(t('C’est parti !')) ?></button>
         <p class="ql__err" data-ql-err role="alert" hidden></p>
       </form>
-      <p class="ql__note"><?= e(t('Pseudo visible de toute la salle : restez fair-play.')) ?> <a href="<?= e($champ) ?>"><?= e(t('Voir le championnat')) ?></a></p>      <div class="ql__host" data-ql-host>
+      <p class="ql__note"><?= e(t('Pseudo visible de toute la salle : restez fair-play.')) ?> <a href="<?= e($champ) ?>"><?= e(t('Voir le championnat')) ?></a></p>      <div class="ql__host" id="organiser" data-ql-host>
         <h2 class="ql__htitle"><?= e(t('Organiser une soirée entre amis')) ?></h2>
         <p class="ql__hint"><?= e(t('Chez vous, sur la télé ou l’ordinateur : créez une partie, le grand écran affiche le QR code, vos amis le scannent avec leur téléphone. Vous lancez chaque question avec la barre d’espace. Les joueurs qui ont laissé leur e-mail marquent des points au classement « Entre amis ».')) ?></p>
         <form class="ql__hform" data-ql-hostform>

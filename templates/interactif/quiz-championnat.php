@@ -15,7 +15,7 @@ $current = $season === QuizChampionship::season();
 <div class="wrap cnwrap"><nav class="qc__seasons qc__leagues" aria-label="<?= e(t('Classements')) ?>" style="margin:0 0 18px">
   <a href="<?= e($base) ?>"<?= $league === 'club' ? ' aria-current="page"' : '' ?>><?= e(t('Soirées du club-house')) ?></a>
   <a href="<?= e($base . '?ligue=amis') ?>"<?= $league === 'amis' ? ' aria-current="page"' : '' ?>><?= e(t('Entre amis')) ?></a>
-</nav><?php if ($league === 'amis'): ?><p class="cnnote"><?= e(t('Les parties organisées par les supporters, chez eux, entre amis (au plus 3 parties comptées par jour et par joueur). Pour en créer une : page Quiz du club-house › « Organiser une soirée entre amis ».')) ?></p><?php endif; ?></div>
+</nav><?php if ($league === 'amis'): ?><p class="cnnote"><?= e(t('Les parties organisées par les supporters, chez eux, entre amis (au plus 3 parties comptées par jour et par joueur).')) ?></p><p><a class="btn btn--yellow cnhost" href="<?= e(url('/interactif/quiz-live/') . '#organiser') ?>">▶ <?= e(t('Créer ma soirée entre amis')) ?></a></p><?php endif; ?></div>
 <div class="wrap cnwrap qc" data-qc data-lang="<?= e(\App\Services\I18n::lang()) ?>">
   <script type="application/json" id="qc-i18n"><?= json_encode(['mailed' => t('C’est parti : un lien vient d’être envoyé à cette adresse. Ouvrez-le sur votre téléphone pour valider votre place (pensez aux indésirables).'), 'saved' => t('Pseudo enregistré.'), 'error' => t('Connexion perdue, réessayez.')], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) ?></script>
   <?php if ($welcome && $me): ?><p class="cnwelcome"><?= e(t('C’est validé : ce téléphone vous reconnaîtra à chaque partie, sous le nom {p}.', ['p' => $me['pseudo']])) ?></p><?php endif; ?>
