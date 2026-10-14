@@ -103,6 +103,11 @@ $level = fn (float $r) => $r >= 0.9 ? ['ko', 'Presque plein'] : ($r >= 0.7 ? ['w
     <details><summary class="small">Diagnostic technique d’OPcache</summary>
       <p class="xs muted" style="margin:8px 0 0;font-family:monospace">démarré <?= $op['start'] ? e(date('d/m H:i:s', $op['start'])) : '?' ?> · dernier vidage <?= $op['restart'] ? e(date('d/m H:i:s', $op['restart'])) : 'jamais' ?> · vidages manuels <?= $op['manual'] ?> · vidage en attente <?= $op['pending'] ? 'OUI' : 'non' ?> · redémarrage LiteSpeed demandé <?= $lr ? e(date('d/m H:i:s', $lr)) : 'jamais' ?> · opcache_reset <?= function_exists('opcache_reset') ? 'disponible' : 'DÉSACTIVÉE' ?> · restrict_api « <?= e($op['restrict']) ?> » · open_basedir « <?= e((string) ini_get('open_basedir')) ?> » · max_wasted <?= e((string) ini_get('opcache.max_wasted_percentage')) ?> % · processus <?= (int) $op['pid'] ?></p>
     </details>
+    <?php $byDir = \App\Services\ServerCheck::opcacheByDir(); if ($byDir): ?>
+    <details><summary class="small">Ce qui occupe OPcache (par dossier, tous musées confondus)</summary>
+      <table class="xs" style="margin:8px 0 0;font-family:monospace;border-collapse:collapse"><?php foreach ($byDir as $d): ?><tr><td style="padding:1px 14px 1px 0"><?= e($d['dir']) ?></td><td style="text-align:right;padding-right:14px"><?= e(number_format($d['mb'], 1, ',', ' ')) ?> Mo</td><td class="muted"><?= (int) $d['n'] ?> fichiers</td></tr><?php endforeach; ?></table>
+    </details>
+    <?php endif; ?>
     <?php endif; ?>
     <?php endif; ?>
     <?php if ($srv): ?>

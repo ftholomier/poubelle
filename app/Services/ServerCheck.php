@@ -108,6 +108,37 @@ final class ServerCheck
     }
 
     /**
+     * Ce qui occupe OPcache, par dossier (deux niveaux sous la racine du site), du plus gros au plus
+     * petit : pour repérer des fichiers qui n'ont rien à y faire (gros caches, autre musée, anciennes
+     * versions du code après une mise à jour).
+     * @return list<array{dir:string,mb:float,n:int}>
+     */
+    public static function opcacheByDir(int $limit = 15): array
+    {
+        $st = function_exists('opcache_get_status') ? @opcache_get_status(true) : false;
+        if (!is_array($st) || empty($st['scripts'])) {
+            return [];
+        }
+        $root = rtrim(str_replace('\\', '/', dirname(APP_ROOT)), '/') . '/';
+        $g = [];
+        foreach ($st['scripts'] as $sc) {
+            $f = str_replace('\\', '/', (string) ($sc['full_path'] ?? ''));
+            $rel = str_starts_with($f, $root) ? substr($f, strlen($root)) : $f;
+            $parts = explode('/', $rel);
+            array_pop($parts);
+            $k = implode('/', array_slice($parts, 0, 4)) ?: '/';
+            $g[$k]['mb'] = ($g[$k]['mb'] ?? 0) + (int) ($sc['memory_consumption'] ?? 0);
+            $g[$k]['n'] = ($g[$k]['n'] ?? 0) + 1;
+        }
+        uasort($g, fn ($a, $b) => $b['mb'] <=> $a['mb']);
+        $out = [];
+        foreach (array_slice($g, 0, $limit, true) as $k => $v) {
+            $out[] = ['dir' => $k, 'mb' => round($v['mb'] / 1048576, 1), 'n' => $v['n']];
+        }
+        return $out;
+    }
+
+    /**
      * Mémoire de Redis (tous musées confondus) : null s'il n'est pas connecté.
      * @return array{used:float,max:float,keys:int,where:string}|null
      */
