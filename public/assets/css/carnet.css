@@ -83,3 +83,18 @@
 .cnbday__l { font-weight: 700; }
 .cnbday select { padding: 6px 8px; border: 2px solid var(--navy); background: #fff; font: inherit; }
 .cnbday .cnnote { flex-basis: 100%; margin: 0; }
+/* Championnat : deux pavés (club-house / entre amis) */
+.qc__lg { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 0 0 34px; }
+.qc__lgc { background: #fffdf6; border: 2px solid var(--navy); padding: 26px 28px; display: flex; flex-direction: column; }
+.qc__lgc.is-on { background: var(--navy); color: var(--cream); border-color: var(--yellow); box-shadow: 6px 6px 0 var(--yellow); }
+.qc__lgk { font-family: var(--font-display, inherit); text-transform: uppercase; letter-spacing: .14em; font-size: 12px; color: #b8860b; margin: 0 0 6px; }
+.qc__lgc.is-on .qc__lgk { color: var(--yellow); }
+.qc__lgc h2 { margin: 0 0 10px; font-size: 30px; line-height: 1.05; }
+.qc__lgc.is-on h2 { color: var(--yellow); }
+.qc__lgc > p:not(.qc__lgk) { margin: 0 0 18px; line-height: 1.55; flex: 1; }
+.qc__lgb { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.qc__lgon { font-size: 14px; opacity: .85; }
+.qc__lgc.is-on .btn--ghost { color: var(--cream); border-color: var(--cream); }
+@media (max-width: 760px) { .qc__lg { grid-template-columns: 1fr; } }
+.qc__lgc .btn--ghost { border: 2px solid var(--navy); color: var(--navy); background: transparent; }
+.cnwrap.cnlg { padding-bottom: 0; }

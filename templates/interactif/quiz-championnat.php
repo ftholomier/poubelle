@@ -10,12 +10,24 @@ use App\Services\QuizChampionship;
 $fmt = fn ($n) => number_format((int) $n, 0, ',', ' ');
 $current = $season === QuizChampionship::season();
 ?>
-<?= View::partial('carnet/_head', ['title' => t('Championnat du club-house'), 'intro' => t('Le classement des soirées quiz : chaque partie rapporte des points selon votre rang, que la partie compte 6 ou 30 questions. Saison {s}.', ['s' => $season]), 'crumb' => t('Championnat du club-house'), 'eyebrow' => t('Quiz du club-house')]) ?>
+<?= View::partial('carnet/_head', ['title' => t('Championnat du club-house'), 'intro' => t('Deux classements pour le quiz : les soirées au club-house et les soirées entre amis. Chaque partie rapporte des points selon votre rang. Saison {s}.', ['s' => $season]), 'crumb' => t('Championnat du club-house'), 'eyebrow' => t('Quiz du club-house')]) ?>
 <?php $L = $league === 'amis' ? '&ligue=amis' : ''; $base = url('/interactif/quiz-live/championnat/'); ?>
-<div class="wrap cnwrap"><nav class="qc__seasons qc__leagues" aria-label="<?= e(t('Classements')) ?>" style="margin:0 0 18px">
-  <a href="<?= e($base) ?>"<?= $league === 'club' ? ' aria-current="page"' : '' ?>><?= e(t('Soirées du club-house')) ?></a>
-  <a href="<?= e($base . '?ligue=amis') ?>"<?= $league === 'amis' ? ' aria-current="page"' : '' ?>><?= e(t('Entre amis')) ?></a>
-</nav><?php if ($league === 'amis'): ?><p class="cnnote"><?= e(t('Les parties organisées par les supporters, chez eux, entre amis (au plus 3 parties comptées par jour et par joueur).')) ?></p><p><a class="btn btn--yellow cnhost" href="<?= e(url('/interactif/quiz-live/') . '#organiser') ?>">▶ <?= e(t('Créer ma soirée entre amis')) ?></a></p><?php endif; ?></div>
+<div class="wrap cnwrap cnlg"><div class="qc__lg" role="navigation" aria-label="<?= e(t('Classements')) ?>">
+  <div class="qc__lgc<?= $league === 'club' ? ' is-on' : '' ?>">
+    <p class="qc__lgk"><?= e(t('Au club-house')) ?></p>
+    <h2><?= e(t('Les soirées du club-house')) ?></h2>
+    <p><?= e(t('Les soirées quiz organisées par le musée, tous ensemble au même moment : un grand écran, chacun répond sur son téléphone. Chaque partie rapporte des points selon votre rang, sur toute la saison.')) ?></p>
+    <div class="qc__lgb"><?php if ($league !== 'club'): ?><a class="btn btn--yellow" href="<?= e($base) ?>"><?= e(t('Voir ce classement')) ?></a><?php else: ?><span class="qc__lgon">● <?= e(t('Classement affiché ci-dessous')) ?></span><?php endif; ?>
+      <a class="btn btn--ghost" href="<?= e(url('/interactif/quiz-live/')) ?>"><?= e(t('Rejoindre une partie')) ?></a></div>
+  </div>
+  <div class="qc__lgc<?= $league === 'amis' ? ' is-on' : '' ?>">
+    <p class="qc__lgk"><?= e(t('À la maison')) ?></p>
+    <h2><?= e(t('Les soirées entre amis')) ?></h2>
+    <p><?= e(t('Organisez votre propre quiz chez vous : la télé affiche un QR code, vos amis jouent sur leur téléphone. Un classement à part, sur la saison ; au plus 3 parties comptées par jour et par joueur.')) ?></p>
+    <div class="qc__lgb"><a class="btn btn--yellow" href="<?= e(url('/interactif/quiz-live/') . '#organiser') ?>">▶ <?= e(t('Créer ma soirée entre amis')) ?></a>
+      <?php if ($league !== 'amis'): ?><a class="btn btn--ghost" href="<?= e($base . '?ligue=amis') ?>"><?= e(t('Voir ce classement')) ?></a><?php else: ?><span class="qc__lgon">● <?= e(t('Classement affiché ci-dessous')) ?></span><?php endif; ?></div>
+  </div>
+</div></div>
 <div class="wrap cnwrap qc" data-qc data-lang="<?= e(\App\Services\I18n::lang()) ?>">
   <script type="application/json" id="qc-i18n"><?= json_encode(['mailed' => t('C’est parti : un lien vient d’être envoyé à cette adresse. Ouvrez-le sur votre téléphone pour valider votre place (pensez aux indésirables).'), 'saved' => t('Pseudo enregistré.'), 'error' => t('Connexion perdue, réessayez.')], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) ?></script>
   <?php if ($welcome && $me): ?><p class="cnwelcome"><?= e(t('C’est validé : ce téléphone vous reconnaîtra à chaque partie, sous le nom {p}.', ['p' => $me['pseudo']])) ?></p><?php endif; ?>
