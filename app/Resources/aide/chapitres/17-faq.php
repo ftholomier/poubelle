@@ -124,8 +124,8 @@ HTML],
         ['id' => 'totaux', 'title' => '… savoir d’où viennent les totaux de matchs et de buts d’un joueur', 'html' => <<<'HTML'
 <p>Dans les musées qui déclarent un site de référence, ils sont relevés chaque jour dans ses classements officiels : Système › <b>Serveur / tâches planifiées</b>, carte <b>Totaux de référence des joueurs</b> (dernier relevé, noms non rapprochés, <b>Relever maintenant</b>). Ailleurs, ils sont calculés depuis les compositions. Voir [[aide:administration#totaux-reference|Totaux de référence des joueurs]].</p>
 HTML],
-        ['id' => 'autre-musee', 'title' => '… passer au back-office d’un autre musée', 'html' => <<<'HTML'
-<p>En haut du back-office, ouvrez le <b>sélecteur de musée</b> (nom du musée et pastille de couleur) › choisissez le musée : vous y arrivez déjà connecté. Le sélecteur n’apparaît que si votre compte a accès à plusieurs musées. Voir [[aide:administration#musees|Plusieurs musées]].</p>
+        ['id' => 'autre-musee', 'title' => '… passer au back-office d’un autre musée', 'admin' => true, 'html' => <<<'HTML'
+<p>En haut du back-office, ouvrez le <b>sélecteur de musée</b> (nom du musée et pastille de couleur) › choisissez le musée : vous y arrivez déjà connecté. Réservé aux administrateurs. Voir [[aide:administration#musees|Plusieurs musées]].</p>
 HTML],
         ['id' => 'depart', 'title' => '… remplir un nouveau musée avec ses contenus de départ', 'admin' => true, 'html' => <<<'HTML'
 <p>Système › <b>Contenus de départ</b> › <b>Créer et publier les fiches</b>, page ouverte. Les fiches sont en ligne tout de suite ; relancer après une mise à jour applique les nouvelles versions aux seules fiches que personne n’a modifiées. Voir [[aide:administration#depart|Contenus de départ]].</p>

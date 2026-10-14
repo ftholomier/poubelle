@@ -2,7 +2,7 @@
 return [
     'slug' => 'administration',
     'title' => 'Administration',
-    'summary' => 'Pour les administrateurs : plusieurs musées, contenus de départ, utilisateurs, réglages, assistant IA, fiches audio, coûts de l’IA, dons hors ligne et reçus fiscaux, sauvegardes, tâches, totaux de référence des joueurs, journal.',
+    'summary' => 'Pour les administrateurs : contenus de départ, utilisateurs, réglages, assistant IA, fiches audio, coûts de l’IA, dons hors ligne et reçus fiscaux, sauvegardes, tâches, totaux de référence des joueurs, journal.',
     'sections' => [
         ['id' => 'statistiques', 'title' => 'Statistiques du musée', 'html' => <<<'HTML'
 <p>Pilotage › <b>Statistiques</b> (administrateurs) : l’audience du musée. En haut, le <b>direct</b> : visiteurs en ligne (une page vue dans les 5 dernières minutes), pages vues minute par minute et ce qu’ils regardent, mis à jour toutes les 15 secondes. Puis, sur la période choisie (aujourd’hui, 7 ou 30 jours, mois, année, depuis le début, ou deux dates) : visiteurs, visites, pages vues, pages par visite, visites d’une seule page, part en anglais, chacun comparé à la période précédente ; un encadré <b>À retenir</b> ; la courbe de fréquentation, les heures et jours de visite, les appareils, d’où viennent les visiteurs, les décennies les plus consultées et les classements (joueurs, matchs, récits, rubriques, pages, jeux, recherches). <b>Rapport PDF</b> télécharge le tout pour la période. <b>Remise à zéro</b> (avant l’ouverture) : tapez REMETTRE A ZERO ; les anciennes données sont gardées de côté sur le serveur.</p>
@@ -10,8 +10,8 @@ return [
 <p>Carte <b>Anti-aspiration</b> : les tentatives bloquées sur la période. Le site refuse les robots d’intelligence artificielle et les logiciels d’aspiration, freine les visiteurs trop rapides (plus de 180 pages par minute), démasque les faux Google et interdit d’afficher les photos en grand format sur un autre site. Google et Bing continuent d’indexer le musée ; l’équipe connectée n’est jamais freinée.</p>
 <p>La mesure se fait sans cookie et sans garder d’adresse IP : un visiteur est reconnu par une empreinte anonyme qui change chaque jour (pas de bandeau de consentement nécessaire).</p>
 HTML],
-        ['id' => 'musees', 'title' => 'Plusieurs musées : passer de l’un à l’autre', 'html' => <<<'HTML'
-<p>Le même back-office sert plusieurs musées (un par domaine, par exemple Sochaux et Paris). Les comptes sont communs : quand votre compte a accès à plus d’un musée, un <b>sélecteur de musée</b> apparaît en haut du back-office, avec la pastille aux couleurs de chaque musée. Choisissez-en un : vous y arrivez déjà connecté, sans ressaisir votre mot de passe.</p>
+        ['id' => 'musees', 'title' => 'Plusieurs musées : passer de l’un à l’autre', 'admin' => true, 'html' => <<<'HTML'
+<p>Le même back-office sert plusieurs musées (un par domaine, par exemple Sochaux et Paris). Les comptes sont communs. Réservé aux administrateurs (les autres rôles n’en voient rien, ni sélecteur ni mention dans l’aide) : un <b>sélecteur de musée</b> apparaît en haut du back-office, avec la pastille aux couleurs de chaque musée. Choisissez-en un : vous y arrivez déjà connecté, sans ressaisir votre mot de passe.</p>
 <ul>
 <li>Un <b>administrateur</b> d’un musée est administrateur de <b>tous</b> les musées.</li>
 <li>Le back-office prend les couleurs du musée affiché ; l’animation de la page de connexion aussi (couleurs et sigle du club).</li>

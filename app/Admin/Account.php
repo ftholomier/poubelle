@@ -140,7 +140,8 @@ final class Account extends Base
     public static function switchTo(Request $req): Response
     {
         $club = (string) ($req->post['club'] ?? '');
-        $url = Auth::switchUrl($club);
+        // Réservé aux administrateurs : un historien ne connaît que son musée.
+        $url = Auth::isAdmin() ? Auth::switchUrl($club) : null;
         if ($url === null) {
             return self::html('admin/message', ['title' => 'Accès refusé', 'text' => 'Votre compte n’a pas accès à ce musée.', 'back' => '/admin'], ['title' => 'Accès refusé']);
         }

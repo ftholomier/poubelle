@@ -87,7 +87,8 @@ $here = \App\Admin\Favorites::here($meta);
       </a>
       <?php endif; endif; ?>
       <a class="top__help" href="<?= e(\App\Admin\Help::urlFor($meta['help'] ?? $nav)) ?>" title="Aide sur cet écran"><span aria-hidden="true">?</span> Aide</a>
-      <?php $clubs = \App\Core\Auth::clubsOf($user ?? []); if (count($clubs) > 1): $all = \App\Core\Club::all(); ?>
+      <?php // Bascule vers un autre musée : administrateurs seulement (les autres rôles ne savent rien des autres musées).
+      $clubs = \App\Core\Auth::isAdmin() ? \App\Core\Auth::clubsOf($user ?? []) : []; if (count($clubs) > 1): $all = \App\Core\Club::all(); ?>
       <div class="me club-switch" data-dropdown>
         <button type="button" class="btn btn--sm" data-dropdown-toggle aria-expanded="false" title="Passer à un autre musée">
           <span class="club-switch__dot" style="background:<?= e(\App\Core\Club::color('navy')) ?>;border-color:<?= e(\App\Core\Club::color('yellow')) ?>"></span><?= e(\App\Core\Club::s('site')) ?> ▾
