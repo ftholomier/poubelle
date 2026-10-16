@@ -126,6 +126,8 @@ final class Router
 
         // Médiathèque
         $r->get('/admin/medias', fn ($q) => Medias::index($q));
+        $r->get('/admin/medias/credits', fn ($q) => Medias::credits($q));
+        $r->post('/admin/medias/credits', fn ($q) => Medias::creditsApply($q));
         $r->post('/admin/medias/envoi', fn ($q) => Medias::upload($q));
         $r->post('/admin/medias/enregistrer', fn ($q) => Medias::save($q));
         $r->post('/admin/medias/supprimer', fn ($q) => Medias::delete($q));

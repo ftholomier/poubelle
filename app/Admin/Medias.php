@@ -341,6 +341,11 @@ final class Medias extends Base
             Activity::log($user, $edit ? 'a retouché le média' : 'a annulé la retouche du média', ['title' => $rel]);
             return self::json(['ok' => true, 'message' => $edit ? 'Retouche enregistrée : les vignettes sont régénérées (l’original reste intact).' : 'Retouche annulée.', 'item' => self::item($rel, Media::get($rel) ?? [], Media::usage())]);
         }
+        // Crédit écrit dans la légende (« … Photo Prénom Nom ») et champ crédit vide : rangé tout seul.
+        if (trim((string) ($d['credit'] ?? '')) === '' && ($sp = \App\Services\CaptionCredit::split((string) ($d['caption'] ?? '')))) {
+            $d['caption'] = $sp['caption'];
+            $d['credit'] = $sp['credit'];
+        }
         $meta = [
             'caption' => Html::line($d['caption'] ?? '', 500),
             'caption_en' => Html::line($d['caption_en'] ?? '', 500),
@@ -358,6 +363,44 @@ final class Medias extends Base
         Media::put($rel, $meta, $user, $wallOff === false ? ['nowall'] : []);
         \App\Data\Derived::markDirty();
         return self::json(['ok' => true, 'message' => 'Média enregistré.', 'item' => self::item($rel, Media::get($rel) ?? [], Media::usage())]);
+    }
+
+    /** Crédits écrits dans les légendes (« Gomel Photo Jean-Yves Caddedu ») : propositions de découpage. */
+    private static function creditProposals(): array
+    {
+        $out = [];
+        foreach (Media::all() as $rel => $m) {
+            if (trim((string) ($m['credit'] ?? '')) !== '' || !($s = \App\Services\CaptionCredit::split((string) ($m['caption'] ?? '')))) {
+                continue;
+            }
+            $out[$rel] = ['old' => (string) $m['caption']] + $s;
+        }
+        return $out;
+    }
+
+    /** GET /admin/medias/credits : aperçu du découpage légende / crédit. */
+    public static function credits(Request $req): Response
+    {
+        return self::html('admin/medias/credits', ['rows' => self::creditProposals()], ['title' => 'Crédits dans les légendes', 'crumb' => 'Médiathèque', 'nav' => 'medias']);
+    }
+
+    /** POST /admin/medias/credits : applique le découpage aux photos cochées (recalculé ici, jamais repris du formulaire). */
+    public static function creditsApply(Request $req): Response
+    {
+        // Les cases cochées sont celles à NE PAS traiter (peu nombreuses : pas de limite de champs).
+        $skip = array_flip(array_map('strval', (array) ($req->post['skip'] ?? [])));
+        $changes = [];
+        foreach (self::creditProposals() as $rel => $p) {
+            if (!isset($skip[$rel])) {
+                $changes[$rel] = ['caption' => $p['caption'], 'credit' => $p['credit']];
+            }
+        }
+        $n = $changes ? Media::putMany($changes) : 0;
+        if ($n) {
+            \App\Data\Derived::markDirty();
+            Activity::log(self::actor(), 'a séparé le crédit de la légende de ' . $n . ' photo' . ($n > 1 ? 's' : ''), null);
+        }
+        return self::back('/admin/medias/credits', $n . ' photo' . ($n > 1 ? 's' : '') . ' mise' . ($n > 1 ? 's' : '') . ' à jour : le crédit est maintenant dans son champ.');
     }
 
     public static function delete(Request $req): Response

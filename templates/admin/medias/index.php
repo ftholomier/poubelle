@@ -40,6 +40,7 @@ $fmt = fn ($n) => number_format((int) $n, 0, ',', ' ');
   </select>
   <span class="small muted"><?= $fmt($total) ?> média<?= $total > 1 ? 's' : '' ?></span>
   <span class="grow"></span>
+  <a class="btn btn--sm" href="/admin/medias/credits">Crédits dans les légendes</a>
   <button type="button" class="btn btn--sm" data-msel-page>Tout sélectionner sur la page</button>
 </form>
 
