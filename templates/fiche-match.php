@@ -185,7 +185,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
           <li class="timeline__item<?= $goal ? ' is-goal' : '' ?><?= $isS ? ' is-sochaux' : '' ?>" data-reveal-x>
             <span class="timeline__min<?= mb_strlen($min) > 3 ? ' is-long' : '' ?>"><?= $min !== '' ? e($min) . "'" : '' ?></span>
             <div class="timeline__body">
-              <?php if ($goal): ?><span class="timeline__goal"><?= e(t('But !')) ?> <?= e($h['score']) ?></span><?php endif; ?>
+              <?php if ($goal): ?><span class="timeline__goal"><span class="ball" aria-hidden="true">⚽</span> <?= e(t('But !')) ?> <?= e($h['score']) ?></span><?php endif; ?>
               <?php // Pictos détectés dans le texte du fait de jeu.
               $tl = mb_strtolower($txt); $tags = [];
               if (preg_match('/expuls|carton rouge|exclu|second (carton )?jaune|deuxi[eè]me (carton )?jaune/u', $tl)) { $tags[] = '<span class="tltag"><span class="cardmark cardmark--r" aria-hidden="true"></span>' . e(t('Carton rouge')) . '</span>'; }
