@@ -275,3 +275,5 @@ a.hlmatch:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--
 .lbadge--debut { background: #1f8f4e; color: #fff; }
 .lbadge--last { background: var(--navy); color: var(--cream); }
 .lbadge--hat { background: var(--yellow); color: var(--navy); margin-left: 0; }
+.timeline__tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tltag { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; padding: 2px 8px; border: 1px solid currentColor; border-radius: 3px; opacity: .85; }

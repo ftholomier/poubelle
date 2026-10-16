@@ -186,6 +186,16 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
             <span class="timeline__min<?= mb_strlen($min) > 3 ? ' is-long' : '' ?>"><?= $min !== '' ? e($min) . "'" : '' ?></span>
             <div class="timeline__body">
               <?php if ($goal): ?><span class="timeline__goal"><?= e(t('But !')) ?> <?= e($h['score']) ?></span><?php endif; ?>
+              <?php // Pictos détectés dans le texte du fait de jeu.
+              $tl = mb_strtolower($txt); $tags = [];
+              if (preg_match('/expuls|carton rouge|exclu|second (carton )?jaune|deuxi[eè]me (carton )?jaune/u', $tl)) { $tags[] = '<span class="tltag"><span class="cardmark cardmark--r" aria-hidden="true"></span>' . e(t('Carton rouge')) . '</span>'; }
+              elseif (preg_match('/averti|carton jaune/u', $tl)) { $tags[] = '<span class="tltag"><span class="cardmark cardmark--y" aria-hidden="true"></span>' . e(t('Carton jaune')) . '</span>'; }
+              if (preg_match('/p[ée]nalty|\bs\.\s?p\.|tir au but|tirs au but/u', $tl) && !str_contains($tl, 'point de penalty') && !str_contains($tl, 'point de pénalty')) { $tags[] = '<span class="tltag">⚽ ' . e(t('Penalty')) . '</span>'; }
+              if (preg_match('/remplac|c[èe]de sa place|entre en jeu|fait son entr[ée]e|change(ment)? /u', $tl)) { $tags[] = '<span class="tltag"><span class="subarrow subarrow--in" aria-hidden="true">▲</span><span class="subarrow subarrow--out" aria-hidden="true">▼</span> ' . e(t('Changement')) . '</span>'; }
+              if (!$goal && preg_match('/poteau|transversale|la barre|montant/u', $tl)) { $tags[] = '<span class="tltag">🥅 ' . e(t('Sur le montant')) . '</span>'; }
+              if (!$goal && preg_match('/\b(arr[êe]te|d[ée]tourne|repousse|bloque|capte|claquette|parade|sauve)\b/u', $tl)) { $tags[] = '<span class="tltag">🧤 ' . e(t('Arrêt')) . '</span>'; }
+              if (!$goal && preg_match('/\bcsc\b|contre son camp/u', $tl)) { $tags[] = '<span class="tltag">⚽ ' . e(t('Contre son camp')) . '</span>'; }
+              if ($tags): ?><span class="timeline__tags"><?= implode('', $tags) ?></span><?php endif; ?>
               <span class="timeline__text"><?= e($txt) ?></span>
               <?php foreach ($tweets as $ti => $tw): if ($min !== '' && $tw['min'] === preg_replace('/\s+/', '', $min)): unset($tweets[$ti]); ?><?= tweet_embed($tw['id']) ?><?php endif; endforeach; ?>
             </div>
