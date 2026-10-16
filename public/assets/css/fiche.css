@@ -262,3 +262,10 @@ a.hlmatch:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--
 .seasonbox__body > * + * { margin-top: .6em; }
 .seasonbox__body ul { padding-left: 1.1em; }
 .seasonbox__body strong { font-family: var(--display); font-weight: 800; font-size: 1.12em; }
+/* Pictos de la composition : buts, entrées / sorties, cartons */
+.lev { display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; margin-right: 8px; font-variant-numeric: tabular-nums; }
+.lev small { font-size: .75em; opacity: .7; }
+.subarrow { font-size: .8em; line-height: 1; }
+.subarrow--in { color: #1f8f4e; }
+.subarrow--out { color: #c0392b; }
+.ball--csc { filter: grayscale(1); opacity: .7; }

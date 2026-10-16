@@ -343,12 +343,12 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
                 <?php if ($r['href']): ?><a href="<?= e($r['href']) ?>"><?= e($r['name']) ?></a><?php else: ?><?= e($r['name']) ?><?php endif; ?>
                 <?= !empty($r['captain']) ? '<abbr title="' . e(t('Capitaine')) . '">(c)</abbr>' : '' ?>
               </td>
-              <td class="lineup__goals"><?= $r['goals_text'] !== '' ? (str_contains($r['goals_text'], '⚽') ? '' : '<span class="ball" aria-hidden="true">⚽</span> ') . e($r['goals_text']) : '' ?></td>
-              <td class="lineup__sub"><?= e($r['sub_text']) ?></td>
+              <td class="lineup__goals"><?php if ($r['goals'] || $r['own_goals']): ?><?php foreach ($r['goals'] as $mn): ?><span class="lev" title="<?= e(t('But')) ?>"><span class="ball" aria-hidden="true">⚽</span><?= $mn !== '' ? e((string) $mn) . "'" : '' ?></span><?php endforeach; ?><?php foreach ($r['own_goals'] as $mn): ?><span class="lev lev--csc" title="<?= e(t('But contre son camp')) ?>"><span class="ball ball--csc" aria-hidden="true">⚽</span><?= $mn !== '' ? e((string) $mn) . "'" : '' ?> <small>csc</small></span><?php endforeach; ?><?php elseif ($r['goals_text'] !== ''): ?><?= (str_contains($r['goals_text'], '⚽') ? '' : '<span class="ball" aria-hidden="true">⚽</span> ') . e($r['goals_text']) ?><?php endif; ?></td>
+              <td class="lineup__sub"><?php if (($r['sub_in'] ?? null) !== null || ($r['sub_out'] ?? null) !== null): ?><?php if (($r['sub_in'] ?? null) !== null): ?><span class="lev lev--in" title="<?= e(t('Entrée en jeu')) ?>"><span class="subarrow subarrow--in" aria-hidden="true">▲</span><?= e((string) $r['sub_in']) ?>'</span><?php endif; ?><?php if (($r['sub_out'] ?? null) !== null): ?><span class="lev lev--out" title="<?= e(t('Sortie')) ?>"><span class="subarrow subarrow--out" aria-hidden="true">▼</span><?= e((string) $r['sub_out']) ?>'</span><?php endif; ?><?php else: ?><?= e($r['sub_text']) ?><?php endif; ?></td>
               <td class="lineup__cards">
-                <?php foreach ($r['yellow'] as $c): ?><span class="cardmark cardmark--y" title="<?= e(t('Carton jaune')) ?> <?= e($c) ?>'"></span><?php endforeach; ?>
-                <?php foreach ($r['red'] as $c): ?><span class="cardmark cardmark--r" title="<?= e(t('Carton rouge')) ?> <?= e($c) ?>'"></span><?php endforeach; ?>
-                <?= e($r['cards_text']) ?>
+                <?php foreach ($r['yellow'] as $c): ?><span class="lev" title="<?= e(t('Carton jaune')) ?>"><span class="cardmark cardmark--y" aria-hidden="true"></span><?= $c !== '' ? e((string) $c) . "'" : '' ?></span><?php endforeach; ?>
+                <?php foreach ($r['red'] as $c): ?><span class="lev" title="<?= e(t('Carton rouge')) ?>"><span class="cardmark cardmark--r" aria-hidden="true"></span><?= $c !== '' ? e((string) $c) . "'" : '' ?></span><?php endforeach; ?>
+                <?= !$r['yellow'] && !$r['red'] ? e($r['cards_text']) : '' ?>
               </td>
               <?php foreach (array_keys($extraCols) as $x): ?><td><?= e((string) ($r['extra'][$x] ?? '')) ?></td><?php endforeach; ?>
             </tr>
