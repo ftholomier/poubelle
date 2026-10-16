@@ -269,3 +269,9 @@ a.hlmatch:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--
 .subarrow--in { color: #1f8f4e; }
 .subarrow--out { color: #c0392b; }
 .ball--csc { filter: grayscale(1); opacity: .7; }
+.armband { display: inline-grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; background: var(--yellow); color: var(--navy); font: 800 10px/1 var(--display, sans-serif); text-decoration: none; border: 1px solid var(--navy); vertical-align: 1px; margin-left: 4px; cursor: help; }
+.lpicto { margin-left: 4px; font-size: .9em; }
+.lbadge { display: inline-block; margin-left: 6px; padding: 0 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; border-radius: 3px; vertical-align: 1px; white-space: nowrap; }
+.lbadge--debut { background: #1f8f4e; color: #fff; }
+.lbadge--last { background: var(--navy); color: var(--cream); }
+.lbadge--hat { background: var(--yellow); color: var(--navy); margin-left: 0; }

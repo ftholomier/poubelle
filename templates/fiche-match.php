@@ -320,6 +320,15 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
           }
       }
       $span = 5 + ($hasNum ? 1 : 0) + count($extraCols);
+      // Pictos détectés automatiquement : débuts et dernier match (calculés sur tous les matchs en base).
+      $ptot = \App\Data\Derived::part('person_totals');
+      $mid = (int) ($doc['id'] ?? 0);
+      $oldMatch = !empty($m['date']) && strtotime((string) $m['date']) < strtotime('-1 year');
+      // Buts sur penalty : minutes suivies de « s.p. » dans le texte d'origine.
+      $penMins = function (string $txt): array {
+          preg_match_all("/(\d{1,3}(?:'\s*\+\s*\d+|\+\d+)?)'?\s*(?:\(?\s*s\.?\s*p\.?|\(?p[ée]n\.?)/iu", $txt, $mm);
+          return array_map(fn ($x) => preg_replace("/[^0-9+]/", '', $x), $mm[1] ?? []);
+      };
       ?>
       <div class="dtable-wrap">
         <table class="dtable lineup">
@@ -341,13 +350,20 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
               <?php if ($hasNum): ?><td class="lineup__num"><?= e((string) ($r['number'] ?? '')) ?></td><?php endif; ?>
               <td class="lineup__name">
                 <?php if ($r['href']): ?><a href="<?= e($r['href']) ?>"><?= e($r['name']) ?></a><?php else: ?><?= e($r['name']) ?><?php endif; ?>
-                <?= !empty($r['captain']) ? '<abbr title="' . e(t('Capitaine')) . '">(c)</abbr>' : '' ?>
+                <?= !empty($r['captain']) ? '<abbr class="armband" title="' . e(t('Capitaine')) . '">C</abbr>' : '' ?>
+                <?php if ($r['position'] === 'G'): ?><span class="lpicto" title="<?= e(t('Gardien de but')) ?>" aria-hidden="true">🧤</span><?php endif; ?>
+                <?php $pt = !empty($r['pid']) ? ($ptot[(int) $r['pid']] ?? null) : null; if ($pt && $mid && in_array($r['position'], ['G', 'D', 'M', 'A', 'R'], true)): ?>
+                  <?php if ((int) ($pt['first'] ?? 0) === $mid): ?><span class="lbadge lbadge--debut" title="<?= e(t('Premier match avec le club')) ?>">★ <?= e(t('débuts')) ?></span><?php endif; ?>
+                  <?php if ($oldMatch && (int) ($pt['last'] ?? 0) === $mid && (int) ($pt['first'] ?? 0) !== $mid): ?><span class="lbadge lbadge--last" title="<?= e(t('Dernier match avec le club')) ?>">⚑ <?= e(t('dernier match')) ?></span><?php endif; ?>
+                  <?php if ((int) ($pt['first'] ?? 0) === $mid && (int) ($pt['last'] ?? 0) === $mid && $oldMatch): ?><span class="lbadge lbadge--last" title="<?= e(t('Son seul match avec le club')) ?>"><?= e(t('seul match')) ?></span><?php endif; ?>
+                <?php endif; ?>
               </td>
-              <td class="lineup__goals"><?php if ($r['goals'] || $r['own_goals']): ?><?php foreach ($r['goals'] as $mn): ?><span class="lev" title="<?= e(t('But')) ?>"><span class="ball" aria-hidden="true">⚽</span><?= $mn !== '' ? e((string) $mn) . "'" : '' ?></span><?php endforeach; ?><?php foreach ($r['own_goals'] as $mn): ?><span class="lev lev--csc" title="<?= e(t('But contre son camp')) ?>"><span class="ball ball--csc" aria-hidden="true">⚽</span><?= $mn !== '' ? e((string) $mn) . "'" : '' ?> <small>csc</small></span><?php endforeach; ?><?php elseif ($r['goals_text'] !== ''): ?><?= (str_contains($r['goals_text'], '⚽') ? '' : '<span class="ball" aria-hidden="true">⚽</span> ') . e($r['goals_text']) ?><?php endif; ?></td>
+              <td class="lineup__goals"><?php if ($r['goals'] || $r['own_goals']): $pens = $penMins((string) $r['goals_text']); ?><?php foreach ($r['goals'] as $mn): $isPen = in_array(preg_replace('/[^0-9+]/', '', (string) $mn), $pens, true); ?><span class="lev" title="<?= e($isPen ? t('But sur penalty') : t('But')) ?>"><span class="ball" aria-hidden="true">⚽</span><?= $mn !== '' ? e((string) $mn) . "'" : '' ?><?= $isPen ? ' <small>' . e(t('pén.')) . '</small>' : '' ?></span><?php endforeach; ?><?php $ng = count($r['goals']); if ($ng >= 2): ?><span class="lbadge lbadge--hat"><?= e($ng === 2 ? t('doublé') : ($ng === 3 ? t('triplé') : t('quadruplé'))) ?></span><?php endif; ?><?php foreach ($r['own_goals'] as $mn): ?><span class="lev lev--csc" title="<?= e(t('But contre son camp')) ?>"><span class="ball ball--csc" aria-hidden="true">⚽</span><?= $mn !== '' ? e((string) $mn) . "'" : '' ?> <small>csc</small></span><?php endforeach; ?><?php elseif ($r['goals_text'] !== ''): ?><?= (str_contains($r['goals_text'], '⚽') ? '' : '<span class="ball" aria-hidden="true">⚽</span> ') . e($r['goals_text']) ?><?php endif; ?></td>
               <td class="lineup__sub"><?php if (($r['sub_in'] ?? null) !== null || ($r['sub_out'] ?? null) !== null): ?><?php if (($r['sub_in'] ?? null) !== null): ?><span class="lev lev--in" title="<?= e(t('Entrée en jeu')) ?>"><span class="subarrow subarrow--in" aria-hidden="true">▲</span><?= e((string) $r['sub_in']) ?>'</span><?php endif; ?><?php if (($r['sub_out'] ?? null) !== null): ?><span class="lev lev--out" title="<?= e(t('Sortie')) ?>"><span class="subarrow subarrow--out" aria-hidden="true">▼</span><?= e((string) $r['sub_out']) ?>'</span><?php endif; ?><?php else: ?><?= e($r['sub_text']) ?><?php endif; ?></td>
               <td class="lineup__cards">
                 <?php foreach ($r['yellow'] as $c): ?><span class="lev" title="<?= e(t('Carton jaune')) ?>"><span class="cardmark cardmark--y" aria-hidden="true"></span><?= $c !== '' ? e((string) $c) . "'" : '' ?></span><?php endforeach; ?>
                 <?php foreach ($r['red'] as $c): ?><span class="lev" title="<?= e(t('Carton rouge')) ?>"><span class="cardmark cardmark--r" aria-hidden="true"></span><?= $c !== '' ? e((string) $c) . "'" : '' ?></span><?php endforeach; ?>
+                <?php if ($r['yellow'] && $r['red']): ?><small class="muted"><?= e(t('(2e jaune)')) ?></small><?php endif; ?>
                 <?= !$r['yellow'] && !$r['red'] ? e($r['cards_text']) : '' ?>
               </td>
               <?php foreach (array_keys($extraCols) as $x): ?><td><?= e((string) ($r['extra'][$x] ?? '')) ?></td><?php endforeach; ?>
