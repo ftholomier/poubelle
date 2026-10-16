@@ -194,7 +194,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
               if (preg_match('/remplac|c[èe]de sa place|entre en jeu|fait son entr[ée]e|change(ment)? /u', $tl)) { $tags[] = '<span class="tltag"><span class="subarrow subarrow--in" aria-hidden="true">▲</span><span class="subarrow subarrow--out" aria-hidden="true">▼</span> ' . e(t('Changement')) . '</span>'; }
               if (!$goal && preg_match('/poteau|transversale|la barre|montant/u', $tl)) { $tags[] = '<span class="tltag">🥅 ' . e(t('Sur le montant')) . '</span>'; }
               if (!$goal && preg_match('/\b(arr[êe]te|d[ée]tourne|repousse|bloque|capte|claquette|parade|sauve)\b/u', $tl)) { $tags[] = '<span class="tltag">🧤 ' . e(t('Arrêt')) . '</span>'; }
-              if (!$goal && preg_match('/\bcsc\b|contre son camp/u', $tl)) { $tags[] = '<span class="tltag">⚽ ' . e(t('Contre son camp')) . '</span>'; }
+              if (preg_match('/\bcsc\b|contre son camp/u', $tl)) { $tags[] = '<span class="tltag">⚽ ' . e(t('Contre son camp')) . '</span>'; }
               if ($tags): ?><span class="timeline__tags"><?= implode('', $tags) ?></span><?php endif; ?>
               <span class="timeline__text"><?= e($txt) ?></span>
               <?php foreach ($tweets as $ti => $tw): if ($min !== '' && $tw['min'] === preg_replace('/\s+/', '', $min)): unset($tweets[$ti]); ?><?= tweet_embed($tw['id']) ?><?php endif; endforeach; ?>
