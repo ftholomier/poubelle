@@ -106,7 +106,7 @@ $level = fn (float $r) => $r >= 0.9 ? ['ko', 'Presque plein'] : ($r >= 0.7 ? ['w
           <form method="post" action="/admin/taches" class="row" style="margin-top:8px"><?= csrf_field() ?><input type="hidden" name="task" value="redis-save"><input type="password" name="password" class="in" placeholder="cPanel › Redis Manager" autocomplete="off" style="max-width:260px"><button type="submit" class="btn btn--sm">Enregistrer et tester</button></form>
         </details>
         <?php $rdDir = \App\Services\ServerCheck::redisByDir(); if ($rdDir): ?>
-        <details><summary class="small">Ce qui occupe Redis (par dossier, ce musée)</summary>
+        <details><summary class="small">Ce qui occupe Redis (par dossier, tous musées confondus)</summary>
           <table class="xs" style="margin:8px 0 0;font-family:monospace;border-collapse:collapse"><?php foreach ($rdDir as $d): ?><tr><td style="padding:1px 14px 1px 0;word-break:break-all"><?= e($d['dir']) ?></td><td style="text-align:right;padding-right:14px;white-space:nowrap"><?= $d['mb'] > 0 ? e(number_format($d['mb'], 1, ',', ' ')) . ' Mo' : '' ?></td><td class="muted"><?= (int) $d['n'] ?> entrées</td></tr><?php endforeach; ?></table>
         </details>
         <?php endif; ?>
