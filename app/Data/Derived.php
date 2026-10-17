@@ -490,11 +490,29 @@ final class Derived
             return $years ? [min($years) - 1, max($years) + 1] : [null, null];
         };
         $periods = array_map($period, $persons);
+        // Années où le joueur a pu jouer : âge (15 à 42 ans) et, si arrivée ET départ sont connus,
+        // sa période au club (à deux ans près). Un nom seul ne relie jamais hors de ces années :
+        // un « Bernardet » de 1953 n'est pas Steve Bernardet (2003-2005).
+        $possible = array_map(function (array $p): array {
+            $pp = $p['personne'];
+            $lo = $hi = null;
+            if (($b = (int) substr((string) ($pp['birth']['date']['iso'] ?? $pp['birth']['iso'] ?? ''), 0, 4)) > 1850) {
+                [$lo, $hi] = [$b + 15, $b + 42];
+            }
+            $a = !empty($pp['arrival']['iso']) ? (int) substr((string) $pp['arrival']['iso'], 0, 4) : 0;
+            $d = !empty($pp['departure']['iso']) ? (int) substr((string) $pp['departure']['iso'], 0, 4) : 0;
+            if ($a && $d && $d >= $a) {
+                [$lo, $hi] = [max($lo ?? 0, $a - 2), min($hi ?? 9999, $d + 2)];
+            }
+            return [$lo, $hi];
+        }, $persons);
 
         $approx = [];
         $approxUsed = []; // nom de composition => [fiche, manière, nombre] : signalés aux historiens
-        $resolve = function (string $name, ?string $date) use ($byKey, $byLast, $byLetters, $nameKeys, $periods, $persons, &$approx, &$approxUsed): ?int {
+        $resolve = function (string $name, ?string $date) use ($byKey, $byLast, $byLetters, $nameKeys, $periods, $possible, $persons, &$approx, &$approxUsed): ?int {
             $year = $date ? (int) substr($date, 0, 4) : null;
+            // Écarte les joueurs qui ne pouvaient pas jouer cette année-là (âge, période au club).
+            $plausible = fn (array $ids) => $year ? array_values(array_filter($ids, fn ($id) => ($possible[$id][0] === null || $year >= $possible[$id][0]) && ($possible[$id][1] === null || $year <= $possible[$id][1]))) : $ids;
             $pick = function (array $ids) use ($year, $periods) {
                 $ids = array_values(array_unique($ids));
                 if (count($ids) === 1) {
@@ -514,7 +532,7 @@ final class Derived
             }
             // Nom de famille seul (« PIERRE », « Fofana »), avec contrôle de période.
             $last = Names::lineupLastName($name);
-            if ($last !== '' && isset($byLast[$last]) && ($pid = $pick($byLast[$last]))) {
+            if ($last !== '' && isset($byLast[$last]) && ($ids = $plausible($byLast[$last])) && ($pid = $pick($ids))) {
                 return $pid;
             }
             // Nom incomplet : jamais vers un joueur dont la période au club (connue) exclut la date.
@@ -526,7 +544,7 @@ final class Derived
             };
             // Même nom écrit autrement : apostrophe, trait d'union, espace (« N'Diaye » / « Ndiaye »).
             $lk = Names::letterKey($name);
-            if (isset($byLetters[$lk]) && ($pid = $pick($byLetters[$lk]))) {
+            if (isset($byLetters[$lk]) && ($ids = $plausible($byLetters[$lk])) && ($pid = $pick($ids))) {
                 $approxUsed[$name] = [$pid, 'graphie', ($approxUsed[$name][2] ?? 0) + 1];
                 return $pid;
             }
@@ -554,6 +572,7 @@ final class Derived
                 $approx[$k] = [array_values(array_unique($typo)), array_values(array_unique($part))];
             }
             foreach ($approx[$k] as $i => $ids) {
+                $ids = $plausible($ids);
                 if ($ids && ($pid = $i === 0 ? $pick($ids) : $pickNear($ids))) {
                     $approxUsed[$name] = [$pid, $i === 0 ? 'orthographe' : 'nom incomplet', ($approxUsed[$name][2] ?? 0) + 1];
                     return $pid;
