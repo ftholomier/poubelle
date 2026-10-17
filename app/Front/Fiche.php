@@ -241,7 +241,9 @@ final class Fiche
         foreach (['G', 'D', 'M', 'A'] as $pos) {
             $count = count($lines[$pos]);
             foreach ($lines[$pos] as $i => $r) {
-                $x = $count === 1 ? 50 : 16 + (68 * $i / ($count - 1));
+                // Les feuilles de match listent chaque ligne de la droite vers la gauche (arrière droit
+                // en premier) ; vue de dos (gardien en bas), le premier listé est donc à droite.
+                $x = $count === 1 ? 50 : 84 - (68 * $i / ($count - 1));
                 // Légère courbe : les joueurs du centre sont un peu plus reculés (comme la maquette).
                 $curve = $count >= 3 ? (abs($x - 50) < 20 ? ($pos === 'A' ? -5 : 3) : 0) : 0;
                 $seq = $n++;
