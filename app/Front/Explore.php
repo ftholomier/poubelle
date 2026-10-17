@@ -221,7 +221,7 @@ final class Explore
             'active' => 'matchs',
             'body_class' => 'page-season',
             'styles' => ['css/mosaic.css', 'css/explore.css'],
-            'scripts' => ['js/explore.js'],
+            'scripts' => ['js/explore.js', 'js/saison-etais.js'],
         ]];
         return ['vars' => $vars, 'page' => $page];
     }

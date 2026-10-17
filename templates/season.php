@@ -37,6 +37,32 @@ $lineLabels = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 
   </div>
 </nav>
 
+<?php if ($matches): $allIds = array_map(fn ($x) => (int) $x['id'], $matches); $homeIds = array_map(fn ($x) => (int) $x['id'], array_values(array_filter($matches, fn ($x) => !empty($x['sh'])))); ?>
+<div class="wrap">
+  <section class="siye" data-siye data-all="<?= e(json_encode($allIds)) ?>" data-home="<?= e(json_encode($homeIds)) ?>"
+    data-done="<?= e(t('✓ {n} matchs de la saison dans votre carnet')) ?>" data-none="<?= e(t('Aucun match de la saison dans votre carnet pour l’instant.')) ?>">
+    <div class="siye__txt">
+      <h2 class="siye__t"><?= e(t('J’y étais, toute la saison !')) ?></h2>
+      <p class="siye__p" data-siye-state><?= e(t('Abonné, fidèle du stade ? Ajoutez d’un coup les matchs de la saison à votre carnet du supporter, au lieu de les cocher un par un.')) ?></p>
+    </div>
+    <div class="siye__btns">
+      <?php if ($homeIds): ?><button type="button" class="btn btn--yellow" data-siye-add="home"><?= e(t('Tous les matchs à domicile')) ?> <small>· <?= count($homeIds) ?></small></button><?php endif; ?>
+      <button type="button" class="btn btn--yellow" data-siye-add="all"><?= e(t('Tous les matchs')) ?> <small>· <?= count($allIds) ?></small></button>
+      <button type="button" class="linkbtn" data-siye-remove hidden><?= e(t('Retirer cette saison de mon carnet')) ?></button>
+      <a class="siye__carnet" href="<?= e(url('/carnet/')) ?>"><?= e(t('Mon carnet du supporter')) ?> →</a>
+    </div>
+    <form class="siye__mail" data-siye-mail hidden novalidate>
+      <p><b><?= e(t('Créez votre carnet du supporter')) ?></b> <?= e(t(': il suffit d’un e-mail pour recevoir le lien personnel de votre carnet. Vos matchs y seront ajoutés tout de suite.')) ?></p>
+      <div class="siye__mailrow">
+        <input type="email" name="email" required autocomplete="email" placeholder="<?= e(t('vous@exemple.fr')) ?>" aria-label="<?= e(t('Votre e-mail')) ?>">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+        <button class="btn btn--yellow" type="submit"><?= e(t('Créer mon carnet')) ?></button>
+      </div>
+      <p class="siye__msg" data-siye-msg role="status" data-sent="<?= e(t('Si cette adresse a déjà un carnet, un lien vient d’y être envoyé : ouvrez-le sur cet appareil, puis revenez sur cette page.')) ?>"></p>
+    </form>
+  </section>
+</div>
+<?php endif; ?>
 <div class="wrap sgrid">
   <section id="resultats" class="ssec">
     <h2 class="h-section"><?= e(t('Résultats')) ?></h2>
@@ -56,7 +82,7 @@ $lineLabels = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 
       <?php foreach ($matches as $x):
           $score = $x['us'] !== null ? ($x['sh'] ? $x['us'] . '-' . $x['them'] : $x['them'] . '-' . $x['us']) : '';
       ?>
-      <a class="mrow" href="<?= e(url($x['path'])) ?>" data-key="<?= e($x['comp']) ?>">
+      <a class="mrow" href="<?= e(url($x['path'])) ?>" data-key="<?= e($x['comp']) ?>" data-mid="<?= (int) $x['id'] ?>">
         <span class="mrow__date"><?= e(date_num($x['date'])) ?></span>
         <span class="mrow__main"><span class="mrow__comp"><?= e(comp_round($x['label'] ?: $x['comp'], $x['round'])) ?></span><span class="mrow__teams"><?= e(trim($x['home'] . ' – ' . $x['away'], ' –') ?: ($x['event'] ?? $x['title'])) ?></span></span>
         <span class="mrow__score"><?= e($score) ?><?= !empty($x['extra']) ? ' <small>' . e($x['extra']) . '</small>' : '' ?></span>
