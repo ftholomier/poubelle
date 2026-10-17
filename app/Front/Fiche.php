@@ -245,7 +245,7 @@ final class Fiche
                 // Légère courbe : les joueurs du centre sont un peu plus reculés (comme la maquette).
                 $curve = $count >= 3 ? (abs($x - 50) < 20 ? ($pos === 'A' ? -5 : 3) : 0) : 0;
                 $seq = $n++;
-                $placed[] = $r + ['x' => round($x, 1), 'y' => $y[$pos] + $curve, 'num' => is_numeric($r['number'] ?? null) ? (int) $r['number'] : $seq];
+                $placed[] = $r + ['x' => round($x, 1), 'y' => $y[$pos] + $curve, 'num' => is_numeric($r['number'] ?? null) ? (int) $r['number'] : null];
             }
         }
         $formation = count($lines['D']) . '-' . count($lines['M']) . '-' . count($lines['A']);

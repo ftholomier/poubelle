@@ -351,7 +351,7 @@ class PosterLayout
                 : $py + 8.5 + ($gy - 19.5 - $py - 8.5) * ($y1 > $y0 ? ((float) $p['y'] - $y0) / ($y1 - $y0) : 0.5);
             $this->circle($cx, $cy, $r + 0.6, Club::color('navy'));
             $this->circle($cx, $cy, $r, !empty($p['captain']) ? Club::color('cream') : Club::color('yellow'));
-            $num = (string) ($p['num'] ?? $p['n'] ?? '');
+            $num = (string) ($p['num'] ?? $p['position'] ?? '');
             $this->text($cx - $r, $cy - 2.6, 2 * $r, $num, 'display', self::pt(24), Club::color('navy'), ['align' => 'center', 'lh' => 1]);
             $name = mb_strtoupper((string) ($p['short'] ?? $p['display'] ?? '')) . (!empty($p['captain']) ? ' (C)' : '');
             $nw = min($pw * 0.42, self::width($name, 'display-b', $ns, 0) + 3);

@@ -607,7 +607,7 @@ final class PdfExport
             $px = $x0 + 30 + (90 - (float) $p['y']) / 67 * ($w - 150);
             $py = $y0 + 22 + ((float) $p['x'] - 16) / 68 * ($h - 44);
             $l->rect($px - 9, $py - 9, 18, 18, 'yellow', 'deep', 1.2);
-            $num = (string) $p['num'];
+            $num = $p['num'] !== null ? (string) $p['num'] : (string) ($p['position'] ?? '');
             $l->text($px - $l->width($num, 'display', 10) / 2, $py + $l->cap('display', 10) / 2, $num, 'display', 10, 'navy');
             // Nom à droite du numéro (évite les chevauchements dans une ligne de cinq)
             $name = $l->fit(($p['short'] ?? '') . (!empty($p['captain']) ? ' (c)' : ''), 'display-b', 8, 92, 0.3);
