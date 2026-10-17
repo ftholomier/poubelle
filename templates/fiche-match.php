@@ -299,7 +299,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
         <span class="pitch__line pitch__line--area-t"></span>
         <?php foreach ($pitch['players'] as $p): ?>
           <<?= $p['href'] ? 'a href="' . e($p['href']) . '"' : 'span' ?> class="pitch__p" style="left:<?= $p['x'] ?>%;top:<?= $p['y'] ?>%">
-            <span class="pitch__num"<?= $p['num'] === null ? ' title="' . e(t('Numéro de maillot inconnu')) . '"' : '' ?>><?= $p['num'] !== null ? (int) $p['num'] : e((string) $p['position']) ?></span>
+            <span class="pitch__num"><?= $p['num'] !== null ? (int) $p['num'] : e((string) $p['position']) ?></span>
             <span class="pitch__name"><?= e($p['short']) ?><?= !empty($p['captain']) ? ' (c)' : '' ?></span>
           </<?= $p['href'] ? 'a' : 'span' ?>>
         <?php endforeach; ?>
