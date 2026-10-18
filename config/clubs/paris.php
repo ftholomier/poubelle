@@ -64,10 +64,17 @@ return [
     'stadium_a' => 'au Parc',
     'stadium_full' => 'Parc des Princes',
     'stadium_full_lc' => 'Parc des Princes',
+    // Carte des épopées : ville d'où partent les routes (coordonnées [lat, lng], Parc des Princes).
+    'map_home' => ['name' => 'Paris', 'll' => [48.8414, 2.2530]],
     'official_site' => '',
     'root_domain' => 'sportia.com',
+    // Pas (encore) de site d'association : lien « L'association » masqué.
     'vitrine_url' => '',
+    // Rubrique « L'équipe » du musée (vignettes des bénévoles).
+    'team_path' => '/supporters/l-equipe-du-musee/',
     'social_handle' => 'ParisRetro',
+    // Réseaux sociaux du musée : aucun compte pour l'instant (liens masqués, à régler dans Réglages › Réseaux sociaux).
+    'social' => [],
     'contact_email' => '',
 
     'theme' => [

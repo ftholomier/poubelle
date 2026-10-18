@@ -175,7 +175,7 @@ final class Interactive
     /** Données de la carte (stades et matchs, origines, épopées, lieux). */
     public static function mapData(Request $req): Response
     {
-        $cacheFile = STORAGE_PATH . '/cache/carte-' . \App\Services\I18n::lang() . '.json';
+        $cacheFile = STORAGE_PATH . '/cache/carte-v2-' . \App\Services\I18n::lang() . '.json'; // v2 : ville du club dans le JSON
         $derivedFile = STORAGE_PATH . '/cache/derived.php';
         if (is_file($cacheFile) && (!is_file($derivedFile) || filemtime($cacheFile) >= filemtime($derivedFile)) && filemtime($cacheFile) > time() - 3600) {
             $res = new Response((string) file_get_contents($cacheFile), 200, ['Content-Type' => 'application/json; charset=UTF-8']);
@@ -242,7 +242,10 @@ final class Interactive
             'people' => $people,
             'steps' => array_values(array_map(fn ($x) => Collections::loc($x, ['type', 't', 'h', 'p']), array_filter(Collections::get('epopees', Seeds::epopees()), fn ($x) => !empty($x['ll'])))),
             'lieux' => array_values(array_map(fn ($x) => self::lieuImage(Collections::loc($x, ['n', 't', 'd'])), array_filter(Collections::get('lieux', Seeds::lieux()), fn ($x) => !empty($x['ll'])))),
-            'home' => [47.5122, 6.8111],
+            // Point de départ des routes des épopées : ville du club (profil, clé « map_home »).
+            'home' => array_map('floatval', (array) (\App\Core\Club::get('map_home', [])['ll'] ?? [])) ?: null,
+            'homeName' => (string) (\App\Core\Club::get('map_home', [])['name'] ?? \App\Core\Club::s('city')),
+            'founded' => (int) \App\Core\Club::s('founded') ?: null,
             'now' => (int) date('Y'),
         ];
         $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);

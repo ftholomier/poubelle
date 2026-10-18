@@ -22,11 +22,19 @@ final class Host
     /** Préfixe des liens internes : vide sur le site, PREVIEW dans l'aperçu. */
     public static string $prefix = '';
 
-    /** « https://www.fcsochauxretro.com » (sans barre finale). */
+    /**
+     * « https://www.fcsochauxretro.com » (sans barre finale) : réglage du pavé, sinon adresse du profil
+     * du club (« vitrine_url »). Vide quand le club n'a pas de site d'association (lien masqué).
+     */
     public static function base(): string
     {
-        $b = rtrim(trim((string) Settings::get('vitrine.base_url', 'https://www.fcsochauxretro.com')), '/');
-        return preg_match('#^https?://[a-z0-9.\-]+(:\d+)?$#i', $b) ? $b : 'https://www.fcsochauxretro.com';
+        $ok = fn (string $b): bool => (bool) preg_match('#^https?://[a-z0-9.\-]+(:\d+)?$#i', $b);
+        $b = rtrim(trim((string) Settings::get('vitrine.base_url', '')), '/');
+        if ($ok($b)) {
+            return $b;
+        }
+        $club = rtrim(trim(\App\Core\Club::s('vitrine_url')), '/');
+        return $ok($club) ? $club : '';
     }
 
     /** Nom de domaine du site (« www.fcsochauxretro.com »). */

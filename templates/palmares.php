@@ -33,9 +33,9 @@ $eraChips[] = [$eraFrom, 2100, 'Depuis ' . $eraFrom];
 </section>
 <div class="rfilters" data-pal-filters>
   <div class="wrap rfilters__inner">
-    <div class="stack" style="gap:6px"><span class="rfilters__l"><?= e(t('Résultat')) ?></span><div class="rfilters__chips"><button type="button" class="rchip is-on" data-st="">Tout</button><button type="button" class="rchip" data-st="win"><?= e(t('Gagnés')) ?></button><button type="button" class="rchip" data-st="lost"><?= e(t('Finales et places')) ?></button></div></div>
-    <div class="stack" style="gap:6px"><span class="rfilters__l"><?= e(t('Compétition')) ?></span><div class="rfilters__chips"><button type="button" class="rchip is-on" data-fam="">Toutes</button><?php foreach ($fams as $k => $l): ?><button type="button" class="rchip" data-fam="<?= e($k) ?>"><?= e(t($l)) ?></button><?php endforeach; ?></div></div>
-    <div class="stack" style="gap:6px"><span class="rfilters__l"><?= e(t('Époque')) ?></span><div class="rfilters__chips"><button type="button" class="rchip is-on" data-era="">Toutes</button><?php foreach ($eraChips as [$a, $b, $l]): ?><button type="button" class="rchip" data-era="<?= $a ?>-<?= $b ?>"><?= e(t($l)) ?></button><?php endforeach; ?></div></div>
+    <div class="stack" style="gap:6px"><span class="rfilters__l"><?= e(t('Résultat')) ?></span><div class="rfilters__chips"><button type="button" class="rchip is-on" data-st=""><?= e(t('Tout')) ?></button><button type="button" class="rchip" data-st="win"><?= e(t('Gagnés')) ?></button><button type="button" class="rchip" data-st="lost"><?= e(t('Finales et places')) ?></button></div></div>
+    <div class="stack" style="gap:6px"><span class="rfilters__l"><?= e(t('Compétition')) ?></span><div class="rfilters__chips"><button type="button" class="rchip is-on" data-fam=""><?= e(t('Toutes')) ?></button><?php foreach ($fams as $k => $l): ?><button type="button" class="rchip" data-fam="<?= e($k) ?>"><?= e(t($l)) ?></button><?php endforeach; ?></div></div>
+    <div class="stack" style="gap:6px"><span class="rfilters__l"><?= e(t('Époque')) ?></span><div class="rfilters__chips"><button type="button" class="rchip is-on" data-era=""><?= e(t('Toutes')) ?></button><?php foreach ($eraChips as [$a, $b, $l]): ?><button type="button" class="rchip" data-era="<?= $a ?>-<?= $b ?>"><?= e(t($l)) ?></button><?php endforeach; ?></div></div>
   </div>
 </div>
 <div class="wrap rbody pal">

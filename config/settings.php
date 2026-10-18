@@ -54,10 +54,11 @@ return [
     'social' => [
         'label' => 'Réseaux sociaux',
         'fields' => [
-            'facebook' => ['label' => 'Facebook', 'type' => 'url', 'default' => 'https://www.facebook.com/groups/fcsmvintage'],
-            'instagram' => ['label' => 'Instagram', 'type' => 'url', 'default' => 'https://instagram.com/sochauxretro'],
-            'x' => ['label' => 'X (Twitter)', 'type' => 'url', 'default' => 'https://x.com/SochauxRetro'],
-            'youtube' => ['label' => 'YouTube', 'type' => 'url', 'default' => 'https://youtube.com/@SochauxRetro'],
+            // Valeurs de départ : comptes du profil du club (clé « social »), vides pour un musée qui n'en a pas.
+            'facebook' => ['label' => 'Facebook', 'type' => 'url', 'default' => (string) (\App\Core\Club::get('social', [])['facebook'] ?? '')],
+            'instagram' => ['label' => 'Instagram', 'type' => 'url', 'default' => (string) (\App\Core\Club::get('social', [])['instagram'] ?? '')],
+            'x' => ['label' => 'X (Twitter)', 'type' => 'url', 'default' => (string) (\App\Core\Club::get('social', [])['x'] ?? '')],
+            'youtube' => ['label' => 'YouTube', 'type' => 'url', 'default' => (string) (\App\Core\Club::get('social', [])['youtube'] ?? '')],
             'official' => ['label' => club('Site officiel {club_de} (lien discret sous le titre de l’en-tête)'), 'type' => 'url', 'default' => club('{official_site}'), 'help' => 'Vide : lien masqué.'],
         ],
     ],
@@ -75,7 +76,7 @@ return [
             'button1_link' => ['label' => 'Bouton jaune : lien', 'type' => 'text', 'default' => '/contact/', 'help' => 'Page du musée (/contact/) ou autre site (https://…).'],
             'button2' => ['label' => 'Bouton contour : texte', 'type' => 'text', 'default' => club('L\'équipe {site_lc}'), 'help' => 'Vide : bouton masqué.'],
             'button2_en' => ['label' => 'Bouton contour : texte (anglais)', 'type' => 'text', 'default' => '', 'help' => 'Vide : la traduction d’origine, tant que le texte français n’a pas changé.'],
-            'button2_link' => ['label' => 'Bouton contour : lien', 'type' => 'text', 'default' => '/supporters/l-equipe-de-sochaux-retro/', 'help' => 'Page du musée (/contact/) ou autre site (https://…).'],
+            'button2_link' => ['label' => 'Bouton contour : lien', 'type' => 'text', 'default' => \App\Front\Pages::teamPath(), 'help' => 'Page du musée (/contact/) ou autre site (https://…).'],
             'tagline' => ['label' => 'Accroche sous le logo', 'type' => 'text', 'default' => club('Le musée en ligne {sigle_de}')],
             'tagline_en' => ['label' => 'Accroche sous le logo (anglais)', 'type' => 'text', 'default' => '', 'help' => 'Vide : la traduction d’origine, tant que le texte français n’a pas changé.'],
             'copyright' => ['label' => 'Ligne du bas', 'type' => 'text', 'default' => club('© {année} FC {site_lc}'), 'help' => '{année} : l’année en cours.'],
@@ -288,8 +289,8 @@ return [
         'hidden' => true,
         'fields' => [
             'open' => ['label' => 'Site de l’association ouvert au public', 'type' => 'bool', 'default' => false, 'help' => 'Fermé : les visiteurs voient une page d’attente et rien n’est indexé par les moteurs de recherche. L’aperçu reste disponible depuis le back-office.'],
-            'base_url' => ['label' => 'Adresse du site de l’association', 'type' => 'url', 'default' => 'https://www.fcsochauxretro.com', 'help' => 'Sans barre oblique finale. Le domaine doit mener au même dossier que le musée (cPanel › Domaines).'],
-            'aliases' => ['label' => 'Autres adresses redirigées vers ce site', 'type' => 'text', 'default' => 'fcsochauxretro.com', 'help' => 'Noms de domaine séparés par des virgules (par exemple l’adresse sans « www »).'],
+            'base_url' => ['label' => 'Adresse du site de l’association', 'type' => 'url', 'default' => \App\Core\Club::s('vitrine_url'), 'help' => 'Sans barre oblique finale. Le domaine doit mener au même dossier que le musée (cPanel › Domaines).'],
+            'aliases' => ['label' => 'Autres adresses redirigées vers ce site', 'type' => 'text', 'default' => (string) preg_replace('#^https?://(www\.)?|/+$#i', '', \App\Core\Club::s('vitrine_url')), 'help' => 'Noms de domaine séparés par des virgules (par exemple l’adresse sans « www »).'],
             'name' => ['label' => 'Nom de l’association', 'type' => 'text', 'default' => club('{site}')],
             'tagline' => ['label' => 'Signature (sous le nom)', 'type' => 'text', 'default' => club('L’association qui fait vivre la mémoire {club_de}')],
             'email' => ['label' => 'E-mail de réception (adhésions, bénévoles, messages)', 'type' => 'email', 'default' => '', 'help' => 'Vide : l’e-mail de réception du musée (Réglages › Général).'],

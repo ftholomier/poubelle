@@ -39,9 +39,20 @@ return [
     'club_short' => 'FC Sochaux',
     'stadium_full' => 'Stade Auguste-Bonal',
     'stadium_full_lc' => 'stade Auguste-Bonal',
+    // Carte des épopées : ville d'où partent les routes (coordonnées [lat, lng]).
+    'map_home' => ['name' => 'Montbéliard', 'll' => [47.5122, 6.8111]],
     'root_domain' => 'fcsochauxretro.com',
     'vitrine_url' => 'https://www.fcsochauxretro.com',
+    // Rubrique « L'équipe » du musée (vignettes des bénévoles), adresse héritée de WordPress.
+    'team_path' => '/supporters/l-equipe-de-sochaux-retro/',
     'social_handle' => 'SochauxRetro',
+    // Réseaux sociaux du musée (valeurs de départ de Réglages › Réseaux sociaux ; absents : liens masqués).
+    'social' => [
+        'facebook' => 'https://www.facebook.com/groups/fcsmvintage',
+        'instagram' => 'https://instagram.com/sochauxretro',
+        'x' => 'https://x.com/SochauxRetro',
+        'youtube' => 'https://youtube.com/@SochauxRetro',
+    ],
     'contact_email' => 'contact@fcsochauxretro.com',
     'centenary_label' => '14 juin 2028',
     'mascot' => 'Lion',

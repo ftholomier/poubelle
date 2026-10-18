@@ -51,18 +51,23 @@ final class Pages
     public static function yearsAgo(array $years): array
     {
         // Choix du jour gardé (le même toute la journée) ; fiches déjà montrées dans les 30 derniers
-        // jours écartées, pour ne pas revoir les mêmes d'un jour à l'autre.
+        // jours écartées, pour ne pas revoir les mêmes d'un jour à l'autre. Les textes et les liens
+        // dépendent de la langue (t(), url()) : une entrée par langue et par liste d'écarts, les
+        // fiches montrées (« keys ») étant communes. Le choix ne dépend que des fiches et du journal
+        // des jours précédents : il est le même dans chaque langue.
         $logFile = STORAGE_PATH . '/home/il-y-a.json';
         $log = (array) (\App\Core\JsonStore::read($logFile, []) ?: []);
         $today = date('Y-m-d');
-        if (isset($log[$today]['years']) && $log[$today]['years'] === $years) {
-            return $log[$today]['items'];
+        $slot = \App\Services\I18n::lang() . '|' . implode(',', $years);
+        if (isset($log[$today]['by'][$slot]) && is_array($log[$today]['by'][$slot])) {
+            return $log[$today]['by'][$slot];
         }
         $seen = [];
         foreach ($log as $day => $entry) {
             if ($day !== $today && $day >= date('Y-m-d', strtotime('-30 days'))) {
-                foreach ((array) ($entry['items'] ?? []) as $it) {
-                    $seen[(string) ($it['key'] ?? '')] = true;
+                // « keys » : fiches montrées ce jour-là ; ancien format : éléments complets (« items »).
+                foreach ((array) ($entry['keys'] ?? array_column((array) ($entry['items'] ?? []), 'key')) as $k) {
+                    $seen[(string) $k] = true;
                 }
             }
         }
@@ -73,7 +78,8 @@ final class Pages
             }
         }
         $people = Index::published('personne');
-        $frise = array_map(fn ($e) => Collections::loc($e, ['title', 'text']), Collections::get('frise', \App\Data\Seeds::frise()));
+        // Clé d'un fait de la frise tirée du titre français : la même dans chaque langue.
+        $frise = array_map(fn ($e) => ['_key' => 'frise' . md5((string) ($e['title'] ?? ''))] + Collections::loc($e, ['title', 'text']), Collections::get('frise', \App\Data\Seeds::frise()));
         $seed = (int) date('z');
         $bilans = array_values(array_filter(Index::published('article'), fn ($e) => !empty($e['a']['season'])));
         $moments = array_values(array_filter(\App\Services\Moments::all(), fn ($m) => !empty($m['visible'])));
@@ -152,13 +158,13 @@ final class Pages
                     return null;
                 },
                 'fait' => function () use ($frise, $y, $base, &$seen) {
-                    $list = array_values(array_filter($frise, fn ($f) => (int) ($f['year'] ?? 0) === $y && !isset($seen['frise' . md5((string) $f['title'])])));
+                    $list = array_values(array_filter($frise, fn ($f) => (int) ($f['year'] ?? 0) === $y && !isset($seen[$f['_key']])));
                     if (!$list) {
                         return null;
                     }
                     $f = $list[0];
                     return ['kind' => t('Fait marquant') . ' · ' . $y, 'title' => (string) $f['title'], 'text' => (string) ($f['text'] ?? ''),
-                        'href' => !empty($f['href']) ? url((string) $f['href']) : url('/interactif/frise/'), 'image' => $f['image'] ?? null, 'key' => 'frise' . md5((string) $f['title'])] + $base;
+                        'href' => !empty($f['href']) ? url((string) $f['href']) : url('/interactif/frise/'), 'image' => $f['image'] ?? null, 'key' => $f['_key']] + $base;
                 },
             ];
             // Un match joué le jour J passe avant tout ; sinon match le plus proche, joueur ou fait, à tour de rôle.
@@ -178,13 +184,18 @@ final class Pages
                 $seen[$item['key']] = true; // pas deux fois la même fiche le même jour
             }
             if (!$item) {
+                // Saison de l'époque : sa page (/matchs/AAAA-AAAA/) n'existe que si des matchs y sont relevés.
                 $season = (int) date('n', $target) >= 7 ? $y . '-' . ($y + 1) : ($y - 1) . '-' . $y;
-                $item = ['kind' => t('Saison'), 'title' => t('La saison {s}', ['s' => $season]), 'text' => t('Les matchs, les joueurs et les souvenirs de cette saison-là.'), 'href' => url('/saisons/' . $season . '/')] + $base;
+                $item = ['kind' => t('Saison'), 'title' => t('La saison {s}', ['s' => $season]), 'text' => t('Les matchs, les joueurs et les souvenirs de cette saison-là.'),
+                    'href' => isset(Derived::part('seasons')[$season]) ? url('/matchs/' . $season . '/') : null] + $base;
             }
             $out[] = $item;
         }
         $log = array_filter($log, fn ($k) => $k >= date('Y-m-d', strtotime('-40 days')), ARRAY_FILTER_USE_KEY);
-        $log[$today] = ['years' => $years, 'items' => $out];
+        $entry = isset($log[$today]['by']) ? $log[$today] : ['keys' => [], 'by' => []];
+        $entry['keys'] = array_values(array_unique(array_merge((array) $entry['keys'], array_values(array_filter(array_column($out, 'key'))))));
+        $entry['by'][$slot] = $out;
+        $log[$today] = $entry;
         @mkdir(dirname($logFile), 0775, true);
         \App\Core\JsonStore::write($logFile, $log);
         return $out;
@@ -610,7 +621,7 @@ final class Pages
             }
             return Fiche::show($req, $doc);
         }
-        if ($req->path === self::TEAM_PATH) {
+        if ($req->path === self::teamPath()) {
             return self::team();
         }
         // Sous-rubrique calculée « Match officiel » (liste livrée avec le code, musées qui en ont une).
@@ -632,8 +643,20 @@ final class Pages
         return null;
     }
 
-    /** Rubrique héritée de WordPress, remplacée par les vignettes de l'équipe (saisies côté association). */
+    /**
+     * Adresse de Sochaux, gardée pour compatibilité : utiliser teamPath(), qui suit le club servi.
+     * @deprecated
+     */
     public const TEAM_PATH = '/supporters/l-equipe-de-sochaux-retro/';
+
+    /**
+     * Rubrique héritée de WordPress, remplacée par les vignettes de l'équipe (saisies côté association) :
+     * clé « team_path » du profil du club, sinon l'adresse des musées neufs (modèle de rubriques).
+     */
+    public static function teamPath(): string
+    {
+        return \App\Core\Club::s('team_path') ?: '/supporters/l-equipe-du-musee/';
+    }
 
     /** L'équipe de Sochaux Rétro en cartes à collectionner. */
     public static function team(): Response

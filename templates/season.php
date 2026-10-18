@@ -40,10 +40,11 @@ $lineLabels = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 
 <?php if ($matches): $allIds = array_map(fn ($x) => (int) $x['id'], $matches); $homeIds = array_map(fn ($x) => (int) $x['id'], array_values(array_filter($matches, fn ($x) => !empty($x['sh'])))); ?>
 <div class="wrap">
   <section class="siye" data-siye data-all="<?= e(json_encode($allIds)) ?>" data-home="<?= e(json_encode($homeIds)) ?>"
-    data-done="<?= e(t('✓ {n} matchs de la saison dans votre carnet')) ?>" data-none="<?= e(t('Aucun match de la saison dans votre carnet pour l’instant.')) ?>">
+    data-done="<?= e(t('✓ {n} matchs de la saison dans votre carnet')) ?>" data-none="<?= e(t('Aucun match de la saison dans votre carnet pour l’instant.')) ?>"
+    data-error="<?= e(t('Votre carnet n’a pas pu être mis à jour. Réessayez dans un instant.')) ?>">
     <div class="siye__txt">
       <h2 class="siye__t"><?= e(t('J’y étais, toute la saison !')) ?></h2>
-      <p class="siye__p" data-siye-state><?= e(t('Abonné, fidèle du stade ? Ajoutez d’un coup les matchs de la saison à votre carnet du supporter, au lieu de les cocher un par un.')) ?></p>
+      <p class="siye__p" data-siye-state aria-live="polite"><?= e(t('Abonné, fidèle du stade ? Ajoutez d’un coup les matchs de la saison à votre carnet du supporter, au lieu de les cocher un par un.')) ?></p>
     </div>
     <div class="siye__btns">
       <?php if ($homeIds): ?><button type="button" class="btn btn--yellow" data-siye-add="home"><?= e(t('Tous les matchs à domicile')) ?> <small>· <?= count($homeIds) ?></small></button><?php endif; ?>

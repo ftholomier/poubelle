@@ -146,20 +146,21 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
       <div class="hago" data-ago>
         <div class="hago__tabs" role="tablist" aria-label="<?= e(t('Il y a…')) ?>">
           <?php foreach ($ago as $i => $a): ?>
-            <button type="button" role="tab" class="hago__tab<?= $i === 0 ? ' is-on' : '' ?>" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>" data-ago-tab="<?= $i ?>"><?= e(t('Il y a')) ?> <b><?= (int) $a['n'] ?></b> <?= e(t('ans')) ?></button>
+            <button type="button" role="tab" class="hago__tab<?= $i === 0 ? ' is-on' : '' ?>" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>" data-ago-tab="<?= $i ?>"><?= str_replace('{n}', '<b>' . (int) $a['n'] . '</b>', e(t('Il y a {n} ans'))) ?></button>
           <?php endforeach; ?>
         </div>
         <?php foreach ($ago as $i => $a): ?>
-          <a class="hago__panel<?= $i === 0 ? ' is-on' : '' ?>" role="tabpanel" data-ago-panel="<?= $i ?>" href="<?= e((string) $a['href']) ?>"<?= $i === 0 ? '' : ' hidden' ?>>
+          <?php $agoTag = !empty($a['href']) ? 'a' : 'div'; // saison sans page : panneau sans lien ?>
+          <<?= $agoTag ?> class="hago__panel<?= $i === 0 ? ' is-on' : '' ?>" role="tabpanel" data-ago-panel="<?= $i ?>"<?= $agoTag === 'a' ? ' href="' . e((string) $a['href']) . '"' : '' ?><?= $i === 0 ? '' : ' hidden' ?>>
             <span class="hago__media"><?php if ($a['image']): ?><img src="<?= e(img($a['image'], 640)) ?>" alt="" loading="lazy"><?php if (!empty($a['image_credit'])): ?><small class="hcredit"><?= e($a['image_credit']) ?></small><?php endif; ?><?php else: ?><span class="hago__year num"><?= e(substr($a['date'], 0, 4)) ?></span><?php endif; ?></span>
             <span class="hago__body">
               <span class="hcard__k"><?= e($a['kind']) ?> · <?= e(date_fr($a['date'])) ?></span>
               <span class="hcard__t"><?= e($a['title']) ?></span>
               <?php if ($a['score']): ?><span class="num hcard__score"><?= e($a['score']) ?></span><?php endif; ?>
               <span class="hago__text"><?= e($a['text']) ?></span>
-              <span class="hcard__more"><?= e(t('Découvrir')) ?> →</span>
+              <?php if ($agoTag === 'a'): ?><span class="hcard__more"><?= e(t('Découvrir')) ?> →</span><?php endif; ?>
             </span>
-          </a>
+          </<?= $agoTag ?>>
         <?php endforeach; ?>
       </div>
       <?php endif; ?>

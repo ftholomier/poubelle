@@ -34,14 +34,14 @@ $current = $season === QuizChampionship::season();
   <div class="qc__grid">
     <section class="cncard qc__table">
       <div class="qc__head">
-        <h2 class="cncard__t"><?= e(t('Classement {s}', ['s' => $season])) ?></h2>
+        <h2 class="cncard__t"><?= e($league === 'amis' ? t('Classement entre amis {s}', ['s' => $season]) : t('Classement {s}', ['s' => $season])) ?></h2>
         <?php if (count($seasons) > 1): ?>
         <nav class="qc__seasons" aria-label="<?= e(t('Saisons')) ?>"><?php foreach ($seasons as $s): ?><a href="<?= e(url('/interactif/quiz-live/championnat/') . '?saison=' . $s . $L) ?>"<?= $s === $season ? ' aria-current="page"' : '' ?>><?= e($s) ?></a><?php endforeach; ?></nav>
         <?php endif; ?>
       </div>
       <p class="cnnote"><?= e(tn((int) $stats['games'], '{n} partie comptée', '{n} parties comptées', ['n' => $stats['games']])) ?> · <?= e(tn((int) $stats['players'], '{n} joueur classé', '{n} joueurs classés', ['n' => $stats['players']])) ?></p>
       <?php if (!$rows): ?>
-      <p class="qc__empty"><?= e($current ? t('Pas encore de partie comptée cette saison : le premier quiz du club-house ouvrira le classement.') : t('Aucune partie comptée cette saison.')) ?></p>
+      <p class="qc__empty"><?= e($current ? ($league === 'amis' ? t('Pas encore de partie comptée cette saison : la première soirée entre amis ouvrira le classement.') : t('Pas encore de partie comptée cette saison : le premier quiz du club-house ouvrira le classement.')) : t('Aucune partie comptée cette saison.')) ?></p>
       <?php else: ?>
       <div class="qc__scroll"><table class="qc__rank">
         <thead><tr><th scope="col">#</th><th scope="col"><?= e(t('Joueur')) ?></th><th scope="col" class="n"><?= e(t('Points')) ?></th><th scope="col" class="n"><?= e(t('Parties')) ?></th><th scope="col" class="n"><?= e(t('Victoires')) ?></th><th scope="col" class="n"><?= e(t('Podiums')) ?></th></tr></thead>

@@ -29,9 +29,14 @@
 
   let data;
   try { data = await (await fetch(root.dataset.api)).json(); } catch (e) { document.getElementById('cpanel').innerHTML = '<p class="cp-intro" style="padding:20px">' + T('La carte est momentanément indisponible.', 'The map is temporarily unavailable.') + '</p>'; return; }
-  const HOME = data.home || [47.5122, 6.8111];
   const NOW = data.now || new Date().getFullYear();
-  const DEC = []; for (let d = 1930; d <= Math.floor(NOW / 10) * 10; d += 10) DEC.push(d);
+  // Ville du club (profil du club, transmise par l'API) ; à défaut, le stade « à domicile » des données.
+  const HOME = data.home || (data.places || []).find(p => p.home)?.ll || [46.6, 2.4];
+  const HOME_NAME = data.homeName || '';
+  // Décennies : de la plus ancienne trouvée dans les données (matchs, arrivées, épopées) à aujourd'hui.
+  const years = [...(data.places || []).flatMap(p => (p.recs || []).map(r => r.y)), ...(data.people || []).map(p => p.dec), ...(data.steps || []).map(s => +s.y)].filter(y => y > 1800 && y <= NOW);
+  const firstDec = Math.floor((years.length ? Math.min(...years) : (data.founded || NOW)) / 10) * 10;
+  const DEC = []; for (let d = firstDec; d <= Math.floor(NOW / 10) * 10; d += 10) DEC.push(d);
   const dlab = d => "'" + String(d).slice(2);
   const places = (data.places || []).map(p => ({ ...p, recs: (p.recs || []).map(r => ({ ...r, comp: r.comp === "Coupe d'Europe" ? 'Europe' : r.comp })) }));
   const people = data.people || [];
@@ -212,16 +217,16 @@
   function tabEpopees() {
     const seasonsE = [...new Set(steps.map(s => s.s))];
     const types = [...new Set(steps.map(s => s.type))];
-    panel.innerHTML = `<div class="cp-head"><span class="cp-eyebrow">${T('Carto · Les épopées', 'Map · Epic runs')}</span><h1 class="cp-title">${LB('epopees', 'Les grandes<br>routes du club', 'The club’s<br>great journeys')}</h1><p class="cp-intro">${T('Finales et nuits européennes, reliées à Montbéliard. Choisissez une étape ou lancez le récit.', 'Finals and European nights, linked to Montbéliard. Pick a step or play the story.')}</p></div>
+    panel.innerHTML = `<div class="cp-head"><span class="cp-eyebrow">${T('Carto · Les épopées', 'Map · Epic runs')}</span><h1 class="cp-title">${LB('epopees', 'Les grandes<br>routes du club', 'The club’s<br>great journeys')}</h1><p class="cp-intro">${HOME_NAME ? T('Finales et nuits européennes, reliées à ', 'Finals and European nights, linked to ') + esc(HOME_NAME) + T('. Choisissez une étape ou lancez le récit.', '. Pick a step or play the story.') : T('Finales et nuits européennes. Choisissez une étape ou lancez le récit.', 'Finals and European nights. Pick a step or play the story.')}</p></div>
     <div class="cp-filters">${chipRow('fEType', T('Compétition', 'Competition'), ['Toutes', ...types], S.etype, o => o === 'Toutes' ? T('Toutes', 'All') : o)}${chipRow('fESeason', T('Saison', 'Season'), ['Toutes', ...seasonsE], S.eseason, o => o === 'Toutes' ? T('Toutes', 'All') : o)}<button type="button" class="ccta" id="cplayStory" data-play="${T('▶ Lancer le récit', '▶ Play the story')}">${T('▶ Lancer le récit', '▶ Play the story')}</button></div>
     <div class="cp-steps" id="csteps"></div>`;
     bindChips('fEType', 'etype', updEpopees); bindChips('fESeason', 'eseason', updEpopees);
     panel.querySelector('#cplayStory').onclick = () => { if (S.timer) return stopTimer(); const vs = visSteps(); if (!vs.length) return; let k = 0; goStep(vs[0].i); panel.querySelector('#cplayStory').textContent = T('❚❚ Pause', '❚❚ Pause'); S.timer = setInterval(() => { k++; if (k >= vs.length) return stopTimer(); goStep(vs[k].i); }, 4200); };
-    legend.innerHTML = `<span class="d">${T('Légende', 'Legend')}</span><div class="clg"><span class="csw" style="background:${C.blue}"></span>Montbéliard</div><div class="clg"><span class="csw" style="background:${C.yellow}"></span>${T('Trophée remporté', 'Trophy won')}</div><div class="clg"><span class="csw" style="background:${C.paper}"></span>${T('Étape', 'Step')}</div>`;
+    legend.innerHTML = `<span class="d">${T('Légende', 'Legend')}</span><div class="clg"><span class="csw" style="background:${C.blue}"></span>${esc(HOME_NAME || T('Le club', 'The club'))}</div><div class="clg"><span class="csw" style="background:${C.yellow}"></span>${T('Trophée remporté', 'Trophy won')}</div><div class="clg"><span class="csw" style="background:${C.paper}"></span>${T('Étape', 'Step')}</div>`;
     const b = L.latLngBounds([HOME, ...steps.map(s => s.ll)]);
     home = () => map.flyToBounds(b, { padding: [70, 70], duration: reduce ? 0 : 1 });
     map.fitBounds(b, { padding: [70, 70] });
-    L.circleMarker(HOME, { radius: 11, color: C.navy, weight: 2, fillColor: C.blue, fillOpacity: 1 }).bindTooltip('Montbéliard', { permanent: true, className: 'lbl', direction: 'right', offset: [10, 0] }).addTo(layer);
+    L.circleMarker(HOME, { radius: 11, color: C.navy, weight: 2, fillColor: C.blue, fillOpacity: 1 }).bindTooltip(esc(HOME_NAME || T('Le club', 'The club')), { permanent: true, className: 'lbl', direction: 'right', offset: [10, 0] }).addTo(layer);
     updEpopees();
   }
   function updEpopees() {

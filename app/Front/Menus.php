@@ -159,7 +159,9 @@ final class Menus
     public static function href(string $h): ?array
     {
         if ($h === '{association}') {
-            return [\App\Vitrine\Host::base(), true];
+            // Pas de site d'association pour ce club : lien masqué.
+            $asso = \App\Vitrine\Host::base();
+            return $asso !== '' ? [$asso, true] : null;
         }
         if (str_starts_with($h, '/boutique') && !\App\Shop\ShopPages::visible()) {
             return null;
@@ -170,10 +172,36 @@ final class Menus
         if (str_starts_with($h, '/centenaire') && !Site::centenaryCountdown()) {
             return null; // centenaire pas encore proche (ou coupé dans le profil du club)
         }
+        if (preg_match('#^/bilans/([a-z0-9-]+)/$#', $h, $m) && !self::hasBilan($m[1])) {
+            return null; // bilan sans match (musée neuf, compétition jamais jouée) : la page serait une 404
+        }
         if (preg_match('#^https?://#', $h)) {
             return [$h, true];
         }
         return [url($h), false];
+    }
+
+    /** Le bilan /bilans/<clé>/ a-t-il des matchs (mêmes conditions que Explore::bilanPage) ? */
+    private static function hasBilan(string $key): bool
+    {
+        static $cache = [];
+        if (!array_key_exists($key, $cache)) {
+            if (isset(Mosaic::COMPS[$key])) {
+                $family = Mosaic::COMPS[$key][2];
+                $cache[$key] = false;
+                foreach (\App\Data\Derived::part('matches') as $x) {
+                    if (!empty($x['v']) && ($x['comp'] ?? '') === $family) {
+                        $cache[$key] = true;
+                        break;
+                    }
+                }
+            } elseif (str_starts_with($key, 'stade-')) {
+                $cache[$key] = !empty(\App\Data\Derived::part('stades')[substr($key, 6)]['matches']);
+            } else {
+                $cache[$key] = true; // autre adresse : laissée telle quelle
+            }
+        }
+        return $cache[$key];
     }
 
     /** Liens prêts à afficher : [libellé, adresse, externe]. */
