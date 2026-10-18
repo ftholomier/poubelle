@@ -23,6 +23,7 @@ final class DataFixes
     /** Corrections à appliquer : clé (jamais réutilisée) => méthode. */
     private const FIXES = [
         '2026-10-avant-saison-2002-2009' => 'preseason2002',
+        '2026-10-juillet-1978' => 'july1978',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -53,11 +54,26 @@ final class DataFixes
      */
     private static function preseason2002(): array
     {
+        return self::preseason('d’avant-saison 2002-2009', fn (int $y, int $mo) => ($y === 2002 && in_array($mo, [6, 7], true)) || ($y >= 2003 && $y <= 2009 && $mo === 7));
+    }
+
+    /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */
+    private static function july1978(): array
+    {
+        return self::preseason('de juillet 1978', fn (int $y, int $mo) => $y === 1978 && $mo === 7);
+    }
+
+    /**
+     * Range dans la saison qui commence les matchs dont l'année et le mois de la date répondent à
+     * $wanted(année, mois) ; musée historique seulement. $label complète le compte rendu.
+     */
+    private static function preseason(string $label, callable $wanted): array
+    {
         if (!Club::isDefault()) {
-            return ['message' => 'avant-saison 2002-2009 : sans objet pour ce musée', 'ids' => []];
+            return ['message' => 'matchs ' . $label . ' : sans objet pour ce musée', 'ids' => []];
         }
         Categories::ensureSeasons();
-        $ids = Fiches::batch(function () {
+        $ids = Fiches::batch(function () use ($wanted) {
             $ids = [];
             foreach (Fiches::all() as $id => $doc) {
                 if (($doc['type'] ?? '') !== 'match' || ($doc['status'] ?? '') === 'corbeille') {
@@ -68,7 +84,7 @@ final class DataFixes
                     continue;
                 }
                 [$y, $mo] = [(int) $m[1], (int) $m[2]];
-                if (!(($y === 2002 && in_array($mo, [6, 7], true)) || ($y >= 2003 && $y <= 2009 && $mo === 7))) {
+                if (!$wanted($y, $mo)) {
                     continue;
                 }
                 if (self::moveToSeason((int) $id, $y . '-' . ($y + 1))) {
@@ -77,7 +93,7 @@ final class DataFixes
             }
             return $ids;
         });
-        return ['message' => count($ids) . ' match(s) d’avant-saison 2002-2009 rangé(s) dans la bonne saison', 'ids' => $ids];
+        return ['message' => count($ids) . ' match(s) ' . $label . ' rangé(s) dans la bonne saison', 'ids' => $ids];
     }
 
     /** Range un match dans une saison : champ saison, rubrique de saison, adresse. true s'il a changé. */

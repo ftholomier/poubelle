@@ -1,7 +1,7 @@
 <?php
 /**
  * Corrections de données ponctuelles (App\Services\DataFixes) : matchs d'avant-saison 2002-2009
- * rangés dans la saison qui commence (saison, rubrique « Classement & SEO », adresse redirigée),
+ * et de juillet 1978 rangés dans la saison qui commence (saison, rubrique « Classement & SEO », adresse redirigée),
  * une seule fois ; les autres matchs ne bougent pas. Fiches d'essai créées puis supprimées ;
  * rubriques, redirections et journal des corrections remis en état.
  * Usage : php tests/corrections.php (code 1 si échec).
@@ -56,6 +56,8 @@ try {
     $c = $make('2004-06-05', '2003-2004');           // juin ordinaire : fin de saison, ne bouge pas
     $d = $make('2012-07-14', '2011-2012');           // hors de la liste demandée : ne bouge pas
     $e = $make('2009-07-31', '2009-2010');           // déjà bien rangé
+    $f = $make('1978-07-29', '1977-1978');           // juillet 1978 : avant-saison de 1978-1979
+    $g = $make('1978-06-03', '1977-1978');           // juin 1978 : fin de saison, ne bouge pas
     @unlink(DataFixes::FILE);
     $out = DataFixes::run();
     $doc = Fiches::fresh($a);
@@ -69,6 +71,11 @@ try {
     $done = json_decode((string) file_get_contents(DataFixes::FILE), true);
     $eq('compte rendu : les deux fiches déplacées seulement', array_values(array_intersect($done['2026-10-avant-saison-2002-2009']['ids'] ?? [], $ids)), [$a, $b]);
     $eq('compte rendu de la tâche', (bool) preg_match('/rangé\(s\) dans la bonne saison/u', (string) $out), true);
+    $doc = Fiches::fresh($f);
+    $eq('juillet 1978 : saison, rubrique et adresse 1978-1979', [$doc['match']['season'], $doc['categories'], $doc['path']], ['1978-1979', ['amical-fc-sochaux-retro-fcsm', '1978-1979'], '/matchs/1978-1979/essai-avant-saison-1978-07-29/']);
+    $eq('juillet 1978 : ancienne adresse redirigée', Redirects::find('/matchs/1977-1978/essai-avant-saison-1978-07-29/'), '/matchs/1978-1979/essai-avant-saison-1978-07-29/');
+    $eq('juin 1978 : reste en fin de saison 1977-1978', Fiches::fresh($g)['match']['season'], '1977-1978');
+    $eq('compte rendu juillet 1978 : la seule fiche déplacée', array_values(array_intersect($done['2026-10-juillet-1978']['ids'] ?? [], $ids)), [$f]);
     // Une seule fois : remise à la main dans l'ancienne saison, la correction ne repasse pas.
     $x = Fiches::fresh($a);
     $x['match']['season'] = '2004-2005';
