@@ -79,12 +79,12 @@ $here = \App\Admin\Favorites::here($meta);
       </div>
       <?php if (\App\Core\Auth::isAdmin()): // Compteur mémoire (administrateurs) : OPcache et Redis, en Mo.
         $mo = \App\Services\ServerCheck::opcache(); $mr = null;
-        if ($rcx = \App\Core\PhpCache::redis()) { try { $ri = $rcx->info('memory'); $mr = [round((int) $ri['used_memory'] / 1048576, 1), (int) ($ri['maxmemory'] ?? 0) / 1048576]; } catch (\Throwable) {} }
+        if ($rcx = \App\Core\PhpCache::redis()) { try { $ri = $rcx->info('memory'); $mr = [round((int) $ri['used_memory'] / 1048576, 1), (int) ($ri['maxmemory'] ?? 0) / 1048576, \App\Services\ServerCheck::redisSelfEvicts((string) ($ri['maxmemory_policy'] ?? ''))]; } catch (\Throwable) {} }
         $lvl = fn (float $r) => $r >= 0.9 ? 'ko' : ($r >= 0.7 ? 'warn' : 'ok');
         if ($mo || $mr): ?>
       <a class="top__mem" href="/admin/taches#serveur" title="Mémoire du serveur : OPcache (Mo utilisés / total, part trouvée en mémoire) et Redis (Mo), détail dans Serveur / tâches planifiées)">
         <?php if ($mo): ?><span class="<?= $lvl($mo['total'] ? $mo['used'] / $mo['total'] : 0) ?>">OPc <b><?= $mo['used'] ?></b><small>/<?= $mo['total'] ?> (<?= e((string) round($mo['hits'])) ?> %)</small></span><?php endif; ?>
-        <?php if ($mr): ?><span class="<?= $lvl($mr[1] ? $mr[0] / $mr[1] : 0) ?>">Red <b><?= e(number_format($mr[0], 1, ',', '')) ?></b><?= $mr[1] ? '<small>/' . round($mr[1]) . '</small>' : '' ?></span><?php endif; ?>
+        <?php if ($mr): ?><span class="<?= $lvl($mr[1] && !$mr[2] ? $mr[0] / $mr[1] : 0) ?>"<?= $mr[2] ? ' title="Redis efface lui-même les entrées les moins utiles une fois plein : être près du maximum est normal."' : '' ?>>Red <b><?= e(number_format($mr[0], 1, ',', '')) ?></b><?= $mr[1] ? '<small>/' . round($mr[1]) . '</small>' : '' ?></span><?php endif; ?>
       </a>
       <?php endif; endif; ?>
       <a class="top__help" href="<?= e(\App\Admin\Help::urlFor($meta['help'] ?? $nav)) ?>" title="Aide sur cet écran"><span aria-hidden="true">?</span> Aide</a>

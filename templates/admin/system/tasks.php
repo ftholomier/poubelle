@@ -86,7 +86,7 @@ $level = fn (float $r) => $r >= 0.9 ? ['ko', 'Presque plein'] : ($r >= 0.7 ? ['w
       </section>
       <?php endif; ?>
       <section class="srvg" aria-labelledby="srvg-rd">
-        <?php if ($rdi): $r = $rdi['max'] ? $rdi['used'] / $rdi['max'] : 0; [$cls, $lab] = $level($r); ?>
+        <?php if ($rdi): $r = $rdi['max'] ? $rdi['used'] / $rdi['max'] : 0; [$cls, $lab] = \App\Services\ServerCheck::redisSelfEvicts((string) ($rdi['policy'] ?? '')) ? ['ok', 'Normal'] : $level($r); ?>
         <h3 class="srvg__t" id="srvg-rd">Redis <span class="srvg__pill <?= $cls ?>"><?= $lab ?></span></h3>
         <p class="small muted" style="margin:0">Les autres caches (médiathèque, albums, recherche…), partagés par tous les musées.</p>
         <div class="srvg__big"><?= e((string) $rdi['used']) ?> <small><?= $rdi['max'] ? 'Mo sur ' . e((string) $rdi['max']) . ' · ' . round($r * 100) . ' %' : 'Mo · sans limite réglée' ?></small></div>

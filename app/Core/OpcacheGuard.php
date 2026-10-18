@@ -87,7 +87,7 @@ final class OpcacheGuard
             $hits['opcache'] = 'OPcache est plein à ' . round($opRatio * 100) . ' % (' . round($opRatio * $opTotal / 1048576) . ' Mo sur ' . round($opTotal / 1048576) . ').';
         }
         $rd = \App\Services\ServerCheck::redis();
-        if ($rd && $rd['max'] > 0 && $rd['used'] / $rd['max'] >= 0.9) {
+        if ($rd && $rd['max'] > 0 && $rd['used'] / $rd['max'] >= 0.9 && !\App\Services\ServerCheck::redisSelfEvicts((string) ($rd['policy'] ?? ''))) {
             $hits['redis'] = 'Redis est plein à ' . round(100 * $rd['used'] / $rd['max']) . ' % (' . $rd['used'] . ' Mo sur ' . $rd['max'] . ').';
         }
         if (!$hits) {

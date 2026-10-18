@@ -174,6 +174,15 @@ final class ServerCheck
     }
 
     /**
+     * Redis plein se vide-t-il lui-même ? (politique allkeys-… ou volatile-… : il efface les entrées
+     * les moins utiles) Alors être près du maximum est normal : ni pastille d'alerte ni e-mail.
+     */
+    public static function redisSelfEvicts(string $policy): bool
+    {
+        return $policy !== '' && $policy !== 'noeviction';
+    }
+
+    /**
      * Ce qui occupe Redis pour ce musée, par dossier du cache (même présentation que pour OPcache).
      * @return list<array{dir:string,mb:float,n:int}>
      */
