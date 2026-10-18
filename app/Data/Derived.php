@@ -490,29 +490,22 @@ final class Derived
             return $years ? [min($years) - 1, max($years) + 1] : [null, null];
         };
         $periods = array_map($period, $persons);
-        // Années où le joueur a pu jouer : âge (15 à 42 ans) et, si arrivée ET départ sont connus,
-        // sa période au club (à deux ans près). Un nom seul ne relie jamais hors de ces années :
-        // un « Bernardet » de 1953 n'est pas Steve Bernardet (2003-2005).
-        $possible = array_map(function (array $p): array {
-            $pp = $p['personne'];
-            $lo = $hi = null;
-            if (($b = (int) substr((string) ($pp['birth']['date']['iso'] ?? $pp['birth']['iso'] ?? ''), 0, 4)) > 1850) {
-                [$lo, $hi] = [$b + 15, $b + 42];
-            }
-            $a = !empty($pp['arrival']['iso']) ? (int) substr((string) $pp['arrival']['iso'], 0, 4) : 0;
-            $d = !empty($pp['departure']['iso']) ? (int) substr((string) $pp['departure']['iso'], 0, 4) : 0;
-            if ($a && $d && $d >= $a) {
-                [$lo, $hi] = [max($lo ?? 0, $a - 2), min($hi ?? 9999, $d + 2)];
-            }
-            return [$lo, $hi];
+        // Année de naissance : un nom seul ne relie jamais quelqu'un qui n'avait pas l'âge de jouer
+        // (15 à 42 ans) ou d'entraîner (25 à 85 ans) cette année-là : un « Bernardet » de 1953 n'est
+        // pas Steve Bernardet (2003-2005). Les dates d'arrivée et de départ ne bornent rien : un
+        // joueur revenu au club, ou devenu entraîneur, garde ses matchs.
+        $born = array_map(function (array $p): ?int {
+            $b = (int) substr((string) ($p['personne']['birth']['date']['iso'] ?? $p['personne']['birth']['iso'] ?? ''), 0, 4);
+            return $b > 1850 ? $b : null;
         }, $persons);
 
         $approx = [];
         $approxUsed = []; // nom de composition => [fiche, manière, nombre] : signalés aux historiens
-        $resolve = function (string $name, ?string $date) use ($byKey, $byLast, $byLetters, $nameKeys, $periods, $possible, $persons, &$approx, &$approxUsed): ?int {
+        $resolve = function (string $name, ?string $date, bool $coach = false) use ($byKey, $byLast, $byLetters, $nameKeys, $periods, $born, $persons, &$approx, &$approxUsed): ?int {
             $year = $date ? (int) substr($date, 0, 4) : null;
-            // Écarte les joueurs qui ne pouvaient pas jouer cette année-là (âge, période au club).
-            $plausible = fn (array $ids) => $year ? array_values(array_filter($ids, fn ($id) => ($possible[$id][0] === null || $year >= $possible[$id][0]) && ($possible[$id][1] === null || $year <= $possible[$id][1]))) : $ids;
+            // Écarte ceux qui n'avaient pas l'âge de jouer (ou d'entraîner) cette année-là.
+            [$min, $max] = $coach ? [25, 85] : [15, 42];
+            $plausible = fn (array $ids) => $year ? array_values(array_filter($ids, fn ($id) => $born[$id] === null || ($year >= $born[$id] + $min && $year <= $born[$id] + $max))) : $ids;
             $pick = function (array $ids) use ($year, $periods) {
                 $ids = array_values(array_unique($ids));
                 if (count($ids) === 1) {
@@ -709,7 +702,7 @@ final class Derived
                     }
                     $pid = $r['person_id'] ?? null;
                     if (!$pid || !isset($persons[$pid])) {
-                        $pid = $resolve($name, $date);
+                        $pid = $resolve($name, $date, $pos === 'E');
                     }
                     $g = count($r['goals'] ?? []);
                     $min = 0;
