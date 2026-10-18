@@ -72,7 +72,7 @@ final class TicketsAdmin extends Base
         try {
             $t = Tickets::create(self::fields($req), $user);
         } catch (\InvalidArgumentException $e) {
-            return self::back('/admin/tickets#nouveau', null, $e->getMessage());
+            return self::back('/admin/tickets', null, $e->getMessage());
         }
         Activity::log($user, 'a ouvert un ticket', ['title' => 'n° ' . $t['id'] . ' · ' . $t['title'], 'path' => '']);
         return self::back('/admin/tickets/' . $t['id'], 'Ticket n° ' . $t['id'] . ' envoyé. Vous serez prévenu par e-mail à chaque réponse ou changement de statut.');
