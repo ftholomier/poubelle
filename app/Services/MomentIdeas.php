@@ -41,7 +41,7 @@ final class MomentIdeas
     {
         $founded = (int) Club::s('founded') ?: 1900;
         $out = [];
-        foreach (self::eras() as [$from, $to, $n]) {
+        foreach (self::ERAS as [$from, $to, $n]) {
             if ($from === 0) {
                 $out[] = [$from, $to, $n];
             } elseif ($to >= $founded) {
