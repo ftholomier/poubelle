@@ -179,6 +179,35 @@ version de `Derived::VERSION` ou un nouveau numéro d'index restent recalculés 
 Système › Tâches planifiées, carte Serveur : mémoire d'OPcache utilisée et alerte si elle est
 trop petite, ou si PHP ne sait pas terminer une page avant son travail d'après-page.
 
+**OPcache et Redis** (`App\Core\PhpCache`, `App\Core\OpcacheGuard`, `App\Services\ServerCheck`) :
+- Si l'hébergement a Redis (`PhpCache::redis()` ; o2switch : prise `~/.cpanel/redis/redis.sock`
+  et mot de passe lus dans `~/.cpanel/redis/*.conf`, trouvés d'après le dossier du compte car
+  `HOME` est vide sous LiteSpeed et `open_basedir` interdit `file_exists` ; sinon
+  `storage/redis.json`, ou mot de passe saisi dans Tâches › Serveur), seuls l'index et les
+  données calculées « chaudes » restent dans OPcache, plafonnés à 1,5 Mo (`HOT_REDIS`) ; les
+  très grosses parties de `Derived`, la médiathèque, les mémos, les albums et la recherche
+  passent par Redis dès 100 Ko (préfixe `musee:`, sérialisation igbinary si présente). Une
+  seule version par cache (la précédente effacée dès qu'elle est remplacée), expiration 24 h.
+  Sans Redis : seuils d'OPcache adaptés au nombre de musées (`BIG`, 5 Mo).
+- Les caches inchangés ne sont plus réécrits (médiathèque, mémos) et la lecture ne force plus
+  de recompilation. `OpcacheGuard` : après l'envoi d'une page, au plus toutes les 5 minutes,
+  OPcache est vidé si la mémoire perdue (copies périmées) dépasse le quart. Sous LiteSpeed,
+  `opcache_reset()` ne suffit pas : le vidage écrit aussi `~/.lsphp_restart.txt` (redémarrage
+  de PHP). Diagnostic détaillé (utile, périmé, libre, vidages, `opcache_reset` permis,
+  `open_basedir`, `max_wasted_percentage`, processus).
+- Pavé Serveur (Tâches planifiées, en haut) : jauges OPcache et Redis, détail par dossier
+  (`ServerCheck::opcacheByDir()`, tous sites du compte ; `redisByDir()`, entrées non
+  répertoriées comprises, tous musées confondus), boutons de vidage. Compteur mémoire dans la
+  barre du haut des administrateurs (vert, orange dès 70 %, rouge dès 90 %). À 90 %, e-mail
+  aux administrateurs avec un lien signé (`/api/memoire/vider` : 24 h, usage unique, page de
+  confirmation puis POST JSON, car les antivirus de messagerie ouvrent les liens).
+
+**LSCache** (`App\Core\PageCache`) : sous LiteSpeed, le site pilote le cache de pages du
+serveur : pages publiques anonymes gardées 1 minute, variante à part pour les sessions, cache
+vidé à chaque enregistrement du back-office. Les visites des pages servies par le cache sont
+comptées par le navigateur (`/api/vu`). La mise à jour en un clic télécharge une archive
+GitHub sans `docs/` ni `tests/` (−55 Mo).
+
 Après une modification de fichiers faite à la main (envoi FTP de `data/`, script), vider
 `storage/cache/` ou lancer `php bin/console.php index`, `derived` et `search`.
 
@@ -712,6 +741,10 @@ souvenirs) pour refaire les PDF en cache.
   (constellation en SVG : coéquipiers en spirale du plus fidèle au plus rare, taille selon les
   matchs ensemble), `/interactif/fil-jaune/{a}/{b}/` (la chaîne, avec le premier match de
   chaque lien). Encadré « Le Fil jaune » sur les fiches des joueurs reliés.
+- **Plausibilité des années** (`Derived`, rapprochement des noms des compositions) : un nom
+  seul n'est relié qu'à un joueur dont la période possible (naissance, carrière) couvre
+  l'année du match ; un homonyme d'une autre époque n'est plus relié, ce qui évite les
+  chaînes impossibles du Fil jaune.
 
 ## 7 octies. Kit souvenirs et « Ils y étaient » (`App\Services\Souvenirs`, `App\Front\Kit`, `App\Services\Qr`)
 
@@ -1644,6 +1677,34 @@ déjà été enregistrés ; sitemap : la page et chaque album). Nom par club : `
   (`Base::aiCost()`, `aiCostData()`). Dans `App\Admin\Donations`, l'enregistrement d'un don
   hors ligne (`manuel`), l'émission d'un reçu (`recu`) et le remboursement noté d'un don hors
   ligne (`rembourse`) sont refusés aux autres comptes, et cachés dans les écrans.
+  Rôles non administrateurs : boutique, livre des récits, maillots du livre et dons masqués
+  (menu, tableau de bord, aide) et refusés (routes) ; statistiques ouvertes à toute l'équipe,
+  remise à zéro réservée aux administrateurs. Bascule vers un autre musée (sélecteur et action
+  serveur) et mentions des autres musées dans l'aide réservées aux administrateurs.
+- **Tickets de l'équipe** (`App\Services\Tickets`, `App\Admin\TicketsAdmin`, `/admin/tickets`) :
+  bugs, améliorations, questions, stockés dans `storage/tickets.json` (`JsonStore::update`,
+  verrou). Champs : titre, type (`TYPES`), priorité (`PRIORITIES`), demande, prompt pour l'IA
+  (`promptFor()` le met en forme pour le copier), écran d'origine. Statuts (`STATES`) : nouveau,
+  pris, en-cours, a-verifier, termine, refuse ; `OPEN` = les quatre premiers. `setStatus()`
+  refuse un non-administrateur ; `edit()` seulement tant que le ticket est « Nouveau » ;
+  `comment()` ajoute au fil ; chaque changement est historisé et envoyé par e-mail
+  (`notify()` : administrateurs pour les nouveaux tickets et réponses, auteur pour les
+  réponses et statuts). `badge()` compte les tickets qui ont bougé depuis la dernière visite
+  (`markSeen()`), affiché sur le bouton 🎫 Ticket en tête du menu (`Base`) ; le tableau de bord
+  liste « Mes tickets en cours ». Écran en deux moitiés : liste à gauche, nouveau ticket à
+  droite.
+- **Validation des fiches** (`App\Services\Validation`, `POST /admin/fiche/{id}/valider`) :
+  « Valider cette fiche » note qui et quand (`storage/validations.json`), pastille verte dans les listes, filtre
+  « Validées / À valider », entrée au journal d'activité.
+- **Statistiques de l'équipe** (`App\Services\Stats`, `StatsReport`,
+  `templates/admin/_stats-equipe.php`) : vrais comptes seulement (sans traitements
+  automatiques), en ligne à leur nom (back-office ou site), un pavé par historien (chiffres,
+  connexions au back-office, 10 dernières actions, lien vers son journal), fiches travaillées ;
+  rapport PDF « Activité de l'équipe ».
+- **Médiathèque › crédits des légendes** (`App\Services\CaptionCredit::split()`) : un crédit
+  écrit dans la légende (« … Photo Prénom Nom », « Crédit Est Républicain », « ©AGENCE ;
+  texte ») est séparé en légende + crédit (nom seul) : écran d'aperçu, application en lot et à
+  chaque enregistrement.
 - **Formulaires** (`App\Admin\Form`) : chaque champ = libellé `.f__k` puis bloc `.f__c` (champ,
   aide, compteur) ; dans une grille `.fgrid` (colonnes fixes `.fgrid--2c`, `--3`, `--4`, qui
   passent à 2 puis 1 colonne), chaque champ occupe deux rangées partagées (`grid-template-rows:
@@ -1750,6 +1811,9 @@ après 2 ans).
 | `vitrine/` | site de l'association : adhésions, propositions de bénévolat, audience, vidéos YouTube récentes (§ 7 undecies) | oui |
 | `verrous.json` | fiches et écrans ouverts en ce moment (verrou de modification) | non (temporaire) |
 | `controle.json` | dernier contrôle complet (bouton « Contrôler maintenant ») : clés des alertes, nouvelles, historique | non (le contrôle suivant le refait ; sans lui, comparaison avec la référence livrée) |
+| `validations.json` | fiches validées : qui et quand | oui |
+| `tickets.json` | tickets de l'équipe : demandes, fils d'échanges, historique, dernières visites | oui |
+| `redis.json` | réglage de Redis si la prise d'o2switch n'est pas trouvée seule (prise ou hôte, mot de passe) | oui |
 | `cache/`, `sessions/`, `ratelimit/`, `logs/`, `backups/`, `import/` | fichiers techniques (dont `cache/fil-jaune.json`, records du Fil jaune, et `cache/chiffres-*.json`, les 100 chiffres) | non |
 
 ## 11. Sécurité
@@ -2146,3 +2210,37 @@ dans les fiches (la plupart ne vivent qu'en ligne) : la liste est livrée avec l
   ajustés au mot le plus long (`site.js`) ; slider de l'accueil varié par le cookie `sl`
   (posé en JS par `home.js`, l'accueil reste en cache) ; animation de connexion
   (`connexion.js`) aux couleurs et au sigle du club.
+
+## Feuille de match : terrain, pictos et tweets (`templates/fiche-match.php`, `app/helpers.php`)
+
+- **Terrain** : chaque ligne (défense, milieu, attaque) est placée de droite à gauche, dans
+  l'ordre des feuilles de match (arrière droit à droite). Le maillot porte le vrai numéro
+  quand il est saisi, sinon le poste (G, D, M, A), jamais un numéro inventé : fiche, PDF,
+  Rétro-Direct, poster. Pas d'info-bulle sur le poste.
+- **Pictos de la composition** : flèches d'entrée / sortie, cartons et ballons avec la
+  minute, brassard, gant, débuts, dernier match, doublé / triplé, penalty, second jaune.
+- **Pictos du résumé** : détectés dans le texte des faits de jeu (cartons, penalty,
+  changement, montant, arrêt, contre son camp) ; ballon devant chaque « But ! », étiquette
+  « contre son camp » sur les buts.
+- **Tweets** (`tweet_id()`, `tweet_embed()`, `tweets_by_minute()`) : les tweets cités
+  s'affichent en vrai (vidéo, photos) et sont posés à leur minute dans le déroulé.
+
+## « J'y étais, toute la saison ! » (`templates/season.php`, `public/assets/js/saison-etais.js`)
+
+Bandeau en haut de chaque page saison : ajoute au carnet du supporter tous les matchs de la
+saison, ou ceux à domicile, en un clic (un e-mail suffit pour créer le carnet) ; matchs déjà
+cochés marqués ✓, « Retirer cette saison de mon carnet » annule.
+
+## Quiz entre amis et dons (octobre 2026)
+
+- **Soirées entre amis** (`App\Services\QuizLive`) : parties créées par les supporters (grand
+  écran et QR code chez soi), classement « Entre amis » séparé du championnat du club-house
+  (3 parties comptées par jour et par joueur, 5 créations par jour et par connexion). Page du
+  quiz et page du championnat en deux pavés (créer / rejoindre ; club-house / entre amis).
+  Option : nouvelle question à chaque chargement (jeton signé).
+- **Widget et slide « Faire un don »** : QR code, montants (10, 30, 50 €…) et « Montant
+  libre », une fois ou chaque mois, sans jauge ni objectif ; affichés dès que le bouton don du
+  site est visible (lien externe suivi), playlist Buvette.
+- **Mon album** : bouton jaune « Mon album » en haut de l'Album Sochini, collection retrouvée
+  si le cookie est perdu, plus de fenêtre « Partager » à chaque clic (conflit d'attribut
+  `data-share`).

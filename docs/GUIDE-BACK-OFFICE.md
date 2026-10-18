@@ -18,10 +18,13 @@ l'adresse `/admin` du site (`https://musee.fcsochauxretro.com/admin`).
     paiements, e-mail…), la suppression définitive, la restauration d'anciennes versions,
     les sauvegardes (lancer, télécharger : une archive contient les clés et les comptes) et
     le lancement manuel des tâches planifiées. Il peut mettre à la corbeille et consulter
-    l'historique.
+    l'historique. La boutique, le livre des récits, les maillots du livre et les dons sont
+    masqués dans son menu, son tableau de bord et son aide, et refusés s'il tape leur adresse.
+    Les statistiques lui sont ouvertes (la remise à zéro reste aux administrateurs).
 - Votre profil (nom, mot de passe) : menu en haut à droite › « Mon profil ».
-- **Plusieurs musées** (Sochaux, Paris…) : les comptes sont communs. Un compte qui a accès à
-  plusieurs musées voit en haut un **sélecteur de musée** (pastille aux couleurs de chacun) et
+- **Plusieurs musées** (Sochaux, Paris…) : les comptes sont communs. Seul un administrateur
+  voit en haut un **sélecteur de musée** (les autres rôles n'en voient rien, ni sélecteur ni
+  mention des autres musées dans l'aide) (pastille aux couleurs de chacun) et
   passe de l'un à l'autre sans ressaisir son mot de passe. Un administrateur d'un musée est
   administrateur de tous. Le back-office et l'animation de la page de connexion prennent les
   couleurs et le sigle du musée affiché. Fiches, photos, réglages, clés et dépenses d'IA
@@ -50,6 +53,35 @@ Le menu de gauche regroupe les écrans :
   qu'on peut y mettre (la page affichée, les écrans du menu, les créations, les groupes des
   Réglages pour les administrateurs, avec une recherche) ; vos favoris s'y renomment, se
   déplacent et se retirent. Douze au plus, propres à chaque compte.
+- **Bouton 🎫 Ticket**, tout en haut du menu de gauche (avant Pilotage) : signaler un bug,
+  demander une amélioration ou poser une question (voir § 2 bis). Le tableau de bord affiche
+  en tête le bloc **« Mes tickets en cours »**.
+- **Compteur mémoire** (administrateurs) : dans la barre du haut, une pastille indique le
+  remplissage d'OPcache et de Redis (vert, orange dès 70 %, rouge dès 90 %) ; un clic mène au
+  pavé Serveur (§ 11).
+
+## 2 bis. Tickets de l'équipe
+
+Le bouton **🎫 Ticket** ouvre l'écran Tickets (`/admin/tickets`), en deux moitiés : à gauche
+la liste et le suivi, à droite le formulaire « Nouveau ticket », toujours visible. L'écran que
+vous regardiez est noté automatiquement dans le ticket.
+
+- **Titre**, **type** (🐞 Correction de bug, ✨ Demande d'amélioration, ❓ Question),
+  **priorité** (normale, urgente, bloquante ; l'administrateur peut l'ajuster), **votre
+  demande** (ce qui se passe, où, ce que vous attendiez).
+- **Prompt pour l'IA** (facultatif) : la consigne que vous donneriez vous-même à l'IA qui
+  développe le musée, le plus précise possible ; l'administrateur la copie d'un clic.
+- **Statuts** : Nouveau → Pris en compte → En cours → À vérifier (c'est en ligne : contrôlez
+  et répondez « c'est bon ») → Terminé, ou Refusé / sans suite avec une explication. **Seul
+  l'administrateur** change le statut et la priorité.
+- Toute l'équipe voit tous les tickets du musée (filtres : ouverts, mes tickets, statut,
+  type, personne, recherche) : regardez s'il n'existe pas déjà. Sous chaque ticket, un fil
+  d'échanges et l'historique de ses changements. Un ticket se modifie tant qu'il est
+  « Nouveau » ; ensuite, ajoutez une réponse.
+- **E-mails** : l'administrateur est prévenu de chaque nouveau ticket et de chaque réponse ;
+  l'auteur, de chaque réponse et changement de statut. Une pastille sur le bouton Ticket
+  compte les tickets qui ont bougé depuis votre dernière visite ; au tableau de bord, « Mes
+  tickets en cours » liste vos tickets ouverts (point jaune : du nouveau).
 
 ## 3. Les fiches
 
@@ -58,6 +90,13 @@ Le menu de gauche regroupe les écrans :
 Matchs, Personnes, Articles & pages, Objets : recherche, filtres (saison, compétition,
 rubrique…), tri, et actions groupées en cochant plusieurs fiches (publier, repasser en
 brouillon, « à relire », traduire, mettre à la corbeille).
+
+**Valider une fiche** : une fois une fiche entièrement relue et contrôlée, le bouton vert
+**« ✔ Valider cette fiche »** (en haut du masque de saisie) la marque « Fiche validée par … le
+… ». Dans les listes, une pastille verte ✔ suit le titre (au survol : qui et quand) et le menu
+**« Validées / À valider »** isole les unes ou les autres, avec leur nombre : deux historiens
+ne contrôlent pas la même fiche. « Retirer la validation » la remet à contrôler ; la
+validation est notée dans le journal.
 
 ### Éditeur
 
@@ -156,10 +195,22 @@ la recherche (les recherches Google sont gratuites jusqu'à 5 000 par mois avec 
 - **Cartons** : « J 50' » (jaune), « R 80' » (rouge), « J 35' R 80' ».
 - **Importer depuis un tableau** : collez un tableau copié d'Excel, de Word ou d'une page
   web ; avec une ligne d'en-tête, les colonnes sont reconnues dans n'importe quel ordre.
+- **Ordre des lignes, de droite à gauche** comme sur les feuilles de match : le gardien, puis
+  les défenseurs de l'arrière droit à l'arrière gauche, puis les milieux et les attaquants de
+  droite à gauche, enfin remplaçants et entraîneur. Le terrain du site place ainsi chacun du
+  bon côté ; il affiche le vrai numéro de maillot quand il est saisi, sinon le poste (G, D, M,
+  A), jamais un numéro inventé (fiche, PDF, Rétro-Direct, poster).
 - Les lignes se déplacent avec ↑ / ↓ (un cran) ou en glissant l’icône quatre flèches (plus loin ; un trait jaune montre la position de dépôt).
 
 Les statistiques des joueurs (matchs, buts, minutes, cartons), les pages saison, les
 face-à-face et les records se recalculent seuls à partir des compositions.
+
+**Pictos** (rien à saisir) : sur la page du match, la composition affiche les flèches
+d'entrée et de sortie, cartons et ballons avec leur minute, brassard du capitaine, gant du
+gardien, débuts, dernier match, doublé / triplé, penalty, second jaune. Le résumé du match
+reçoit aussi ses pictos, détectés dans le texte (cartons, penalty, changement, montant,
+arrêt, but contre son camp, ballon devant chaque « But ! »). Les **tweets** cités dans la
+fiche s'affichent en vrai (vidéo, photos), posés à leur minute dans le déroulé.
 
 **Une fiche = un match.** Pour un nouveau match, créez une nouvelle fiche (+ Nouveau ›
 Fiche match) plutôt que de reprendre celle du match précédent. Si l'on change l'adversaire
@@ -226,6 +277,10 @@ reliés à la fiche.
   issues des contributions, récentes.
 - Modification groupée : cocher plusieurs photos pour leur donner le même crédit ou les
   mêmes droits.
+- **Crédits écrits dans les légendes** (« … Photo Jean Dupont », « ©AGENCE ; texte ») :
+  séparés automatiquement en légende + crédit, à l'enregistrement, ou en lot depuis un écran
+  d'aperçu qui montre chaque séparation avant de l'appliquer.
+- L'étiquette « Inutilisé » s'affiche à droite de la vignette, sans cacher la case à cocher.
 - **Murs de photos** : la fiche d'une photo dit si elle peut être tirée au hasard sur les
   murs de photos (Interactif) ou pourquoi elle ne l'est pas ; la case **Jamais sur les murs
   de photos** l'en retire, même bien créditée.
@@ -326,6 +381,11 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   n'apparaît aux classements publics qu'une fois le lien de l'e-mail ouvert (points gardés,
   « en attente du lien » dans le tableau). Les joueurs du défi du jour qui n'ont pas joué en
   salle ont leur tableau sous celui du championnat, avec les mêmes boutons.
+  **Soirées entre amis** : la page du quiz s'ouvre sur deux pavés (créer une partie /
+  rejoindre une partie) ; n'importe quel supporter peut lancer une partie chez lui (télé avec
+  code et QR code, amis sur leur téléphone). Ces parties ont leur propre classement « Entre
+  amis » (onglet de la page du championnat), séparé du club-house : 3 parties comptées par
+  jour et par joueur, 5 créations par jour depuis une même connexion.
 - **Défi du jour** (`/interactif/defi/`, rien à régler) : 10 questions en solo sur le
   téléphone, les mêmes pour tout le monde dans la journée, un essai par jour et par compte
   (même compte et même pseudo que le championnat), invités sans classement. Classements du
@@ -371,7 +431,11 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
 - **Fil jaune** (site, Interactif › Jouer) : rien à saisir, le site relie les joueurs par les
   compositions des matchs (joueurs reliés à leur fiche). Chaque composition complétée,
   surtout d'avant 1980, ajoute des liens ; une chaîne étonnante signale parfois un homonyme
-  relié à la mauvaise fiche.
+  relié à la mauvaise fiche. Un nom seul (sans prénom) n'est relié qu'à un joueur dont
+  l'époque correspond à l'année du match.
+- **Album Sochini / « Mon album »** (Interactif › Mon album) : albums de vignettes calculés
+  depuis les compositions ; un bouton jaune « Mon album » en haut de la page mène à la
+  collection du visiteur, retrouvée même si son cookie est perdu.
 
 ## 7. Communauté
 
@@ -396,7 +460,9 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   Le jour J : ouvrir le musée d'abord, puis envoyer ; elle ne part qu'une fois.
 - **Dons** : jauge, liste filtrable, export CSV, ajout d'un don reçu hors ligne (chèque,
   virement, espèces ; administrateurs). Les reçus fiscaux existent mais sont désactivés ;
-  activés, ils sont émis et consultés par les administrateurs.
+  activés, ils sont émis et consultés par les administrateurs. Le widget et la slide d'écran
+  **« Faire un don »** (QR code, montants 10, 30, 50 €… et « Montant libre », une fois ou chaque
+  mois, sans jauge) s'affichent dès que le bouton don du site est visible.
 - **Widgets & partenaires** (administrateurs) : 21 widgets du musée à intégrer sur d'autres
   sites (script, iframe ou API JSON), classés en 7 catégories avec filtres ; une pastille
   « Personnalisable » signale ceux qui ont des options (adversaire, joueur, saison, objet de la
@@ -483,10 +549,16 @@ l'enregistrement des dons hors ligne (et de leurs remboursements) et les reçus 
 montants dépensés en IA ne s'affichent que pour eux. Tout le reste, y compris les alertes de
 Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
 
-**Statistiques** (Pilotage) : deux onglets. « Visiteurs du musée » compte le public anonyme
-seulement (rien tant que le site est fermé) ; « Équipe connectée » compte à part les pages
-vues par les membres connectés, même site fermé. Chacun a son direct, ses filtres, son PDF et
-sa remise à zéro.
+**Statistiques** (Pilotage, toute l'équipe ; remise à zéro réservée aux administrateurs) :
+deux onglets. « Visiteurs du musée » compte le public anonyme seulement (rien tant que le
+site est fermé) ; « Équipe connectée » compte à part les pages vues par les membres connectés,
+même site fermé. Chacun a son direct, ses filtres, son PDF et sa remise à zéro.
+L'onglet **Équipe connectée** ne montre que les vrais comptes (ni traduction, ni reprises, ni
+IA) : historiens en ligne à leur nom (étiquette Back-office ou Site, page affichée), chiffres
+de la période, **un pavé par historien** (ses chiffres, dont ses connexions au back-office, et
+ses 10 dernières actions ; un clic sur son nom ouvre son journal d'activité), activité jour
+par jour, fiches les plus travaillées, heures de travail ; **Rapport PDF** « Activité de
+l'équipe ».
 
 - **Utilisateurs** (administrateur) : inviter, changer le niveau, désactiver un compte.
 - **Contenus de départ** (administrateur, seulement sur un musée qui en a) : fiches préparées
@@ -551,9 +623,17 @@ sa remise à zéro.
   et la télécharger. Gardez-en régulièrement une copie hors du serveur.
 - **Tâches planifiées** (administrateurs) : état des tâches automatiques (publication programmée,
   statistiques, traductions, correcteur d'orthographe, newsletter, carte…), avec un bouton
-  pour en lancer une tout de suite ; carte **Serveur** : version de PHP, extensions, dossiers
-  inscriptibles et dernières erreurs du journal PHP (un réglage manquant est aussi rappelé en
-  tête du tableau de bord). Carte **Totaux de référence des joueurs** (musées qui déclarent
+  pour en lancer une tout de suite (écran « Serveur / tâches planifiées ») ; carte **Serveur**,
+  en haut de la page : version de PHP, extensions, dossiers inscriptibles et dernières erreurs
+  du journal PHP (un réglage manquant est aussi rappelé en tête du tableau de bord). Elle
+  montre la mémoire du site en deux colonnes : **OPcache** (code et données lues à chaque
+  page : jauge utile / périmé / libre, « Vider OPcache », diagnostic replié, dépliant « Ce qui
+  occupe OPcache » par dossier, tous sites du compte confondus) et **Redis** (autres caches :
+  médiathèque, albums, recherche, grosses données calculées ; jauge, « Vider le cache
+  Redis », mot de passe si la prise d'o2switch n'est pas trouvée seule, dépliant « Ce qui
+  occupe Redis » par dossier, tous musées confondus). À 90 %, les administrateurs reçoivent
+  un e-mail avec un lien sécurisé (24 h, une seule fois, confirmation) pour vider directement.
+  Vider ne perd rien : ce ne sont que des copies, refaites toutes seules. Carte **Totaux de référence des joueurs** (musées qui déclarent
   un site de référence) : relevé quotidien des classements officiels des buteurs et des
   matchs joués, noms non rapprochés, « Relever maintenant » ; un relevé anormal est refusé.
 - **Corbeille** (lien « Voir la corbeille » sous les listes de fiches) : fiches mises à la

@@ -13,8 +13,10 @@ redirigées.
   centenaire (20 mai 2028), « Ce jour-là », le chiffre du jour (un des 100 chiffres du
   FCSM), palmarès, grandes époques.
 - Rubriques d'origine avec méga-menus et mosaïques (filtres, tri, vue liste).
-- Fiches match : score, terrain et tableau de composition (numéros, buts, remplacements,
-  cartons), temps forts, réactions, vidéos, galerie, face-à-face avec l'adversaire.
+- Fiches match : score, terrain (vrais numéros ou postes, lignes placées comme sur les
+  feuilles de match) et tableau de composition avec pictos (entrées et sorties, buts, cartons,
+  brassard, débuts, doublés…), résumé illustré, tweets intégrés à leur minute, temps forts,
+  réactions, vidéos, galerie, face-à-face avec l'adversaire.
 - Fiches joueurs, entraîneurs, dirigeants : carte à collectionner, identité, récit,
   statistiques, tous leurs matchs reliés automatiquement.
 - Explorer : saisons, face-à-face, bilans par compétition et par stade, records, et
@@ -35,7 +37,10 @@ redirigées.
   badges, son porte-bonheur, une page publique à son pseudo (`/pseudo/`), une carte de
   supporter à télécharger en PDF (deux designs), « Jour pour jour » et son anniversaire ; la
   boutique en tire des pièces uniques (poster « Ma vie en jaune & bleu », poster et goodies
-  « Ma carte de supporter »).
+  « Ma carte de supporter »). « J'y étais, toute la saison ! » ajoute une saison entière en
+  un clic.
+- **Quiz du club-house** et **soirées entre amis** (grand écran, QR code, classements
+  séparés), **Album Sochini** et « Mon album » à collectionner.
 - **Widgets du musée** à intégrer sur d'autres sites (script, iframe, API JSON), avec
   options réglables et accès par widget, et **mode écran** pour les écrans de stade
   (playlists, quiz avec QR code, export images et vidéo) — page publique /widgets/.
@@ -73,8 +78,12 @@ des directs, anniversaires ronds proposés, public de chaque direct, commentaire
 mode test sur la page du direct), **kit souvenirs** (match
 de chaque mois, mot d'introduction ; témoignages publiés sur les fiches), sauvegardes, aide en
 ligne (guide,
-mémo PDF, bulles « ? »). Deux niveaux d'accès : administrateur
-et utilisateur. Voir le [guide du back-office](docs/GUIDE-BACK-OFFICE.md).
+mémo PDF, bulles « ? »), **tickets de l'équipe** (bouton Ticket en tête du menu : bugs,
+améliorations, questions, prompt pour l'IA, suivi par e-mail, statuts réservés à
+l'administrateur), **validation des fiches** relues, **statistiques de l'équipe** (en
+direct, un pavé par historien, PDF), pavé **Serveur** (OPcache et Redis : jauges, détail par
+dossier, vidage, alerte à 90 %). Deux niveaux d'accès : administrateur
+et utilisateur (sans boutique, livre, maillots ni dons). Voir le [guide du back-office](docs/GUIDE-BACK-OFFICE.md).
 
 ## Plusieurs musées sur le même code
 
@@ -84,7 +93,7 @@ Rétro (`paris.fcsochauxretro.com`, provisoire). Chaque musée a son profil
 masqués, centenaire…), ses contenus propres (`config/clubs/<id>/` : libellés, mots du club,
 photos libres de droits livrées avec leurs crédits, contenus de départ, totaux de
 référence…) et ses données (`clubs/<id>/`). Back-office commun : comptes partagés, sélecteur
-de musée, administrateur d'un musée administrateur de tous, mises à jour communes. Voir
+de musée (administrateurs), administrateur d'un musée administrateur de tous, mises à jour communes. Voir
 [docs/PROJET-SAAS-MUSEE.md](docs/PROJET-SAAS-MUSEE.md).
 
 ## Technique en bref
@@ -98,6 +107,8 @@ de musée, administrateur d'un musée administrateur de tous, mises à jour comm
   LGPL 2 : `docs/licences/LGPL-2.0.txt`) quand le serveur n'a pas ffmpeg.
 - Services externes, tous facultatifs et réglés dans le back-office : Gemini
   (assistant, traduction, correcteur d'orthographe), Stripe et PayPal (dons), SMTP (e-mails).
+- Caches en fichiers PHP gardés par OPcache ; avec le Redis de l'hébergement (o2switch), les
+  gros caches passent par Redis ; LSCache piloté par le site sous LiteSpeed.
 
 ## Arborescence
 

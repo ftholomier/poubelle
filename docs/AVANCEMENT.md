@@ -694,3 +694,42 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Sitemap, lien depuis la page saison, aide (site public, interactif), doc technique, anglais, test `tests/album-sochini.php`
 - [ ] Décennies 1920-1960 et épopées CDL 2004 / CDF 2007 : apparaîtront dès que leurs compositions seront saisies
 
+## Tickets de l'équipe (14-18 octobre 2026)
+- [x] Bouton 🎫 Ticket tout en haut du menu (avant Pilotage, fine bordure jaune, pastille des tickets qui ont bougé) ; écran en deux moitiés : liste et suivi à gauche, nouveau ticket à droite
+- [x] Types bug / amélioration / question, priorité, écran d'origine noté, prompt pour l'IA copiable, fil d'échanges, historique ; statuts et priorité réservés à l'administrateur
+- [x] E-mails : nouveau ticket et réponses aux administrateurs, réponses et statuts à l'auteur
+- [x] Tableau de bord : bloc « Mes tickets en cours » (tickets ouverts de la personne connectée, point jaune si du nouveau)
+- [x] Aide avec captures, guide et mémo PDF régénérés, diapo dans la présentation
+
+## Serveur : OPcache et Redis (octobre 2026)
+- [x] Redis de l'hébergement (o2switch) : prise et mot de passe trouvés seuls (dossier du compte, sans `file_exists`), sinon saisis dans Tâches › Serveur ; cause d'un échec affichée ; bouton « Vider le cache Redis »
+- [x] Répartition : index et données calculées chaudes dans OPcache (plafond 1,5 Mo avec Redis), médiathèque, mémos, albums, recherche et grosses données dans Redis dès 100 Ko ; une seule version par cache, expiration 24 h
+- [x] OPcache : plus de recompilation forcée ni de réécriture des caches inchangés, nettoyage automatique dès 25 % de mémoire perdue, vidage réel sous LiteSpeed (`~/.lsphp_restart.txt`), diagnostic détaillé, bouton « Vider OPcache », plus de fausse alerte à 512 Mo
+- [x] Pavé Serveur redessiné en haut de « Serveur / tâches planifiées » : jauges OPcache et Redis, détail par dossier (« Ce qui occupe OPcache / Redis », Redis tous musées confondus), compteur mémoire dans la barre du haut (vert, orange 70 %, rouge 90 %)
+- [x] Alerte e-mail aux administrateurs à 90 % avec lien sécurisé (24 h, une fois, confirmation) pour vider
+- [x] LSCache piloté par le site (pages anonymes 1 min, variante sessions, vidé à chaque enregistrement), visites comptées par `/api/vu` ; mise à jour en un clic sans docs ni tests (−55 Mo)
+
+## Équipe, fiches et médiathèque (octobre 2026)
+- [x] Statistiques › Équipe connectée : historiens en ligne à leur nom (back-office / site), un pavé par historien (connexions, 10 dernières actions, lien vers son journal), vrais comptes seulement, rapport PDF dédié
+- [x] Rôles non administrateurs : boutique, livre, maillots et dons masqués et refusés ; statistiques ouvertes à toute l'équipe ; bascule vers un autre musée réservée aux administrateurs
+- [x] « ✔ Valider cette fiche » : pastille verte dans les listes, filtre « Validées / À valider », journal, aide
+- [x] Médiathèque : crédits écrits dans les légendes séparés automatiquement (`CaptionCredit` : aperçu, lot, enregistrement) ; étiquette « Inutilisé » à droite
+- [x] Correcteur en tâche de fond : une seule fiche relue par l'IA par passage
+
+## Feuille de match et saisons (octobre 2026)
+- [x] Compositions : flèches d'entrée / sortie, cartons et ballons avec la minute, brassard, gant, débuts, dernier match, doublé / triplé, penalty, 2e jaune
+- [x] Résumé du match : pictos détectés dans les faits de jeu, ballon devant chaque « But ! », étiquette « contre son camp »
+- [x] Tweets cités affichés en vrai (vidéo, photos), posés à leur minute dans le déroulé
+- [x] Terrain : vrai numéro de maillot ou poste (G, D, M, A), lignes placées de droite à gauche comme sur les feuilles de match (consigne dans l'aide), sans info-bulle
+- [x] Fil jaune : un nom seul n'est plus relié à un joueur d'une autre époque (plausibilité des années dans `Derived`)
+- [x] Pages saison : « J'y étais, toute la saison ! » (tous les matchs ou à domicile, dans le carnet du supporter) ; album de la saison sur les matchs officiels seulement
+- [x] Fiche joueur : case « Joueurs › Match officiel », saisons proposées dans les rubriques (une ligne par décennie)
+
+## Interactif, widgets et présentation (octobre 2026)
+- [x] Quiz : soirées entre amis créées par les supporters, classement « Entre amis » séparé du championnat (3 parties par jour et par joueur, 5 créations par jour), page du quiz et du championnat en deux pavés
+- [x] Album Sochini : bouton jaune « Mon album », collection retrouvée si le cookie est perdu, plus de fenêtre « Partager » intempestive
+- [x] Widget et slide « Faire un don » : QR code, montants et montant libre, une fois ou chaque mois, sans jauge ; affichés dès que le bouton don est visible
+- [x] Écrans : durée choisie respectée, champs alignés, playlists prêtes modifiables (« Rétablir l'original »), duel avec adversaire libre et « Première rencontre »
+- [x] Accueil : diaporama en plein écran exact
+- [x] Présentation à jour (64 pages, nouveaux écrans du quiz, feuille de match, fiches validées, activité de l'équipe, crédits des légendes)
+- [x] Guide, avancement, doc technique et README à jour (18/10)
