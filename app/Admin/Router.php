@@ -92,6 +92,12 @@ final class Router
         $r->get('/admin/aide/fichier/{name}', fn ($q, $name) => Help::file($q, $name));
         $r->get('/admin/aide/{slug}', fn ($q, $slug) => Help::chapter($q, $slug));
 
+        // Tickets de l'équipe (bugs, améliorations, questions)
+        $r->get('/admin/tickets', fn ($q) => TicketsAdmin::index($q));
+        $r->post('/admin/tickets', fn ($q) => TicketsAdmin::create($q));
+        $r->get('/admin/tickets/{id}', fn ($q, $id) => TicketsAdmin::show($q, $id));
+        $r->post('/admin/tickets/{id}', fn ($q, $id) => TicketsAdmin::action($q, $id));
+
         // Pilotage
         $r->get('/admin', fn ($q) => Dashboard::index($q));
         $r->get('/admin/qualite', fn ($q) => Dashboard::quality($q));

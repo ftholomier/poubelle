@@ -943,3 +943,8 @@ body.has-proof .bo { padding-right: 440px; }
 .btn--green { background: #1f8f4e; color: #fff; border-color: #1f8f4e; }
 .btn--green:hover { background: #17723e; color: #fff; }
 .vmark { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: #1f8f4e; color: #fff; font-size: 10px; font-weight: 900; vertical-align: 1px; margin-left: 4px; }
+
+/* Bouton « Ticket » en tête du menu latéral (avant Pilotage) */
+.side__ticket { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 12px 18px 4px; padding: 9px 14px; background: var(--yellow); color: var(--navy); font-family: var(--display); font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: .03em; text-decoration: none; }
+.side__ticket:hover, .side__ticket.is-on { background: var(--cream); color: var(--navy); }
+.side__ticket .side__badge { background: var(--navy); color: var(--yellow); }

@@ -32,6 +32,7 @@ $here = \App\Admin\Favorites::here($meta);
       <span>Menu compact</span>
       <input type="checkbox" role="switch" data-nav-mode<?= $compact ? ' checked' : '' ?>><i aria-hidden="true"></i>
     </label>
+    <a class="side__ticket<?= ($meta['nav'] ?? '') === 'tickets' ? ' is-on' : '' ?>" href="/admin/tickets<?= ($meta['nav'] ?? '') === 'tickets' ? '' : '?depuis=' . e(rawurlencode((string) parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH))) . '#nouveau' ?>" title="Signaler un bug, demander une amélioration, poser une question"><span>🎫 Ticket</span><?php if (!empty($badges['tickets'])): ?><span class="side__badge"><?= (int) $badges['tickets'] ?></span><?php endif; ?></a>
     <nav aria-label="Menu du back-office">
       <?php foreach (Base::nav() as $group => $items): ?>
         <?php if (!$isAdmin && !array_filter($items, fn ($it) => !$it[3])) { continue; } ?>

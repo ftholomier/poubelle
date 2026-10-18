@@ -68,6 +68,23 @@ HTML],
 [[astuce|<p>Au clavier : placez-vous sur l’icône quatre flèches (touche <kbd>Tab</kbd>) puis <kbd>↑</kbd> / <kbd>↓</kbd> pour déplacer, <kbd>Début</kbd> / <kbd>Fin</kbd> pour aller en tête ou en queue, <kbd>Entrée</kbd> pour taper une position.</p>]]
 [[attention|<p>Un nouvel ordre n’est pris en compte qu’après <b>Enregistrer</b>.</p>]]
 HTML],
+        ['id' => 'tickets', 'title' => 'Tickets : signaler un bug, demander une amélioration', 'html' => <<<'HTML'
+<p>Le bouton jaune <b>🎫 Ticket</b>, tout en haut du menu de gauche (avant Pilotage), sert à prévenir l’administrateur : <b>un bug</b>, <b>une idée d’amélioration</b> ou <b>une question</b> sur le musée. L’écran que vous regardiez est noté automatiquement dans le ticket.</p>
+<ul>
+<li><b>Titre</b> : en quelques mots, ce qui ne va pas ou ce que vous voulez.</li>
+<li><b>Type</b> : 🐞 Correction de bug, ✨ Demande d’amélioration ou ❓ Question. <b>Priorité</b> : normale, urgente ou bloquante (l’administrateur peut l’ajuster).</li>
+<li><b>Votre demande</b> : ce qui se passe, où, et ce que vous attendiez. Pour un bug, ce que vous avez fait juste avant.</li>
+<li><b>Prompt pour l’IA</b> (facultatif) : la consigne que vous donneriez vous-même à l’IA qui développe le musée, comme si vous lui parliez (« Sur la fiche joueur, ajoute sous la photo… »). C’est vous qui savez exactement ce que vous voulez : plus c’est précis, mieux c’est. L’administrateur la copie d’un clic.</li>
+</ul>
+<p><b>Statuts</b> : <b>Nouveau</b> → <b>Pris en compte</b> → <b>En cours</b> → <b>À vérifier</b> (c’est en ligne : contrôlez et répondez « c’est bon ») → <b>Terminé</b>, ou <b>Refusé / sans suite</b> avec une explication. Seul l’administrateur change le statut et la priorité.</p>
+<ul>
+<li>Toute l’équipe voit tous les tickets du musée : regardez s’il n’existe pas déjà avant d’en ouvrir un. Filtres : ouverts, mes tickets, par statut, type, personne, ou recherche.</li>
+<li>Sous chaque ticket, un <b>fil d’échanges</b> pour poser une question ou répondre, et l’<b>historique</b> de ses changements.</li>
+<li>Vous pouvez modifier votre ticket tant qu’il est « Nouveau » ; ensuite, ajoutez une réponse.</li>
+<li><b>E-mails</b> : l’administrateur est prévenu de chaque nouveau ticket et de chaque réponse ; vous êtes prévenu à chaque réponse ou changement de statut de votre ticket. Une pastille sur le bouton Ticket compte les tickets qui ont bougé depuis votre dernière visite.</li>
+</ul>
+[[ecran:/admin/tickets|Ouvrir les tickets]]
+HTML],
         ['id' => 'profil', 'title' => 'Votre profil', 'html' => <<<'HTML'
 <p>Menu en haut à droite › <b>Mon profil</b> : votre nom (affiché dans le journal et l’historique), votre mot de passe et vos dernières actions.</p>
 [[ecran:/admin/profil|Ouvrir mon profil]]

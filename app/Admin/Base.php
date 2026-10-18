@@ -286,6 +286,7 @@ class Base
             }
         }
         $b['qualite'] = $high;
+        $b['tickets'] = ($u = Auth::user()) ? \App\Services\Tickets::badge($u) : 0;
         // Nouvelle version du code sur GitHub (d'après la dernière vérification, sans appel réseau).
         $b['majs'] = Auth::isAdmin() && \App\Services\Updater::available() ? 1 : 0;
         // Site de l'association (administrateurs) : chèques attendus, propositions de bénévolat nouvelles.

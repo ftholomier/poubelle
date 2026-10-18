@@ -70,6 +70,7 @@ final class Help extends Base
         'sauvegardes' => 'administration#sauvegardes',
         'taches' => 'administration#taches',
         'profil' => 'prise-en-main#profil',
+        'tickets' => 'prise-en-main#tickets',
         'corbeille' => 'fiches#corbeille',
         'asso' => 'association#ouverture',
         'asso-attente' => 'association#attente',
