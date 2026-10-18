@@ -142,7 +142,7 @@ final class ServerCheck
      * Mémoire de Redis (tous musées confondus) : null s'il n'est pas connecté. max = 0 : pas de limite
      * réglée (maxmemory) ; aucune limite n'est alors supposée, ni pourcentage ni alerte. keys : entrées
      * de ce musée (comptées par SCAN, jamais KEYS qui bloque Redis).
-     * @return array{used:float,max:float,keys:int,where:string}|null
+     * @return array{used:float,max:float,keys:int,where:string,policy:string}|null
      */
     public static function redis(?\Redis $r = null): ?array
     {
@@ -161,7 +161,13 @@ final class ServerCheck
             foreach (\App\Core\PhpCache::scan($r, (string) $r->getOption(\Redis::OPT_PREFIX) . '*') as $batch) {
                 $keys += count($batch);
             }
-            return ['used' => round((int) ($i['used_memory'] ?? 0) / 1048576, 1), 'max' => $max > 0 ? round($max / 1048576) : 0, 'keys' => $keys, 'where' => (string) \App\Core\PhpCache::$redisWhere];
+            // Que fait Redis une fois plein ? (noeviction : il refuse les nouvelles entrées ; *-lru/lfu… : il efface les moins utiles)
+            $policy = (string) ($i['maxmemory_policy'] ?? '');
+            if ($policy === '') {
+                $cfg = @$r->config('GET', 'maxmemory-policy');
+                $policy = (string) (is_array($cfg) ? ($cfg['maxmemory-policy'] ?? '') : '');
+            }
+            return ['used' => round((int) ($i['used_memory'] ?? 0) / 1048576, 1), 'max' => $max > 0 ? round($max / 1048576) : 0, 'keys' => $keys, 'where' => (string) \App\Core\PhpCache::$redisWhere, 'policy' => $policy];
         } catch (\Throwable) {
             return null;
         }

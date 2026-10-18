@@ -224,6 +224,15 @@ final class PhpCache
                 // SCAN rend les clés complètes ; unlink() ajoute lui-même le préfixe.
                 $n += (int) $r->unlink(array_map(fn ($k) => substr((string) $k, strlen($prefix)), $batch));
             }
+            // Entrées d'avant le préfixe par musée (« musee:<empreinte> », « musee:v:… », « musee:idx ») :
+            // elles expirent seules en 24 h, sauf le répertoire « idx » ; effacées ici directement.
+            foreach (self::scan($r, 'musee:*') as $batch) {
+                foreach ($batch as $k) {
+                    if (preg_match('/^musee:(?:[0-9a-f]{32}|v:[0-9a-f]{32}|idx)$/', (string) $k)) {
+                        $n += (int) $r->rawCommand('UNLINK', (string) $k);
+                    }
+                }
+            }
         } catch (\Throwable) {
         }
         return $n;

@@ -96,6 +96,8 @@ $level = fn (float $r) => $r >= 0.9 ? ['ko', 'Presque plein'] : ($r >= 0.7 ? ['w
           <?php if ($rdi['max']): ?><li><i style="background:var(--sand)"></i>Libre <?= e((string) max(0, round($rdi['max'] - $rdi['used'], 1))) ?> Mo</li><?php endif; ?>
           <li><?= (int) $rdi['keys'] ?> entrées du musée</li>
         </ul>
+        <?php $pol = (string) ($rdi['policy'] ?? ''); ?>
+        <p class="xs muted" style="margin:0">Chaque entrée s’efface seule au bout de 24 h, et l’ancienne version d’un cache dès qu’il est refait. <?php if ($pol === 'noeviction'): ?><b>Une fois plein</b>, Redis refuse les nouvelles entrées (réglage « <?= e($pol) ?> ») : le site lit alors ses fichiers, un peu moins vite, sans rien casser ; « Vider » libère la place.<?php elseif ($pol !== ''): ?><b>Une fois plein</b>, Redis efface lui-même les entrées les moins utiles (réglage « <?= e($pol) ?> ») : être proche du maximum est normal.<?php endif; ?></p>
         <p class="xs muted" style="margin:0">Connecté par <?= e($rdi['where']) ?>.</p>
         <form method="post" action="/admin/taches" data-confirm="Vider le cache Redis ?|Il se remplit de nouveau tout seul au fil des pages.|Vider"><?= csrf_field() ?><input type="hidden" name="task" value="redis-flush"><button type="submit" class="btn btn--sm">Vider le cache Redis</button></form>
         <?php else: ?>
