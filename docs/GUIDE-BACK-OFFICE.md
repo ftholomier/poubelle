@@ -734,3 +734,11 @@ Le site refuse les robots d'intelligence artificielle (ChatGPT, Claude, Perplexi
 freine les visiteurs qui demandent trop de pages trop vite, démasque les faux Google, et interdit l'affichage des photos
 en grand format sur d'autres sites. Google et Bing continuent d'indexer le musée normalement. Les tentatives bloquées
 sont comptées dans **Statistiques** (carte « Anti-aspiration »).
+
+**Soirée avec un wifi partagé** (lancement, projection, stand) : tous les téléphones branchés sur le wifi de la salle
+sortent par la même adresse internet, que l'anti-aspiration freinerait au bout d'une ou deux minutes (180 pages par
+minute et 2 000 par heure pour une même adresse). Système › Réglages › **Soirée · wifi partagé** : sur place, branché
+sur le wifi de la salle, cocher **Mode soirée**, cliquer **Reprendre cette adresse**, choisir l'heure de fin (3 jours
+au plus) et enregistrer. Jusqu'à cette heure, cette adresse n'est plus freinée (les autres limites, recherche, quiz,
+formulaires, sont multipliées par 20) ; les robots d'IA restent refusés et les autres adresses gardent les limites
+habituelles. Retour à la normale automatique à l'heure de fin. Inutile en 4G ou à la maison.

@@ -69,6 +69,10 @@ final class RateLimiter
 
     public static function hit(string $bucket, string $key, int $max, int $windowSeconds): bool
     {
+        // Mode soirée : l'adresse du wifi de la salle compte pour tout un public (clé « adresse » ou « adresse|… »).
+        if (Venue::covers(explode('|', $key, 2)[0])) {
+            $max *= Venue::FACTOR;
+        }
         $id = self::id($key);
         $now = time();
         return (bool) self::withShard(self::shard($bucket, $id), function (array $data) use ($id, $now, $max, $windowSeconds) {

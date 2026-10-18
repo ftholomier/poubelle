@@ -9,6 +9,7 @@ use App\Core\JsonStore;
 use App\Core\Request;
 use App\Core\Response;
 use App\Core\Settings;
+use App\Core\Venue;
 use App\Data\Activity;
 use App\Data\Fiches;
 use App\Data\Index;
@@ -441,14 +442,15 @@ final class System extends Base
             }
         }
         return self::html('admin/system/settings', [
-            'group' => $group, 'schema' => $schema[$group], 'values' => $values, 'options' => $options, 'status' => self::groupStatus($group),
+            'group' => $group, 'schema' => $schema[$group], 'values' => $values, 'options' => $options, 'status' => self::groupStatus($group, $req),
         ], ['title' => $isWaiting ? 'Page d’attente' : 'Réglages · ' . $schema[$group]['label'], 'crumb' => $isWaiting ? 'Éditorial' : 'Système', 'nav' => $isWaiting ? 'attente' : 'reglages', 'tabs' => $isWaiting ? [] : $tabs]);
     }
 
     /** Petits contrôles affichés en tête de groupe (clé valide, e-mail configuré…). */
-    private static function groupStatus(string $group): array
+    private static function groupStatus(string $group, Request $req): array
     {
         return match ($group) {
+            'soiree' => ['active' => Venue::active(), 'enabled' => (bool) Settings::get('soiree.enabled', false), 'until' => Venue::until(), 'ips' => Venue::ips(), 'me' => $req->ip()],
             'ai' => ['ready' => Gemini::ready(), 'check' => null],
             'mail' => \App\Services\Mailer::diagnose() + ['recent' => \App\Services\Mailer::recent(15), 'me' => (string) (Auth::user()['email'] ?? '')],
             'donations' => ['methods' => \App\Front\Donations::methods(), 'test' => \App\Front\Donations::testMode()],
@@ -571,6 +573,9 @@ final class System extends Base
                     $changes[$key] = Html::line($v, 1000);
             }
         }
+        if ($group === 'soiree' && ($err = self::checkVenue($changes))) {
+            return self::json($err, 422);
+        }
         if ($group === 'translation' && isset($changes['translation.languages'])) {
             $codes = array_values(array_intersect(['fr', 'en'], array_map('trim', explode(',', (string) $changes['translation.languages']))));
             $changes['translation.languages'] = implode(',', in_array('fr', $codes, true) ? $codes : array_merge(['fr'], $codes));
@@ -591,7 +596,40 @@ final class System extends Base
         if ($group === 'waiting') {
             $msg = Settings::get('waiting.enabled', false) ? 'Page d’attente ACTIVÉE : les visiteurs ne voient plus qu’elle et rien n’est indexé (vous voyez le site car vous êtes connecté).' : 'Page d’attente désactivée : le site est ouvert à tous' . (Settings::get('general.noindex', false) ? ' (toujours masqué aux moteurs de recherche : Réglages › Général).' : ' et aux moteurs de recherche.');
         }
-        return self::json(['ok' => true, 'message' => $msg, 'savedLabel' => 'Enregistré à ' . date('H:i'), 'reload' => $group === 'ai' || $group === 'waiting']);
+        if ($group === 'soiree') {
+            $msg = match (true) {
+                Venue::active() => 'Mode soirée ACTIF jusqu’au ' . date('d/m/Y à H:i', Venue::until()) . ' pour ' . implode(', ', Venue::ips()) . ' : le public de la salle n’est plus freiné. Retour à la normale automatique à cette heure-là.',
+                (bool) Settings::get('soiree.enabled', false) => 'Mode soirée prêt jusqu’au ' . date('d/m/Y à H:i', Venue::until()) . ' : il ne manque que l’adresse du wifi de la salle (sur place, bouton « Reprendre cette adresse », puis Enregistrer).',
+                default => 'Mode soirée désactivé : les limites habituelles s’appliquent à toutes les adresses.',
+            };
+        }
+        return self::json(['ok' => true, 'message' => $msg, 'savedLabel' => 'Enregistré à ' . date('H:i'), 'reload' => in_array($group, ['ai', 'waiting', 'soiree'], true)]);
+    }
+
+    /**
+     * Réglages › Soirée : adresses valides, heure de fin à venir et dans les 3 jours. Les adresses sont
+     * enregistrées nettoyées ; sans adresse, la soirée est prête mais ne s'applique à personne (on
+     * l'ajoute sur place). Rend l'erreur à afficher, ou null.
+     * @param array<string,mixed> $changes
+     */
+    private static function checkVenue(array &$changes): ?array
+    {
+        [$ips, $bad] = Venue::parse((string) ($changes['soiree.ips'] ?? ''));
+        if ($bad) {
+            return ['error' => 'Adresse internet non reconnue : ' . implode(', ', $bad) . '. Exemple : 203.0.113.42.', 'field' => 'ips'];
+        }
+        $changes['soiree.ips'] = implode(', ', $ips);
+        if (empty($changes['soiree.enabled'])) {
+            return null;
+        }
+        $until = (string) ($changes['soiree.until'] ?? '') !== '' ? (int) strtotime((string) $changes['soiree.until']) : 0;
+        if ($until <= time()) {
+            return ['error' => 'Indiquez l’heure de fin du mode soirée (date et heure à venir).', 'field' => 'until'];
+        }
+        if ($until > time() + Venue::MAX_SECONDS) {
+            return ['error' => 'Le mode soirée dure au plus 3 jours : choisissez une heure de fin plus proche.', 'field' => 'until'];
+        }
+        return null;
     }
 
     // ------------------------------------------------------------------ sauvegardes

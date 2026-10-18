@@ -24,6 +24,16 @@ return [
             'debug' => ['label' => 'Afficher les erreurs (développement)', 'type' => 'bool', 'default' => false],
         ],
     ],
+    'soiree' => [
+        'label' => 'Soirée · wifi partagé',
+        'fields' => [
+            'enabled' => ['label' => 'Mode soirée : le public partage le wifi de la salle', 'type' => 'bool', 'default' => false,
+                'help' => 'Lancement, projection, stand… : tous les téléphones branchés sur le wifi de la salle sortent par la même adresse internet, et la protection contre l’aspiration du site (180 pages par minute et 2 000 par heure pour une même adresse) bloquerait le public au bout d’une ou deux minutes. Pour l’adresse de la salle seulement, cette limite est levée et les autres (recherche, quiz, formulaires…) sont multipliées par 20, jusqu’à l’heure de fin. Ensuite, tout redevient normal tout seul. Inutile en 4G ou à la maison : chacun a sa propre adresse.'],
+            'ips' => ['label' => 'Adresse internet du wifi de la salle', 'type' => 'text', 'default' => '', 'show_if' => 'enabled',
+                'help' => 'Sur place, branché sur le wifi de la salle, ouvrez cette page : votre adresse actuelle s’affiche en haut, avec un bouton pour la reprendre. Plusieurs adresses : séparées par des virgules.'],
+            'until' => ['label' => 'Fin du mode soirée', 'type' => 'datetime', 'default' => '', 'show_if' => 'enabled', 'help' => 'Au plus 3 jours plus tard.'],
+        ],
+    ],
     'waiting' => [
         'label' => "Page d'attente",
         'fields' => [

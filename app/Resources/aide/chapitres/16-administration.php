@@ -15,7 +15,7 @@ return [
 <li>L’activité jour par jour (back-office et site), ce qui a été fait, les fiches les plus travaillées, les rubriques du back-office les plus utilisées, les pages du site relues et les heures de travail.</li>
 <li><b>Rapport PDF</b> « Activité de l’équipe » : les mêmes chiffres, un pavé par historien avec ses 10 dernières actions, et les classements.</li>
 </ul>
-<p>Carte <b>Anti-aspiration</b> : les tentatives bloquées sur la période. Le site refuse les robots d’intelligence artificielle et les logiciels d’aspiration, freine les visiteurs trop rapides (plus de 180 pages par minute), démasque les faux Google et interdit d’afficher les photos en grand format sur un autre site. Google et Bing continuent d’indexer le musée ; l’équipe connectée n’est jamais freinée.</p>
+<p>Carte <b>Anti-aspiration</b> : les tentatives bloquées sur la période. Le site refuse les robots d’intelligence artificielle et les logiciels d’aspiration, freine les visiteurs trop rapides (plus de 180 pages par minute), démasque les faux Google et interdit d’afficher les photos en grand format sur un autre site. Google et Bing continuent d’indexer le musée ; l’équipe connectée n’est jamais freinée. Soirée où le public partage le même wifi : voir [[aide:administration#soiree|Mode soirée]].</p>
 <p>La mesure se fait sans cookie et sans garder d’adresse IP : un visiteur est reconnu par une empreinte anonyme qui change chaque jour (pas de bandeau de consentement nécessaire).</p>
 HTML],
         ['id' => 'musees', 'title' => 'Plusieurs musées : passer de l’un à l’autre', 'admin' => true, 'html' => <<<'HTML'
@@ -41,9 +41,19 @@ HTML],
 [[attention|<p>Le site garde toujours au moins un administrateur actif.</p>]]
 HTML],
         ['id' => 'reglages', 'title' => 'Réglages', 'html' => <<<'HTML'
-<p>Système › <b>Réglages</b> (administrateurs), en onglets : Général (nom, adresse du site, e-mail de contact, mot de passe d’accès avant lancement, « Masquer le site aux moteurs de recherche » même ouvert au public), Page d’attente, Accueil, Réseaux sociaux (et lien discret vers le site officiel du FCSM, sous le titre de l’en-tête), Pied de page (titre, phrase, deux boutons et leurs liens, accroche, ligne du bas, en français et en anglais), Assistant IA (clé Gemini et modèle), Traduction, Correcteur (vérification de fond, plafond d’appels à Gemini, typographie), Fiches audio (durée maximale, voix, ton, explications IA), Coûts IA (qui avance les frais, taux de change, budget mensuel), Dons (Stripe, PayPal, objectifs), E-mail (serveur d’envoi), Newsletter, Carte, Centenaire, Mentions légales, Sauvegardes, Cookies et RGPD.</p>
+<p>Système › <b>Réglages</b> (administrateurs), en onglets : Général (nom, adresse du site, e-mail de contact, mot de passe d’accès avant lancement, « Masquer le site aux moteurs de recherche » même ouvert au public), Page d’attente, Accueil, Réseaux sociaux (et lien discret vers le site officiel du FCSM, sous le titre de l’en-tête), Pied de page (titre, phrase, deux boutons et leurs liens, accroche, ligne du bas, en français et en anglais), Assistant IA (clé Gemini et modèle), Traduction, Correcteur (vérification de fond, plafond d’appels à Gemini, typographie), Fiches audio (durée maximale, voix, ton, explications IA), Coûts IA (qui avance les frais, taux de change, budget mensuel), Dons (Stripe, PayPal, objectifs), E-mail (serveur d’envoi), Newsletter, Carte, Centenaire, Mentions légales, Sauvegardes, Cookies et RGPD, Soirée · wifi partagé.</p>
 [[img:reglages.webp|Les réglages : les clés secrètes ne sont jamais réaffichées]]
 [[astuce|<p>Les clés secrètes (API, mots de passe) sont chiffrées : laissez le champ vide pour garder la valeur enregistrée.</p>]]
+HTML],
+        ['id' => 'soiree', 'title' => 'Mode soirée : un public sur le même wifi', 'admin' => true, 'html' => <<<'HTML'
+<p>Lors d’une soirée de lancement, d’une projection ou d’un stand, tous les téléphones branchés sur le wifi de la salle sortent par <b>la même adresse internet</b>. Or le musée freine une adresse qui demande plus de 180 pages par minute ou 2 000 par heure (protection contre l’aspiration du site) : sans précaution, le public de la salle recevrait « trop de demandes » au bout d’une ou deux minutes. En 4G ou à la maison, chacun a sa propre adresse : rien à faire.</p>
+<p>Système › Réglages › <b>Soirée · wifi partagé</b> (administrateurs) :</p>
+<ol>
+<li>Sur place, branchez votre téléphone ou votre ordinateur sur le wifi de la salle et ouvrez cet onglet : <b>votre adresse internet actuelle</b> s’affiche en haut. C’est celle de tout le public.</li>
+<li>Cochez <b>Mode soirée</b>, cliquez <b>Reprendre cette adresse</b> (ou saisissez-la ; plusieurs adresses séparées par des virgules), puis choisissez l’<b>heure de fin</b> (au plus 3 jours plus tard) et enregistrez.</li>
+</ol>
+<p>Jusqu’à l’heure de fin, cette adresse n’est plus freinée pour la consultation du site, et ses autres limites (recherche, quiz, PDF, formulaires…) sont multipliées par 20. Les robots d’intelligence artificielle et les aspirateurs restent refusés, et toutes les autres adresses gardent les limites habituelles. À l’heure de fin, tout redevient normal <b>tout seul</b>, même si vous oubliez de décocher.</p>
+[[astuce|<p>Préparez la soirée en avance (case cochée et heure de fin), puis, une fois sur place, ajoutez simplement l’adresse du wifi avec le bouton.</p>]]
 HTML],
         ['id' => 'assistant', 'title' => 'L’assistant IA', 'html' => <<<'HTML'
 <p>La bulle « Le guide du musée » répond aux visiteurs à partir des données du site (fiches, statistiques), grâce à Gemini. Réglages › Assistant IA : clé, modèle (liste chargée depuis la clé), nom, message d’accueil, limites quotidiennes. La même clé sert aux traductions et au correcteur d’orthographe.</p>

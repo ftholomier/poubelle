@@ -5,7 +5,8 @@ namespace App\Core;
 
 /**
  * Protection contre l'aspiration du site : robots d'IA et aspirateurs refusés par leur nom,
- * faux Google et faux Bing démasqués (DNS inverse), et débit limité par visiteur. Les vrais
+ * faux Google et faux Bing démasqués (DNS inverse), et débit limité par visiteur (sauf le wifi d'une
+ * salle en mode soirée, voir Venue). Les vrais
  * moteurs de recherche, les aperçus de partage (Facebook, WhatsApp…) et l'équipe connectée
  * passent toujours. robots.txt reste lisible par tous (c'est là qu'on leur dit non).
  */
@@ -82,6 +83,10 @@ final class Shield
                 self::log('trop-rapide');
                 return self::deny(429);
             }
+        }
+        // Mode soirée : tout le public de la salle sort par cette adresse, elle n'est pas freinée.
+        if (Venue::covers($ip)) {
+            return null;
         }
         if ($media) {
             $ok = RateLimiter::hit('aspi-media', $ip, self::MEDIA_MIN, 60);

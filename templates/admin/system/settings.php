@@ -63,6 +63,12 @@ $isWaiting = $group === 'waiting';
   </div>
 <?php elseif ($group === 'vitrine'): ?>
   <p class="alert <?= $status['open'] ? 'alert--ok' : '' ?>" style="margin:0">Site de l’association <b><?= $status['open'] ? 'ouvert au public' : 'fermé (page d’attente)' ?></b> sur <?= e($status['base']) ?>. Ouverture, points à vérifier et aperçu : <a href="/admin/association">tableau de bord du site</a>. Réseaux sociaux (Facebook, Instagram, X, YouTube) : ceux du musée, <a href="/admin/reglages?groupe=social">Réglages › Réseaux sociaux</a>.</p>
+<?php elseif ($group === 'soiree'): ?>
+  <p class="alert <?= $status['active'] ? 'alert--ok' : '' ?>" style="margin:0"><?php if ($status['active']): ?>Mode soirée <b>actif</b> jusqu’au <b><?= e(date('d/m/Y à H:i', $status['until'])) ?></b> pour <b><?= e(implode(', ', $status['ips'])) ?></b> : le public branché sur ce wifi n’est pas freiné. Retour à la normale automatique à l’heure de fin.<?php elseif ($status['enabled'] && $status['until'] > time()): ?>Mode soirée <b>prêt</b> jusqu’au <?= e(date('d/m/Y à H:i', $status['until'])) ?>, mais <b>sans adresse</b> : il ne s’applique encore à personne. Sur place, branché sur le wifi de la salle, cliquez « Reprendre cette adresse » puis enregistrez.<?php elseif ($status['enabled'] && $status['until'] && $status['until'] <= time()): ?>Mode soirée <b>terminé</b> le <?= e(date('d/m/Y à H:i', $status['until'])) ?> : les limites habituelles s’appliquent de nouveau à toutes les adresses.<?php else: ?>Mode soirée <b>désactivé</b> : les limites habituelles s’appliquent à toutes les adresses.<?php endif; ?></p>
+  <div class="alert alert--info row" style="margin:0;justify-content:space-between;gap:12px">
+    <span>Votre adresse internet actuelle : <code><?= e($status['me']) ?></code>. Branché sur le wifi de la salle, c’est l’adresse de tout le public.</span>
+    <button type="button" class="btn" data-fill-input="ips" data-fill-value="<?= e($status['me']) ?>">Reprendre cette adresse</button>
+  </div>
 <?php elseif ($group === 'donations'): ?>
   <p class="alert <?= $status['methods'] ? 'alert--ok' : '' ?>" style="margin:0">Mode <b><?= $status['test'] ? 'test' : 'production' ?></b> · moyens de paiement actifs : <?= e(implode(', ', $status['methods']) ?: 'aucun (activez les dons et saisissez les clés)') ?>. Adresses des webhooks : <code><?= e(base_url()) ?>/api/dons/stripe/webhook</code> et <code><?= e(base_url()) ?>/api/dons/paypal/webhook</code>.</p>
 <?php endif; ?>

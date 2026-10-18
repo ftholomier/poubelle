@@ -938,6 +938,15 @@
     }));
     // Copier dans le presse-papiers
     $$('[data-copy]', root).forEach(b => b.addEventListener('click', () => { navigator.clipboard?.writeText(b.dataset.copy); BO.toast('Copié'); }));
+    // Ajouter une valeur à un champ du formulaire (ex. Réglages › Soirée : « Reprendre cette adresse »)
+    $$('[data-fill-input]', root).forEach(b => b.addEventListener('click', () => {
+      const i = document.querySelector('[name="' + b.dataset.fillInput + '"]');
+      if (!i) return;
+      const list = i.value.split(/[\s,;]+/).filter(Boolean);
+      if (!list.includes(b.dataset.fillValue)) i.value = list.concat(b.dataset.fillValue).join(', ');
+      i.dispatchEvent(new Event('input', { bubbles: true }));
+      BO.toast('Adresse ajoutée : pensez à enregistrer');
+    }));
   }
 
   BO.init = function (root = document) {

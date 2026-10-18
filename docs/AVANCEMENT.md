@@ -733,3 +733,9 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Accueil : diaporama en plein écran exact
 - [x] Présentation à jour (64 pages, nouveaux écrans du quiz, feuille de match, fiches validées, activité de l'équipe, crédits des légendes)
 - [x] Guide, avancement, doc technique et README à jour (18/10)
+
+## Ouverture du site : test de charge et mode soirée (18-19 octobre 2026)
+- [x] Test de charge sur le banc (8 processus PHP, 4 cœurs) : 325 pages/s sans cache des pages, 900 à 1 300 avec, aucune erreur jusqu'à 200 connexions simultanées ; 200 visiteurs réalistes = 13 pages/s (9 % du processeur), ruée de 200 visiteurs à un clic toutes les 1 à 4 s = 72 pages/s (28 à 40 %)
+- [x] Mode soirée (Réglages › Soirée · wifi partagé) : l'adresse du wifi d'une salle n'est plus freinée par l'anti-aspiration et ses autres limites sont ×20 jusqu'à l'heure de fin (3 jours au plus, retour automatique) ; bouton « Reprendre cette adresse », IPv6 par bloc /64 ; test `tests/soiree.php`
+- [x] Matchs de juillet 1978 rangés dans la saison 1978-1979 (correction ponctuelle par la tâche « corrections »)
+
