@@ -392,11 +392,13 @@ final class FcsmStory
         return $y ? $y[0] . '-' . ($y[0] + 1) : null;
     }
 
-    /** Saison sportive d'une date (août → juillet). */
+    /** Saison sportive d’une date (juillet → juin). */
     public static function seasonFor(string $date): string
     {
+        // Même règle que le reste du site (Paths::seasonOf) : la saison change au 1er juillet ;
+        // les matchs d'avant-saison de juillet appartiennent à la saison qui commence.
         $y = (int) substr($date, 0, 4);
-        return (int) substr($date, 5, 2) >= 8 ? "$y-" . ($y + 1) : ($y - 1) . "-$y";
+        return (int) substr($date, 5, 2) >= 7 ? "$y-" . ($y + 1) : ($y - 1) . "-$y";
     }
 
     /**
