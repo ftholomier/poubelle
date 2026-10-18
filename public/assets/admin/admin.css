@@ -945,5 +945,5 @@ body.has-proof .bo { padding-right: 440px; }
 .vmark { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: #1f8f4e; color: #fff; font-size: 10px; font-weight: 900; vertical-align: 1px; margin-left: 4px; }
 
 /* Bouton « Ticket » en tête du menu latéral (avant Pilotage) */
-.side__ticket { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 8px 18px 2px; padding: 4px 10px; border: 1px solid rgb(var(--cream-rgb) / .35); color: var(--cream); font-size: 13px; text-decoration: none; }
+.side__ticket { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 8px 18px 2px; padding: 4px 10px; border: 1px solid var(--yellow); color: var(--cream); font-size: 13px; text-decoration: none; }
 .side__ticket:hover, .side__ticket.is-on { border-color: var(--yellow); color: var(--yellow); }

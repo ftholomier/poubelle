@@ -69,7 +69,8 @@ HTML],
 [[attention|<p>Un nouvel ordre n’est pris en compte qu’après <b>Enregistrer</b>.</p>]]
 HTML],
         ['id' => 'tickets', 'title' => 'Tickets : signaler un bug, demander une amélioration', 'html' => <<<'HTML'
-<p>Le bouton jaune <b>🎫 Ticket</b>, tout en haut du menu de gauche (avant Pilotage), sert à prévenir l’administrateur : <b>un bug</b>, <b>une idée d’amélioration</b> ou <b>une question</b> sur le musée. L’écran que vous regardiez est noté automatiquement dans le ticket.</p>
+<p>Le bouton <b>🎫 Ticket</b>, tout en haut du menu de gauche (avant Pilotage), sert à prévenir l’administrateur : <b>un bug</b>, <b>une idée d’amélioration</b> ou <b>une question</b> sur le musée. L’écran que vous regardiez est noté automatiquement dans le ticket. L’écran Tickets est en deux colonnes : <b>à gauche, la liste et le suivi</b> des tickets, <b>à droite, le formulaire « Nouveau ticket »</b>, toujours visible.</p>
+[[img:tickets.webp|L’écran Tickets : à gauche la liste et le suivi, à droite le formulaire « Nouveau ticket »]]
 <ul>
 <li><b>Titre</b> : en quelques mots, ce qui ne va pas ou ce que vous voulez.</li>
 <li><b>Type</b> : 🐞 Correction de bug, ✨ Demande d’amélioration ou ❓ Question. <b>Priorité</b> : normale, urgente ou bloquante (l’administrateur peut l’ajuster).</li>
@@ -83,6 +84,7 @@ HTML],
 <li>Vous pouvez modifier votre ticket tant qu’il est « Nouveau » ; ensuite, ajoutez une réponse.</li>
 <li><b>E-mails</b> : l’administrateur est prévenu de chaque nouveau ticket et de chaque réponse ; vous êtes prévenu à chaque réponse ou changement de statut de votre ticket. Une pastille sur le bouton Ticket compte les tickets qui ont bougé depuis votre dernière visite.</li>
 </ul>
+[[img:ticket-detail.webp|Un ticket : la demande, le prompt pour l’IA, les échanges et, pour l’administrateur, le statut à mettre à jour]]
 [[ecran:/admin/tickets|Ouvrir les tickets]]
 HTML],
         ['id' => 'profil', 'title' => 'Votre profil', 'html' => <<<'HTML'
