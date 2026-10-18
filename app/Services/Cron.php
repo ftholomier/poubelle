@@ -17,11 +17,18 @@ use App\Front\Donations;
  *
  * Chaque tâche a sa fréquence ; l'état est conservé dans storage/cron.json
  * (consultable dans le back-office). Un verrou empêche deux passages simultanés.
+ *
+ * Un passage dure 4 min 30 au plus (temps réel) : les tâches courtes et attendues à l'heure
+ * (publications programmées, notifications, newsletter…) passent d'abord, puis les tâches
+ * longues (IA, archives, radio…), dans un ordre qui tourne à chaque passage, chacune avec le
+ * temps qui reste. Une panne de Gemini ne retient donc plus les publications et les envois.
  */
 final class Cron
 {
-    private const STATE = STORAGE_PATH . '/cron.json';
-    private const LOCK = STORAGE_PATH . '/cron.lock';
+    public static string $stateFile = STORAGE_PATH . '/cron.json';
+    public static string $lockFile = STORAGE_PATH . '/cron.lock';
+    /** Essais : exécute une tâche à la place de task() (nom de la tâche => résultat). */
+    public static ?\Closure $runner = null;
 
     /** Tâche => [intervalle en secondes, description] */
     public const TASKS = [
@@ -54,27 +61,64 @@ final class Cron
         'menage' => [86400, 'Purges RGPD et fichiers temporaires'],
     ];
 
-    public static function run(?string $only = null): array
+    /**
+     * Tâches longues (appels à l'IA, archives, fabrication de sons et d'images) : après les autres,
+     * à tour de rôle, avec le temps qui reste au passage.
+     */
+    public const LONG = ['traductions', 'correcteur', 'audio', 'reprise', 'feuilles', 'compositions', 'trouvailles', 'radio', 'geolocalisation', 'medias', 'murs-photos', 'videos', 'assistant'];
+
+    /** Durée d'un passage (secondes, temps réel) : moins que l'intervalle de 5 minutes du cron. */
+    public const BUDGET = 270;
+
+    /** Temps minimal (secondes) pour lancer encore une tâche longue. */
+    private const MIN_LEFT = 15;
+
+    /** Échéance du passage en cours (microtime). */
+    private static float $deadline = 0.0;
+
+    /** Secondes qui restent au passage en cours (au plus $cap). */
+    private static function left(int $cap): int
     {
-        $fp = fopen(self::LOCK, 'c');
+        return max(1, min($cap, (int) (self::$deadline - microtime(true))));
+    }
+
+    /** Ordre du passage : tâches courtes d'abord, puis les longues, à partir de $turn (rotation). @return list<string> */
+    public static function order(int $turn): array
+    {
+        $short = array_values(array_diff(array_keys(self::TASKS), self::LONG));
+        $long = array_values(array_intersect(self::LONG, array_keys(self::TASKS)));
+        $k = $long ? $turn % count($long) : 0;
+        return array_merge($short, array_slice($long, $k), array_slice($long, 0, $k));
+    }
+
+    public static function run(?string $only = null, ?int $budget = null): array
+    {
+        $fp = fopen(self::$lockFile, 'c');
         if (!$fp || !flock($fp, LOCK_EX | LOCK_NB)) {
             echo "Une exécution est déjà en cours.\n";
             return ['_busy' => true];
         }
         @set_time_limit(280);
-        $state = JsonStore::read(self::STATE, []) ?: [];
+        self::$deadline = microtime(true) + ($budget ?? self::BUDGET);
+        $state = JsonStore::read(self::$stateFile, []) ?: [];
+        $turn = (int) ($state['_turn'] ?? 0);
         $report = [];
-        foreach (self::TASKS as $task => [$every, $label]) {
+        foreach (self::order($turn) as $task) {
+            [$every] = self::TASKS[$task];
             if ($only && $only !== $task) {
                 continue;
             }
-            $last = (int) ($state[$task]['at'] ?? 0);
+            // Dernier passage, même sans rien à faire (« tried ») : l'intervalle s'applique aussi.
+            $last = max((int) ($state[$task]['at'] ?? 0), (int) ($state[$task]['tried'] ?? 0));
             if (!$only && $every > 0 && time() - $last < $every) {
                 continue;
             }
+            if (!$only && in_array($task, self::LONG, true) && self::$deadline - microtime(true) < self::MIN_LEFT) {
+                continue; // plus le temps : au passage suivant (l'ordre des tâches longues tourne)
+            }
             $t0 = microtime(true);
             try {
-                $res = self::task($task);
+                $res = self::$runner ? (self::$runner)($task) : self::task($task);
                 $ok = true;
             } catch (\Throwable $e) {
                 $res = $e->getMessage();
@@ -82,14 +126,21 @@ final class Cron
                 error_log("[cron] $task : " . $e);
             }
             if ($res === null) {
-                continue; // rien à faire : on ne journalise pas
+                // Rien à faire : pas dans le compte rendu, mais l'heure est notée pour l'intervalle.
+                if ($every > 0) {
+                    $state[$task] = array_merge($state[$task] ?? [], ['tried' => time()]);
+                }
+                continue;
             }
             $state[$task] = ['at' => time(), 'ok' => $ok, 'ms' => (int) ((microtime(true) - $t0) * 1000), 'result' => is_string($res) ? mb_substr($res, 0, 300) : $res];
             $report[$task] = $state[$task];
             echo date('H:i:s') . " $task : " . (is_string($res) ? $res : json_encode($res, JSON_UNESCAPED_UNICODE)) . "\n";
         }
         $state['_last'] = time();
-        JsonStore::write(self::STATE, $state);
+        if (!$only) {
+            $state['_turn'] = $turn + 1;
+        }
+        JsonStore::write(self::$stateFile, $state);
         flock($fp, LOCK_UN);
         fclose($fp);
         return $report;
@@ -110,7 +161,7 @@ final class Cron
 
     public static function state(): array
     {
-        return JsonStore::read(self::STATE, []) ?: [];
+        return JsonStore::read(self::$stateFile, []) ?: [];
     }
 
     /** @return mixed résultat à journaliser, ou null si la tâche n'avait rien à faire */
@@ -173,14 +224,17 @@ final class Cron
                 if (AiCosts::paused('traduction')) {
                     return 'en pause : budget IA du mois atteint';
                 }
-                $r = Translator::run(8);
-                return $r['done'] ? $r : null;
+                $r = Translator::run(8, false, self::$deadline);
+                if (!empty($r['busy'])) {
+                    return null;
+                }
+                return $r['done'] || !empty($r['error']) ? $r : null;
 
             case 'audio':
-                return FicheAudio::run(40);
+                return FicheAudio::run(self::left(40));
 
             case 'correcteur':
-                return Proofreader::run(40);
+                return Proofreader::run(self::left(40));
 
             case 'notifications':
                 return Notifications::tick();
@@ -189,16 +243,16 @@ final class Cron
                 return \App\Services\FcsmImport::tick();
 
             case 'compositions':
-                return \App\Services\Compos::tick();
+                return \App\Services\Compos::tick(self::left(110));
 
             case 'trouvailles':
-                return \App\Services\Trouvailles::tick();
+                return \App\Services\Trouvailles::tick(self::left(100));
 
             case 'feuilles':
                 return \App\Services\FeuillesImport::tick();
 
             case 'radio':
-                $n = RetroRadio::pending() ? RetroRadio::work(40.0) : 0;
+                $n = RetroRadio::pending() ? RetroRadio::work((float) self::left(40)) : 0;
                 return $n ? $n . ' étape(s) de commentaire radio' : null;
 
             case 'carnets':
@@ -219,7 +273,7 @@ final class Cron
                 return self::mediaFacts(400);
 
             case 'murs-photos':
-                $r = PhotoWall::prepare(40.0);
+                $r = PhotoWall::prepare((float) self::left(40));
                 return $r['done'] ? $r['done'] . ' vignette(s) préparée(s)' . ($r['left'] ? ', ' . $r['left'] . ' restante(s)' : ', tout est prêt') : null;
 
             case 'videos':
@@ -233,7 +287,8 @@ final class Cron
                 if (AiCosts::paused('index')) {
                     return 'en pause : budget IA du mois atteint';
                 }
-                return Rag::reindex(null, 300);
+                $r = Rag::reindex(null, 300, self::$deadline);
+                return empty($r['busy']) ? $r : null;
 
             case 'dons':
                 return Settings::get('donations.enabled', false) ? Donations::sync() : null;
@@ -262,7 +317,14 @@ final class Cron
 
             case 'mises-a-jour':
                 $c = Updater::check(true);
-                return $c['error'] ? 'vérification impossible : ' . $c['error'] : (($m = Updater::available()) ? Updater::summary($m) : null);
+                if ($c['error']) {
+                    return 'vérification impossible : ' . $c['error'];
+                }
+                // Comparaison fichier par fichier impossible (limite de l'API, dossier trop grand) :
+                // signalée aussi, sinon la vérification semblait réussie.
+                $sync = !empty($c['sync']['error']) ? 'comparaison des fichiers impossible : ' . $c['sync']['error'] : null;
+                $m = Updater::available();
+                return $m || $sync ? implode(' ; ', array_filter([$m ? Updater::summary($m) : null, $sync])) : null;
 
             case 'sauvegarde':
                 // Une fois par jour, à partir de l'heure réglée.

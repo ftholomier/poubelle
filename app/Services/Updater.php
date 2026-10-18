@@ -569,20 +569,20 @@ final class Updater
             @mkdir(self::$dir . '/tmp', 0775, true);
             $zipPath = self::$dir . "/tmp/$target.zip";
             if (self::$fetch) {
-                $zipPath = (self::$fetch)($target);
-            } else {
+                return self::install((self::$fetch)($target), $target, $check, $user);
+            }
+            // L'archive téléchargée (même partielle : coupure, délai dépassé, refus) ne reste pas
+            // dans storage/update/tmp.
+            try {
                 $url = self::token() !== '' ? self::api('zipball/' . $target) : 'https://codeload.github.com/' . self::repo() . '/zip/' . $target;
                 [$code] = self::get($url, $zipPath, 300);
                 if ($code !== 200) {
-                    @unlink($zipPath);
                     throw new \RuntimeException('Téléchargement de la version refusé par GitHub (code ' . $code . ').');
                 }
-            }
-            $report = self::install($zipPath, $target, $check, $user);
-            if (!self::$fetch) {
+                return self::install($zipPath, $target, $check, $user);
+            } finally {
                 @unlink($zipPath);
             }
-            return $report;
         } finally {
             self::unlock($lock);
         }
@@ -649,24 +649,43 @@ final class Updater
             $merged = self::mergeLabels(self::$root . '/' . $plan['merge'], (string) $zip->getFromName($entries[$plan['merge']]['name']));
         }
         $added = array_values(array_filter($plan['write'], fn ($rel) => !is_file(self::$root . '/' . $rel)));
-        $backup = self::backup($plan, $merged ? $plan['merge'] : null, $added, $target, $old, $user);
 
-        // Copie : le site répond « Mise à jour en cours » le temps d'écrire les fichiers.
-        @file_put_contents(self::$dir . '/maintenance', (string) time());
+        // Préparation : chaque fichier extrait et vérifié (taille, empreinte CRC32) dans un dossier
+        // de travail, avant toute écriture dans le site. Archive abîmée ou disque plein : rien
+        // n'est touché.
+        foreach (glob(self::$dir . '/tmp/prepa-*') ?: [] as $d) {
+            self::removeDir($d); // reste d'une mise à jour interrompue (une seule à la fois : verrou)
+        }
+        $stage = self::$dir . '/tmp/prepa-' . substr($target, 0, 7) . '-' . bin2hex(random_bytes(3));
         try {
             foreach ($plan['write'] as $rel) {
-                self::writeFrom($zip, $entries[$rel]['name'], self::$root . '/' . $rel);
+                self::writeFrom($zip, $entries[$rel]['name'], $stage . '/' . $rel);
             }
-            if ($merged) {
-                self::writeString(self::$root . '/' . $plan['merge'], $merged['json']);
-            }
-            foreach ($plan['delete'] as $rel) {
-                @unlink(self::$root . '/' . $rel);
+            $zip->close();
+            $backup = self::backup($plan, $merged ? $plan['merge'] : null, $added, $target, $old, $user);
+
+            // Copie : le site répond « Mise à jour en cours » le temps d'écrire les fichiers. Un
+            // échec en cours de route remet aussitôt la sauvegarde en place : jamais un site
+            // mi-ancien mi-nouveau.
+            @file_put_contents(self::$dir . '/maintenance', (string) time());
+            try {
+                foreach ($plan['write'] as $rel) {
+                    self::place($stage . '/' . $rel, self::$root . '/' . $rel, $entries[$rel]['size'], $entries[$rel]['crc']);
+                }
+                if ($merged) {
+                    self::writeString(self::$root . '/' . $plan['merge'], $merged['json']);
+                }
+                foreach ($plan['delete'] as $rel) {
+                    @unlink(self::$root . '/' . $rel);
+                }
+            } catch (\Throwable $e) {
+                self::failed($e, $backup, $target, $user);
+            } finally {
+                @unlink(self::$dir . '/maintenance');
             }
         } finally {
-            @unlink(self::$dir . '/maintenance');
+            self::removeDir($stage);
         }
-        $zip->close();
         $manifest = [];
         foreach ($entries as $rel => $e) {
             $manifest[$rel] = in_array($rel, self::MERGED, true) ? null : $e['crc'];
@@ -770,37 +789,11 @@ final class Updater
         class_exists(Activity::class);
         $lock = self::lock();
         try {
-            $z = new \ZipArchive();
-            if ($z->open($path) !== true) {
-                throw new \RuntimeException('Sauvegarde illisible.');
-            }
-            $meta = json_decode((string) $z->getFromName('meta.json'), true) ?: [];
-            $manifest = json_decode((string) $z->getFromName('manifeste.json'), true);
             @file_put_contents(self::$dir . '/maintenance', (string) time());
-            $restored = 0;
             try {
-                for ($i = 0; $i < $z->numFiles; $i++) {
-                    $entry = (string) $z->getNameIndex($i);
-                    if (!str_starts_with($entry, 'fichiers/') || str_ends_with($entry, '/')) {
-                        continue;
-                    }
-                    $rel = substr($entry, strlen('fichiers/'));
-                    if (self::safe($rel) && self::selected($rel)) {
-                        self::writeFrom($z, $entry, self::$root . '/' . $rel);
-                        $restored++;
-                    }
-                }
-                foreach ((array) ($meta['added'] ?? []) as $rel) {
-                    if (is_string($rel) && self::safe($rel) && self::selected($rel)) {
-                        @unlink(self::$root . '/' . $rel);
-                    }
-                }
+                [$restored, $meta] = self::restore($path);
             } finally {
                 @unlink(self::$dir . '/maintenance');
-            }
-            $z->close();
-            if (is_array($manifest)) {
-                JsonStore::write(self::$dir . '/manifeste.json', $manifest);
             }
             $back = is_array($meta['from'] ?? null) ? $meta['from'] : null;
             $hist = array_slice(array_merge([['at' => date('c'), 'by' => (string) ($user['name'] ?? 'Inconnu'), 'from' => $meta['to'] ?? null, 'to' => $back['sha'] ?? null,
@@ -817,29 +810,131 @@ final class Updater
         }
     }
 
+    /**
+     * Remet en place les fichiers d'une sauvegarde (sans verrou ni drapeau de pause : posés par
+     * l'appelant), supprime les fichiers que la mise à jour avait ajoutés et reprend l'ancien
+     * manifeste. [nombre de fichiers remis, méta de la sauvegarde].
+     */
+    private static function restore(string $path): array
+    {
+        $z = new \ZipArchive();
+        if ($z->open($path) !== true) {
+            throw new \RuntimeException('Sauvegarde illisible.');
+        }
+        $meta = json_decode((string) $z->getFromName('meta.json'), true) ?: [];
+        $manifest = json_decode((string) $z->getFromName('manifeste.json'), true);
+        $restored = 0;
+        for ($i = 0; $i < $z->numFiles; $i++) {
+            $entry = (string) $z->getNameIndex($i);
+            if (!str_starts_with($entry, 'fichiers/') || str_ends_with($entry, '/')) {
+                continue;
+            }
+            $rel = substr($entry, strlen('fichiers/'));
+            if (self::safe($rel) && self::selected($rel)) {
+                self::writeFrom($z, $entry, self::$root . '/' . $rel);
+                $restored++;
+            }
+        }
+        foreach ((array) ($meta['added'] ?? []) as $rel) {
+            if (is_string($rel) && self::safe($rel) && self::selected($rel)) {
+                @unlink(self::$root . '/' . $rel);
+            }
+        }
+        $z->close();
+        if (is_array($manifest)) {
+            JsonStore::write(self::$dir . '/manifeste.json', $manifest);
+        }
+        return [$restored, $meta];
+    }
+
+    /**
+     * Copie interrompue : la sauvegarde faite juste avant est remise en place, l'échec noté dans
+     * l'historique (version installée inchangée), caches et OPcache refaits ; puis l'erreur est
+     * relancée avec ce qu'il s'est passé.
+     */
+    private static function failed(\Throwable $e, string $backup, string $target, ?array $user): never
+    {
+        $msg = $e->getMessage();
+        try {
+            [$restored] = self::restore(self::$dir . '/sauvegardes/' . $backup);
+            $what = 'version précédente remise en place (' . $restored . ' fichier(s))';
+        } catch (\Throwable $r) {
+            error_log('[mise à jour] retour arrière impossible : ' . $r);
+            $what = 'retour arrière automatique impossible (' . $r->getMessage() . ') : utiliser « Revenir en arrière » avec la sauvegarde ' . $backup;
+        }
+        $from = self::installed();
+        $entry = ['at' => date('c'), 'by' => (string) ($user['name'] ?? 'Inconnu'), 'from' => $from['sha'] ?? null, 'to' => $target,
+            'message' => 'Échec de la mise à jour : ' . $msg . ' ; ' . $what, 'updated' => 0, 'deleted' => 0, 'kept' => [], 'merged' => 0, 'backup' => $backup, 'error' => true];
+        self::saveState(['history' => array_slice(array_merge([$entry], self::history()), 0, 30)]);
+        self::setSync(null); // à refaire : le code a pu changer
+        self::afterChange();
+        if (self::$log) {
+            Activity::log($user, 'a tenté la mise à jour ' . substr($target, 0, 7) . ' : échec, ' . $what, null);
+        }
+        throw new \RuntimeException('Mise à jour interrompue (' . $msg . ') : ' . $what . '.', 0, $e);
+    }
+
     // ------------------------------------------------------------------ outils
 
+    /**
+     * Extrait une entrée d'archive vers $dest (fichier temporaire, puis renommage). Taille et
+     * empreinte CRC32 vérifiées contre l'archive avant le renommage : un fichier tronqué (disque
+     * plein, archive abîmée) n'est jamais installé.
+     */
     private static function writeFrom(\ZipArchive $zip, string $entry, string $dest): void
     {
-        $in = $zip->getStream($entry);
+        $st = $zip->statName($entry);
+        $in = $st ? $zip->getStream($entry) : false;
         if (!$in) {
             throw new \RuntimeException('Fichier illisible dans l’archive : ' . $entry);
         }
         self::ensureDir(dirname($dest));
         $tmp = $dest . '.maj-' . bin2hex(random_bytes(3));
-        $out = fopen($tmp, 'wb');
+        $out = @fopen($tmp, 'wb');
         if (!$out) {
             fclose($in);
             throw new \RuntimeException('Écriture impossible : ' . self::short($dest) . ' (droits du dossier ?).');
         }
-        stream_copy_to_stream($in, $out);
+        $n = stream_copy_to_stream($in, $out);
         fclose($in);
-        fclose($out);
+        $closed = fclose($out);
+        $crc = sprintf('%08x', $st['crc'] & 0xFFFFFFFF);
+        if ($n !== (int) $st['size'] || !$closed || (int) @filesize($tmp) !== (int) $st['size'] || hash_file('crc32b', $tmp) !== $crc) {
+            @unlink($tmp);
+            throw new \RuntimeException('Fichier incomplet ou abîmé : ' . self::short($dest) . ' (espace disque ? archive endommagée ?).');
+        }
         @chmod($tmp, 0644);
         if (!@rename($tmp, $dest)) {
             @unlink($tmp);
             throw new \RuntimeException('Remplacement impossible : ' . self::short($dest) . '.');
         }
+    }
+
+    /** Copie un fichier préparé (et vérifié) à sa place, revérifié avant le renommage. */
+    private static function place(string $src, string $dest, int $size, string $crc): void
+    {
+        self::ensureDir(dirname($dest));
+        $tmp = $dest . '.maj-' . bin2hex(random_bytes(3));
+        if (!@copy($src, $tmp) || (int) @filesize($tmp) !== $size || hash_file('crc32b', $tmp) !== $crc) {
+            @unlink($tmp);
+            throw new \RuntimeException('Copie incomplète : ' . self::short($dest) . ' (espace disque ? droits du dossier ?).');
+        }
+        @chmod($tmp, 0644);
+        if (!@rename($tmp, $dest)) {
+            @unlink($tmp);
+            throw new \RuntimeException('Remplacement impossible : ' . self::short($dest) . '.');
+        }
+    }
+
+    private static function removeDir(string $dir): void
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $f) {
+            $f->isDir() ? @rmdir($f->getPathname()) : @unlink($f->getPathname());
+        }
+        @rmdir($dir);
     }
 
     private static function writeString(string $dest, string $content): void

@@ -92,6 +92,9 @@ final class Compos
         if (empty($s['on']) || !$s['queue']) {
             return null;
         }
+        if (AiCosts::paused('compositions')) {
+            return 'en pause : budget IA du mois atteint';
+        }
         $t0 = time();
         $done = 0;
         $added = 0;

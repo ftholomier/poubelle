@@ -142,6 +142,9 @@ final class FcsmImport
         if (empty($s['running'])) {
             return null;
         }
+        if (AiCosts::paused('reprise')) {
+            return 'en pause : budget IA du mois atteint';
+        }
         $r = self::run(24);
         if ($r['left'] === 0) {
             self::start(false);

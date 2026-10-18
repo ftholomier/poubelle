@@ -460,25 +460,57 @@ final class Gemini
         self::request('POST', $name . ':cancel', []);
     }
 
-    /** Télécharge un fichier de résultats vers $dest (sans le charger en mémoire). */
+    /**
+     * Télécharge un fichier de résultats vers $dest (sans le charger en mémoire). Les redirections
+     * (Google sert les résultats depuis un autre hôte) sont suivies à la main : la clé API n'est
+     * envoyée qu'à l'hôte de départ, jamais à l'adresse de redirection.
+     */
     public static function download(string $file, string $dest): int
     {
-        $fp = fopen($dest, 'wb');
-        if (!$fp) {
-            throw new \RuntimeException('Écriture impossible : ' . $dest);
+        $url = (self::mock() ?? self::HOST) . 'download/v1beta/' . $file . ':download?alt=media';
+        $host = strtolower((string) parse_url($url, PHP_URL_HOST));
+        for ($hop = 0; ; $hop++) {
+            $fp = fopen($dest, 'wb');
+            if (!$fp) {
+                throw new \RuntimeException('Écriture impossible : ' . $dest);
+            }
+            $same = strtolower((string) parse_url($url, PHP_URL_HOST)) === $host;
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [CURLOPT_FILE => $fp, CURLOPT_FOLLOWLOCATION => false, CURLOPT_TIMEOUT => 600, CURLOPT_CONNECTTIMEOUT => 10,
+                CURLOPT_HTTPHEADER => $same ? ['x-goog-api-key: ' . self::key()] : []]);
+            $ok = curl_exec($ch);
+            $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $next = (string) curl_getinfo($ch, CURLINFO_REDIRECT_URL);
+            $err = curl_error($ch);
+            curl_close($ch);
+            fclose($fp);
+            if ($ok && $code >= 300 && $code < 400 && $next !== '') {
+                // Redirection : en HTTPS seulement (en local pour le faux Gemini des essais), 5 au plus.
+                $local = self::mock() !== null && (bool) preg_match('#^http://(127\.0\.0\.1|localhost):\d+/#', $next);
+                if ($hop >= 5 || (!str_starts_with($next, 'https://') && !$local)) {
+                    @unlink($dest);
+                    throw new \RuntimeException('Gemini : téléchargement des résultats impossible (redirection refusée).');
+                }
+                $url = $next;
+                continue;
+            }
+            break;
         }
-        $ch = curl_init((self::mock() ?? self::HOST) . 'download/v1beta/' . $file . ':download?alt=media');
-        curl_setopt_array($ch, [CURLOPT_FILE => $fp, CURLOPT_FOLLOWLOCATION => true, CURLOPT_TIMEOUT => 600, CURLOPT_CONNECTTIMEOUT => 10, CURLOPT_HTTPHEADER => ['x-goog-api-key: ' . self::key()]]);
-        $ok = curl_exec($ch);
-        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $err = curl_error($ch);
-        curl_close($ch);
-        fclose($fp);
         if (!$ok || $code >= 400) {
             @unlink($dest);
             throw new \RuntimeException('Gemini : téléchargement des résultats impossible (' . ($err ?: "HTTP $code") . ').');
         }
         return (int) filesize($dest);
+    }
+
+    /**
+     * Erreur qui touche tous les appels, pas seulement celui-ci (quota, clé invalide, accès refusé,
+     * Gemini injoignable) : un traitement par lots s'arrête au lieu d'enchaîner les échecs.
+     */
+    public static function globalError(string $msg, int $code = 0): bool
+    {
+        return in_array($code, [401, 403, 429], true)
+            || (bool) preg_match('/quota|clé API|API key|injoignable|accès refusé|PERMISSION_DENIED|UNAUTHENTICATED|RESOURCE_EXHAUSTED|\bHTTP 0\b|code 0\b/i', $msg);
     }
 
     /** Vérifie la clé (page Réglages) : renvoie null si tout va bien, sinon le message d'erreur. */

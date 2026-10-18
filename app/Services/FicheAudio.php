@@ -1182,6 +1182,23 @@ final class FicheAudio
         if (!Gemini::ready()) {
             return null;
         }
+        // Un seul passage à la fois (tâche planifiée, console) : deux passages enverraient ou
+        // rangeraient le même traitement groupé deux fois (voix payées deux fois).
+        @mkdir(self::$dir, 0775, true);
+        $lock = @fopen(self::$dir . '/traitements.lock', 'c');
+        if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) {
+            return 'traitements déjà en cours (autre passage)';
+        }
+        try {
+            return self::runLocked($seconds);
+        } finally {
+            flock($lock, LOCK_UN);
+            fclose($lock);
+        }
+    }
+
+    private static function runLocked(int $seconds): ?string
+    {
         $deadline = microtime(true) + $seconds;
         $log = [];
         foreach (self::jobs() as $job) {

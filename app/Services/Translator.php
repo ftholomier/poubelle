@@ -127,8 +127,9 @@ final class Translator
         } catch (\Throwable $e) {
             // Quota, clé ou Gemini injoignable : pas la faute de la fiche, elle n'est pas mise de côté
             // (sinon toutes les fiches attendaient un à sept jours avant un nouvel essai).
-            if ($e->getCode() === 429 || $e->getCode() === 403 || preg_match('/quota|clé API|injoignable/i', $e->getMessage())) {
+            if (Gemini::globalError($e->getMessage(), (int) $e->getCode())) {
                 self::noteError($e->getMessage());
+                self::$globalError = $e->getMessage();
             } else {
                 self::fail($id, $e->getMessage());
             }
@@ -363,12 +364,35 @@ final class Translator
         return true;
     }
 
-    public static function run(int $max = 10, bool $now = false): array
+    /**
+     * Traduit jusqu'à $max fiches (essais comptés, réussis ou non). $now : bouton « Traduire
+     * maintenant », même désactivée et sans attendre les fiches en échec. $deadline (microtime) :
+     * pas de nouvel essai après cette heure (temps laissé par la tâche planifiée). Une erreur qui
+     * touche tous les appels (quota, clé, accès refusé, Gemini injoignable) arrête le passage.
+     * Un seul passage à la fois (tâche planifiée, console, boutons du back-office).
+     */
+    public static function run(int $max = 10, bool $now = false, ?float $deadline = null): array
     {
-        // $now : bouton « Traduire maintenant », même désactivée et sans attendre les fiches en échec.
         if (!self::enabled() || (!$now && !Settings::get('translation.auto_translate', true))) {
             return ['done' => 0, 'todo' => 0];
         }
+        $lock = @fopen(STORAGE_PATH . '/traductions.lock', 'c');
+        if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) {
+            return ['done' => 0, 'todo' => 0, 'tried' => [], 'busy' => true, 'error' => 'traduction déjà en cours (autre passage)'];
+        }
+        try {
+            return self::runLocked($max, $now, $deadline);
+        } finally {
+            flock($lock, LOCK_UN);
+            fclose($lock);
+        }
+    }
+
+    /** Erreur générale (quota, clé, accès, Gemini injoignable) du dernier essai de translateFiche(). */
+    private static ?string $globalError = null;
+
+    private static function runLocked(int $max, bool $now, ?float $deadline): array
+    {
         $fails = JsonStore::read(self::FAILS, []) ?: [];
         $cands = [];
         foreach (Index::all() as $id => $s) {
@@ -386,6 +410,7 @@ final class Translator
         $done = 0;
         $todo = 0;
         $tried = [];
+        $error = null;
         foreach (array_keys($cands) as $id) {
             $doc = Fiches::get((int) $id);
             if (!$doc) {
@@ -396,17 +421,17 @@ final class Translator
                 continue;
             }
             $todo++;
-            if ($done >= $max) {
-                continue;
+            if (count($tried) >= $max || $error !== null || ($deadline !== null && microtime(true) >= $deadline)) {
+                continue; // fiche comptée dans ce qui reste à faire
             }
+            self::$globalError = null;
             $r = self::translateFiche((int) $id);
             $tried[] = ['id' => (int) $id, 'title' => (string) ($doc['title'] ?? ''), 'result' => $r];
             if ($r === 'ok') {
                 $done++;
-            } elseif (str_contains($r, 'quota')) {
-                break;
             }
+            $error = self::$globalError; // panne générale : inutile d'essayer les fiches suivantes
         }
-        return ['done' => $done, 'todo' => $todo - $done, 'tried' => $tried];
+        return ['done' => $done, 'todo' => $todo - $done, 'tried' => $tried, 'error' => $error];
     }
 }

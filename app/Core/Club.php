@@ -26,13 +26,28 @@ final class Club
     /**
      * Choisit le club servi, au démarrage (app/bootstrap.php) : variable d'environnement MUSEE_CLUB
      * (tâches planifiées, essais), sinon le nom de domaine demandé (clé « domains » des profils),
-     * sinon le club par défaut.
+     * sinon le club par défaut. Un club demandé par MUSEE_CLUB (--club=<id> de bin/console.php)
+     * qui n'existe pas arrête tout avec un message : jamais le musée historique à sa place (une
+     * faute de frappe dans la tâche cron d'un musée faisait tourner celle du musée historique).
      */
     public static function boot(?string $host): string
     {
-        $env = basename((string) getenv('MUSEE_CLUB'));
+        $raw = getenv('MUSEE_CLUB');
+        $env = basename((string) $raw);
         if ($env !== '' && is_file(self::file($env))) {
             return self::$current = $env;
+        }
+        if ($raw !== false && trim($raw) !== '') {
+            $known = implode(', ', array_map(fn ($f) => basename($f, '.php'), glob(APP_ROOT . '/config/clubs/*.php') ?: []));
+            $msg = 'Musée « ' . $raw . ' » introuvable (pas de profil config/clubs/' . $env . '.php). Musées connus : ' . $known . '.';
+            if (PHP_SAPI === 'cli') {
+                fwrite(STDERR, $msg . "\n");
+                exit(2);
+            }
+            http_response_code(500);
+            header('Content-Type: text/plain; charset=UTF-8');
+            echo $msg;
+            exit;
         }
         $host = strtolower(preg_replace('/:\d+$/', '', (string) $host) ?? '');
         if ($host !== '') {

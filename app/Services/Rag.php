@@ -766,11 +766,30 @@ final class Rag
 
     /**
      * (Ré)indexe les fiches pour la recherche sémantique (modèle d'embedding réglé).
-     * Seules les fiches modifiées sont recalculées ; $max limite le nombre de fiches par passage.
+     * Seules les fiches modifiées sont recalculées ; $max limite le nombre de fiches essayées par
+     * passage (réussies ou non) ; $deadline (microtime) : pas de nouvel appel après cette heure.
+     * Une erreur qui touche tous les appels (quota, clé, accès refusé, Gemini injoignable) arrête
+     * les appels du passage. Une seule indexation à la fois (tâche planifiée, console, back-office).
      */
-    public static function reindex(?callable $progress = null, int $max = 100000): array
+    public static function reindex(?callable $progress = null, int $max = 100000, ?float $deadline = null): array
     {
         $progress ??= fn ($m) => null;
+        @mkdir(dirname(self::EMB_DIR), 0775, true);
+        $lock = @fopen(dirname(self::EMB_DIR) . '/indexation.lock', 'c');
+        if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) {
+            $progress('Une indexation est déjà en cours : rien de plus à faire pour l’instant.');
+            return ['embedded' => 0, 'skipped' => 0, 'remaining' => 0, 'mode' => 'déjà en cours', 'busy' => true];
+        }
+        try {
+            return self::reindexLocked($progress, $max, $deadline);
+        } finally {
+            flock($lock, LOCK_UN);
+            fclose($lock);
+        }
+    }
+
+    private static function reindexLocked(callable $progress, int $max, ?float $deadline): array
+    {
         Index::forget();
         self::virtualDocs();
         $model = Gemini::embedModel();
@@ -781,6 +800,8 @@ final class Rag
         $done = 0;
         $skipped = 0;
         $remaining = 0;
+        $tries = 0;
+        $error = null;
         $ids = [];
         foreach (Index::all() as $id => $s) {
             if (!Index::visible($s)) {
@@ -799,17 +820,20 @@ final class Rag
                 $skipped++;
                 continue;
             }
-            if ($done >= $max) {
+            // Après une panne générale, le plafond ou l'heure limite : la fiche attend le passage
+            // suivant (la boucle continue, pour garder toutes les fiches dans l'index assemblé).
+            if ($tries >= $max || $error !== null || ($deadline !== null && microtime(true) >= $deadline)) {
                 $remaining++;
                 continue;
             }
+            $tries++;
             try {
                 $vecs = Gemini::embed($passages, 'RETRIEVAL_DOCUMENT', $model, self::DIM);
             } catch (\Throwable $e) {
                 $progress('Erreur Gemini : ' . $e->getMessage());
                 $remaining++;
-                if (str_contains($e->getMessage(), 'quota')) {
-                    break;
+                if (Gemini::globalError($e->getMessage(), (int) $e->getCode())) {
+                    $error = $e->getMessage();
                 }
                 continue;
             }
@@ -831,7 +855,7 @@ final class Rag
         }
         self::packDocs($ids);
         $progress("$done fiches vectorisées, $skipped à jour, $remaining restantes.");
-        return ['embedded' => $done, 'skipped' => $skipped, 'remaining' => $remaining, 'mode' => 'semantique'];
+        return ['embedded' => $done, 'skipped' => $skipped, 'remaining' => $remaining, 'mode' => 'semantique'] + ($error !== null ? ['error' => $error] : []);
     }
 
     /** Vecteur → base64 int8 normalisé (256 octets pour 256 dimensions). */

@@ -5,6 +5,23 @@
 
 declare(strict_types=1);
 
+// Mise à jour en cours (fichier posé par App\Services\Updater, commun à tous les musées) : rien
+// n'est chargé tant que le code est en train d'être remplacé (bootstrap.php, helpers ou classes
+// pourraient être mi-anciens mi-nouveaux). Même page que App\Kernel::handle, qui garde sa
+// propre vérification ; un drapeau de plus de 10 minutes est ignoré (copie interrompue).
+$maintenance = dirname(__DIR__) . '/storage/update/maintenance';
+if (is_file($maintenance) && (int) @filemtime($maintenance) > time() - 600) {
+    http_response_code(503);
+    header('Content-Type: text/html; charset=utf-8');
+    header('Retry-After: 30');
+    header('Cache-Control: no-store');
+    echo '<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mise à jour en cours</title></head>'
+        . '<body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#F3EDDF;color:#0E1F4D;font-family:Georgia,serif;text-align:center;padding:24px">'
+        . '<div><h1 style="font-family:Arial,sans-serif;text-transform:uppercase">Mise à jour en cours</h1><p>Le musée revient dans quelques secondes.</p></div></body></html>';
+    exit;
+}
+unset($maintenance);
+
 require dirname(__DIR__) . '/app/bootstrap.php';
 
 // Ancienne adresse d'un musée (profil « redirect_from ») : redirection permanente vers son domaine principal.

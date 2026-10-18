@@ -7,33 +7,47 @@ use App\Core\Settings;
 
 /**
  * Sauvegardes ZIP (storage/backups, hors du dossier public) : toutes les données
- * éditoriales (data/), les réglages chiffrés et leur clé, les versions, les boîtes
- * de réception, les dons, la newsletter, les frais d'IA, les textes des fiches audio, les compteurs du Rétro-Direct et les abonnés aux notifications de l'appli (avec ses clés). Les photos
- * et les voix IA (volumineuses) sont ajoutées le dimanche si l'option est cochée. Les plus anciennes sont supprimées.
+ * éditoriales (data/) et tout storage/ (réglages chiffrés et leur clé, versions, boîtes de
+ * réception, dons, boutique, carnets, albums, tickets, consentements, Rétro-Direct, défis,
+ * validations, Trouvailles, notifications…), sauf ce qui se refait tout seul (caches, sessions,
+ * limites, journaux, mises à jour, fichiers temporaires, verrous). Les photos, les voix IA des
+ * fiches et les commentaires radio (volumineux) sont ajoutés le dimanche si l'option est cochée.
+ * Les plus anciennes sont supprimées.
  */
 final class Backup
 {
     public const DIR = STORAGE_PATH . '/backups';
 
-    /** Dossiers et fichiers sauvegardés (relatifs à la racine du projet). */
-    private const PATHS = [
-        'data',
-        'storage/settings.json',
-        'storage/secret.key',
-        'storage/users.json',
-        'storage/versions',
-        'storage/inbox',
-        'storage/dons',
-        'storage/vitrine',
-        'storage/newsletter',
-        'storage/votes',
-        'storage/counters.json',
-        'storage/activity',
-        'storage/ia',
-        'storage/audio',
-        'storage/retro',
-        'storage/push',
+    /** Dossiers sauvegardés en entier (relatifs au dossier du club). */
+    private const PATHS = ['data', 'storage'];
+
+    /**
+     * Exclus de storage/ (relatifs à storage/) : régénérables, temporaires ou trop volumineux.
+     * Les photos (storage/media) suivent l'option hebdomadaire ; les copies brutes du site
+     * WordPress (storage/import/html, rest, rest-full) et les maquettes ne servent plus au site.
+     */
+    private const EXCLUDE = [
+        'cache', 'sessions', 'ratelimit', 'logs', 'backups', 'update', 'tmp', 'media',
+        'import/html', 'import/rest', 'import/rest-full', 'maquette', 'maquette2',
+        'audio/jobs', // fichiers d'échange temporaires avec Google
     ];
+
+    /** Fichier ou dossier exclu de la sauvegarde (chemin relatif au dossier du club). */
+    public static function excluded(string $local): bool
+    {
+        $name = basename($local);
+        if (preg_match('/\.(lock|tmp|pid)$/', $name) || str_contains('/' . $local . '/', '/cache/')) {
+            return true; // verrous, fichiers en cours d'écriture, caches propres à un module (compos/cache…)
+        }
+        if (str_starts_with($local, 'storage/')) {
+            foreach (self::EXCLUDE as $x) {
+                if ($local === 'storage/' . $x || str_starts_with($local, 'storage/' . $x . '/')) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     /** @return array{file:string,size:int,files:int,ms:int}|array{error:string} */
     public static function run(bool $force = false, ?bool $withMedia = null): array
@@ -54,33 +68,41 @@ final class Backup
         }
         $root = dirname(DATA_PATH); // dossier du club : data/ et storage/ (racine pour le club historique)
         $count = 0;
-        $paths = self::PATHS;
-        if ($withMedia) {
-            $paths[] = 'storage/media';
-            if (MEDIA_URL === '/media') {
-                $paths[] = 'public/media/audio'; // voix IA des fiches (payées : on les garde)
-            }
+        // Chemin dans l'archive => chemin sur le disque.
+        $paths = [];
+        foreach (self::PATHS as $rel) {
+            $paths[$rel] = $root . '/' . $rel;
         }
-        foreach ($paths as $rel) {
-            $abs = $root . '/' . $rel;
+        if ($withMedia) {
+            $paths['storage/media'] = $root . '/storage/media';
+            // Voix IA des fiches et commentaires radio (payés : on les garde), pour chaque musée
+            // (public/media/… pour le club historique, public/m/<id>/… pour les autres).
+            $pub = substr(MEDIA_PATH, strlen(APP_ROOT) + 1);
+            $paths[$pub . '/audio'] = MEDIA_PATH . '/audio';
+            $paths[$pub . '/radio'] = MEDIA_PATH . '/radio';
+        }
+        foreach ($paths as $rel => $abs) {
             if (is_file($abs)) {
                 $zip->addFile($abs, $rel);
                 $count++;
             } elseif (is_dir($abs)) {
-                $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($abs, \FilesystemIterator::SKIP_DOTS));
-                foreach ($it as $f) {
-                    if ($f->isFile() && !str_ends_with($f->getFilename(), '.lock') && !str_ends_with($f->getFilename(), '.tmp')) {
-                        $local = $rel . substr($f->getPathname(), strlen($abs));
-                        if (str_starts_with($local, 'storage/audio/jobs/')) {
-                            continue; // fichiers d'échange temporaires avec Google
-                        }
-                        $zip->addFile($f->getPathname(), $local);
-                        // Les photos sont déjà compressées : stockage sans recompression.
-                        if ($withMedia && (str_starts_with($local, 'storage/media') || str_starts_with($local, 'public/media'))) {
-                            $zip->setCompressionName($local, \ZipArchive::CM_STORE);
-                        }
-                        $count++;
+                $media = $rel !== 'data' && $rel !== 'storage';
+                // Dossiers exclus écartés dès le parcours (le cache seul pèse des Go).
+                $dirs = new \RecursiveCallbackFilterIterator(
+                    new \RecursiveDirectoryIterator($abs, \FilesystemIterator::SKIP_DOTS),
+                    fn (\SplFileInfo $f) => $media || !self::excluded($rel . substr($f->getPathname(), strlen($abs)))
+                );
+                foreach (new \RecursiveIteratorIterator($dirs) as $f) {
+                    if (!$f->isFile() || preg_match('/\.(lock|tmp)$/', $f->getFilename())) {
+                        continue;
                     }
+                    $local = $rel . substr($f->getPathname(), strlen($abs));
+                    $zip->addFile($f->getPathname(), $local);
+                    // Photos et sons sont déjà compressés : stockage sans recompression.
+                    if ($media) {
+                        $zip->setCompressionName($local, \ZipArchive::CM_STORE);
+                    }
+                    $count++;
                 }
             }
         }
