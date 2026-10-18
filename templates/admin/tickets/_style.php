@@ -30,5 +30,9 @@
 .tk-com b{font-family:var(--display);text-transform:uppercase}
 .tk-hist{list-style:none;margin:0;padding:0;font-size:13px}
 .tk-hist li{padding:4px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.tk-half{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start;margin-top:16px}
+.tk-new{position:sticky;top:120px;border-top:6px solid var(--yellow)}
+.tk-half .tk-row{grid-template-columns:1fr}
+@media (max-width:1100px){.tk-half{grid-template-columns:1fr}.tk-new{position:static;order:-1}}
 @media (max-width:900px){.tk-row,.tk-grid{grid-template-columns:1fr}.tk-list li{grid-template-columns:48px minmax(0,1fr)}.tk-list li>:last-child{grid-column:2}}
 </style>
