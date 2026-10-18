@@ -45,6 +45,21 @@ final class CompteARebours extends Widget
         return 360;
     }
 
+    /** Titre libre : seulement avec une clé partenaire (sinon « Le grand jour »). */
+    public function restrict(array $opt): array
+    {
+        return ['titre' => ''] + $opt;
+    }
+
+    /**
+     * Date choisie (avec ou sans titre) : une variante par date et par titre, sans limite ; calculée
+     * à chaque appel (rien à lire en base), jamais gardée dans le cache des widgets.
+     */
+    public function cacheable(array $opt): bool
+    {
+        return ($opt['date'] ?? '') === '' && ($opt['titre'] ?? '') === '';
+    }
+
     public function ttl(): int
     {
         return 900;

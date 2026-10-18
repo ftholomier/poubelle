@@ -10,6 +10,7 @@
   var SHAPES = ['▲', '◆', '●', '■'];
   var last = null, busy = false, clockAt = 0, leftAt = 0, waitAt = 0, tm = null, shownIdx = null;
   var nextBtn = $('[data-qls-next]');
+  var lockBtn = $('[data-qls-lock]'), locked = false;
 
   function fmt(s, v) { return String(s).replace(/\{(\w+)\}/g, function (_, k) { return v[k] !== undefined ? v[k] : ''; }); }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; }
@@ -53,7 +54,17 @@
     c.style.setProperty('--p', (left / (1000 * last.duration)).toFixed(3));
   }
 
+  // Inscriptions : l'animateur les ferme (ou les rouvre) ; plus personne ne rejoint la partie.
+  function lockUi(s) {
+    if (!lockBtn) return;
+    locked = !!s.locked;
+    lockBtn.hidden = s.phase === 'end';
+    lockBtn.textContent = locked ? T.unlock : T.lock;
+    lockBtn.setAttribute('aria-pressed', locked ? 'true' : 'false');
+  }
+
   function render(s) {
+    lockUi(s);
     // Classement et podium : construits une fois (leurs animations ne repartent pas à chaque seconde).
     var same = last && last.phase === s.phase && last.idx === s.idx && (s.phase === 'board' || s.phase === 'end');
     last = s;
@@ -195,6 +206,14 @@
   }
 
   nextBtn.addEventListener('click', function (e) { e.stopPropagation(); next(); });
+  if (lockBtn) {
+    lockBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      lockBtn.blur(); // la barre d'espace reste pour « étape suivante »
+      lockBtn.disabled = true;
+      api({ action: 'verrouiller', locked: !locked }).then(function (s) { lockBtn.disabled = false; if (s.ok) { lockUi(s); } }).catch(function () { lockBtn.disabled = false; });
+    });
+  }
   document.addEventListener('keydown', function (e) {
     if ((e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowRight') && !nextBtn.disabled && !nextBtn.hidden) { e.preventDefault(); next(); }
   });

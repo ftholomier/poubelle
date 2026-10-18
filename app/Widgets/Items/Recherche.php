@@ -43,7 +43,9 @@ final class Recherche extends Widget
 
     public function body(array $d, Context $c): string
     {
-        // Le lien compté sert de modèle : « __Q__ » est remplacé par la recherche (encodée) dans widget.js.
+        // Le lien compté sert de modèle : « __Q__ » est remplacé par la recherche (encodée) dans widget.js,
+        // qui ouvre l'onglet lui-même (clic, touche Entrée) : l'iframe de /embed.js est sandboxée sans
+        // allow-forms, le formulaire ne s'y envoie pas. Sans sandbox (code iframe), il reste un repli.
         $tpl = $c->link('/recherche/?q=__Q__');
         return '<p class="w-eyebrow">' . e($c->tr('Chercher dans le musée', 'Search the museum')) . '</p>'
             . '<form class="w-search" role="search" method="get" action="' . e(Context::abs($c->path('/recherche/'))) . '" target="_blank" data-search="' . e($tpl) . '">'

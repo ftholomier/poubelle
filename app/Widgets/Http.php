@@ -29,9 +29,14 @@ use App\Services\I18n;
  */
 final class Http
 {
-    /** Requêtes par minute : par clé partenaire, et par adresse IP sans clé. */
+    /**
+     * Requêtes par minute : par clé partenaire, par adresse IP sans clé, et par adresse IP avec une
+     * clé (une clé partenaire est publique : sans cette limite, une seule adresse épuiserait le débit
+     * de la clé pour tous les visiteurs du partenaire).
+     */
     public const PER_KEY = 1200;
     public const PER_IP = 240;
+    public const PER_IP_KEY = 300;
     /** Fraîcheur dans le navigateur ou un cache intermédiaire, en secondes. */
     public const MAX_AGE_API = 300;
     public const MAX_AGE_FRAME = 120;
@@ -121,7 +126,7 @@ final class Http
      * Ordre : widget désactivé, site fermé, clé (invalide, suspendue, domaine), accès réservé ou payant.
      * @return array{0:int,1:?string,2:?array}
      */
-    public static function access(Widget $w, Request $req, bool $preview, bool $domains = true): array
+    public static function access(Widget $w, Request $req, bool $preview, bool $domains = true, ?array $resolved = null): array
     {
         $cfg = Store::widget($w->key());
         if ($cfg['access'] === 'desactive' && !$preview) {
@@ -131,7 +136,8 @@ final class Http
         if (Seo::closed() && !$cfg['closed_ok'] && !$preview && $w->key() !== 'playlist') {
             return [503, 'Le musée est fermé au public pour le moment.', null];
         }
-        [$code, $error, $partner] = self::partner($req, $domains);
+        // $resolved : partenaire déjà trouvé autrement (clé écran du mode écran, voir screenPartner).
+        [$code, $error, $partner] = $resolved ?? self::partner($req, $domains);
         if ($error !== null) {
             return [$code, $error, null];
         }
@@ -177,10 +183,42 @@ final class Http
         return [200, null, $p];
     }
 
-    /** Débit : par clé partenaire, sinon par adresse IP. */
+    /** Débit : par adresse IP (d'abord, pour ne pas entamer le débit de la clé), puis par clé partenaire. */
     private static function rate(Request $req, ?array $partner): bool
     {
-        return $partner ? RateLimiter::hit('widgets-cle', (string) $partner['id'], self::PER_KEY, 60) : RateLimiter::hit('widgets-ip', $req->ip(), self::PER_IP, 60);
+        if (!$partner) {
+            return RateLimiter::hit('widgets-ip', $req->ip(), self::PER_IP, 60);
+        }
+        return RateLimiter::hit('widgets-ip-cle', $req->ip(), self::PER_IP_KEY, 60) && RateLimiter::hit('widgets-cle', (string) $partner['id'], self::PER_KEY, 60);
+    }
+
+    /**
+     * Partenaire du mode écran : clé écran (« ek_… », secrète, donnée à la régie seulement). La clé
+     * partenaire (« mk_… ») est publique (code des widgets posé sur les sites) : elle n'ouvre les
+     * écrans que pendant la transition, pour un partenaire qui n'a pas encore de clé écran
+     * (Store::screenLegacy). Les domaines ne s'appliquent pas : un écran n'a pas de page d'origine.
+     * @return array{0:int,1:?string,2:?array}
+     */
+    public static function screenPartner(Request $req): array
+    {
+        $key = self::key($req);
+        if ($key === '') {
+            return [200, null, null];
+        }
+        $p = Store::partnerByScreenKey($key);
+        if (!$p && ($old = Store::partnerByKey($key))) {
+            if (!Store::screenLegacy($old)) {
+                return [401, 'Cette adresse d’écran utilise la clé publique du partenaire : demandez au musée l’adresse avec la clé écran.', null];
+            }
+            $p = $old;
+        }
+        if (!$p) {
+            return [401, 'Clé écran invalide.', null];
+        }
+        if (($p['status'] ?? '') !== 'actif') {
+            return [403, 'Clé partenaire suspendue : contactez le musée.', null];
+        }
+        return [200, null, $p];
     }
 
     /** Pages qui peuvent afficher l'iframe : partout, ou les domaines de la clé (et le musée lui-même). */
@@ -267,8 +305,13 @@ final class Http
             return $api ? self::cors(Response::json(['error' => 'Trop de requêtes, patientez une minute.'], 429), $req, $partner) : self::notice($w, 'Trop de requêtes, patientez une minute.', 429, $c, $partner);
         }
         $opt = $w->clean($req->query);
+        if (!$partner && !$preview) {
+            // Sans clé partenaire : pas de texte libre affiché sous le logo du musée (titre, nom de club).
+            $opt = $w->restrict($opt);
+        }
         $hit = Cache::get($w, $opt, $c);
-        $data = $hit['data'] === null ? null : Frame::finalize($hit['data'], $c);
+        // Après le cache : ce qui dépend du partenaire (QR code du don…), puis les liens comptés.
+        $data = $hit['data'] === null ? null : Frame::finalize($w->personalize($hit['data'], $c), $c);
         $etag = md5(json_encode([$key, $opt, $lang, $theme, $format, $c->partner, $hit['at'], $api, $preview]));
         $count = !$preview && $req->str('apercu') !== '1';
         if ($api) {
@@ -282,14 +325,15 @@ final class Http
                 'attribution' => self::attribution($c),
                 'iframe' => Context::abs('/w/' . $key . '?' . http_build_query(array_filter($opt + ['lang' => $lang, 'theme' => $theme], fn ($v) => $v !== '' && $v !== 'auto'))),
             ];
-            $res = $w->cacheable($opt) ? self::cached(Response::json($body), $req, $partner, $etag, self::MAX_AGE_API) : self::noStore(Response::json($body));
+            // Aperçu de l'équipe connectée : propre à la session (réglages pas encore publics), jamais gardé.
+            $res = $w->cacheable($opt) && !$preview ? self::cached(Response::json($body), $req, $partner, $etag, self::MAX_AGE_API) : self::noStore(Response::json($body));
             if ($count) {
                 Store::hit('api', $key, $c->partner ?: 'libre');
             }
             return $res;
         }
         $res = self::frameHeaders(Response::html(Frame::page($w, $data, $c)), $partner, $preview, $key === 'recherche');
-        $res = !$w->cacheable($opt) ? self::noStore($res) : ($preview ? $res : self::cached($res, $req, $partner, $etag, self::MAX_AGE_FRAME));
+        $res = !$w->cacheable($opt) || $preview ? self::noStore($res) : self::cached($res, $req, $partner, $etag, self::MAX_AGE_FRAME);
         if ($count) {
             Store::hit('vues', $key, $c->partner ?: 'libre');
         }
@@ -462,7 +506,7 @@ final class Http
         I18n::set($lang);
         $format = in_array($req->str('format'), ['paysage', 'vertical'], true) ? $req->str('format') : (string) ($p['format'] ?? 'paysage');
         $preview = self::preview($req);
-        [$code, $error, $partner] = self::access($w, $req, $preview, false);
+        [$code, $error, $partner] = self::access($w, $req, $preview, false, self::screenPartner($req));
         $c = new Context('playlist', $lang, 'sombre', 'ecran', (string) ($partner['id'] ?? ''), $preview);
         if ($error === null && !$p) {
             [$code, $error] = [404, $c->tr('Playlist inconnue.', 'Unknown playlist.')];

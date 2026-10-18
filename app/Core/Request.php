@@ -48,13 +48,17 @@ final class Request
 
     public function json(): array
     {
-        static $cache = [];
-        $k = spl_object_id($this);
-        if (!array_key_exists($k, $cache)) {
+        // Par requête (WeakMap : un identifiant d'objet réutilisé après coup ne ressert jamais le
+        // corps d'une requête précédente, ce que faisait un tableau indexé par spl_object_id).
+        static $cache = null;
+        $cache ??= new \WeakMap();
+        if (!isset($cache[$this])) {
             $ct = $this->server['CONTENT_TYPE'] ?? '';
-            $cache[$k] = str_contains($ct, 'application/json') ? (json_decode($this->body, true) ?: []) : [];
+            // Corps JSON scalaire (« 1 », « "x" », « true ») : pas un objet, donc rien (pas d'erreur de type).
+            $d = str_contains($ct, 'application/json') ? json_decode($this->body, true) : null;
+            $cache[$this] = is_array($d) ? $d : [];
         }
-        return $cache[$k];
+        return $cache[$this];
     }
 
     public function header(string $name): ?string

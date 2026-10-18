@@ -17,7 +17,11 @@ $start = array_values(array_filter([$chapters['bienvenue'] ?? null, $chapters['p
     </form>
   </div>
   <div class="aide-hero__files">
-    <a class="aide-file" href="/admin/aide/fichier/guide-sochaux-retro.pdf" target="_blank"><b>Guide complet</b><span>PDF illustré, à lire ou imprimer</span></a>
+    <?php if (\App\Core\Auth::isAdmin()): ?>
+      <a class="aide-file" href="/admin/aide/fichier/guide-sochaux-retro.pdf" target="_blank"><b>Guide complet</b><span>PDF illustré, à lire ou imprimer</span></a>
+    <?php else: ?>
+      <a class="aide-file" href="/admin/aide/imprimer" target="_blank"><b>Guide complet</b><span>illustré, à lire, imprimer ou enregistrer en PDF</span></a>
+    <?php endif; ?>
     <a class="aide-file" href="/admin/aide/fichier/memo-sochaux-retro.pdf" target="_blank"><b>Mémo</b><span>PDF de 2 pages à garder sous la main</span></a>
     <a class="aide-file aide-file--light" href="/admin/aide/imprimer" target="_blank"><b>Version imprimable</b><span>toujours à jour, depuis le navigateur</span></a>
   </div>

@@ -80,8 +80,14 @@ final class Help extends Base
         'asso-reglages' => 'association#ouverture',
     ];
 
-    /** Captures réservées aux administrateurs (montants des coûts de l'IA). */
-    private const ADMIN_FILES = ['couts-ia.webp'];
+    /**
+     * Fichiers réservés aux administrateurs : montants des coûts de l'IA, et guide PDF complet (figé,
+     * il contient les chapitres d'administration et la mention des autres musées). Les autres membres
+     * de l'équipe ont la version imprimable (/admin/aide/imprimer), filtrée selon leur rôle et
+     * enregistrable en PDF depuis le navigateur. Le mémo (2 pages, sans partie d'administration)
+     * reste ouvert à tous.
+     */
+    public const ADMIN_FILES = ['couts-ia.webp', 'guide-sochaux-retro.pdf'];
 
     /**
      * Chapitres dans l'ordre, par adresse. Pour les autres membres de l'équipe, les parties

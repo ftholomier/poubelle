@@ -141,6 +141,17 @@ abstract class Widget
         return true;
     }
 
+    /**
+     * Options d'un appel sans clé partenaire : un texte libre (titre, nom de club…) s'afficherait sous
+     * le logo du musée sur n'importe quel site ; réservé aux partenaires, sinon la valeur par défaut.
+     * @param array<string,string> $opt options validées
+     * @return array<string,string>
+     */
+    public function restrict(array $opt): array
+    {
+        return $opt;
+    }
+
     /** Durée de vie des données en cache, en secondes (jamais au-delà de minuit : voir Cache). */
     public function ttl(): int
     {
@@ -154,6 +165,15 @@ abstract class Widget
      * @param array<string,string> $opt options validées
      */
     abstract public function data(array $opt, Context $c): ?array;
+
+    /**
+     * Données propres à l'appel, ajoutées après le cache (Cache garde les données sans partenaire,
+     * communes à tous) : par exemple l'adresse du QR code avec la provenance du partenaire.
+     */
+    public function personalize(array $d, Context $c): array
+    {
+        return $d;
+    }
 
     /** Le cœur du widget, en HTML (échappé), à partir des données. */
     abstract public function body(array $d, Context $c): string;

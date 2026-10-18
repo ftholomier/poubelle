@@ -10,9 +10,10 @@ use App\Core\Settings;
  * Réglages des widgets, partenaires et statistiques, propres à chaque musée (STORAGE_PATH/widgets/) :
  * - reglages.json : accès de chaque widget (libre, réservé, payant, désactivé) et « actif même site fermé » ;
  * - partenaires.json : partenaires (nom, contact, domaines autorisés, clé chiffrée et son empreinte,
- *   statut actif ou suspendu, offre gratuite ou payante et son échéance) ;
- * - stats/AAAA-MM-JJ.json : affichages, appels de l'API et clics vers le musée, par widget et par
- *   partenaire (aucune adresse IP, aucun cookie, aucune donnée personnelle) ;
+ *   clé écran secrète pour /ecran/ (idem), statut actif ou suspendu, offre gratuite ou payante et son échéance) ;
+ * - stats/AAAA-MM-JJ.log puis .json : affichages, appels de l'API et clics vers le musée, par widget et
+ *   par partenaire (journal du jour en ajout, regroupé ensuite ; aucune adresse IP, aucun cookie,
+ *   aucune donnée personnelle) ;
  * - cache/ : données des widgets déjà calculées.
  */
 final class Store
@@ -109,6 +110,71 @@ final class Store
         return null;
     }
 
+    /**
+     * Partenaire d'une clé écran (« ek_… », secrète, seulement pour /ecran/), sinon null. La clé
+     * partenaire (« mk_… ») est publique : elle figure dans le code des widgets posé sur les sites.
+     */
+    public static function partnerByScreenKey(string $key): ?array
+    {
+        $key = trim($key);
+        if (!preg_match('/^ek_[a-f0-9]{32}$/', $key)) {
+            return null;
+        }
+        $h = self::hash($key);
+        foreach (self::partners() as $p) {
+            if (hash_equals((string) ($p['screen_hash'] ?? ''), $h)) {
+                return $p;
+            }
+        }
+        return null;
+    }
+
+    /** Clé écran en clair d'un partenaire (pour l'administrateur), sinon ''. */
+    public static function screenKeyOf(array $p): string
+    {
+        return (string) (Settings::decrypt((string) ($p['screen_enc'] ?? '')) ?? '');
+    }
+
+    /** Dernier jour où la clé partenaire ouvre encore les écrans d'un partenaire sans clé écran (transition). */
+    public const SCREEN_LEGACY_UNTIL = '2026-12-31';
+
+    /**
+     * Partenaire créé avant les clés écran, encore sans clé écran : sa clé partenaire ouvre les
+     * écrans jusqu'au SCREEN_LEGACY_UNTIL (écrans déjà installés), le back-office le signale.
+     */
+    public static function screenLegacy(array $p): bool
+    {
+        return empty($p['screen_hash']) && date('Y-m-d') <= self::SCREEN_LEGACY_UNTIL;
+    }
+
+    /** Nouvelle clé écran (l'ancienne, et la clé partenaire pendant la transition, n'ouvrent plus les écrans). @return string */
+    public static function regenerateScreen(string $id): string
+    {
+        $key = 'ek_' . bin2hex(random_bytes(16));
+        $ok = false;
+        JsonStore::update(self::dir() . '/partenaires.json', function ($all) use ($id, $key, &$ok) {
+            $all = is_array($all) ? $all : [];
+            if (isset($all[$id])) {
+                $all[$id] = self::withScreenKey($all[$id], $key);
+                $all[$id]['updated'] = date('c');
+                $ok = true;
+            }
+            return $all;
+        }, []);
+        if (!$ok) {
+            throw new \InvalidArgumentException('Partenaire introuvable.');
+        }
+        return $key;
+    }
+
+    private static function withScreenKey(array $p, string $key): array
+    {
+        $p['screen_hash'] = self::hash($key);
+        $p['screen_enc'] = Settings::encrypt($key);
+        $p['screen_end'] = substr($key, -4);
+        return $p;
+    }
+
     /** Clé en clair d'un partenaire (pour l'afficher à l'administrateur), sinon ''. */
     public static function keyOf(array $p): string
     {
@@ -147,7 +213,7 @@ final class Store
             } else {
                 $id = 'p' . bin2hex(random_bytes(4));
                 $key = self::newKey();
-                $all[$id] = ['id' => $id] + $p + ['key_hash' => self::hash($key), 'key_enc' => Settings::encrypt($key), 'key_end' => substr($key, -4), 'created' => date('c')];
+                $all[$id] = self::withScreenKey(['id' => $id] + $p + ['key_hash' => self::hash($key), 'key_enc' => Settings::encrypt($key), 'key_end' => substr($key, -4), 'created' => date('c')], 'ek_' . bin2hex(random_bytes(16)));
             }
             $all[$id]['updated'] = date('c');
             $saved = $all[$id];
@@ -238,23 +304,66 @@ final class Store
 
     /**
      * Compte un affichage (« vues »), un appel de l'API (« api ») ou un clic vers le musée (« clics »).
-     * $who : identifiant du partenaire, ou « libre » sans clé.
+     * $who : identifiant du partenaire, ou « libre » sans clé. Une ligne ajoutée au journal du jour
+     * (stats/AAAA-MM-JJ.log, ajout en fin de fichier) : pas de relecture ni de réécriture du fichier
+     * sous verrou exclusif à chaque affichage. Les journaux des jours passés sont regroupés dans
+     * stats/AAAA-MM-JJ.json à la première lecture des statistiques (voir stats()).
      */
     public static function hit(string $kind, string $widget, string $who): void
     {
-        if (!in_array($kind, ['vues', 'api', 'clics'], true)) {
+        if (!in_array($kind, ['vues', 'api', 'clics'], true) || !preg_match('/^[a-z0-9-]{1,40}$/', $widget) || !preg_match('/^[a-z0-9-]{1,40}$/', $who)) {
             return;
         }
-        $file = self::dir() . '/stats/' . date('Y-m-d') . '.json';
+        $dir = self::dir() . '/stats';
         try {
-            JsonStore::update($file, function ($c) use ($kind, $widget, $who) {
-                $c = is_array($c) ? $c : [];
-                $c[$kind][$widget][$who] = (int) ($c[$kind][$widget][$who] ?? 0) + 1;
-                return $c;
-            }, []);
+            if (!is_dir($dir)) {
+                @mkdir($dir, 0775, true);
+            }
+            if (@file_put_contents($dir . '/' . date('Y-m-d') . '.log', $kind . "\t" . $widget . "\t" . $who . "\n", FILE_APPEND | LOCK_EX) === false) {
+                error_log('Statistiques des widgets : journal impossible à écrire');
+            }
         } catch (\Throwable $e) {
             error_log('Statistiques des widgets : ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Compteurs d'un jour : regroupés (.json) plus le journal (.log). Un jour passé dont le journal
+     * existe encore est regroupé une fois pour toutes (journal ajouté au .json, puis effacé).
+     * @return array<string,array<string,array<string,int>>> [kind][widget][who] => n
+     */
+    public static function day(string $day): array
+    {
+        $json = self::dir() . '/stats/' . $day . '.json';
+        $log = self::dir() . '/stats/' . $day . '.log';
+        if (!is_file($log)) {
+            $c = JsonStore::read($json, []);
+            return is_array($c) ? $c : [];
+        }
+        $add = function (array $c, string $file): array {
+            $fp = @fopen($file, 'rb');
+            if (!$fp) {
+                return $c;
+            }
+            while (($line = fgets($fp)) !== false) {
+                $f = explode("\t", rtrim($line, "\n"));
+                if (count($f) === 3 && in_array($f[0], ['vues', 'api', 'clics'], true)) {
+                    $c[$f[0]][$f[1]][$f[2]] = (int) ($c[$f[0]][$f[1]][$f[2]] ?? 0) + 1;
+                }
+            }
+            fclose($fp);
+            return $c;
+        };
+        if ($day >= date('Y-m-d')) {
+            $c = JsonStore::read($json, []);
+            return $add(is_array($c) ? $c : [], $log);
+        }
+        // Jour passé : journal regroupé dans le .json (sous le verrou de JsonStore), puis effacé.
+        return (array) JsonStore::update($json, function ($c) use ($add, $log) {
+            $c = $add(is_array($c) ? $c : [], $log);
+            @unlink($log);
+            return $c;
+        }, []);
     }
 
     /**
@@ -268,8 +377,7 @@ final class Store
         for ($i = $days - 1; $i >= 0; $i--) {
             $day = date('Y-m-d', strtotime("-$i days"));
             $out['days'][$day] = $zero;
-            $c = JsonStore::read(self::dir() . '/stats/' . $day . '.json', []);
-            foreach (is_array($c) ? $c : [] as $kind => $byWidget) {
+            foreach (self::day($day) as $kind => $byWidget) {
                 if (!isset($zero[$kind]) || !is_array($byWidget)) {
                     continue;
                 }

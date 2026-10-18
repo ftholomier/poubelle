@@ -133,13 +133,17 @@
     const update = () => {
       const q = new URLSearchParams();
       const p = C.partners.find(x => x.id === val('partner'));
-      if (p && p.key) q.set('key', p.key);
+      // Clé écran (secrète) ; à défaut, pendant la transition, la clé publique du partenaire.
+      const key = p ? (p.screen || (p.legacy ? p.key : '')) : '';
+      if (key) q.set('key', key);
       ['format', 'lang', 'adversaire', 'horloge'].forEach(k => { if (val(k) !== '') q.set(k, val(k)); });
       const path = '/ecran/' + val('id');
       out.value = C.base + path + (q.toString() ? '?' + q.toString() : '');
       q.delete('key');
       box.querySelector('[data-sl-open]').href = path + (q.toString() ? '?' + q.toString() : '');
-      box.querySelector('[data-sl-warn]').textContent = p ? '' : 'Sans partenaire, l’adresse ne marche que si le mode écran est en accès libre.';
+      box.querySelector('[data-sl-warn]').textContent = !p ? 'Sans partenaire, l’adresse ne marche que si le mode écran est en accès libre.'
+        : p.screen ? '' : p.legacy ? 'Ce partenaire n’a pas encore de clé écran : l’adresse utilise sa clé publique, acceptée pour un temps seulement. Créez sa clé écran (onglet Partenaires).'
+          : 'Ce partenaire n’a pas de clé écran : créez-la dans l’onglet Partenaires.';
     };
     box.addEventListener('change', update);
     box.addEventListener('input', e => { if (e.target.matches('[data-sl]')) update(); });

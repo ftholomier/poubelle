@@ -52,6 +52,23 @@ final class HistoireDuDuel extends Widget
     }
 
     /**
+     * Sans clé partenaire : seulement un adversaire déjà affronté (sinon l'adversaire automatique) ;
+     * le nom libre (« Première rencontre ») s'afficherait tel quel sous le logo du musée.
+     */
+    public function restrict(array $opt): array
+    {
+        $v = (string) ($opt['adversaire'] ?? 'auto');
+        return ['adversaire' => $v === 'auto' || self::known($v) !== null ? $v : 'auto'] + $opt;
+    }
+
+    /** Nom libre (club jamais affronté) : une variante par nom tapé, jamais gardée dans le cache des widgets. */
+    public function cacheable(array $opt): bool
+    {
+        $v = (string) ($opt['adversaire'] ?? 'auto');
+        return $v === 'auto' || self::known($v) !== null;
+    }
+
+    /**
      * Nom de club saisi librement (adversaire jamais affronté) : espaces resserrés, seulement lettres,
      * chiffres, espace, apostrophe, point, tiret et « & », 2 à 40 caractères, au moins une lettre ;
      * sinon null. Le résultat est encore échappé à l'affichage.

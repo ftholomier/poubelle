@@ -123,7 +123,9 @@ final class Api
     {
         $in = $req->json() ?: [];
         $path = (string) ($in['p'] ?? '');
-        if (!preg_match('#^/[^\s?#]{0,200}$#', $path) || preg_match('#^/(en/)?(admin|api|w|ecran)(/|$)#', $path)
+        // Adresse du site seulement : « //hôte » ou « /\hôte » (un autre site pour le navigateur) refusés.
+        // (Délimiteur « ~ » : avec « # », présent dans la classe de caractères, le motif était invalide.)
+        if (!preg_match('~^/(?![/\\\\])[^\s?#\\\\]{0,200}$~', $path) || preg_match('#^/(en/)?(admin|api|w|ecran)(/|$)#', $path)
             || \App\Front\Seo::closed() || !\App\Core\RateLimiter::hit('vu', $req->ip(), 120, 60)) {
             return new Response('', 204);
         }

@@ -28,6 +28,8 @@ final class QuizLive
     public static string $dir = STORAGE_PATH . '/quizlive';
     public const DURATIONS = [15, 20, 30];
     public const MAX_PLAYERS = 200;
+    /** Joueurs au plus par connexion (empreinte d'adresse IP) et par partie, hors connexion du grand écran. */
+    public const MAX_PER_IP = 10;
     /** Délai de grâce (ms) pour une réponse partie juste avant la fin du compte à rebours. */
     private const GRACE = 600;
 
@@ -101,6 +103,39 @@ final class QuizLive
             }
         }
         return $n;
+    }
+
+    /**
+     * Inscriptions ouvertes ou fermées par l'animateur (grand écran). Fermées, plus personne ne
+     * rejoint la partie ; un compte déjà inscrit reprend toujours sa place.
+     */
+    public static function setLocked(string $code, bool $locked): void
+    {
+        if (!self::get($code)) {
+            return;
+        }
+        JsonStore::update(self::file($code), function ($g) use ($locked) {
+            if (is_array($g) && !empty($g['locked']) !== $locked) {
+                $g['locked'] = $locked;
+                $g['v']++;
+            }
+            return $g;
+        });
+    }
+
+    /** Connexion du grand écran (empreinte d'IP) : les joueurs de la salle y sont sans limite. Trois au plus. */
+    public static function hostSeen(string $code, string $ip): void
+    {
+        $g = self::get($code);
+        if (!$g || in_array($ip, (array) ($g['hostIps'] ?? []), true)) {
+            return;
+        }
+        JsonStore::update(self::file($code), function ($g) use ($ip) {
+            if (is_array($g) && !in_array($ip, (array) ($g['hostIps'] ?? []), true)) {
+                $g['hostIps'] = array_slice(array_merge((array) ($g['hostIps'] ?? []), [$ip]), -3);
+            }
+            return $g;
+        });
     }
 
     public static function isHost(?array $g, string $key): bool
@@ -238,23 +273,70 @@ final class QuizLive
     }
 
     /**
+     * Mots refusés dans un pseudo affiché en salle (français et anglais). ANY : cherchés n'importe où
+     * dans le pseudo, lettres collées (« JeSuisUnConnard », « s.a.l.o.p.e ») ; WORD : mots courts,
+     * refusés seulement seuls (« con » oui, « Conrad » non). Chiffres lus comme des lettres (« c0nnard »).
+     * « retard » (en retard) n'y est pas : mot français courant.
+     */
+    private const BANNED_ANY = [
+        'connard', 'connasse', 'salope', 'salaud', 'putain', 'encule', 'enculer', 'batard', 'couille', 'chatte', 'niquer', 'niquetamere',
+        'tamere', 'nique', 'enfoire', 'petasse', 'poufiasse', 'trouduc', 'branleur', 'pedale', 'tapette', 'gouine', 'bougnoul', 'youpin',
+        'negre', 'hitler', 'nazis', 'siegheil', 'fuck', 'motherf', 'shit', 'bitch', 'whore', 'slut', 'nigger', 'nigga', 'faggot',
+        'asshole', 'bastard', 'wanker', 'pussy', 'dickhead', 'rapist', 'violeur', 'pedophile', 'pedo', 'zizi', 'sperme', 'penis', 'vagin',
+    ];
+    private const BANNED_WORD = [
+        'con', 'cons', 'conne', 'pute', 'putes', 'bite', 'bites', 'nique', 'ntm', 'fdp', 'pd', 'pede', 'nazi', 'raton', 'bicot', 'merde',
+        'cul', 'chier', 'kkk', 'cunt', 'dick', 'cock', 'fag', 'twat', 'rape', 'sex', 'sexe', 'porn', 'porno', 'heil', 'isis', 'daech',
+    ];
+
+    /** Pseudo acceptable en salle (aucun mot de la liste ci-dessus) ? */
+    public static function nameAllowed(string $name): bool
+    {
+        $t = \Transliterator::create('Any-Latin; Latin-ASCII; Lower()');
+        $s = $t ? (string) $t->transliterate($name) : mb_strtolower($name);
+        $s = strtr($s, ['0' => 'o', '1' => 'i', '3' => 'e', '4' => 'a', '5' => 's', '7' => 't', '@' => 'a', '$' => 's', '!' => 'i', '€' => 'e']);
+        $words = preg_split('/[^a-z]+/', $s, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        $glued = implode('', $words);
+        // Lettres répétées réduites (« fuuuck », « connnard ») pour la recherche dans le texte collé.
+        $squeezed = (string) preg_replace('/(.)\1+/', '$1', $glued);
+        foreach (self::BANNED_ANY as $w) {
+            if (str_contains($glued, $w) || str_contains($squeezed, (string) preg_replace('/(.)\1+/', '$1', $w))) {
+                return false;
+            }
+        }
+        foreach ($words as $w) {
+            if (in_array($w, self::BANNED_WORD, true) || in_array((string) preg_replace('/(.)\1+/', '$1', $w), self::BANNED_WORD, true)) {
+                return false;
+            }
+        }
+        // Mot court écrit lettre par lettre (« p d », « f.d.p ») : lettres isolées recollées.
+        if (preg_match_all('/(?:^|[^a-z])([a-z])(?=[^a-z]|$)/', $s, $m) && count($m[1]) >= 2 && in_array(implode('', $m[1]), self::BANNED_WORD, true)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Rejoindre une partie. $cid : compte supporter (carnet) ouvert sur l'appareil, qui joue pour le
      * championnat sous son pseudo ; un même compte qui revient (autre appareil, page rechargée sans
      * jeton) reprend sa place. $claim : compte dont le lien vient d'être envoyé par e-mail ; la
      * partie lui sera rattachée quand il l'ouvrira sur cet appareil (voir claim()).
      * @return array{pid:string,tok:string,name:string}|string jeton du joueur, ou message d'erreur
      */
-    public static function join(string $code, string $name, ?string $cid = null, ?string $claim = null): array|string
+    public static function join(string $code, string $name, ?string $cid = null, ?string $claim = null, ?string $ip = null): array|string
     {
         $name = self::cleanName($name);
         if (mb_strlen($name) < 2) {
             return t('Choisissez un pseudo de 2 à 20 caractères.');
         }
+        if (!self::nameAllowed($name)) {
+            return t('Ce pseudo n’est pas accepté : choisissez-en un autre.');
+        }
         $pid = bin2hex(random_bytes(5));
         $tok = bin2hex(random_bytes(12));
         $err = null;
         $final = $name;
-        JsonStore::update(self::file($code), function ($g) use (&$pid, $tok, $name, $cid, $claim, &$err, &$final) {
+        JsonStore::update(self::file($code), function ($g) use (&$pid, $tok, $name, $cid, $claim, $ip, &$err, &$final) {
             if (!is_array($g)) {
                 $err = t('Cette partie n’existe pas ou est terminée.');
                 return $g;
@@ -274,8 +356,19 @@ final class QuizLive
                     }
                 }
             }
+            if (!empty($g['locked'])) {
+                $err = t('L’animateur a fermé les inscriptions à cette partie.');
+                return $g;
+            }
             if (count($g['players']) >= self::MAX_PLAYERS) {
                 $err = t('La partie est complète.');
+                return $g;
+            }
+            // Joueurs venus d'une même connexion : sans limite depuis celle du grand écran (la salle
+            // partage souvent une seule adresse), MAX_PER_IP depuis toute autre (4G, à distance).
+            if ($ip !== null && !in_array($ip, (array) ($g['hostIps'] ?? []), true)
+                && count(array_filter($g['players'], fn ($p) => ($p['ip'] ?? null) === $ip)) >= self::MAX_PER_IP) {
+                $err = t('Trop de joueurs depuis cette connexion pour cette partie.');
                 return $g;
             }
             $taken = array_map(fn ($p) => mb_strtolower($p['name']), $g['players']);
@@ -284,7 +377,7 @@ final class QuizLive
                 $final = mb_substr($name, 0, 17) . ' ' . $n++;
             }
             $g['players'][$pid] = ['name' => $final, 'score' => 0, 'tok' => hash('sha256', $tok), 'joined' => time()]
-                + ($cid !== null ? ['cid' => $cid] : []) + ($claim !== null ? ['claim' => $claim] : []);
+                + ($cid !== null ? ['cid' => $cid] : []) + ($claim !== null ? ['claim' => $claim] : []) + ($ip !== null ? ['ip' => $ip] : []);
             $g['v']++;
             return $g;
         });
@@ -372,7 +465,7 @@ final class QuizLive
         $q = $g['questions'][$i] ?? null;
         $ans = $g['answers'][(string) $i] ?? [];
         $out = ['v' => $g['v'], 'phase' => $phase, 'idx' => $i, 'n' => count($g['questions']), 'duration' => $g['duration'],
-            'players' => count($g['players'])];
+            'players' => count($g['players']), 'locked' => !empty($g['locked'])];
         if ($phase === 'lobby') {
             $out['names'] = array_values(array_map(fn ($pid, $p) => ['id' => (string) $pid, 'name' => $p['name'], 'm' => isset($p['cid'])], array_keys($g['players']), $g['players']));
             if (empty($g['friendly'])) {

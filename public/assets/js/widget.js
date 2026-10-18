@@ -32,17 +32,25 @@
     setInterval(upd, 15000);
   }
 
-  // Recherche : ouvre la recherche du musée dans un nouvel onglet (l'iframe du script
-  // d'intégration n'a pas le droit d'envoyer un formulaire, mais peut ouvrir un onglet).
+  // Recherche : ouvre la recherche du musée dans un nouvel onglet. L'iframe du script d'intégration
+  // (sandbox sans allow-forms) n'envoie aucun formulaire : le navigateur bloque l'envoi avant même
+  // l'évènement « submit ». On agit donc au clic du bouton et à la touche Entrée (avant l'envoi
+  // implicite), en ouvrant un onglet, ce que la sandbox permet (allow-popups).
   var sf = document.querySelector('[data-search]');
-  if (sf) sf.addEventListener('submit', function (e) {
-    var v = sf.querySelector('input').value.trim();
-    if (!v) return;
-    e.preventDefault();
-    var tpl = sf.getAttribute('data-search');
-    var enc = encodeURIComponent(v);
-    window.open(tpl.replace('__Q__', tpl.indexOf('/w/clic/') >= 0 ? encodeURIComponent(enc) : enc), '_blank', 'noopener');
-  });
+  if (sf) {
+    var sq = sf.querySelector('input');
+    var go = function (e) {
+      e.preventDefault();
+      var v = sq.value.trim();
+      if (!v) { sq.focus(); return; }
+      var tpl = sf.getAttribute('data-search');
+      var enc = encodeURIComponent(v);
+      window.open(tpl.replace('__Q__', tpl.indexOf('/w/clic/') >= 0 ? encodeURIComponent(enc) : enc), '_blank', 'noopener');
+    };
+    sf.querySelector('button').addEventListener('click', go);
+    sq.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.isComposing) go(e); });
+    sf.addEventListener('submit', go); // iframe sans sandbox (code iframe copié tel quel)
+  }
   // Boutique : la carte se retourne toutes les 5 s pour montrer l'objet suivant (pause au survol
   // ou au clavier ; mouvement réduit : simple fondu, voir le CSS du cadre).
   var flip = document.querySelector('[data-flip]');

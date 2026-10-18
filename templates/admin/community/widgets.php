@@ -104,7 +104,7 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
         . '<div data-check-out aria-live="polite"></div></div></details>';
     $optLabel = ['adversaire' => 'Adversaire (vide : celui de la playlist)', 'cat' => 'Classement', 'n' => 'Variante fixe (1, 2, 3… ; vide : change à chaque tour)', 'saison' => 'Saison (AAAA-AAAA)'];
 ?>
-<p class="alert alert--info" style="margin:0">Le <b>mode écran</b> affiche le musée en plein écran sur les écrans du stade, les télés d’une buvette ou une borne : de très gros caractères, des slides qui s’enchaînent seules, le logo du musée, la mention « non officiel » et l’adresse du musée toujours en bas. Une playlist est une suite de slides (les données des widgets, mises en page pour l’écran). Accès du mode écran (widget « Playlist écran ») : <b><?= e(Store::ACCESS[$S['access']]) ?></b> — <a href="/admin/widgets#w-playlist">modifier</a>. Réservé (par défaut) : l’adresse donnée à la régie contient la clé d’un partenaire.</p>
+<p class="alert alert--info" style="margin:0">Le <b>mode écran</b> affiche le musée en plein écran sur les écrans du stade, les télés d’une buvette ou une borne : de très gros caractères, des slides qui s’enchaînent seules, le logo du musée, la mention « non officiel » et l’adresse du musée toujours en bas. Une playlist est une suite de slides (les données des widgets, mises en page pour l’écran). Accès du mode écran (widget « Playlist écran ») : <b><?= e(Store::ACCESS[$S['access']]) ?></b> — <a href="/admin/widgets#w-playlist">modifier</a>. Réservé (par défaut) : l’adresse donnée à la régie contient la clé écran d’un partenaire (onglet Partenaires).</p>
 
 <datalist id="dl-clubs"><?php foreach ($S['clubs'] as $k => $l): ?><option value="<?= e((string) $k) ?>"><?= e($l) ?></option><?php endforeach; ?></datalist>
 <section class="card" id="lien-regie" data-screen-link="<?= e(json_encode(['base' => $base, 'partners' => $keys, 'playlists' => array_map(fn ($p) => ['format' => $p['format'], 'lang' => $p['lang'], 'adversaire' => $p['adversaire']], $S['all'])], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) ?>">
@@ -112,7 +112,7 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
   <div class="card__body stack">
     <div class="row">
       <label class="f" style="flex:1 1 180px"><span class="f__k">Playlist</span><select class="in" data-sl="id"><?php foreach ($S['all'] as $id => $p): ?><option value="<?= e($id) ?>"><?= e($p['name']) ?></option><?php endforeach; ?></select></label>
-      <label class="f" style="flex:1 1 220px"><span class="f__k">Partenaire (sa clé est ajoutée)</span><select class="in" data-sl="partner"><option value="">Aucun (accès libre seulement)</option><?php foreach ($keys as $k): ?><option value="<?= e($k['id']) ?>"<?= $k['status'] !== 'actif' ? ' disabled' : '' ?>><?= e($k['name']) ?><?= $k['status'] !== 'actif' ? ' (suspendu)' : '' ?></option><?php endforeach; ?></select></label>
+      <label class="f" style="flex:1 1 220px"><span class="f__k">Partenaire (sa clé écran est ajoutée)</span><select class="in" data-sl="partner"><option value="">Aucun (accès libre seulement)</option><?php foreach ($keys as $k): ?><option value="<?= e($k['id']) ?>"<?= $k['status'] !== 'actif' ? ' disabled' : '' ?>><?= e($k['name']) ?><?= $k['status'] !== 'actif' ? ' (suspendu)' : '' ?></option><?php endforeach; ?></select></label>
       <label class="f"><span class="f__k">Format</span><select class="in" data-sl="format"><option value="">Celui de la playlist</option><?php foreach (Playlists::FORMATS as $f => $l): ?><option value="<?= e($f) ?>"><?= e($l) ?></option><?php endforeach; ?></select></label>
       <label class="f"><span class="f__k">Langue</span><select class="in" data-sl="lang"><option value="">Celle de la playlist</option><option value="fr">Français</option><option value="en">Anglais</option></select></label>
       <label class="f" style="flex:1 1 220px"><span class="f__k">Adversaire du jour</span><input class="in" data-sl="adversaire" list="dl-clubs" maxlength="40" autocomplete="off" placeholder="Celui de la playlist — ou tapez un nom"></label>
@@ -122,7 +122,7 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
     <div class="row"><button type="button" class="btn btn--sm btn--navy" data-sl-copy>Copier l’adresse</button><a class="btn btn--sm" href="#" target="_blank" rel="noopener" data-sl-open>Aperçu plein écran ↗</a><span class="small muted" data-sl-warn></span></div>
     <p class="small muted" style="margin:0"><b>Adversaire du jour</b> : choisissez dans la liste un club déjà affronté, ou tapez le nom de n’importe quel club en toutes lettres (« Paris FC ») : s’il n’a jamais été affronté, la slide « Histoire du duel » devient « Première rencontre ». Vérifiez avec le <b>Contrôle</b> ci-dessous avant de donner l’adresse.</p>
     <?= $controle('sl') ?>
-    <p class="small muted" style="margin:0">Une clé limitée à des domaines fonctionne aussi pour l’écran (une page ouverte directement n’a pas de site d’origine) : préférez une clé propre à la régie, à régénérer si l’adresse circule. La page se recharge seule (selon la playlist, toutes les 30 minutes par défaut) et continue de tourner pendant une coupure de réseau.</p>
+    <p class="small muted" style="margin:0">L’adresse contient la <b>clé écran</b> du partenaire (secrète, onglet Partenaires), jamais sa clé publique : à régénérer si l’adresse circule. La page se recharge seule (selon la playlist, toutes les 30 minutes par défaut) et continue de tourner pendant une coupure de réseau.</p>
   </div>
 </section>
 
@@ -219,15 +219,16 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
 
 <?php elseif ($tab === 'partenaires'): ?>
 <p class="alert alert--info" style="margin:0">Chaque partenaire reçoit une clé, à ajouter au code (<code>?key=…</code>) ou à envoyer dans l’en-tête <code>X-Musee-Key</code>. Avec des <b>domaines autorisés</b>, la clé ne fonctionne que sur ces sites (et leurs sous-domaines) ; sans domaine, elle fonctionne partout, y compris depuis un serveur. <b>Suspendu</b> : la clé est refusée. <b>Offre payante</b> en cours (échéance non dépassée) : nécessaire pour les widgets « payants » ; aucun paiement en ligne pour l’instant, l’offre se règle à la main ici.</p>
+<p class="alert alert--info" style="margin:0">La <b>clé écran</b> ouvre le mode écran (<code>/ecran/…?key=ek_…</code>) : elle reste secrète, donnée seulement à la régie (la clé partenaire, elle, figure dans le code des widgets posé sur les sites, donc visible de tous). Les partenaires créés avant les clés écran ouvrent encore les écrans avec leur clé partenaire jusqu’au <?= e(date('d/m/Y', strtotime(Store::SCREEN_LEGACY_UNTIL))) ?> : créez leur clé écran et donnez la nouvelle adresse à la régie.</p>
 <?php if ($newKey): ?>
   <div class="card" style="border-color:var(--yellow)"><div class="card__body stack">
-    <p style="margin:0"><b>Clé de « <?= e((string) ($partners[$newKey['id']]['name'] ?? '')) ?> »</b> à transmettre au partenaire :</p>
+    <p style="margin:0"><b><?= !empty($newKey['screen']) ? 'Clé écran' : 'Clé' ?> de « <?= e((string) ($partners[$newKey['id']]['name'] ?? '')) ?> »</b> <?= !empty($newKey['screen']) ? 'à donner à la régie seulement (adresse d’écran : onglet Écrans)' : 'à transmettre au partenaire' ?> :</p>
     <div class="row"><input class="in mono" readonly value="<?= e((string) $newKey['key']) ?>" id="newkey" style="flex:1"><button type="button" class="btn btn--sm btn--navy" data-copy-input="newkey">Copier</button></div>
   </div></div>
 <?php endif; ?>
 <div class="cols cols--wide" style="align-items:start">
-  <div class="table"><table><thead><tr><th>Partenaire</th><th>Domaines</th><th>Statut</th><th>Offre</th><th>Clé</th><th></th></tr></thead><tbody>
-    <?php if (!$partners): ?><tr><td colspan="6" class="muted">Aucun partenaire pour l’instant.</td></tr><?php endif; ?>
+  <div class="table"><table><thead><tr><th>Partenaire</th><th>Domaines</th><th>Statut</th><th>Offre</th><th>Clé</th><th>Clé écran</th><th></th></tr></thead><tbody>
+    <?php if (!$partners): ?><tr><td colspan="7" class="muted">Aucun partenaire pour l’instant.</td></tr><?php endif; ?>
     <?php foreach ($partners as $id => $p): ?>
     <tr id="p-<?= e($id) ?>">
       <td><b><?= e($p['name']) ?></b><?php if ($p['contact'] !== ''): ?><br><small class="muted"><?= e($p['contact']) ?></small><?php endif; ?></td>
@@ -235,8 +236,10 @@ $pname = fn (string $id) => $id === 'libre' ? 'Sans clé (widgets libres)' : (st
       <td><?= $p['status'] === 'actif' ? 'Actif' : '<b style="color:var(--red)">Suspendu</b>' ?></td>
       <td class="small"><?= $p['offer'] === 'payante' ? 'Payante' . ($p['until'] !== '' ? ' jusqu’au ' . e(date('d/m/Y', strtotime($p['until']))) : '') . (Store::paid($p) ? '' : ' <b style="color:var(--red)">(échue)</b>') : 'Gratuite' ?></td>
       <td class="small mono">…<?= e((string) ($p['key_end'] ?? '')) ?></td>
+      <td class="small"><?php if (!empty($p['screen_end'])): ?><span class="mono">…<?= e((string) $p['screen_end']) ?></span><?php elseif (Store::screenLegacy($p)): ?><b style="color:var(--red)">à créer</b><br><small class="muted">écrans ouverts avec la clé publique jusqu’au <?= e(date('d/m/Y', strtotime(Store::SCREEN_LEGACY_UNTIL))) ?></small><?php else: ?><b style="color:var(--red)">à créer</b><br><small class="muted">écrans fermés</small><?php endif; ?></td>
       <td class="row" style="flex-wrap:nowrap">
         <a class="btn btn--sm" href="/admin/widgets?onglet=partenaires&amp;partenaire=<?= e($id) ?>#formulaire">Modifier</a>
+        <form method="post" action="/admin/widgets" data-confirm="<?= !empty($p['screen_end']) ? 'Nouvelle clé écran ?|Les écrans de « ' . e($p['name']) . ' » ouverts avec l’ancienne clé s’arrêteront : donnez la nouvelle adresse à la régie.|Créer' : 'Créer la clé écran ?|Les écrans de « ' . e($p['name']) . ' » ouverts avec la clé publique s’arrêteront : donnez la nouvelle adresse à la régie.|Créer' ?>"><?= csrf_field() ?><input type="hidden" name="action" value="cle-ecran"><input type="hidden" name="id" value="<?= e($id) ?>"><button class="btn btn--sm">Clé écran</button></form>
         <form method="post" action="/admin/widgets" data-confirm="Régénérer la clé ?|L’ancienne clé cessera aussitôt de fonctionner chez « <?= e($p['name']) ?> ».|Régénérer"><?= csrf_field() ?><input type="hidden" name="action" value="cle"><input type="hidden" name="id" value="<?= e($id) ?>"><button class="btn btn--sm">Nouvelle clé</button></form>
         <form method="post" action="/admin/widgets" data-confirm="Supprimer ce partenaire ?|Sa clé ne fonctionnera plus. Ses statistiques passées restent.|Supprimer"><?= csrf_field() ?><input type="hidden" name="action" value="supprimer"><input type="hidden" name="id" value="<?= e($id) ?>"><button class="btn btn--sm btn--danger">Supprimer</button></form>
       </td>

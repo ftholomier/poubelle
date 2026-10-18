@@ -229,9 +229,28 @@ function safe_html(?string $html): string
     $html = preg_replace('#</?(script|style|iframe|frame|frameset|object|embed|applet|form|input|button|select|textarea|meta|link|base|svg|math|template|noscript)\b[^>]*>#i', '', $html);
     // Attributs d'événement, y compris collés au nom de balise ou à un autre attribut (« <a/onclick=… », « "onclick=… »).
     $html = preg_replace('/(?<=[\s\/"\'])on[a-z]+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $html);
+    // Adresses : décodées comme le ferait le navigateur (entités répétées, « &#106 » sans point-virgule,
+    // blancs et caractères de contrôle retirés), puis seuls http(s):, mailto:, tel: (et les images
+    // data: pour src) passent ; une adresse sans protocole (« / », « # », relative) reste permise.
     $html = preg_replace_callback('/\b(href|src|action|formaction|xlink:href)\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', function ($m) {
-        $v = strtolower(preg_replace('/[\s\x00-\x1f]+/', '', html_entity_decode(trim($m[2], '"\''), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
-        return preg_match('#^(javascript|vbscript|data):#', $v) && !preg_match('#^data:image/(png|jpe?g|gif|webp);#', $v) ? $m[1] . '="#"' : $m[0];
+        $v = trim($m[2], '"\'');
+        for ($i = 0; $i < 5; $i++) {
+            $prev = $v;
+            $v = (string) preg_replace_callback('/&#(x[0-9a-f]+|\d+);?/i', function ($e) {
+                $n = $e[1][0] === 'x' || $e[1][0] === 'X' ? hexdec(substr($e[1], 1)) : (int) $e[1];
+                return $n > 0 && $n < 0x110000 ? mb_chr((int) $n, 'UTF-8') : '';
+            }, $v);
+            $v = html_entity_decode($v, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            if ($v === $prev) {
+                break;
+            }
+        }
+        $v = strtolower((string) preg_replace('/[\s\x00-\x20\x7f]+|\p{C}+/u', '', $v));
+        if (!preg_match('#^[a-z][a-z0-9+.\-]*:#', $v)) {
+            return $m[0]; // pas de protocole : « / », « # », « ? » ou adresse relative
+        }
+        $ok = preg_match('#^(https?|mailto|tel):#', $v) || (strtolower($m[1]) === 'src' && preg_match('#^data:image/(png|jpe?g|gif|webp);#', $v));
+        return $ok ? $m[0] : $m[1] . '="#"';
     }, $html);
     // Liens internes absolus de l'ancien site → relatifs ; images de l'ancien site → médiathèque.
     $html = str_replace(['https://www.fcsochauxretro.com/', 'http://www.fcsochauxretro.com/'], '/', $html);
@@ -284,7 +303,12 @@ function tweets_by_minute(string $html): array
                 continue;
             }
             $before = strip_tags(substr($html, max(0, $pos - 600), min(600, $pos)));
-            $min = preg_match_all("/(\d{1,3}(?:\s*\+\s*\d+)?)\s*(?:'|’|e\s*min)/u", $before, $mm) ? preg_replace('/\s+/', '', end($mm[1])) : '';
+            // « 90'+2 » (temps additionnel après l'apostrophe), « 90+2' », « 52' » ou « 52e min ».
+            $min = '';
+            if (preg_match_all("/(\d{1,3})(?:\s*['’]\s*(\+\s*\d+)|\s*(\+\s*\d+)?\s*(?:['’]|e\s*min))/u", $before, $mm, PREG_SET_ORDER)) {
+                $last = end($mm);
+                $min = (string) preg_replace('/\s+/', '', $last[1] . (($last[2] ?? '') ?: ($last[3] ?? '')));
+            }
             $out[] = ['min' => (string) $min, 'id' => $id];
         }
     }
@@ -387,6 +411,16 @@ function base_url(): string
     }
     $https = ($_SERVER['HTTPS'] ?? '') === 'on' || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https';
     return ($https ? 'https://' : 'http://') . $host;
+}
+
+/**
+ * Adresse du site pour un lien envoyé par e-mail : seulement le réglage (Réglages › Général),
+ * jamais l'en-tête « Host » de la requête (un tiers pourrait détourner le lien vers son site).
+ * Chaîne vide si l'adresse n'est pas réglée : l'appelant n'envoie alors pas le lien.
+ */
+function mail_base_url(): string
+{
+    return rtrim((string) Settings::get('general.base_url', ''), '/');
 }
 
 /** « Compétition · tour » sans répétition (un match amical a pour tour « Amical »). */

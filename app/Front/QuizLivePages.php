@@ -60,8 +60,9 @@ final class QuizLivePages
             'stats' => QuizChampionship::stats($board), 'league' => $league, 'account' => (bool) $c, 'welcome' => isset($req->query['bienvenue']),
             'me' => $me ? ['id' => $c['id'], 'pseudo' => $me['pseudo'], 'rank' => QuizChampionship::rankOf($c['id'], $board), 'ok' => QuizChampionship::confirmed($c['id'])] : null,
         ], [
-            'title' => t('Championnat du club-house {s}', ['s' => $season]),
-            'description' => t('Le classement des soirées quiz du club-house : chaque partie rapporte des points selon votre rang.'),
+            // Titre selon l'onglet : soirées du club-house ou soirées entre amis.
+            'title' => $league === 'amis' ? t('Quiz entre amis : classement {s}', ['s' => $season]) : t('Championnat du club-house {s}', ['s' => $season]),
+            'description' => $league === 'amis' ? t('Le classement des soirées quiz entre amis : chaque partie rapporte des points selon votre rang.') : t('Le classement des soirées quiz du club-house : chaque partie rapporte des points selon votre rang.'),
             'active' => 'interactif', 'body_class' => 'page-quizchamp', 'no_cookie' => true,
             'styles' => ['css/mosaic.css', 'css/interactif.css', 'css/carnet.css', 'css/quizlive.css'], 'scripts' => ['js/quizchamp.js'],
         ]);
@@ -94,11 +95,17 @@ final class QuizLivePages
         $action = (string) ($in['action'] ?? '');
         $g = QuizLive::get($code);
         // Écran de l'animateur : toutes ses actions portent la clé secrète de la partie.
-        if (in_array($action, ['ecran', 'suivant', 'retirer'], true)) {
+        if (in_array($action, ['ecran', 'suivant', 'retirer', 'verrouiller'], true)) {
             if (!QuizLive::isHost($g, (string) ($in['key'] ?? ''))) {
                 return Response::json(['error' => t('Ressource introuvable')], 404);
             }
-            if ($action === 'suivant') {
+            // Connexion de la salle (celle du grand écran) : ses joueurs ne sont pas limités par adresse.
+            QuizLive::hostSeen($code, ip_hash($req->ip()));
+            if ($action === 'verrouiller') {
+                // Inscriptions fermées (ou rouvertes) par l'animateur.
+                QuizLive::setLocked($code, !empty($in['locked']));
+                $g = QuizLive::get($code) ?? $g;
+            } elseif ($action === 'suivant') {
                 $g = QuizLive::next($code) ?? $g;
             } elseif ($action === 'retirer') {
                 QuizLive::kick($code, (string) ($in['pid'] ?? ''));
@@ -131,6 +138,7 @@ final class QuizLivePages
             $email = trim((string) ($in['email'] ?? ''));
             $c = Carnet::current();
             $guest = !empty($in['guest']);
+            $ip = ip_hash($req->ip()); // joueurs par connexion et par partie (QuizLive::MAX_PER_IP)
             $mailed = null;
             if ($c && !$guest) {
                 // Compte ouvert sur ce téléphone : il joue sous son pseudo du championnat.
@@ -138,16 +146,22 @@ final class QuizLivePages
                 if (!$p && ($err = QuizChampionship::setPseudo($c['id'], $name))) {
                     return Response::json(['error' => $err], 422);
                 }
-                $r = QuizLive::join($code, (string) QuizChampionship::player($c['id'])['pseudo'], $c['id']);
+                $r = QuizLive::join($code, (string) QuizChampionship::player($c['id'])['pseudo'], $c['id'], null, $ip);
             } elseif (!$c && $email !== '' && !$guest) {
+                if (!QuizLive::nameAllowed(QuizLive::cleanName($name))) {
+                    return Response::json(['error' => t('Ce pseudo n’est pas accepté : choisissez-en un autre.')], 422);
+                }
+                if (!empty($g['locked'])) {
+                    return Response::json(['error' => t('L’animateur a fermé les inscriptions à cette partie.')], 422);
+                }
                 $acc = self::account($req, $email, $name, $code);
                 if (isset($acc['error'])) {
                     return Response::json(['error' => $acc['error']], $acc['status']);
                 }
                 $mailed = $acc['mailed'];
-                $r = $acc['cid'] !== null ? QuizLive::join($code, $acc['pseudo'], $acc['cid']) : QuizLive::join($code, $name, null, $acc['claim']);
+                $r = $acc['cid'] !== null ? QuizLive::join($code, $acc['pseudo'], $acc['cid'], null, $ip) : QuizLive::join($code, $name, null, $acc['claim'], $ip);
             } else {
-                $r = QuizLive::join($code, $name);
+                $r = QuizLive::join($code, $name, null, null, $ip);
             }
             if (is_string($r)) {
                 return Response::json(['error' => $r], 422);
@@ -217,6 +231,9 @@ final class QuizLivePages
             if (mb_strlen($pseudo) < 2) {
                 return ['error' => t('Choisissez un pseudo de 2 à 20 caractères.'), 'status' => 422];
             }
+            if (!QuizLive::nameAllowed($pseudo)) {
+                return ['error' => t('Ce pseudo n’est pas accepté : choisissez-en un autre.'), 'status' => 422];
+            }
             if (!QuizChampionship::free($pseudo)) {
                 return ['error' => t('Ce pseudo est déjà pris au championnat : choisissez-en un autre.'), 'status' => 422];
             }
@@ -224,7 +241,7 @@ final class QuizLivePages
             if (!$r['existing'] && $r['credential']) {
                 CarnetPages::setCookie($r['credential']);
                 QuizChampionship::setPseudo($r['carnet']['id'], $pseudo);
-                Carnet::sendLink($r['carnet'], $r['credential'], $quiz);
+                Carnet::sendLink($r['carnet'], (string) $r['link'], $quiz);
                 return ['cid' => $r['carnet']['id'], 'claim' => null, 'pseudo' => $pseudo, 'mailed' => true];
             }
             $known = $r['carnet'];

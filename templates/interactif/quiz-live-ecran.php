@@ -9,6 +9,7 @@ $i18n = [
     'pts' => t('{n} pts'), 'kick' => t('Retirer {p} de la partie ?'), 'finished' => t('Merci d’avoir joué !'),
     'champTitle' => (($g['league'] ?? '') === 'amis' ? t('Classement entre amis {s}', ['s' => \App\Services\QuizChampionship::season((int) $g['created'])]) : t('Championnat {s}', ['s' => \App\Services\QuizChampionship::season((int) $g['created'])])), 'champBtn' => t('Le championnat'), 'podiumBtn' => t('Le podium'),
     'champNew' => t('entrée'), 'notCounted' => t('Partie amicale : elle ne compte pas au championnat.'),
+    'lock' => t('Fermer les inscriptions'), 'unlock' => t('Rouvrir les inscriptions'), 'locked' => t('Inscriptions fermées'),
     'kinds' => ['quiz' => t('Histoire du club'), 'score' => t('Le score'), 'year' => t('L’année'), 'opp' => t('L’adversaire'), 'scorer' => t('Le buteur')],
 ];
 ?><!DOCTYPE html>
@@ -76,6 +77,8 @@ $i18n = [
 </main>
 <footer class="qls__foot">
   <span class="qls__hint"><?= e(t('Barre d’espace : étape suivante')) ?></span>
+  <?php /* L'animateur ferme les inscriptions (personne d'autre ne peut plus rejoindre la partie). */ ?>
+  <button type="button" class="qbtn" data-qls-lock style="background:transparent;color:inherit;box-shadow:none;border:2px solid currentColor;font-size:.7em"><?= e(t('Fermer les inscriptions')) ?></button>
   <button type="button" class="qbtn" data-qls-next><?= e(t('Lancer le quiz')) ?></button>
 </footer>
 <script src="<?= asset('js/quizlive-ecran.js') ?>" defer></script>

@@ -252,15 +252,20 @@ try {
     $last = \App\Front\Site::lastMatchCreated();
     $def = $d3('histoire-du-duel');
     $ok($def !== null && ($last && isset($clubs[$last['club'] ?? '']) ? $def['club'] === $last['club'] : true), 'histoire du duel : par défaut, l’adversaire du dernier match fiché');
+    // Texte libre (nom de club jamais affronté, titre) : seulement avec une clé partenaire.
+    $txt = Store::savePartner(null, ['name' => 'Essai texte libre', 'status' => 'actif', 'offer' => 'gratuite']);
+    $txtKey = Store::keyOf($txt);
+    $anon = $d3('histoire-du-duel', ['adversaire' => 'Club Inexistant XYZ']);
+    $ok($anon !== null && empty($anon['first_meeting']) && $anon['club'] === $def['club'] && !str_contains($g3('/w/histoire-du-duel', ['adversaire' => 'Club Injurieux'])->body, 'Club Injurieux'), 'histoire du duel sans clé : nom libre ignoré (adversaire automatique), jamais affiché');
     // Adversaire jamais affronté : version « Première rencontre », jamais le bilan du dernier adversaire.
-    $neuf = $d3('histoire-du-duel', ['adversaire' => 'Club Inexistant XYZ']);
+    $neuf = $d3('histoire-du-duel', ['adversaire' => 'Club Inexistant XYZ', 'key' => $txtKey]);
     $ok($neuf !== null && $neuf['first_meeting'] === true && $neuf['club'] === null && $neuf['opponent'] === 'Club Inexistant XYZ' && ($neuf['club'] ?? '') !== $def['club'] && !isset($neuf['last']), 'histoire du duel : adversaire jamais affronté → « Première rencontre », jamais l’adversaire du dernier match');
     $ok($neuf['rank'] === count(array_filter(\App\Data\Derived::part('clubs'), fn ($x) => $x['count'] > 0)) + (isset($clubs[$self]) ? 0 : 1) && $neuf['firsts']['total'] > 0 && ($neuf['latest_first'] === null || $neuf['latest_first']['date'] !== ''), 'première rencontre : rang du nouvel adversaire, bilan des premières rencontres (' . $neuf['firsts']['total'] . '), dernière première rencontre');
-    $slug = $d3('histoire-du-duel', ['adversaire' => 'club-inexistant-xyz']);
+    $slug = $d3('histoire-du-duel', ['adversaire' => 'club-inexistant-xyz', 'key' => $txtKey]);
     $ok($slug['first_meeting'] === true && $slug['opponent'] === 'Club Inexistant Xyz', 'histoire du duel : adresse inconnue (« club-inexistant-xyz ») → première rencontre, nom lisible');
     $ok($d3('histoire-du-duel', ['adversaire' => $self]) === null || $d3('histoire-du-duel', ['adversaire' => $self])['club'] !== $self, 'histoire du duel : le club lui-même n’est jamais son propre adversaire');
     $ok($d3('histoire-du-duel', ['adversaire' => '"><script>alert(1)</script>'])['club'] === $def['club'], 'histoire du duel : saisie invalide (balises) → adversaire automatique');
-    $fw = $g3('/w/histoire-du-duel', ['adversaire' => 'Saint-Ouen & l\'Étoile'])->body;
+    $fw = $g3('/w/histoire-du-duel', ['adversaire' => 'Saint-Ouen & l\'Étoile', 'key' => $txtKey])->body;
     $ok(str_contains($fw, 'Première rencontre') && str_contains($fw, 'Saint-Ouen &amp; l&#039;Étoile') && !str_contains($fw, 'Saint-Ouen & l\'Étoile'), 'histoire du duel : nom libre échappé dans le widget');
     $ok(\App\Widgets\Items\HistoireDuDuel::cleanName(str_repeat('a', 41)) === null && \App\Widgets\Items\HistoireDuDuel::cleanName('  Paris   FC ') === 'Paris FC' && \App\Widgets\Items\HistoireDuDuel::cleanName('12') === null, 'nom libre : longueur bornée, espaces resserrés, au moins une lettre');
     // Doublons regroupés (alias du référentiel) : l'ancienne clé mène au club regroupé.
@@ -284,8 +289,16 @@ try {
 
     // Compte à rebours : date choisie, sinon centenaire (s'il est mis en avant), sinon fondation.
     $future = date('Y-m-d', strtotime('+40 days'));
-    $d = $d3('compte-a-rebours', ['date' => $future, 'titre' => 'Jubilé']);
-    $ok($d['date'] === $future && $d['title'] === 'Jubilé' && $d['days'] === 40, 'compte à rebours : date et titre choisis (J-40)');
+    $d = $d3('compte-a-rebours', ['date' => $future, 'titre' => 'Jubilé', 'key' => $txtKey]);
+    $ok($d['date'] === $future && $d['title'] === 'Jubilé' && $d['days'] === 40, 'compte à rebours : date et titre choisis (J-40, avec clé partenaire)');
+    $d = $d3('compte-a-rebours', ['date' => $future, 'titre' => 'Texte injurieux']);
+    $ok($d['date'] === $future && $d['title'] === 'Le grand jour' && !str_contains($g3('/w/compte-a-rebours', ['date' => $future, 'titre' => 'Texte injurieux'])->body, 'injurieux'), 'compte à rebours sans clé : date gardée, titre libre remplacé par le titre par défaut');
+    // Variantes à texte libre ou date libre : jamais gardées dans le cache des widgets (disque).
+    $before = count(glob($tmp . '/cache/compte-a-rebours-*.json') ?: []);
+    $d3('compte-a-rebours', ['date' => date('Y-m-d', strtotime('+41 days')), 'titre' => 'Autre', 'key' => $txtKey]);
+    $d3('histoire-du-duel', ['adversaire' => 'Club Jamais Vu ' . random_int(1, 999), 'key' => $txtKey]);
+    $ok(count(glob($tmp . '/cache/compte-a-rebours-*.json') ?: []) === $before && ($g3('/w/compte-a-rebours', ['date' => $future])->headers['Cache-Control'] ?? '') === 'no-store', 'cache des widgets : date ou titre libre jamais gardés (no-store)');
+    Store::deletePartner($txt['id']);
     $d = $d3('compte-a-rebours', ['date' => '2001-01-01']);
     $ok($d['date'] > date('Y-m-d') && (\App\Front\Site::centenaryCountdown() ? $d['date'] === \App\Front\Site::centenaryDate() : str_ends_with($d['date'], substr((string) \App\Core\Club::s('founded_date'), 4))), 'compte à rebours : date passée → ' . (\App\Front\Site::centenaryCountdown() ? 'centenaire' : 'anniversaire de la fondation'));
     $ok(str_contains($g3('/w/compte-a-rebours')->body, 'data-countdown='), 'compte à rebours : décompte animé dans le widget');
@@ -407,7 +420,9 @@ try {
     $ok(!array_diff(['photo', 'frise', 'records'], array_column($presets['buvette']['slides'], 'type')), 'écrans : la buvette a photos, frise, records');
 
     $scr = Store::savePartner(null, ['name' => 'Régie essai', 'domains' => 'stade-essai.fr', 'status' => 'actif', 'offer' => 'gratuite']);
-    $scrKey = Store::keyOf($scr);
+    // Mode écran : clé écran (secrète), distincte de la clé partenaire (publique).
+    $scrKey = Store::screenKeyOf($scr);
+    $ok(str_starts_with($scrKey, 'ek_') && $scrKey !== Store::keyOf($scr) && $g3('/ecran/avant-match', ['key' => Store::keyOf($scr)])->status === 401, 'écran : clé écran distincte, la clé publique du partenaire refusée');
     $r = $g3('/ecran/avant-match');
     $ok($r->status === 401 && str_contains($r->body, 'clé requise') && str_contains($r->body, 'non officiel') && str_contains($r->body, 'ec-foot'), 'écran réservé sans clé : 401, message plein écran aux couleurs du musée');
     $r = $g3('/ecran/avant-match', ['key' => $scrKey, 'adversaire' => $opp]);
@@ -724,7 +739,8 @@ try {
         $loc = $get('/w/clic/photo-du-jour/', ['to' => $evil])->headers['Location'] ?? '';
         $ok(str_starts_with($loc, '/?utm_source=widget'), 'clic : pas de redirection hors du musée (' . $evil . ')');
     }
-    $stats = (string) file_get_contents($tmp . '/stats/' . date('Y-m-d') . '.json');
+    // Journal du jour (ajout en fin de fichier) et compteurs déjà regroupés.
+    $stats = (string) @file_get_contents($tmp . '/stats/' . date('Y-m-d') . '.log') . (string) @file_get_contents($tmp . '/stats/' . date('Y-m-d') . '.json');
     $ok(!str_contains($stats, $ip) && !str_contains($stats, 'Mozilla'), 'statistiques sans adresse IP ni navigateur');
 
     // ------------------------------------------------------------------ anti-aspiration et débit

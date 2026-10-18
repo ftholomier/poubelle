@@ -153,8 +153,15 @@ final class Pages
         $fold = fn (string $line) => rtrim(chunk_split($line, 73, "\r\n "), "\r\n ");
         $out = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Sochaux Retro//Agenda//FR', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', $fold('X-WR-CALNAME:' . $esc(Site::name() . ' · Agenda')), 'X-WR-TIMEZONE:Europe/Paris'];
         foreach (Content::events() as $e) {
-            $start = strtotime($e['start']);
-            $end = $e['end'] !== '' ? strtotime($e['end']) : $start + 2 * 3600;
+            // Date illisible (saisie abîmée) : l'événement est sauté plutôt que d'arrêter tout l'agenda.
+            $start = strtotime((string) ($e['start'] ?? ''));
+            if ($start === false) {
+                continue;
+            }
+            $end = ($e['end'] ?? '') !== '' ? strtotime((string) $e['end']) : false;
+            if ($end === false || $end < $start) {
+                $end = $start + 2 * 3600;
+            }
             $url = $e['kind'] === 'asso' ? Host::abs('/agenda/' . $e['slug'] . '/') : (preg_match('#^https?://#', (string) ($e['href'] ?? '')) ? $e['href'] : Host::abs((string) ($e['href'] ?? '/agenda/')));
             $out[] = 'BEGIN:VEVENT';
             $out[] = 'UID:' . $e['slug'] . '@' . Host::host();

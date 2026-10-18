@@ -34,7 +34,8 @@
     f.src = origin + '/w/' + key + (q.length ? '?' + q.join('&') : '');
     f.title = el.getAttribute('data-title') || 'Widget du musée : ' + key;
     // Scripts du widget (hauteur, quiz) et liens vers le musée dans un nouvel onglet ; ni
-    // formulaire, ni navigation de la page du partenaire, ni fenêtre modale.
+    // formulaire (la recherche ouvre son onglet en JS, voir js/widget.js), ni navigation de la
+    // page du partenaire, ni fenêtre modale.
     f.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox');
     f.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
     f.setAttribute('credentialless', '');

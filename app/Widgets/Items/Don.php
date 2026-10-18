@@ -124,9 +124,18 @@ final class Don extends Widget
             'title' => $c->tr('Faire un don', 'Donate'),
             'text' => $c->tr('Le musée vit de bénévolat et de dons : chaque euro aide à numériser et partager les archives du club.', 'The museum runs on volunteers and donations: every euro helps digitise and share the club’s archives.'),
             'amounts' => $amounts,
-            'qr' => ($opt['qr'] ?? 'oui') === 'oui' ? self::qrUrl($c) : null,
+            // Adresse du QR code calculée après le cache (personalize) : elle porte le partenaire.
+            'qr' => ($opt['qr'] ?? 'oui') === 'oui' ? true : null,
             'href' => self::external() ?? self::PATH,
         ];
+    }
+
+    public function personalize(array $d, Context $c): array
+    {
+        if (!empty($d['qr'])) {
+            $d['qr'] = self::qrUrl($c);
+        }
+        return $d;
     }
 
     public static function euros(int $n, Context $c): string

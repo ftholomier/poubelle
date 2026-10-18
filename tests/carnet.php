@@ -36,7 +36,8 @@ $cred2 = C::newCredential($id);
 $eq('nouveau lien (autre appareil) : les deux marchent', [C::open($cred2)['id'] ?? null, C::open($r['credential'])['id'] ?? null], [$id, $id]);
 $eq('carnet retrouvé par e-mail', C::byEmail('SUPPORTER@example.org')['id'] ?? null, $id);
 $cred3 = C::newCredential($id); // lien envoyé, pas encore ouvert
-$eq('autres accès comptés (appareils et liens envoyés)', C::otherAccess(C::get($id)), 2);
+// Cet appareil + lien envoyé à la création + deux nouveaux liens : trois autres accès.
+$eq('autres accès comptés (appareils et liens envoyés)', C::otherAccess(C::get($id)), 3);
 $mine = C::logoutOthers($id);
 $eq('déconnecter les autres : ancien cookie, autre appareil et lien envoyé coupés, cet appareil gardé',
     [C::open($r['credential']), C::open($cred2), C::open($cred3), C::open((string) $mine)['id'] ?? null, C::otherAccess(C::get($id))], [null, null, null, $id, 0]);

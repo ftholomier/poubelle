@@ -58,10 +58,18 @@ final class Photos
         return $out;
     }
 
-    /** Licence qui permet la diffusion ailleurs (avec crédit). */
+    /**
+     * Licence qui permet la diffusion ailleurs (avec crédit). Jamais une licence « NC » (pas
+     * d'utilisation commerciale : CC BY-NC, BY-NC-SA, BY-NC-ND) : les widgets s'affichent aussi sur
+     * des sites commerciaux (partenaires, régies de stade).
+     */
     public static function freeLicense(string $license): bool
     {
-        return (bool) preg_match('/^(CC[\s-]?(BY|0|ZERO)|CC0|Domaine public|Public domain|PD\b)/i', trim($license));
+        $l = trim($license);
+        if (preg_match('/(^|[\s\-_\/])NC([\s\-_\/.]|$)|non[\s-]?commercial/i', $l)) {
+            return false;
+        }
+        return (bool) preg_match('/^(CC[\s-]?(BY|0|ZERO)|CC0|Domaine public|Public domain|PD\b)/i', $l);
     }
 
     /** Crédit au nom du club lui-même (photo officielle) ? */

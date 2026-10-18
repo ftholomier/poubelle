@@ -29,6 +29,8 @@ final class RetroRadio
     /** Essais : rédaction (fn(string $system, string $user): string JSON) et voix (fn(string $text): array{pcm,rate}). */
     public static ?\Closure $writer = null;
     public static ?\Closure $speaker = null;
+    /** Secondes d'attente au plus pour le verrou de fabrication dans request() et delete() (essais : moins). */
+    public static float $lockWait = 90.0;
 
     public const MAX_SEGMENTS = 75;
     /**
@@ -143,20 +145,61 @@ final class RetroRadio
     public static function request(int $id, string $lang, ?string $voice = null): void
     {
         $lang = in_array($lang, self::LANGS, true) ? $lang : 'fr';
-        self::delete($id, $lang);
-        JsonStore::write(self::file($id, $lang), ['id' => $id, 'lang' => $lang, 'voice' => isset(self::VOICES[(string) $voice]) ? $voice : self::voice(),
-            'requested' => date('c'), 'script' => [], 'sig' => '', 'at' => date('c')]);
+        $lock = self::workLock($id, $lang);
+        try {
+            self::erase($id, $lang);
+            JsonStore::write(self::file($id, $lang), ['id' => $id, 'lang' => $lang, 'voice' => isset(self::VOICES[(string) $voice]) ? $voice : self::voice(),
+                'requested' => date('c'), 'script' => [], 'sig' => '', 'at' => date('c')]);
+        } finally {
+            flock($lock, LOCK_UN);
+            fclose($lock);
+        }
     }
 
     /** Efface le commentaire (fichier d'état et MP3). */
     public static function delete(int $id, string $lang): void
+    {
+        $lock = self::workLock($id, $lang);
+        try {
+            self::erase($id, $lang);
+        } finally {
+            flock($lock, LOCK_UN);
+            fclose($lock);
+        }
+    }
+
+    /**
+     * Verrou de fabrication (« .work ») pris par request() et delete() : ils attendent la fin de
+     * l'étape en cours (une demande à l'IA, une voix) au lieu d'effacer sous ses pieds. Le fichier
+     * « .work » n'est jamais effacé : un verrou supprimé pendant qu'il est tenu laisserait une
+     * seconde fabrication démarrer sur un nouveau fichier, en parallèle de la première.
+     * @return resource
+     */
+    private static function workLock(int $id, string $lang)
+    {
+        @mkdir(self::$dir, 0775, true);
+        $lock = fopen(self::file($id, $lang) . '.work', 'c');
+        if (!$lock) {
+            throw new \RuntimeException('Verrou du commentaire radio impossible à ouvrir.');
+        }
+        $until = microtime(true) + self::$lockWait;
+        while (!flock($lock, LOCK_EX | LOCK_NB)) {
+            if (microtime(true) >= $until) {
+                fclose($lock);
+                throw new \RuntimeException('Le commentaire radio est en cours de fabrication : réessayez dans une minute.');
+            }
+            usleep(200000);
+        }
+        return $lock;
+    }
+
+    private static function erase(int $id, string $lang): void
     {
         foreach (glob(self::$media . '/radio/' . $id . '-' . $lang . '-*') ?: [] as $f) {
             @unlink($f);
         }
         @unlink(self::file($id, $lang));
         @unlink(self::file($id, $lang) . '.lock');
-        @unlink(self::file($id, $lang) . '.work');
     }
 
     /** Commentaires à fabriquer (tâche planifiée). @return list<array{0:int,1:string}> */
@@ -191,6 +234,11 @@ final class RetroRadio
             return self::status($id, $lang) + ['busy' => true];
         }
         try {
+            // Relu sous le verrou : une demande ou une suppression a pu passer entre-temps.
+            $r = self::get($id, $lang);
+            if (!$r || (empty($r['requested']) && !array_filter($r['script'] ?? [], [self::class, 'spoiled']))) {
+                return self::status($id, $lang);
+            }
             if (AiCosts::paused('radio')) {
                 throw new \RuntimeException('Budget IA du mois atteint (Système › Coûts IA).');
             }

@@ -40,7 +40,8 @@ $bar = function (array $list, string $kind = 'path') use ($r, $fmt) {
     $h = '<ol class="st-rank">';
     foreach ($list as $key => $c) {
         $name = $kind === 'path' ? StatsReport::label($r, (string) $key) : (string) $key;
-        $link = $kind === 'path' ? '<a href="' . e((string) $key) . '" target="_blank" rel="noopener">' . e($name) . '</a>' : e($name);
+        // Lien seulement vers une adresse du site (« //hôte » ou « /\hôte » mèneraient ailleurs) : sinon, texte.
+        $link = $kind === 'path' && preg_match('#^/(?![/\\\\])#', (string) $key) ? '<a href="' . e((string) $key) . '" target="_blank" rel="noopener">' . e($name) . '</a>' : e($name);
         $h .= '<li><span class="st-rank__n">' . $link . '</span><b>' . $fmt($c) . '</b><i style="width:' . max(2, round($c / $m * 100)) . '%"></i></li>';
     }
     return $h . '</ol>';

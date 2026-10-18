@@ -43,7 +43,10 @@ final class Widgets extends Base
         // Configurateur : partenaires (avec leur clé, que seul l'administrateur voit) pour le code à copier.
         $keys = [];
         foreach ($partners as $id => $p) {
-            $keys[] = ['id' => $id, 'name' => (string) $p['name'], 'key' => Store::keyOf($p), 'status' => (string) $p['status'], 'paid' => Store::paid($p), 'domains' => (array) $p['domains']];
+            // « screen » : clé écran (secrète, pour /ecran/) ; « legacy » : pas encore de clé écran, la clé
+            // publique ouvre encore les écrans jusqu'à la fin de la transition (Store::SCREEN_LEGACY_UNTIL).
+            $keys[] = ['id' => $id, 'name' => (string) $p['name'], 'key' => Store::keyOf($p), 'screen' => Store::screenKeyOf($p), 'legacy' => Store::screenLegacy($p),
+                'status' => (string) $p['status'], 'paid' => Store::paid($p), 'domains' => (array) $p['domains']];
         }
         return self::html('admin/community/widgets', [
             'tab' => $tab,
@@ -121,6 +124,12 @@ final class Widgets extends Base
                     Session::set('widget_new_key', ['id' => $id, 'key' => $key]);
                     Activity::log($who, 'a régénéré la clé du partenaire des widgets « ' . (Store::partner($id)['name'] ?? $id) . ' »', null);
                     return self::back('/admin/widgets?onglet=partenaires#p-' . $id, 'Nouvelle clé créée : l’ancienne ne fonctionne plus. Transmettez la nouvelle au partenaire.');
+                case 'cle-ecran':
+                    $id = (string) ($p['id'] ?? '');
+                    $key = Store::regenerateScreen($id);
+                    Session::set('widget_new_key', ['id' => $id, 'key' => $key, 'screen' => true]);
+                    Activity::log($who, 'a créé une clé écran pour le partenaire des widgets « ' . (Store::partner($id)['name'] ?? $id) . ' »', null);
+                    return self::back('/admin/widgets?onglet=partenaires#p-' . $id, 'Nouvelle clé écran créée : les adresses d’écran avec l’ancienne clé (ou la clé publique) ne fonctionnent plus. Donnez la nouvelle adresse à la régie (onglet Écrans).');
                 case 'supprimer':
                     $id = (string) ($p['id'] ?? '');
                     $name = (string) (Store::partner($id)['name'] ?? $id);

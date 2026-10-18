@@ -204,6 +204,13 @@ $lines = explode("\r\n", rtrim($r->body, "\r\n"));
 $eq('iCal : type, enveloppe, lignes de 75 octets au plus', [$r->headers['Content-Type'], $lines[0], end($lines), max(array_map('strlen', $lines)) <= 75], ['text/calendar; charset=UTF-8', 'BEGIN:VCALENDAR', 'END:VCALENDAR', true]);
 $eq('iCal : le centenaire en journée entière', str_contains($r->body, 'DTSTART;VALUE=DATE:' . str_replace('-', '', (string) Settings::get('home.centenary_date'))), true);
 
+// Date illisible (saisie abîmée, « 2026-13-45 ») : l'événement est sauté, l'agenda reste servi.
+$agenda = Store::get('agenda');
+Store::save('agenda', array_merge($agenda, [['slug' => 'essai-date-cassee', 'title' => 'Essai date cassée', 'start' => '2026-13-45 25:99', 'end' => '', 'excerpt' => '']]));
+$r = $req('www.fcsochauxretro.com', '/agenda/agenda.ics');
+$eq('iCal : date invalide → événement sauté, pas d’erreur 500', [$r->status, str_contains($r->body, 'essai-date-cassee'), str_ends_with(rtrim($r->body), 'END:VCALENDAR')], [200, false, true]);
+Store::save('agenda', $agenda); // (dossier remis en place à la fin, de toute façon)
+
 // ---------------------------------------------------------------- aperçu (préfixe des liens)
 Host::$prefix = Host::PREVIEW;
 $eq('aperçu : liens internes préfixés, musée et ressources intacts', [Host::url('/agenda/'), \App\Vitrine\Pages::link('/contact/')[0], \App\Vitrine\Pages::link('musee:/contribuer/')[0], \App\Vitrine\Pages::rich('<p><a href="/agenda/">a</a> <a href="/media/1.jpg">b</a> <a href="https://x.fr/">c</a></p>')],
@@ -219,6 +226,22 @@ $r = $req('www.fcsochauxretro.com', '/newsletter/', 'POST', [], ['email' => 'rob
 $eq('newsletter : robot (champ piège) → réponse neutre, sans inscription', $r->headers['Location'] ?? '', '/agenda/?nl=ok&f=nl-agenda#nl-agenda');
 $r = $req('www.fcsochauxretro.com', '/newsletter/', 'POST', [], ['email' => 'trop.vite@example.org', '_ts' => form_ts(), 'back' => '//evil.example/', 'anchor' => 'x"><script>']);
 $eq('newsletter : envoi instantané refusé, retour et ancre nettoyés', $r->headers['Location'] ?? '', '/?nl=vite&f=nl-foot#nl-foot');
+
+// Bénévolat : accusé de réception envoyé à une adresse non vérifiée : sujet et texte fixes (jamais le
+// prénom saisi), deux par jour au plus pour une même adresse ; sujet de l'e-mail interne sans le nom.
+$mailLog = STORAGE_PATH . '/mail/' . date('Y-m') . '.jsonl';
+$mails = fn () => array_map(fn ($l) => json_decode($l, true), array_filter(explode("\n", (string) @file_get_contents($mailLog))));
+$before = count($mails());
+$victim = 'victime-' . bin2hex(random_bytes(3)) . '@example.org';
+$tsOld = (string) (time() - 10);
+\App\Core\RateLimiter::clear('vt-benevolat', '127.0.0.9'); // limite par connexion (5 par heure) : essais relancés
+for ($i = 0; $i < 3; $i++) {
+    $req('www.fcsochauxretro.com', '/nous-soutenir/benevolat/', 'POST', [], ['_csrf' => \App\Core\Session::csrfToken(), '_ts' => $tsOld . '.' . substr(hash_hmac('sha256', $tsOld, site_key('form-ts')), 0, 20),
+        'first' => 'Gagnez 1000 € sur arnaque.example', 'last' => 'X', 'email' => $victim, 'message' => 'Je veux aider le musée.', 'consent' => '1']);
+}
+$new = array_slice($mails(), $before);
+$thanks = array_filter($new, fn ($m) => ($m['subject'] ?? '') === 'Merci pour votre proposition d’aide !');
+$eq('bénévolat : accusé de réception limité à 2 par adresse, sujets sans le prénom saisi', [count($thanks), (bool) array_filter($new, fn ($m) => str_contains((string) ($m['subject'] ?? ''), 'arnaque'))], [2, false]);
 
 // ---------------------------------------------------------------- adhésions : paiement confirmé par webhook Stripe signé
 $a = ['id' => Membership::newId(), 'created' => date('c'), 'updated' => date('c'), 'year' => (int) date('Y'), 'tariff' => 'individuel', 'label' => 'Adhésion individuelle', 'amount' => 1500,

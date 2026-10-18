@@ -78,8 +78,11 @@ final class Carnet
     }
 
     /**
-     * Crée le carnet de cet e-mail. @return array{carnet:?array,credential:?string,existing:bool}
+     * Crée le carnet de cet e-mail. @return array{carnet:?array,credential:?string,link:?string,existing:bool}
      * Si l'e-mail a déjà un carnet, rien n'est créé : l'appelant envoie un lien à cette adresse.
+     * « credential » ouvre le carnet sur l'appareil qui le crée (cookie) ; « link » est le lien à
+     * envoyer par e-mail. Deux jetons distincts : tant que l'adresse n'est pas confirmée, celui de
+     * l'appareil est provisoire (voir openFromLink).
      */
     public static function create(string $email, string $lang = 'fr'): array
     {
@@ -87,6 +90,7 @@ final class Carnet
         $existing = null;
         $id = bin2hex(random_bytes(8));
         $token = bin2hex(random_bytes(16));
+        $linkToken = bin2hex(random_bytes(16));
         JsonStore::update(self::indexFile(), function ($idx) use ($key, $id, &$existing) {
             $idx = is_array($idx) ? $idx : [];
             $idx['emails'] ??= [];
@@ -99,12 +103,40 @@ final class Carnet
             return $idx;
         }, []);
         if ($existing !== null) {
-            return ['carnet' => self::get($existing), 'credential' => null, 'existing' => true];
+            return ['carnet' => self::get($existing), 'credential' => null, 'link' => null, 'existing' => true];
         }
-        $c = ['id' => $id, 'email' => mb_strtolower(trim($email)), 'tokens' => [hash('sha256', $token)], 'created' => date('c'), 'confirmed' => false,
+        $c = ['id' => $id, 'email' => mb_strtolower(trim($email)), 'tokens' => [hash('sha256', $token), hash('sha256', $linkToken)], 'created' => date('c'), 'confirmed' => false,
             'lang' => $lang === 'en' ? 'en' : 'fr', 'pseudo' => '', 'public' => false, 'slug' => '', 'matches' => []];
         JsonStore::write(self::file($id), $c);
-        return ['carnet' => $c, 'credential' => $id . '.' . $token, 'existing' => false];
+        return ['carnet' => $c, 'credential' => $id . '.' . $token, 'link' => $id . '.' . $linkToken, 'existing' => false];
+    }
+
+    /**
+     * Carnet ouvert par un lien reçu par e-mail. À la première ouverture (adresse pas encore
+     * confirmée), seul ce lien reste valable : les autres accès sont révoqués, en particulier le
+     * cookie de l'appareil qui a créé le carnet. Sans cela, quelqu'un qui crée un carnet (ou un
+     * compte du quiz) avec l'adresse d'un autre garderait l'accès au carnet une fois que le vrai
+     * titulaire l'aurait confirmé. Le titulaire qui a créé son carnet sur un autre appareil le
+     * rouvre en redemandant un lien. Marque le carnet confirmé. @return array|null le carnet
+     */
+    public static function openFromLink(string $credential): ?array
+    {
+        $c = self::open($credential);
+        if (!$c) {
+            return null;
+        }
+        if (empty($c['confirmed'])) {
+            $h = hash('sha256', explode('.', $credential)[1]);
+            JsonStore::update(self::file($c['id']), function ($x) use ($h) {
+                if (is_array($x) && empty($x['confirmed']) && in_array($h, (array) $x['tokens'], true)) {
+                    $x['tokens'] = [$h];
+                    $x['confirmed'] = true;
+                }
+                return $x;
+            }, null);
+        }
+        self::confirm($c['id']);
+        return self::get($c['id']);
     }
 
     /**
@@ -168,22 +200,37 @@ final class Carnet
      * Envoie le lien du carnet à son adresse. $quiz : lien demandé depuis le quiz du club-house
      * (code de la partie à 5 chiffres, ou « championnat ») ; le lien ramène alors au quiz.
      */
+    /**
+     * Adresse du site pour les liens envoyés par e-mail : celle des réglages, jamais l'en-tête
+     * « Host » de la requête (un tiers pourrait sinon faire partir un lien vers son propre site).
+     * Vide si l'adresse n'est pas réglée : le lien n'est alors pas envoyé (comme Admin\Account).
+     */
+    public static function mailBase(): string
+    {
+        return rtrim((string) \App\Core\Settings::get('general.base_url', ''), '/');
+    }
+
     public static function sendLink(array $c, string $credential, ?string $quiz = null): bool
     {
-        $link = base_url() . url('/carnet/acces/' . $credential . '/'); // /en/ pour un carnet anglais
+        $base = self::mailBase();
+        if ($base === '') {
+            error_log('[carnet] adresse du site non réglée (Réglages) : lien du carnet non envoyé');
+            return false;
+        }
+        $link = $base . url('/carnet/acces/' . $credential . '/'); // /en/ pour un carnet anglais
         if ($quiz !== null) {
             $link .= '?quiz=' . rawurlencode($quiz);
             $html = '<p>' . e(t('Bonjour,')) . '</p>'
                 . '<p>' . e(t('Voici votre lien personnel {site}. Ouvrez-le sur le téléphone avec lequel vous jouez : il garde votre place aux classements du quiz (championnat du club-house, défi du jour), sous votre pseudo. Il ouvre aussi votre carnet du supporter. Gardez-le pour vous.')) . '</p>'
                 . '<p style="margin:24px 0"><a href="' . e($link) . '" style="background:' . \App\Core\Club::color('yellow') . ';color:' . \App\Core\Club::color('navy') . ';padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Valider sur ce téléphone')) . '</a></p>'
                 . '<p style="font-size:13px;color:#555">' . e(t('Nouveau téléphone, ou lien perdu ? Redemandez un lien depuis la page du championnat, avec la même adresse.')) . ' ' . e(t('Vous n’avez rien demandé ? Ignorez ce message : sans ce lien, personne ne peut ouvrir le carnet.')) . '</p>';
-            return Mailer::send($c['email'], t('Votre place aux classements du quiz {site}'), Mailer::layout(t('Quiz {site}'), $html));
+            return Mailer::send($c['email'], t('Votre place aux classements du quiz {site}'), $html); // Mailer::send met en page
         }
         $html = '<p>' . e(t('Bonjour,')) . '</p>'
             . '<p>' . e(t('Voici le lien personnel de votre carnet du supporter {site} : il l’ouvre sur n’importe quel téléphone ou ordinateur. Gardez-le pour vous.')) . '</p>'
             . '<p style="margin:24px 0"><a href="' . e($link) . '" style="background:' . \App\Core\Club::color('yellow') . ';color:' . \App\Core\Club::color('navy') . ';padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Ouvrir mon carnet')) . '</a></p>'
             . '<p style="font-size:13px;color:#555">' . e(t('Vous n’avez rien demandé ? Ignorez ce message : sans ce lien, personne ne peut ouvrir le carnet.')) . '</p>';
-        return Mailer::send($c['email'], t('Votre carnet du supporter {site}'), Mailer::layout(t('Votre carnet du supporter'), $html));
+        return Mailer::send($c['email'], t('Votre carnet du supporter {site}'), $html); // Mailer::send met en page
     }
 
     public static function confirm(string $id): void
@@ -482,14 +529,14 @@ final class Carnet
             $prev = I18n::lang();
             I18n::set($c['lang'] ?? 'fr');
             try {
-                if ($email) {
+                if ($email && ($base = self::mailBase()) !== '') {
                     $msg = $bday ? self::birthdayMessage($c, $a) : self::anniversaryMessage($a);
-                    $stop = base_url() . url('/carnet/rappels/arret/' . $id . '/' . self::stopSig($id) . '/');
+                    $stop = $base . url('/carnet/rappels/arret/' . $id . '/' . self::stopSig($id) . '/');
                     $html = '<p style="font-size:20px"><b>' . e($msg['title']) . '</b></p><p style="font-size:18px">' . e($msg['body']) . '</p>'
-                        . '<p style="margin:24px 0"><a href="' . e(base_url() . $msg['url']) . '" style="background:' . \App\Core\Club::color('yellow') . ';color:' . \App\Core\Club::color('navy') . ';padding:12px 20px;text-decoration:none;font-weight:bold">' . e(str_contains($msg['url'], '/carnet/') ? t('Mon carnet du supporter') : t('Revivre le match')) . '</a></p>'
-                        . '<p><a href="' . e(base_url() . url('/carnet/')) . '">' . e(t('Mon carnet du supporter')) . '</a></p>'
+                        . '<p style="margin:24px 0"><a href="' . e($base . $msg['url']) . '" style="background:' . \App\Core\Club::color('yellow') . ';color:' . \App\Core\Club::color('navy') . ';padding:12px 20px;text-decoration:none;font-weight:bold">' . e(str_contains($msg['url'], '/carnet/') ? t('Mon carnet du supporter') : t('Revivre le match')) . '</a></p>'
+                        . '<p><a href="' . e($base . url('/carnet/')) . '">' . e(t('Mon carnet du supporter')) . '</a></p>'
                         . '<p style="font-size:13px;color:#555"><a href="' . e($stop) . '" style="color:#555">' . e(t('Ne plus recevoir ces rappels')) . '</a></p>';
-                    if (Mailer::send($c['email'], $msg['title'], Mailer::layout($msg['title'], $html))) {
+                    if (Mailer::send($c['email'], $msg['title'], $html)) { // Mailer::send met en page
                         $done['emails']++;
                     }
                 }

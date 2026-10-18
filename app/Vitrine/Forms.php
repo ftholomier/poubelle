@@ -186,7 +186,8 @@ final class Forms
         $f = fn (string $k, int $max = 160) => trim(mb_substr((string) ($req->post[$k] ?? ''), 0, $max));
         $poles = array_column(Content::poles(), 'title', 'key');
         $d = [
-            'first' => $f('first', 60),
+            // Prénom : une ligne, sans caractères de contrôle ni balises.
+            'first' => trim((string) preg_replace('/[\p{C}<>]+/u', ' ', $f('first', 60))),
             'last' => $f('last', 80),
             'email' => mb_strtolower($f('email', 160)),
             'phone' => $f('phone', 30),
@@ -216,14 +217,20 @@ final class Forms
             return $all;
         }, []);
         if ($to = Site::email()) {
-            Mailer::send($to, '[Bénévolat] ' . trim($d['first'] . ' ' . $d['last']),
+            // Sujet fixe : le nom saisi n'y figure pas (texte libre, jamais vérifié).
+            Mailer::send($to, '[Bénévolat] Nouvelle proposition',
                 '<p><b>Nouvelle proposition de bénévolat</b></p><p>' . e(trim($d['first'] . ' ' . $d['last'])) . ' · ' . e($d['email']) . ($d['phone'] ? ' · ' . e($d['phone']) : '') . ($d['city'] ? ' · ' . e($d['city']) : '') . '</p>'
                 . '<p>' . e(implode(', ', array_map(fn ($k) => $poles[$k] ?? $k, $d['poles']))) . '</p><p>' . nl2br(e($d['message'])) . '</p>'
                 . '<p><a href="' . e(base_url()) . '/admin/association/benevoles">Ouvrir dans le back-office</a></p>', $d['email']);
         }
-        Mailer::send($d['email'], 'Merci pour votre proposition d’aide !',
-            '<p>Bonjour ' . e($d['first']) . ',</p><p>Merci de vouloir donner un peu de votre temps à ' . e(Site::name()) . ' ! Un membre de l’équipe vous recontacte très vite.</p><p>L’équipe de ' . e(Site::name()) . '</p>');
-        Session::set('vt_flash_ben', ['type' => 'ok', 'msg' => 'Merci ' . $d['first'] . ' ! Votre proposition est bien arrivée : un membre de l’équipe vous recontacte très vite.']);
+        // Accusé de réception envoyé à une adresse que rien ne vérifie : texte fixe, sans le prénom saisi
+        // (sinon le formulaire servirait à envoyer un message de son choix, signé du musée, à n'importe
+        // qui), et au plus deux par jour pour une même adresse.
+        if (RateLimiter::hit('vt-benevolat-adr', hash('sha256', $d['email']), 2, 86400)) {
+            Mailer::send($d['email'], 'Merci pour votre proposition d’aide !',
+                '<p>Bonjour,</p><p>Merci de vouloir donner un peu de votre temps à ' . e(Site::name()) . ' ! Un membre de l’équipe vous recontacte très vite.</p><p>L’équipe de ' . e(Site::name()) . '</p>');
+        }
+        Session::set('vt_flash_ben', ['type' => 'ok', 'msg' => 'Merci ' . mb_substr($d['first'], 0, 30) . ' ! Votre proposition est bien arrivée : un membre de l’équipe vous recontacte très vite.']);
         return Response::redirect($back, 303);
     }
 

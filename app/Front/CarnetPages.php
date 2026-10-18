@@ -80,12 +80,13 @@ final class CarnetPages
 
     public static function access(Request $req, string $credential): Response
     {
-        $c = Carnet::open($credential);
+        // Première ouverture d'un carnet pas encore confirmé : les autres accès sont révoqués
+        // (cookie de l'appareil qui l'a créé, peut-être pas celui du titulaire de l'adresse).
+        $c = Carnet::openFromLink($credential);
         if (!$c) {
             return self::page('lien', [], ['title' => t('Lien du carnet'), 'noindex' => true]);
         }
         self::setCookie($credential);
-        Carnet::confirm($c['id']);
         // Lien demandé depuis le quiz du club-house : retour à la partie (ou au championnat).
         $quiz = $req->str('quiz');
         if (preg_match('/^\d{5}$/', $quiz)) {
@@ -232,7 +233,7 @@ final class CarnetPages
                         if (!empty($added) && !empty($in['count'])) {
                             RetroDirect::addEtais($mid);
                         }
-                        Carnet::sendLink($r['carnet'], $r['credential']);
+                        Carnet::sendLink($r['carnet'], (string) $r['link']);
                         return Response::json(['ok' => true, 'has' => true, 'created' => true, 'ids' => $list ?? []]);
                     }
                 }

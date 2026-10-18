@@ -86,9 +86,32 @@ final class PageCache
         $etag = '"' . $meta['etag'] . '"';
         $headers = (array) $meta['headers'] + ['ETag' => $etag, 'Cache-Control' => 'public, max-age=0, must-revalidate', 'X-Page-Cache' => 'HIT'];
         if (trim((string) ($req->server['HTTP_IF_NONE_MATCH'] ?? '')) === $etag) {
+            // 304 : le navigateur garde sa copie, avec l'en-tête CSP et le jeton qui vont avec.
             return new Response('', 304, array_intersect_key($headers, array_flip(['ETag', 'Cache-Control', 'X-Page-Cache'])));
         }
-        return new Response($body, 200, $headers);
+        return new Response(self::renonce($body, $headers), 200, $headers);
+    }
+
+    /**
+     * Jeton CSP (nonce) neuf à chaque envoi depuis ce cache : la page gardée porte celui du visiteur
+     * qui l'a calculée, dans l'en-tête Content-Security-Policy et dans les attributs nonce="…" des
+     * scripts. Un jeton resservi à tous serait connu d'avance et n'arrêterait plus un script injecté.
+     * L'ETag ne change pas : il désigne le contenu, pas le jeton.
+     *
+     * LSCache (voir lite()) garde la réponse entière, en-tête compris, jusqu'à une minute : pendant ce
+     * temps, le jeton qu'il resservirait reste figé (cohérent entre en-tête et page, donc les scripts
+     * marchent). Le corriger demanderait de sortir les pages de LSCache ou un bloc ESI ; laissé tel quel.
+     * @param array<string,string> $headers en-têtes gardés, mis à jour
+     */
+    private static function renonce(string $body, array &$headers): string
+    {
+        $csp = (string) ($headers['Content-Security-Policy'] ?? '');
+        if (!preg_match("/'nonce-([A-Za-z0-9_\-]{8,})'/", $csp, $m)) {
+            return $body;
+        }
+        $new = csp_nonce();
+        $headers['Content-Security-Policy'] = str_replace("'nonce-" . $m[1] . "'", "'nonce-" . $new . "'", $csp);
+        return str_replace(['nonce="' . $m[1] . '"', "nonce='" . $m[1] . "'"], ['nonce="' . $new . '"', "nonce='" . $new . "'"], $body);
     }
 
     /** Garde la page calculée si elle peut l'être ; rend la réponse à envoyer. */
