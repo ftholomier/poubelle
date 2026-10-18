@@ -9,6 +9,7 @@
   <?php else: ?>
   <form method="post" action="/admin/medias/credits" data-confirm="Découper <?= count($rows) ?> légendes ?|Le crédit passe dans son champ ; les photos cochées « Ne pas toucher » restent telles quelles.|Appliquer">
     <?= csrf_field() ?>
+    <input type="hidden" name="seen" value="<?= e(json_encode(array_map(fn ($r) => \App\Admin\Medias::captionHash($r['old']), $rows), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) ?>">
     <p><button class="btn btn--yellow">Appliquer à <?= count($rows) ?> photo<?= count($rows) > 1 ? 's' : '' ?></button></p>
     <div class="table"><table>
       <thead><tr><th>Ne pas toucher</th><th></th><th>Légende actuelle</th><th>Nouvelle légende</th><th>Crédit</th></tr></thead>

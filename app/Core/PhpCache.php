@@ -157,7 +157,9 @@ final class PhpCache
                 }
                 $c->ping();
                 $c->setOption(\Redis::OPT_SERIALIZER, defined('Redis::SERIALIZER_IGBINARY') ? \Redis::SERIALIZER_IGBINARY : \Redis::SERIALIZER_PHP);
-                $c->setOption(\Redis::OPT_PREFIX, 'musee:');
+                // Un préfixe par musée : « Vider le cache Redis » et le pavé Serveur ne touchent que ce
+                // musée (la mémoire, elle, reste commune : voir ServerCheck::redis()).
+                $c->setOption(\Redis::OPT_PREFIX, 'musee:' . (defined('CLUB_ID') ? CLUB_ID : 'site') . ':');
                 self::$redisWhere = $where;
                 return $r = $c;
             } catch (\Throwable $e) {
@@ -188,9 +190,12 @@ final class PhpCache
             throw new RuntimeException("Dossier impossible à créer : $dir");
         }
         $target = $file . '.ser';
-        if (!(is_file($target) && filesize($target) === strlen($ser) && md5_file($target) === md5($ser))) {
+        // En tête du .ser, l'empreinte du contenu : c'est elle (et non la date ou la taille du fichier,
+        // identiques pour deux versions écrites dans la même seconde) qui désigne la version dans Redis.
+        $body = self::SIG . md5($ser) . "\n" . $ser;
+        if (!(is_file($target) && filesize($target) === strlen($body) && md5_file($target) === md5($body))) {
             $tmp = $target . '.' . bin2hex(random_bytes(4));
-            if (file_put_contents($tmp, $ser, LOCK_EX) === false || !rename($tmp, $target)) {
+            if (file_put_contents($tmp, $body, LOCK_EX) === false || !rename($tmp, $target)) {
                 @unlink($tmp);
                 throw new RuntimeException("Écriture impossible : $target");
             }
@@ -198,18 +203,45 @@ final class PhpCache
         return "<?php return \\App\\Core\\PhpCache::load(__FILE__);\n";
     }
 
-    /** Vide les entrées du musée dans Redis (elles se refont seules) ; nombre effacé, ou null sans Redis. */
-    public static function flushRedis(): ?int
+    /** Début d'un fichier .ser : « #PHC » puis l'empreinte md5 du contenu sérialisé et un saut de ligne. */
+    private const SIG = '#PHC ';
+    private const HEAD = 38;
+
+    /**
+     * Vide les entrées de CE musée dans Redis (elles se refont seules) ; nombre effacé, ou null sans Redis.
+     * Parcours par SCAN (jamais KEYS, qui bloque Redis le temps de tout lister).
+     */
+    public static function flushRedis(?\Redis $r = null): ?int
     {
-        $r = self::redis();
+        $r ??= self::redis();
         if (!$r) {
             return null;
         }
         $n = 0;
-        foreach ($r->keys('*') ?: [] as $k) {
-            $n += (int) $r->unlink(substr((string) $k, 6));
+        try {
+            $prefix = (string) $r->getOption(\Redis::OPT_PREFIX);
+            foreach (self::scan($r, $prefix . '*') as $batch) {
+                // SCAN rend les clés complètes ; unlink() ajoute lui-même le préfixe.
+                $n += (int) $r->unlink(array_map(fn ($k) => substr((string) $k, strlen($prefix)), $batch));
+            }
+        } catch (\Throwable) {
         }
         return $n;
+    }
+
+    /**
+     * Clés complètes (préfixe compris) correspondant au motif, par paquets.
+     * @return \Generator<int,list<string>>
+     */
+    public static function scan(\Redis $r, string $pattern, int $count = 1000): \Generator
+    {
+        $it = null;
+        do {
+            $keys = $r->scan($it, $pattern, $count);
+            if (is_array($keys) && $keys) {
+                yield array_values($keys);
+            }
+        } while ($it);
     }
 
     /** Données d'un cache écrit par export() (relues une seule fois par requête tant qu'elles ne changent pas). */
@@ -217,17 +249,27 @@ final class PhpCache
     {
         static $memo = [];
         $ser = $file . '.ser';
-        clearstatcache(true, $ser);
-        $key = $ser . '|' . @filemtime($ser) . '|' . @filesize($ser);
+        // Version désignée par l'empreinte écrite en tête du fichier (lecture de 38 octets). Ancien
+        // fichier sans empreinte : chemin, date, taille et inode (nouveau à chaque rename()).
+        $fp = @fopen($ser, 'rb');
+        $head = $fp ? (string) fread($fp, self::HEAD) : '';
+        if ($fp) {
+            fclose($fp);
+        }
+        if (str_starts_with($head, self::SIG)) {
+            $key = $ser . '|' . substr($head, strlen(self::SIG), 32);
+        } else {
+            clearstatcache(true, $ser);
+            $key = $ser . '|' . @filemtime($ser) . '|' . @filesize($ser) . '|' . @fileinode($ser);
+        }
         if (!array_key_exists($key, $memo)) {
             // Redis d'abord (déjà décodé, en mémoire, partagé par tous les processus) ; la clé contient
-            // la date et la taille du fichier : une donnée réécrite n'est jamais servie périmée.
-            $rk = md5($key);
+            // l'empreinte du contenu : une donnée réécrite n'est jamais servie périmée.
             $redis = self::redis();
             $val = null;
             if ($redis) {
                 try {
-                    $got = $redis->get($rk);
+                    $got = $redis->get(md5($key));
                     $val = $got === false ? null : $got;
                 } catch (\Throwable) {
                     $redis = null;
@@ -235,7 +277,13 @@ final class PhpCache
             }
             if ($val === null) {
                 $raw = @file_get_contents($ser);
+                if (is_string($raw) && str_starts_with($raw, self::SIG)) {
+                    // Fichier remplacé entre les deux lectures : la clé suit le contenu réellement lu.
+                    $key = $ser . '|' . substr($raw, strlen(self::SIG), 32);
+                    $raw = substr($raw, self::HEAD);
+                }
                 $val = $raw === false ? null : @unserialize($raw, ['allowed_classes' => false]);
+                $rk = md5($key);
                 if ($redis && $val !== null) {
                     try {
                         // Une seule version par cache dans Redis : la précédente (fichier réécrit depuis)

@@ -174,16 +174,31 @@ final class Media
         return self::usage();
     }
 
-    /** @param list<string> $remove champs à retirer (case décochée : « nowall ») */
-    public static function put(string $rel, array $meta, ?array $user = null, array $remove = []): void
+    /**
+     * Crée ou modifie un média. Une entrée n'est créée que si l'appelant décrit le fichier (« file » :
+     * dépôt, import) : les champs d'un média supprimé pendant qu'on le modifiait ne le recréent pas.
+     *
+     * @param list<string> $remove champs à retirer (case décochée : « nowall »)
+     * @return bool false si le média n'existe plus (rien n'est écrit)
+     */
+    public static function put(string $rel, array $meta, ?array $user = null, array $remove = []): bool
     {
-        self::$items = JsonStore::update(self::FILE, function ($all) use ($rel, $meta, $remove) {
+        $gone = false;
+        self::$items = JsonStore::update(self::FILE, function ($all) use ($rel, $meta, $remove, &$gone) {
             $all = $all ?: [];
+            if (!isset($all[$rel]) && !isset($meta['file'])) {
+                $gone = true;
+                return $all;
+            }
             $all[$rel] = array_diff_key(array_merge($all[$rel] ?? ['file' => $rel], $meta), array_flip($remove));
             return $all;
         }, []);
         self::cache(self::$items);
+        if ($gone) {
+            return false;
+        }
         Activity::log($user, 'a modifié le média', ['title' => $rel, 'path' => '']);
+        return true;
     }
 
     /**

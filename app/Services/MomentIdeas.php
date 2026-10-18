@@ -154,19 +154,24 @@ final class MomentIdeas
         return $idea;
     }
 
-    /** Modifie une idée (titre, année, date, pourquoi, thème, sources, photo). */
+    /**
+     * Modifie une idée (titre, année, date, pourquoi, thème, sources, photo). L'idée est relue sous le
+     * verrou du fichier : une fiche rattachée entre-temps (« rédigée ») ou un changement d'état fait
+     * par un autre membre ne sont pas effacés.
+     */
     public static function edit(string $id, array $in, ?array $user): array
     {
-        $cur = self::get($id);
-        if (!$cur) {
-            throw new \InvalidArgumentException('Idée introuvable.');
-        }
-        [$idea, $err] = self::clean($in + $cur);
-        if ($err) {
-            throw new \InvalidArgumentException($err);
-        }
-        $new = array_merge($cur, $idea, ['updated_by' => (string) ($user['name'] ?? 'Équipe'), 'updated_at' => date('c')]);
-        self::store(function (array $d) use ($id, $new) {
+        $new = null;
+        self::store(function (array $d) use ($id, $in, $user, &$new) {
+            $cur = $d['ideas'][$id] ?? null;
+            if (!is_array($cur)) {
+                throw new \InvalidArgumentException('Idée introuvable.');
+            }
+            [$idea, $err] = self::clean($in + $cur);
+            if ($err) {
+                throw new \InvalidArgumentException($err);
+            }
+            $new = array_merge($cur, $idea, ['updated_by' => (string) ($user['name'] ?? 'Équipe'), 'updated_at' => date('c')]);
             $d['ideas'][$id] = $new;
             return $d;
         });
@@ -176,19 +181,24 @@ final class MomentIdeas
     /** Retenir, écarter (avec une raison, rappelée à l'IA), remettre parmi les propositions. */
     public static function setState(string $id, string $state, string $reason, ?array $user): array
     {
-        $cur = self::get($id);
-        if (!$cur || !in_array($state, ['proposee', 'retenue', 'ecartee'], true)) {
+        if (!in_array($state, ['proposee', 'retenue', 'ecartee'], true)) {
             throw new \InvalidArgumentException('Idée introuvable.');
         }
-        if ($cur['state'] === 'redigee' && self::ficheOf($cur)) {
-            throw new \InvalidArgumentException('Cette idée a déjà sa fiche : modifiez ou mettez à la corbeille la fiche elle-même.');
-        }
-        $cur = array_merge($cur, ['state' => $state, 'reason' => $state === 'ecartee' ? mb_substr(trim($reason), 0, 300) : '', 'updated_by' => (string) ($user['name'] ?? 'Équipe'), 'updated_at' => date('c')]);
-        self::store(function (array $d) use ($id, $cur) {
-            $d['ideas'][$id] = $cur;
+        $new = null;
+        // Relue sous verrou : une idée rédigée entre-temps (fiche rattachée) ne repasse pas en proposition.
+        self::store(function (array $d) use ($id, $state, $reason, $user, &$new) {
+            $cur = $d['ideas'][$id] ?? null;
+            if (!is_array($cur)) {
+                throw new \InvalidArgumentException('Idée introuvable.');
+            }
+            if (($cur['state'] ?? '') === 'redigee' && self::ficheOf($cur)) {
+                throw new \InvalidArgumentException('Cette idée a déjà sa fiche : modifiez ou mettez à la corbeille la fiche elle-même.');
+            }
+            $new = array_merge($cur, ['state' => $state, 'reason' => $state === 'ecartee' ? mb_substr(trim($reason), 0, 300) : '', 'updated_by' => (string) ($user['name'] ?? 'Équipe'), 'updated_at' => date('c')]);
+            $d['ideas'][$id] = $new;
             return $d;
         });
-        return $cur;
+        return $new;
     }
 
     /** Idée écrite par l'équipe (« Écrire moi-même ») : rattachée à sa fiche, marquée « rédigée ». */

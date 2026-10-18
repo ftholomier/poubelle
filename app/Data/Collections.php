@@ -21,12 +21,32 @@ final class Collections
 
     public static function save(string $name, mixed $data, ?array $user = null, string $message = ''): void
     {
-        $file = self::DIR . "/$name.json";
-        $before = JsonStore::read($file);
-        if ($before === $data) {
+        if (JsonStore::read(self::DIR . "/$name.json") === $data) {
             return;
         }
-        JsonStore::write($file, $data);
+        self::update($name, fn () => $data, $user, $message);
+    }
+
+    /**
+     * Lecture-modification-écriture sous verrou : deux enregistrements simultanés (mot ajouté depuis le
+     * correcteur pendant qu'un autre l'est ailleurs) ne s'écrasent pas. Une version est créée si le
+     * contenu a changé.
+     *
+     * @param callable(mixed):mixed $fn reçoit le contenu actuel ([] s'il n'existe pas), renvoie le nouveau
+     */
+    public static function update(string $name, callable $fn, ?array $user = null, string $message = ''): mixed
+    {
+        $file = self::DIR . "/$name.json";
+        $changed = false;
+        $data = JsonStore::update($file, function ($cur) use ($fn, &$changed) {
+            $cur ??= [];
+            $new = $fn($cur);
+            $changed = $new !== $cur;
+            return $new;
+        }, []);
+        if (!$changed) {
+            return $data;
+        }
         $vdir = STORAGE_PATH . "/versions/collections/$name";
         JsonStore::update("$vdir/index.json", function ($idx) use ($vdir, $data, $user, $message) {
             $idx = $idx ?: [];
@@ -37,6 +57,7 @@ final class Collections
         }, []);
         Derived::markDirty();
         Activity::log($user, 'a modifié', ['title' => self::label($name), 'path' => '']);
+        return $data;
     }
 
     /**

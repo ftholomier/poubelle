@@ -362,6 +362,7 @@ final class Fiches
         if ($before === null && empty($doc['author'])) {
             $doc['author'] = $user['name'] ?? null;
         }
+        $doc = self::stampPublished($doc, $before);
 
         $diff = $before ? self::diff($before, $doc) : [['Fiche', '—', 'créée']];
         if ($before && !$diff) {
@@ -379,6 +380,32 @@ final class Fiches
         Derived::markDirty();
         \App\Services\Search::put($doc);
         Activity::log($user, $before ? 'a modifié' : 'a créé', $doc);
+        // Fiche « validée » puis modifiée par un membre du back-office : la validation ne vaut plus
+        // (les tâches automatiques, sans compte, ne l'effacent pas).
+        if ($before && isset($user['id']) && \App\Services\Validation::get($id)) {
+            \App\Services\Validation::clear($id);
+        }
+        return $doc;
+    }
+
+    /**
+     * « Déjà publiée » : retenu au passage de statut, quel que soit l'écran (fiche, action groupée,
+     * restauration…). Une fois publiée, l'adresse ne bouge plus ; la date de publication est posée
+     * à la première mise en ligne d'une fiche existante (une fiche créée garde la date fournie).
+     */
+    private static function stampPublished(array $doc, ?array $before): array
+    {
+        if (!empty($before['published_once'])) {
+            $doc['published_once'] = true; // une restauration d'une vieille version ne l'efface pas
+        }
+        $prev = (string) ($before['status'] ?? '');
+        $status = (string) ($doc['status'] ?? '');
+        if ($status !== $prev && ($status === 'publie' || $prev === 'publie')) {
+            if ($before !== null && $status === 'publie' && empty($before['published_once'])) {
+                $doc['date'] = date('c');
+            }
+            $doc['published_once'] = true;
+        }
         return $doc;
     }
 
@@ -398,24 +425,33 @@ final class Fiches
         }
     }
 
-    public static function trash(int $id, ?array $user): void
+    /** @return bool true si la fiche vient d'être mise à la corbeille */
+    public static function trash(int $id, ?array $user): bool
     {
-        $doc = self::get($id);
-        if ($doc) {
-            $doc['status_before_trash'] = $doc['status'];
-            $doc['status'] = 'corbeille';
-            self::save($doc, $user, 'Mise à la corbeille');
+        $doc = self::fresh($id);
+        // Déjà à la corbeille (double clic, action groupée) : rien à faire, sinon le statut d'avant
+        // serait remplacé par « corbeille » et la fiche ne pourrait plus en sortir.
+        if (!$doc || $doc['status'] === 'corbeille') {
+            return false;
         }
+        $doc['status_before_trash'] = $doc['status'];
+        $doc['status'] = 'corbeille';
+        self::save($doc, $user, 'Mise à la corbeille');
+        return true;
     }
 
-    public static function untrash(int $id, ?array $user): void
+    /** @return bool true si la fiche est sortie de la corbeille */
+    public static function untrash(int $id, ?array $user): bool
     {
-        $doc = self::get($id);
-        if ($doc && $doc['status'] === 'corbeille') {
-            $doc['status'] = $doc['status_before_trash'] ?? 'brouillon';
-            unset($doc['status_before_trash']);
-            self::save($doc, $user, 'Sortie de la corbeille');
+        $doc = self::fresh($id);
+        if (!$doc || $doc['status'] !== 'corbeille') {
+            return false;
         }
+        $back = (string) ($doc['status_before_trash'] ?? '');
+        $doc['status'] = isset(self::STATUSES[$back]) && $back !== 'corbeille' ? $back : 'brouillon';
+        unset($doc['status_before_trash']);
+        self::save($doc, $user, 'Sortie de la corbeille');
+        return true;
     }
 
     /** Suppression définitive (administrateur) : la dernière version reste dans l'historique. */
@@ -430,6 +466,7 @@ final class Fiches
         Index::remove($id);
         Derived::markDirty();
         \App\Services\Search::remove($id);
+        \App\Services\Validation::clear($id);
         Activity::log($user, 'a supprimé définitivement', $doc);
     }
 

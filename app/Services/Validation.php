@@ -14,11 +14,12 @@ final class Validation
 {
     private const FILE = STORAGE_PATH . '/validations.json';
 
+    private static ?array $memo = null;
+
     /** @return array<int,array{by:string,uid:?string,at:string}> */
     public static function all(): array
     {
-        static $memo = null;
-        return $memo ??= (JsonStore::read(self::FILE, []) ?: []);
+        return self::$memo ??= (JsonStore::read(self::FILE, []) ?: []);
     }
 
     public static function get(int $id): ?array
@@ -28,16 +29,20 @@ final class Validation
 
     public static function set(int $id, array $user): void
     {
-        JsonStore::update(self::FILE, function ($d) use ($id, $user) {
+        self::$memo = JsonStore::update(self::FILE, function ($d) use ($id, $user) {
             $d = is_array($d) ? $d : [];
             $d[$id] = ['by' => (string) ($user['name'] ?? 'équipe'), 'uid' => isset($user['id']) ? (string) $user['id'] : null, 'at' => date('c')];
             return $d;
         }, []);
     }
 
+    /** Retire la validation (fiche modifiée ou supprimée) ; rien n'est écrit si elle n'était pas validée. */
     public static function clear(int $id): void
     {
-        JsonStore::update(self::FILE, function ($d) use ($id) {
+        if (!isset(self::all()[$id])) {
+            return;
+        }
+        self::$memo = JsonStore::update(self::FILE, function ($d) use ($id) {
             $d = is_array($d) ? $d : [];
             unset($d[$id]);
             return $d;

@@ -70,7 +70,7 @@ $smax = max(1, max(array_map(fn ($x) => $x['bo'] + $x['site'], $t['series'] ?: [
 <div class="te-cards">
   <?php foreach ($t['people'] as $n => $x): ?>
   <article class="card card--pad te-card">
-    <h3><a href="/admin/journal?qui=<?= e(rawurlencode((string) $n)) ?>"><?= e($n) ?></a></h3>
+    <h3><a href="/admin/journal?qui=<?= e(rawurlencode((string) ($x['name'] ?? $n))) ?>"><?= e($n) ?></a></h3>
     <p class="te-nums"><span><b><?= $fmt($x['logins'] ?? 0) ?></b> connexion<?= ($x['logins'] ?? 0) > 1 ? 's' : '' ?> au BO</span><span><b><?= $fmt($x['edits']) ?></b> actions</span><span><b><?= $fmt($x['bo']) ?></b> pages BO</span><span><b><?= $fmt($x['site']) ?></b> pages site</span><span><b><?= (int) $x['days'] ?></b> j présents</span></p>
     <?php if ($x['recent']): ?>
     <ol class="te-acts"><?php foreach ($x['recent'] as $a): ?><li><time><?= e(date('d/m H:i', strtotime($a['at']))) ?></time> <?= e($a['action']) ?><?= $a['title'] !== '' ? ' <i>' . e(mb_strimwidth($a['title'], 0, 70, '…')) . '</i>' : '' ?></li><?php endforeach; ?></ol>
@@ -94,7 +94,7 @@ $smax = max(1, max(array_map(fn ($x) => $x['bo'] + $x['site'], $t['series'] ?: [
     <div style="display:flex;justify-content:space-between" class="small muted"><span>0 h</span><span>6 h</span><span>12 h</span><span>18 h</span><span>23 h</span></div>
   </div>
 </div>
-<p class="small muted" style="margin-top:16px">Compté pour chaque membre connecté, à son nom : pages du back-office, pages du site vues en étant connecté, et actions du journal d’activité. Ces chiffres ne sont jamais mêlés à l’audience du public. Les pages vues avant cette mise à jour n’étaient pas rattachées à une personne (ni au back-office).</p>
+<p class="small muted" style="margin-top:16px">Compté pour chaque membre connecté, à son nom : pages du back-office, pages du site vues en étant connecté, et actions du journal d’activité (hors connexions, déconnexions et passages d’un musée à l’autre). Chaque compte est compté sous son nom actuel. Ces chiffres ne sont jamais mêlés à l’audience du public. Les pages vues avant cette mise à jour n’étaient pas rattachées à une personne (ni au back-office).</p>
 
 <script nonce="<?= e(csp_nonce()) ?>">
 (() => {

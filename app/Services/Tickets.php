@@ -12,7 +12,9 @@ use App\Core\JsonStore;
  * « prompt pour l'IA » que l'auteur imagine pour le développement. Seuls les administrateurs
  * changent le statut ou la priorité. Chaque changement et chaque réponse sont envoyés par
  * e-mail (auteur + administrateurs, sauf la personne qui agit).
- * Fichier : storage/tickets.json (propre à chaque musée).
+ * Fichier : storage/tickets.json (propre à chaque musée) : {"next": prochain numéro, "items": [...]}
+ * (l'ancien format, une simple liste, est encore lu). Le compteur ne redescend jamais : un numéro
+ * n'est pas redonné après la suppression d'un ticket.
  */
 final class Tickets
 {
@@ -33,7 +35,7 @@ final class Tickets
     /** Tous les tickets, du plus récent au plus ancien. @return list<array> */
     public static function all(): array
     {
-        $all = array_values(JsonStore::read(self::FILE, []) ?: []);
+        $all = self::unpack(JsonStore::read(self::FILE, []))[0];
         usort($all, fn ($a, $b) => $b['id'] <=> $a['id']);
         return $all;
     }
@@ -53,9 +55,8 @@ final class Tickets
     {
         $f = self::clean($in);
         $now = date('c');
-        $t = JsonStore::update(self::FILE, function (?array $all) use ($f, $user, $now) {
-            $all = $all ?: [];
-            $id = $all ? max(array_column($all, 'id')) + 1 : 1;
+        $t = self::store(function (array $all, int &$next) use ($f, $user, $now) {
+            $id = $next++;
             $all[] = $f + [
                 'id' => $id, 'status' => 'nouveau', 'author' => self::who($user),
                 'created_at' => $now, 'updated_at' => $now, 'comments' => [],
@@ -63,7 +64,7 @@ final class Tickets
                 'seen' => [(string) ($user['id'] ?? '') => $now],
             ];
             return $all;
-        }, []);
+        });
         $t = end($t);
         self::notify($t, $user, 'Nouveau ticket', '<p><b>' . e($user['name'] ?? '') . '</b> a ouvert un ticket.</p>' . self::summary($t));
         return $t;
@@ -80,7 +81,10 @@ final class Tickets
             if (!Auth::isAdmin()) {
                 $f['priority'] = $t['priority']; // la priorité reste celle choisie par l'administrateur
             }
-            return [$f + $t, 'a modifié le ticket', null];
+            if (array_intersect_key($t, $f) == $f) {
+                return [$t, null, null]; // rien de changé : ni historique ni e-mail
+            }
+            return [$f + $t, 'a modifié le ticket', '<p><b>' . e($user['name'] ?? '') . '</b> a modifié le ticket.</p>'];
         });
     }
 
@@ -129,24 +133,26 @@ final class Tickets
 
     public static function delete(int $id): void
     {
-        JsonStore::update(self::FILE, fn (?array $all) => array_values(array_filter($all ?: [], fn ($t) => $t['id'] !== $id)), []);
+        self::store(fn (array $all) => array_filter($all, fn ($t) => $t['id'] !== $id));
     }
 
     /** Le ticket est vu par l'utilisateur (sa pastille s'éteint). */
     public static function markSeen(int $id, array $user): void
     {
         $uid = (string) ($user['id'] ?? '');
-        if ($uid === '') {
+        // Déjà vu depuis son dernier changement : rien à écrire (chaque ouverture réécrivait le fichier).
+        $t = self::get($id);
+        if ($uid === '' || !$t || !self::unread($t, $user)) {
             return;
         }
-        JsonStore::update(self::FILE, function (?array $all) use ($id, $uid) {
-            foreach ($all ?: [] as $k => $t) {
-                if ($t['id'] === $id) {
+        self::store(function (array $all) use ($id, $uid, $user) {
+            foreach ($all as $k => $t) {
+                if ($t['id'] === $id && self::unread($t, $user)) {
                     $all[$k]['seen'][$uid] = date('c');
                 }
             }
-            return $all ?: [];
-        }, []);
+            return $all;
+        });
     }
 
     /** Ticket changé depuis la dernière visite de l'utilisateur (et pas par lui). */
@@ -194,14 +200,43 @@ final class Tickets
 
     // ── Interne ────────────────────────────────────────────────────────────
 
+    /**
+     * Tickets et prochain numéro, quel que soit le format du fichier (liste d'avant le compteur, ou
+     * {"next", "items"}). Le prochain numéro n'est jamais inférieur au plus grand numéro + 1.
+     * @return array{0:list<array>,1:int}
+     */
+    private static function unpack(mixed $raw): array
+    {
+        $raw = is_array($raw) ? $raw : [];
+        $items = array_key_exists('items', $raw) ? (array) $raw['items'] : (array_is_list($raw) ? $raw : []);
+        $items = array_values(array_filter($items, fn ($t) => is_array($t) && isset($t['id'])));
+        $max = $items ? max(array_map('intval', array_column($items, 'id'))) : 0;
+        return [$items, max((int) ($raw['next'] ?? 0), $max + 1)];
+    }
+
+    /**
+     * Lecture-modification-écriture sous verrou.
+     * @param callable(list<array>, int&):array $fn reçoit les tickets et le prochain numéro (modifiable)
+     * @return list<array> les tickets enregistrés
+     */
+    private static function store(callable $fn): array
+    {
+        $saved = JsonStore::update(self::FILE, function ($raw) use ($fn) {
+            [$items, $next] = self::unpack($raw);
+            $items = array_values($fn($items, $next));
+            return ['next' => $next, 'items' => $items];
+        }, []);
+        return $saved['items'];
+    }
+
     /** @param callable(array):array{0:array,1:?string,2:?string} $fn ticket modifié, ligne d'historique, texte de l'e-mail */
     private static function change(int $id, array $user, callable $fn): array
     {
         $out = null;
         $label = null;
         $mail = null;
-        JsonStore::update(self::FILE, function (?array $all) use ($id, $user, $fn, &$out, &$label, &$mail) {
-            foreach ($all ?: [] as $k => $t) {
+        self::store(function (array $all) use ($id, $user, $fn, &$out, &$label, &$mail) {
+            foreach ($all as $k => $t) {
                 if ($t['id'] !== $id) {
                     continue;
                 }
@@ -214,8 +249,8 @@ final class Tickets
                 }
                 $all[$k] = $out = $t;
             }
-            return $all ?: [];
-        }, []);
+            return $all;
+        });
         if ($out === null) {
             throw new \InvalidArgumentException('Ticket introuvable.');
         }
@@ -263,13 +298,20 @@ final class Tickets
             . '<p><a href="' . e($url) . '">Ouvrir le ticket dans le back-office</a></p>';
     }
 
-    /** E-mail à l'auteur et aux administrateurs actifs du musée, sauf à la personne qui agit. */
+    /**
+     * E-mail à l'auteur, à ceux qui ont commenté le ticket et aux administrateurs actifs du musée, sauf
+     * à la personne qui agit.
+     */
     private static function notify(array $t, array $actor, string $what, string $html): void
     {
         $to = [];
+        $involved = [(string) ($t['author']['id'] ?? '') => true];
+        foreach ($t['comments'] ?? [] as $c) {
+            $involved[(string) ($c['by']['id'] ?? '')] = true;
+        }
+        unset($involved['']);
         foreach (Auth::users() as $id => $u) {
-            $isAuthor = (string) $id === ($t['author']['id'] ?? '');
-            if (($u['status'] ?? 'active') === 'active' && ($u['role'] === 'admin' || $isAuthor) && (string) $id !== (string) ($actor['id'] ?? '')) {
+            if (($u['status'] ?? 'active') === 'active' && (($u['role'] ?? '') === 'admin' || isset($involved[(string) $id])) && (string) $id !== (string) ($actor['id'] ?? '')) {
                 $to[(string) ($u['email'] ?? '')] = true;
             }
         }
@@ -279,7 +321,8 @@ final class Tickets
                 continue;
             }
             try {
-                self::$mailer ? (self::$mailer)($email, $subject, $html) : Mailer::send($email, $subject, Mailer::layout('Ticket n° ' . $t['id'], $html));
+                // Mailer::send met lui-même le message en page (gabarit du musée) : HTML brut ici.
+                self::$mailer ? (self::$mailer)($email, $subject, $html) : Mailer::send($email, $subject, $html);
             } catch (\Throwable $e) {
                 error_log('[tickets] e-mail : ' . $e->getMessage());
             }

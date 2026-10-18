@@ -109,8 +109,11 @@ final class Geo
         return $entry['lat'] !== null ? $entry : null;
     }
 
-    /** Position d'un stade (répertoire puis Nominatim). */
-    public static function stadium(array $st, bool $online = false): ?array
+    /**
+     * Position d'un stade (répertoire puis Nominatim).
+     * @return array|null|false position, null si introuvable, false si le service ne répond pas
+     */
+    public static function stadium(array $st, bool $online = false): array|null|false
     {
         $n = Search::norm($st['name'] . ' ' . implode(' ', $st['aliases'] ?? []));
         foreach (self::STADIUMS as $pattern => [$lat, $lng, $city, $cc]) {
@@ -123,15 +126,23 @@ final class Geo
         }
         $where = trim(($st['city'] ?? '') . ' ' . (preg_match('/^\d{2,3}$/', (string) ($st['department'] ?? '')) ? '' : ($st['department'] ?? '')));
         $q = $st['name'] . ($where !== '' ? ', ' . $where : '') . (preg_match('/^\d{2,3}$/', (string) ($st['department'] ?? '')) ? ', France' : '');
-        return self::nominatim($q, 'stadium') ?: null;
+        return self::nominatim($q, 'stadium');
     }
+
+    /** Stade introuvable : pas de nouvel essai avant ce nombre de jours (les suivants passent d'abord). */
+    public const RETRY_DAYS = 30;
 
     private static float $last = 0;
     private static int $down = 0;
+    /** @var null|callable(string,string):(array|null|false) recherche remplaçable (tests : pas d'appel réseau) */
+    public static $lookup = null;
 
     /** @return array|null|false position trouvée, null si le lieu est inconnu, false si le service ne répond pas */
     private static function nominatim(string $q, string $kind = ''): array|null|false
     {
+        if (self::$lookup) {
+            return (self::$lookup)($q, $kind);
+        }
         if (!Settings::get('map.geocoding', true) || self::$down >= 3) {
             return false; // service désactivé ou injoignable : on réessaiera au prochain passage
         }
@@ -175,10 +186,19 @@ final class Geo
     public static function run(int $max = 40, bool $online = true): array
     {
         $done = ['stades' => 0, 'lieux' => 0, 'restants' => 0];
-        $stades = Collections::get('stades', []);
-        $changed = false;
-        foreach ($stades as &$st) {
-            if (isset($st['lat']) && $st['lat'] !== null) {
+        // Les recherches (jusqu'à $max appels au service, une par seconde) se font hors verrou, sur une
+        // copie ; seules les positions trouvées (ou les échecs) sont ensuite reportées, stade par stade,
+        // dans la liste du moment : une correction faite à la main pendant ce temps n'est pas écrasée.
+        $found = [];
+        $failed = [];
+        $retry = time() - self::RETRY_DAYS * 86400;
+        foreach (Collections::get('stades', []) as $st) {
+            if (!is_array($st) || (isset($st['lat']) && $st['lat'] !== null) || !empty($st['geo_manual'])) {
+                continue;
+            }
+            // Introuvable il y a peu : on passe aux suivants au lieu de reposer la même question.
+            if (!empty($st['geo_fail_at']) && (int) strtotime((string) $st['geo_fail_at']) > $retry) {
+                $done['restants']++;
                 continue;
             }
             if ($max <= 0) {
@@ -186,24 +206,42 @@ final class Geo
                 continue;
             }
             $hit = self::stadium($st, $online);
-            if (!$hit) {
-                $done['restants']++;
-            }
+            $key = self::stadiumKey($st);
             if ($hit) {
-                $st['lat'] = $hit['lat'];
-                $st['lng'] = $hit['lng'];
-                $st['city'] = $st['city'] ?: (string) ($hit['city'] ?? '');
-                $st['country'] = $st['country'] ?: (string) ($hit['cc'] ?? '');
-                $changed = true;
-                $done['stades']++;
+                $found[$key] = $hit;
+            } else {
+                $done['restants']++;
+                if ($hit === null && $online) {
+                    $failed[$key] = true; // inconnu du service : retenu ; service muet (false) : à reprendre
+                }
             }
             if (($hit['source'] ?? '') === 'nominatim' || !$hit) {
                 $max--;
             }
         }
-        unset($st);
-        if ($changed) {
-            Collections::save('stades', $stades, null, 'Géolocalisation automatique des stades');
+        if ($found || $failed) {
+            Collections::update('stades', function ($list) use ($found, $failed, &$done) {
+                foreach ($list as &$st) {
+                    $key = is_array($st) ? self::stadiumKey($st) : '';
+                    if ($key === '' || (isset($st['lat']) && $st['lat'] !== null) || !empty($st['geo_manual'])) {
+                        continue; // positionné entre-temps (à la main ou par une autre tâche)
+                    }
+                    if (isset($found[$key])) {
+                        $hit = $found[$key];
+                        $st['lat'] = $hit['lat'];
+                        $st['lng'] = $hit['lng'];
+                        // Ville et pays : seulement s'ils sont encore vides.
+                        $st['city'] = ($st['city'] ?? '') ?: (string) ($hit['city'] ?? '');
+                        $st['country'] = ($st['country'] ?? '') ?: (string) ($hit['cc'] ?? '');
+                        unset($st['geo_fail_at']);
+                        $done['stades']++;
+                    } elseif (isset($failed[$key])) {
+                        $st['geo_fail_at'] = date('c');
+                    }
+                }
+                unset($st);
+                return $list;
+            }, null, 'Géolocalisation automatique des stades');
         }
         $seen = Collections::get('geo', []);
         foreach (Index::published('personne') as $s) {
@@ -232,6 +270,12 @@ final class Geo
         }
         self::forget();
         return $done;
+    }
+
+    /** Clé d'un stade pour reporter un résultat dans la liste relue (identifiant, sinon nom). */
+    private static function stadiumKey(array $st): string
+    {
+        return (string) ($st['id'] ?? '') !== '' ? 'id:' . $st['id'] : 'nom:' . (string) ($st['name'] ?? '');
     }
 
     /** Vide le cache des données de la carte (après une correction de coordonnées). */

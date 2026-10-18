@@ -145,8 +145,24 @@ final class Collections extends Base
         ];
     }
 
+    /**
+     * Collections réservées aux administrateurs (page « Faire un don » : textes et paliers des dons,
+     * comme l'écran des dons). Les autres collections (quiz, frise, comparateur de maillots…) sont
+     * des contenus éditoriaux ouverts à l'équipe.
+     */
+    private const ADMIN_COLLECTIONS = ['dons'];
+
+    /** Collection réservée aux administrateurs (liste ci-dessus ou adresse réservée du back-office). */
+    public static function adminOnly(string $name): bool
+    {
+        return in_array($name, self::ADMIN_COLLECTIONS, true) || Router::adminOnly('/admin/collection/' . $name);
+    }
+
     public static function edit(Request $req, string $name): Response
     {
+        if (self::adminOnly($name) && ($deny = self::denyUnlessAdmin())) {
+            return $deny;
+        }
         $schema = self::schemas()[$name] ?? null;
         if (!$schema) {
             return self::html('admin/message', ['title' => 'Contenu introuvable', 'text' => 'Ce contenu n’existe pas.', 'back' => '/admin/interactif'], ['title' => 'Introuvable'], 404);
@@ -158,6 +174,9 @@ final class Collections extends Base
             $data += ($schema['default'])();
         }
         $versions = JsonStore::read(STORAGE_PATH . "/versions/collections/$name/index.json", []) ?: [];
+        if ($name === 'dictionnaire') {
+            self::rememberDictionary($data);
+        }
         return self::html('admin/collections/edit', ['name' => $name, 'schema' => $schema, 'data' => $data, 'isDefault' => $isDefault, 'versions' => array_reverse(array_slice($versions, -8))], [
             'title' => $schema['label'], 'crumb_html' => $schema['crumb_html'] ?? 'Interactif › <a href="/admin/interactif">Quiz, frise, carte…</a>', 'nav' => $schema['nav'] ?? ($name === 'dons' ? 'dons' : 'interactif'),
             'tips' => $name === 'dictionnaire' ? 'dictionnaire' : null,
@@ -166,6 +185,9 @@ final class Collections extends Base
 
     public static function save(Request $req, string $name): Response
     {
+        if (self::adminOnly($name) && !Auth::isAdmin()) {
+            return self::json(['error' => 'Réservé aux administrateurs.'], 403);
+        }
         $schema = self::schemas()[$name] ?? null;
         if (!$schema) {
             return self::json(['error' => 'Contenu inconnu.'], 404);
@@ -202,11 +224,47 @@ final class Collections extends Base
                 usort($out, fn ($a, $b) => strcmp(\App\Data\Paths::slug((string) ($a[$k] ?? '')), \App\Data\Paths::slug((string) ($b[$k] ?? ''))));
             }
         }
-        Store::save($name, $out, self::actor(), 'Modification de ' . Store::label($name));
+        if ($name === 'dictionnaire') {
+            // L'écran renvoie toute la liste : les mots ajoutés depuis le correcteur pendant que la page
+            // était ouverte (absents de la liste vue à l'ouverture) sont gardés, au lieu d'être effacés.
+            $base = \App\Core\Session::get('dico_vu');
+            $saved = Store::update($name, function ($cur) use ($out, $base) {
+                if (!is_array($base)) {
+                    return $out;
+                }
+                $mot = fn ($it) => mb_strtolower(trim((string) (is_array($it) ? ($it['mot'] ?? '') : $it)));
+                $sent = array_flip(array_map($mot, $out));
+                foreach ((array) $cur as $it) {
+                    $w = $mot($it);
+                    if ($w !== '' && !isset($base[$w]) && !isset($sent[$w])) {
+                        $out[] = $it;
+                        $sent[$w] = true;
+                    }
+                }
+                usort($out, fn ($a, $b) => strcmp(\App\Data\Paths::slug((string) ($a['mot'] ?? '')), \App\Data\Paths::slug((string) ($b['mot'] ?? ''))));
+                return $out;
+            }, self::actor(), 'Modification de ' . Store::label($name));
+            self::rememberDictionary($saved);
+        } else {
+            Store::save($name, $out, self::actor(), 'Modification de ' . Store::label($name));
+        }
         if (in_array($name, ['epopees', 'lieux'], true)) {
             \App\Services\Geo::forget();
         }
         return self::json(['ok' => true, 'message' => $schema['label'] . ' : enregistré.', 'modified' => date('c'), 'savedLabel' => 'Enregistré à ' . date('H:i'), 'reload' => !empty($schema['sort']) || !empty($schema['sort_alpha'])]);
+    }
+
+    /** Mots du dictionnaire vus par l'historien (à l'ouverture de l'écran, puis à chaque enregistrement). */
+    private static function rememberDictionary(mixed $list): void
+    {
+        $seen = [];
+        foreach (is_array($list) ? $list : [] as $it) {
+            $w = mb_strtolower(trim((string) (is_array($it) ? ($it['mot'] ?? '') : $it)));
+            if ($w !== '') {
+                $seen[$w] = true;
+            }
+        }
+        \App\Core\Session::set('dico_vu', $seen);
     }
 
     /** Un élément contient-il autre chose que des cases à cocher ? */

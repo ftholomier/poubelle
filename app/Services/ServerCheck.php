@@ -139,12 +139,14 @@ final class ServerCheck
     }
 
     /**
-     * Mémoire de Redis (tous musées confondus) : null s'il n'est pas connecté.
+     * Mémoire de Redis (tous musées confondus) : null s'il n'est pas connecté. max = 0 : pas de limite
+     * réglée (maxmemory) ; aucune limite n'est alors supposée, ni pourcentage ni alerte. keys : entrées
+     * de ce musée (comptées par SCAN, jamais KEYS qui bloque Redis).
      * @return array{used:float,max:float,keys:int,where:string}|null
      */
-    public static function redis(): ?array
+    public static function redis(?\Redis $r = null): ?array
     {
-        $r = \App\Core\PhpCache::redis();
+        $r ??= \App\Core\PhpCache::redis();
         if (!$r) {
             return null;
         }
@@ -155,7 +157,11 @@ final class ServerCheck
                 $cfg = @$r->config('GET', 'maxmemory');
                 $max = (int) (is_array($cfg) ? ($cfg['maxmemory'] ?? 0) : 0);
             }
-            return ['used' => round((int) ($i['used_memory'] ?? 0) / 1048576, 1), 'max' => round(($max ?: 128 * 1048576) / 1048576), 'keys' => count($r->keys('*') ?: []), 'where' => (string) \App\Core\PhpCache::$redisWhere];
+            $keys = 0;
+            foreach (\App\Core\PhpCache::scan($r, (string) $r->getOption(\Redis::OPT_PREFIX) . '*') as $batch) {
+                $keys += count($batch);
+            }
+            return ['used' => round((int) ($i['used_memory'] ?? 0) / 1048576, 1), 'max' => $max > 0 ? round($max / 1048576) : 0, 'keys' => $keys, 'where' => (string) \App\Core\PhpCache::$redisWhere];
         } catch (\Throwable) {
             return null;
         }
@@ -197,13 +203,15 @@ final class ServerCheck
             // Le reste (entrées d'avant le répertoire, pointeurs) : mesuré aussi, sur une seule ligne.
             $seen = array_flip(array_keys($r->hGetAll('idx') ?: []));
             $om = $on = 0;
-            foreach ($r->keys('*') ?: [] as $full) {
-                $k = substr((string) $full, strlen($prefix));
-                if (isset($seen[$k]) || $k === 'idx' || str_starts_with($k, 'v:')) {
-                    continue;
+            foreach (\App\Core\PhpCache::scan($r, $prefix . '*') as $batch) {
+                foreach ($batch as $full) {
+                    $k = substr((string) $full, strlen($prefix));
+                    if (isset($seen[$k]) || $k === 'idx' || str_starts_with($k, 'v:')) {
+                        continue;
+                    }
+                    $om += (int) $r->rawCommand('MEMORY', 'USAGE', (string) $full);
+                    $on++;
                 }
-                $om += (int) $r->rawCommand('MEMORY', 'USAGE', (string) $full);
-                $on++;
             }
             if ($on > 0) {
                 $out[] = ['dir' => '(entrées d’avant le répertoire : videz Redis une fois pour les ranger)', 'mb' => round($om / 1048576, 1), 'n' => $on];

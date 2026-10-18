@@ -68,8 +68,17 @@ final class OpcacheGuard
     }
 
     /**
-     * E-mail aux administrateurs quand OPcache ou Redis atteint 90 % (au plus un par jour et par
-     * mémoire). Vérifié ici, côté site : les tâches planifiées ne voient pas l'OPcache du site.
+     * État des alertes mémoire : commun à tous les musées (APP_ROOT/storage), comme OPcache et Redis
+     * eux-mêmes. Contient les envois par mémoire et par adresse, et les liens déjà utilisés.
+     */
+    public static string $alertsFile = APP_ROOT . '/storage/memoire-alertes.json';
+    /** @var null|callable(string,string,string):bool envoi d'e-mail remplaçable (tests) */
+    public static $mailer = null;
+
+    /**
+     * E-mail aux administrateurs quand OPcache ou Redis atteint 90 % (au plus un par jour, par mémoire
+     * et par adresse : un administrateur de plusieurs musées ne le reçoit qu'une fois). Vérifié ici,
+     * côté site : les tâches planifiées ne voient pas l'OPcache du site.
      */
     private static function alerts(float $opRatio, int $opTotal): void
     {
@@ -84,24 +93,40 @@ final class OpcacheGuard
         if (!$hits) {
             return;
         }
-        $file = STORAGE_PATH . '/memoire-alertes.json';
-        $sent = @json_decode((string) @file_get_contents($file), true) ?: [];
-        $to = array_values(array_filter(array_map(fn ($u) => ($u['role'] ?? '') === 'admin' && ($u['status'] ?? '') === 'active' ? (string) ($u['email'] ?? '') : '', Auth::users())));
-        foreach ($hits as $k => $text) {
-            if (($sent[$k] ?? 0) > time() - 86400 || !$to) {
-                continue;
+        $to = array_values(array_unique(array_filter(array_map(fn ($u) => ($u['role'] ?? '') === 'admin' && ($u['status'] ?? '') === 'active' ? mb_strtolower(trim((string) ($u['email'] ?? ''))) : '', Auth::users()))));
+        if (!$to) {
+            return;
+        }
+        // Envois décidés et notés sous verrou (le même fichier que les liens utilisés), puis faits hors verrou.
+        $plan = [];
+        JsonStore::update(self::$alertsFile, function ($d) use ($hits, $to, &$plan) {
+            $d = is_array($d) ? $d : [];
+            $mails = (array) ($d['mails'] ?? []);
+            foreach ($hits as $k => $text) {
+                foreach ($to as $mail) {
+                    $h = md5($mail);
+                    if (($mails[$k][$h] ?? 0) > time() - 86400) {
+                        continue;
+                    }
+                    $mails[$k][$h] = time();
+                    $plan[$k][] = $mail;
+                }
+                $mails[$k] = array_filter((array) ($mails[$k] ?? []), fn ($t) => $t > time() - 2 * 86400);
             }
+            $d['mails'] = $mails;
+            return $d;
+        }, []);
+        foreach ($plan as $k => $mails) {
             $site = (string) Settings::get('general.site_name', 'Le musée');
             $url = rtrim((string) Settings::get('general.base_url', ''), '/') . '/admin/taches#serveur';
-            $html = '<p>' . htmlspecialchars($text) . '</p><p>Le site continue de fonctionner, mais il vaut mieux vider cette mémoire.</p>'
+            $html = '<p>' . htmlspecialchars($hits[$k]) . '</p><p>Le site continue de fonctionner, mais il vaut mieux vider cette mémoire (commune à tous les musées du serveur).</p>'
                 . '<p><a href="' . htmlspecialchars(self::link($k)) . '"><b>Vider ' . ($k === 'opcache' ? 'OPcache' : 'Redis') . ' maintenant</b></a> (lien sécurisé, valable 24 h, une seule fois ; une confirmation est demandée)</p>'
                 . '<p><a href="' . htmlspecialchars($url) . '">Ouvrir le pavé Serveur</a></p>';
-            foreach ($to as $mail) {
-                \App\Services\Mailer::send($mail, '[' . $site . '] Alerte mémoire : ' . ($k === 'opcache' ? 'OPcache' : 'Redis') . ' à 90 %', $html);
+            foreach ($mails as $mail) {
+                $subject = '[' . $site . '] Alerte mémoire : ' . ($k === 'opcache' ? 'OPcache' : 'Redis') . ' à 90 %';
+                self::$mailer ? (self::$mailer)($mail, $subject, $html) : \App\Services\Mailer::send($mail, $subject, $html);
             }
-            $sent[$k] = time();
         }
-        JsonStore::write($file, $sent);
     }
 
     /** Lien signé de l'e-mail d'alerte : vide OPcache ou Redis sans connexion (24 h, une seule fois). */
@@ -122,9 +147,8 @@ final class OpcacheGuard
         if (!in_array($k, ['opcache', 'redis'], true) || $e < time() || !hash_equals(self::sig($k, $e), $s)) {
             return null;
         }
-        $file = STORAGE_PATH . '/memoire-alertes.json';
         $used = false;
-        JsonStore::update($file, function ($d) use ($s, &$used) {
+        JsonStore::update(self::$alertsFile, function ($d) use ($s, &$used) {
             $d = is_array($d) ? $d : [];
             $d['used'] = array_filter((array) ($d['used'] ?? []), fn ($t) => $t > time() - 2 * 86400);
             $used = isset($d['used'][$s]);

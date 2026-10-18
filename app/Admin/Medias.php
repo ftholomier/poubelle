@@ -341,11 +341,6 @@ final class Medias extends Base
             Activity::log($user, $edit ? 'a retouché le média' : 'a annulé la retouche du média', ['title' => $rel]);
             return self::json(['ok' => true, 'message' => $edit ? 'Retouche enregistrée : les vignettes sont régénérées (l’original reste intact).' : 'Retouche annulée.', 'item' => self::item($rel, Media::get($rel) ?? [], Media::usage())]);
         }
-        // Crédit écrit dans la légende (« … Photo Prénom Nom ») et champ crédit vide : rangé tout seul.
-        if (trim((string) ($d['credit'] ?? '')) === '' && ($sp = \App\Services\CaptionCredit::split((string) ($d['caption'] ?? '')))) {
-            $d['caption'] = $sp['caption'];
-            $d['credit'] = $sp['credit'];
-        }
         $meta = [
             'caption' => Html::line($d['caption'] ?? '', 500),
             'caption_en' => Html::line($d['caption_en'] ?? '', 500),
@@ -360,9 +355,16 @@ final class Medias extends Base
         if ($wallOff) {
             $meta['nowall'] = true;
         }
-        Media::put($rel, $meta, $user, $wallOff === false ? ['nowall'] : []);
+        if (!Media::put($rel, $meta, $user, $wallOff === false ? ['nowall'] : [])) {
+            return self::json(['error' => 'Ce média vient d’être supprimé : rien n’a été enregistré.'], 404);
+        }
         \App\Data\Derived::markDirty();
-        return self::json(['ok' => true, 'message' => 'Média enregistré.', 'item' => self::item($rel, Media::get($rel) ?? [], Media::usage())]);
+        // Crédit écrit dans la légende (« … Photo Prénom Nom ») et champ crédit vide : signalé, jamais
+        // découpé d'office (« la photo Officielle 1938 » n'est pas un crédit) ; l'historien valide le
+        // découpage dans Médiathèque › Crédits dans les légendes.
+        $hint = $meta['credit'] === '' && ($sp = \App\Services\CaptionCredit::split($meta['caption']))
+            ? ' La légende semble contenir un crédit (« ' . $sp['credit'] . ' ») : à vérifier dans Médiathèque › Crédits dans les légendes.' : '';
+        return self::json(['ok' => true, 'message' => 'Média enregistré.' . $hint, 'item' => self::item($rel, Media::get($rel) ?? [], Media::usage())]);
     }
 
     /** Crédits écrits dans les légendes (« Gomel Photo Jean-Yves Caddedu ») : propositions de découpage. */
@@ -384,14 +386,27 @@ final class Medias extends Base
         return self::html('admin/medias/credits', ['rows' => self::creditProposals()], ['title' => 'Crédits dans les légendes', 'crumb' => 'Médiathèque', 'nav' => 'medias']);
     }
 
-    /** POST /admin/medias/credits : applique le découpage aux photos cochées (recalculé ici, jamais repris du formulaire). */
+    /** Empreinte d'une légende montrée dans l'aperçu (pour n'appliquer que ce qui a été vu). */
+    public static function captionHash(string $caption): string
+    {
+        return substr(md5($caption), 0, 12);
+    }
+
+    /**
+     * POST /admin/medias/credits : applique le découpage aux photos montrées dans l'aperçu (recalculé ici,
+     * jamais repris du formulaire). L'aperçu envoie la liste vue (chemin => empreinte de la légende) : une
+     * photo apparue depuis, ou dont la légende a changé entre-temps, n'est pas touchée.
+     */
     public static function creditsApply(Request $req): Response
     {
         // Les cases cochées sont celles à NE PAS traiter (peu nombreuses : pas de limite de champs).
         $skip = array_flip(array_map('strval', (array) ($req->post['skip'] ?? [])));
+        // Liste vue : un seul champ (JSON), quel que soit le nombre de photos.
+        $seen = json_decode((string) ($req->post['seen'] ?? ''), true);
+        $seen = is_array($seen) ? $seen : [];
         $changes = [];
         foreach (self::creditProposals() as $rel => $p) {
-            if (!isset($skip[$rel])) {
+            if (!isset($skip[$rel]) && ($seen[$rel] ?? null) === self::captionHash($p['old'])) {
                 $changes[$rel] = ['caption' => $p['caption'], 'credit' => $p['credit']];
             }
         }

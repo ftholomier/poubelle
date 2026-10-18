@@ -8,7 +8,7 @@ include __DIR__ . '/_style.php';
   <div>
     <article class="card card--pad">
       <div class="card__head"><h2 class="card__t">n° <?= (int) $t['id'] ?> · <?= e($t['title']) ?></h2><span class="tk-state tk-state--<?= e($t['status']) ?>"><?= e(Tickets::STATES[$t['status']]) ?></span></div>
-      <p class="tk-meta"><?= e(Tickets::TYPES[$t['type']]) ?> · priorité <span class="tk-prio--<?= e($t['priority']) ?>"><?= e(Tickets::PRIORITIES[$t['priority']]) ?></span> · ouvert par <b><?= e($t['author']['name'] ?? '') ?></b> le <?= e(date('d/m/Y à H:i', strtotime($t['created_at']))) ?><?php if ($t['page'] !== ''): ?> · écran : <?= str_starts_with($t['page'], '/') ? '<a href="' . e($t['page']) . '">' . e($t['page']) . '</a>' : e($t['page']) ?><?php endif; ?></p>
+      <p class="tk-meta"><?= e(Tickets::TYPES[$t['type']]) ?> · priorité <span class="tk-prio--<?= e($t['priority']) ?>"><?= e(Tickets::PRIORITIES[$t['priority']]) ?></span> · ouvert par <b><?= e($t['author']['name'] ?? '') ?></b> le <?= e(date('d/m/Y à H:i', strtotime($t['created_at']))) ?><?php if ($t['page'] !== ''): /* lien seulement vers une adresse du site : « //autre-site » ou « /\autre-site » restent du texte */ ?> · écran : <?= preg_match('#^/(?![/\\\\])#', $t['page']) ? '<a href="' . e($t['page']) . '">' . e($t['page']) . '</a>' : e($t['page']) ?><?php endif; ?></p>
       <?php if ($edit && $canEdit): ?>
         <form method="post" action="/admin/tickets/<?= (int) $t['id'] ?>"><?= csrf_field() ?><input type="hidden" name="action" value="modifier">
           <?php include __DIR__ . '/_form.php'; ?>

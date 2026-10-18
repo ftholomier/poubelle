@@ -194,12 +194,15 @@ final class Fiches extends Base
                         }
                         break;
                     case 'corbeille':
-                        Store::trash($id, $user);
-                        $n++;
+                        // Seules les fiches réellement déplacées sont comptées (déjà à la corbeille : ignorée).
+                        if (Store::trash($id, $user)) {
+                            $n++;
+                        }
                         break;
                     case 'sortir':
-                        Store::untrash($id, $user);
-                        $n++;
+                        if (Store::untrash($id, $user)) {
+                            $n++;
+                        }
                         break;
                     case 'supprimer':
                         if (Auth::can('destroy') && $doc['status'] === 'corbeille') {
@@ -406,13 +409,10 @@ final class Fiches extends Base
             return self::json(['ok' => false, 'error' => $err, 'field' => 'publish_at'], 422);
         }
         $doc = Moments::stamp($doc, $isNew ? null : $before, self::actor());
-        // « Déjà publiée » : retenu au passage de statut (l'adresse ne bouge plus ensuite).
-        $prevStatus = $before['status'] ?? '';
-        if ($doc['status'] !== $prevStatus && ($doc['status'] === 'publie' || $prevStatus === 'publie')) {
-            if ($doc['status'] === 'publie' && empty($before['published_once']) && $prevStatus !== 'publie') {
-                $doc['date'] = date('c');
-            }
-            $doc['published_once'] = true;
+        // « Déjà publiée » et date de publication : posés par Store::save au passage de statut
+        // (comme pour l'action groupée) ; une fiche créée ici prend la date de sa mise en ligne.
+        if ($isNew && $doc['status'] === 'publie') {
+            $doc['date'] = date('c');
         }
         $message = Html::line($in['_message'] ?? '', 160);
         if ($switch && $message === '') {

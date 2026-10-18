@@ -242,10 +242,16 @@ final class StatsReport
     public static function team(string $from, string $to): array
     {
         Stats::aggregate();
+        // Regroupé par compte (uid), affiché sous le nom actuel : un membre qui a changé de nom reste
+        // une seule personne, deux homonymes restent deux personnes.
         $names = [];
+        $byName = [];
         foreach (\App\Core\Auth::users() as $uid => $u) {
-            $names['u' . ($u['id'] ?? $uid)] = (string) ($u['name'] ?? '');
+            $id = (string) ($u['id'] ?? $uid);
+            $names[$id] = (string) ($u['name'] ?? '');
+            $byName[$names[$id]] ??= $id;
         }
+        $blank = ['bo' => 0, 'site' => 0, 'edits' => 0, 'days' => 0, 'last' => '', 'logins' => 0];
         $r = ['people' => [], 'bo' => 0, 'site' => 0, 'hours' => array_fill(0, 24, 0), 'series' => [], 'sections' => [], 'site_pages' => [],
             'actions' => [], 'fiches' => [], 'edits' => 0, 'days_active' => 0];
         foreach (Stats::days() as $d => $v) {
@@ -269,11 +275,12 @@ final class StatsReport
                 $r['hours'][$h] += $c;
             }
             foreach ($v['who'] ?? [] as $uid => $x) {
-                $n = $names[$uid] ?? 'Ancien membre';
-                $r['people'][$n] ??= ['bo' => 0, 'site' => 0, 'edits' => 0, 'days' => 0, 'last' => '', 'logins' => 0];
-                $r['people'][$n]['bo'] += (int) ($x['bo'] ?? 0);
-                $r['people'][$n]['site'] += (int) ($x['site'] ?? 0);
-                $r['people'][$n]['days']++;
+                $id = str_starts_with((string) $uid, 'u') ? substr((string) $uid, 1) : (string) $uid;
+                $k = isset($names[$id]) ? $id : '~ancien';
+                $r['people'][$k] ??= $blank;
+                $r['people'][$k]['bo'] += (int) ($x['bo'] ?? 0);
+                $r['people'][$k]['site'] += (int) ($x['site'] ?? 0);
+                $r['people'][$k]['days']++;
             }
             $r['bo'] += $bo;
             $r['site'] += $site;
@@ -282,7 +289,17 @@ final class StatsReport
                 $r['days_active']++;
             }
         }
-        // Journal d'activité : ce qui a été fait, par qui.
+        // Compte d'une entrée du journal : son uid, sinon (entrées anciennes) le nom d'un membre actuel.
+        // Les traitements automatiques (traduction, reprises, IA…) n'ont pas de compte : écartés.
+        $who = function (array $e) use ($names, $byName): ?string {
+            $uid = (string) ($e['uid'] ?? '');
+            if ($uid !== '') {
+                return isset($names[$uid]) ? $uid : null;
+            }
+            return $byName[(string) ($e['by'] ?? '')] ?? null;
+        };
+        // Journal d'activité : ce qui a été fait, par qui (sans les connexions, déconnexions et
+        // passages d'un musée à l'autre, comptés à part).
         $months = [];
         for ($t = strtotime(substr($from, 0, 7) . '-01'); $t <= strtotime($to); $t = strtotime('+1 month', $t)) {
             $months[] = date('Y-m', $t);
@@ -294,18 +311,19 @@ final class StatsReport
             }
             foreach (\App\Core\JsonStore::readLines($f) as $e) {
                 $day = substr((string) ($e['at'] ?? ''), 0, 10);
-                // Seulement les vrais comptes de l'équipe (pas les traitements automatiques : traduction, reprises, IA…).
-                if ($day < $from || $day > $to || !in_array((string) ($e['by'] ?? ''), $names, true)) {
+                if ($day < $from || $day > $to || ($k = $who($e)) === null) {
                     continue;
                 }
-                $n = (string) $e['by'];
-                $r['people'][$n] ??= ['bo' => 0, 'site' => 0, 'edits' => 0, 'days' => 0, 'last' => '', 'logins' => 0];
-                $r['people'][$n]['edits']++;
-                $r['people'][$n]['last'] = max($r['people'][$n]['last'], (string) $e['at']);
+                $r['people'][$k] ??= $blank;
                 $a = (string) ($e['action'] ?? '');
-                if (str_starts_with($a, 's’est connecté') || str_starts_with($a, "s'est connecté")) {
-                    $r['people'][$n]['logins']++;
+                if (self::isSession($a)) {
+                    if (str_starts_with($a, 's’est connecté') || str_starts_with($a, "s'est connecté")) {
+                        $r['people'][$k]['logins']++;
+                    }
+                    continue;
                 }
+                $r['people'][$k]['edits']++;
+                $r['people'][$k]['last'] = max($r['people'][$k]['last'], (string) $e['at']);
                 $r['actions'][$a] = ($r['actions'][$a] ?? 0) + 1;
                 if (!empty($e['title'])) {
                     $r['fiches'][(string) $e['title']] = ($r['fiches'][(string) $e['title']] ?? 0) + 1;
@@ -314,29 +332,64 @@ final class StatsReport
             }
         }
         // Un pavé par membre de l'équipe du musée, même sans activité sur la période ; ses 10 dernières
-        // actions (toutes périodes confondues).
-        foreach ($names as $n) {
+        // actions (toutes périodes confondues) : le journal est relu mois par mois, du plus récent au
+        // plus ancien, jusqu'à en avoir 10 pour chacun.
+        foreach ($names as $id => $n) {
             if ($n !== '') {
-                $r['people'][$n] ??= ['bo' => 0, 'site' => 0, 'edits' => 0, 'days' => 0, 'last' => '', 'logins' => 0];
+                $r['people'][$id] ??= $blank;
             }
         }
         foreach ($r['people'] as &$x) {
             $x['recent'] = [];
         }
         unset($x);
-        foreach (\App\Data\Activity::recent(6000) as $e) {
-            $n = (string) ($e['by'] ?? '');
-            if (isset($r['people'][$n]) && count($r['people'][$n]['recent']) < 10) {
-                $r['people'][$n]['recent'][] = ['at' => (string) ($e['at'] ?? ''), 'action' => (string) ($e['action'] ?? ''), 'title' => (string) ($e['title'] ?? '')];
+        $missing = count(array_filter(array_keys($r['people']), fn ($k) => $k !== '~ancien'));
+        $files = glob(STORAGE_PATH . '/activity/*.jsonl') ?: [];
+        rsort($files);
+        foreach ($files as $f) {
+            if ($missing <= 0) {
+                break;
+            }
+            foreach (\App\Core\JsonStore::readLines($f) as $e) {
+                $k = $who($e);
+                if ($k === null || !isset($r['people'][$k]) || count($r['people'][$k]['recent']) >= 10 || self::isSession((string) ($e['action'] ?? ''))) {
+                    continue;
+                }
+                $r['people'][$k]['recent'][] = ['at' => (string) ($e['at'] ?? ''), 'action' => (string) ($e['action'] ?? ''), 'title' => (string) ($e['title'] ?? '')];
+                if (count($r['people'][$k]['recent']) === 10 && --$missing <= 0) {
+                    break;
+                }
             }
         }
         uasort($r['people'], fn ($a, $b) => ($b['edits'] * 5 + $b['bo'] + $b['site']) <=> ($a['edits'] * 5 + $a['bo'] + $a['site']));
+        // Affichage : nom actuel du compte (homonymes distingués).
+        $people = [];
+        foreach ($r['people'] as $k => $x) {
+            $n = $k === '~ancien' ? 'Ancien membre' : ($names[$k] ?: 'Membre ' . $k);
+            $label = $n;
+            for ($i = 2; isset($people[$label]); $i++) {
+                $label = $n . ' (' . $i . ')';
+            }
+            $people[$label] = $x + ['uid' => $k === '~ancien' ? null : (string) $k, 'name' => $n];
+        }
+        $r['people'] = $people;
         foreach (['sections' => 12, 'site_pages' => 10, 'actions' => 10, 'fiches' => 12] as $k => $lim) {
             arsort($r[$k]);
             $r[$k] = array_slice($r[$k], 0, $lim, true);
         }
         ksort($r['series']);
         return $r;
+    }
+
+    /** Entrée de session du journal (connexion, déconnexion, passage d'un musée à l'autre) : pas une action. */
+    public static function isSession(string $action): bool
+    {
+        foreach (['s’est connecté', "s'est connecté", 's’est déconnecté', "s'est déconnecté", 'a été déconnecté', 'est passé au musée', 'est arrivé depuis un autre musée'] as $p) {
+            if (str_starts_with($action, $p)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Libellé lisible d'une adresse. */

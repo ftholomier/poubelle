@@ -749,15 +749,18 @@ final class Proofreader
         if ($word === '' || mb_strlen($word) > 80 || !preg_match('/\p{L}/u', $word)) {
             return false;
         }
-        $list = Collections::get('dictionnaire', []);
-        foreach ($list as $it) {
-            if (mb_strtolower((string) ($it['mot'] ?? '')) === mb_strtolower($word)) {
-                return true;
+        // Ajout sous verrou : deux mots ajoutés au même moment (deux historiens, deux onglets) sont gardés.
+        Collections::update('dictionnaire', function ($list) use ($word, $user) {
+            $list = is_array($list) ? $list : [];
+            foreach ($list as $it) {
+                if (mb_strtolower((string) (is_array($it) ? ($it['mot'] ?? '') : $it)) === mb_strtolower($word)) {
+                    return $list; // déjà connu : pas de nouvelle version
+                }
             }
-        }
-        $list[] = ['mot' => $word, 'note' => 'Ajouté depuis le correcteur' . (!empty($user['name']) ? ' par ' . $user['name'] : '')];
-        usort($list, fn ($a, $b) => strcasecmp(\App\Data\Paths::slug((string) ($a['mot'] ?? '')), \App\Data\Paths::slug((string) ($b['mot'] ?? ''))));
-        Collections::save('dictionnaire', $list, $user, 'Mot ajouté au dictionnaire : ' . $word);
+            $list[] = ['mot' => $word, 'note' => 'Ajouté depuis le correcteur' . (!empty($user['name']) ? ' par ' . $user['name'] : '')];
+            usort($list, fn ($a, $b) => strcasecmp(\App\Data\Paths::slug((string) ($a['mot'] ?? '')), \App\Data\Paths::slug((string) ($b['mot'] ?? ''))));
+            return $list;
+        }, $user, 'Mot ajouté au dictionnaire : ' . $word);
         self::$dict = null;
         self::$names = null;
         return true;
@@ -1130,6 +1133,23 @@ final class Proofreader
         if (!Settings::get('correcteur.background', true)) {
             return null;
         }
+        // Un seul passage à la fois (tâche planifiée, console) : sinon les mêmes fiches relues et
+        // payées deux fois, et le plafond quotidien d'appels compté de travers.
+        @mkdir(self::$dir, 0775, true);
+        $lock = @fopen(self::$dir . '/verification.lock', 'c');
+        if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) {
+            return ['fiches' => 0, 'message' => 'vérification déjà en cours (autre passage)'];
+        }
+        try {
+            return self::runLocked($seconds, $cap);
+        } finally {
+            flock($lock, LOCK_UN);
+            fclose($lock);
+        }
+    }
+
+    private static function runLocked(int $seconds, ?int $cap): ?array
+    {
         $t0 = microtime(true);
         $state = JsonStore::read(self::$dir . '/etat.json', []) ?: [];
         if (($state['day'] ?? '') !== date('Y-m-d')) {

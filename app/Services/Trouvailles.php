@@ -209,12 +209,15 @@ final class Trouvailles
         });
     }
 
-    /** Tâche planifiée : quelques matchs de la file (en 100 s au plus). */
+    /** Tâche planifiée : quelques matchs de la file (en 100 s au plus, ou le temps que la tâche planifiée lui laisse). */
     public static function tick(int $seconds = 100): ?string
     {
         $s = self::state();
         if (empty($s['running']) || !$s['queue']) {
             return null;
+        }
+        if (AiCosts::paused('trouvailles')) {
+            return 'en pause : budget IA du mois atteint';
         }
         $r = self::work($seconds, 4);
         return $r['done'] . ' match(s) fouillé(s), ' . $r['found'] . ' proposition(s), ' . $r['left'] . ' restant(s)' . ($r['errors'] ? ', ' . $r['errors'] . ' erreur(s)' : '');
@@ -253,12 +256,21 @@ final class Trouvailles
                 return $st;
             });
             try {
-                $r = self::search((int) $id, $s['sources']);
+                $r = self::search((int) $id, $s['sources'], $end);
                 $found += $r['new'];
                 $done++;
                 $ix = Index::get((int) $id);
                 self::log(($ix ? Pages::shortTitle($ix) . ' (' . substr((string) ($ix['m']['date'] ?? ''), 0, 4) . ')' : 'Match ' . $id) . ' : ' . ($r['new'] ? $r['new'] . ' proposition(s)' : 'rien de nouveau') . ($r['excerpts'] ? ', ' . $r['excerpts'] . ' journal(aux) lu(s)' : ''));
             } catch (\Throwable $e) {
+                if ($e->getMessage() === self::LATE) {
+                    // Délai écoulé en pleine fouille : le match reprend en tête de file au passage suivant.
+                    self::saveState(function ($st) use ($id) {
+                        array_unshift($st['queue'], (int) $id);
+                        $st['queue'] = array_values(array_unique($st['queue']));
+                        return $st;
+                    });
+                    break;
+                }
                 $errors++;
                 self::log('Match ' . $id . ' : ' . $e->getMessage());
             }
@@ -284,11 +296,24 @@ final class Trouvailles
 
     // ------------------------------------------------------------------ recherche d'un match
 
+    /** Message de l'exception « délai écoulé » (search() avec une échéance). */
+    public const LATE = 'délai écoulé : recherche reprise au passage suivant';
+
+    /** Échéance de la recherche en cours (microtime), ou null : sans limite. */
+    private static ?float $deadline = null;
+
+    private static function late(): bool
+    {
+        return self::$deadline !== null && microtime(true) >= self::$deadline;
+    }
+
     /**
-     * Fouille les sources pour un match et ajoute les nouvelles propositions.
+     * Fouille les sources pour un match et ajoute les nouvelles propositions. $deadline (microtime) :
+     * vérifiée entre les numéros et les pages de Gallica et avant chaque appel à l'IA ; dépassée,
+     * la fouille s'arrête sans rien enregistrer (exception self::LATE).
      * @return array{new:int, excerpts:int, messages:list<string>}
      */
-    public static function search(int $id, array $sources): array
+    public static function search(int $id, array $sources, ?float $deadline = null): array
     {
         $doc = Fiches::get($id);
         if (!$doc || ($doc['type'] ?? '') !== 'match') {
@@ -298,16 +323,28 @@ final class Trouvailles
         $new = [];
         $messages = [];
         $excerpts = [];
-        if (in_array('gallica', $sources, true) && $f['year'] && $f['year'] <= self::GALLICA_LAST_YEAR) {
-            $excerpts = self::gallica($f);
-            if ($excerpts) {
-                $new = array_merge($new, self::fromPress($doc, $f, $excerpts));
-            } else {
-                $messages[] = 'Gallica : aucun journal trouvé';
+        $prev = self::$deadline;
+        self::$deadline = $deadline;
+        try {
+            if (in_array('gallica', $sources, true) && $f['year'] && $f['year'] <= self::GALLICA_LAST_YEAR) {
+                $excerpts = self::gallica($f);
+                if (self::late()) {
+                    throw new \RuntimeException(self::LATE);
+                }
+                if ($excerpts) {
+                    $new = array_merge($new, self::fromPress($doc, $f, $excerpts));
+                } else {
+                    $messages[] = 'Gallica : aucun journal trouvé';
+                }
             }
-        }
-        if (in_array('web', $sources, true)) {
-            $new = array_merge($new, self::fromWeb($doc, $f));
+            if (in_array('web', $sources, true)) {
+                if (self::late()) {
+                    throw new \RuntimeException(self::LATE);
+                }
+                $new = array_merge($new, self::fromWeb($doc, $f));
+            }
+        } finally {
+            self::$deadline = $prev;
         }
         $added = self::store($id, $new);
         self::saveState(function ($s) use ($id, $added, $sources, $excerpts) {
@@ -363,6 +400,9 @@ final class Trouvailles
         // Pages qui citent Sochaux, numéro par numéro ; d'abord celles dont l'extrait cite aussi l'adversaire.
         $cands = [];
         foreach (array_slice(self::issues($f), 0, 16) as $is) {
+            if (self::late()) {
+                return [];
+            }
             try {
                 $pages = self::pages($is['ark']);
             } catch (\RuntimeException) {
@@ -388,6 +428,9 @@ final class Trouvailles
             $first = null;
             $sure = false;
             foreach (array_slice($is['pages'], 0, self::MAX_PAGES, true) as $page => $snip) {
+                if (self::late()) {
+                    return [];
+                }
                 try {
                     [$t, $ok] = self::passages(self::altoText(self::fetch('https://gallica.bnf.fr/RequestDigitalElement?O=' . rawurlencode($is['ark']) . '&E=ALTO&Deb=' . $page)), $kw);
                 } catch (\RuntimeException) {
@@ -445,6 +488,9 @@ final class Trouvailles
         $out = [];
         // Une recherche par jour : sur plusieurs jours, Gallica ne renvoie qu'un numéro par journal.
         for ($k = 3; $k >= 0; $k--) {
+            if (self::late()) {
+                break;
+            }
             $day = str_replace('-', '/', date('Y-m-d', (int) strtotime($f['date'] . " +$k days")));
             $q = '(text adj "' . Club::s('gallica_query') . '"' . ($kw !== '' ? ' and text adj "' . str_replace('"', '', $kw) . '"' : '') . ') and (dc.type all "fascicule") and (gallicapublication_date>="'
                 . $day . '" and gallicapublication_date<="' . $day . '")';
@@ -924,26 +970,25 @@ TXT);
      */
     public static function accept(int $id, string $itemId, ?string $value, ?array $user): string
     {
-        $p = self::props($id);
-        $k = array_search($itemId, array_column($p['items'], 'id'), true);
-        if ($k === false) {
-            throw new \RuntimeException('Proposition introuvable.');
+        // Réservée sous verrou (attente → en-cours) : un double clic ou deux historiens en même temps
+        // n'envoient pas deux fois la même proposition dans la fiche.
+        $it = self::reserve($id, $itemId);
+        try {
+            $value = trim((string) ($value ?? $it['value']));
+            if ($value === '') {
+                throw new \RuntimeException('Valeur vide.');
+            }
+            $doc = Fiches::fresh($id);
+            if (!$doc || (($doc['type'] ?? '') !== 'match' && !in_array($it['field'], ['info', 'recit', 'piste'], true))) {
+                throw new \RuntimeException('Fiche introuvable.');
+            }
+            $done = self::apply($doc, $it['field'], $value, $it['sources'], $it['origin'] ?? 'gallica');
+            self::addSources($doc, $it['sources']);
+            Fiches::save($doc, $user ?? self::AUTHOR, 'Trouvaille validée (' . self::FIELDS[$it['field']] . ')');
+        } catch (\Throwable $e) {
+            self::release($id, $itemId); // échec : la proposition retourne en attente
+            throw $e;
         }
-        $it = $p['items'][$k];
-        if (($it['status'] ?? '') !== 'attente') {
-            throw new \RuntimeException('Proposition déjà traitée.');
-        }
-        $value = trim((string) ($value ?? $it['value']));
-        if ($value === '') {
-            throw new \RuntimeException('Valeur vide.');
-        }
-        $doc = Fiches::fresh($id);
-        if (!$doc || (($doc['type'] ?? '') !== 'match' && !in_array($it['field'], ['info', 'recit', 'piste'], true))) {
-            throw new \RuntimeException('Fiche introuvable.');
-        }
-        $done = self::apply($doc, $it['field'], $value, $it['sources'], $it['origin'] ?? 'gallica');
-        self::addSources($doc, $it['sources']);
-        Fiches::save($doc, $user ?? self::AUTHOR, 'Trouvaille validée (' . self::FIELDS[$it['field']] . ')');
         JsonStore::update(self::$dir . "/props/$id.json", function ($pp) use ($itemId, $value, $user) {
             foreach ($pp['items'] as &$x) {
                 if ($x['id'] === $itemId) {
@@ -951,11 +996,58 @@ TXT);
                     $x['sent'] = $value;
                     $x['by'] = (string) ($user['name'] ?? '');
                     $x['done_at'] = date('c');
+                    unset($x['busy_at']);
+                }
+            }
+            unset($x);
+            return $pp;
+        }, []);
+        return $done;
+    }
+
+    /** Réservation d'une proposition en cours d'envoi, oubliée au-delà de ce délai (processus interrompu). */
+    private const BUSY_TTL = 600;
+
+    /** Passe une proposition « attente » à « en-cours » sous verrou. @return array la proposition */
+    private static function reserve(int $id, string $itemId): array
+    {
+        $it = null;
+        $err = 'Proposition introuvable.';
+        JsonStore::update(self::$dir . "/props/$id.json", function ($pp) use ($itemId, &$it, &$err) {
+            foreach ((array) ($pp['items'] ?? []) as $i => $x) {
+                if (($x['id'] ?? null) !== $itemId) {
+                    continue;
+                }
+                $status = $x['status'] ?? '';
+                $stale = $status === 'en-cours' && (int) strtotime((string) ($x['busy_at'] ?? '')) < time() - self::BUSY_TTL;
+                if ($status !== 'attente' && !$stale) {
+                    $err = 'Proposition déjà traitée.';
+                    return $pp;
+                }
+                $pp['items'][$i]['status'] = 'en-cours';
+                $pp['items'][$i]['busy_at'] = date('c');
+                $it = $pp['items'][$i];
+            }
+            return $pp;
+        }, []);
+        if (!$it) {
+            throw new \RuntimeException($err);
+        }
+        return $it;
+    }
+
+    /** Remet en attente une proposition réservée dont l'envoi a échoué. */
+    private static function release(int $id, string $itemId): void
+    {
+        JsonStore::update(self::$dir . "/props/$id.json", function ($pp) use ($itemId) {
+            foreach ((array) ($pp['items'] ?? []) as $i => $x) {
+                if (($x['id'] ?? null) === $itemId && ($x['status'] ?? '') === 'en-cours') {
+                    $pp['items'][$i]['status'] = 'attente';
+                    unset($pp['items'][$i]['busy_at']);
                 }
             }
             return $pp;
         }, []);
-        return $done;
     }
 
     public static function reject(int $id, string $itemId, ?array $user): void
