@@ -88,6 +88,9 @@ final class Seo
             if (str_starts_with($p, '/centenaire') && !Site::centenaryCountdown()) {
                 continue;
             }
+            if (preg_match('#^/bilans/([a-z0-9-]+)/$#', $p, $m) && !Menus::hasBilan($m[1])) {
+                continue; // bilan sans aucun match : pas dans le plan du site
+            }
             $add($p, null, 'weekly', '0.7', true);
         }
         // Rétro-Direct programmés

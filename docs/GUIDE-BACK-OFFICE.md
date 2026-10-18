@@ -278,8 +278,8 @@ reliés à la fiche.
 - Modification groupée : cocher plusieurs photos pour leur donner le même crédit ou les
   mêmes droits.
 - **Crédits écrits dans les légendes** (« … Photo Jean Dupont », « ©AGENCE ; texte ») :
-  séparés automatiquement en légende + crédit, à l'enregistrement, ou en lot depuis un écran
-  d'aperçu qui montre chaque séparation avant de l'appliquer.
+  séparés en légende + crédit depuis un écran d'aperçu qui montre chaque séparation avant de
+  l'appliquer (à l'enregistrement d'une photo, le crédit repéré est seulement signalé).
 - L'étiquette « Inutilisé » s'affiche à droite de la vignette, sans cacher la case à cocher.
 - **Murs de photos** : la fiche d'une photo dit si elle peut être tirée au hasard sur les
   murs de photos (Interactif) ou pourquoi elle ne l'est pas ; la case **Jamais sur les murs

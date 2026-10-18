@@ -263,9 +263,11 @@ final class Mosaic
                 ['label' => t('Saisons'), 'href' => url('/saisons/'), 'on' => false],
                 ['label' => t('Face-à-face'), 'href' => url('/face-a-face/'), 'on' => false],
                 ['label' => t('Records'), 'href' => url('/records/'), 'on' => false],
-                ['label' => t('Bilan {stadium_a}'), 'href' => url(stadium_bilan_path()), 'on' => false],
-                ['label' => t('Bilan en Coupe de France'), 'href' => url('/bilans/coupe-de-france/'), 'on' => false],
+                ['label' => t('Bilan {stadium_a}'), 'href' => url(stadium_bilan_path()), 'on' => false, 'bilan' => stadium_bilan_path()],
+                ['label' => t('Bilan en Coupe de France'), 'href' => url('/bilans/coupe-de-france/'), 'on' => false, 'bilan' => '/bilans/coupe-de-france/'],
             ];
+            // Bilans sans aucun match (musée qui n'en a pas encore) : onglet masqué.
+            $tabs = array_values(array_filter($tabs, fn ($t) => !isset($t['bilan']) || !preg_match('#^/bilans/([a-z0-9-]+)/$#', $t['bilan'], $m) || Menus::hasBilan($m[1])));
         } else {
             $trail = $virtual ? [...Categories::trail((string) $cat['parent']), $cat] : Categories::trail($slug);
             $level1 = $trail[1]['slug'] ?? null;

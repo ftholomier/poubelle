@@ -89,11 +89,11 @@ $level = fn (float $r) => $r >= 0.9 ? ['ko', 'Presque plein'] : ($r >= 0.7 ? ['w
         <?php if ($rdi): $r = $rdi['max'] ? $rdi['used'] / $rdi['max'] : 0; [$cls, $lab] = $level($r); ?>
         <h3 class="srvg__t" id="srvg-rd">Redis <span class="srvg__pill <?= $cls ?>"><?= $lab ?></span></h3>
         <p class="small muted" style="margin:0">Les autres caches (médiathèque, albums, recherche…), partagés par tous les musées.</p>
-        <div class="srvg__big"><?= e((string) $rdi['used']) ?> <small>Mo sur <?= e((string) $rdi['max']) ?> · <?= round($r * 100) ?> %</small></div>
+        <div class="srvg__big"><?= e((string) $rdi['used']) ?> <small><?= $rdi['max'] ? 'Mo sur ' . e((string) $rdi['max']) . ' · ' . round($r * 100) . ' %' : 'Mo · sans limite réglée' ?></small></div>
         <?= $gauge([[$r, 'var(--blue)', 'utilisé ' . $rdi['used'] . ' Mo']], $r) ?>
         <ul class="srvg__leg">
           <li><i style="background:var(--blue)"></i>Utilisé <?= e((string) $rdi['used']) ?> Mo</li>
-          <li><i style="background:var(--sand)"></i>Libre <?= e((string) max(0, round($rdi['max'] - $rdi['used'], 1))) ?> Mo</li>
+          <?php if ($rdi['max']): ?><li><i style="background:var(--sand)"></i>Libre <?= e((string) max(0, round($rdi['max'] - $rdi['used'], 1))) ?> Mo</li><?php endif; ?>
           <li><?= (int) $rdi['keys'] ?> entrées du musée</li>
         </ul>
         <p class="xs muted" style="margin:0">Connecté par <?= e($rdi['where']) ?>.</p>
@@ -106,7 +106,7 @@ $level = fn (float $r) => $r >= 0.9 ? ['ko', 'Presque plein'] : ($r >= 0.7 ? ['w
           <form method="post" action="/admin/taches" class="row" style="margin-top:8px"><?= csrf_field() ?><input type="hidden" name="task" value="redis-save"><input type="password" name="password" class="in" placeholder="cPanel › Redis Manager" autocomplete="off" style="max-width:260px"><button type="submit" class="btn btn--sm">Enregistrer et tester</button></form>
         </details>
         <?php $rdDir = \App\Services\ServerCheck::redisByDir(); if ($rdDir): ?>
-        <details><summary class="small">Ce qui occupe Redis (par dossier, tous musées confondus)</summary>
+        <details><summary class="small">Ce qui occupe Redis (par dossier, ce musée)</summary>
           <table class="xs" style="margin:8px 0 0;font-family:monospace;border-collapse:collapse"><?php foreach ($rdDir as $d): ?><tr><td style="padding:1px 14px 1px 0;word-break:break-all"><?= e($d['dir']) ?></td><td style="text-align:right;padding-right:14px;white-space:nowrap"><?= $d['mb'] > 0 ? e(number_format($d['mb'], 1, ',', ' ')) . ' Mo' : '' ?></td><td class="muted"><?= (int) $d['n'] ?> entrées</td></tr><?php endforeach; ?></table>
         </details>
         <?php endif; ?>

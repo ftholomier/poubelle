@@ -182,7 +182,7 @@ final class Menus
     }
 
     /** Le bilan /bilans/<clé>/ a-t-il des matchs (mêmes conditions que Explore::bilanPage) ? */
-    private static function hasBilan(string $key): bool
+    public static function hasBilan(string $key): bool
     {
         static $cache = [];
         if (!array_key_exists($key, $cache)) {

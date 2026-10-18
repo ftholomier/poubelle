@@ -82,7 +82,7 @@ final class Site
         }
 
         // Rubriques sans aucune fiche publiée : absentes des menus (sauf « L'équipe », page des bénévoles et de leurs pôles).
-        $subsOf = fn (string $slug) => array_values(array_filter(array_map(fn ($ch) => ['label' => t(Categories::label($ch['slug'])), 'href' => url($ch['path']), 'count' => self::count($ch['slug'])], Categories::children($slug)), fn ($x) => $x['count'] > 0 || $x['href'] === url(Pages::TEAM_PATH)));
+        $subsOf = fn (string $slug) => array_values(array_filter(array_map(fn ($ch) => ['label' => t(Categories::label($ch['slug'])), 'href' => url($ch['path']), 'count' => self::count($ch['slug'])], Categories::children($slug)), fn ($x) => $x['count'] > 0 || $x['href'] === url(Pages::teamPath())));
         $lionsCols = [];
         foreach ([self::C_JOUEURS => 'Tous les joueurs', self::C_ENTRAINEURS => 'Tous les entraîneurs', self::C_DIRIGEANTS => 'Tous les dirigeants', self::C_PERSONNAGES => 'Toutes les personnes'] as $slug => $all) {
             $c = Categories::get($slug);

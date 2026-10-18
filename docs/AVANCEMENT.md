@@ -713,7 +713,7 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Statistiques › Équipe connectée : historiens en ligne à leur nom (back-office / site), un pavé par historien (connexions, 10 dernières actions, lien vers son journal), vrais comptes seulement, rapport PDF dédié
 - [x] Rôles non administrateurs : boutique, livre, maillots et dons masqués et refusés ; statistiques ouvertes à toute l'équipe ; bascule vers un autre musée réservée aux administrateurs
 - [x] « ✔ Valider cette fiche » : pastille verte dans les listes, filtre « Validées / À valider », journal, aide
-- [x] Médiathèque : crédits écrits dans les légendes séparés automatiquement (`CaptionCredit` : aperçu, lot, enregistrement) ; étiquette « Inutilisé » à droite
+- [x] Médiathèque : crédits écrits dans les légendes séparés automatiquement (`CaptionCredit` : aperçu puis application en lot ; signalé à l'enregistrement) ; étiquette « Inutilisé » à droite
 - [x] Correcteur en tâche de fond : une seule fiche relue par l'IA par passage
 
 ## Feuille de match et saisons (octobre 2026)
