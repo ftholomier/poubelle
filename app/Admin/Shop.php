@@ -224,14 +224,31 @@ final class Shop extends Base
         switch ($req->str('action')) {
             case 'status':
                 $st = $req->str('status');
-                Orders::setStatus($id, $st, $who, $req->str('note'), $req->str('notify') === '1', ['carrier' => $req->str('carrier'), 'number' => $req->str('number'), 'url' => $req->str('url')]);
+                if ($st === 'canceled' && (int) $o['paid'] > (int) $o['refunded']) {
+                    // Une commande payée ne s'annule pas sans rendre l'argent : on la rembourse
+                    // (elle passe alors « Remboursée »).
+                    return self::back($back . '#rembourser', null, 'Cette commande est payée : pour l’annuler, remboursez-la (bloc « Rembourser ») ; elle passera « Remboursée » et le client sera prévenu.');
+                }
+                if (!Orders::setStatus($id, $st, $who, $req->str('note'), $req->str('notify') === '1', ['carrier' => $req->str('carrier'), 'number' => $req->str('number'), 'url' => $req->str('url')])) {
+                    return self::back($back, null, 'Étape impossible depuis « ' . (Orders::STATUSES[Orders::get($id)['status'] ?? ''] ?? '?') . ' » (la commande a peut-être changé entre-temps : rechargez la page).');
+                }
                 Activity::log(self::actor(), 'a passé la commande ' . $id . ' à « ' . (Orders::STATUSES[$st] ?? $st) . ' »', ['path' => $back]);
                 return self::back($back, 'Étape enregistrée.');
             case 'message':
                 Orders::message($id, 'association', $req->str('text'));
                 return self::back($back . '#messages', 'Message envoyé au client.');
             case 'refund':
-                $r = Orders::refund($id, (int) round((float) str_replace(',', '.', $req->str('amount')) * 100), $who);
+                // Champ vide : tout le reste. Montant saisi : un nombre strictement positif, sinon
+                // refus (jamais « illisible → 0 → remboursement total »).
+                $raw = trim(str_replace([' ', "\u{202F}", "\u{00A0}", '€'], '', $req->str('amount')));
+                $cents = 0;
+                if ($raw !== '') {
+                    $raw = str_replace(',', '.', $raw);
+                    if (!preg_match('/^\d+(\.\d{1,2})?$/', $raw) || ($cents = (int) round((float) $raw * 100)) <= 0) {
+                        return self::back($back . '#rembourser', null, 'Montant à rembourser illisible ou nul : indiquez un montant positif en euros (ex. 12,50), ou laissez le champ vide pour tout rembourser.');
+                    }
+                }
+                $r = Orders::refund($id, $cents, $who);
                 if (isset($r['error'])) {
                     return self::back($back, null, 'Remboursement impossible : ' . $r['error']);
                 }

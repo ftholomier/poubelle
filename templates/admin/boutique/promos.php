@@ -51,7 +51,7 @@ $val = $p['type'] === 'percent' ? (string) $p['value'] : number_format($p['value
     </div>
     <?php if ($edit && $p['uses']): ?>
     <h3 class="card__t card__t--sm" style="margin-top:16px">Utilisations</h3>
-    <ul class="small"><?php foreach (array_reverse($p['uses']) as $u): ?><li><a href="/admin/boutique/commandes/<?= e($u['order']) ?>"><?= e($u['order']) ?></a> · <?= e(date('d/m/Y', strtotime($u['at']))) ?></li><?php endforeach; ?></ul>
+    <ul class="small"><?php foreach (array_reverse($p['uses']) as $u): ?><li><a href="/admin/boutique/commandes/<?= e($u['order']) ?>"><?= e($u['order']) ?></a> · <?= e(date('d/m/Y', strtotime($u['at']))) ?><?= ($u['state'] ?? 'used') === 'reserved' ? ' · <span class="muted">réservé (commande en attente de paiement)</span>' : '' ?></li><?php endforeach; ?></ul>
     <?php endif; ?>
   </form>
 </div>

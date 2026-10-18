@@ -37,6 +37,19 @@ final class Donations
     public const STATUS = ['pending' => 'En attente', 'paid' => 'Payé', 'active' => 'Mensuel actif', 'canceled' => 'Arrêté', 'failed' => 'Échec', 'refunded' => 'Remboursé', 'abandoned' => 'Abandonné'];
     public const PROVIDERS = ['stripe' => 'Carte bancaire', 'paypal' => 'PayPal', 'manuel' => 'Chèque, virement ou espèces'];
 
+    /** Faux Stripe des tests (synchronisation) : fn (méthode, chemin, paramètres) => réponse. */
+    public static $stripe = null;
+
+    private static function stripeCall(string $method, string $path, array $params = []): array
+    {
+        return self::$stripe ? (self::$stripe)($method, $path, $params) : Payments::stripe($method, $path, $params);
+    }
+
+    private static function stripeOk(): bool
+    {
+        return self::$stripe !== null || Payments::stripeReady();
+    }
+
     // ------------------------------------------------------------------ configuration
 
     /** Moyens de paiement réellement utilisables (clés présentes et cohérentes avec le mode). */
@@ -378,9 +391,24 @@ final class Donations
             return Response::json(['error' => 'signature'], 400);
         }
         $ev = json_decode($req->body, true) ?: [];
-        if (!self::firstTime('stripe:' . ($ev['id'] ?? ''))) {
+        $key = 'stripe:' . ($ev['id'] ?? '');
+        if (self::seen($key)) {
             return Response::json(['ok' => true, 'duplicate' => true]);
         }
+        // Événement noté « traité » seulement après un traitement réussi : en cas d'erreur, Stripe
+        // le renvoie (réponse 500) et il est retraité (les traitements sont idempotents).
+        try {
+            self::handleStripeEvent($ev);
+        } catch (\Throwable $e) {
+            error_log('[dons] webhook Stripe ' . ($ev['id'] ?? '') . ' : ' . $e->getMessage());
+            return Response::json(['error' => 'traitement'], 500);
+        }
+        self::remember($key);
+        return Response::json(['ok' => true]);
+    }
+
+    private static function handleStripeEvent(array $ev): void
+    {
         $o = $ev['data']['object'] ?? [];
         switch ($ev['type'] ?? '') {
             case 'checkout.session.completed':
@@ -431,7 +459,6 @@ final class Donations
                 }
                 break;
         }
-        return Response::json(['ok' => true]);
     }
 
     // ------------------------------------------------------------------ PayPal
@@ -506,9 +533,22 @@ final class Donations
         if (!$ev || !Payments::paypalReady() || !Payments::paypalVerify($headers, $ev)) {
             return Response::json(['error' => 'signature'], 400);
         }
-        if (!self::firstTime('paypal:' . ($ev['id'] ?? ''))) {
+        $key = 'paypal:' . ($ev['id'] ?? '');
+        if (self::seen($key)) {
             return Response::json(['ok' => true, 'duplicate' => true]);
         }
+        try {
+            self::handlePaypalEvent($ev);
+        } catch (\Throwable $e) {
+            error_log('[dons] webhook PayPal ' . ($ev['id'] ?? '') . ' : ' . $e->getMessage());
+            return Response::json(['error' => 'traitement'], 500);
+        }
+        self::remember($key);
+        return Response::json(['ok' => true]);
+    }
+
+    private static function handlePaypalEvent(array $ev): void
+    {
         $o = $ev['resource'] ?? [];
         $type = (string) ($ev['event_type'] ?? '');
         switch ($type) {
@@ -526,6 +566,7 @@ final class Donations
                 foreach ($o['links'] ?? [] as $l) {
                     if (($l['rel'] ?? '') === 'up' && preg_match('#/captures/([^/]+)$#', (string) $l['href'], $m)) {
                         self::markRefunded($m[1]);
+                        \App\Vitrine\Membership::refunded($m[1]); // adhésion payée par PayPal (comme pour Stripe)
                     }
                 }
                 break;
@@ -549,7 +590,6 @@ final class Donations
                 }
                 break;
         }
-        return Response::json(['ok' => true]);
     }
 
     // ------------------------------------------------------------------ don mensuel : gestion par le donateur
@@ -657,6 +697,14 @@ final class Donations
     /** Recalcule la jauge et le mur (après chaque paiement, remboursement ou modération). */
     public static function rebuildStats(): array
     {
+        // Calcul fait sous le verrou du fichier des statistiques : deux recalculs simultanés
+        // (paiement et remboursement) ne s'écrasent pas avec des chiffres périmés.
+        return JsonStore::update(self::STATS, fn () => self::computeStats(), []);
+    }
+
+    private static function computeStats(): array
+    {
+        JsonStore::forget(self::FILE);
         $mode = self::testMode() ? 'test' : 'live';
         $start = (string) Settings::get('donations.goal_start', '');
         $from = $start !== '' ? strtotime($start) : 0;
@@ -691,9 +739,7 @@ final class Donations
             }
         }
         $anon = array_diff_key($anon, $wall);
-        $st = ['mode' => $mode, 'start' => $start, 'raised' => $raised, 'donors' => count($donors), 'wall' => array_values($wall), 'anonymous' => count($anon), 'at' => date('c')];
-        JsonStore::write(self::STATS, $st);
-        return $st;
+        return ['mode' => $mode, 'start' => $start, 'raised' => $raised, 'donors' => count($donors), 'wall' => array_values($wall), 'anonymous' => count($anon), 'at' => date('c')];
     }
 
     // ------------------------------------------------------------------ données
@@ -811,23 +857,25 @@ final class Donations
         }
     }
 
-    /** Un événement de webhook n'est traité qu'une fois (on garde les 1 000 derniers). */
-    private static function firstTime(string $key): bool
+    /** Événement de webhook déjà traité avec succès (on garde les 1 000 derniers). */
+    private static function seen(string $key): bool
     {
-        $new = false;
-        JsonStore::update(self::EVENTS, function ($seen) use ($key, &$new) {
+        JsonStore::forget(self::EVENTS);
+        return isset(((array) JsonStore::read(self::EVENTS, []))[$key]);
+    }
+
+    /** Note un événement comme traité : seulement après un traitement réussi. */
+    private static function remember(string $key): void
+    {
+        JsonStore::update(self::EVENTS, function ($seen) use ($key) {
             $seen = $seen ?: [];
-            if (!isset($seen[$key])) {
-                $new = true;
-                $seen[$key] = time();
-                if (count($seen) > 1000) {
-                    asort($seen);
-                    $seen = array_slice($seen, -1000, null, true);
-                }
+            $seen[$key] = time();
+            if (count($seen) > 1000) {
+                asort($seen);
+                $seen = array_slice($seen, -1000, null, true);
             }
             return $seen;
         }, []);
-        return $new;
     }
 
     /** Synchronisation périodique (tâche planifiée) : abonnements actifs et paiements en attente. */
@@ -839,7 +887,7 @@ final class Donations
             try {
                 if ($d['provider'] === 'paypal' && !empty($d['ext']['paypal_sub']) && in_array($d['status'], ['pending', 'active'], true)) {
                     if ($d['status'] === 'pending' && $age > 3 * 86400) {
-                        self::update($d['id'], fn ($x) => ['status' => 'abandoned'] + $x);
+                        self::update($d['id'], fn ($x) => $x['status'] === 'pending' ? ['status' => 'abandoned'] + $x : $x);
                         continue;
                     }
                     self::syncPaypalSubscription($d);
@@ -856,11 +904,19 @@ final class Donations
                         self::update($d['id'], fn ($x) => ['status' => 'canceled', 'ended' => date('c')] + $x);
                     }
                     $n['checked']++;
-                } elseif ($d['provider'] === 'stripe' && $d['status'] === 'pending' && !empty($d['ext']['stripe_session']) && $age < 2 * 86400 && Payments::stripeReady()) {
-                    self::syncStripeSession(Payments::stripe('GET', 'checkout/sessions/' . rawurlencode($d['ext']['stripe_session'])));
+                } elseif ($d['provider'] === 'stripe' && $d['status'] === 'pending' && !empty($d['ext']['stripe_session'])) {
+                    // Don ponctuel (ou premier paiement) en attente : la session est relue chez Stripe
+                    // avant tout abandon (paiement arrivé sans webhook) ; Stripe injoignable : on attend.
+                    if (!self::stripeOk()) {
+                        continue;
+                    }
+                    self::syncStripeSession(self::stripeCall('GET', 'checkout/sessions/' . rawurlencode($d['ext']['stripe_session'])));
                     $n['checked']++;
+                    if ($age > 2 * 86400) {
+                        self::update($d['id'], fn ($x) => $x['status'] === 'pending' ? ['status' => 'abandoned'] + $x : $x);
+                    }
                 } elseif ($d['status'] === 'pending' && $age > 2 * 86400) {
-                    self::update($d['id'], fn ($x) => ['status' => 'abandoned'] + $x);
+                    self::update($d['id'], fn ($x) => $x['status'] === 'pending' ? ['status' => 'abandoned'] + $x : $x);
                 }
             } catch (\Throwable $e) {
                 $n['errors']++;
@@ -888,8 +944,13 @@ final class Donations
             '{nom}' => e($don['donor']['last'] ?? ''),
             '{montant}' => e(self::money($don['amount']) . ($don['frequency'] === 'month' ? ' ' . t('par mois') : '')),
         ]);
-        $manage = base_url() . url('/faire-un-don/gerer/' . $don['manage'] . '/');
-        $html .= '<p style="font-size:15px;color:' . \App\Core\Club::color('muted') . '">' . e($don['frequency'] === 'month' ? t('Pour suivre, modifier votre nom sur le mur des donateurs ou arrêter votre don mensuel à tout moment :') : t('Pour retrouver votre don et vos préférences pour le mur des donateurs :')) . '<br><a href="' . e($manage) . '">' . e(t('Gérer mon don')) . '</a></p>';
+        // Lien secret : seulement avec l'adresse du site réglée (jamais l'en-tête Host de la requête).
+        if (($b = mail_base_url()) !== '') {
+            $manage = $b . url('/faire-un-don/gerer/' . $don['manage'] . '/');
+            $html .= '<p style="font-size:15px;color:' . \App\Core\Club::color('muted') . '">' . e($don['frequency'] === 'month' ? t('Pour suivre, modifier votre nom sur le mur des donateurs ou arrêter votre don mensuel à tout moment :') : t('Pour retrouver votre don et vos préférences pour le mur des donateurs :')) . '<br><a href="' . e($manage) . '">' . e(t('Gérer mon don')) . '</a></p>';
+        } else {
+            error_log('[dons] adresse du site non réglée : lien de gestion du don ' . $don['id'] . ' non envoyé');
+        }
         $att = [];
         if ($receipt && is_file($f = self::RECEIPTS . '/' . substr($receipt, 3, 4) . "/$receipt.pdf")) {
             $html .= '<p>' . e(t('Votre reçu fiscal est joint à ce message.')) . '</p>';
@@ -905,7 +966,7 @@ final class Donations
             return;
         }
         $what = self::money($don['amount']) . ($don['frequency'] === 'month' ? ' / mois' : '');
-        Mailer::send($to, '[Don] ' . $what . ' · ' . ($don['donor']['first'] ?? '') . ($don['mode'] === 'test' ? ' (TEST)' : ''), '<p>Nouveau don de <b>' . e($what) . '</b> par ' . e(trim(($don['donor']['first'] ?? '') . ' ' . ($don['donor']['last'] ?? ''))) . ' via ' . e(self::PROVIDERS[$don['provider']] ?? $don['provider']) . '.</p><p><a href="' . e(base_url()) . '/admin/dons/' . e($don['id']) . '">Voir dans le back-office</a></p>');
+        Mailer::send($to, '[Don] ' . $what . ' · ' . ($don['donor']['first'] ?? '') . ($don['mode'] === 'test' ? ' (TEST)' : ''), '<p>Nouveau don de <b>' . e($what) . '</b> par ' . e(trim(($don['donor']['first'] ?? '') . ' ' . ($don['donor']['last'] ?? ''))) . ' via ' . e(self::PROVIDERS[$don['provider']] ?? $don['provider']) . '.</p>' . (($b = mail_base_url()) !== '' ? '<p><a href="' . e($b) . '/admin/dons/' . e($don['id']) . '">Voir dans le back-office</a></p>' : '<p>Don ' . e($don['id']) . ' (back-office › Dons).</p>'));
     }
 
     public static function money(int $cents): string
@@ -940,41 +1001,50 @@ final class Donations
     /**
      * Émet un reçu fiscal (modèle Cerfa n° 11580) pour des paiements d'un don.
      * Numérotation continue par année : RF-AAAA-0001. Le PDF est conservé et ne change plus.
+     * Les paiements sont choisis et marqués sous le verrou des dons (filtre « pas encore de reçu »
+     * relu à l'intérieur) : deux émissions simultanées ne font jamais deux reçus pour le même
+     * paiement. Un reçu ne couvre qu'une année civile : $year, sinon celle du plus ancien des
+     * paiements demandés (les autres années restent sans reçu, à émettre à part).
      */
     public static function issueReceipt(string $id, array $refs, ?int $year = null): ?string
     {
-        $don = self::get($id);
-        if (!$don) {
-            return null;
-        }
-        $pays = array_values(array_filter($don['payments'] ?? [], fn ($p) => in_array($p['ref'], $refs, true) && $p['status'] === 'paid' && empty($p['receipt'])));
-        if (!$pays) {
-            return null;
-        }
-        $year ??= (int) date('Y', strtotime(end($pays)['at']));
         $num = null;
-        JsonStore::update(self::RECEIPTS . '/compteur.json', function ($c) use ($year, &$num) {
-            $c = $c ?: [];
-            $c[$year] = (int) ($c[$year] ?? 0) + 1;
-            $num = sprintf('RF-%d-%04d', $year, $c[$year]);
-            return $c;
-        }, []);
-        $total = array_sum(array_column($pays, 'amount'));
-        $dates = array_map(fn ($p) => date('d/m/Y', strtotime($p['at'])), $pays);
-        $pdf = self::receiptPdf($num, $don, $total, $dates);
-        $dir = self::RECEIPTS . "/$year";
-        if (!is_dir($dir)) {
-            mkdir($dir, 0775, true);
-        }
-        file_put_contents("$dir/$num.pdf", $pdf, LOCK_EX);
-        self::update($id, function ($x) use ($refs, $num) {
+        $pays = [];
+        $don = self::update($id, function ($x) use ($refs, $year, &$num, &$pays) {
+            $cand = array_values(array_filter($x['payments'] ?? [], fn ($p) => in_array($p['ref'], $refs, true) && ($p['status'] ?? '') === 'paid' && empty($p['receipt'])));
+            if (!$cand) {
+                return $x;
+            }
+            $y = $year ?? min(array_map(fn ($p) => (int) date('Y', strtotime((string) $p['at'])), $cand));
+            $pays = array_values(array_filter($cand, fn ($p) => (int) date('Y', strtotime((string) $p['at'])) === $y));
+            if (!$pays) {
+                return $x;
+            }
+            JsonStore::update(self::RECEIPTS . '/compteur.json', function ($c) use ($y, &$num) {
+                $c = $c ?: [];
+                $c[$y] = (int) ($c[$y] ?? 0) + 1;
+                $num = sprintf('RF-%d-%04d', $y, $c[$y]);
+                return $c;
+            }, []);
+            $mine = array_column($pays, 'ref');
             foreach ($x['payments'] as $i => $p) {
-                if (in_array($p['ref'], $refs, true) && empty($p['receipt'])) {
+                if (in_array($p['ref'], $mine, true) && empty($p['receipt'])) {
                     $x['payments'][$i]['receipt'] = $num;
                 }
             }
             return $x;
         });
+        if (!$don || $num === null) {
+            return null;
+        }
+        $total = array_sum(array_column($pays, 'amount'));
+        $dates = array_map(fn ($p) => date('d/m/Y', strtotime($p['at'])), $pays);
+        $pdf = self::receiptPdf($num, $don, $total, $dates);
+        $dir = self::RECEIPTS . '/' . substr($num, 3, 4);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0775, true);
+        }
+        file_put_contents("$dir/$num.pdf", $pdf, LOCK_EX);
         return $num;
     }
 

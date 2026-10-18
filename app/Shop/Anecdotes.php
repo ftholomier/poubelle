@@ -527,15 +527,33 @@ final class Anecdotes
         return array_values(array_unique(array_map(fn ($n) => (string) preg_replace('/\D/', '', $n), $m[0])));
     }
 
-    /** Signature d'une anecdote (champ caché du formulaire). */
-    public static function sign(string $text): string
+    /**
+     * Signature d'une anecdote (champ caché du formulaire), liée au modèle pour lequel elle a été
+     * tirée : une anecdote tirée pour un grand cadre ne se commande pas sur un petit.
+     */
+    public static function sign(string $text, string $model = ''): string
     {
-        return substr(hash_hmac('sha256', $text, site_key('boutique-anecdote')), 0, 32);
+        return substr(hash_hmac('sha256', ($model !== '' ? $model . "\x1F" : '') . $text, site_key('boutique-anecdote')), 0, 32);
     }
 
-    public static function valid(string $text, string $sig): bool
+    public static function valid(string $text, string $sig, string $model = ''): bool
     {
-        return $text !== '' && $sig !== '' && hash_equals(self::sign($text), $sig);
+        return $text !== '' && $sig !== '' && hash_equals(self::sign($text, $model), $sig);
+    }
+
+    /** Tirage (réserve ou IA) signé pour un modèle donné. */
+    public static function forModel(array $r, string $model): array
+    {
+        if (isset($r['text'])) {
+            $r['sig'] = self::sign((string) $r['text'], $model);
+        }
+        return $r;
+    }
+
+    /** Anecdote déjà vendue (pièce unique). */
+    public static function isSold(string $text): bool
+    {
+        return in_array(self::key($text), (array) JsonStore::read(self::soldFile(), []), true);
     }
 
     private static function key(string $t): string
@@ -631,5 +649,25 @@ final class Anecdotes
             $all[] = self::key($text);
             return array_values(array_unique($all));
         }, []);
+    }
+
+    /**
+     * Réserve une anecdote au paiement d'une commande, sous verrou : false si elle a déjà été vendue
+     * (deux paiements presque simultanés). Appelée une seule fois par commande (premier passage à
+     * « payée »), une fois par anecdote différente.
+     */
+    public static function claim(string $text): bool
+    {
+        $ok = false;
+        $k = self::key($text);
+        JsonStore::update(self::soldFile(), function ($all) use ($k, &$ok) {
+            $all = array_values(array_filter(is_array($all) ? $all : [], 'is_string'));
+            if (!in_array($k, $all, true)) {
+                $all[] = $k;
+                $ok = true;
+            }
+            return $all;
+        }, []);
+        return $ok;
     }
 }

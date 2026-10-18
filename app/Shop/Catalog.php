@@ -572,15 +572,18 @@ final class Catalog
                 continue;
             }
             if ($f['gen']) {
-                // Anecdote tirée par le site (signée) : jamais un texte saisi ou retouché.
-                if (!Anecdotes::valid($v, (string) ($values['_sig_' . $k] ?? ''))) {
+                // Anecdote tirée par le site (signée pour ce modèle) : jamais un texte saisi ou
+                // retouché, ni une pièce unique déjà vendue. Elle doit aussi tenir dans le cadre (plus bas).
+                if (!Anecdotes::valid($v, (string) ($values['_sig_' . $k] ?? ''), (string) ($model['id'] ?? ''))) {
                     $errors[$k] = 'Tirez une anecdote avec le bouton « Une anecdote ».';
                     continue;
                 }
-                $ok[$k] = $v;
-                continue;
+                if (Anecdotes::isSold($v)) {
+                    $errors[$k] = 'Cette anecdote vient d’être vendue : tirez-en une autre avec le bouton « Une anecdote ».';
+                    continue;
+                }
             }
-            if (mb_strlen($v) > $f['max']) {
+            if (!$f['gen'] && mb_strlen($v) > $f['max']) {
                 $errors[$k] = $f['max'] . ' caractères au plus.';
                 continue;
             }
@@ -592,7 +595,7 @@ final class Catalog
                     }
                 }
             }
-            $fit ? $ok[$k] = $v : $errors[$k] = 'Texte trop long pour cet emplacement : raccourcissez-le.';
+            $fit ? $ok[$k] = $v : $errors[$k] = $f['gen'] ? 'Anecdote trop longue pour ce cadre (avec ces options) : tirez-en une autre.' : 'Texte trop long pour cet emplacement : raccourcissez-le.';
         }
         return ['values' => $ok, 'errors' => $errors];
     }

@@ -30,6 +30,7 @@ $next = ['paid' => 'production', 'production' => 'shipped', 'shipped' => 'delive
       <?php endforeach; ?>
       <p class="small" style="margin:10px 0 0;text-align:right"><?php if ((int) ($o['discount'] ?? 0) > 0): ?>Code promo <?= e($o['promo']['code'] ?? '') ?> : −<?= e(Orders::money((int) $o['discount'])) ?> · <?php endif; ?>Livraison : <?= e($o['shipping'] ? Orders::money($o['shipping']) : 'offerte') ?> · <b>Total : <?= e(Orders::money($o['total'])) ?></b><?= $o['refunded'] ? ' · remboursé : ' . e(Orders::money($o['refunded'])) : '' ?></p>
       <?php if ($admin && isset($o['fee'])): ?><p class="xs muted" style="margin:2px 0 0;text-align:right">Frais Stripe : <?= e(Orders::money((int) $o['fee'])) ?> · net encaissé : <?= e(Orders::money((int) ($o['net'] ?? 0))) ?></p><?php endif; ?>
+      <?php if (!empty($o['anecdote_conflict']) && !in_array($o['status'], ['refunded', 'canceled'], true)): ?><p class="alert alert--error" style="margin:8px 0 0">Anecdote déjà vendue à une autre commande (article <?= e(implode(', ', (array) $o['anecdote_conflict'])) ?>) : <?= $admin ? 'remboursez le client ou proposez-lui une autre anecdote avant fabrication.' : 'ne fabriquez pas cet article, l’association reprend contact avec le client.' ?></p><?php endif; ?>
       <?php if ($admin && !empty($o['dispute'])): ?><p class="alert alert--error" style="margin:8px 0 0">Litige Stripe : <?= e($o['dispute']['status']) ?> (<?= e($o['dispute']['reason']) ?>), <?= e(Orders::money((int) $o['dispute']['amount'])) ?>. Répondez dans le tableau de bord Stripe avec la preuve d’expédition.</p><?php endif; ?>
     </section>
 
@@ -61,8 +62,8 @@ $next = ['paid' => 'production', 'production' => 'shipped', 'shipped' => 'delive
         <?= csrf_field() ?><input type="hidden" name="action" value="status">
         <label class="f"><span class="f__k">Nouvelle étape</span><select class="in" name="status">
           <?php foreach (['paid', 'production', 'shipped', 'delivered'] as $k): ?><option value="<?= $k ?>"<?= $k === ($next ?? $o['status']) ? ' selected' : '' ?>><?= e(Orders::STATUSES[$k]) ?></option><?php endforeach; ?>
-          <?php if ($admin): ?><option value="canceled">Annulée</option><?php endif; ?>
         </select></label>
+        <?php if ($admin && $o['paid'] > $o['refunded']): ?><p class="xs muted" style="margin:4px 0 8px">Pour annuler cette commande payée, <a href="#rembourser">remboursez-la</a> : elle passera « Remboursée » et le client sera prévenu.</p><?php endif; ?>
         <div class="pgrid">
           <label class="f"><span class="f__k">Transporteur</span><input class="in in--sm" name="carrier" value="<?= e($o['tracking']['carrier']) ?>" placeholder="La Poste, Mondial Relay…"></label>
           <label class="f"><span class="f__k">N° de suivi</span><input class="in in--sm" name="number" value="<?= e($o['tracking']['number']) ?>"></label>
@@ -97,11 +98,11 @@ $next = ['paid' => 'production', 'production' => 'shipped', 'shipped' => 'delive
     <?php endif; ?>
 
     <?php if ($admin && $o['paid'] > $o['refunded']): ?>
-    <section class="card card--pad">
+    <section class="card card--pad" id="rembourser">
       <h2 class="card__t card__t--sm">Rembourser</h2>
       <form method="post" action="<?= e($base) ?>" data-confirm="Rembourser ?|Le montant est rendu au client sur sa carte (Stripe) et il est prévenu par e-mail.|Rembourser|danger">
         <?= csrf_field() ?><input type="hidden" name="action" value="refund">
-        <label class="f"><span class="f__k">Montant (€, vide : tout le reste, <?= e(Orders::money($o['paid'] - $o['refunded'])) ?>)</span><input class="in in--sm" type="number" step="0.01" min="0" name="amount"></label>
+        <label class="f"><span class="f__k">Montant (€, vide : tout le reste, <?= e(Orders::money($o['paid'] - $o['refunded'])) ?>)</span><input class="in in--sm" type="number" step="0.01" min="0.01" name="amount"></label>
         <div class="row" style="justify-content:flex-end"><button class="btn btn--ghost btn--sm">Rembourser</button></div>
       </form>
     </section>

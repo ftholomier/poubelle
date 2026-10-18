@@ -135,10 +135,21 @@ $eq('anecdote : question refusée', isset($question['error']), true);
 $eq('anecdote : chiffre inventé refusé, phrase sûre signée, réserve, commande seulement signée', [
     isset($bad['error']), $good['text'] ?? '', \App\Shop\Anecdotes::valid($good['text'] ?? '', $good['sig'] ?? ''), $pool['text'] ?? '',
     isset(Catalog::check($anModel, ['anecdote' => 'Texte retouché par le client'])['errors']['anecdote']),
-    Catalog::check($anModel, ['anecdote' => $good['text'] ?? '', '_sig_anecdote' => $good['sig'] ?? ''])['values']['anecdote'] ?? '',
+    Catalog::check($anModel, ['anecdote' => $good['text'] ?? '', '_sig_anecdote' => \App\Shop\Anecdotes::forModel($good, 'x')['sig'] ?? ''])['values']['anecdote'] ?? '',
 ], [true, 'Les Lionceaux ont un sacré palmarès, et un public fidèle.', true, 'Les Lionceaux ont un sacré palmarès, et un public fidèle.', true, 'Les Lionceaux ont un sacré palmarès, et un public fidèle.']);
+$eq('anecdote : signature d’un autre modèle (ou sans modèle) refusée', [
+    isset(Catalog::check($anModel, ['anecdote' => $good['text'] ?? '', '_sig_anecdote' => $good['sig'] ?? ''])['errors']['anecdote']),
+    isset(Catalog::check($anModel, ['anecdote' => $good['text'] ?? '', '_sig_anecdote' => \App\Shop\Anecdotes::sign($good['text'] ?? '', 'autre-modele')])['errors']['anecdote']),
+], [true, true]);
+$tiny = $anLayer; $tiny['w'] = 20; $tiny['h'] = 8; $tiny['size'] = 20; $tiny['min'] = 20; // cadre trop petit pour la phrase
+$tinyModel = Catalog::model(['id' => 'y', 'name' => 'y', 'support' => 'tshirt', 'faces' => ['avant' => ['layers' => [$tiny]]]]);
+$eq('anecdote signée mais trop longue pour le cadre : refusée (contrôle « tient dans le cadre » non sauté)',
+    Catalog::check($tinyModel, ['anecdote' => $good['text'] ?? '', '_sig_anecdote' => \App\Shop\Anecdotes::sign($good['text'] ?? '', 'y')])['errors']['anecdote'] ?? '', 'Anecdote trop longue pour ce cadre (avec ces options) : tirez-en une autre.');
 \App\Shop\Anecdotes::sold($good['text']);
 $eq('anecdote vendue : plus jamais proposée', isset(\App\Shop\Anecdotes::fromPool([$anLayer])['error']), true);
+$eq('anecdote vendue : refusée à la commande même avec une signature valable ; réservation au paiement refusée',
+    [Catalog::check($anModel, ['anecdote' => $good['text'], '_sig_anecdote' => \App\Shop\Anecdotes::sign($good['text'], 'x')])['errors']['anecdote'] ?? '', \App\Shop\Anecdotes::claim($good['text']), \App\Shop\Anecdotes::claim('Une autre anecdote jamais vendue.')],
+    ['Cette anecdote vient d’être vendue : tirez-en une autre avec le bouton « Une anecdote ».', false, true]);
 // Stock : les anciennes entrées (texte seul, consigne périmée) ne ressortent pas ; sans IA, on puise dans le stock.
 \App\Core\JsonStore::write($anFile, ['Un vieux texte sans noms.', ['t' => 'Roger Courtois marque 254 buts.', 'v' => \App\Shop\Anecdotes::VERSION]]);
 $eq('stock : ancienne consigne écartée, version en cours reprise (sans IA)', [\App\Shop\Anecdotes::poolChoices([$anLayer]), \App\Shop\Anecdotes::pick([$anLayer], [], false)['text'] ?? ''], [['Roger Courtois marque 254 buts.'], 'Roger Courtois marque 254 buts.']);

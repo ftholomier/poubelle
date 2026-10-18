@@ -378,7 +378,7 @@ final class ShopPages
         $topic = (string) ($in['topic'] ?? '');
         $topic = $topic !== '' && Anecdotes::topicFact($topic) !== null ? $topic : '';
         Session::release(); // le client peut continuer à composer pendant que l'IA rédige
-        $r = Anecdotes::pick($layers, $avoid, $aiAllowed, $topic);
+        $r = Anecdotes::forModel(Anecdotes::pick($layers, $avoid, $aiAllowed, $topic), $m['id']);
         if (!isset($r['pool']) && !isset($r['error'])) {
             RateLimiter::hit('boutique-anecdote-ia', 'site', $budget, 86400);
         }
@@ -428,7 +428,7 @@ final class ShopPages
             return null;
         }
         $r = Anecdotes::fromPool(Anecdotes::layers($m));
-        return isset($r['error']) ? null : $r;
+        return isset($r['error']) ? null : Anecdotes::forModel($r, $m['id']);
     }
 
     // ------------------------------------------------------------------ panier
@@ -722,20 +722,35 @@ final class ShopPages
         if (!$o || !$it || !BookShop::digital($it) || !in_array($o['status'], ['paid', 'production', 'shipped', 'delivered'], true)) {
             return self::notFound();
         }
-        if ((int) ($o['ext']['downloads'][$i] ?? 0) >= BookShop::MAX_DOWNLOADS) {
+        $used = function () use ($token): Response {
             Session::set('shop_flash', ['type' => 'error', 'msg' => 'Vous avez utilisé vos ' . BookShop::MAX_DOWNLOADS . ' téléchargements. Besoin d’un nouveau téléchargement ? Écrivez au musée ci-dessous, nous vous répondons rapidement.']);
             return Response::redirect(self::u('/boutique/commande/' . $token . '/') . '#messages');
+        };
+        if ((int) ($o['ext']['downloads'][$i] ?? 0) >= BookShop::MAX_DOWNLOADS) {
+            return $used();
         }
         @set_time_limit(600);
+        Session::release(); // la composition peut durer : la session du client n'est pas bloquée
+        // Une seule composition à la fois par commande (verrou dans Orders::pdf) : un autre clic
+        // pendant qu'elle tourne reçoit tout de suite « en cours ».
         $pdf = Orders::pdf($o, $i);
         if ($pdf === null) {
             return new Response('Votre livre est en cours de composition : réessayez dans quelques minutes.', 503, ['Content-Type' => 'text/plain; charset=UTF-8', 'Retry-After' => '120']);
         }
-        // Compté seulement quand le fichier part (pas pendant la composition).
-        Orders::update($o['id'], function ($x) use ($i) {
-            $x['ext']['downloads'][$i] = (int) ($x['ext']['downloads'][$i] ?? 0) + 1;
+        // Compté sous verrou, avant l'envoi, seulement quand le fichier est prêt : deux clics
+        // simultanés ne dépassent pas le nombre permis.
+        $ok = false;
+        Orders::update($o['id'], function ($x) use ($i, &$ok) {
+            $n = (int) ($x['ext']['downloads'][$i] ?? 0);
+            if ($n < BookShop::MAX_DOWNLOADS) {
+                $x['ext']['downloads'][$i] = $n + 1;
+                $ok = true;
+            }
             return $x;
         });
+        if (!$ok) {
+            return $used();
+        }
         return new Response($pdf, 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="100-recits-du-lion-' . slugify((string) ($it['values']['nom'] ?? 'livre')) . '.pdf"', 'Cache-Control' => 'private, no-store', 'X-Robots-Tag' => 'noindex']);
     }
 

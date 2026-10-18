@@ -283,9 +283,18 @@ final class Membership
                     error_log('[adhesions] synchronisation ' . $a['id'] . ' : ' . $e->getMessage());
                 }
             }
-            if ($age > 2 * 86400 && (self::get($a['id'])['status'] ?? '') === 'pending') {
-                self::update($a['id'], fn ($x) => ['status' => 'abandoned'] + $x);
-                $n++;
+            if ($age > 2 * 86400) {
+                // Transition conditionnelle sous verrou : jamais une adhésion payée entre-temps
+                // (webhook arrivé pendant la relecture) repassée « abandonnée ».
+                $moved = false;
+                self::update($a['id'], function ($x) use (&$moved) {
+                    if (($x['status'] ?? '') !== 'pending') {
+                        return $x;
+                    }
+                    $moved = true;
+                    return ['status' => 'abandoned'] + $x;
+                });
+                $n += $moved ? 1 : 0;
             }
         }
         return $n;
@@ -342,7 +351,7 @@ final class Membership
         Mailer::send($to, '[Adhésion] ' . $what . ' · ' . trim($m['first'] . ' ' . $m['last']),
             '<p><b>' . e($what) . '</b></p><p>' . e(trim($m['first'] . ' ' . $m['last'])) . ' · ' . e((string) $m['email']) . '</p>'
             . '<p>' . e((string) $a['label']) . ' · ' . e(self::money((int) $a['amount'])) . ' · ' . e(self::PROVIDERS[$a['provider']] ?? $a['provider']) . '</p>'
-            . '<p><a href="' . e(base_url()) . '/admin/association/adhesions/' . e((string) $a['id']) . '">Ouvrir dans le back-office</a></p>', (string) $m['email']);
+            . (($b = mail_base_url()) !== '' ? '<p><a href="' . e($b) . '/admin/association/adhesions/' . e((string) $a['id']) . '">Ouvrir dans le back-office</a></p>' : '<p>Adhésion ' . e((string) $a['id']) . ' (back-office › Association › Adhésions).</p>'), (string) $m['email']);
     }
 
     public static function money(int $cents): string

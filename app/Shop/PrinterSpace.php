@@ -14,9 +14,11 @@ use App\Services\Mailer;
 
 /**
  * Espace imprimeur (/imprimeur/, sur l'adresse du musée), séparé du back-office : l'imprimeur n'a
- * accès qu'aux commandes payées. Connexion sans mot de passe : un lien à usage unique (valable
- * 30 minutes) envoyé à l'adresse réglée par l'administrateur (Boutique › Réglages) ; changer
- * cette adresse coupe l'accès de l'ancienne. Session de 12 heures.
+ * accès qu'aux commandes payées à fabriquer. Connexion sans mot de passe : un lien à usage unique
+ * (valable 30 minutes) envoyé à l'adresse réglée par l'administrateur (Boutique › Réglages) ;
+ * changer cette adresse coupe l'accès de l'ancienne. Le lien ouvre une page avec un bouton : le
+ * jeton n'est consommé qu'à l'envoi de ce formulaire (POST, CSRF), jamais par un simple GET (les
+ * antivirus des messageries ouvrent les liens reçus). Session de 12 heures.
  */
 final class PrinterSpace
 {
@@ -46,7 +48,7 @@ final class PrinterSpace
             return Response::redirect('/imprimeur/');
         }
         if (preg_match('#^/imprimeur/lien/([a-f0-9]{48})$#', $path, $m)) {
-            return self::useLink($m[1]);
+            return $post ? self::useLink($m[1]) : self::linkPage($m[1]);
         }
         if (!self::logged()) {
             return $post ? self::sendLink($req) : self::login();
@@ -57,13 +59,14 @@ final class PrinterSpace
         if (preg_match('#^/imprimeur/releves(?:/(pdf|csv))?$#', $path, $m)) {
             return self::statement($req, $m[1] ?? '');
         }
-        if (preg_match('#^/imprimeur/commande/([A-Z0-9-]{6,20})/pdf/(\d{1,2})$#', $path, $m)) {
+        if (preg_match('#^/imprimeur/commande/([A-Z0-9-]{6,32})/pdf/(\d{1,2})$#', $path, $m)) {
             $o = self::visible($m[1]);
-            $pdf = $o ? Orders::pdf($o, (int) $m[2] - 1) : null;
+            $it = $o['items'][(int) $m[2] - 1] ?? null;
+            $pdf = $o && $it && !BookShop::digital($it) ? Orders::pdf($o, (int) $m[2] - 1) : null; // le livre numérique n'est pas à imprimer
             return $pdf === null ? self::page('Introuvable', '<p>Fichier indisponible.</p>', 404)
                 : new Response($pdf, 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="' . $o['id'] . '-' . (int) $m[2] . '.pdf"']);
         }
-        if (preg_match('#^/imprimeur/commande/([A-Z0-9-]{6,20})$#', $path, $m)) {
+        if (preg_match('#^/imprimeur/commande/([A-Z0-9-]{6,32})$#', $path, $m)) {
             $o = self::visible($m[1]);
             if (!$o) {
                 return self::page('Introuvable', '<p>Commande introuvable. <a href="/imprimeur/">Retour</a></p>', 404);
@@ -81,11 +84,14 @@ final class PrinterSpace
         return is_array($s) && $email !== '' && hash_equals($email, (string) ($s['email'] ?? '')) && (int) ($s['until'] ?? 0) > time();
     }
 
-    /** L'imprimeur ne voit que les commandes payées (jamais celles en attente de paiement). */
-    private static function visible(string $id): ?array
+    /**
+     * L'imprimeur ne voit que les commandes payées (jamais celles en attente de paiement) qui ont
+     * quelque chose à fabriquer (pas une commande de livre numérique seul).
+     */
+    public static function visible(string $id): ?array
     {
         $o = Orders::get($id);
-        return $o && $o['status'] !== 'pending' && !empty($o['paid_at']) ? $o : null;
+        return $o && $o['status'] !== 'pending' && !empty($o['paid_at']) && Orders::physical($o['items']) ? $o : null;
     }
 
     // ------------------------------------------------------------------ connexion
@@ -108,6 +114,13 @@ final class PrinterSpace
             return self::login('Trop de demandes : réessayez dans une heure.');
         }
         $c = Orders::config();
+        // Lien construit uniquement avec l'adresse du site réglée (jamais l'en-tête Host, qu'un
+        // tiers pourrait falsifier pour recevoir le jeton) : sans elle, aucun lien n'est envoyé.
+        $base = mail_base_url();
+        if ($base === '') {
+            error_log('[imprimeur] adresse du site non réglée (Réglages › Général) : lien de connexion non envoyé');
+            return self::login('Le lien de connexion ne peut pas être envoyé : l’adresse du site n’est pas réglée. Prévenez l’association (Réglages › Général › adresse du site).');
+        }
         if ($c['printer_email'] !== '' && hash_equals($c['printer_email'], $email)) {
             $token = bin2hex(random_bytes(24));
             JsonStore::update(STORAGE_PATH . '/shop/printer-links.json', function ($all) use ($token, $email) {
@@ -115,11 +128,25 @@ final class PrinterSpace
                 $all[hash('sha256', $token)] = ['email' => $email, 'until' => time() + self::TTL];
                 return $all;
             }, []);
-            $url = base_url() . '/imprimeur/lien/' . $token;
+            $url = $base . '/imprimeur/lien/' . $token;
             Mailer::send($email, 'Votre lien de connexion · espace imprimeur ' . Club::s('site'), '<p>Bonjour,</p><p>Pour ouvrir l’espace imprimeur de la boutique ' . e(Club::s('site')) . ', cliquez sur ce lien (valable 30 minutes, une seule fois) :</p><p><a href="' . e($url) . '">' . e($url) . '</a></p><p>Si vous n’êtes pas à l’origine de cette demande, ignorez ce message.</p>');
         }
         // Même réponse dans tous les cas : on ne révèle pas l'adresse réglée.
         return self::login('Si cette adresse est celle de l’imprimeur, un lien de connexion vient de lui être envoyé.');
+    }
+
+    /** GET du lien reçu : un bouton, sans consommer le jeton (les antivirus ouvrent les liens). */
+    private static function linkPage(string $token): Response
+    {
+        $links = (array) JsonStore::read(STORAGE_PATH . '/shop/printer-links.json', []);
+        $l = $links[hash('sha256', $token)] ?? null;
+        if (!is_array($l) || (int) ($l['until'] ?? 0) <= time()) {
+            return self::login('Ce lien n’est plus valable : demandez-en un nouveau.');
+        }
+        $h = '<p>Pour ouvrir l’espace imprimeur de la boutique ' . e(Club::s('site')) . ', confirmez votre connexion.</p>'
+            . '<form method="post" action="/imprimeur/lien/' . e($token) . '" class="card card--pad" style="max-width:420px">' . csrf_field()
+            . '<button class="btn btn--navy">Me connecter à l’espace imprimeur</button></form>';
+        return self::page('Connexion', $h);
     }
 
     private static function useLink(string $token): Response

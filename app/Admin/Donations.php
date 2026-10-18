@@ -193,7 +193,9 @@ final class Donations extends Base
                     \App\Services\Mailer::send((string) $d['donor']['email'], 'Votre reçu fiscal · ' . Club::s('site'), '<p>Bonjour ' . e($d['donor']['first'] ?? '') . ',</p><p>Veuillez trouver ci-joint le reçu fiscal correspondant à votre don. Merci pour votre soutien !</p>', null, [['name' => "recu-fiscal-$num.pdf", 'type' => 'application/pdf', 'data' => (string) file_get_contents($file)]]);
                 }
                 Activity::log($user, 'a émis un reçu fiscal', ['title' => (string) $num]);
-                return self::back($back, $num ? "Reçu $num émis." : null, $num ? null : 'Aucun paiement sans reçu.');
+                // Un reçu par année civile : les paiements d'une autre année restent à émettre à part.
+                $left = array_filter(Front::get($id)['payments'] ?? [], fn ($p) => in_array($p['ref'], $refs, true) && $p['status'] === 'paid' && empty($p['receipt']));
+                return self::back($back, $num ? "Reçu $num émis." . ($left ? ' ' . count($left) . ' paiement(s) d’une autre année restent sans reçu : émettez-les à part (un reçu par année).' : '') : null, $num ? null : 'Aucun paiement sans reçu (un autre reçu vient peut-être d’être émis : rechargez la page).');
             case 'rembourse':
                 if ($d['provider'] === 'manuel' && !Auth::isAdmin()) {
                     return self::back($back, null, 'Un don hors ligne se corrige par un administrateur.');

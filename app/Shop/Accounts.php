@@ -46,13 +46,22 @@ final class Accounts
                     $s['items'] += (int) $it['qty'];
                     $s['cost'] += (int) ($it['cost'] ?? 0) * (int) $it['qty'];
                 }
-                $s['ship_cost'] += (int) ($o['ship_cost'] ?? $c['ship_cost']);
+                $s['ship_cost'] += self::shipCost($o, $c);
             }
         }
         $s['net'] = $s['sales'] - $s['refunds'] - $s['fees'];
         $s['margin'] = $s['net'] - $s['cost'] - $s['ship_cost'];
         $s['basket'] = $s['orders'] ? intdiv($s['sales'], $s['orders']) : 0;
         return $s;
+    }
+
+    /** Coût d'expédition payé à l'imprimeur pour une commande : rien si rien n'est expédié (livre numérique seul). */
+    public static function shipCost(array $o, ?array $c = null): int
+    {
+        if (!Orders::physical($o['items'])) {
+            return 0;
+        }
+        return (int) ($o['ship_cost'] ?? ($c ?? Orders::config())['ship_cost']);
     }
 
     /** Tableau de bord : jour, mois, année, 12 derniers mois, meilleures ventes, à suivre. */
@@ -132,7 +141,7 @@ final class Accounts
             });
             $c = Orders::config();
             if ($new && $c['alert_email'] !== '') {
-                Orders::notify($c['alert_email'], 'Boutique : litige sur la commande ' . $o['id'], '<p>Le client conteste le paiement de la commande <b>' . e($o['id']) . '</b> (' . e(Orders::money((int) ($d['amount'] ?? 0))) . ', motif : ' . e((string) ($d['reason'] ?? '')) . ').</p><p>Répondez au litige dans le tableau de bord Stripe, avec le suivi d’expédition. <a href="' . e(base_url() . '/admin/boutique/commandes/' . $o['id']) . '">Voir la commande</a></p>');
+                Orders::notify($c['alert_email'], 'Boutique : litige sur la commande ' . $o['id'], '<p>Le client conteste le paiement de la commande <b>' . e($o['id']) . '</b> (' . e(Orders::money((int) ($d['amount'] ?? 0))) . ', motif : ' . e((string) ($d['reason'] ?? '')) . ').</p><p>Répondez au litige dans le tableau de bord Stripe, avec le suivi d’expédition. ' . (($u = Orders::mailUrl('/admin/boutique/commandes/' . $o['id'])) !== '' ? '<a href="' . e($u) . '">Voir la commande</a>' : e(Orders::NO_LINK_TEAM)) . '</p>');
             }
         }
     }
@@ -206,6 +215,9 @@ final class Accounts
             if (!empty($o['dispute']) && !in_array($o['dispute']['status'], ['won', 'lost', 'warning_closed'], true)) {
                 $out[] = ['key' => "dispute:$id", 'level' => 'error', 'order' => $id, 'text' => 'Litige ouvert par le client (' . $o['dispute']['reason'] . ') : à traiter dans Stripe.'];
             }
+            if (!empty($o['anecdote_conflict']) && !in_array($o['status'], ['refunded', 'canceled'], true)) {
+                $out[] = ['key' => "anecdote:$id", 'level' => 'error', 'order' => $id, 'text' => 'Anecdote déjà vendue à une autre commande : rembourser le client ou lui proposer une autre anecdote.'];
+            }
             $since = function (string $st) use ($o): int {
                 $t = 0;
                 foreach ($o['history'] as $h) {
@@ -238,20 +250,30 @@ final class Accounts
     public static function mailAlerts(): int
     {
         $c = Orders::config();
-        $alerts = array_filter(self::alerts(), fn ($a) => $a['level'] !== 'info');
-        $file = STORAGE_PATH . '/shop/alerts-sent.json';
-        $sent = (array) JsonStore::read($file, []);
-        $new = array_values(array_filter($alerts, fn ($a) => !isset($sent[$a['key']])));
-        if (!$new || $c['alert_email'] === '') {
+        if ($c['alert_email'] === '') {
             return 0;
         }
+        $alerts = array_filter(self::alerts(), fn ($a) => $a['level'] !== 'info');
+        // Alertes nouvelles choisies et notées « envoyées » sous verrou : deux tâches lancées en
+        // même temps n'envoient pas deux fois la même alerte.
+        $new = [];
+        JsonStore::update(STORAGE_PATH . '/shop/alerts-sent.json', function ($sent) use ($alerts, &$new) {
+            $sent = is_array($sent) ? $sent : [];
+            $new = array_values(array_filter($alerts, fn ($a) => !isset($sent[$a['key']])));
+            foreach ($new as $a) {
+                $sent[$a['key']] = date('c');
+            }
+            return array_slice($sent, -2000, null, true);
+        }, []);
+        if (!$new) {
+            return 0;
+        }
+        $base = mail_base_url();
         $h = '<p>À suivre dans la boutique :</p><ul>';
         foreach ($new as $a) {
-            $h .= '<li>' . ($a['order'] !== '' ? '<a href="' . e(base_url() . '/admin/boutique/commandes/' . $a['order']) . '">' . e($a['order']) . '</a> : ' : '') . e($a['text']) . '</li>';
-            $sent[$a['key']] = date('c');
+            $h .= '<li>' . ($a['order'] !== '' ? ($base !== '' ? '<a href="' . e($base . '/admin/boutique/commandes/' . $a['order']) . '">' . e($a['order']) . '</a>' : e($a['order'])) . ' : ' : '') . e($a['text']) . '</li>';
         }
-        Orders::notify($c['alert_email'], 'Boutique : ' . count($new) . ' point(s) à suivre', $h . '</ul>');
-        JsonStore::write($file, array_slice($sent, -2000, null, true));
+        Orders::notify($c['alert_email'], 'Boutique : ' . count($new) . ' point(s) à suivre', $h . '</ul>' . ($base === '' ? '<p>' . e(Orders::NO_LINK_TEAM) . '</p>' : ''));
         return count($new);
     }
 
@@ -261,7 +283,13 @@ final class Accounts
     public static function statement(string $ym): array
     {
         $ym = preg_match('/^\d{4}-\d{2}$/', $ym) ? $ym : date('Y-m');
-        $orders = array_values(array_filter(self::sold(), fn ($o) => str_starts_with((string) $o['paid_at'], $ym)));
+        // Seulement ce que l'imprimeur fabrique et expédie : les commandes entièrement numériques
+        // (livre PDF) n'y figurent pas, ni les articles numériques d'une commande mixte.
+        $orders = array_values(array_filter(self::sold(), fn ($o) => str_starts_with((string) $o['paid_at'], $ym) && Orders::physical($o['items'])));
+        $orders = array_map(function ($o) {
+            $o['items'] = array_values(array_filter($o['items'], fn ($it) => !BookShop::digital($it)));
+            return $o;
+        }, $orders);
         usort($orders, fn ($a, $b) => strcmp((string) $a['paid_at'], (string) $b['paid_at']));
         $c = Orders::config();
         $rows = [];
@@ -272,7 +300,7 @@ final class Accounts
             foreach ($o['items'] as $it) {
                 $rows[] = ['date' => substr((string) $o['paid_at'], 0, 10), 'order' => $o['id'], 'status' => Orders::STATUSES[$o['status']], 'name' => $it['name'], 'support' => $it['support'], 'size' => $it['size'], 'qty' => (int) $it['qty'], 'unit_cost' => (int) ($it['cost'] ?? 0), 'cost' => (int) ($it['cost'] ?? 0) * (int) $it['qty']];
             }
-            $rows[] = ['date' => substr((string) $o['paid_at'], 0, 10), 'order' => $o['id'], 'status' => Orders::STATUSES[$o['status']], 'name' => 'Expédition', 'support' => '', 'size' => '', 'qty' => 1, 'unit_cost' => (int) ($o['ship_cost'] ?? $c['ship_cost']), 'cost' => (int) ($o['ship_cost'] ?? $c['ship_cost'])];
+            $rows[] = ['date' => substr((string) $o['paid_at'], 0, 10), 'order' => $o['id'], 'status' => Orders::STATUSES[$o['status']], 'name' => 'Expédition', 'support' => '', 'size' => '', 'qty' => 1, 'unit_cost' => self::shipCost($o, $c), 'cost' => self::shipCost($o, $c)];
         }
         return ['ym' => $ym, 'rows' => $rows, 'sums' => self::sums($orders), 'printer' => $c['printer_name']];
     }
