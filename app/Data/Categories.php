@@ -51,6 +51,68 @@ final class Categories
     }
 
     /**
+     * Rubriques de saison manquantes : toute saison, de la fondation du club à la saison en cours,
+     * a sa rubrique (Matchs › Années 50 › 1952 - 1953), avec sa décennie si besoin. Rien d'existant
+     * n'est modifié. Renvoie le nombre de rubriques créées.
+     */
+    public static function ensureSeasons(): int
+    {
+        $from = (int) \App\Core\Club::s('founded');
+        if ($from < 1850) {
+            return 0;
+        }
+        $to = (int) date('n') >= 7 ? (int) date('Y') : (int) date('Y') - 1;
+        $made = 0;
+        JsonStore::update(self::FILE, function (?array $cats) use ($from, $to, &$made) {
+            $cats = $cats ?: [];
+            // Rubrique « Matchs » : parente des décennies existantes, sinon la racine du modèle.
+            $root = 'matchs-fc-sochaux-retro-fcsm';
+            $decades = []; // décennie (1950) => slug de sa rubrique
+            $seasons = [];
+            foreach ($cats as $slug => $c) {
+                if (preg_match('/^Ann[ée]es\s+(\d{2,4})$/u', trim((string) ($c['name'] ?? '')), $m)) {
+                    $n = (int) $m[1];
+                    $decades[$n < 100 ? ($n >= 20 ? 1900 + $n : 2000 + $n) : $n] = (string) $slug;
+                    $root = (string) ($c['parent'] ?? $root);
+                }
+                if (!empty($c['season'])) {
+                    $seasons[(string) $c['season']] = true;
+                }
+            }
+            if (!isset($cats[$root])) {
+                return $cats;
+            }
+            $id = (int) max(array_merge([0], array_map(fn ($c) => (int) ($c['id'] ?? 0), $cats)));
+            for ($y = $from; $y <= $to; $y++) {
+                $season = $y . '-' . ($y + 1);
+                if (isset($seasons[$season]) || isset($cats[$season])) {
+                    continue;
+                }
+                $dec = intdiv($y, 10) * 10;
+                if (!isset($decades[$dec])) {
+                    $short = $dec < 2000 ? (string) ($dec % 100) : (string) $dec;
+                    $dkey = 'annees-' . $short . '-fc-sochaux-retro-fcsm';
+                    if (isset($cats[$dkey])) {
+                        continue; // nom inattendu : on ne touche à rien
+                    }
+                    $cats[$dkey] = ['id' => ++$id, 'slug' => $dkey, 'name' => 'Années ' . $short, 'label' => null, 'position' => $dec, 'description' => '',
+                        'parent' => $root, 'path' => '/matchs/annees-' . $short . '/', 'technical' => false, 'season' => null, 'old_path' => null, 'order' => [], 'wp_count' => 0];
+                    $decades[$dec] = $dkey;
+                    $made++;
+                }
+                $cats[$season] = ['id' => ++$id, 'slug' => $season, 'name' => $y . ' - ' . ($y + 1), 'label' => null, 'position' => null, 'description' => '',
+                    'parent' => $decades[$dec], 'path' => '/matchs/' . $season . '/', 'technical' => false, 'season' => $season, 'old_path' => null, 'order' => [], 'wp_count' => 0];
+                $made++;
+            }
+            return $cats;
+        }, []);
+        if ($made) {
+            self::$byPath = null;
+        }
+        return $made;
+    }
+
+    /**
      * Ordre d'affichage d'une rubrique sur le site : celui choisi dans le back-office, sinon
      * l'ordre manuel s'il existe (saisons, décennies, compétitions, rubriques éditoriales),
      * sinon les plus récents d'abord (matchs) ou l'ordre alphabétique (personnes).

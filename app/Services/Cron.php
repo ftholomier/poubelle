@@ -54,6 +54,7 @@ final class Cron
         'dons' => [3600, 'Synchronisation des dons (Stripe, PayPal)'],
         'totaux-reference' => [86400, 'Totaux de référence des joueurs : relevé des classements publiés (musées qui en déclarent)'],
         'plan-du-site' => [86400, 'Plan du site (sitemap.xml)'],
+        'rubriques-saisons' => [86400, 'Rubriques de saison : une par saison depuis la fondation (rubriques des fiches de match)'],
         'association' => [3600, 'Site de l’association : dernières vidéos YouTube, mesure d’audience'],
         'mises-a-jour' => [10800, 'Nouvelle version du site sur GitHub (vérification)'],
         'sauvegarde' => [3600, 'Sauvegarde quotidienne'],
@@ -302,6 +303,10 @@ final class Cron
                     throw new \RuntimeException($r['message']); // relevé refusé : signalé comme échec
                 }
                 return $r['message'];
+
+            case 'rubriques-saisons':
+                $n = \App\Data\Categories::ensureSeasons();
+                return $n ? $n . ' rubrique(s) de saison créée(s)' : null;
 
             case 'plan-du-site':
                 \App\Front\Seo::build(true);
