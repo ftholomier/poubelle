@@ -74,7 +74,8 @@ $eq('public : pages légales lisibles mais non indexées', [$r->status, $r->head
 $r = $get('/api/recherche', ['q' => 'paille']);
 $eq('public : API fermée', $r->status, 503);
 $r = $get('/robots.txt');
-$eq('robots.txt : tout est interdit aux moteurs', [trim($r->body), $r->headers['X-Robots-Tag'] ?? null], ["User-agent: *\nDisallow: /", 'noindex, nofollow']);
+// Les robots d'IA sont toujours refusés en tête ; la section « User-agent: * » interdit tout tant que le site est fermé.
+$eq('robots.txt : tout est interdit aux moteurs', [str_ends_with(trim($r->body), "User-agent: *\nDisallow: /"), $r->headers['X-Robots-Tag'] ?? null], [true, 'noindex, nofollow']);
 $r = $get('/sitemap.xml');
 $eq('plan du site : page d’attente pour le public', $r->status, 503);
 $eq('public : pas de bandeau d’équipe sur la page d’attente', str_contains($get('/')->body, 'team-bar'), false);
@@ -83,11 +84,11 @@ $eq('public : pas de bandeau d’équipe sur la page d’attente', str_contains(
 $login(true);
 $r = $get('/');
 $eq('équipe connectée : le vrai site', [$r->status, str_contains($r->body, 'id="contenu"')], [200, true]);
-$eq('équipe connectée : bandeau « site fermé au public »', str_contains($r->body, 'class="team-bar"') && str_contains($r->body, 'Site fermé au public</b> (page d’attente)'), true);
-$eq('équipe connectée : lien « Voir ce que voit le public »', str_contains($r->body, 'href="/?apercu-attente=1"'), true);
+// Bandeau jaune « Site fermé au public » retiré pour l'équipe (l'aperçu de la page d'attente reste dans les Réglages).
+$eq('équipe connectée : pas de bandeau sur le site', str_contains($r->body, 'class="team-bar"'), false);
 $eq('équipe connectée : page non indexée et gardée dans aucun cache', [$r->headers['X-Robots-Tag'] ?? null, $r->headers['Cache-Control'] ?? null], ['noindex, nofollow', 'private, no-store']);
 $r = $get('/matchs/1990-1991/');
-$eq('équipe connectée : pages profondes visibles', [$r->status, str_contains($r->body, 'class="team-bar"')], [200, true]);
+$eq('équipe connectée : pages profondes visibles', [$r->status, str_contains($r->body, 'id="contenu"')], [200, true]);
 $r = $get('/en/matchs/');
 $eq('équipe connectée : version anglaise visible', $r->status, 200);
 $r = $get('/', ['apercu-attente' => '1']);
@@ -102,7 +103,7 @@ $r = $get('/');
 $eq('mot de passe : le public voit l’écran du mot de passe, non indexé', [$r->status, $r->headers['X-Robots-Tag'] ?? null], [401, 'noindex, nofollow']);
 $login(true);
 $r = $get('/');
-$eq('mot de passe : l’équipe connectée voit le site, avec le bandeau', [$r->status, str_contains($r->body, 'Site fermé au public</b> (mot de passe d’accès)')], [200, true]);
+$eq('mot de passe : l’équipe connectée voit le site sans le saisir', [$r->status, str_contains($r->body, 'id="contenu"')], [200, true]);
 $eq('mot de passe : pas de lien vers l’aperçu de la page d’attente', str_contains($r->body, 'apercu-attente'), false);
 
 // 5. Site ouvert
@@ -111,7 +112,7 @@ $login(false);
 $r = $get('/');
 $eq('ouvert : le public voit le site, indexable', [$r->status, $r->headers['X-Robots-Tag'] ?? null], [200, null]);
 $r = $get('/robots.txt');
-$eq('ouvert : robots.txt avec le plan du site', !str_contains($r->body, "Disallow: /\n") && str_contains($r->body, 'Sitemap: '), true);
+$eq('ouvert : robots.txt avec le plan du site', !str_ends_with(trim(explode('User-agent: *', $r->body)[1] ?? ''), 'Disallow: /') && !str_contains(explode('User-agent: *', $r->body)[1] ?? '', "Disallow: /\n") && str_contains($r->body, 'Sitemap: '), true);
 $login(true);
 $eq('ouvert : pas de bandeau pour l’équipe', str_contains($get('/')->body, 'team-bar'), false);
 $settings($open + ['general.noindex' => true]);
@@ -137,18 +138,22 @@ $r = $get('/video/teaser.jpg');
 $eq('site fermé : image introuvable pour le public', $r->file, null);
 $login(true);
 $r = $get('/');
-$eq('site fermé : l’équipe voit le teaser sur l’accueil', str_contains($r->body, '<section id="teaser"') && str_contains($r->body, '<source src="/video/teaser.mp4"'), true);
+$r = $get('/teaser/');
+$eq('site fermé : l’équipe voit la page du teaser', [$r->status, str_contains($r->body, '<source src="/video/teaser.mp4"')], [200, true]);
 $r = $get('/video/teaser.mp4');
 $eq('site fermé : vidéo servie à l’équipe, jamais en cache', [$r->status, $r->headers['Content-Type'] ?? null, $r->headers['Cache-Control'] ?? null], [200, 'video/mp4', 'private, no-store']);
 $settings($open);
 $login(false);
 $r = $get('/');
-$eq('site ouvert : teaser sur l’accueil pour le public, servi par Apache (adresse versionnée)', str_contains($r->body, '<section id="teaser"') && (bool) preg_match('#poster="/assets/video/teaser-[0-9a-f]{10}\.jpg"#', $r->body) && (bool) preg_match('#<source src="/assets/video/teaser-[0-9a-f]{10}\.mp4"#', $r->body), true);
+$eq('site ouvert : lien « Vidéo teaser » dans le pied de page', str_contains($r->body, 'href="/teaser/"'), true);
+$r = $get('/teaser/');
+$eq('site ouvert : page du teaser pour le public, servie par Apache (adresse versionnée)', $r->status === 200 && (bool) preg_match('#poster="/assets/video/teaser-[0-9a-f]{10}\.jpg"#', $r->body) && (bool) preg_match('#<source src="/assets/video/teaser-[0-9a-f]{10}\.mp4"#', $r->body), true);
 $r = $get('/video/teaser.mp4');
 $eq('site ouvert : vidéo servie au public, gardée en cache', [$r->status, $r->headers['Cache-Control'] ?? null], [200, 'public, max-age=86400']);
 $settings($open + ['home.teaser' => false]);
 $r = $get('/');
-$eq('teaser de l’accueil décoché : absent de l’accueil', str_contains($r->body, 'id="teaser"'), false);
+$eq('teaser décoché : lien du pied de page retiré', str_contains($r->body, 'href="/teaser/"'), false);
+$eq('teaser décoché : page du teaser introuvable pour le public', $get('/teaser/')->status, 404);
 $r = $get('/video/teaser.mp4');
 $eq('teaser décoché partout, site ouvert : vidéo introuvable (404)', [$r->status, $r->file], [404, null]);
 $login(true);

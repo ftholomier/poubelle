@@ -446,7 +446,9 @@ final class Controle
         // Texte modifié sans toucher au résumé : le fichier est plus récent que la recherche
         // (absente, elle se reconstruit d'elle-même à la première recherche).
         clearstatcache();
-        if ($searched = @filemtime(STORAGE_PATH . '/cache/search.php')) {
+        // Les grosses données vont dans « search.php.ser » : le chargeur .php, identique, n'est pas réécrit.
+        $searched = max(@filemtime(STORAGE_PATH . '/cache/search.php') ?: 0, @filemtime(STORAGE_PATH . '/cache/search.php.ser') ?: 0);
+        if ($searched) {
             foreach (glob(Fiches::DIR . '/*.json') ?: [] as $file) {
                 if ((@filemtime($file) ?: 0) > $searched) {
                     $stale[(int) basename($file, '.json')] = true;
@@ -456,6 +458,12 @@ final class Controle
         if ($stale) {
             Index::rebuild();
             Search::rebuild();
+            // Reconstruite à l'identique, la recherche n'est pas réécrite : sa date note qu'elle est à jour.
+            foreach ([STORAGE_PATH . '/cache/search.php', STORAGE_PATH . '/cache/search.php.ser'] as $f) {
+                if (is_file($f)) {
+                    @touch($f);
+                }
+            }
         }
         return count($stale);
     }

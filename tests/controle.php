@@ -236,8 +236,11 @@ try {
     $eq('index périmé (même date de modification) : détecté', [$call(Controle::class, 'syncIndex'), Index::get($id)['title']], [1, $visible['title']]);
     $eq('index à jour : rien à refaire', $call(Controle::class, 'syncIndex'), 0);
     $newest = max(array_map('filemtime', glob(Fiches::DIR . '/*.json')));
+    $search = is_file(STORAGE_PATH . '/cache/search.php.ser') ? STORAGE_PATH . '/cache/search.php.ser' : STORAGE_PATH . '/cache/search.php';
     touch(STORAGE_PATH . '/cache/search.php', $newest - 1);
-    $eq('fichier plus récent que la recherche : recherche reconstruite', $call(Controle::class, 'syncIndex') > 0 && filemtime(STORAGE_PATH . '/cache/search.php') >= $newest, true);
+    touch($search, $newest - 1);
+    clearstatcache();
+    $eq('fichier plus récent que la recherche : recherche reconstruite', $call(Controle::class, 'syncIndex') > 0 && (clearstatcache() ?? true) && filemtime($search) >= $newest, true);
     // Un contrôle à la fois.
     $lock = fopen(STORAGE_PATH . '/controle.lock', 'c');
     flock($lock, LOCK_EX);

@@ -48,7 +48,7 @@ return [
             'counter_videos' => ['label' => 'Compteur : vidéos YouTube', 'type' => 'text', 'default' => '1400+'],
             'centenary_date' => ['label' => 'Date du centenaire (compte à rebours)', 'type' => 'date', 'default' => \App\Core\Club::s('centenary_date')],
             'daily_figure' => ['label' => club('Afficher « Le chiffre du jour » (un des 100 chiffres {sigle_de}, un nouveau chaque jour)'), 'type' => 'bool', 'default' => true],
-            'teaser' => ['label' => 'Afficher le teaser vidéo sur l’accueil (le public le voit à l’ouverture du site)', 'type' => 'bool', 'default' => true],
+            'teaser' => ['label' => 'Montrer le teaser vidéo au public (page « Vidéo teaser » et lien du pied de page, à l’ouverture du site)', 'type' => 'bool', 'default' => true],
         ],
     ],
     'social' => [

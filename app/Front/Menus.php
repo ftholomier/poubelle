@@ -172,6 +172,9 @@ final class Menus
         if (str_starts_with($h, '/centenaire') && !Site::centenaryCountdown()) {
             return null; // centenaire pas encore proche (ou coupé dans le profil du club)
         }
+        if ($h === '/teaser/' && !Pages::teaserPublic()) {
+            return null; // teaser décoché (Éditorial › Accueil) ou absent
+        }
         if (preg_match('#^/bilans/([a-z0-9-]+)/$#', $h, $m) && !self::hasBilan($m[1])) {
             return null; // bilan sans match (musée neuf, compétition jamais jouée) : la page serait une 404
         }

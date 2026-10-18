@@ -756,11 +756,17 @@ final class Pages
      * d'attente, ou accueil une fois le site ouvert) ; pour l'équipe connectée, toujours (aperçu) ;
      * sinon introuvables, pour garder la surprise.
      */
+    /** Le teaser est-il montré au public sur le site ouvert (case « Teaser » d'Éditorial › Accueil) ? */
+    public static function teaserPublic(): bool
+    {
+        return (bool) Settings::get('home.teaser', true) && is_file(self::TEASER . '.mp4');
+    }
+
     public static function teaser(Request $req, string $path): ?Response
     {
         $jpg = str_ends_with($path, '.jpg');
         $file = self::TEASER . ($jpg ? '.jpg' : '.mp4');
-        $on = (bool) Settings::get('waiting.teaser', false) || !Seo::closed();
+        $on = (bool) Settings::get('waiting.teaser', false) || (!Seo::closed() && self::teaserPublic());
         if (!is_file($file) || (!$on && !\App\Core\Auth::user())) {
             return null;
         }
@@ -773,8 +779,8 @@ final class Pages
     /** /teaser/ : la vidéo de présentation du musée (lien du pied de page). */
     public static function teaserPage(Request $req): Response
     {
-        if (!is_file(self::TEASER . '.mp4')) {
-            return self::notFound();
+        if (!is_file(self::TEASER . '.mp4') || (!self::teaserPublic() && !\App\Core\Auth::user())) {
+            return self::notFound(); // décoché : la page reste visible par l'équipe connectée (aperçu)
         }
         return self::render('teaser', [], [
             'title' => t('Le teaser du musée'),

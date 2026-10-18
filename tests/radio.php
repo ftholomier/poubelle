@@ -67,7 +67,7 @@ $eq('ponctuation finale ajoutée si absente', [R::speakable('Et c’est le but d
 $rate = 24000;
 $voicePcm = '';
 for ($i = 0; $i < $rate * 3; $i++) {
-    $amp = $i < $rate * 2.5 ? 12000 : 12000 * pow(0.01, ($i - $rate * 2.5) / ($rate * 0.5)); // dernière demi-seconde : -40 dB
+    $amp = $i < $rate * 2.5 ? 12000 : 12000 * pow(0.001, ($i - $rate * 2.5) / ($rate * 0.5)); // dernière demi-seconde : la voix retombe jusqu’à -60 dB
     $voicePcm .= pack('s', (int) ($amp * sin(2 * M_PI * 180 * $i / $rate)));
 }
 $voicePcm .= str_repeat("\0\0", $rate); // 1 s de silence ajoutée par la synthèse
