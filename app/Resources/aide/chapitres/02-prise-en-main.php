@@ -81,6 +81,7 @@ HTML],
 <ul>
 <li>Toute l’équipe voit tous les tickets du musée : regardez s’il n’existe pas déjà avant d’en ouvrir un. Filtres : ouverts, mes tickets, par statut, type, personne, ou recherche.</li>
 <li>Sous chaque ticket, un <b>fil d’échanges</b> pour poser une question ou répondre, et l’<b>historique</b> de ses changements.</li>
+<li>Sur le <b>tableau de bord</b>, le bloc <b>« Mes tickets en cours »</b> liste vos seuls tickets encore ouverts, avec leur statut (point jaune : du nouveau).</li>
 <li>Vous pouvez modifier votre ticket tant qu’il est « Nouveau » ; ensuite, ajoutez une réponse.</li>
 <li><b>E-mails</b> : l’administrateur est prévenu de chaque nouveau ticket et de chaque réponse ; vous êtes prévenu à chaque réponse ou changement de statut de votre ticket. Une pastille sur le bouton Ticket compte les tickets qui ont bougé depuis votre dernière visite.</li>
 </ul>

@@ -18,6 +18,14 @@ $pl = fn ($n, string $one, string $many): string => (int) $n > 1 ? $many : $one;
 
 <div class="cols">
   <div class="stack">
+    <?php $me = \App\Core\Auth::user() ?? []; $mine = array_values(array_filter(\App\Services\Tickets::all(), fn ($t) => ($t['author']['id'] ?? '') === ($me['id'] ?? null) && in_array($t['status'], \App\Services\Tickets::OPEN, true))); ?>
+    <div class="card">
+      <div class="card__head"><h2 class="card__t">Mes tickets en cours</h2><a class="linkbtn" href="/admin/tickets#nouveau">+ Nouveau ticket</a></div>
+      <?php foreach ($mine as $t): $new = \App\Services\Tickets::unread($t, $me); ?>
+        <a class="card__row" style="grid-template-columns:auto minmax(0,1fr) auto" href="/admin/tickets/<?= (int) $t['id'] ?>"><b style="color:var(--blue)">n° <?= (int) $t['id'] ?></b><span><?= $new ? '<span title="Du nouveau depuis votre dernière visite" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 2px var(--navy);margin-right:6px"></span>' : '' ?><?= e($t['title']) ?></span><span class="d" style="font-weight:800;font-size:13px;text-transform:uppercase;color:var(--blue)"><?= e(\App\Services\Tickets::STATES[$t['status']]) ?></span></a>
+      <?php endforeach; ?>
+      <?php if (!$mine): ?><div class="card__body">Aucun ticket en cours. Un bug, une idée&nbsp;? <a href="/admin/tickets#nouveau">Ouvrir un ticket</a>.</div><?php endif; ?>
+    </div>
     <div class="card">
       <div class="card__head"><h2 class="card__t">À faire</h2><span class="card__note"><?= count($todos) ?> tâche<?= count($todos) > 1 ? 's' : '' ?></span></div>
       <?php foreach ($todos as [$c, $t, $a, $href]): ?>
