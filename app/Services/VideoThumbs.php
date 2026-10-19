@@ -95,7 +95,7 @@ final class VideoThumbs
 
     /**
      * Disponibilité des vidéos Dailymotion (API publique) : une vidéo supprimée, privée ou dont
-     * l'intégration est interdite est notée (masquée sur le site, signalée dans Qualité) ; revue
+     * (vidéo regardée chez Dailymotion, l'intégration étant refusée) est notée (masquée sur le site, signalée dans Qualité) ; revue
      * chaque semaine, une vidéo revenue est retirée de la liste. Une erreur réseau ne change rien.
      * @param ?callable(string):array{0:int,1:?string} $get requête (remplaçable pour les essais)
      * @return array{verifiees:int, indisponibles:int}
@@ -130,7 +130,6 @@ final class VideoThumbs
                 $code === 404 || $code === 410 => 'supprimée',
                 $code === 403 || !empty($j['private']) => 'privée',
                 isset($j['status']) && $j['status'] !== 'published' => 'indisponible (' . $j['status'] . ')',
-                isset($j['allow_embed']) && $j['allow_embed'] === false => 'intégration interdite',
                 default => null,
             };
             if ($why) {

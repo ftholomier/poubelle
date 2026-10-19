@@ -15,7 +15,12 @@ $names = ['youtube' => 'YouTube', 'dailymotion' => 'Dailymotion', 'vimeo' => 'Vi
   <h2 class="h-section"><?= e($title ?? (count($list) > 1 ? t('Vidéos') : t('Vidéo'))) ?></h2>
   <div class="videos__grid<?= count($list) > 1 ? ' videos__grid--multi' : '' ?>">
     <?php foreach ($list as $v): ?>
-      <?php if ($v['provider'] === 'file'): ?>
+      <?php if ($v['provider'] === 'dailymotion'): // Dailymotion refuse désormais la lecture intégrée (« Forbidden ») : image et lien vers la vidéo. ?>
+        <a class="video video--out" href="<?= e($v['link']) ?>" target="_blank" rel="noopener"<?= $v['thumb'] ? ' style="background-image:url(' . e(img($v['thumb'], 800)) . ')"' : '' ?>>
+          <span class="play" aria-hidden="true">▶</span>
+          <span class="video__out"><?= e(t('Regarder sur {site}', ['site' => 'Dailymotion'])) ?> ↗<?= $v['title'] ? '<small>' . e($v['title']) . '</small>' : '' ?></span>
+        </a>
+      <?php elseif ($v['provider'] === 'file'): ?>
         <div class="video"><video controls preload="none" src="<?= e($v['embed']) ?>"></video></div>
       <?php else: ?>
         <div class="video<?= $v['provider'] === 'x' ? ' video--x' : '' ?>" data-embed="<?= e($v['embed']) ?>" data-title="<?= e($v['title'] ?: t('Vidéo')) ?>">
