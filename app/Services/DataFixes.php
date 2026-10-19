@@ -26,6 +26,7 @@ final class DataFixes
         '2026-10-juillet-1978' => 'july1978',
         '2026-10-feuilles-2022-2023' => 'sheets2223',
         '2026-10-saison-des-feuilles' => 'sheetSeasons',
+        '2026-10-vignettes-dailymotion' => 'dailymotionThumbs',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -103,6 +104,25 @@ final class DataFixes
             return $ids;
         });
         return ['message' => count($ids) . ' match(s) des feuilles de l’association rangé(s) dans la saison de leur feuille', 'ids' => $ids];
+    }
+
+    /**
+     * Vignettes Dailymotion désormais lues par l'API : les échecs passés (ancienne adresse) sont
+     * oubliés pour que la tâche « videos » les retente tout de suite au lieu d'attendre une semaine.
+     */
+    private static function dailymotionThumbs(): array
+    {
+        $file = STORAGE_PATH . '/cache/video-thumbs.json';
+        $state = JsonStore::read($file, []) ?: [];
+        $n = 0;
+        foreach (array_keys($state) as $k) {
+            if (str_starts_with((string) $k, 'dailymotion-')) {
+                unset($state[$k]);
+                $n++;
+            }
+        }
+        JsonStore::write($file, $state);
+        return ['message' => $n . ' vignette(s) Dailymotion à retenter', 'ids' => []];
     }
 
     /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */

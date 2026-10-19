@@ -110,7 +110,7 @@ $recitAside = (string) ob_get_clean();
       <?php endforeach; ?>
     <?php endif; ?>
 
-    <?= View::partial('partials/videos', ['videos' => $doc['videos'] ?? []]) ?>
+    <?= View::partial('partials/videos', ['videos' => $doc['videos'] ?? [], 'poster' => $doc['featured_image'] ?? null]) ?>
   </article>
 
   <?php if ($hasAside): ?>

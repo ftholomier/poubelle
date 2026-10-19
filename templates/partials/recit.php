@@ -44,7 +44,7 @@ $figure = function (array $g, string $cls) use ($context): string {
     <?php foreach ($doc['tables'] ?? [] as $tb): ?>
       <section class="rch"><?php if (!empty($tb['title'])): ?><h2 class="h-3"><?= e($tb['title']) ?></h2><?php endif; ?><?= View::partial('partials/table', ['table' => $tb]) ?></section>
     <?php endforeach; ?>
-    <?= View::partial('partials/videos', ['videos' => $doc['videos'] ?? []]) ?>
+    <?= View::partial('partials/videos', ['videos' => $doc['videos'] ?? [], 'poster' => $doc['featured_image'] ?? null]) ?>
   </article>
 
   <aside class="recit__aside">

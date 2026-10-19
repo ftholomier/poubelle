@@ -244,7 +244,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
         <?php if ($cap !== ''): ?><figcaption><?= e($cap) ?></figcaption><?php endif; ?>
       </figure>
     <?php endforeach; ?>
-    <?= View::partial('partials/videos', ['videos' => $doc['videos'] ?? []]) ?>
+    <?= View::partial('partials/videos', ['videos' => $doc['videos'] ?? [], 'poster' => $doc['featured_image'] ?? null]) ?>
 
     <?php if (isset($etais)): $tm = $temoins ?? []; ?>
     <section class="iye" id="ils-y-etaient" aria-labelledby="iye-t" data-iye data-id="<?= (int) $doc['id'] ?>"

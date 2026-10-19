@@ -328,7 +328,7 @@ $rowsHtml = function (array $list, bool $coach) {
 </section>
 <?php endif; ?>
 
-<?php $videosHtml = empty($recit) ? View::partial('partials/videos', ['videos' => $doc['videos'] ?? [], 'anchor' => 'video']) : ''; if (trim($videosHtml) !== ''): ?>
+<?php $videosHtml = empty($recit) ? View::partial('partials/videos', ['videos' => $doc['videos'] ?? [], 'anchor' => 'video', 'poster' => $doc['featured_image'] ?? null]) : ''; if (trim($videosHtml) !== ''): ?>
 <div class="wrap" style="padding-bottom:clamp(48px,6vw,88px)"><?= $videosHtml ?></div>
 <?php endif; ?>
 

@@ -26,7 +26,7 @@ final class VideoThumbs
         $id = rawurlencode($id);
         return match ($provider) {
             'youtube' => "https://i.ytimg.com/vi/$id/hqdefault.jpg",
-            'dailymotion' => "https://www.dailymotion.com/thumbnail/video/$id",
+            'dailymotion' => "https://api.dailymotion.com/video/$id?fields=thumbnail_720_url,thumbnail_url",
             'rutube' => "https://rutube.ru/api/video/$id/thumbnail/?redirect=1",
             'vimeo' => "https://vimeo.com/api/oembed.json?url=" . rawurlencode("https://vimeo.com/$id"),
             default => null,
@@ -160,8 +160,9 @@ final class VideoThumbs
     {
         $url = self::sourceUrl($provider, $id);
         $body = $url ? $fetch($url) : null;
-        if ($provider === 'vimeo' && $body !== null) {
-            $thumb = json_decode($body, true)['thumbnail_url'] ?? null;
+        if (in_array($provider, ['vimeo', 'dailymotion'], true) && $body !== null) {
+            $j = json_decode($body, true) ?: [];
+            $thumb = $j['thumbnail_720_url'] ?? $j['thumbnail_url'] ?? null;
             $body = is_string($thumb) && str_starts_with($thumb, 'https://') ? $fetch($thumb) : null;
         }
         // Une vraie image, pas une page d'erreur ni l'image grise « vidéo indisponible » (120 px).

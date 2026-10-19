@@ -1,7 +1,7 @@
 <?php
 /**
  * Vidéos (YouTube sans cookie, Dailymotion, Vimeo, Rutube, publications X avec vidéo, fichiers) : chargées seulement après accord (cookies « vidéos »).
- * Variables : $videos, $title, $anchor
+ * Variables : $videos, $title, $anchor, $poster (photo de la fiche, image de secours d'une vidéo Dailymotion sans vignette)
  */
 // Vidéos retirées chez l'hébergeur (supprimées, privées) : masquées plutôt qu'un lecteur en erreur.
 $goneV = \App\Services\VideoThumbs::gone();
@@ -16,7 +16,8 @@ $names = ['youtube' => 'YouTube', 'dailymotion' => 'Dailymotion', 'vimeo' => 'Vi
   <div class="videos__grid<?= count($list) > 1 ? ' videos__grid--multi' : '' ?>">
     <?php foreach ($list as $v): ?>
       <?php if ($v['provider'] === 'dailymotion'): // Dailymotion refuse désormais la lecture intégrée (« Forbidden ») : image et lien vers la vidéo. ?>
-        <a class="video video--out" href="<?= e($v['link']) ?>" target="_blank" rel="noopener"<?= $v['thumb'] ? ' style="background-image:url(' . e(img($v['thumb'], 800)) . ')"' : '' ?>>
+        <?php $bg = $v['thumb'] ?: (!empty($poster) && is_string($poster) ? $poster : null); ?>
+        <a class="video video--out" href="<?= e($v['link']) ?>" target="_blank" rel="noopener"<?= $bg ? ' style="background-image:url(' . e(img($bg, 800)) . ')"' : '' ?>>
           <span class="play" aria-hidden="true">▶</span>
           <span class="video__out"><?= e(t('Regarder sur {site}', ['site' => 'Dailymotion'])) ?> ↗<?= $v['title'] ? '<small>' . e($v['title']) . '</small>' : '' ?></span>
         </a>
