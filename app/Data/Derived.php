@@ -400,7 +400,7 @@ final class Derived
                     $ficheAlerts[] = ['sev' => 'basse', 'code' => 'inconnu', 'msg' => 'Information inconnue notée « xx » sur l’ancien site (cachée sur le site public), à compléter ou à retirer : ' . implode(' ; ', $places), 'id' => (int) $id];
                 }
                 foreach ($doc['videos'] ?? [] as $v) {
-                    if ($vis && !in_array($v['provider'] ?? '', ['youtube', 'dailymotion', 'vimeo', 'rutube', 'file'], true)) {
+                    if ($vis && !in_array($v['provider'] ?? '', ['youtube', 'dailymotion', 'vimeo', 'rutube', 'x', 'file'], true)) {
                         $ficheAlerts[] = ['sev' => 'basse', 'code' => 'video', 'msg' => 'Lien vidéo de l’ancien site non reconnu : recoller le bon lien (YouTube, Dailymotion…) dans l’onglet Médias', 'id' => (int) $id];
                         break;
                     }

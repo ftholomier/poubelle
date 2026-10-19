@@ -568,5 +568,5 @@ window.addEventListener('message', (ev) => {
   const p = d && d['twttr.embed'];
   const h = p && p.method === 'twttr.private.resize' && p.params && p.params[0] && p.params[0].height;
   if (!h) return;
-  document.querySelectorAll('.tweet iframe').forEach((f) => { if (f.contentWindow === ev.source) f.style.height = Math.ceil(h) + 'px'; });
+  document.querySelectorAll('.tweet iframe, .video--x iframe').forEach((f) => { if (f.contentWindow === ev.source) f.style.height = Math.ceil(h) + 'px'; });
 });

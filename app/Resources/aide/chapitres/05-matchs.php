@@ -72,7 +72,7 @@ HTML],
 <ul>
 <li><b>Image à la une</b> : la photo de la vignette, du partage et de l’en-tête.</li>
 <li><b>Galerie</b> : ajoutez des photos de la médiathèque (ou envoyez-en de nouvelles), avec légende et crédit ; glissez pour l’ordre.</li>
-<li><b>Vidéos</b> : collez le lien YouTube, Dailymotion, Vimeo ou Rutube.</li>
+<li><b>Vidéos</b> : collez le lien YouTube, Dailymotion, Vimeo, Rutube ou d’une publication X (Twitter) avec vidéo, par exemple <code>https://x.com/SochauxRetro/status/…</code>.</li>
 </ul>
 [[img:match-medias.webp|L’onglet Médias : image à la une, galerie, vidéos]]
 HTML],

@@ -63,7 +63,7 @@ HTML],
 <p><b>+ Nouveau › Question de quiz</b> (ou Interactif › Quiz) › question, quatre réponses, bonne réponse, « Le saviez-vous ? » › « Affichée dans le quiz » › Enregistrer.</p>
 HTML],
         ['id' => 'video', 'title' => '… ajouter une vidéo à une fiche', 'html' => <<<'HTML'
-<p>Onglet <b>Médias</b> › Vidéos › « Ajouter une vidéo » › collez le lien YouTube, Dailymotion, Vimeo ou Rutube › titre › Enregistrer.</p>
+<p>Onglet <b>Médias</b> › Vidéos › « Ajouter une vidéo » › collez le lien YouTube, Dailymotion, Vimeo, Rutube ou X (Twitter) › titre › Enregistrer.</p>
 HTML],
         ['id' => 'adversaire', 'title' => '… corriger le nom ou le logo d’un adversaire', 'html' => <<<'HTML'
 <p>Contenus › Saisons, adversaires, lieux › onglet Adversaires › cherchez le club › nom, variantes, ville, logo › Enregistrer. Toutes ses fiches et son face-à-face suivent.</p>

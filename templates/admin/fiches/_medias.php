@@ -19,9 +19,9 @@ $gal = array_map(function ($g) {
     </div>
   </div>
   <div class="card">
-    <div class="card__head"><h2 class="card__t">Vidéos</h2><span class="card__note">YouTube, Dailymotion ou Vimeo : collez simplement le lien</span></div>
+    <div class="card__head"><h2 class="card__t">Vidéos</h2><span class="card__note">YouTube, Dailymotion, Vimeo ou X (Twitter) : collez simplement le lien</span></div>
     <div class="card__body">
-      <?= Form::repeater('videos', '', $doc['videos'] ?? [], fn ($v) => '<div class="fgrid">' . Form::text('@url', 'Lien de la vidéo', $v ? (video_embed($v)['link'] ?? ($v['url'] ?? '')) : '', ['class' => 'f--2', 'type' => 'url', 'placeholder' => 'https://www.youtube.com/watch?v=…', 'help' => 'YouTube, Dailymotion, Vimeo, Rutube ou fichier vidéo']) . Form::text('@title', 'Titre', $v['title'] ?? '') . '</div>', ['compact' => true, 'add' => 'Ajouter une vidéo']) ?>
+      <?= Form::repeater('videos', '', $doc['videos'] ?? [], fn ($v) => '<div class="fgrid">' . Form::text('@url', 'Lien de la vidéo', $v ? (video_embed($v)['link'] ?? ($v['url'] ?? '')) : '', ['class' => 'f--2', 'type' => 'url', 'placeholder' => 'https://www.youtube.com/watch?v=…', 'help' => 'YouTube, Dailymotion, Vimeo, Rutube, X (x.com/…/status/…) ou fichier vidéo']) . Form::text('@title', 'Titre', $v['title'] ?? '') . '</div>', ['compact' => true, 'add' => 'Ajouter une vidéo']) ?>
     </div>
   </div>
   <div class="card">

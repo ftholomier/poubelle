@@ -128,7 +128,7 @@ final class FicheForm
                 if ($parsed) {
                     $doc['videos'][] = $parsed + ['title' => Html::line($v['title'] ?? '', 200)];
                 } elseif ($url !== '') {
-                    $errors['videos'] = 'Lien de vidéo non reconnu : ' . mb_substr($url, 0, 80) . ' (YouTube, Dailymotion, Vimeo, Rutube ou fichier vidéo).';
+                    $errors['videos'] = 'Lien de vidéo non reconnu : ' . mb_substr($url, 0, 80) . ' (YouTube, Dailymotion, Vimeo, Rutube, X/Twitter ou fichier vidéo).';
                 }
             }
         }
@@ -832,6 +832,7 @@ final class FicheForm
                 'dailymotion' => preg_match('/^[a-z0-9]+$/i', $id),
                 'vimeo' => preg_match('/^\d+$/', $id),
                 'rutube' => preg_match('/^[a-f0-9]{20,}$/i', $id),
+                'x' => preg_match('/^\d{5,25}$/', $id),
                 default => 0,
             };
             return $ok ? ['provider' => $provider, 'id' => $id] : null;
@@ -847,6 +848,10 @@ final class FicheForm
         }
         if (preg_match('#rutube\.ru/(?:play/embed|video)/([a-f0-9]{20,})#i', $url, $m)) {
             return ['provider' => 'rutube', 'id' => strtolower($m[1])];
+        }
+        // Publication X (Twitter) avec sa vidéo : x.com/<compte>/status/<numéro> ou twitter.com/…
+        if (preg_match('#^https?://(?:www\.|mobile\.)?(?:x|twitter)\.com/(?:\w{1,30}|i(?:/web)?)/status(?:es)?/(\d{5,25})#i', $url, $m)) {
+            return ['provider' => 'x', 'id' => $m[1]];
         }
         if (preg_match('#^(?:/media|' . preg_quote(MEDIA_URL, '#') . ')/|^https?://.+\.(mp4|webm)$#i', $url)) {
             return ['provider' => 'file', 'id' => '', 'url' => $url];
