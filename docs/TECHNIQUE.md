@@ -2261,7 +2261,7 @@ dans les fiches (la plupart ne vivent qu'en ligne) : la liste est livrée avec l
 - **Pictos de la composition** : flèches d'entrée / sortie, cartons et ballons avec la
   minute, brassard, gant, débuts, dernier match, doublé / triplé, penalty, second jaune.
 - **Pictos du résumé** : détectés dans le texte des faits de jeu (cartons, penalty,
-  changement, montant, arrêt, contre son camp) ; ballon devant chaque « But ! », étiquette
+  changement, but refusé, montant, arrêt, contre son camp ; tournures sûres seulement : « sur / tape / heurte le poteau », pas « au second poteau ») ; ballon devant chaque « But ! », étiquette
   « contre son camp » sur les buts.
 - **Tweets** (`tweet_id()`, `tweet_embed()`, `tweets_by_minute()`) : les tweets cités
   s'affichent en vrai (vidéo, photos) et sont posés à leur minute dans le déroulé.

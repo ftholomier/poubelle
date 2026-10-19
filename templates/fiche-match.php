@@ -193,8 +193,12 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
               if (preg_match('/p[ée]nalty|\bs\.\s?p\.|tir au but|tirs au but/u', $tl) && !str_contains($tl, 'point de penalty') && !str_contains($tl, 'point de pénalty')) { $tags[] = '<span class="tltag">⚽ ' . e(t('Penalty')) . '</span>'; }
               // « Changement » : un remplacement, pas un « échange », un « changement d'aile » ni « ne change rien ».
               if (preg_match('/(?<!pas )remplac|c[èe]de sa place|entre en jeu|fait son entr[ée]e|\bchangement\b(?!\s+(?:d[\'’]aile|de\s+jeu|de\s+c[ôo]t[ée]))/u', $tl)) { $tags[] = '<span class="tltag"><span class="subarrow subarrow--in" aria-hidden="true">▲</span><span class="subarrow subarrow--out" aria-hidden="true">▼</span> ' . e(t('Changement')) . '</span>'; }
-              if (!$goal && preg_match('/poteau|transversale|la barre|montant/u', $tl)) { $tags[] = '<span class="tltag">🥅 ' . e(t('Sur le montant')) . '</span>'; }
-              if (!$goal && preg_match('/\b(arr[êe]te|d[ée]tourne|repousse|bloque|capte|claquette|parade|sauve)\b/u', $tl)) { $tags[] = '<span class="tltag">🧤 ' . e(t('Arrêt')) . '</span>'; }
+              // Pastilles sûres seulement : « au second poteau » est un endroit, pas un tir sur le poteau ;
+              // un but annulé n'est ni un montant ni un arrêt.
+              $refused = !$goal && preg_match('/\bbut\b[^.;]{0,80}\b(annul|refus|invalid)|\b(annul|refus|invalid)\w*[^.;]{0,30}\bbut\b|but refus/u', $tl);
+              if ($refused) { $tags[] = '<span class="tltag">🚫 ' . e(t('But refusé')) . '</span>'; }
+              if (!$goal && !$refused && preg_match('/\b(sur|trouve|heurte|touche|tape|frappe|percute|caresse|fracasse|[ée]branle|renvoy[ée]e?|s[\'’][ée]crase sur|rebondit sur) (le|la|l[\'’]) ?(poteau|transversale|barre|montant)\b|\b(le|la) (poteau|transversale|barre) (repousse|renvoie|sauve)/u', $tl)) { $tags[] = '<span class="tltag">🥅 ' . e(t('Sur le montant')) . '</span>'; }
+              if (!$goal && !$refused && preg_match('/\b(d[ée]tourne|repousse|capte|claquette|claque|parade|bloque|arr[êe]te(?! (le jeu|la partie|la rencontre|le match))|arr[êe]t (du|de|d[\'’])|sauve son camp)/u', $tl)) { $tags[] = '<span class="tltag">🧤 ' . e(t('Arrêt')) . '</span>'; }
               if (preg_match('/\bcsc\b|contre son camp/u', $tl)) { $tags[] = '<span class="tltag">⚽ ' . e(t('Contre son camp')) . '</span>'; }
               if ($tags): ?><span class="timeline__tags"><?= implode('', $tags) ?></span><?php endif; ?>
               <span class="timeline__text"><?= e($txt) ?></span>

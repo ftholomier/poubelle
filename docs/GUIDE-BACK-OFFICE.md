@@ -208,8 +208,10 @@ face-à-face et les records se recalculent seuls à partir des compositions.
 **Pictos** (rien à saisir) : sur la page du match, la composition affiche les flèches
 d'entrée et de sortie, cartons et ballons avec leur minute, brassard du capitaine, gant du
 gardien, débuts, dernier match, doublé / triplé, penalty, second jaune. Le résumé du match
-reçoit aussi ses pictos, détectés dans le texte (cartons, penalty, changement, montant,
-arrêt, but contre son camp, ballon devant chaque « But ! »). Les **tweets** cités dans la
+reçoit aussi ses pictos, détectés dans le texte (cartons, penalty, changement, but refusé,
+montant, arrêt, but contre son camp, ballon devant chaque « But ! »). Seules les tournures sans
+ambiguïté donnent un picto : « frappe sur le poteau » oui, « au second poteau » ou « frôle le
+poteau » non ; « l'arbitre annule le but » donne « But refusé ». Les **tweets** cités dans la
 fiche s'affichent en vrai (vidéo, photos), posés à leur minute dans le déroulé.
 
 **Une fiche = un match.** Pour un nouveau match, créez une nouvelle fiche (+ Nouveau ›
