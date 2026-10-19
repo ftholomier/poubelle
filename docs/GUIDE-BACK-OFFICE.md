@@ -240,6 +240,12 @@ incomplètes seulement ; essai sur 3 matchs, puis toute la période ; un match p
 Page ouverte, l'écran fait avancer la recherche lui-même, un match à la fois ; page fermée, la
 tâche planifiée prend le relais (l'écran signale si elle ne passe pas). Coût dans Coûts IA (« Trouvailles »).
 
+**Saison 2022-2023 vérifiée** : ses 48 fiches de match portaient la même composition provisoire. Les feuilles
+reconstituées (Transfermarkt, footballdatabase.eu, Wikipédia) sont appliquées une fois après la mise à jour :
+compositions provisoires remplacées (titulaires, remplacements à la minute, buts, cartons, banc, entraîneur),
+compositions déjà saisies jamais écrasées (proposition « Feuille de match » dans Trouvailles), arbitre, affluence
+et stade vides complétés, désaccords (score, date, domicile, arbitre, affluence) proposés dans Trouvailles.
+
 ### Fiche personne
 
 | Onglet | Contenu |

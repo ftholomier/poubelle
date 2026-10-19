@@ -72,17 +72,7 @@ final class FeuillesImport
         if (!$sheets) {
             throw new \RuntimeException('Fichier des feuilles introuvable ou illisible (' . basename(self::$data) . ') : refaites la mise à jour en un clic.');
         }
-        $byDate = [];
-        foreach (Index::all() as $e) {
-            $m = $e['m'] ?? null;
-            if (($e['type'] ?? '') !== 'match' || !$m || !preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($m['date'] ?? ''))) {
-                continue;
-            }
-            if (!self::isSochaux((string) $m['home']) && !self::isSochaux((string) $m['away'])) {
-                continue;
-            }
-            $byDate[$m['date']][] = $e;
-        }
+        $byDate = self::byDate();
         $old = self::state()['items'];
         $used = [];
         $items = [];
@@ -102,26 +92,9 @@ final class FeuillesImport
                 $items[$k] = ['status' => 'sans-date', 'fiche' => null, 'why' => 'feuille sans date valable'];
                 continue;
             }
-            [$opp, $us, $them] = self::side($s);
-            $best = null;
-            $t0 = strtotime($s['date']);
-            for ($off = -3; $off <= 3; $off++) {
-                foreach ($byDate[date('Y-m-d', $t0 + $off * 86400)] ?? [] as $e) {
-                    if (isset($used[(int) $e['id']])) {
-                        continue;
-                    }
-                    $m = $e['m'];
-                    $eOpp = $m['sh'] ? $m['away'] : $m['home'];
-                    $sc = $m['sh_score'] ? ($m['sh'] ? $m['sh_score'] : array_reverse($m['sh_score'])) : null;
-                    $score = self::similar($opp, $eOpp) * 2 + ($sc && $sc[0] === $us && $sc[1] === $them ? 1 : 0) - abs($off) * 0.3;
-                    if ($best === null || $score > $best[0]) {
-                        $best = [$score, (int) $e['id']];
-                    }
-                }
-            }
-            if ($best && $best[0] > 0.4) {
-                $used[$best[1]] = true;
-                $items[$k] = ['status' => 'a-comparer', 'fiche' => $best[1], 'why' => null];
+            if ($found = self::nearest($s, $byDate, $used)) {
+                $used[$found] = true;
+                $items[$k] = ['status' => 'a-comparer', 'fiche' => $found, 'why' => null];
             } else {
                 $items[$k] = ['status' => 'a-creer', 'fiche' => null, 'why' => null];
             }
@@ -131,6 +104,49 @@ final class FeuillesImport
             $st['at'] = date('c');
             return $st;
         });
+    }
+
+    /** Fiches de match de Sochaux par date (index du musée). @return array<string,list<array>> */
+    public static function byDate(): array
+    {
+        $byDate = [];
+        foreach (Index::all() as $e) {
+            $m = $e['m'] ?? null;
+            if (($e['type'] ?? '') !== 'match' || !$m || !preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($m['date'] ?? ''))) {
+                continue;
+            }
+            if (!self::isSochaux((string) $m['home']) && !self::isSochaux((string) $m['away'])) {
+                continue;
+            }
+            $byDate[$m['date']][] = $e;
+        }
+        return $byDate;
+    }
+
+    /**
+     * Fiche du musée d'une feuille : date à 3 jours près, même adversaire (et même score de
+     * préférence), hors fiches de $used ; null si aucune ne ressemble assez.
+     */
+    public static function nearest(array $s, array $byDate, array $used = []): ?int
+    {
+        [$opp, $us, $them] = self::side($s);
+        $best = null;
+        $t0 = strtotime((string) $s['date']);
+        for ($off = -3; $off <= 3; $off++) {
+            foreach ($byDate[date('Y-m-d', $t0 + $off * 86400)] ?? [] as $e) {
+                if (isset($used[(int) $e['id']])) {
+                    continue;
+                }
+                $m = $e['m'];
+                $eOpp = $m['sh'] ? $m['away'] : $m['home'];
+                $sc = $m['sh_score'] ? ($m['sh'] ? $m['sh_score'] : array_reverse($m['sh_score'])) : null;
+                $score = self::similar($opp, $eOpp) * 2 + ($sc && $sc[0] === $us && $sc[1] === $them ? 1 : 0) - abs($off) * 0.3;
+                if ($best === null || $score > $best[0]) {
+                    $best = [$score, (int) $e['id']];
+                }
+            }
+        }
+        return $best && $best[0] > 0.4 ? $best[1] : null;
     }
 
     public static function summary(?array $state = null): array

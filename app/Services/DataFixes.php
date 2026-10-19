@@ -24,6 +24,7 @@ final class DataFixes
     private const FIXES = [
         '2026-10-avant-saison-2002-2009' => 'preseason2002',
         '2026-10-juillet-1978' => 'july1978',
+        '2026-10-feuilles-2022-2023' => 'sheets2223',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -55,6 +56,19 @@ final class DataFixes
     private static function preseason2002(): array
     {
         return self::preseason('d’avant-saison 2002-2009', fn (int $y, int $mo) => ($y === 2002 && in_array($mo, [6, 7], true)) || ($y >= 2003 && $y <= 2009 && $mo === 7));
+    }
+
+    /**
+     * Feuilles de match 2022-2023 vérifiées (Transfermarkt, footballdatabase.eu, Wikipédia…) :
+     * compositions provisoires remplacées, amicaux créés, écarts envoyés dans Trouvailles.
+     */
+    private static function sheets2223(): array
+    {
+        if (!Club::isDefault()) {
+            return ['message' => 'feuilles de match 2022-2023 : sans objet pour ce musée', 'ids' => []];
+        }
+        $r = VerifiedSheets::import(APP_ROOT . '/app/Resources/import/feuilles-2022-2023.json');
+        return ['message' => $r['message'], 'ids' => $r['ids'], 'created' => $r['created'], 'proposals' => $r['proposals']];
     }
 
     /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */

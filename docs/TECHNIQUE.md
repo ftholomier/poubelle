@@ -2116,6 +2116,22 @@ Propositions trouvées dans les archives en ligne pour les fiches de match, vali
 - Test : `tests/trouvailles.php` (Gallica et Gemini simulés).
 
 
+## Feuilles de match vérifiées (`App\Services\VerifiedSheets`)
+
+Fichier `app/Resources/import/feuilles-AAAA-AAAA.json` (`{saison, matchs: [...]}`) : par match, date, compétition,
+équipes, domicile (`neutral` pour un terrain neutre), score, mi-temps, lieu, stade, affluence, arbitre, entraîneurs
+(« NOM Prénom »), joueurs au format commun de `Compos` (`name`, `pos` G/D/M/A/R, `in`, `out`, `goals`, `yellow`,
+`red`, `cap`, `entered` pour une entrée sans minute connue), buteurs des deux équipes (texte du musée), sources,
+confiance. Appliqué une fois par `DataFixes` (clé `2026-10-feuilles-2022-2023`) : fiche retrouvée par
+`FeuillesImport::nearest` (date ± 3 jours, adversaire, score) ; absente → créée (`FeuillesImport::create` puis
+remplie) ; composition vide ou provisoire (même empreinte dans au moins trois matchs de la saison) → remplacée
+(`Compos::apply`, liens `person_id` gardés au même nom de famille) avec les buteurs ; composition saisie →
+proposition « feuille » dans Trouvailles si elle diffère (`Compos::diff`) ; arbitre, affluence, stade vides
+complétés, arbitre noté par son initiale complété ; score, date, domicile, autre arbitre, affluence (écart > 2 %)
+→ Trouvailles. Section « Sources de la feuille de match ». Test : `tests/feuilles-verifiees.php`. Les données
+de la saison 2022-2023 ont été établies par recoupement (Transfermarkt, footballdatabase.eu, Wikipédia FR et
+EN ; lequipe.fr, estrepublicain.fr, sites de la LFP inaccessibles) : faits seulement, aucun texte repris.
+
 ## Liens des compositions (`App\Services\LineupLinks`, `App\Data\PersonResolver`)
 
 `PersonResolver` porte le rapprochement nom de composition → fiche personne, commun aux statistiques

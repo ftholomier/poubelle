@@ -374,7 +374,9 @@ final class Compos
     public static function lines(array $players, string $coach = ''): string
     {
         $order = ['G' => 0, 'D' => 1, 'M' => 2, 'A' => 3, 'R' => 4];
-        usort($players, fn ($a, $b) => [$order[$a['pos']] ?? 2, (int) ($a['in'] ?? 0)] <=> [$order[$b['pos']] ?? 2, (int) ($b['in'] ?? 0)]);
+        // Remplaçants : entrés par minute d'entrée, puis ceux restés sur le banc.
+        $in = fn ($p) => ($p['pos'] ?? '') === 'R' && ($p['in'] ?? null) === null ? 999 : (int) ($p['in'] ?? 0);
+        usort($players, fn ($a, $b) => [$order[$a['pos']] ?? 2, $in($a)] <=> [$order[$b['pos']] ?? 2, $in($b)]);
         $out = [];
         foreach ($players as $p) {
             $d = [];
