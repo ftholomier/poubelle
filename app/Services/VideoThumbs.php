@@ -17,6 +17,8 @@ final class VideoThumbs
 {
     private const STATE = STORAGE_PATH . '/cache/video-thumbs.json';
     private const RETRY = 7 * 86400;
+    public const GONE = STORAGE_PATH . '/videos-indisponibles.json';
+    private const CHECKED = STORAGE_PATH . '/cache/videos-verifiees.json';
 
     /** Adresse de l'image d'une vidéo chez son hébergeur (ou de la page qui la donne). */
     public static function sourceUrl(string $provider, string $id): ?string
@@ -82,6 +84,77 @@ final class VideoThumbs
         }
         JsonStore::write(self::STATE, $state);
         return $done;
+    }
+
+    /** Vidéos retirées chez l'hébergeur (supprimées, privées, intégration interdite) : clé « hébergeur-id » => motif. */
+    public static function gone(): array
+    {
+        static $gone = null;
+        return $gone ??= array_map(fn ($x) => (string) ($x['why'] ?? ''), (array) (JsonStore::read(self::GONE, []) ?: []));
+    }
+
+    /**
+     * Disponibilité des vidéos Dailymotion (API publique) : une vidéo supprimée, privée ou dont
+     * l'intégration est interdite est notée (masquée sur le site, signalée dans Qualité) ; revue
+     * chaque semaine, une vidéo revenue est retirée de la liste. Une erreur réseau ne change rien.
+     * @param ?callable(string):array{0:int,1:?string} $get requête (remplaçable pour les essais)
+     * @return array{verifiees:int, indisponibles:int}
+     */
+    public static function check(int $max = 60, ?callable $get = null): array
+    {
+        $get ??= [self::class, 'request'];
+        $gone = JsonStore::read(self::GONE, []) ?: [];
+        $seen = JsonStore::read(self::CHECKED, []) ?: [];
+        $n = 0;
+        $keys = [];
+        foreach (Fiches::all() as $doc) {
+            foreach ($doc['videos'] ?? [] as $v) {
+                $e = video_embed($v);
+                if (($e['provider'] ?? '') === 'dailymotion' && $e['id']) {
+                    $keys['dailymotion-' . $e['id']] = (string) $e['id'];
+                }
+            }
+        }
+        foreach ($keys as $key => $id) {
+            if ($n >= $max || time() - (int) ($seen[$key] ?? 0) < self::RETRY) {
+                continue;
+            }
+            [$code, $body] = $get('https://api.dailymotion.com/video/' . rawurlencode($id) . '?fields=id,private,status,allow_embed');
+            if ($code === 0 || $code >= 500 || $code === 429) {
+                continue; // réseau ou hébergeur en panne : on réessaiera
+            }
+            $n++;
+            $seen[$key] = time();
+            $j = json_decode((string) $body, true) ?: [];
+            $why = match (true) {
+                $code === 404 || $code === 410 => 'supprimée',
+                $code === 403 || !empty($j['private']) => 'privée',
+                isset($j['status']) && $j['status'] !== 'published' => 'indisponible (' . $j['status'] . ')',
+                isset($j['allow_embed']) && $j['allow_embed'] === false => 'intégration interdite',
+                default => null,
+            };
+            if ($why) {
+                $gone[$key] = ['why' => $why, 'at' => date('c')];
+            } else {
+                unset($gone[$key]);
+            }
+        }
+        $gone = array_intersect_key($gone, $keys);
+        JsonStore::write(self::GONE, $gone);
+        JsonStore::write(self::CHECKED, array_intersect_key($seen, $keys));
+        return ['verifiees' => $n, 'indisponibles' => count($gone)];
+    }
+
+    /** @return array{0:int,1:?string} code HTTP (0 = pas de réponse) et contenu */
+    private static function request(string $url): array
+    {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_CONNECTTIMEOUT => 10, CURLOPT_TIMEOUT => 20, CURLOPT_USERAGENT => 'SochauxRetro/1.0 (' . base_url() . ')']);
+        $body = curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+        curl_close($ch);
+        usleep(200000);
+        return [$code, is_string($body) ? $body : null];
     }
 
     private static function fetchImage(string $provider, string $id, callable $fetch): ?string

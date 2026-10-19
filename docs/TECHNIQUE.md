@@ -2254,6 +2254,8 @@ dans les fiches (la plupart ne vivent qu'en ligne) : la liste est livrée avec l
 
 ## Feuille de match : terrain, pictos et tweets (`templates/fiche-match.php`, `app/helpers.php`)
 
+Vidéos des fiches (onglet Médias) : YouTube, Dailymotion (lecteur `www.dailymotion.com/embed/video/<id>`), Vimeo, Rutube, fichier, et publications X (`provider` `x`, lien `x.com|twitter.com/<compte>/status/<numéro>`, affichées par `platform.twitter.com/embed/Tweet.html`, hauteur ajustée par le message de X). `VideoThumbs::check()` (tâche « videos ») interroge chaque semaine l'API publique Dailymotion : vidéo supprimée, privée ou à intégration interdite notée dans `storage/videos-indisponibles.json`, masquée sur le site et signalée dans Qualité ; une erreur réseau ne change rien.
+
 - **Terrain** : chaque ligne (défense, milieu, attaque) est placée de droite à gauche, dans
   l'ordre des feuilles de match (arrière droit à droite). Le maillot porte le vrai numéro
   quand il est saisi, sinon le poste (G, D, M, A), jamais un numéro inventé : fiche, PDF,

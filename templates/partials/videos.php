@@ -3,7 +3,9 @@
  * Vidéos (YouTube sans cookie, Dailymotion, Vimeo, Rutube, publications X avec vidéo, fichiers) : chargées seulement après accord (cookies « vidéos »).
  * Variables : $videos, $title, $anchor
  */
-$list = array_values(array_filter(array_map('video_embed', $videos ?? [])));
+// Vidéos retirées chez l'hébergeur (supprimées, privées) : masquées plutôt qu'un lecteur en erreur.
+$goneV = \App\Services\VideoThumbs::gone();
+$list = array_values(array_filter(array_map('video_embed', $videos ?? []), fn ($v) => $v && !isset($goneV[$v['provider'] . '-' . $v['id']])));
 if (!$list) {
     return;
 }

@@ -404,6 +404,11 @@ final class Derived
                         $ficheAlerts[] = ['sev' => 'basse', 'code' => 'video', 'msg' => 'Lien vidéo de l’ancien site non reconnu : recoller le bon lien (YouTube, Dailymotion…) dans l’onglet Médias', 'id' => (int) $id];
                         break;
                     }
+                    $gk = ($v['provider'] ?? '') . '-' . ($v['id'] ?? '');
+                    if ($vis && isset(\App\Services\VideoThumbs::gone()[$gk])) {
+                        $ficheAlerts[] = ['sev' => 'moyenne', 'code' => 'video', 'msg' => 'Vidéo Dailymotion ' . \App\Services\VideoThumbs::gone()[$gk] . ' chez l’hébergeur (' . ($v['id'] ?? '') . ') : masquée sur le site, à remplacer ou retirer dans l’onglet Médias', 'id' => (int) $id];
+                        break;
+                    }
                 }
                 // Version anglaise dépassée : le texte français a changé depuis la traduction.
                 if ($vis && !empty($doc['i18n']['en']['title']) && \App\Services\Translator::status($doc) === 'stale') {

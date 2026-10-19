@@ -50,7 +50,7 @@ final class Cron
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
         'medias' => [0, 'Médiathèque : dimensions, poids et empreintes des fichiers (doublons)'],
         'murs-photos' => [0, 'Murs de photos : vignettes préparées d’avance'],
-        'videos' => [3600, 'Vignettes des vidéos (YouTube, Dailymotion, Vimeo, Rutube)'],
+        'videos' => [3600, 'Vignettes des vidéos et vidéos Dailymotion retirées'],
         'assistant' => [3600, 'Index sémantique de l’assistant IA'],
         'dons' => [3600, 'Synchronisation des dons (Stripe, PayPal)'],
         'totaux-reference' => [86400, 'Totaux de référence des joueurs : relevé des classements publiés (musées qui en déclarent)'],
@@ -284,8 +284,8 @@ final class Cron
                 return $r['done'] ? $r['done'] . ' vignette(s) préparée(s)' . ($r['left'] ? ', ' . $r['left'] . ' restante(s)' : ', tout est prêt') : null;
 
             case 'videos':
-                $r = VideoThumbs::run(100);
-                return $r['faites'] + $r['echecs'] > 0 ? $r : null;
+                $r = VideoThumbs::run(100) + VideoThumbs::check(60);
+                return $r['faites'] + $r['echecs'] + $r['verifiees'] > 0 ? $r : null;
 
             case 'assistant':
                 if (!Rag::enabled() || !Gemini::embedModel()) {
