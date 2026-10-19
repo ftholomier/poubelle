@@ -282,7 +282,7 @@ final class FeuillesImport
         $x = &$doc['match'];
         $x['date'] = $s['date'];
         $x['date_text'] = ucfirst(date_fr($s['date'], true));
-        $x['season'] = FcsmStory::seasonFor($s['date']);
+        $x['season'] = self::seasonOf($s);
         [$x['competition'], $x['competition_label'], $x['competition_code']] = [$comp, $label, $code];
         $x['round'] = self::round((string) ($s['round'] ?? ''));
         $x['round_text'] = (string) ($s['round'] ?? '');
@@ -497,6 +497,21 @@ final class FeuillesImport
         $res = $us > $them ? club("Victoire {gentile}ne $us à $them") : ($us < $them ? "Défaite $us à $them" : "Match nul $us partout");
         $comp = $x['competition'] === 'Amical' ? 'match amical' : mb_strtolower($x['competition_label'] ?: $x['competition']);
         return $res . ' face à ' . self::club($opp) . ($place !== '' ? ' à ' . $place : '') . ', le ' . date_fr($x['date']) . ' (' . $comp . ').';
+    }
+
+    /**
+     * Saison d'une feuille : celle de son fichier (FM_198586 → 1985-1986) quand la date s'y accorde,
+     * du 1er juin de la première année (amicaux et Coupe des Alpes d'avant-saison) au 30 juin
+     * suivant ; sinon celle de la date (saison au 1er juillet), une date mal recopiée ne déplaçant
+     * pas le match.
+     */
+    public static function seasonOf(array $s): string
+    {
+        $date = (string) ($s['date'] ?? '');
+        if (preg_match('/^(FM|AM)_(\d{4})(\d{2})/', (string) ($s['file'] ?? ''), $m) && $date >= $m[2] . '-06-01' && $date <= ((int) $m[2] + 1) . '-06-30') {
+            return $m[2] . '-' . ((int) $m[2] + 1);
+        }
+        return FcsmStory::seasonFor($date);
     }
 
     /** « FM_197879.docx » → « 1978-1979 (officiels) ». */

@@ -25,6 +25,7 @@ final class DataFixes
         '2026-10-avant-saison-2002-2009' => 'preseason2002',
         '2026-10-juillet-1978' => 'july1978',
         '2026-10-feuilles-2022-2023' => 'sheets2223',
+        '2026-10-saison-des-feuilles' => 'sheetSeasons',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -69,6 +70,39 @@ final class DataFixes
         }
         $r = VerifiedSheets::import(APP_ROOT . '/app/Resources/import/feuilles-2022-2023.json');
         return ['message' => $r['message'], 'ids' => $r['ids'], 'created' => $r['created'], 'proposals' => $r['proposals']];
+    }
+
+    /**
+     * Matchs créés par l'import des feuilles de l'association rangés dans la saison de leur fichier
+     * (FM_198586 → 1985-1986) : l'import changeait de saison au 1er août, puis au 1er juillet, et
+     * envoyait dans la saison précédente les matchs de juillet et les amicaux et la Coupe des Alpes
+     * de fin juin. Une saison choisie à la main (ni l'une ni l'autre règle) n'est pas touchée.
+     */
+    private static function sheetSeasons(): array
+    {
+        if (!Club::isDefault()) {
+            return ['message' => 'saison des feuilles : sans objet pour ce musée', 'ids' => []];
+        }
+        Categories::ensureSeasons();
+        $ids = Fiches::batch(function () {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                $file = (string) ($doc['legacy']['file'] ?? '');
+                $date = (string) ($doc['match']['date'] ?? '');
+                if (($doc['type'] ?? '') !== 'match' || empty($doc['legacy']['feuilles']) || $file === '' || !preg_match('/^(\d{4})-(\d{2})-\d{2}$/', $date, $d)) {
+                    continue;
+                }
+                $want = FeuillesImport::seasonOf(['file' => $file, 'date' => $date]);
+                $now = (string) ($doc['match']['season'] ?? '');
+                [$y, $mo] = [(int) $d[1], (int) $d[2]];
+                $august = $mo >= 8 ? $y . '-' . ($y + 1) : ($y - 1) . '-' . $y;
+                if ($now !== $want && ($now === $august || $now === FcsmStory::seasonFor($date) || $now === '') && self::moveToSeason((int) $id, $want)) {
+                    $ids[] = (int) $id;
+                }
+            }
+            return $ids;
+        });
+        return ['message' => count($ids) . ' match(s) des feuilles de l’association rangé(s) dans la saison de leur feuille', 'ids' => $ids];
     }
 
     /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */
