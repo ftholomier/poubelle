@@ -2116,6 +2116,26 @@ Propositions trouvées dans les archives en ligne pour les fiches de match, vali
 - Test : `tests/trouvailles.php` (Gallica et Gemini simulés).
 
 
+## Liens des compositions (`App\Services\LineupLinks`, `App\Data\PersonResolver`)
+
+`PersonResolver` porte le rapprochement nom de composition → fiche personne, commun aux statistiques
+(`Derived`) et aux liens enregistrés : nom complet (toutes graphies, surnom, `aliases`), nom de famille
+seul d'un joueur en âge de jouer (15-42 ans, 25-85 pour un entraîneur) départagé par la période au club,
+même nom écrit autrement (`letterKey`), puis rapprochements approchés (faute, nom incomplet). Un nom de
+famille seul relié alors que le prénom de la composition n'est pas celui de la fiche est signalé
+(« prénom différent », alerte `rapproche`, Qualité › Liens joueurs).
+
+Tâche `liens-compositions` (toutes les heures, tâche longue, 90 s au plus par passage) : pour chaque
+ligne sans `person_id`, rapprochement **sûr** seulement (`resolve(..., sureOnly)`, puis
+`resolveSurname` : nom de famille écrit autrement, puis homonymes de l'époque départagés par l'initiale
+ou le prénom) et concordance des prénoms (`PersonResolver::agrees` : mot de la fiche, initiale d'un
+prénom, prénom à une faute près avec la même initiale). Pose `person_id`, et ajoute le prénom de la
+fiche quand la ligne n'a qu'un nom en majuscules et des initiales (« TELLÉCHÉA J » → « TELLÉCHÉA Joseph » ;
+mentions « (A l'essai) » gardées). Une ligne déjà reliée garde son lien ; un nom suivi d'un prénom n'est
+jamais réécrit. Version signée « Liens des compositions » (sans compte : une fiche validée le reste).
+Banc : 25 892 lignes reliées dans 1 665 fiches en 6,8 s, second passage 0,9 s, aucune apparition perdue.
+Test : `tests/liens-compositions.php`.
+
 ## Anti-aspiration (`App\Core\Shield`)
 
 Appelé en tête de `Kernel::dispatch` (musée et site de l'association) :

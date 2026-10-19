@@ -451,128 +451,10 @@ final class Derived
         }
 
         // ---------------------------------------------------------- personnes
-        $byKey = [];
-        $byLast = [];
-        $byLetters = [];
-        $nameKeys = []; // pid => [clé, mots] pour les rapprochements approchés
-        foreach ($persons as $pid => $p) {
-            $pp = $p['personne'];
-            $names = array_filter(array_merge([
-                $pp['display_name'] ?: $p['title'],
-                trim(($pp['first_name'] ?? '') . ' ' . ($pp['last_name'] ?? '')),
-                $p['title'],
-                $pp['nickname'] ?? '',
-            ], (array) ($pp['aliases'] ?? [])), fn ($n) => is_string($n) && trim($n) !== '');
-            foreach (array_unique(array_map([Names::class, 'personKey'], $names)) as $k) {
-                if ($k !== '') {
-                    $byKey[$k][] = $pid;
-                    $nameKeys[$pid][] = [$k, explode(' ', $k)];
-                }
-            }
-            foreach (array_unique(array_map([Names::class, 'letterKey'], $names)) as $k) {
-                if (strlen($k) >= 6) {
-                    $byLetters[$k][] = $pid;
-                }
-            }
-            $last = implode(' ', Names::tokens($pp['last_name'] ?? ''));
-            if ($last !== '') {
-                $byLast[$last][] = $pid;
-            }
-        }
-        $period = function (array $p): array {
-            $pp = $p['personne'];
-            $years = [];
-            foreach (['arrival', 'departure', 'arrival_coach', 'departure_coach', 'trial'] as $k) {
-                if (!empty($pp[$k]['iso'])) {
-                    $years[] = (int) substr((string) $pp[$k]['iso'], 0, 4);
-                }
-            }
-            return $years ? [min($years) - 1, max($years) + 1] : [null, null];
-        };
-        $periods = array_map($period, $persons);
-        // Année de naissance : un nom seul ne relie jamais quelqu'un qui n'avait pas l'âge de jouer
-        // (15 à 42 ans) ou d'entraîner (25 à 85 ans) cette année-là : un « Bernardet » de 1953 n'est
-        // pas Steve Bernardet (2003-2005). Les dates d'arrivée et de départ ne bornent rien : un
-        // joueur revenu au club, ou devenu entraîneur, garde ses matchs.
-        $born = array_map(function (array $p): ?int {
-            $b = (int) substr((string) ($p['personne']['birth']['date']['iso'] ?? $p['personne']['birth']['iso'] ?? ''), 0, 4);
-            return $b > 1850 ? $b : null;
-        }, $persons);
-
-        $approx = [];
-        $approxUsed = []; // nom de composition => [fiche, manière, nombre] : signalés aux historiens
-        $resolve = function (string $name, ?string $date, bool $coach = false) use ($byKey, $byLast, $byLetters, $nameKeys, $periods, $born, $persons, &$approx, &$approxUsed): ?int {
-            $year = $date ? (int) substr($date, 0, 4) : null;
-            // Écarte ceux qui n'avaient pas l'âge de jouer (ou d'entraîner) cette année-là.
-            [$min, $max] = $coach ? [25, 85] : [15, 42];
-            $plausible = fn (array $ids) => $year ? array_values(array_filter($ids, fn ($id) => $born[$id] === null || ($year >= $born[$id] + $min && $year <= $born[$id] + $max))) : $ids;
-            $pick = function (array $ids) use ($year, $periods) {
-                $ids = array_values(array_unique($ids));
-                if (count($ids) === 1) {
-                    return $ids[0];
-                }
-                if ($year) {
-                    $in = array_values(array_filter($ids, fn ($id) => $periods[$id][0] !== null && $year >= $periods[$id][0] && $year <= $periods[$id][1]));
-                    if (count($in) === 1) {
-                        return $in[0];
-                    }
-                }
-                return null;
-            };
-            $k = Names::personKey($name);
-            if ($k !== '' && isset($byKey[$k])) {
-                return $pick($byKey[$k]);
-            }
-            // Nom de famille seul (« PIERRE », « Fofana »), avec contrôle de période.
-            $last = Names::lineupLastName($name);
-            if ($last !== '' && isset($byLast[$last]) && ($ids = $plausible($byLast[$last])) && ($pid = $pick($ids))) {
-                return $pid;
-            }
-            // Nom incomplet : jamais vers un joueur dont la période au club (connue) exclut la date.
-            $pickNear = function (array $ids) use ($year, $periods, $pick) {
-                if ($year) {
-                    $ids = array_filter($ids, fn ($id) => $periods[$id][0] === null || ($year >= $periods[$id][0] && $year <= $periods[$id][1]));
-                }
-                return $ids ? $pick($ids) : null;
-            };
-            // Même nom écrit autrement : apostrophe, trait d'union, espace (« N'Diaye » / « Ndiaye »).
-            $lk = Names::letterKey($name);
-            if (isset($byLetters[$lk]) && ($ids = $plausible($byLetters[$lk])) && ($pid = $pick($ids))) {
-                $approxUsed[$name] = [$pid, 'graphie', ($approxUsed[$name][2] ?? 0) + 1];
-                return $pid;
-            }
-            if ($k === '') {
-                return null;
-            }
-            // Rapprochements approchés, calculés une fois par nom : une lettre de différence
-            // (deux pour un nom long), ou nom incomplet (« Carlao » pour « Carlao Roberto Da Cruz »).
-            // Retenus seulement si un seul joueur correspond (ou un seul à cette période).
-            if (!isset($approx[$k])) {
-                $toks = explode(' ', $k);
-                $typo = [];
-                $part = [];
-                $max = strlen($k) >= 15 ? 2 : (strlen($k) >= 9 ? 1 : 0);
-                foreach ($nameKeys as $pid => $list) {
-                    foreach ($list as [$pk, $ptoks]) {
-                        if ($max && abs(strlen($pk) - strlen($k)) <= $max && levenshtein($k, $pk) <= $max) {
-                            $typo[] = $pid;
-                        }
-                        if (count($ptoks) > count($toks) && !array_diff($toks, $ptoks) && (count($toks) > 1 || strlen($k) >= 4)) {
-                            $part[] = $pid;
-                        }
-                    }
-                }
-                $approx[$k] = [array_values(array_unique($typo)), array_values(array_unique($part))];
-            }
-            foreach ($approx[$k] as $i => $ids) {
-                $ids = $plausible($ids);
-                if ($ids && ($pid = $i === 0 ? $pick($ids) : $pickNear($ids))) {
-                    $approxUsed[$name] = [$pid, $i === 0 ? 'orthographe' : 'nom incomplet', ($approxUsed[$name][2] ?? 0) + 1];
-                    return $pid;
-                }
-            }
-            return null;
-        };
+        // Rapprochement des noms de composition : mêmes règles que les liens enregistrés dans les
+        // compositions (LineupLinks).
+        $resolver = new PersonResolver($persons);
+        $resolve = fn (string $name, ?string $date, bool $coach = false): ?int => $resolver->resolve($name, $date, $coach);
 
         // ---------------------------------------------------------- clubs et stades
         $clubs = Collections::get('clubs', []);
@@ -1093,7 +975,7 @@ final class Derived
         // Noms reliés par rapprochement (autre graphie, faute de frappe, nom incomplet) : à vérifier.
         // Graphies qui s'affichent pareil (« PELISSARD Selim », « Selim Pelissard ») : une seule alerte.
         $shown = [];
-        foreach ($approxUsed as $name => [$pid, $how, $n]) {
+        foreach ($resolver->approxUsed as $name => [$pid, $how, $n]) {
             $k = Names::display($name) . '|' . $pid;
             $shown[$k] = [Names::display($name), $pid, $shown[$k][2] ?? $how, ($shown[$k][3] ?? 0) + $n];
         }

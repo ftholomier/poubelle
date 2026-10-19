@@ -44,6 +44,7 @@ final class Cron
         'reprise' => [0, 'Reprise des années 1928-1969 (FCSM Story) : réécriture et création des fiches, un lot à chaque passage'],
         'feuilles' => [0, 'Import des feuilles de match : création des fiches et écarts envoyés dans Trouvailles, un lot à chaque passage'],
         'compositions' => [0, 'Contrôle des compositions (Transfermarkt, sites de statistiques, presse) : écarts envoyés dans Trouvailles, quelques matchs à chaque passage'],
+        'liens-compositions' => [3600, 'Compositions reliées aux fiches des joueurs (numéro de fiche, et prénom ajouté quand il manque)'],
         'trouvailles' => [0, 'Trouvailles : recherche dans les archives (Gallica, web) des matchs de la file, quelques-uns à chaque passage'],
         'radio' => [0, 'Rétro-Direct commenté : fabrication des commentaires radio demandés (texte puis voix, réplique par réplique)'],
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
@@ -67,7 +68,7 @@ final class Cron
      * Tâches longues (appels à l'IA, archives, fabrication de sons et d'images) : après les autres,
      * à tour de rôle, avec le temps qui reste au passage.
      */
-    public const LONG = ['traductions', 'correcteur', 'audio', 'reprise', 'feuilles', 'compositions', 'trouvailles', 'radio', 'geolocalisation', 'medias', 'murs-photos', 'videos', 'assistant'];
+    public const LONG = ['traductions', 'correcteur', 'audio', 'reprise', 'feuilles', 'compositions', 'liens-compositions', 'trouvailles', 'radio', 'geolocalisation', 'medias', 'murs-photos', 'videos', 'assistant'];
 
     /** Durée d'un passage (secondes, temps réel) : moins que l'intervalle de 5 minutes du cron. */
     public const BUDGET = 270;
@@ -246,6 +247,10 @@ final class Cron
 
             case 'compositions':
                 return \App\Services\Compos::tick(self::left(110));
+
+            case 'liens-compositions':
+                $r = LineupLinks::run(self::left(90));
+                return $r === 'rien de nouveau' ? null : $r;
 
             case 'trouvailles':
                 return \App\Services\Trouvailles::tick(self::left(100));

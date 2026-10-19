@@ -255,6 +255,14 @@ dans une composition. Si un nom est écrit autrement dans certaines compositions
 (« CAMARA Razza »), ajoutez cette graphie dans « Autres graphies » : ces matchs seront
 reliés à la fiche.
 
+Toutes les heures, la tâche **Liens des compositions** enregistre le lien (pastille ✓) de chaque
+joueur dont le nom désigne sûrement une fiche, et **ajoute le prénom quand il manque** (« BERNARDET »
+→ « BERNARDET Steve », « TELLÉCHÉA J » → « TELLÉCHÉA Joseph », homonymes de l'époque départagés par
+l'initiale). Un nom déjà suivi d'un prénom n'est pas réécrit ; un lien choisi à la main est gardé.
+En cas de doute, rien n'est enregistré : Qualité › **Liens joueurs** liste les joueurs sans fiche et
+les « prénoms différents » (« Mehmed Bazdarevic » pour la fiche de Mecha Bazdarevic), à confirmer
+par une autre graphie.
+
 ### Articles, pages, objets, moments
 
 - **Articles & pages** : texte, image à la une, galerie, tableaux ; les pages légales
