@@ -24,6 +24,7 @@ return [
     'club' => 'FC Sochaux-Montbéliard',  // nom complet
     'club_de' => 'du FC Sochaux-Montbéliard',
     'club_le' => 'le FC Sochaux-Montbéliard',
+    'club_au' => 'au FC Sochaux-Montbéliard',
     'sigle' => 'FCSM',
     'sigle_de' => 'du FCSM',
     'sigle_le' => 'le FCSM',

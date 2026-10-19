@@ -1059,7 +1059,7 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
 @media (max-width: 600px) { .hago__panel { grid-template-columns: 1fr; } .hago__media { min-height: 0; aspect-ratio: 16/9; } .hago__tab { font-size: 11px; padding: 8px 4px; } .hago__tab b { font-size: 18px; } }
 
 /* Mention « musée indépendant et non officiel » */
-.club-disclaimer{margin:.75rem auto 0;font-size:.75rem;line-height:1.4;opacity:.7;text-align:center;max-width:60rem}
+.club-disclaimer{margin:.75rem auto 0;padding:0 var(--gutter, 16px) 28px;font-size:.75rem;line-height:1.4;opacity:.7;text-align:center;max-width:60rem}
 /* Publications X (Twitter) dans les fiches */
 .tweet { max-width: 550px; margin: 18px 0; }
 .tweet iframe { display: block; width: 100%; height: 560px; border: 0; border-radius: 12px; background: #fff; }

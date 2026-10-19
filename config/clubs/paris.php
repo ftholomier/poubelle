@@ -23,6 +23,7 @@ return [
     'club' => 'Paris Saint-Germain',
     'club_de' => 'du Paris Saint-Germain',
     'club_le' => 'le Paris Saint-Germain',
+    'club_au' => 'au Paris Saint-Germain',
     'sigle' => 'PSG',
     'sigle_de' => 'du PSG',
     'sigle_le' => 'le PSG',

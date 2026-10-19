@@ -2363,7 +2363,7 @@
     "buts {sigle_de} vus": "{sigle} goals seen",
     "Historique {team} × {club}": "{team} × {club} history",
     "Les 100 chiffres {sigle_de}": "{sigle} in 100 figures",
-    "Notre site est un musée indépendant et non officiel réalisé par des passionnés. Ce site n’est pas affilié, associé, ni approuvé par {club_le}.": "Our site is an independent, unofficial museum made by fans. It is not affiliated with, associated with or endorsed by {club}.",
+    "Notre site est un musée indépendant et non officiel réalisé par des passionnés. Ce site n’est pas affilié et associé {club_au}.": "Our site is an independent, unofficial museum made by fans. It is not affiliated or associated with {club}.",
     "Les Classiques": "Le Classique",
     "{nickname} nés en Île-de-France": "{nickname} born in Île-de-France",
     "Dont {d} à Paris même, sur les fiches dont le lieu de naissance est connu.": "Including {d} in Paris itself, among the files with a known birthplace.",

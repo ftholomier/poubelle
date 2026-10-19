@@ -141,7 +141,7 @@ final class Club
     /** Mention « musée indépendant et non officiel » (clé « disclaimer » du profil, sinon texte type). */
     public static function disclaimer(): string
     {
-        return t((string) self::get('disclaimer', 'Notre site est un musée indépendant et non officiel réalisé par des passionnés. Ce site n’est pas affilié, associé, ni approuvé par {club_le}.'));
+        return t((string) self::get('disclaimer', 'Notre site est un musée indépendant et non officiel réalisé par des passionnés. Ce site n’est pas affilié et associé {club_au}.'));
     }
 
     /** Couleur de la charte (« navy », « yellow »…), en hexadécimal. */
