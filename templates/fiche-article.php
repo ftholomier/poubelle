@@ -30,7 +30,7 @@ $recit ??= null;
 ?>
 <?php if ($recit): ?>
 <section class="ahero rhero<?= $feat ? ' rhero--img' : '' ?>">
-  <?php if ($feat): ?><div class="rhero__bg" aria-hidden="true"><img src="<?= e(img($feat, 1600)) ?>" srcset="<?= e(srcset($feat, [800, 1200, 1600, 2000])) ?>" sizes="100vw" alt="" fetchpriority="high"></div><?php endif; ?>
+  <?php if ($feat): ?><div class="rhero__bg" aria-hidden="true"><img src="<?= e(img($feat, 1600)) ?>" srcset="<?= e(srcset($feat, [800, 1200, 1600])) ?>" sizes="100vw" alt="" fetchpriority="high"></div><?php endif; ?>
   <div class="wrap ahero__inner rhero__inner">
     <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>">
       <?php foreach ($crumbs as $c): ?><a href="<?= e($c['href']) ?>"><?= e($c['label']) ?></a><span aria-hidden="true">/</span><?php endforeach; ?>

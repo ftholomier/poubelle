@@ -282,7 +282,7 @@ final class Kernel
         if (preg_match('#^/media/(\d+|full)/(.+)$#', $path, $m)) {
             $rel = Data\Media::safeRel($m[2]);
             $src = str_ends_with($rel, '.webp') && !Data\Media::file($rel) ? substr($rel, 0, -5) : $rel;
-            $width = $m[1] === 'full' || in_array((int) $m[1], Images::WIDTHS, true);
+            $width = $m[1] === 'full' || ((int) $m[1] > 0 && (int) $m[1] <= 10000);
             return [$width && $src !== '' && Data\Media::file($src) ? 200 : 404, null, 'fichier'];
         }
         if (preg_match('#^/wp-content/uploads/(.+?)(-\d+x\d+)?(\.\w+)$#', $path, $m)) {

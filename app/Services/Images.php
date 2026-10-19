@@ -40,7 +40,18 @@ final class Images
         }
         $width = (int) $w;
         if (!in_array($width, self::WIDTHS, true)) {
-            return new Response('Largeur non autorisée', 400);
+            // Largeur hors liste (page ancienne en cache, lien extérieur) : la plus proche par défaut,
+            // plutôt qu'une image cassée ; aucune variante nouvelle n'est fabriquée.
+            if ($width <= 0 || $width > 10000) {
+                return new Response('Largeur non autorisée', 400);
+            }
+            $near = self::WIDTHS[0];
+            foreach (self::WIDTHS as $x) {
+                if ($x <= $width) {
+                    $near = $x;
+                }
+            }
+            return Response::redirect('/media/' . $near . '/' . implode('/', array_map('rawurlencode', explode('/', $rel))), 301);
         }
         if (!$src) {
             return self::placeholder();
