@@ -127,7 +127,7 @@ final class Names
         'girondins de bordeaux' => 'bordeaux', 'fc girondins de bordeaux' => 'bordeaux', 'f c girondins de bordeaux' => 'bordeaux',
         'stade rennais' => 'rennes', 'stade de reims' => 'reims', 'stade lavallois' => 'laval', 'stade brestois' => 'brest',
         'nancy lorraine' => 'nancy', 'as nancy lorraine' => 'nancy', 'as nancy' => 'nancy', 'fc nancy' => 'nancy',
-        'olympique lyonnais' => 'lyon', 'olympique de marseille' => 'marseille', 'as monaco' => 'monaco',
+        'olympique lyonnais' => 'lyon', 'olympique de marseille' => 'marseille', 'ol marseille' => 'marseille', 'o marseille' => 'marseille', 'om' => 'marseille', 'as monaco' => 'monaco',
         'fc sochaux' => 'sochaux', 'fc sochaux montbeliard' => 'sochaux', 'fcsm' => 'sochaux',
         'besancon rc' => 'besancon', 'rcfc besancon' => 'besancon', 'racing besancon' => 'besancon',
         'red star' => 'red star', 'red star 93' => 'red star', 'gazelec ajaccio' => 'gazelec ajaccio', 'gfc ajaccio' => 'gazelec ajaccio',

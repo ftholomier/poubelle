@@ -27,6 +27,7 @@ final class DataFixes
         '2026-10-feuilles-2022-2023' => 'sheets2223',
         '2026-10-saison-des-feuilles' => 'sheetSeasons',
         '2026-10-vignettes-dailymotion' => 'dailymotionThumbs',
+        '2026-10-olympique-de-marseille' => 'marseilleName',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -123,6 +124,50 @@ final class DataFixes
         }
         JsonStore::write($file, $state);
         return ['message' => $n . ' vignette(s) Dailymotion à retenter', 'ids' => []];
+    }
+
+    /**
+     * Marseille nommé partout « Olympique de Marseille » (au lieu de « Marseille », « Ol. Marseille »,
+     * « O. Marseille », « OM ») : équipes du match et titre de la fiche. Les autres clubs marseillais
+     * (Endoume, Consolat…) ne sont pas touchés : seul le nom exact de l'équipe est remplacé.
+     */
+    private static function marseilleName(): array
+    {
+        if (!Club::isDefault()) {
+            return ['message' => 'Olympique de Marseille : sans objet pour ce musée', 'ids' => []];
+        }
+        $full = 'Olympique de Marseille';
+        $ids = Fiches::batch(function () use ($full) {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                if (($doc['type'] ?? '') !== 'match') {
+                    continue;
+                }
+                $old = [];
+                foreach (['home', 'away'] as $side) {
+                    $name = trim((string) ($doc['match'][$side]['name'] ?? ''));
+                    if ($name !== $full && preg_match('/^(?:(?:ol|o)\.?\s*|olympique\s+(?:de\s+)?)?marseille$|^om$/iu', $name)) {
+                        $old[] = $name;
+                    }
+                }
+                if (!$old) {
+                    continue;
+                }
+                $doc = Fiches::fresh((int) $id);
+                foreach (['home', 'away'] as $side) {
+                    if (in_array(trim((string) ($doc['match'][$side]['name'] ?? '')), $old, true)) {
+                        $doc['match'][$side]['name'] = $full;
+                    }
+                }
+                foreach (array_unique($old) as $o) {
+                    $doc['title'] = (string) preg_replace('/(?<![\w.-])(?<!de )' . preg_quote($o, '/') . '(?![\w-])/u', $full, (string) $doc['title']);
+                }
+                Fiches::save($doc, self::AUTHOR, 'Nom du club : ' . implode(', ', array_unique($old)) . ' → ' . $full);
+                $ids[] = (int) $id;
+            }
+            return $ids;
+        });
+        return ['message' => count($ids) . ' match(s) renommé(s) avec « ' . $full . ' »', 'ids' => $ids];
     }
 
     /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */
