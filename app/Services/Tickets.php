@@ -35,10 +35,17 @@ final class Tickets
     /** Tous les tickets, du plus récent au plus ancien. @return list<array> */
     public static function all(): array
     {
-        $all = self::unpack(JsonStore::read(self::FILE, []))[0];
-        usort($all, fn ($a, $b) => $b['id'] <=> $a['id']);
-        return $all;
+        // Lu une fois par page (pastille du menu, liste, ticket ouvert) ; oublié à chaque écriture.
+        if (self::$cache === null) {
+            $all = self::unpack(JsonStore::read(self::FILE, []))[0];
+            usort($all, fn ($a, $b) => $b['id'] <=> $a['id']);
+            self::$cache = $all;
+        }
+        return self::$cache;
     }
+
+    /** @var ?list<array> */
+    private static ?array $cache = null;
 
     public static function get(int $id): ?array
     {
@@ -221,11 +228,13 @@ final class Tickets
      */
     private static function store(callable $fn): array
     {
+        self::$cache = null;
         $saved = JsonStore::update(self::FILE, function ($raw) use ($fn) {
             [$items, $next] = self::unpack($raw);
             $items = array_values($fn($items, $next));
             return ['next' => $next, 'items' => $items];
         }, []);
+        self::$cache = null;
         return $saved['items'];
     }
 
@@ -316,16 +325,28 @@ final class Tickets
             }
         }
         $subject = '[' . Club::s('site') . '] Ticket n° ' . $t['id'] . ' · ' . $what . ' · ' . $t['title'];
-        foreach (array_keys($to) as $email) {
-            if ($email === '') {
-                continue;
+        $send = function () use ($to, $subject, $html) {
+            foreach (array_keys($to) as $email) {
+                if ($email === '') {
+                    continue;
+                }
+                try {
+                    // Mailer::send met lui-même le message en page (gabarit du musée) : HTML brut ici.
+                    self::$mailer ? (self::$mailer)($email, $subject, $html) : Mailer::send($email, $subject, $html);
+                } catch (\Throwable $e) {
+                    error_log('[tickets] e-mail : ' . $e->getMessage());
+                }
             }
-            try {
-                // Mailer::send met lui-même le message en page (gabarit du musée) : HTML brut ici.
-                self::$mailer ? (self::$mailer)($email, $subject, $html) : Mailer::send($email, $subject, $html);
-            } catch (\Throwable $e) {
-                error_log('[tickets] e-mail : ' . $e->getMessage());
-            }
+        };
+        // Sur le site : e-mails envoyés après la page (un envoi SMTP par destinataire faisait attendre
+        // chaque changement de statut ou commentaire). En ligne de commande et en essai : tout de suite.
+        if (self::$mailer || PHP_SAPI === 'cli') {
+            $send();
+            return;
         }
+        register_shutdown_function(function () use ($send) {
+            \App\Core\Response::detach();
+            $send();
+        });
     }
 }
