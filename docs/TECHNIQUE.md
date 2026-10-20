@@ -2287,3 +2287,8 @@ cochés marqués ✓, « Retirer cette saison de mon carnet » annule.
 - **Mon album** : bouton jaune « Mon album » en haut de l'Album Sochini, collection retrouvée
   si le cookie est perdu, plus de fenêtre « Partager » à chaque clic (conflit d'attribut
   `data-share`).
+
+
+## Noms d'adversaires imposés
+
+Profil du club (`config/clubs/<club>.php`), clé `club_display` : clé de rapprochement (`Names::clubKey`) => nom affiché. `Fiches::clubDisplayNames()` l'applique à chaque enregistrement d'une fiche de match (équipes et titre). Sochaux : `marseille` => « Olympique de Marseille » (« Marseille », « Ol. Marseille », « OM »…). Les fiches existantes ont été renommées une fois par `DataFixes` (`2026-10-olympique-de-marseille`).

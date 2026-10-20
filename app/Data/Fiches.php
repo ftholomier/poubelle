@@ -348,6 +348,30 @@ final class Fiches
      *
      * @param array{name:string,email?:string}|null $user
      */
+    /**
+     * Adversaires au nom imposé (profil du club, « club_display » : « Marseille », « Ol. Marseille »,
+     * « OM » → « Olympique de Marseille ») : équipes du match et titre de la fiche.
+     */
+    public static function clubDisplayNames(array $doc): array
+    {
+        $map = (array) \App\Core\Club::get('club_display', []);
+        if (!$map || ($doc['type'] ?? '') !== 'match') {
+            return $doc;
+        }
+        foreach (['home', 'away'] as $side) {
+            $name = trim((string) ($doc['match'][$side]['name'] ?? ''));
+            if ($name === '' || \App\Core\Club::isUs($name)) {
+                continue;
+            }
+            $want = $map[Names::clubKey($name)] ?? null;
+            if (is_string($want) && $want !== '' && $name !== $want) {
+                $doc['match'][$side]['name'] = $want;
+                $doc['title'] = (string) preg_replace('/(?<![\w.-])(?<!de )' . preg_quote($name, '/') . '(?![\w-])/u', $want, (string) ($doc['title'] ?? ''));
+            }
+        }
+        return $doc;
+    }
+
     public static function save(array $doc, ?array $user = null, string $message = ''): array
     {
         if (empty($doc['id'])) {
@@ -363,6 +387,7 @@ final class Fiches
             $doc['author'] = $user['name'] ?? null;
         }
         $doc = self::stampPublished($doc, $before);
+        $doc = self::clubDisplayNames($doc);
 
         $diff = $before ? self::diff($before, $doc) : [['Fiche', '—', 'créée']];
         if ($before && !$diff) {

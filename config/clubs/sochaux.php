@@ -25,6 +25,9 @@ return [
     'club_de' => 'du FC Sochaux-Montbéliard',
     'club_le' => 'le FC Sochaux-Montbéliard',
     'club_au' => 'au FC Sochaux-Montbéliard',
+    // Nom imposé à certains adversaires, quelle que soit la façon de l'écrire (clé de rapprochement => nom) :
+    // appliqué à chaque enregistrement d'une fiche de match (équipes et titre).
+    'club_display' => ['marseille' => 'Olympique de Marseille'],
     'sigle' => 'FCSM',
     'sigle_de' => 'du FCSM',
     'sigle_le' => 'le FCSM',
