@@ -265,6 +265,9 @@ return [
         'partner_refresh_per_run' => 1,
     ],
 
+    // Alertes emploi aux candidats (avec leur accord) : false coupe tout envoi.
+    'alerts' => ['enabled' => true],
+
     'regie' => [
         'model'       => 'gemini-2.5-flash',
         'max_context' => 12,

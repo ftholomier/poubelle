@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Core;
 
 use App\Controllers\AccountController;
+use App\Controllers\AlertsController;
 use App\Controllers\AdminController;
 use App\Controllers\AdsTxtController;
 use App\Controllers\ApiController;
@@ -165,6 +166,7 @@ final class Kernel
             ['POST', '/mot-de-passe-oublie',      [AccountController::class,  'forgot']],
             ['GET',  '/nouveau-mot-de-passe',     [AccountController::class,  'reset']],
             ['POST', '/nouveau-mot-de-passe',     [AccountController::class,  'reset']],
+            ['GET',  '/alertes-emploi',           [AlertsController::class,   'choose']],
             ['GET',  '/mon-compte',               [AccountController::class,  'account']],
             ['POST', '/mon-compte',               [AccountController::class,  'account']],
             ['GET',  $trade . '/{slug}',          [TradeController::class,    'show']],

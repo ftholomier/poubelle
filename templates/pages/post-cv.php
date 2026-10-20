@@ -162,6 +162,11 @@ $steps = ['post_cv.step1' => 'bloc-profil', 'post_cv.step2' => 'bloc-competences
             <span class="meta"><?= e(I18n::t('post_cv.no_contact_note')) ?></span></span>
         </label>
         <label class="check">
+          <input type="checkbox" name="job_alerts" value="1" <?= !empty($old['job_alerts']) ? 'checked' : '' ?>>
+          <span><strong><?= e(I18n::t('alerts.opt_in')) ?></strong><br>
+            <span class="meta"><?= e(I18n::t('alerts.opt_in_note')) ?></span></span>
+        </label>
+        <label class="check">
           <input type="checkbox" name="gdpr" value="1" required <?= !empty($old['gdpr']) ? 'checked' : '' ?>>
           <span><?= e(I18n::t('form.gdpr')) ?>
             <a href="<?= e(I18n::url('/confidentialite')) ?>"><?= e(I18n::t('form.gdpr_link')) ?></a></span>

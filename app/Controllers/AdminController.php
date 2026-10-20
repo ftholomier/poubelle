@@ -1327,6 +1327,7 @@ final class AdminController extends Controller
             'errors'     => $errors,
             'posted'     => $posted,
             'test'       => $test,
+            'jobAlerts'  => \App\Services\JobAlerts::stats(),
         ], I18n::t('admin.alerts'));
     }
 

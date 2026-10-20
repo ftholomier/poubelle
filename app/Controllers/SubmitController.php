@@ -58,6 +58,7 @@ final class SubmitController extends Controller
             ->checkbox('listed')
             ->checkbox('contact_public')
             ->checkbox('contact_closed')
+            ->checkbox('job_alerts')
             ->accepted('gdpr');
 
         $isDraft = $request->input('action') === 'draft';
@@ -110,6 +111,9 @@ final class SubmitController extends Controller
                 'phone'  => '',
                 'public' => (bool) $values['contact_public'],
             ],
+            // Case non cochée par défaut : l'alerte est un choix, jamais une obligation.
+            'alerts'    => ['status' => (bool) $values['job_alerts'] ? 'yes' : 'no', 'decided_at' => date('c'),
+                            'last_sent_at' => date('c')],
             'available' => true,
             'listed'    => !$isDraft && $verdict['action'] === 'publish' && (bool) $values['listed'],
             'published_at' => $isDraft || $verdict['action'] === 'pending' ? '' : date('c'),

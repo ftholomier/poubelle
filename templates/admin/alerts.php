@@ -140,3 +140,20 @@ use App\Services\Secrets;
     </button>
   </div>
 </form>
+
+<?php if (isset($jobAlerts)): ?>
+<div class="admin-card" style="margin-top:22px">
+  <h2>Alertes emploi aux candidats</h2>
+  <p class="muted" style="font-size:14px;margin:6px 0 14px">
+    Un récapitulatif par jour au plus, envoyé seulement s'il y a de nouvelles offres pour le métier du CV,
+    et seulement aux candidats qui ont dit oui. Les CV déposés avant les alertes reçoivent une seule demande
+    d'accord, par lots de 40 par heure ; sans réponse, ils ne reçoivent rien.
+  </p>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="n" style="color:#0FBFA4"><?= (int) $jobAlerts['yes'] ?></div><div class="l">abonnés</div></div>
+    <div class="kpi"><div class="n" style="color:#FF4B3E"><?= (int) $jobAlerts['no'] ?></div><div class="l">ont refusé ou se sont désinscrits</div></div>
+    <div class="kpi"><div class="n" style="color:#FFC531"><?= (int) $jobAlerts['pending'] ?></div><div class="l">demandes sans réponse</div></div>
+    <div class="kpi"><div class="n" style="color:#6D4AFF"><?= (int) $jobAlerts['not_invited'] ?></div><div class="l">demandes encore à envoyer</div></div>
+  </div>
+</div>
+<?php endif; ?>

@@ -21,6 +21,7 @@ require dirname(__DIR__) . '/app/bootstrap.php';
 use App\Core\Config;
 use App\Services\Aggregator;
 use App\Services\ContentTranslator;
+use App\Services\JobAlerts;
 use App\Services\JobLifecycle;
 use App\Services\Mailer;
 use App\Services\RegieHistory;
@@ -98,6 +99,17 @@ $tasks = [
     // Conversations avec Régie terminées (une demi-heure sans question) : par e-mail.
     'regie-mail' => [600, static function (): string {
         return RegieMail::run();
+    }],
+
+    // Alertes emploi : un récapitulatif par jour aux candidats abonnés, s'il y a du nouveau.
+    'job-alerts' => [86400, static function (): string {
+        $r = JobAlerts::digest();
+        return $r['sent'] > 0 ? $r['sent'] . ' alerte(s) emploi envoyée(s)' : '';
+    }],
+    // Demande d'accord aux CV déposés avant les alertes : par petits lots, une seule fois.
+    'alert-invites' => [3600, static function (): string {
+        $n = JobAlerts::invite();
+        return $n > 0 ? $n . ' demande(s) d’accord envoyée(s)' : '';
     }],
 
     'reindex' => [86400, static function (): string {
