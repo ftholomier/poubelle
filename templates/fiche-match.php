@@ -45,7 +45,24 @@ $facts = array_values(array_filter([
 $anchors = [];
 $timelineDone = false;
 $sectionsOut = [];
-foreach ($resume['sections'] as $s) {
+// Frise, réactions et brèves saisies sans récit du même nom : section ajoutée à sa place
+// (après Avant-match, Résumé, Réactions), sinon elles n'apparaissaient pas sur le site.
+$order = ['avant', 'resume', 'reactions', 'breves'];
+$secs = $resume['sections'];
+foreach (['resume' => 'highlights', 'reactions' => 'reactions', 'breves' => 'breves'] as $k => $field) {
+    if (empty($m[$field]) || in_array($k, array_column($secs, 'key'), true)) {
+        continue;
+    }
+    $at = 0;
+    foreach ($secs as $i => $x) {
+        if (in_array($x['key'], array_slice($order, 0, (int) array_search($k, $order, true)), true)) {
+            $at = $i + 1;
+        }
+    }
+    $title = match ($k) { 'resume' => t('Résumé de la rencontre'), 'reactions' => t('Réactions d’après match'), 'breves' => t('Brèves') };
+    array_splice($secs, $at, 0, [['title' => $title, 'html' => '', 'key' => $k]]);
+}
+foreach ($secs as $s) {
     $html = trim((string) $s['html']);
     $key = $s['key'];
     $id = match ($key) {
