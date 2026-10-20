@@ -1073,10 +1073,25 @@ final class Updater
     private static function lock()
     {
         @mkdir(self::$dir, 0775, true);
-        $fp = fopen(self::$dir . '/verrou.lock', 'c');
-        if (!$fp || !flock($fp, LOCK_EX | LOCK_NB)) {
-            throw new \RuntimeException('Une mise à jour est déjà en cours.');
+        $file = self::$dir . '/verrou.lock';
+        $fp = fopen($file, 'c');
+        if ($fp && !flock($fp, LOCK_EX | LOCK_NB)) {
+            // Verrou tenu depuis plus de 15 minutes : processus resté coincé chez l'hébergeur (une
+            // mise à jour dure au plus 10 minutes). Nouveau fichier de verrou : la main est reprise.
+            fclose($fp);
+            $fp = null;
+            if ((int) @filemtime($file) < time() - 900 && @unlink($file)) {
+                $fp = fopen($file, 'c');
+                if ($fp && !flock($fp, LOCK_EX | LOCK_NB)) {
+                    fclose($fp);
+                    $fp = null;
+                }
+            }
         }
+        if (!$fp) {
+            throw new \RuntimeException('Une mise à jour est déjà en cours (depuis moins de 15 minutes). Si rien ne bouge, réessayez après ce délai : la main sera reprise.');
+        }
+        @touch($file); // heure de prise du verrou
         return $fp;
     }
 
