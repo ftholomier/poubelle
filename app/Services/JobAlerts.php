@@ -199,7 +199,7 @@ final class JobAlerts
     /** Chiffres pour le back-office. */
     public static function stats(): array
     {
-        $out = ['yes' => 0, 'no' => 0, 'pending' => 0, 'not_invited' => 0];
+        $out = ['yes' => 0, 'no' => 0, 'pending' => 0, 'not_invited' => 0, 'unpublished' => 0];
         foreach (CvRepository::all() as $cv) {
             $status = (string) ($cv['alerts']['status'] ?? '');
             if ($status === 'yes' || $status === 'no') {
@@ -207,7 +207,8 @@ final class JobAlerts
             } elseif (!empty($cv['alerts']['invited_at'])) {
                 $out['pending']++;
             } elseif (self::email($cv) !== '') {
-                $out['not_invited']++;
+                // Seuls les CV publiés reçoivent la demande : les autres sont comptés à part.
+                $out[($cv['status'] ?? '') === 'publish' ? 'not_invited' : 'unpublished']++;
             }
         }
         return $out;

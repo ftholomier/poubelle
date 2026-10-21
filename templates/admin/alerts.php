@@ -155,5 +155,11 @@ use App\Services\Secrets;
     <div class="kpi"><div class="n" style="color:#FFC531"><?= (int) $jobAlerts['pending'] ?></div><div class="l">demandes sans réponse</div></div>
     <div class="kpi"><div class="n" style="color:#6D4AFF"><?= (int) $jobAlerts['not_invited'] ?></div><div class="l">demandes encore à envoyer</div></div>
   </div>
+  <?php if ((int) ($jobAlerts['unpublished'] ?? 0) > 0): ?>
+    <p class="muted" style="font-size:13px;margin:12px 0 0">
+      <?= (int) $jobAlerts['unpublished'] ?> CV non publiés (brouillon, en attente ou retirés) ne reçoivent pas de demande :
+      ils seront sollicités s'ils sont publiés.
+    </p>
+  <?php endif; ?>
 </div>
 <?php endif; ?>
