@@ -724,18 +724,58 @@ h1, h2, h3, h4 { font-family: 'Bricolage Grotesque', 'Manrope', sans-serif; font
 .crumb a { color: inherit; }
 .fiche { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 40px; margin-top: 26px; align-items: start; }
 .fiche__main { position: relative; height: 400px; border: 2px solid var(--ink); border-radius: 26px; overflow: hidden; background: var(--ink); }
-.fiche__thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
-.fiche__thumb { position: relative; height: 120px; border: 2px solid var(--ink); border-radius: 16px; overflow: hidden; background: var(--ink); padding: 0; cursor: pointer; }
-.fiche__thumb.is-active { box-shadow: 0 0 0 4px var(--yellow); }
-.fiche__thumb { transition: transform .3s var(--ease-pop); }
-.fiche__thumb:hover, .fiche__thumb:focus-visible { transform: translateY(-4px); box-shadow: 0 0 0 4px var(--yellow); }
-/* Léger fondu quand la vignette prend la place du grand format. */
-.fiche__main.is-swapping img { animation: ficheSwap .4s ease; }
-@keyframes ficheSwap { from { opacity: .35; transform: scale(1.02); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .fiche__main.is-swapping img { animation: none; } }
+/* Le diaporama : toutes les photos sont posées l'une sur l'autre, celle qui
+   porte « is-on » se montre. Le fondu est fait par l'opacité, rien ne bouge
+   dans le flux, donc aucun saut de mise en page. */
+.fiche__slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity .55s ease, transform .55s ease; transform: scale(1.03); }
+.fiche__slide.is-on { opacity: 1; visibility: visible; transform: none; }
+.fiche__slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fiche__nav {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 44px; height: 44px; border: 2px solid var(--ink); border-radius: 50%;
+  background: var(--cream); color: var(--ink); font: 700 24px/1 'Manrope', sans-serif;
+  cursor: pointer; opacity: .45; transition: opacity .25s ease, background .2s ease;
+  display: flex; align-items: center; justify-content: center; padding: 0 0 3px;
+}
+.fiche__nav--prev { left: 14px; }
+.fiche__nav--next { right: 14px; }
+/* Visibles d'emblée, sinon personne ne les découvre pendant que ça défile. */
+.fiche__main:hover .fiche__nav, .fiche__nav:focus-visible { opacity: 1; }
+.fiche__nav:hover { background: var(--yellow); }
+.fiche__counter {
+  position: absolute; right: 14px; bottom: 14px; z-index: 2;
+  padding: 5px 11px; border-radius: 999px; background: rgba(14, 14, 14, .72);
+  color: var(--cream); font: 700 12.5px/1 'Manrope', sans-serif; letter-spacing: .04em;
+}
+/* Les vignettes s'adaptent au nombre de photos au lieu d'être figées à trois. */
+.fiche__thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 12px; margin-top: 14px; }
+.fiche__thumb { position: relative; height: 96px; border: 2px solid var(--ink); border-radius: 16px; overflow: hidden; background: var(--ink); padding: 0; cursor: pointer; }
+.fiche__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fiche__thumb { transition: transform .3s var(--ease-pop), box-shadow .2s ease; opacity: .72; }
+.fiche__thumb.is-active { opacity: 1; box-shadow: 0 0 0 4px var(--yellow); }
+.fiche__thumb:hover, .fiche__thumb:focus-visible { transform: translateY(-4px); opacity: 1; box-shadow: 0 0 0 4px var(--yellow); }
+@media (prefers-reduced-motion: reduce) {
+  .fiche__slide { transition: none; transform: none; }
+}
 .fiche__h2 { margin: 40px 0 0; font: 800 30px/1.05 'Bricolage Grotesque', sans-serif; letter-spacing: -.025em; }
 .fiche__h2--map { margin-top: 44px; }
 .fiche__desc { margin: 18px 0 0; font: 500 16.5px/1.65 'Manrope', sans-serif; opacity: .8; }
+/* La description vient de l'éditeur : elle peut porter des paragraphes, des
+   listes, un sous-titre. On habille ces balises sans toucher au reste. */
+.rich > :first-child { margin-top: 0; }
+.rich > :last-child { margin-bottom: 0; }
+.rich p { margin: 0 0 .9em; }
+.rich h2, .rich h3, .rich h4 { margin: 1.3em 0 .5em; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; }
+.rich h2 { font-size: 22px; }
+.rich h3 { font-size: 19px; }
+.rich h4 { font-size: 17px; }
+.rich ul, .rich ol { margin: 0 0 .9em; padding-left: 1.3em; }
+.rich li { margin: .3em 0; }
+.rich a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.rich blockquote { margin: 1em 0; padding-left: 14px; border-left: 4px solid var(--yellow); }
+/* Précisions libres saisies au back-office, sous le tarif et sous la date. */
+.office-card__note { margin-top: 4px; font: 600 12.5px/1.4 'Manrope', sans-serif; opacity: .72; }
+.aside-book__note { margin-top: 6px; font: 600 13.5px/1.45 'Manrope', sans-serif; opacity: .78; }
 .included {
   display: flex; align-items: center; gap: 11px; padding: 14px 16px;
   border: 2px solid var(--ink); border-radius: 14px; background: var(--white);
@@ -1094,7 +1134,9 @@ a.bot__action:hover { background: var(--yellow); color: var(--ink); text-decorat
   .bot__launcher { padding: 11px; }
   .space__gallery { grid-template-columns: 1fr; }
   .space__shot--main { grid-column: span 1; height: 220px; }
-  .fiche__thumbs { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .fiche__thumbs { grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 8px; }
+  .fiche__thumb { height: 72px; }
+  .fiche__nav { opacity: 1; width: 38px; height: 38px; }
   .fiche__thumb { height: 80px; }
   .exit__head { padding: 26px 22px 0; }
   .exit__body { padding: 22px; }

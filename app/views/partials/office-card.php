@@ -45,8 +45,21 @@ $meta = static fn (array $parts): string => implode(' · ', array_filter(array_m
       <span class="office-card__priceValue"><?= Text::e((string) $office['priceLabel']) ?></span>
       <span class="office-card__priceNote"><?= Text::e($isList ? I18n::t('office.perMonthShort') : I18n::t('office.perMonth')) ?></span>
     </div>
-    <?php if (($office['status'] ?? '') === 'soon' && ($office['availableFrom'] ?? '') !== ''): ?>
-      <div class="office-card__sub"><?= Text::e(I18n::t('office.availableFrom', ['date' => I18n::date((string) $office['availableFrom'], IntlDateFormatter::MEDIUM)])) ?></div>
+    <?php if ((string) ($office['priceNote'] ?? '') !== ''): ?>
+      <div class="office-card__note"><?= Text::e((string) $office['priceNote']) ?></div>
+    <?php endif; ?>
+    <?php
+    // Quand un bureau se libère : la date si elle est connue, puis la
+    // précision libre saisie au back-office. L'une sans l'autre suffit.
+    $quand = [];
+    if (($office['status'] ?? '') === 'soon' && (string) ($office['availableFrom'] ?? '') !== '') {
+        $quand[] = I18n::t('office.availableFrom', ['date' => I18n::date((string) $office['availableFrom'], IntlDateFormatter::MEDIUM)]);
+    }
+    if (($office['status'] ?? '') === 'soon' && (string) ($office['soonNote'] ?? '') !== '') {
+        $quand[] = (string) $office['soonNote'];
+    }
+    if ($quand !== []): ?>
+      <div class="office-card__sub"><?= Text::e(implode(' · ', $quand)) ?></div>
     <?php endif; ?>
     <a class="btn <?= $isList ? 'btn--ink office-card__cta' : 'btn--outline-yellow office-card__cta' ?>"
        style="<?= $isList ? 'background-image:linear-gradient(var(--teal),var(--teal))' : '' ?>"

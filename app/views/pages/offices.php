@@ -22,6 +22,10 @@ $filterCount = \count(array_filter([$activeSite, $activeType, $activeStatus], st
  * Carnot, pas l'intersection avec le filtre précédent. Une pastille ne pose
  * donc qu'un seul paramètre dans l'URL, et recliquer la pastille active la
  * retire. Le compteur annonce exactement ce que le clic donnera.
+ *
+ * La pastille « Libre ou bientôt » retient les deux statuts (voir
+ * Offices::OUVERTS) : l'URL reste ?status=available, les liens déjà en
+ * circulation continuent donc de fonctionner.
  */
 $facetUrl = static fn (string $facet, string $value): string => $value === ''
     ? Router::url('offices', $lang)

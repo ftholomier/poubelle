@@ -14,6 +14,16 @@ final class Offices
     /** Palette de la charte, utilisée comme couleur de vignette par défaut. */
     public const PALETTE = ['#FFD100', '#12B39A', '#EDE5D5', '#FFF8EA'];
 
+    /**
+     * Ce qui est proposable à un visiteur : libre tout de suite, ou bientôt.
+     *
+     * Un bureau qui se libère dans trois semaines intéresse autant qu'un
+     * bureau vide — souvent davantage, parce qu'il correspond au préavis du
+     * visiteur. Les compteurs, la mise en avant de l'accueil et le filtre du
+     * catalogue portent donc sur cet ensemble, pas sur le seul « available ».
+     */
+    public const OUVERTS = ['available', 'soon'];
+
     public static function all(): array
     {
         $data = Store::read(self::FILE);
@@ -54,7 +64,20 @@ final class Offices
         return array_values(array_filter($offices, static function (array $o) use ($filters): bool {
             foreach (['site', 'status', 'type'] as $key) {
                 $wanted = $filters[$key] ?? '';
-                if ($wanted !== '' && $wanted !== 'all' && (string) ($o[$key] ?? '') !== $wanted) {
+                if ($wanted === '' || $wanted === 'all') {
+                    continue;
+                }
+                $valeur = (string) ($o[$key] ?? '');
+                // « available » englobe « soon » : c'est ce que le visiteur
+                // attend du filtre « Libre ou bientôt », et ça garde les liens
+                // existants en ?status=available valides.
+                if ($key === 'status' && $wanted === 'available') {
+                    if (!\in_array($valeur, self::OUVERTS, true)) {
+                        return false;
+                    }
+                    continue;
+                }
+                if ($valeur !== $wanted) {
                     return false;
                 }
             }
@@ -62,13 +85,46 @@ final class Offices
         }));
     }
 
-    public static function availableCount(?string $site = null): int
+    /** Bureaux libres ou bientôt libres — voir OUVERTS. */
+    public static function openCount(?string $site = null): int
     {
         $offices = self::published();
         if ($site !== null) {
             $offices = self::filter($offices, ['site' => $site]);
         }
         return \count(self::filter($offices, ['status' => 'available']));
+    }
+
+    /** Ceux qui sont libres tout de suite, parmi les ouverts. */
+    public static function freeNowCount(?string $site = null): int
+    {
+        $offices = self::published();
+        if ($site !== null) {
+            $offices = self::filter($offices, ['site' => $site]);
+        }
+        return \count(array_filter($offices, static fn (array $o): bool => ($o['status'] ?? '') === 'available'));
+    }
+
+    /**
+     * Les bureaux proposables, les libres d'abord puis les bientôt libres,
+     * et parmi ceux-ci les plus proches en premier.
+     *
+     * @return array<int,array<string,mixed>>
+     */
+    public static function open(?string $site = null): array
+    {
+        $offices = self::published();
+        if ($site !== null) {
+            $offices = self::filter($offices, ['site' => $site]);
+        }
+        $offices = self::filter($offices, ['status' => 'available']);
+        usort($offices, static function (array $a, array $b): int {
+            $rang = static fn (array $o): int => ($o['status'] ?? '') === 'available' ? 0 : 1;
+            $date = static fn (array $o): string => (string) ($o['availableFrom'] ?? '9999-12-31') ?: '9999-12-31';
+            return [$rang($a), $date($a), (int) ($a['order'] ?? 999)]
+                <=> [$rang($b), $date($b), (int) ($b['order'] ?? 999)];
+        });
+        return $offices;
     }
 
     /**
@@ -133,6 +189,11 @@ final class Offices
     }
 
     /** « Aucun bureau disponible », « 1 bureau disponible », « 3 bureaux disponibles ». */
+    /**
+     * Libellé du compteur. Il annonce « libres ou bientôt libres », parce que
+     * c'est ce que le compte recouvre : dire « disponibles » serait faux dès
+     * qu'un bureau à venir entre dedans.
+     */
     public static function availabilityLabel(int $count): string
     {
         if ($count <= 0) {
@@ -224,7 +285,11 @@ final class Offices
         return array_replace($office, [
             'id' => (string) ($office['id'] ?? ''),
             'name' => Content::i18n($office, 'name', $lang, 'Bureau'),
+            // La description est du HTML assaini à l'enregistrement : les vues
+            // la sortent telle quelle, les usages texte passent par Text::excerpt.
             'description' => Content::i18n($office, 'description', $lang),
+            'priceNote' => Content::i18n($office, 'priceNote', $lang),
+            'soonNote' => Content::i18n($office, 'soonNote', $lang),
             'area' => Content::i18n($office, 'area', $lang),
             'features' => self::featuresFor($office, $lang),
             'status' => $status,

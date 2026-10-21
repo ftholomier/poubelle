@@ -33,7 +33,7 @@ foreach ((array) ($settings['sites'] ?? []) as $entry) {
         (array) ($space['photos'] ?? []),
         [(string) ($site['photo'] ?? '')]
     ), static fn ($p): bool => \is_string($p) && $p !== ''));
-    $available = Offices::availableCount($id);
+    $available = Offices::openCount($id);
     $bg = (string) ($space['bg'] ?? ($index % 2 === 0 ? '#FFF8EA' : '#FFFFFF'));
     $color = (string) ($site['color'] ?? '#FFD100');
 ?>

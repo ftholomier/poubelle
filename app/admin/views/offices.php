@@ -75,6 +75,13 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
             <div class="hint">Renseigné, c'est lui qui s'affiche, et le tarif normal apparaît barré à côté. Laissez vide pour revenir au tarif normal.</div>
           </div>
           <div>
+            <label class="label" for="o-pricenote">PRÉCISION SOUS LE TARIF</label>
+            <input class="field" id="o-pricenote" type="text" name="o[priceNote]" maxlength="120"
+                   value="<?= Text::e((string) ($o['priceNote'] ?? '')) ?>"
+                   placeholder="Ex. : engagement 3 mois minimum">
+            <div class="hint">S'affiche juste sous le tarif, sur la carte et sur la fiche. Laissez vide pour ne rien afficher.</div>
+          </div>
+          <div>
             <label class="label" for="o-status">DISPONIBILITÉ</label>
             <select class="field" id="o-status" name="o[status]">
               <?php foreach ($statusLabels as $value => $label): ?>
@@ -85,6 +92,13 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
           <div>
             <label class="label" for="o-from">LIBRE À PARTIR DU</label>
             <input class="field" id="o-from" type="date" name="o[availableFrom]" value="<?= Text::e((string) ($o['availableFrom'] ?? '')) ?>">
+          </div>
+          <div>
+            <label class="label" for="o-soonnote">PRÉCISION SUR LA DISPONIBILITÉ</label>
+            <input class="field" id="o-soonnote" type="text" name="o[soonNote]" maxlength="160"
+                   value="<?= Text::e((string) ($o['soonNote'] ?? '')) ?>"
+                   placeholder="Ex. : visite possible dès maintenant">
+            <div class="hint">S'affiche à côté de « bientôt libre ». Sert à préciser ce que la date ne dit pas.</div>
           </div>
           <div>
             <label class="label" for="o-order">ORDRE D'AFFICHAGE</label>
@@ -105,7 +119,7 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
         </div>
 
         <label class="label" style="margin-top:18px" for="o-desc">DESCRIPTION</label>
-        <textarea class="field" id="o-desc" name="o[description]" rows="4"><?= Text::e((string) ($o['description'] ?? '')) ?></textarea>
+        <?= View::admin('_wysiwyg', ['name' => 'o[description]', 'value' => (string) ($o['description'] ?? ''), 'id' => 'o-desc']) ?>
 
         <label class="label" style="margin-top:18px" for="o-features">POINTS FORTS (UN PAR LIGNE)</label>
         <textarea class="field" id="o-features" name="o[features]" rows="4"><?= Text::e(implode("\n", array_map('strval', (array) ($o['features'] ?? [])))) ?></textarea>
@@ -129,9 +143,17 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
             <label class="label" for="o-enarea">SURFACE (EN)</label>
             <input class="field" id="o-enarea" type="text" name="o[en_area]" value="<?= Text::e((string) ($en['area'] ?? '')) ?>">
           </div>
+          <div>
+            <label class="label" for="o-enpricenote">PRÉCISION SOUS LE TARIF (EN)</label>
+            <input class="field" id="o-enpricenote" type="text" name="o[en_priceNote]" maxlength="120" value="<?= Text::e((string) ($en['priceNote'] ?? '')) ?>">
+          </div>
+          <div>
+            <label class="label" for="o-ensoonnote">PRÉCISION SUR LA DISPONIBILITÉ (EN)</label>
+            <input class="field" id="o-ensoonnote" type="text" name="o[en_soonNote]" maxlength="160" value="<?= Text::e((string) ($en['soonNote'] ?? '')) ?>">
+          </div>
         </div>
         <label class="label" style="margin-top:18px" for="o-endesc">DESCRIPTION (EN)</label>
-        <textarea class="field" id="o-endesc" name="o[en_description]" rows="3"><?= Text::e((string) ($en['description'] ?? '')) ?></textarea>
+        <?= View::admin('_wysiwyg', ['name' => 'o[en_description]', 'value' => (string) ($en['description'] ?? ''), 'id' => 'o-endesc']) ?>
         <label class="label" style="margin-top:18px" for="o-enfeat">POINTS FORTS (EN, UN PAR LIGNE)</label>
         <textarea class="field" id="o-enfeat" name="o[en_features]" rows="3"><?= Text::e(implode("\n", array_map('strval', (array) ($en['features'] ?? [])))) ?></textarea>
         <div class="hint">Laissé vide, le site affiche le texte français : aucune page ne reste blanche.</div>

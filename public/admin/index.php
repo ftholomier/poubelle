@@ -282,17 +282,25 @@ if ($isPost) {
                 'vat' => 'excl',
                 'status' => \in_array((string) ($input['status'] ?? ''), Config::STATUSES, true) ? (string) $input['status'] : 'available',
                 'availableFrom' => trim((string) ($input['availableFrom'] ?? '')),
+                // Deux précisions libres : sous le tarif, et à côté de la
+                // disponibilité. Du texte simple, pas de mise en forme.
+                'priceNote' => trim(mb_substr((string) ($input['priceNote'] ?? ''), 0, 120)),
+                'soonNote' => trim(mb_substr((string) ($input['soonNote'] ?? ''), 0, 160)),
                 'enabled' => !empty($input['enabled']),
                 'featured' => !empty($input['featured']),
                 'order' => (int) ($input['order'] ?? 999),
                 'color' => preg_match('/^#[0-9A-Fa-f]{6}$/', (string) ($input['color'] ?? '')) === 1 ? (string) $input['color'] : '#FFD100',
-                'description' => trim(mb_substr((string) ($input['description'] ?? ''), 0, 2000)),
+                // La description vient de l'éditeur WYSIWYG : HTML assaini sur
+                // liste blanche, jamais stocké brut.
+                'description' => Text::sanitizeHtml((string) ($input['description'] ?? '')),
                 'features' => array_values(array_filter(array_map('trim', explode("\n", str_replace("\r\n", "\n", (string) ($input['features'] ?? '')))))),
                 'photos' => $photos,
                 'i18n' => ['en' => [
                     'name' => trim((string) ($input['en_name'] ?? '')),
                     'area' => trim((string) ($input['en_area'] ?? '')),
-                    'description' => trim((string) ($input['en_description'] ?? '')),
+                    'description' => Text::sanitizeHtml((string) ($input['en_description'] ?? '')),
+                    'priceNote' => trim(mb_substr((string) ($input['en_priceNote'] ?? ''), 0, 120)),
+                    'soonNote' => trim(mb_substr((string) ($input['en_soonNote'] ?? ''), 0, 160)),
                     'features' => array_values(array_filter(array_map('trim', explode("\n", str_replace("\r\n", "\n", (string) ($input['en_features'] ?? '')))))),
                 ]],
             ];

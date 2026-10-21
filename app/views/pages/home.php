@@ -13,7 +13,7 @@ use App\View;
 
 $lang = I18n::lang();
 $hero = (array) Content::get($page, 'hero', []);
-$available = Offices::availableCount();
+$available = Offices::openCount();
 $minPrice = Offices::minPrice();
 // Le diaporama occupe ~560 px de large : on écarte tout visuel qui y serait agrandi.
 $slides = array_values(array_filter(
@@ -24,7 +24,10 @@ $slides = array_values(array_filter(
 // pas la même photo d'ouverture, et tous les espaces finissent par être vus.
 shuffle($slides);
 $sites = array_values(array_filter((array) ($settings['sites'] ?? []), static fn ($s): bool => \is_array($s) && ($s['enabled'] ?? true)));
-$featured = \array_slice(Offices::decorateAll(Offices::filter(Offices::published(), ['status' => 'available']), $lang), 0, 3);
+// Libres d'abord, bientôt libres ensuite : un bureau qui se libère dans
+// trois semaines a sa place ici, il correspond souvent au préavis du
+// visiteur. Offices::open() s'occupe de l'ordre.
+$featured = \array_slice(Offices::decorateAll(Offices::open(), $lang), 0, 3);
 $marquee = array_values(array_filter((array) ($settings['marquee'] ?? []), 'is_array'));
 $faqItems = Content::list($hero === [] ? $page : $page, 'faq.items');
 ?>
@@ -142,7 +145,7 @@ $faqItems = Content::list($hero === [] ? $page : $page, 'faq.items');
 
   <div class="grid grid--places">
     <?php foreach ($sites as $i => $site):
-        $siteAvailable = Offices::availableCount((string) $site['id']); ?>
+        $siteAvailable = Offices::openCount((string) $site['id']); ?>
       <article class="place-card" data-reveal data-delay="<?= $i * 120 ?>">
         <div class="place-card__media" style="background:<?= Text::e((string) ($site['color'] ?? '#FFD100')) ?>">
           <?= View::image((string) ($site['photo'] ?? ''), (string) ($site['name'] ?? ''), ['placeholder' => (string) ($site['name'] ?? ''), 'minWidth' => 700, 'sizes' => '(max-width: 880px) 100vw, 600px']) ?>

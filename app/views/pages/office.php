@@ -12,17 +12,23 @@ use App\View;
 
 $lang = I18n::lang();
 $photos = array_values(array_filter((array) $office['photos'], 'is_string'));
-// La grande vue prend la première photo assez définie pour l'emplacement (680 px) ;
-// les autres passent en vignettes, où leur définition suffit.
-$main = '';
-foreach ($photos as $photo) {
+// Toutes les photos passent dans la galerie, sans plafond : une annonce qui en
+// porte huit doit les montrer toutes. On ouvre sur la première assez définie
+// pour l'emplacement (680 px), les autres suivent dans l'ordre du back-office.
+$ouverture = 0;
+foreach ($photos as $i => $photo) {
     if (App\Media::dimensions($photo)['width'] >= 700) {
-        $main = $photo;
+        $ouverture = $i;
         break;
     }
 }
-$main = $main !== '' ? $main : (string) ($photos[0] ?? '');
-$thumbs = \array_slice(array_values(array_filter($photos, static fn (string $p): bool => $p !== $main)), 0, 3);
+if ($ouverture > 0) {
+    $photos = array_merge([$photos[$ouverture]], array_values(array_filter(
+        $photos,
+        static fn (string $p, int $i): bool => $i !== $ouverture,
+        ARRAY_FILTER_USE_BOTH
+    )));
+}
 $site = null;
 foreach ((array) ($settings['sites'] ?? []) as $entry) {
     if ((string) ($entry['id'] ?? '') === (string) $office['site']) {
@@ -40,19 +46,39 @@ $isRented = ($office['status'] ?? '') === 'rented';
     <span><?= Text::e((string) $office['name']) ?></span>
   </div>
 
-  <div class="fiche" data-gallery>
+  <div class="fiche" data-gallery<?= \count($photos) > 1 ? ' data-gallery-auto="5000"' : '' ?>>
     <div data-reveal>
-      <div class="fiche__main" style="background:<?= Text::e((string) $office['color']) ?>">
-        <?= View::image($main, (string) $office['name'], ['placeholder' => (string) $office['name'], 'eager' => true, 'id' => 'main', 'minWidth' => 700, 'sizes' => '(max-width: 1080px) 100vw, 680px']) ?>
+      <?php // Chaque photo a son propre emplacement grand format : on montre
+            // celle qui porte « is-on », le reste attend. Pas d'échange
+            // d'attributs, donc chaque image garde son srcset et sa définition. ?>
+      <div class="fiche__main" style="background:<?= Text::e((string) $office['color']) ?>"
+           role="group" aria-roledescription="diaporama" aria-label="<?= Text::e(I18n::t('office.gallery')) ?>">
+        <?php foreach ($photos as $i => $photo): ?>
+          <div class="fiche__slide<?= $i === 0 ? ' is-on' : '' ?>" data-gallery-slide
+               aria-hidden="<?= $i === 0 ? 'false' : 'true' ?>">
+            <?= View::image((string) $photo, (string) $office['name'], [
+                'placeholder' => (string) $office['name'],
+                'eager' => $i === 0,
+                'minWidth' => 700,
+                'sizes' => '(max-width: 1080px) 100vw, 680px',
+            ]) ?>
+          </div>
+        <?php endforeach; ?>
+        <?php if (\count($photos) > 1): ?>
+          <button class="fiche__nav fiche__nav--prev" type="button" data-gallery-prev
+                  aria-label="<?= Text::e(I18n::t('office.prevPhoto')) ?>">‹</button>
+          <button class="fiche__nav fiche__nav--next" type="button" data-gallery-next
+                  aria-label="<?= Text::e(I18n::t('office.nextPhoto')) ?>">›</button>
+          <span class="fiche__counter" data-gallery-counter aria-hidden="true">1/<?= \count($photos) ?></span>
+        <?php endif; ?>
       </div>
 
-      <?php if ($thumbs !== []): ?>
+      <?php if (\count($photos) > 1): ?>
       <div class="fiche__thumbs">
-        <?php foreach ($thumbs as $i => $photo): ?>
-          <button class="fiche__thumb" type="button" data-gallery-thumb
-                  data-src="<?= Text::e(Config::basePath() . (string) $photo) ?>"
-                  data-alt="<?= Text::e(App\Media::alt((string) $photo, $lang, (string) $office['name'])) ?>"
-                  aria-label="<?= Text::e(I18n::t('office.gallery')) ?> <?= $i + 2 ?>">
+        <?php foreach ($photos as $i => $photo): ?>
+          <button class="fiche__thumb<?= $i === 0 ? ' is-active' : '' ?>" type="button" data-gallery-thumb
+                  aria-label="<?= Text::e(I18n::t('office.gallery')) ?> <?= $i + 1 ?>"
+                  aria-current="<?= $i === 0 ? 'true' : 'false' ?>">
             <?= View::image((string) $photo, (string) $office['name'], ['minWidth' => 190, 'sizes' => '200px']) ?>
           </button>
         <?php endforeach; ?>
@@ -60,7 +86,9 @@ $isRented = ($office['status'] ?? '') === 'rented';
       <?php endif; ?>
 
       <?php if ((string) $office['description'] !== ''): ?>
-        <p class="fiche__desc"><?= Text::e((string) $office['description']) ?></p>
+        <?php // HTML assaini à l'enregistrement (Text::sanitizeHtml) : liste
+              // blanche de balises, aucun script, aucun style en ligne. ?>
+        <div class="fiche__desc rich"><?= (string) $office['description'] ?></div>
       <?php endif; ?>
 
       <?php $features = Offices::mergeFeatures((array) $office['features'], $included); if ($features !== []): ?>
@@ -102,8 +130,18 @@ $isRented = ($office['status'] ?? '') === 'rented';
           <span class="aside-book__priceValue"><?= Text::e((string) $office['priceLabel']) ?></span>
           <span class="aside-book__priceNote"><?= Text::e(I18n::t('office.perMonth')) ?></span>
         </div>
-        <?php if (($office['status'] ?? '') === 'soon' && (string) $office['availableFrom'] !== ''): ?>
+        <?php if ((string) ($office['priceNote'] ?? '') !== ''): ?>
+          <div class="aside-book__note"><?= Text::e((string) $office['priceNote']) ?></div>
+        <?php endif; ?>
+        <?php
+        // Quand il se libère : la date si elle est connue, la précision libre
+        // ensuite. Chacune s'affiche sur sa ligne, elles ne se remplacent pas.
+        $soon = ($office['status'] ?? '') === 'soon';
+        if ($soon && (string) $office['availableFrom'] !== ''): ?>
           <div class="aside-book__meta"><?= Text::e(I18n::t('office.availableFrom', ['date' => I18n::date((string) $office['availableFrom'], IntlDateFormatter::LONG)])) ?></div>
+        <?php endif; ?>
+        <?php if ($soon && (string) ($office['soonNote'] ?? '') !== ''): ?>
+          <div class="aside-book__meta"><?= Text::e((string) $office['soonNote']) ?></div>
         <?php endif; ?>
       </div>
 

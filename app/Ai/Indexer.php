@@ -196,7 +196,7 @@ final class Indexer
                 $decorated['siteLabel'],
                 $decorated['priceLabel'] . ' HT/mois',
                 $decorated['statusLabel'],
-                $decorated['description'],
+                Text::excerpt((string) $decorated['description'], 400),
                 implode(', ', $decorated['features'])
             );
         }

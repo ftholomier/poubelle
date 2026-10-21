@@ -311,59 +311,81 @@
 
   /* ------------------------------------------------------ galerie fiche */
 
-  var gallery = $('[data-gallery]');
-  if (gallery) {
-    var main = $('[data-gallery-main]', gallery);
+  /* Chaque photo a son propre emplacement grand format : changer de vue, c'est
+     déplacer une classe, pas réécrire src et srcset. Le navigateur garde donc
+     la bonne candidate pour chaque image, et le défilement automatique peut
+     tourner sans recharger quoi que ce soit. */
+  $$('[data-gallery]').forEach(function (gallery) {
+    var slides = $$('[data-gallery-slide]', gallery);
+    var thumbs = $$('[data-gallery-thumb]', gallery);
+    var counter = $('[data-gallery-counter]', gallery);
+    if (slides.length < 2) { return; }
 
-    /* Le grand format et la vignette échangent leurs places. On déplace la
-       source complète — src ET srcset, sinon le navigateur continue de servir
-       la candidate du srcset et l'image ne change pas — mais chaque emplacement
-       garde son propre attribut sizes, qui décrit sa taille d'affichage. */
-    function grab(img) {
-      return {
-        src: img.getAttribute('src') || '',
-        srcset: img.getAttribute('srcset') || '',
-        width: img.getAttribute('width') || '',
-        height: img.getAttribute('height') || '',
-        alt: img.getAttribute('alt') || ''
-      };
-    }
-    function put(img, data) {
-      if (data.srcset) { img.setAttribute('srcset', data.srcset); } else { img.removeAttribute('srcset'); }
-      if (data.width) { img.setAttribute('width', data.width); } else { img.removeAttribute('width'); }
-      if (data.height) { img.setAttribute('height', data.height); } else { img.removeAttribute('height'); }
-      img.setAttribute('alt', data.alt);
-      img.setAttribute('src', data.src);
-    }
+    var index = 0;
+    var timer = null;
+    var delay = parseInt(gallery.getAttribute('data-gallery-auto'), 10) || 0;
+    var calme = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    $$('[data-gallery-thumb]', gallery).forEach(function (thumb) {
-      thumb.addEventListener('click', function () {
-        if (!main) { return; }
-        var small = thumb.querySelector('img');
-
-        if (small) {
-          var wasMain = grab(main);
-          var wasThumb = grab(small);
-          put(main, wasThumb);
-          put(small, wasMain);
-          thumb.setAttribute('data-src', wasMain.src);
-          thumb.setAttribute('data-alt', wasMain.alt);
-        } else {
-          // Vignette rendue en pastille (photo trop petite) : pas d'échange possible.
-          var src = thumb.getAttribute('data-src');
-          if (!src) { return; }
-          main.removeAttribute('srcset');
-          main.setAttribute('alt', thumb.getAttribute('data-alt') || main.getAttribute('alt') || '');
-          main.setAttribute('src', src);
-        }
-
-        main.classList.remove('is-swapping');
-        void main.offsetWidth;              // relance l'animation à chaque échange
-        main.classList.add('is-swapping');
-        $$('[data-gallery-thumb]', gallery).forEach(function (t) { t.classList.remove('is-active'); });
+    function montre(i) {
+      index = (i + slides.length) % slides.length;
+      slides.forEach(function (slide, k) {
+        var on = k === index;
+        slide.classList.toggle('is-on', on);
+        slide.setAttribute('aria-hidden', on ? 'false' : 'true');
       });
+      thumbs.forEach(function (thumb, k) {
+        thumb.classList.toggle('is-active', k === index);
+        thumb.setAttribute('aria-current', k === index ? 'true' : 'false');
+      });
+      if (counter) { counter.textContent = (index + 1) + '/' + slides.length; }
+    }
+
+    function lance() {
+      if (!delay || calme || timer) { return; }
+      timer = window.setInterval(function () { montre(index + 1); }, delay);
+    }
+    function arrete() {
+      if (timer) { window.clearInterval(timer); timer = null; }
+    }
+    /* Une action du visiteur reprend la main : on relance le défilement un peu
+       plus tard, pour ne pas lui arracher la photo qu'il vient de choisir. */
+    function reprend() {
+      arrete();
+      window.setTimeout(lance, Math.max(delay, 6000));
+    }
+
+    thumbs.forEach(function (thumb, i) {
+      thumb.addEventListener('click', function () { montre(i); reprend(); });
     });
-  }
+    var prev = $('[data-gallery-prev]', gallery);
+    var next = $('[data-gallery-next]', gallery);
+    if (prev) { prev.addEventListener('click', function () { montre(index - 1); reprend(); }); }
+    if (next) { next.addEventListener('click', function () { montre(index + 1); reprend(); }); }
+
+    gallery.addEventListener('mouseenter', arrete);
+    gallery.addEventListener('mouseleave', lance);
+    gallery.addEventListener('focusin', arrete);
+    gallery.addEventListener('focusout', lance);
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { arrete(); } else { lance(); }
+    });
+
+    /* Au doigt, sur mobile. */
+    var depart = null;
+    gallery.addEventListener('touchstart', function (e) {
+      depart = e.touches[0].clientX; arrete();
+    }, { passive: true });
+    gallery.addEventListener('touchend', function (e) {
+      if (depart === null) { return; }
+      var ecart = e.changedTouches[0].clientX - depart;
+      if (Math.abs(ecart) > 40) { montre(index + (ecart < 0 ? 1 : -1)); }
+      depart = null;
+      reprend();
+    });
+
+    montre(0);
+    lance();
+  });
 
   /* --------------------------------------------------- choix « besoin » */
 

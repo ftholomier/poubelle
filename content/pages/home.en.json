@@ -10,7 +10,7 @@
     "ogImage": "/media/granvelle-openspace-01.webp"
   },
   "hero": {
-    "badge": "{count} OFFICES AVAILABLE RIGHT NOW",
+    "badge": "{count} OFFICES FREE OR COMING UP",
     "title1": "An office you actually",
     "title2": "want to walk into",
     "highlight": "on a Monday.",
@@ -62,8 +62,8 @@
     "cta": "Tour both spaces"
   },
   "availability": {
-    "kicker": "AVAILABILITY",
-    "title": "What is free, right now"
+    "kicker": "WHAT'S OPENING UP",
+    "title": "Free now, or soon"
   },
   "steps": {
     "title": "Moved in, in 3 steps",

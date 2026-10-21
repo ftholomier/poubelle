@@ -10,7 +10,7 @@
     "ogImage": "/media/granvelle-openspace-01.webp"
   },
   "hero": {
-    "badge": "{count} BUREAUX DISPONIBLES ACTUELLEMENT",
+    "badge": "{count} BUREAUX LIBRES OU BIENTÔT LIBRES",
     "title1": "Un bureau qui donne",
     "title2": "envie d’y aller",
     "highlight": "le lundi.",
@@ -62,8 +62,8 @@
     "cta": "Visiter les 2 espaces"
   },
   "availability": {
-    "kicker": "DISPONIBILITÉS",
-    "title": "Ce qui est libre, maintenant"
+    "kicker": "CE QUI SE LIBÈRE",
+    "title": "Libre maintenant, ou bientôt"
   },
   "steps": {
     "title": "Installé en 3 étapes",

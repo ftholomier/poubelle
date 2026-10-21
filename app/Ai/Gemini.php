@@ -422,7 +422,7 @@ final class Gemini
     {
         $min = Offices::minPrice();
         return strtr($answer, [
-            '{dispos}' => (string) Offices::availableCount(),
+            '{dispos}' => (string) Offices::openCount(),
             '{prixMin}' => $min === null ? '' : I18n::price($min),
         ]);
     }
@@ -521,6 +521,6 @@ final class Gemini
     /** Compteur de disponibilités injecté dans la première réponse du bot. */
     public static function greeting(string $lang): string
     {
-        return I18n::t('bot.greeting', ['count' => Offices::availableCount()]);
+        return I18n::t('bot.greeting', ['count' => Offices::openCount()]);
     }
 }

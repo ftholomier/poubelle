@@ -59,7 +59,7 @@ $catalogue = Store::read(Offices::FILE);
 Api::respond([
     'ok' => true,
     'offices' => $offices,
-    'available' => Offices::availableCount($filters['site'] !== '' ? $filters['site'] : null),
+    'available' => Offices::openCount($filters['site'] !== '' ? $filters['site'] : null),
     'total' => \count(Offices::published()),
     'minPrice' => Offices::minPrice(),
     'updatedAt' => (string) ($catalogue['updatedAt'] ?? ''),

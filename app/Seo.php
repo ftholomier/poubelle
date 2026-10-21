@@ -70,7 +70,9 @@ final class Seo
             '@context' => 'https://schema.org',
             '@type' => 'Product',
             'name' => (string) $office['name'],
-            'description' => (string) ($office['description'] ?? ''),
+            // La description est du HTML depuis l'éditeur : les données
+            // structurées attendent du texte nu.
+            'description' => Text::excerpt((string) ($office['description'] ?? ''), 300),
             'image' => $office['cover'] !== '' ? Config::baseUrl() . $office['cover'] : null,
             'category' => (string) $office['typeLabel'],
             'offers' => array_filter([
