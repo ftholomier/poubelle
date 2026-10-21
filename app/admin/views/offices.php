@@ -132,22 +132,21 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
         // saisit huit points forts et on en voit quatorze en ligne.
         $pageIncluded = Content::list(Store::read('pages/offices.' . Config::DEFAULT_LANG . '.json'), 'included');
         $apercu = Offices::includedFor(
-            array_replace($o, ['features' => (array) ($o['features'] ?? []), 'site' => (string) ($o['site'] ?? Config::SITES[0])]),
-            $pageIncluded,
-            $settings
+            array_replace($o, ['features' => (array) ($o['features'] ?? [])]),
+            $pageIncluded
         );
-        $compte = ['office' => 0, 'site' => 0, 'page' => 0];
+        $compte = ['office' => 0, 'page' => 0];
         foreach ($apercu as $x) { $compte[$x['origine']]++; }
-        $puces = ['office' => ['Point fort du bureau', '#0E0E0E'], 'site' => ['Prestation du lieu', '#12B39A'], 'page' => ['Commun à tous les bureaux', '#FFD100']];
+        $puces = ['office' => ['Point fort de ce bureau', '#0E0E0E'], 'page' => ['Commun à tous les bureaux', '#FFD100']];
         ?>
         <div class="panel" style="margin-top:12px;padding:14px 16px;background:rgba(14,14,14,.03)">
           <div style="font:800 14px/1.3 'Bricolage Grotesque',sans-serif">
             La fiche affichera <?= \count($apercu) ?> entrée<?= \count($apercu) > 1 ? 's' : '' ?> sous « Ce qui est compris »
           </div>
           <div class="hint" style="margin-top:4px">
-            <?= (int) $compte['office'] ?> de ce bureau · <?= (int) $compte['site'] ?> du lieu
-            (Réglages → Site &amp; lieux) · <?= (int) $compte['page'] ?> communes (Pages → Nos bureaux).
-            Les redites sont écartées automatiquement.
+            <?= (int) $compte['office'] ?> de ce bureau · <?= (int) $compte['page'] ?> communes à tout le
+            catalogue (Pages → Nos bureaux). Les redites sont écartées automatiquement.
+            Une prestation qui ne vaut pas pour tous les bureaux se saisit ici, dans les points forts.
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:11px">
             <?php foreach ($apercu as $x): [$titre, $couleur] = $puces[$x['origine']]; ?>

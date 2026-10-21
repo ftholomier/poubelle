@@ -540,9 +540,6 @@ if ($isPost) {
                     'note' => trim((string) ($site['note'] ?? '')),
                     'description' => trim((string) ($site['description'] ?? '')),
                     'chips' => array_values(array_filter(array_map('trim', explode("\n", str_replace("\r\n", "\n", (string) ($site['chips'] ?? '')))))),
-                    // Prestations de cette adresse seulement : elles n'ont rien à
-                    // faire sur les fiches de l'autre lieu.
-                    'included' => array_values(array_filter(array_map('trim', explode("\n", str_replace("\r\n", "\n", (string) ($site['included'] ?? '')))))),
                     'cta' => trim((string) ($site['cta'] ?? '')),
                     'mapUrl' => trim((string) ($site['mapUrl'] ?? '')),
                     'photo' => trim((string) ($site['photo'] ?? '')),

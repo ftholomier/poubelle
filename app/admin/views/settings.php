@@ -164,10 +164,6 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
           <textarea class="field" name="s[sites][<?= $i ?>][description]" rows="2"><?= Text::e((string) ($site['description'] ?? '')) ?></textarea>
           <label class="label" style="margin-top:14px">ÉTIQUETTES (UNE PAR LIGNE)</label>
           <textarea class="field" name="s[sites][<?= $i ?>][chips]" rows="3"><?= Text::e(implode("\n", array_map('strval', (array) ($site['chips'] ?? [])))) ?></textarea>
-          <label class="label" style="margin-top:14px">PRESTATIONS PROPRES À CE LIEU (UNE PAR LIGNE)</label>
-          <textarea class="field" name="s[sites][<?= $i ?>][included]" rows="3"><?= Text::e(implode("\n", array_map('strval', (array) ($site['included'] ?? [])))) ?></textarea>
-          <div class="hint">Ajoutées à « Ce qui est compris » sur les fiches de ce lieu seulement. Ce qui vaut
-            pour les deux adresses se saisit dans Pages → Nos bureaux.</div>
           <label class="label" style="margin-top:14px">LIEN GOOGLE MAPS</label>
           <input class="field" type="text" name="s[sites][<?= $i ?>][mapUrl]" value="<?= Text::e((string) ($site['mapUrl'] ?? '')) ?>">
           <?= View::admin('_field', [

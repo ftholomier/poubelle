@@ -144,55 +144,33 @@ final class Offices
      * Ce qui sera réellement affiché sous « Ce qui est compris » d'une fiche,
      * et d'où vient chaque entrée.
      *
-     * Trois sources s'additionnent, et c'est la source de la confusion la plus
-     * fréquente au back-office : on saisit huit points forts et la fiche en
-     * montre quatorze. Cette méthode est le point unique de vérité — la fiche
+     * Deux sources, et c'est la source de confusion la plus fréquente au
+     * back-office : on saisit huit points forts et la fiche en montre
+     * quatorze. Cette méthode est le point unique de vérité — la fiche
      * l'appelle pour afficher, l'éditeur l'appelle pour prévenir.
      *
-     * @return array<int,array{texte:string,origine:string}> origine : office|site|page
+     * Tout ce qui est propre à un bureau appartient à ses points forts, y
+     * compris ce qu'il partage avec ses voisins de palier : une prestation
+     * qui ne vaut pas pour l'ensemble du catalogue n'a rien à faire dans la
+     * liste commune, sans quoi elle s'affiche sur des fiches où elle est
+     * fausse.
+     *
+     * @return array<int,array{texte:string,origine:string}> origine : office|page
      */
-    public static function includedFor(array $office, array $pageIncluded, array $settings, string $lang = Config::DEFAULT_LANG): array
+    public static function includedFor(array $office, array $pageIncluded, string $lang = Config::DEFAULT_LANG): array
     {
-        $site = (string) ($office['site'] ?? '');
-        $siteIncluded = [];
-        foreach ((array) ($settings['sites'] ?? []) as $entry) {
-            if (\is_array($entry) && (string) ($entry['id'] ?? '') === $site) {
-                $siteIncluded = array_values(array_filter(
-                    (array) Content::i18nList($entry, 'included', $lang),
-                    static fn ($v): bool => \is_string($v) && trim($v) !== ''
-                ));
-            }
-        }
+        $propres = self::featuresFor($office, $lang);
+        $communes = array_values(array_filter(
+            $pageIncluded,
+            static fn ($v): bool => \is_string($v) && trim($v) !== ''
+        ));
 
-        $origines = [];
-        foreach (self::featuresFor($office, $lang) as $t) {
-            $origines[] = ['texte' => (string) $t, 'origine' => 'office'];
-        }
-        foreach ($siteIncluded as $t) {
-            $origines[] = ['texte' => (string) $t, 'origine' => 'site'];
-        }
-        foreach ($pageIncluded as $t) {
-            if (\is_string($t) && trim($t) !== '') {
-                $origines[] = ['texte' => $t, 'origine' => 'page'];
-            }
-        }
-
-        // On dédoublonne sur le texte retenu, en gardant l'origine de la
-        // première occurrence : les points forts du bureau passent devant.
-        $gardes = self::mergeFeatures(
-            array_column(array_filter($origines, static fn (array $o): bool => $o['origine'] === 'office'), 'texte'),
-            array_column(array_filter($origines, static fn (array $o): bool => $o['origine'] !== 'office'), 'texte')
-        );
         $out = [];
-        foreach ($gardes as $texte) {
-            $origine = 'page';
-            foreach ($origines as $o) {
-                if ($o['texte'] === $texte) {
-                    $origine = $o['origine'];
-                    break;
-                }
-            }
-            $out[] = ['texte' => $texte, 'origine' => $origine];
+        foreach (self::mergeFeatures($propres, $communes) as $texte) {
+            $out[] = [
+                'texte' => $texte,
+                'origine' => \in_array($texte, $propres, true) ? 'office' : 'page',
+            ];
         }
         return $out;
     }
