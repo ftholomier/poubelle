@@ -531,24 +531,24 @@ function club_text(string $key, string $neutral, string $file = 'libelles'): str
 }
 
 /**
- * Temps fort (texte en minuscules) où un penalty est accordé et tiré : but, transformé, arrêté,
- * raté… ou « penalty pour X » (l'issue au temps fort suivant). Jamais un penalty réclamé, non sifflé
- * ni « évident mais oublié » par l'arbitre.
+ * Temps fort (texte en minuscules) où un penalty est à coup sûr accordé et tiré : but coché « But »
+ * qui parle d'un penalty, ou tournure sans ambiguïté (« pénalty transformé », « transforme le penalty »,
+ * « le pénalty de X est arrêté », « pénalty tiré par X »…). Au moindre doute (penalty réclamé, non
+ * sifflé, issue non racontée) : pas de cadre.
  */
 function penalty_taken(string $tl, bool $goal): bool
 {
-    if (!preg_match('/p[ée]n[a-z]*lty|\bs\.\s?p\.|tirs? au but/u', $tl) || str_contains($tl, 'point de p')) {
+    $p = 'p[ée]n[a-z]*lty';
+    if (!preg_match('/' . $p . '|tirs? au but/u', $tl) || str_contains($tl, 'point de p')) {
         return false;
     }
-    if ($goal || str_contains($tl, 'tirs au but') || str_contains($tl, 'tir au but')) {
-        return true;
-    }
-    // Issue racontée : vaut même si une autre action non sifflée est citée dans le même temps fort.
-    if (preg_match('/transform|\brat[ée]|manqu[ée]|arr[êe]t[ée]? (par|la frappe|le tir|le p)|arr[êe]t de|d[ée]tourn|repouss|stopp|capt[ée]|sur le poteau|la barre|transversale|nuages|s[\'’]en charge|se charge|tir[ée]e? par|frappe le p|tire le p|\bmarque|égalise|egalise|recolle|réduit|ouvre le score|trompe|converti|s[\'’]impose face|se fait justice|sur p[ée]nalty|gratte un p|frappe en force/u', $tl)) {
-        return true;
-    }
-    if (preg_match('/ne siffle|n[\'’]accorde pas|ne donne pas|ne bronche|ne dit rien|pas de p[ée]nalty|r[ée]clam|aurait|cru obtenir|croit obtenir|pense [àa] un p|tout proche|crie au|refus|simulation|p[ée]nalty \?|en vain/u', $tl)) {
+    if (preg_match('/ne siffle|n[\'’]accorde pas|ne donne pas|ne bronche|ne dit rien|pas de ' . $p . '|r[ée]clam|aurait|cru obtenir|croit obtenir|pense [àa] un p|tout proche|pas loin|crie au|refus|simulation|' . $p . ' \?|en vain|semblait|limite/u', $tl)) {
         return false;
     }
-    return (bool) preg_match('/p[ée]nalty (siffl[ée] |accord[ée] )?pour|siffle (un|le) p|accorde (un|le) p|obtient un p|p[ée]nalty indiscutable|p[ée]nalty ?[!.]/u', $tl);
+    if ($goal || preg_match('/s[ée]ance de tirs au but/u', $tl)) {
+        return true;
+    }
+    return (bool) preg_match('/' . $p . ' (est |était |a été )?(transform|arr[êe]t|d[ée]tourn|repouss|stopp|rat[ée]|manqu|tir[ée] (par|au-dessus|à côté|sur))'
+        . '|transform\w* (le|son|un) ' . $p . '|(rate|manque|loupe) (le|son) ' . $p . '|tire (le|son) ' . $p
+        . '|le ' . $p . ' de [\w\'’ -]{2,30}? (est |était |a été |termine |finit |file |passe )?(arr[êe]t|d[ée]tourn|repouss|stopp|capt|sur le poteau|sur la barre|sur la transversale|au-dessus|à côté|dans les nuages)/u', $tl);
 }
