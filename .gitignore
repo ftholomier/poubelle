@@ -31,8 +31,11 @@ storage/app-secret.txt
 # Fabrication du film (cartons, clips, master)
 tools/video/build/
 
-# Masters video livres au client
-/*.mp4
 __pycache__/
 *.pyc
+
+# Fichiers livrés au client, tous reconstructibles depuis le dépôt :
+# masters vidéo, bande-son, et colis de déploiement (git archive).
+/*.mp4
 /*.mp3
+/*.zip
