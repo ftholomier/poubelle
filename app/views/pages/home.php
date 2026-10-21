@@ -134,7 +134,30 @@ $faqItems = Content::list($hero === [] ? $page : $page, 'faq.items');
 </section>
 <?php endif; ?>
 
-<section class="shell section" style="padding-bottom:20px">
+<section class="shell section" style="padding-bottom:20px" id="dispos">
+  <div class="section-head" data-reveal>
+    <div>
+      <div class="kicker"><?= Text::e(Content::text($page, 'availability.kicker')) ?></div>
+      <h2 class="section-title"><?= Text::e(Content::text($page, 'availability.title')) ?></h2>
+    </div>
+    <a class="link-underline" href="<?= Text::e(Router::url('offices', $lang)) ?>"><?= Text::e(I18n::t('office.allOffices')) ?></a>
+  </div>
+
+  <?php if ($featured === []): ?>
+    <p class="empty-note"><?= Text::e(I18n::t('office.none')) ?></p>
+  <?php else: ?>
+    <?php // Une ou deux disponibilités : on les met en avant en pleine largeur
+          // plutôt que de les tasser dans une grille prévue pour quatre cartes.
+          $spotlight = \count($featured) <= 2; ?>
+    <div class="grid grid--offices<?= $spotlight ? ' grid--offices-spot' : '' ?>">
+      <?php foreach ($featured as $i => $office): ?>
+        <?= View::partial('partials/office-card', ['office' => $office, 'variant' => 'featured', 'spotlight' => $spotlight, 'delay' => $i * 90]) ?>
+      <?php endforeach; ?>
+    </div>
+  <?php endif; ?>
+</section>
+
+<section class="shell section--tight section">
   <div class="section-head" data-reveal>
     <div>
       <div class="kicker"><?= Text::e(Content::text($page, 'places.kicker')) ?></div>
@@ -178,29 +201,6 @@ $faqItems = Content::list($hero === [] ? $page : $page, 'faq.items');
       </article>
     <?php endforeach; ?>
   </div>
-</section>
-
-<section class="shell section--tight section" id="dispos">
-  <div class="section-head" data-reveal>
-    <div>
-      <div class="kicker"><?= Text::e(Content::text($page, 'availability.kicker')) ?></div>
-      <h2 class="section-title"><?= Text::e(Content::text($page, 'availability.title')) ?></h2>
-    </div>
-    <a class="link-underline" href="<?= Text::e(Router::url('offices', $lang)) ?>"><?= Text::e(I18n::t('office.allOffices')) ?></a>
-  </div>
-
-  <?php if ($featured === []): ?>
-    <p class="empty-note"><?= Text::e(I18n::t('office.none')) ?></p>
-  <?php else: ?>
-    <?php // Une ou deux disponibilités : on les met en avant en pleine largeur
-          // plutôt que de les tasser dans une grille prévue pour quatre cartes.
-          $spotlight = \count($featured) <= 2; ?>
-    <div class="grid grid--offices<?= $spotlight ? ' grid--offices-spot' : '' ?>">
-      <?php foreach ($featured as $i => $office): ?>
-        <?= View::partial('partials/office-card', ['office' => $office, 'variant' => 'featured', 'spotlight' => $spotlight, 'delay' => $i * 90]) ?>
-      <?php endforeach; ?>
-    </div>
-  <?php endif; ?>
 </section>
 
 <section class="shell section">
