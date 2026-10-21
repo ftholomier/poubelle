@@ -207,7 +207,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
               $tl = mb_strtolower($txt); $tags = [];
               if (preg_match('/expuls|carton rouge|exclu|second (carton )?jaune|deuxi[eè]me (carton )?jaune/u', $tl)) { $tags[] = '<span class="tltag"><span class="cardmark cardmark--r" aria-hidden="true"></span>' . e(t('Carton rouge')) . '</span>'; }
               elseif (preg_match('/averti|carton jaune/u', $tl)) { $tags[] = '<span class="tltag"><span class="cardmark cardmark--y" aria-hidden="true"></span>' . e(t('Carton jaune')) . '</span>'; }
-              if (preg_match('/p[ée]nalty|\bs\.\s?p\.|tir au but|tirs au but/u', $tl) && !str_contains($tl, 'point de penalty') && !str_contains($tl, 'point de pénalty')) { $tags[] = '<span class="tltag">⚽ ' . e(t('Penalty')) . '</span>'; }
+              if (penalty_taken($tl, $goal)) { $tags[] = '<span class="tltag">⚽ ' . e(t('Penalty')) . '</span>'; }
               // « Changement » : un remplacement, pas un « échange », un « changement d'aile » ni « ne change rien ».
               if (preg_match('/(?<!pas )remplac|c[èe]de sa place|entre en jeu|fait son entr[ée]e|\bchangement\b(?!\s+(?:d[\'’]aile|de\s+jeu|de\s+c[ôo]t[ée]))/u', $tl)) { $tags[] = '<span class="tltag"><span class="subarrow subarrow--in" aria-hidden="true">▲</span><span class="subarrow subarrow--out" aria-hidden="true">▼</span> ' . e(t('Changement')) . '</span>'; }
               // Pastilles sûres seulement : « au second poteau » est un endroit, pas un tir sur le poteau ;

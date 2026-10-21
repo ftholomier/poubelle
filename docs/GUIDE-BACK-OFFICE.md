@@ -211,7 +211,7 @@ gardien, débuts, dernier match, doublé / triplé, penalty, second jaune. Le r�
 reçoit aussi ses pictos, détectés dans le texte (cartons, penalty, changement, but refusé,
 montant, arrêt, but contre son camp, ballon devant chaque « But ! »). Seules les tournures sans
 ambiguïté donnent un picto : « frappe sur le poteau » oui, « au second poteau » ou « frôle le
-poteau » non ; « l'arbitre annule le but » donne « But refusé ». Les **tweets** cités dans la
+poteau » non ; « l'arbitre annule le but » donne « But refusé ». « Penalty » seulement quand il est accordé et tiré (transformé, arrêté, raté, « penalty pour… ») : jamais pour un penalty réclamé ou non sifflé. Les **tweets** cités dans la
 fiche s'affichent en vrai (vidéo, photos), posés à leur minute dans le déroulé.
 
 **Une fiche = un match.** Pour un nouveau match, créez une nouvelle fiche (+ Nouveau ›
