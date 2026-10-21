@@ -3,10 +3,12 @@
 
 use App\Admin;
 use App\Config;
+use App\Content;
 use App\Csrf;
 use App\I18n;
 use App\Offices;
 use App\Router;
+use App\Store;
 use App\Text;
 use App\View;
 
@@ -123,6 +125,38 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
 
         <label class="label" style="margin-top:18px" for="o-features">POINTS FORTS (UN PAR LIGNE)</label>
         <textarea class="field" id="o-features" name="o[features]" rows="4"><?= Text::e(implode("\n", array_map('strval', (array) ($o['features'] ?? [])))) ?></textarea>
+        <?php
+        // La fiche n'affiche pas que ces lignes : elle y ajoute les prestations
+        // du lieu et celles communes à tous les bureaux. On montre donc ici le
+        // résultat exact, avec la provenance de chaque entrée — sans quoi on
+        // saisit huit points forts et on en voit quatorze en ligne.
+        $pageIncluded = Content::list(Store::read('pages/offices.' . Config::DEFAULT_LANG . '.json'), 'included');
+        $apercu = Offices::includedFor(
+            array_replace($o, ['features' => (array) ($o['features'] ?? []), 'site' => (string) ($o['site'] ?? Config::SITES[0])]),
+            $pageIncluded,
+            $settings
+        );
+        $compte = ['office' => 0, 'site' => 0, 'page' => 0];
+        foreach ($apercu as $x) { $compte[$x['origine']]++; }
+        $puces = ['office' => ['Point fort du bureau', '#0E0E0E'], 'site' => ['Prestation du lieu', '#12B39A'], 'page' => ['Commun à tous les bureaux', '#FFD100']];
+        ?>
+        <div class="panel" style="margin-top:12px;padding:14px 16px;background:rgba(14,14,14,.03)">
+          <div style="font:800 14px/1.3 'Bricolage Grotesque',sans-serif">
+            La fiche affichera <?= \count($apercu) ?> entrée<?= \count($apercu) > 1 ? 's' : '' ?> sous « Ce qui est compris »
+          </div>
+          <div class="hint" style="margin-top:4px">
+            <?= (int) $compte['office'] ?> de ce bureau · <?= (int) $compte['site'] ?> du lieu
+            (Réglages → Site &amp; lieux) · <?= (int) $compte['page'] ?> communes (Pages → Nos bureaux).
+            Les redites sont écartées automatiquement.
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:11px">
+            <?php foreach ($apercu as $x): [$titre, $couleur] = $puces[$x['origine']]; ?>
+              <span class="chip" title="<?= Text::e($titre) ?>" style="border-color:<?= Text::e($couleur) ?>">
+                <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:<?= Text::e($couleur) ?>;margin-right:7px"></span><?= Text::e($x['texte']) ?>
+              </span>
+            <?php endforeach; ?>
+          </div>
+        </div>
 
         <?php
         $photos = array_values(array_filter(array_map('strval', (array) ($o['photos'] ?? []))));

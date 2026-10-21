@@ -1,27 +1,25 @@
 {
-    "_schema": 1,
-    "slug": "offices",
-    "lang": "en",
-    "status": "published",
-    "nav": "Offices",
-    "seo": {
-        "title": "Our offices to rent in Besançon",
-        "description": "Closed private offices and open-space desks to rent in central Besançon. Monthly prices excl. VAT, all inclusive, no hidden fees.",
-        "ogImage": "/media/carnot-bureau-03.webp"
-    },
-    "kicker": "OUR OFFICES",
-    "title": "Pick your office",
-    "text": "Monthly rent excl. VAT, all inclusive, no hidden fees. Availability is updated from the back office: what you see is real.",
-    "included": [
-        "Bills, water, electricity, heating",
-        "Cleaning",
-        "High-speed internet",
-        "Modern furniture",
-        "Shared meeting room",
-        "Fitted kitchen",
-        "Shower and toilets at Carnot",
-        "24/7 badge access at Carnot"
-    ],
-    "updatedAt": "2026-09-09T21:15:45+02:00",
-    "updatedBy": "import-ioio.fr"
+  "_schema": 1,
+  "slug": "offices",
+  "lang": "en",
+  "status": "published",
+  "nav": "Offices",
+  "seo": {
+    "title": "Our offices to rent in Besançon",
+    "description": "Closed private offices and open-space desks to rent in central Besançon. Monthly prices excl. VAT, all inclusive, no hidden fees.",
+    "ogImage": "/media/carnot-bureau-03.webp"
+  },
+  "kicker": "OUR OFFICES",
+  "title": "Pick your office",
+  "text": "Monthly rent excl. VAT, all inclusive, no hidden fees. Availability is updated from the back office: what you see is real.",
+  "included": [
+    "Bills, water, electricity, heating",
+    "Cleaning",
+    "High-speed internet",
+    "Modern furniture",
+    "Shared meeting room",
+    "Fitted kitchen"
+  ],
+  "updatedAt": "2026-09-09T21:15:45+02:00",
+  "updatedBy": "import-ioio.fr"
 }

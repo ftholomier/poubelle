@@ -91,7 +91,8 @@ $isRented = ($office['status'] ?? '') === 'rented';
         <div class="fiche__desc rich"><?= (string) $office['description'] ?></div>
       <?php endif; ?>
 
-      <?php $features = Offices::mergeFeatures((array) $office['features'], $included); if ($features !== []): ?>
+      <?php $features = array_column(Offices::includedFor($office, $included, $settings, $lang), 'texte');
+            if ($features !== []): ?>
       <h2 class="fiche__h2"><?= Text::e(I18n::t('office.included')) ?></h2>
       <div class="grid grid--included">
         <?php foreach ($features as $item): ?>

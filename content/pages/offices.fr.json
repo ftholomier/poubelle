@@ -1,27 +1,25 @@
 {
-    "_schema": 1,
-    "slug": "offices",
-    "lang": "fr",
-    "status": "published",
-    "nav": "Nos bureaux",
-    "seo": {
-        "title": "Nos bureaux à louer à Besançon",
-        "description": "Bureaux privés fermés et postes en open space à louer au centre-ville de Besançon. Tarifs HT par mois, tout compris, aucun frais caché.",
-        "ogImage": "/media/carnot-bureau-03.webp"
-    },
-    "kicker": "NOS BUREAUX",
-    "title": "Choisissez votre bureau",
-    "text": "Tarif de location HT par mois, tout compris, aucun frais caché. Les disponibilités sont mises à jour depuis le back-office : ce que vous voyez est réel.",
-    "included": [
-        "Charges, eau, électricité, chauffage",
-        "Ménage",
-        "Internet très haut débit",
-        "Mobilier moderne",
-        "Salle de réunion partagée",
-        "Cuisine équipée",
-        "Douche et wc à Carnot",
-        "Accès badge 7j/7 24h/24 à Carnot"
-    ],
-    "updatedAt": "2026-09-09T21:15:45+02:00",
-    "updatedBy": "import-ioio.fr"
+  "_schema": 1,
+  "slug": "offices",
+  "lang": "fr",
+  "status": "published",
+  "nav": "Nos bureaux",
+  "seo": {
+    "title": "Nos bureaux à louer à Besançon",
+    "description": "Bureaux privés fermés et postes en open space à louer au centre-ville de Besançon. Tarifs HT par mois, tout compris, aucun frais caché.",
+    "ogImage": "/media/carnot-bureau-03.webp"
+  },
+  "kicker": "NOS BUREAUX",
+  "title": "Choisissez votre bureau",
+  "text": "Tarif de location HT par mois, tout compris, aucun frais caché. Les disponibilités sont mises à jour depuis le back-office : ce que vous voyez est réel.",
+  "included": [
+    "Charges, eau, électricité, chauffage",
+    "Ménage",
+    "Internet très haut débit",
+    "Mobilier moderne",
+    "Salle de réunion partagée",
+    "Cuisine équipée"
+  ],
+  "updatedAt": "2026-09-09T21:15:45+02:00",
+  "updatedBy": "import-ioio.fr"
 }

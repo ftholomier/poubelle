@@ -185,7 +185,7 @@ $faqItems = Content::list($hero === [] ? $page : $page, 'faq.items');
           <p class="place-card__text"><?= Text::e(Content::i18n($site, 'description', $lang) ?: Content::i18n($site, 'note', $lang)) ?></p>
           <div class="chips">
             <?php
-            $chips = $lang !== 'fr' && !empty($site['i18n'][$lang]['chips']) ? (array) $site['i18n'][$lang]['chips'] : (array) ($site['chips'] ?? []);
+            $chips = Content::i18nList($site, 'chips', $lang);
             if ($chips === []) { $chips = [(string) ($site['address'] ?? ''), (string) ($site['area'] ?? '')]; }
             foreach (array_filter($chips) as $chip): ?>
               <span class="chip"><?= Text::e((string) $chip) ?></span>

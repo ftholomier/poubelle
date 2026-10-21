@@ -113,6 +113,23 @@ final class Content
         return \is_scalar($value) ? (string) $value : $default;
     }
 
+    /**
+     * Pendant de i18n() pour une liste : i18n.<lang>.<champ>, repli FR.
+     *
+     * @return array<int,mixed>
+     */
+    public static function i18nList(array $item, string $field, string $lang, array $default = []): array
+    {
+        if ($lang !== Config::DEFAULT_LANG) {
+            $translated = $item['i18n'][$lang][$field] ?? null;
+            if (\is_array($translated) && $translated !== []) {
+                return array_values($translated);
+            }
+        }
+        $value = $item[$field] ?? $default;
+        return \is_array($value) ? array_values($value) : $default;
+    }
+
     /** @return string[] chemins de contenu manquants rencontrés pendant la requête */
     public static function missing(): array
     {
