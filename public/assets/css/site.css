@@ -483,10 +483,12 @@ h1, h2, h3, h4 { font-family: 'Bricolage Grotesque', 'Manrope', sans-serif; font
 /* Tarif promotionnel : l'ancien prix reste lisible, barré, à côté du nouveau. */
 .price-old { font: 700 15px/1 'Manrope', sans-serif; opacity: .45; text-decoration-thickness: 2px; }
 .price-old--lg { font-size: 18px; }
-/* Le bouton respire : il ne colle plus au tarif ni au bord de la carte. */
+/* Le contenu s'étire, le bouton se retrouve en bas : d'une carte à l'autre les
+   boutons s'alignent, même quand l'une porte deux précisions de plus que sa
+   voisine. L'écart de 22 px au-dessus du bouton reste garanti, ce que
+   « margin-top: auto » seul ne donne pas. */
+.office-card__content { flex: 1 1 auto; display: flex; flex-direction: column; }
 .office-card__cta { width: 100%; margin-top: 22px; }
-.office-card__cta.btn { margin-top: auto; }
-.office-card__body > .office-card__cta.btn { margin-top: 22px; }
 .office-card__ctaWrap { margin-top: 18px; }
 
 /* ---------------------------------------------- carte « disponibilité » mise en avant */
@@ -495,12 +497,14 @@ h1, h2, h3, h4 { font-family: 'Bricolage Grotesque', 'Manrope', sans-serif; font
   flex: 0 0 50%; aspect-ratio: auto; min-height: 300px;
   border-bottom: 0; border-right: 2px solid var(--ink);
 }
-.office-card--spot .office-card__body { flex: 1; justify-content: center; padding: 26px 28px 28px; }
+.office-card--spot .office-card__body { flex: 1; padding: 26px 28px 28px; }
 .office-card--spot .office-card__title { margin-top: 14px; font-size: 25px; }
 .office-card--spot .office-card__price { margin-top: 14px; }
 .office-card--spot .office-card__priceValue { font-size: 33px; }
-.office-card--spot .office-card__cta,
-.office-card--spot .office-card__body > .office-card__cta.btn { width: auto; align-self: flex-start; margin-top: 24px; }
+/* Même règle qu'ailleurs : le contenu s'étire, le bouton se pose en bas. Deux
+   cartes côte à côte gardent donc leurs boutons sur la même ligne, même quand
+   l'une porte une précision de tarif que l'autre n'a pas. */
+.office-card--spot .office-card__cta { width: auto; align-self: flex-start; margin-top: 24px; }
 .office-card--spot .office-card__count { right: 12px; bottom: 12px; }
 
 /* Sous 1080 px la moitié devient trop étroite : un pavé par ligne, la photo

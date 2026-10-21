@@ -28,6 +28,10 @@ $meta = static fn (array $parts): string => implode(' · ', array_filter(array_m
     <?php endif; ?>
   </div>
   <div class="office-card__body<?= $isList ? ' office-card__body--lg' : '' ?>">
+    <?php // Le contenu occupe toute la hauteur restante : le bouton se retrouve
+          // donc collé en bas, à la même ligne d'une carte à l'autre, quel que
+          // soit le nombre de précisions affichées au-dessus. ?>
+    <div class="office-card__content">
     <div class="office-card__row">
       <span class="status-pill" style="background:<?= Text::e((string) $office['statusColor']) ?>"><?= Text::e((string) $office['statusLabel']) ?></span>
       <span class="meta-note"><?= Text::e($isList ? (string) $office['typeLabel'] : $meta([(string) $office['siteLabel'], (string) $office['area']])) ?></span>
@@ -61,6 +65,7 @@ $meta = static fn (array $parts): string => implode(' · ', array_filter(array_m
     if ($quand !== []): ?>
       <div class="office-card__sub"><?= Text::e(implode(' · ', $quand)) ?></div>
     <?php endif; ?>
+    </div>
     <a class="btn <?= $isList ? 'btn--ink office-card__cta' : 'btn--outline-yellow office-card__cta' ?>"
        style="<?= $isList ? 'background-image:linear-gradient(var(--teal),var(--teal))' : '' ?>"
        href="<?= Text::e((string) $office['url']) ?>"><?= Text::e((string) $office['cta']) ?></a>
