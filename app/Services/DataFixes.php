@@ -28,6 +28,7 @@ final class DataFixes
         '2026-10-saison-des-feuilles' => 'sheetSeasons',
         '2026-10-vignettes-dailymotion' => 'dailymotionThumbs',
         '2026-10-olympique-de-marseille' => 'marseilleName',
+        '2026-10-buteurs-apostrophe' => 'scorersApostrophe',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -168,6 +169,45 @@ final class DataFixes
             return $ids;
         });
         return ['message' => count($ids) . ' match(s) renommé(s) avec « ' . $full . ' »', 'ids' => $ids];
+    }
+
+    /**
+     * Buteurs des matchs créés par l'import des feuilles écrits « Genghini (24e) » : passés au format
+     * du musée « Genghini 24' » (équipes de l'en-tête et ligne des buts). Seuls les textes avec une
+     * minute entre parenthèses sont touchés.
+     */
+    private static function scorersApostrophe(): array
+    {
+        $ids = Fiches::batch(function () {
+            $ids = [];
+            $old = '/\(\s*\d{1,3}\s*(?:e|ème)?\b/u';
+            foreach (Fiches::all() as $id => $doc) {
+                if (($doc['type'] ?? '') !== 'match' || empty($doc['legacy']['feuilles'])) {
+                    continue;
+                }
+                $m = $doc['match'] ?? [];
+                $hit = preg_match($old, (string) ($m['goals_text'] ?? ''));
+                foreach ((array) ($m['goals'] ?? []) as $g) {
+                    $hit = $hit || preg_match($old, (string) ($g['scorers'] ?? ''));
+                }
+                if (!$hit) {
+                    continue;
+                }
+                $doc = Fiches::fresh((int) $id);
+                if (preg_match($old, (string) ($doc['match']['goals_text'] ?? ''))) {
+                    $doc['match']['goals_text'] = FeuillesImport::scorersText((string) $doc['match']['goals_text']);
+                }
+                foreach ((array) ($doc['match']['goals'] ?? []) as $i => $g) {
+                    if (preg_match($old, (string) ($g['scorers'] ?? ''))) {
+                        $doc['match']['goals'][$i]['scorers'] = FeuillesImport::scorersText((string) $g['scorers']);
+                    }
+                }
+                Fiches::save($doc, self::AUTHOR, 'Buteurs au format du musée (minute avec apostrophe)');
+                $ids[] = (int) $id;
+            }
+            return $ids;
+        });
+        return ['message' => count($ids) . ' match(s) : buteurs écrits « Nom 24\' »', 'ids' => $ids];
     }
 
     /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */

@@ -310,10 +310,10 @@ final class FeuillesImport
             !empty($s['coach']) ? 'Entraîneur : ' . $s['coach'] : null,
         ]));
         $goals = trim(preg_replace('/^Buts?\s*:\s*/u', '', (string) ($s['goals_text'] ?? '')) ?? '');
-        $x['goals_text'] = $goals;
+        $x['goals_text'] = self::scorersText($goals);
         $x['goals'] = [];
         foreach ((array) ($s['goals_by_team'] ?? []) as $g) {
-            $x['goals'][] = ['team' => self::isSochaux((string) $g['team']) ? Club::team() : self::club($opp), 'scorers' => trim(preg_replace('/\s*,\s*/u', ', ', preg_replace('/\s*\(/u', ' (', (string) $g['text']) ?? '') ?? '')];
+            $x['goals'][] = ['team' => self::isSochaux((string) $g['team']) ? Club::team() : self::club($opp), 'scorers' => self::scorersText((string) $g['text'])];
         }
         if (!$x['goals'] && $goals !== '') {
             $x['goals'][] = ['team' => 'Buts', 'scorers' => $goals];
@@ -408,7 +408,7 @@ final class FeuillesImport
         }
         $goals = trim(preg_replace('/^Buts?\s*:\s*/u', '', (string) ($s['goals_text'] ?? '')) ?? '');
         if ($goals !== '' && $us > 0 && trim((string) ($m['goals_text'] ?? '')) === '' && !array_filter((array) ($m['goals'] ?? []))) {
-            $soc = implode(', ', array_map(fn ($g) => $g['name'] . ($g['minutes'] ? ' (' . implode(', ', array_map(fn ($v) => preg_replace('/\D.*$/', '', (string) $v) . "'", $g['minutes'])) . ')' : ''), (array) ($s['scorers'] ?? [])));
+            $soc = implode(', ', array_map(fn ($g) => $g['name'] . ($g['minutes'] ? ' ' . self::joinMinutes(array_map(fn ($v) => preg_replace('/\D.*$/', '', (string) $v) . "'", $g['minutes'])) : ''), (array) ($s['scorers'] ?? [])));
             $add('buteurs', $soc !== '' ? $soc : $goals, '');
         }
         $names = array_map(fn ($p) => (string) $p['name'], array_filter((array) ($s['lineup'] ?? []), fn ($p) => ($p['position'] ?? '') !== 'E'));
@@ -522,5 +522,41 @@ final class FeuillesImport
             return $a . '-' . ($a + 1) . ($m[1] === 'AM' ? ' (amicaux)' : '');
         }
         return $f;
+    }
+
+    /**
+     * Buteurs à la façon du musée : « Mayer(40e sp,54e sp),Cauet(44e) » → « Mayer 40' (sp) et 54' (sp),
+     * Cauet 44' » ; « Hillier(csc) » → « Hillier (csc) » ; un texte déjà au bon format ne change pas.
+     */
+    public static function scorersText(string $s): string
+    {
+        $s = trim($s);
+        if ($s === '' || !str_contains($s, '(')) {
+            return $s;
+        }
+        $out = preg_replace_callback('/\s*([^,()]+?)\s*\(([^()]*)\)/u', function ($m) {
+            $mins = [];
+            $tags = [];
+            foreach (preg_split('/\s*[,;]\s*/u', trim($m[2])) ?: [] as $t) {
+                if (preg_match('/^(\d{1,3})\s*(?:e|ème|eme|\'|’)?\s*(\+\s*\d{1,2})?\s*(?:e|\'|’)?\s*(.*)$/iu', $t, $x)) {
+                    $extra = trim($x[3]);
+                    $mins[] = $x[1] . "'" . (!empty($x[2]) ? '+' . preg_replace('/\D/', '', $x[2]) : '') . ($extra !== '' ? ' (' . $extra . ')' : '');
+                } elseif ($t !== '') {
+                    $tags[] = $t;
+                }
+            }
+            if (!$mins && !$tags) {
+                return $m[0];
+            }
+            return ', ' . trim($m[1]) . ($mins ? ' ' . self::joinMinutes($mins) : '') . ($tags ? ' (' . implode(', ', $tags) . ')' : '');
+        }, $s) ?? $s;
+        return trim(preg_replace('/^\s*,\s*|(\s*,\s*)+/u', ', ', $out) ?? $out, ', ');
+    }
+
+    /** « 4' », « 4' et 72' », « 4', 30' et 72' ». */
+    private static function joinMinutes(array $m): string
+    {
+        $last = array_pop($m);
+        return $m ? implode(', ', $m) . ' et ' . $last : (string) $last;
     }
 }
