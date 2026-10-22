@@ -10,7 +10,12 @@ use App\Data\Fiches;
     <div class="card">
       <div class="card__head"><h2 class="card__t">Ordre des fiches</h2><span class="card__note"><?= (int) $total ?> fiche<?= $total > 1 ? 's' : '' ?> publiée<?= $total > 1 ? 's' : '' ?> (sous-rubriques comprises)</span></div>
       <div class="card__body">
+        <?php if (!empty($cat['season'])): ?>
+        <p class="small" style="margin:0"><b>Saison :</b> sur le site, les matchs s’affichent automatiquement dans l’ordre du calendrier, du premier match de la saison (en haut) au dernier (en bas). Rien à classer à la main.</p>
+        <input type="hidden" name="sort" value="ancien">
+        <?php else: ?>
         <?= Form::select('sort', 'Ordre d’affichage sur le site', $sort, Categories::SORTS, ['help' => 'Les visiteurs peuvent toujours changer de tri sur la page ; ce réglage choisit l’ordre affiché d’abord.']) ?>
+        <?php endif; ?>
         <div data-show-if="sort" data-show-value="selection" class="stack" style="gap:10px">
           <p class="small muted" style="margin:0"><b>↑ / ↓</b> : monter ou descendre d’un cran. Pour aller plus loin, attrapez l’icône <b>quatre flèches</b> et glissez : un <b>trait jaune</b> montre où la fiche sera déposée. Cliquez sur un numéro pour taper directement la position voulue. Pensez à <b>enregistrer</b>.</p>
           <div class="ordertools">

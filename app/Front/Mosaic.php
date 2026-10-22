@@ -383,7 +383,8 @@ final class Mosaic
         }
         usort($rows, match ($sort) {
             'recent' => fn ($a, $b) => strcmp($b[0], $a[0]) ?: strcmp($a[1], $b[1]),
-            'ancien' => fn ($a, $b) => strcmp($a[0], $b[0]) ?: strcmp($a[1], $b[1]),
+            // Sans date connue : en fin de liste.
+            'ancien' => fn ($a, $b) => (($a[0] === '') <=> ($b[0] === '')) ?: strcmp($a[0], $b[0]) ?: strcmp($a[1], $b[1]),
             default => fn ($a, $b) => strcmp($a[1], $b[1]) ?: strcmp($b[0], $a[0]),
         });
         return array_column($rows, 2);

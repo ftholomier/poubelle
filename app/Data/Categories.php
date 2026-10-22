@@ -120,6 +120,10 @@ final class Categories
     public static function displaySort(string $slug): string
     {
         $c = self::get($slug) ?? [];
+        // Une saison se lit toujours dans l'ordre du calendrier : premier match en haut, dernier en bas.
+        if (!empty($c['season'])) {
+            return 'ancien';
+        }
         $hasOrder = !empty($c['order']);
         $sort = $c['sort'] ?? null;
         if (is_string($sort) && isset(self::SORTS[$sort]) && ($sort !== 'selection' || $hasOrder)) {

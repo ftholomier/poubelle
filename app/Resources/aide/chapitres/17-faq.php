@@ -42,7 +42,7 @@ HTML],
 <p>Toute fiche publiée y entre au hasard si son image à la une fait au moins 1 200 × 600 pixels : le tirage écarte les photos plus petites, floues en plein écran (un message sous la case le signale ; un plus grand scan, par Médiathèque › « Remplacer le fichier… », règle la question). Pour un slider choisi à la main : Éditorial › Accueil &amp; bandeau › Grand slider.</p>
 HTML],
         ['id' => 'ordre-mosaique', 'title' => '… changer l’ordre des fiches d’une rubrique', 'html' => <<<'HTML'
-<p>Éditorial › Rubriques &amp; menus › ouvrez la rubrique (par exemple « Années 90 ») › « Ordre d’affichage sur le site » : <b>Ordre manuel</b> › déplacez les fiches (↑ / ↓, icône quatre flèches ou clic sur le numéro pour taper la position) › Enregistrer.</p>
+<p>Éditorial › Rubriques &amp; menus › ouvrez la rubrique (par exemple « Années 90 ») › « Ordre d’affichage sur le site » : <b>Ordre manuel</b> › déplacez les fiches (↑ / ↓, icône quatre flèches ou clic sur le numéro pour taper la position) › Enregistrer. Exception : une <b>saison</b> n’a rien à classer, ses matchs s’affichent toujours du premier au dernier de la saison.</p>
 HTML],
         ['id' => 'bandeau', 'title' => '… ajouter un message au bandeau défilant', 'html' => <<<'HTML'
 <p>Éditorial › Accueil &amp; bandeau › Bandeau « En direct du musée » › « Ajouter un message » (étiquette, message, lien) › « Traduire en anglais » › Enregistrer.</p>

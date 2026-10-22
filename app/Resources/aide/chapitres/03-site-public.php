@@ -25,7 +25,7 @@ HTML],
 <p>Chaque rubrique affiche ses fiches en mosaïque : vignettes avec image à la une, filtres, tri, vue liste et bouton « Afficher plus ». Une fiche apparaît dans toutes les rubriques cochées dans son onglet « Classement &amp; SEO ».</p>
 [[img:site-mosaique.webp|Une mosaïque de rubrique]]
 <p>Exception : <b>Supporters › L’équipe de Sochaux Rétro</b> présente l’équipe du musée en cartes à collectionner ; les membres se saisissent côté association (Association › Contenus › Équipe, réservé aux administrateurs).</p>
-[[astuce|<p>L’ordre des fiches d’une mosaïque se règle rubrique par rubrique dans Éditorial › Rubriques &amp; menus : ordre manuel (glisser-déposer, comme dans l’ancien WordPress), chronologique ou alphabétique. Les décennies et les saisons gardent l’ordre manuel repris de l’ancien site.</p>]]
+[[astuce|<p>L’ordre des fiches d’une mosaïque se règle rubrique par rubrique dans Éditorial › Rubriques &amp; menus : ordre manuel (glisser-déposer, comme dans l’ancien WordPress), chronologique ou alphabétique. Les décennies gardent l’ordre manuel repris de l’ancien site. <b>Les saisons</b> sont toujours dans l’ordre du calendrier, automatiquement : premier match de la saison en haut, dernier en bas.</p>]]
 HTML],
         ['id' => 'fiches', 'title' => 'Les fiches', 'html' => <<<'HTML'
 <p><b>Fiche match</b> : score, informations, terrain et tableau de composition, temps forts, réactions, vidéos, galerie, et un encadré face-à-face calculé automatiquement.</p>
