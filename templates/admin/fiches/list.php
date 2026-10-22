@@ -25,19 +25,21 @@ $roleLabel = ['joueur' => 'Joueur', 'entraineur' => 'Entraîneur', 'dirigeant' =
 $vOk = (int) ($vcount['validees'] ?? 0);
 $vTodo = (int) ($vcount['a-valider'] ?? 0);
 $vAll = $vOk + $vTodo;
-$vPct = $vAll ? (int) floor($vOk * 100 / $vAll) : 0;
+$vPct = \App\Services\Validation::pct($vOk, $vAll);
+$vPctTodo = \App\Services\Validation::pct($vTodo, $vAll);
+$vWidth = $vAll ? round($vOk * 100 / $vAll, 2) : 0;
 $vOn = (string) ($query['valid'] ?? '');
 $vNoun = ['matchs' => ['fiche de match', 'fiches de match'], 'personnes' => ['fiche personne', 'fiches personnes'], 'articles' => ['article ou page', 'articles et pages'], 'objets' => ['objet', 'objets']][$slug] ?? ['fiche', 'fiches'];
 ?>
 <section class="vbox" aria-label="Validation des fiches">
   <div class="vbox__head">
     <h2 class="vbox__t">Validation des <?= e($vNoun[1]) ?></h2>
-    <span class="vbox__pct"><b><?= $vPct === 0 && $vOk > 0 ? '&lt; 1' : $vPct ?> %</b> validé<?= $vPct > 1 ? 's' : '' ?></span>
+    <span class="vbox__pct"><b><?= e($vPct) ?> %</b> validé<?= $vOk > 1 ? 's' : '' ?></span>
   </div>
-  <div class="vbox__bar" role="img" aria-label="<?= $vPct ?> % des fiches validées"><i style="width:<?= $vPct ?>%"></i></div>
+  <div class="vbox__bar" role="img" aria-label="<?= e($vPct) ?> % des fiches validées"><i style="width:<?= $vWidth ?>%"></i></div>
   <div class="vbox__tiles">
-    <a class="vbox__tile vbox__tile--ok<?= $vOn === 'validees' ? ' is-on' : '' ?>" href="<?= e($base . $qs(['valid' => $vOn === 'validees' ? null : 'validees'])) ?>"><b><?= number_format($vOk, 0, ',', "\u{202F}") ?></b><span>✔ validée<?= $vOk > 1 ? 's' : '' ?></span></a>
-    <a class="vbox__tile vbox__tile--todo<?= $vOn === 'a-valider' ? ' is-on' : '' ?>" href="<?= e($base . $qs(['valid' => $vOn === 'a-valider' ? null : 'a-valider'])) ?>"><b><?= number_format($vTodo, 0, ',', "\u{202F}") ?></b><span>à valider</span></a>
+    <a class="vbox__tile vbox__tile--ok<?= $vOn === 'validees' ? ' is-on' : '' ?>" href="<?= e($base . $qs(['valid' => $vOn === 'validees' ? null : 'validees'])) ?>"><b><?= number_format($vOk, 0, ',', "\u{202F}") ?></b><span>✔ validée<?= $vOk > 1 ? 's' : '' ?> · <em><?= e($vPct) ?> %</em></span></a>
+    <a class="vbox__tile vbox__tile--todo<?= $vOn === 'a-valider' ? ' is-on' : '' ?>" href="<?= e($base . $qs(['valid' => $vOn === 'a-valider' ? null : 'a-valider'])) ?>"><b><?= number_format($vTodo, 0, ',', "\u{202F}") ?></b><span>à valider · <em><?= e($vPctTodo) ?> %</em></span></a>
     <span class="vbox__tile vbox__tile--all"><b><?= number_format($vAll, 0, ',', "\u{202F}") ?></b><span><?= e($vAll > 1 ? $vNoun[1] : $vNoun[0]) ?> au total</span></span>
   </div>
   <p class="vbox__note">Une fiche est validée quand un historien l’a relue et contrôlée (bouton « Valider cette fiche » en haut de la fiche). Cliquez sur un chiffre pour n’afficher que ces fiches<?= $vOn !== '' ? ', recliquez pour tout revoir' : '' ?>. La corbeille n’est pas comptée.</p>

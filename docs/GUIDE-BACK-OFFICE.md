@@ -97,8 +97,8 @@ brouillon, « à relire », traduire, mettre à la corbeille).
 **« Validées / À valider »** isole les unes ou les autres, avec leur nombre : deux historiens
 ne contrôlent pas la même fiche. « Retirer la validation » la remet à contrôler ; la
 validation est notée dans le journal. En tête de chaque liste (matchs, personnes, articles & pages, objets),
-l'encart **« Validation des fiches »** donne le nombre de fiches validées, à valider et le
-pourcentage fait (barre de progression ; un clic sur un chiffre filtre la liste). Le tableau de
+l'encart **« Validation des fiches »** donne le nombre de fiches validées et à valider, chacun avec
+son pourcentage (barre de progression ; un clic sur un chiffre filtre la liste). Le tableau de
 bord reprend ces chiffres en quatre cases, une par liste.
 
 ### Éditeur

@@ -47,6 +47,21 @@ final class Validation
         return $out;
     }
 
+    /** Part en pourcentage, au dixième (« 0,2 », « 12,5 », « 100 ») : la première fiche validée se voit. */
+    public static function pct(int $n, int $all): string
+    {
+        if ($all <= 0) {
+            return '0';
+        }
+        $p = round($n * 100 / $all, 1);
+        if ($n > 0 && $p == 0.0) {
+            $p = 0.1;
+        } elseif ($n < $all && $p == 100.0) {
+            $p = 99.9;
+        }
+        return str_replace('.', ',', rtrim(rtrim(number_format($p, 1, '.', ''), '0'), '.'));
+    }
+
     public static function get(int $id): ?array
     {
         return self::all()[$id] ?? null;

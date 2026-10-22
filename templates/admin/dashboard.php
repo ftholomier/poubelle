@@ -23,14 +23,14 @@ $vLabels = ['matchs' => ['Matchs', 'fiches de match'], 'personnes' => ['Personne
 <section class="vdash" aria-label="Validation des fiches">
   <h2 class="vbox__t">Validation des fiches</h2>
   <div class="vdash__grid">
-    <?php foreach ($vLabels as $slug => [$label, $noun]): $v = $validation[$slug] ?? ['ok' => 0, 'todo' => 0]; $all = $v['ok'] + $v['todo']; $pct = $all ? (int) floor($v['ok'] * 100 / $all) : 0; ?>
+    <?php foreach ($vLabels as $slug => [$label, $noun]): $v = $validation[$slug] ?? ['ok' => 0, 'todo' => 0]; $all = $v['ok'] + $v['todo']; $pct = \App\Services\Validation::pct($v['ok'], $all); $pctTodo = \App\Services\Validation::pct($v['todo'], $all); $width = $all ? round($v['ok'] * 100 / $all, 2) : 0; ?>
       <div class="vdash__card">
         <a class="vdash__name" href="/admin/<?= e($slug) ?>"><?= e($label) ?> →</a>
-        <div class="vdash__pct"><b><?= $pct === 0 && $v['ok'] > 0 ? '&lt; 1' : $pct ?> %</b> validé<?= $pct > 1 ? 's' : '' ?></div>
-        <div class="vbox__bar" role="img" aria-label="<?= $pct ?> % validés"><i style="width:<?= $pct ?>%"></i></div>
+        <div class="vdash__pct"><b><?= e($pct) ?> %</b> validé<?= $v['ok'] > 1 ? 's' : '' ?></div>
+        <div class="vbox__bar" role="img" aria-label="<?= e($pct) ?> % validés"><i style="width:<?= $width ?>%"></i></div>
         <div class="vdash__nums">
-          <a class="vdash__ok" href="/admin/<?= e($slug) ?>?valid=validees"><b><?= $fmt($v['ok']) ?></b> ✔ validée<?= $v['ok'] > 1 ? 's' : '' ?></a>
-          <a class="vdash__todo" href="/admin/<?= e($slug) ?>?valid=a-valider"><b><?= $fmt($v['todo']) ?></b> à valider</a>
+          <a class="vdash__ok" href="/admin/<?= e($slug) ?>?valid=validees"><b><?= $fmt($v['ok']) ?></b> ✔ validée<?= $v['ok'] > 1 ? 's' : '' ?> <em><?= e($pct) ?> %</em></a>
+          <a class="vdash__todo" href="/admin/<?= e($slug) ?>?valid=a-valider"><b><?= $fmt($v['todo']) ?></b> à valider <em><?= e($pctTodo) ?> %</em></a>
         </div>
         <small><?= $fmt($all) ?> <?= e($noun) ?> au total</small>
       </div>

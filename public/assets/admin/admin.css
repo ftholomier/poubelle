@@ -979,3 +979,5 @@ a.vbox__tile:hover { transform: translateY(-2px); color: var(--navy); }
 .vdash__ok b { color: var(--okd); }
 .vdash__todo { background: var(--yellow); }
 .vdash__card small { font-size: 13px; color: var(--muted); }
+.vbox__tile em, .vdash__nums em { font-style: normal; font-weight: 900; white-space: nowrap; }
+.vdash__nums em { display: block; font-size: 13px; }
