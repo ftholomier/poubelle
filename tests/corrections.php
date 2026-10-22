@@ -59,7 +59,7 @@ try {
     $f = $make('1978-07-29', '1977-1978');           // juillet 1978 : avant-saison de 1978-1979
     $g = $make('1978-06-03', '1977-1978');           // juin 1978 : fin de saison, ne bouge pas
     // Les feuilles 2022-2023 ont leur propre test (tests/feuilles-verifiees.php) : notées comme faites ici.
-    \App\Core\JsonStore::write(DataFixes::FILE, ['2026-10-feuilles-2022-2023' => ['at' => date('c'), 'message' => 'essai : non rejouée'], '2026-10-saison-des-feuilles' => ['at' => date('c'), 'message' => 'essai : non rejouée'], '2026-10-vignettes-dailymotion' => ['at' => date('c'), 'message' => 'essai : non rejouée'], '2026-10-olympique-de-marseille' => ['at' => date('c'), 'message' => 'essai : non rejouée'], '2026-10-buteurs-apostrophe' => ['at' => date('c'), 'message' => 'essai : non rejouée'], '2026-10-rubriques-des-personnes' => ['at' => date('c'), 'message' => 'essai : non rejouée']]);
+    \App\Core\JsonStore::write(DataFixes::FILE, ['2026-10-feuilles-2022-2023' => ['at' => date('c'), 'message' => 'essai : non rejouée'], '2026-10-saison-des-feuilles' => ['at' => date('c'), 'message' => 'essai : non rejouée'], '2026-10-vignettes-dailymotion' => ['at' => date('c'), 'message' => 'essai : non rejouée'], '2026-10-olympique-de-marseille' => ['at' => date('c'), 'message' => 'essai : non rejouée'], '2026-10-buteurs-apostrophe' => ['at' => date('c'), 'message' => 'essai : non rejouée'], '2026-10-rubriques-des-personnes' => ['at' => date('c'), 'message' => 'essai : non rejouée'], '2026-10-bourgeois-directeur-sportif' => ['at' => date('c'), 'message' => 'essai : non rejouée']]);
     $out = DataFixes::run();
     $doc = Fiches::fresh($a);
     $eq('juillet 2005 : saison 2005-2006', $doc['match']['season'], '2005-2006');

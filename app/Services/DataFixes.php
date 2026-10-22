@@ -30,6 +30,7 @@ final class DataFixes
         '2026-10-olympique-de-marseille' => 'marseilleName',
         '2026-10-buteurs-apostrophe' => 'scorersApostrophe',
         '2026-10-rubriques-des-personnes' => 'personRubrics',
+        '2026-10-bourgeois-directeur-sportif' => 'bourgeoisDirector',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -253,6 +254,47 @@ final class DataFixes
             return $ids;
         });
         return ['message' => count($ids) . ' personne(s) : rôle aligné sur le classement choisi par les historiens', 'ids' => $ids];
+    }
+
+    /**
+     * M. Bourgeois (fiche 1003037, créée en ligne comme joueur) : directeur sportif, rubrique
+     * Dirigeants › Directeurs sportifs, plus dans Joueurs ni dans « Match officiel » ; adresse
+     * /dirigeants/… avec redirection. Seulement si la fiche est bien une personne nommée Bourgeois.
+     */
+    private static function bourgeoisDirector(): array
+    {
+        $id = 1003037;
+        $doc = Fiches::fresh($id);
+        if (!Club::isDefault() || !$doc || ($doc['type'] ?? '') !== 'personne' || stripos((string) ($doc['title'] ?? ''), 'bourgeois') === false) {
+            return ['message' => 'M. Bourgeois : fiche 1003037 introuvable ou différente, rien de changé', 'ids' => []];
+        }
+        $players = Categories::descendants(\App\Front\Site::C_JOUEURS);
+        $cats = array_values(array_filter(array_map('strval', (array) ($doc['categories'] ?? [])), fn ($c) => !in_array($c, $players, true)));
+        foreach (['directeurs-sportifs', \App\Front\Site::C_DIRIGEANTS] as $c) {
+            if (Categories::get($c) && !in_array($c, $cats, true)) {
+                $cats[] = $c;
+            }
+        }
+        $doc['categories'] = $cats;
+        $doc['personne']['roles'] = ['dirigeant'];
+        if (trim((string) ($doc['personne']['subtitle'] ?? '')) === '') {
+            $doc['personne']['subtitle'] = 'Directeur sportif';
+        }
+        $before = (string) ($doc['path'] ?? '');
+        if (preg_match('#^/joueurs/(.+)$#', $before, $m)) {
+            $doc['path'] = Paths::unique('/dirigeants/' . $m[1], $id);
+            $doc['slug'] = basename(rtrim($doc['path'], '/'));
+        }
+        $saved = Fiches::save($doc, self::AUTHOR, 'Classé directeur sportif (et non joueur)');
+        if ($before !== '' && $before !== ($saved['path'] ?? '')) {
+            Redirects::add($before, (string) $saved['path']);
+        }
+        // Plus dans la liste « Joueurs › Match officiel ».
+        if (\App\Data\OfficialPlayers::enabled() && \App\Data\OfficialPlayers::has($id)) {
+            $a = \App\Data\OfficialPlayers::adjustments();
+            \App\Data\OfficialPlayers::saveAdjustments(array_diff($a['add'], [$id]), array_merge($a['remove'], [$id]), self::AUTHOR);
+        }
+        return ['message' => 'M. Bourgeois classé directeur sportif (' . ($saved['path'] ?? '') . ')', 'ids' => [$id]];
     }
 
     /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */
