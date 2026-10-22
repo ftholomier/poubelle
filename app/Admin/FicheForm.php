@@ -161,6 +161,9 @@ final class FicheForm
         if ($has('i18n_en')) {
             $doc = self::english($doc, (array) $in['i18n_en']);
         }
+        if ($doc['type'] === 'personne') {
+            $doc = self::syncPersonRubrics($doc, $orig);
+        }
         $doc = self::autoCategories($doc, $origCats);
 
         // Titre automatique pour les matchs et personnes sans titre saisi.
@@ -883,6 +886,65 @@ final class FicheForm
      * Classement automatique : la case « À la une » et la rubrique du même nom vont
      * de pair ; un match est rangé dans la rubrique de sa saison (et ses parentes).
      */
+    /** Rubrique de « Nos Lions » de chaque rôle (joueur → Joueurs…). */
+    public const ROLE_RUBRICS = ['joueur' => \App\Front\Site::C_JOUEURS, 'entraineur' => \App\Front\Site::C_ENTRAINEURS, 'dirigeant' => \App\Front\Site::C_DIRIGEANTS, 'personnage' => \App\Front\Site::C_PERSONNAGES];
+
+    /** Rôles qu'indiquent les rubriques cochées (« Directeurs sportifs » → dirigeant). @return list<string> */
+    public static function rolesFromCategories(array $cats): array
+    {
+        $out = [];
+        foreach (self::ROLE_RUBRICS as $role => $slug) {
+            if (Categories::get($slug) && array_intersect($cats, Categories::descendants($slug))) {
+                $out[] = $role;
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * Rubriques d'une personne (Joueur, Entraîneur, Dirigeant, Personnage) : les cases de l'onglet
+     * Identité et celles de « Classement & SEO » disent la même chose. L'historien a le dernier mot :
+     * ce qu'il vient de cocher ou décocher d'un côté est reporté de l'autre (décocher « Joueurs » et
+     * cocher « Directeurs sportifs » en fait un dirigeant ; décocher le rôle « Joueur » retire la
+     * rubrique Joueurs et ses sous-rubriques).
+     */
+    private static function syncPersonRubrics(array $doc, array $orig): array
+    {
+        $oldCats = array_values(array_map('strval', $orig['categories'] ?? []));
+        $newCats = array_values(array_map('strval', $doc['categories'] ?? []));
+        $oldRoles = array_values((array) ($orig['personne']['roles'] ?? []));
+        $newRoles = array_values((array) ($doc['personne']['roles'] ?? []));
+        $fromOld = self::rolesFromCategories($oldCats);
+        $fromNew = self::rolesFromCategories($newCats);
+        if ($fromNew !== $fromOld && $fromNew) {
+            // Classement modifié : les rôles suivent (ordre gardé pour ceux qui restent, les nouveaux à la suite).
+            $roles = array_values(array_intersect($newRoles, $fromNew));
+            foreach ($fromNew as $r) {
+                if (!in_array($r, $roles, true)) {
+                    $roles[] = $r;
+                }
+            }
+            $doc['personne']['roles'] = $roles;
+            return $doc;
+        }
+        if ($newRoles !== $oldRoles && $newRoles) {
+            // Rôles modifiés dans l'onglet Identité : rubrique ajoutée, ou retirée avec ses sous-rubriques.
+            foreach (self::ROLE_RUBRICS as $role => $slug) {
+                if (!Categories::get($slug)) {
+                    continue;
+                }
+                $on = in_array($role, $newRoles, true);
+                if ($on && !in_array($role, $oldRoles, true) && !array_intersect($newCats, Categories::descendants($slug))) {
+                    $newCats[] = $slug;
+                } elseif (!$on && in_array($role, $oldRoles, true)) {
+                    $newCats = array_values(array_diff($newCats, Categories::descendants($slug)));
+                }
+            }
+            $doc['categories'] = $newCats;
+        }
+        return $doc;
+    }
+
     private static function autoCategories(array $doc, array $orig = []): array
     {
         $all = Categories::all();

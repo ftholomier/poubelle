@@ -568,6 +568,11 @@ final class Fiche
     private static function personRubric(array $doc): ?string
     {
         $prio = [Site::C_JOUEURS, Site::C_ENTRAINEURS, Site::C_DIRIGEANTS, Site::C_PERSONNAGES];
+        // Le premier rôle choisi par l'historien passe devant (un dirigeant ancien joueur reste classé dirigeant).
+        $first = \App\Admin\FicheForm::ROLE_RUBRICS[$doc['personne']['roles'][0] ?? ''] ?? null;
+        if ($first) {
+            $prio = array_values(array_unique(array_merge([$first], $prio)));
+        }
         foreach ($prio as $slug) {
             if (in_array($slug, $doc['categories'], true)) {
                 return $slug;

@@ -2297,3 +2297,8 @@ Profil du club (`config/clubs/<club>.php`), clé `club_display` : clé de rappro
 ## Plusieurs passages au club
 
 `personne.spells` : liste `[{arrival, departure}]` (dates floues comme `arrival`), en plus du premier passage `arrival` / `departure`. `Fiches::clubYears()` donne « 1980-1985, 1990-1992 » (périodes qui se touchent réunies, entraîneur compris) ; `Fiche::personYears()` l'utilise. L'index garde `arrival` (premier passage), `departure` = dernier départ connu (`Fiches::lastDeparture`) et `years` (libellé des passages, seulement s'il y en a plusieurs) pour les mosaïques, la recherche et « Ce jour-là ». La recherche par année couvre chaque passage.
+
+
+## Rôles et rubriques des personnes
+
+`FicheForm::syncPersonRubrics()` relie `personne.roles` (onglet Identité) et les rubriques Nos Lions cochées (Classement & SEO, `FicheForm::ROLE_RUBRICS` + sous-rubriques) : ce que l'historien vient de changer d'un côté est reporté de l'autre. `Fiche::personRubric()` donne la priorité à la rubrique du premier rôle. À l'enregistrement d'une fiche publiée, l'adresse suit le premier rôle (`/joueurs/x/` → `/dirigeants/x/`, redirection). Correction ponctuelle `2026-10-rubriques-des-personnes` pour les fiches déjà décalées.

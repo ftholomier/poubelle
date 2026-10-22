@@ -398,6 +398,10 @@ final class Fiches extends Base
             $doc['path'] = Paths::unique($typed, (int) $doc['id']);
         } elseif ($isNew || !$wasPublished || empty($doc['path'])) {
             $doc['path'] = Paths::unique(Paths::suggest($doc), (int) ($doc['id'] ?: -1));
+        } elseif ($doc['type'] === 'personne' && ($oldRole = $before['personne']['roles'][0] ?? null) !== ($newRole = $doc['personne']['roles'][0] ?? null)
+            && isset(Paths::PERSON_BASE[$oldRole], Paths::PERSON_BASE[$newRole]) && str_starts_with((string) $doc['path'], '/' . Paths::PERSON_BASE[$oldRole] . '/')) {
+            // Premier rôle changé (joueur → dirigeant…) : /joueurs/x/ devient /dirigeants/x/, l'ancienne adresse est redirigée.
+            $doc['path'] = Paths::unique('/' . Paths::PERSON_BASE[$newRole] . '/' . substr((string) $doc['path'], strlen('/' . Paths::PERSON_BASE[$oldRole] . '/')), (int) $doc['id']);
         }
         $doc['slug'] = basename(rtrim($doc['path'], '/'));
         // Moment du centenaire : la date de parution choisie vaut validation (une seule suffit).

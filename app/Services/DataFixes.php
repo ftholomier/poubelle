@@ -29,6 +29,7 @@ final class DataFixes
         '2026-10-vignettes-dailymotion' => 'dailymotionThumbs',
         '2026-10-olympique-de-marseille' => 'marseilleName',
         '2026-10-buteurs-apostrophe' => 'scorersApostrophe',
+        '2026-10-rubriques-des-personnes' => 'personRubrics',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -208,6 +209,50 @@ final class DataFixes
             return $ids;
         });
         return ['message' => count($ids) . ' match(s) : buteurs écrits « Nom 24\' »', 'ids' => $ids];
+    }
+
+    /**
+     * Personnes dont le classement (Classement & SEO) ne correspond plus au rôle de l'onglet Identité,
+     * parce qu'un historien a coché ou décoché une rubrique avant que les deux soient reliés : le
+     * classement l'emporte (« Directeurs sportifs » sans « Joueurs » → dirigeant), et l'adresse suit
+     * le premier rôle (/joueurs/x/ → /dirigeants/x/, ancienne adresse redirigée).
+     */
+    private static function personRubrics(): array
+    {
+        $ids = Fiches::batch(function () {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                if (($doc['type'] ?? '') !== 'personne' || ($doc['status'] ?? '') === 'corbeille') {
+                    continue;
+                }
+                $fromCats = \App\Admin\FicheForm::rolesFromCategories(array_map('strval', (array) ($doc['categories'] ?? [])));
+                $roles = array_values((array) ($doc['personne']['roles'] ?? []));
+                if (!$fromCats || (!array_diff($roles, $fromCats) && !array_diff($fromCats, $roles))) {
+                    continue;
+                }
+                $doc = Fiches::fresh((int) $id);
+                $new = array_values(array_intersect($roles, $fromCats));
+                foreach ($fromCats as $r) {
+                    if (!in_array($r, $new, true)) {
+                        $new[] = $r;
+                    }
+                }
+                $doc['personne']['roles'] = $new;
+                $before = (string) ($doc['path'] ?? '');
+                $old = $roles[0] ?? null;
+                if ($old !== $new[0] && isset(Paths::PERSON_BASE[$old], Paths::PERSON_BASE[$new[0]]) && str_starts_with($before, '/' . Paths::PERSON_BASE[$old] . '/')) {
+                    $doc['path'] = Paths::unique('/' . Paths::PERSON_BASE[$new[0]] . '/' . substr($before, strlen('/' . Paths::PERSON_BASE[$old] . '/')), (int) $id);
+                    $doc['slug'] = basename(rtrim($doc['path'], '/'));
+                }
+                $saved = Fiches::save($doc, self::AUTHOR, 'Rôle aligné sur le classement : ' . implode(', ', $new));
+                if ($before !== '' && $before !== ($saved['path'] ?? '')) {
+                    Redirects::add($before, (string) $saved['path']);
+                }
+                $ids[] = (int) $id;
+            }
+            return $ids;
+        });
+        return ['message' => count($ids) . ' personne(s) : rôle aligné sur le classement choisi par les historiens', 'ids' => $ids];
     }
 
     /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */

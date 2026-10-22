@@ -23,6 +23,7 @@ HTML],
 HTML],
         ['id' => 'carriere', 'title' => 'Carrière au club', 'html' => <<<'HTML'
 <p>Onglet <b>Carrière</b> : arrivée et départ (joueur, entraîneur), période d’essai, premiers et derniers matchs, palmarès, « Après Sochaux », fiche d’identité d’origine et matchs marquants.</p>
+<p><b>Classer une personne (joueur, entraîneur, dirigeant, directeur sportif…).</b> Les cases « Rubriques » de l’onglet <b>Identité</b> et celles de <b>Classement &amp; SEO</b> sont reliées, et c’est vous qui avez le dernier mot : décochez « Joueurs » et cochez « Directeurs sportifs » dans Classement &amp; SEO, la personne devient dirigeant partout sur le site (étiquette, rubrique, adresse /dirigeants/…, l’ancienne adresse est redirigée). À l’inverse, changer le rôle dans Identité coche ou décoche la rubrique correspondante. Le premier rôle donne la rubrique principale de la fiche.</p>
 <p><b>Joueur parti puis revenu au club.</b> Le premier passage va dans « Arrivée / Départ (joueur) ». Pour chaque retour, cliquez <b>« + Ajouter un autre passage au club »</b> (rubrique « Autres passages au club ») et indiquez son arrivée et son départ. Le site affiche alors tous les passages, par exemple « 1980 – 1985, 1990 – 1992 », sur la fiche, dans les mosaïques et dans la recherche.</p>
 [[img:personne-carriere.webp|L’onglet Carrière]]
 [[astuce|<p>Les dates d’arrivée et de départ servent aussi à relier les compositions au bon joueur quand deux joueurs ont le même nom de famille.</p>]]

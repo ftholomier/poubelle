@@ -99,7 +99,7 @@ final class Tips
         ],
         'personnes' => [
             'screen' => 'Les fiches des joueurs, entraîneurs, dirigeants et personnages. Leurs matchs, buts et cartons sont reliés automatiquement depuis les compositions.',
-            'identité' => 'Nom, prénom, rubriques et poste. La première rubrique cochée donne l’adresse de la fiche (/joueurs/…, /entraineurs/…).',
+            'identité' => 'Nom, prénom, rubriques et poste. La première rubrique cochée donne l’adresse de la fiche (/joueurs/…, /dirigeants/…). Ces cases sont reliées à celles de Classement & SEO : ce que vous cochez d’un côté est repris de l’autre.',
             'naissance' => 'Date et lieu de naissance : la ville place la personne sur la carte des origines (position trouvée automatiquement, modifiable).',
             'décès' => 'Date et lieu de décès, si connus.',
             'statuts & carto' => 'Formé au club, international, à l’essai, légende (mise en avant) et présence sur la carte.',
