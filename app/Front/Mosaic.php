@@ -217,6 +217,10 @@ final class Mosaic
         // Tris
         // Ordre par défaut réglé dans le back-office (Rubriques & menus) : ordre manuel, chronologique ou A–Z.
         $defaultSort = $virtual ? 'az' : Categories::displaySort($slug);
+        // Une saison choisie dans le filtre (décennie, compétition…) se lit comme sa page : premier match en haut.
+        if ($kind === 'matchs' && !empty($season)) {
+            $defaultSort = 'ancien';
+        }
         if ($sort === 'selection' && !$hasOrder) {
             $sort = null;
         }
