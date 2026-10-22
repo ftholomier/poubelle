@@ -382,6 +382,44 @@ final class Fiches
         return $doc;
     }
 
+    /** Rubrique de « Nos Lions » de chaque rôle (joueur → Joueurs…). */
+    public const ROLE_RUBRICS = ['joueur' => \App\Front\Site::C_JOUEURS, 'entraineur' => \App\Front\Site::C_ENTRAINEURS, 'dirigeant' => \App\Front\Site::C_DIRIGEANTS, 'personnage' => \App\Front\Site::C_PERSONNAGES];
+
+    /** Rôles qu'indiquent les rubriques cochées (« Directeurs sportifs » → dirigeant). @return list<string> */
+    public static function rolesFromCategories(array $cats): array
+    {
+        $cats = array_map('strval', $cats);
+        $out = [];
+        foreach (self::ROLE_RUBRICS as $role => $slug) {
+            if (Categories::get($slug) && array_intersect($cats, Categories::descendants($slug))) {
+                $out[] = $role;
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * Rôles à afficher : ceux de la fiche, sauf si le classement coché par les historiens (Classement
+     * & SEO) ne contient plus la rubrique du premier rôle. Le classement l'emporte alors (« Directeurs
+     * sportifs » sans « Joueurs » : dirigeant), même avant que le rôle de la fiche soit corrigé.
+     * @return list<string>
+     */
+    public static function effectiveRoles(array $p, array $cats): array
+    {
+        $roles = array_values(array_filter((array) ($p['roles'] ?? []), 'is_string')) ?: ['joueur'];
+        $fromCats = self::rolesFromCategories($cats);
+        if (!$fromCats || in_array($roles[0], $fromCats, true)) {
+            return $roles;
+        }
+        $out = array_values(array_intersect($roles, $fromCats));
+        foreach ($fromCats as $r) {
+            if (!in_array($r, $out, true)) {
+                $out[] = $r;
+            }
+        }
+        return $out;
+    }
+
     /**
      * Années au club d'une personne : « 1980-1992 », ou « 1980-1985, 1990-1992 » quand elle a fait
      * plusieurs passages (champ « Autres passages au club » de la fiche). Les périodes qui se touchent

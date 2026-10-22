@@ -887,18 +887,12 @@ final class FicheForm
      * de pair ; un match est rangé dans la rubrique de sa saison (et ses parentes).
      */
     /** Rubrique de « Nos Lions » de chaque rôle (joueur → Joueurs…). */
-    public const ROLE_RUBRICS = ['joueur' => \App\Front\Site::C_JOUEURS, 'entraineur' => \App\Front\Site::C_ENTRAINEURS, 'dirigeant' => \App\Front\Site::C_DIRIGEANTS, 'personnage' => \App\Front\Site::C_PERSONNAGES];
+    public const ROLE_RUBRICS = \App\Data\Fiches::ROLE_RUBRICS;
 
     /** Rôles qu'indiquent les rubriques cochées (« Directeurs sportifs » → dirigeant). @return list<string> */
     public static function rolesFromCategories(array $cats): array
     {
-        $out = [];
-        foreach (self::ROLE_RUBRICS as $role => $slug) {
-            if (Categories::get($slug) && array_intersect($cats, Categories::descendants($slug))) {
-                $out[] = $role;
-            }
-        }
-        return $out;
+        return \App\Data\Fiches::rolesFromCategories($cats);
     }
 
     /**

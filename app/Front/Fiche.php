@@ -392,6 +392,9 @@ final class Fiche
     public static function personData(array $doc): array
     {
         $p = $doc['personne'];
+        // Rôles affichés : le classement coché par les historiens l'emporte (carte, étiquette, rubrique).
+        $p['roles'] = \App\Data\Fiches::effectiveRoles($p, (array) ($doc['categories'] ?? []));
+        $doc['personne']['roles'] = $p['roles'];
         $id = (int) $doc['id'];
         $tot = Derived::part('person_totals')[$id] ?? null;
         $matches = Derived::personMatches($id);
@@ -441,7 +444,7 @@ final class Fiche
 
         $name = $p['display_name'] ?: $doc['title'];
         $years = self::personYears($p);
-        $roleLabel = self::roleLabel($p);
+        $roleLabel = self::roleLabel($p, (array) ($doc['categories'] ?? []));
         $seoTitle = $doc['seo']['title'] ?: trim("$name – " . $roleLabel . ' ' . t('{club_de}') . ($years ? " ($years)" : ''));
         $desc = $doc['seo']['description'] ?: Unknown::line(trim(implode(' ', array_filter([
             sentence($name . ($p['position'] ? ', ' . $p['position'] : '') . ($years ? ' ' . t('{sigle_au}') . " ($years)" : '')),
@@ -551,18 +554,38 @@ final class Fiche
         return $rows;
     }
 
-    public static function roleLabel(array $p): string
+    /** Fonction précise d'un dirigeant d'après sa sous-rubrique (la plus précise d'abord). */
+    private const LEADER_LABELS = [
+        'directeurs-du-centre-de-formation' => 'Directeur du centre de formation', 'directeurs-sportifs' => 'Directeur sportif',
+        'presidents-dhonneur' => 'Président d’honneur', 'presidents-executifs' => 'Président exécutif', 'presidents' => 'Président',
+        'administratifs' => 'Administratif',
+    ];
+
+    /** Libellé du rôle (« Milieu », « Entraîneur », « Directeur sportif »…) ; $cats : rubriques de la fiche. */
+    public static function roleLabel(array $p, array $cats = []): string
     {
-        $roles = $p['roles'] ?? ['joueur'];
+        $roles = $cats ? \App\Data\Fiches::effectiveRoles($p, $cats) : ((array) ($p['roles'] ?? []) ?: ['joueur']);
         if (($roles[0] ?? '') === 'joueur') {
             return $p['position'] ? ucfirst((string) $p['position']) : t('Joueur');
         }
         return match ($roles[0] ?? '') {
             'entraineur' => t('Entraîneur'),
-            'dirigeant' => $p['subtitle'] ? strtok((string) $p['subtitle'], ' ') : t('Dirigeant'),
+            'dirigeant' => self::leaderLabel($p, $cats),
             'personnage' => t('Personnage emblématique'),
             default => t('Joueur'),
         };
+    }
+
+    private static function leaderLabel(array $p, array $cats): string
+    {
+        foreach (self::LEADER_LABELS as $slug => $label) {
+            if (in_array($slug, $cats, true)) {
+                return t($label);
+            }
+        }
+        // Sous-titre qui commence par une fonction (« Président du club… ») : ce mot ; jamais « Le », « Un »…
+        $first = (string) strtok(trim((string) ($p['subtitle'] ?? '')), ' ');
+        return preg_match('/^(Président|Présidente|Vice-président|Directeur|Directrice|Secrétaire|Trésorier|Trésorière|Administrateur|Manager|Intendant|Fondateur|Mécène)$/u', $first) ? $first : t('Dirigeant');
     }
 
     private static function personRubric(array $doc): ?string

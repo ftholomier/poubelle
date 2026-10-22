@@ -108,7 +108,7 @@ final class Interactive
                 'id' => $s['id'],
                 'n' => (int) ($p['album']['number'] ?? ($i + 1)),
                 'name' => $p['name'],
-                'pos' => $role === 'joueur' ? ($lines[$p['line'] ?? ''] ?? t('Joueur')) : Fiche::roleLabel(['roles' => $p['roles'], 'position' => $p['position'], 'subtitle' => $p['subtitle']]),
+                'pos' => $role === 'joueur' ? ($lines[$p['line'] ?? ''] ?? t('Joueur')) : Fiche::roleLabel(['roles' => $p['roles'], 'position' => $p['position'], 'subtitle' => $p['subtitle']], (array) ($s['categories'] ?? [])),
                 'tier' => $tier,
                 'href' => url($s['path']),
                 'image' => $s['image'] ? img($s['image'], 320) : null,

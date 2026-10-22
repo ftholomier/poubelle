@@ -63,7 +63,7 @@ final class Index
         } elseif ($d['type'] === 'personne') {
             $p = $d['personne'];
             $s['p'] = [
-                'roles' => $p['roles'] ?? [],
+                'roles' => Fiches::effectiveRoles($p, (array) ($doc['categories'] ?? [])),
                 'name' => $p['display_name'] ?: ($d['title'] ?? ''),
                 'first' => $p['first_name'] ?? '',
                 'last' => $p['last_name'] ?? '',

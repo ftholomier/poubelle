@@ -247,9 +247,9 @@ final class Share
         imagefilledrectangle($im, $x + 6, 66, $x + 402, 564, self::color($im, [232, 223, 201]));
         self::photo($im, $doc['featured_image'] ?? null, $x + 6, 66, 396, 498, 0.22);
 
-        $roles = $p['roles'] ?: ['joueur'];
+        $roles = \App\Data\Fiches::effectiveRoles($p, (array) ($doc['categories'] ?? []));
         $lines = ['G' => 'GARDIEN', 'D' => 'DÉFENSEUR', 'M' => 'MILIEU', 'A' => 'ATTAQUANT'];
-        $role = ($roles[0] ?? 'joueur') === 'joueur' ? ($lines[$p['line'] ?? ''] ?? 'JOUEUR') : mb_strtoupper(Fiche::roleLabel($p));
+        $role = ($roles[0] ?? 'joueur') === 'joueur' ? ($lines[$p['line'] ?? ''] ?? 'JOUEUR') : mb_strtoupper(Fiche::roleLabel($p, (array) ($doc['categories'] ?? [])));
         self::text($im, mb_strimwidth(mb_strtoupper(club_text('nos_lions', 'Nos joueurs')) . ' · ' . $role, 0, 40, '…'), 'BigShouldersDisplay-700', 22, 60, 100, [31, 63, 168], 4);
         $first = mb_strtoupper(trim((string) ($p['first_name'] ?? '')));
         $last = mb_strtoupper(trim((string) ($p['last_name'] ?? '')) ?: (string) $doc['title']);
