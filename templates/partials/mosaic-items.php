@@ -61,7 +61,7 @@ foreach ($items as $k => $s):
             if (!empty($p['trial'])) {
                 $tag .= ' · ' . t("À l'essai");
             }
-            $years = ($p['arrival'] ?? null) ? $p['arrival'] . (($p['departure'] ?? null) && $p['departure'] !== $p['arrival'] ? ' – ' . $p['departure'] : '') : '';
+            $years = !empty($p['years']) ? str_replace('-', ' – ', (string) $p['years']) : (($p['arrival'] ?? null) ? $p['arrival'] . (($p['departure'] ?? null) && $p['departure'] !== $p['arrival'] ? ' – ' . $p['departure'] : '') : '');
             $meta = $years ?: (string) ($p['subtitle'] ?? '');
         } else {
             $title = Pages::shortTitle($s);

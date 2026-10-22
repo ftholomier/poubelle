@@ -93,6 +93,9 @@ $matches = $pid ? Derived::personMatches($pid) : [];
       <?= Form::text('personne.departure_coach', 'Départ (entraîneur)', $dt($p['departure_coach'] ?? null)) ?>
     </div>
     <span class="f__help">Dates partielles acceptées : « 1980 », « 07/1980 », « juillet 1980 », « 12 juillet 1980 ». Elles alimentent les filtres par décennie, la carto et les records.</span>
+    <h3 class="fsec">Autres passages au club (joueur)</h3>
+    <?= Form::repeater('personne.spells', '', $p['spells'] ?? [], fn ($r) => '<div class="fgrid">' . Form::text('@arrival', 'Arrivée', $dt($r['arrival'] ?? null), ['placeholder' => 'juillet 1990']) . Form::text('@departure', 'Départ', $dt($r['departure'] ?? null), ['placeholder' => 'juin 1992']) . '</div>', ['compact' => true, 'rows' => true, 'add' => 'Ajouter un autre passage au club']) ?>
+    <span class="f__help">Pour un joueur parti puis revenu au club : le premier passage va dans « Arrivée / Départ (joueur) » ci-dessus, chaque retour sur une ligne ici. Le site affiche alors tous les passages (« 1980 – 1985, 1990 – 1992 »).</span>
     <h3 class="fsec">Matchs repères</h3>
     <div class="fgrid fgrid--3">
       <?= Form::text('personne.first_match', 'Premier match', $p['first_match'] ?? '') ?>

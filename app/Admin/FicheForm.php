@@ -432,6 +432,25 @@ final class FicheForm
                 }
             }
         }
+        // Autres passages au club (joueur parti puis revenu) : lignes Arrivée / Départ.
+        if (array_key_exists('spells', $p)) {
+            $old = array_values((array) ($cur['spells'] ?? []));
+            $cur['spells'] = [];
+            foreach (array_values((array) $p['spells']) as $i => $r) {
+                $r = is_array($r) ? $r : [];
+                $a = self::keepDate($old[$i]['arrival'] ?? null, $r['arrival'] ?? '', $badA);
+                $d = self::keepDate($old[$i]['departure'] ?? null, $r['departure'] ?? '', $badD);
+                if ($badA || $badD) {
+                    $errors['personne.spells'] = 'Autre passage au club : date non reconnue. Écrivez par ex. « 12/1964 », « juillet 1980 » ou « 1980 ».';
+                } elseif ($a && $d && ($isoA = (string) ($a['iso'] ?? '')) !== '' && ($isoD = (string) ($d['iso'] ?? '')) !== ''
+                    && substr($isoD, 0, $n = min(strlen($isoA), strlen($isoD))) < substr($isoA, 0, $n)) { // « 1990 » / « juillet 1990 » : même année, accepté
+                    $errors['personne.spells'] = 'Autre passage au club : le départ est avant l’arrivée.';
+                }
+                if ($a || $d) {
+                    $cur['spells'][] = ['arrival' => $a, 'departure' => $d];
+                }
+            }
+        }
         if (array_key_exists('birth_date', $p) || array_key_exists('birth_city', $p)) {
             $ob = $cur['birth'] ?? null;
             $old = $ob['place'] ?? [];

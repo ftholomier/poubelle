@@ -119,7 +119,7 @@ final class Pages
                     $e = $list[($seed + $y) % count($list)];
                     $p = $e['p'];
                     $role = in_array('entraineur', (array) ($p['roles'] ?? []), true) ? t('entraîneur') : (string) (($p['position'] ?? '') ?: t('joueur'));
-                    $stay = (int) ($p['departure'] ?? 0) > $y ? t('Il restera au club jusqu’en {d}.', ['d' => (int) $p['departure']]) : '';
+                    $stay = empty($p['years']) && (int) ($p['departure'] ?? 0) > $y ? t('Il restera au club jusqu’en {d}.', ['d' => (int) $p['departure']]) : '';
                     return ['kind' => t('Arrivée au club'), 'title' => (string) ($p['name'] ?? $e['title']),
                         'text' => trim(t('Il y a {n} ans, {name} arrivait {city_a} ({role}).', ['n' => $base['n'], 'name' => (string) ($p['name'] ?? $e['title']), 'role' => $role]) . ' ' . $stay),
                         'href' => url((string) $e['path']), 'image' => $e['image'], 'key' => 'f' . $e['id']] + $base;
@@ -414,7 +414,8 @@ final class Pages
         if (isset($s['p'])) {
             $years = array_filter([$s['p']['arrival'], $s['p']['departure']]);
             $role = $s['p']['position'] ?: (in_array('entraineur', $s['p']['roles'], true) ? t('Entraîneur') : '');
-            $line = trim(($role ? ucfirst($role) : '') . ($years ? ' · ' . t('au club') . ' ' . implode('–', array_unique($years)) : ''), ' ·');
+            $yearsText = !empty($s['p']['years']) ? str_replace('-', '–', (string) $s['p']['years']) : implode('–', array_unique($years));
+            $line = trim(($role ? ucfirst($role) : '') . ($yearsText !== '' ? ' · ' . t('au club') . ' ' . $yearsText : ''), ' ·');
             return $s['p']['subtitle'] ?: ($line ?: $s['excerpt']);
         }
         return $s['excerpt'];

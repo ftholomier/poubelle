@@ -256,7 +256,7 @@ et stade vides complétés, désaccords (score, date, domicile, arbitre, affluen
 | Onglet | Contenu |
 |---|---|
 | Identité | prénom, nom, nom affiché, surnom, **autres graphies dans les compositions**, rubriques (joueur, entraîneur, dirigeant, personnage), poste, nationalité ; naissance (le lieu place la personne sur la carte des origines) et décès ; statuts (formé au club, international, à l'essai, légende) ; carte de l'album du centenaire |
-| Carrière | au club (arrivée, départ, premiers et derniers matchs), palmarès, après Sochaux, fiche d'identité d'origine, matchs marquants |
+| Carrière | au club (arrivée, départ, **autres passages au club** pour un joueur parti puis revenu : une ligne Arrivée / Départ par retour, affichés « 1980 – 1985, 1990 – 1992 » sur le site ; premiers et derniers matchs), palmarès, après Sochaux, fiche d'identité d'origine, matchs marquants |
 | Récit | textes |
 | Statistiques | tableau de statistiques par saison |
 | Médias, Classement & SEO, Version EN | comme pour un match |

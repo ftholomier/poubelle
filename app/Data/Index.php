@@ -73,7 +73,9 @@ final class Index
                 'birth_place' => $p['birth']['place']['city'] ?? null,
                 'birth_country' => $p['birth']['place']['country'] ?? null,
                 'arrival' => isset($p['arrival']['iso']) ? (int) substr((string) $p['arrival']['iso'], 0, 4) : (isset($p['arrival_coach']['iso']) ? (int) substr((string) $p['arrival_coach']['iso'], 0, 4) : null),
-                'departure' => isset($p['departure']['iso']) ? (int) substr((string) $p['departure']['iso'], 0, 4) : (isset($p['departure_coach']['iso']) ? (int) substr((string) $p['departure_coach']['iso'], 0, 4) : null),
+                'departure' => !empty($p['spells']) ? Fiches::lastDeparture($p) : (isset($p['departure']['iso']) ? (int) substr((string) $p['departure']['iso'], 0, 4) : (isset($p['departure_coach']['iso']) ? (int) substr((string) $p['departure_coach']['iso'], 0, 4) : null)),
+                // Plusieurs passages au club : « 1980-1985, 1990-1992 » (sinon l'arrivée et le départ suffisent).
+                'years' => !empty($p['spells']) ? Fiches::clubYears($p) : null,
                 'subtitle' => Unknown::line((string) ($p['subtitle'] ?? '')),
                 'trial' => (bool) ($p['is_trial'] ?? false),
                 'formed' => (bool) ($p['formed_at_club'] ?? false),

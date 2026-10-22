@@ -2292,3 +2292,8 @@ cochés marqués ✓, « Retirer cette saison de mon carnet » annule.
 ## Noms d'adversaires imposés
 
 Profil du club (`config/clubs/<club>.php`), clé `club_display` : clé de rapprochement (`Names::clubKey`) => nom affiché. `Fiches::clubDisplayNames()` l'applique à chaque enregistrement d'une fiche de match (équipes et titre). Sochaux : `marseille` => « Olympique de Marseille » (« Marseille », « Ol. Marseille », « OM »…). Les fiches existantes ont été renommées une fois par `DataFixes` (`2026-10-olympique-de-marseille`).
+
+
+## Plusieurs passages au club
+
+`personne.spells` : liste `[{arrival, departure}]` (dates floues comme `arrival`), en plus du premier passage `arrival` / `departure`. `Fiches::clubYears()` donne « 1980-1985, 1990-1992 » (périodes qui se touchent réunies, entraîneur compris) ; `Fiche::personYears()` l'utilise. L'index garde `arrival` (premier passage), `departure` = dernier départ connu (`Fiches::lastDeparture`) et `years` (libellé des passages, seulement s'il y en a plusieurs) pour les mosaïques, la recherche et « Ce jour-là ». La recherche par année couvre chaque passage.

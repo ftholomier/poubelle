@@ -514,14 +514,7 @@ final class Fiche
 
     public static function personYears(array $p): string
     {
-        $from = $p['arrival']['iso'] ?? ($p['arrival_coach']['iso'] ?? ($p['trial']['iso'] ?? null));
-        $to = $p['departure_coach']['iso'] ?? ($p['departure']['iso'] ?? null);
-        $a = $from ? substr((string) $from, 0, 4) : null;
-        $b = $to ? substr((string) $to, 0, 4) : null;
-        if ($a && $b) {
-            return $a === $b ? $a : "$a-$b";
-        }
-        return $a ? "$a" : '';
+        return \App\Data\Fiches::clubYears($p);
     }
 
     /** Carte du joueur : « Né le 12/03/1950 », « Né en 1925 », « Né en décembre 1955 » ; rien sans date connue. */

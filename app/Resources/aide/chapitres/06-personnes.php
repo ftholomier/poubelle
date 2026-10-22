@@ -23,6 +23,7 @@ HTML],
 HTML],
         ['id' => 'carriere', 'title' => 'Carrière au club', 'html' => <<<'HTML'
 <p>Onglet <b>Carrière</b> : arrivée et départ (joueur, entraîneur), période d’essai, premiers et derniers matchs, palmarès, « Après Sochaux », fiche d’identité d’origine et matchs marquants.</p>
+<p><b>Joueur parti puis revenu au club.</b> Le premier passage va dans « Arrivée / Départ (joueur) ». Pour chaque retour, cliquez <b>« + Ajouter un autre passage au club »</b> (rubrique « Autres passages au club ») et indiquez son arrivée et son départ. Le site affiche alors tous les passages, par exemple « 1980 – 1985, 1990 – 1992 », sur la fiche, dans les mosaïques et dans la recherche.</p>
 [[img:personne-carriere.webp|L’onglet Carrière]]
 [[astuce|<p>Les dates d’arrivée et de départ servent aussi à relier les compositions au bon joueur quand deux joueurs ont le même nom de famille.</p>]]
 HTML],

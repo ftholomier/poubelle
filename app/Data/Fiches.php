@@ -215,6 +215,16 @@ final class Fiches
                     $str($p[$k], ['iso', 'precision', 'text'], "personne.$k.");
                 }
             }
+            // Autres passages au club (joueur) : [{arrival, departure}].
+            $items($p, ['spells'], 'personne.');
+            foreach (array_keys($p['spells'] ?? []) as $i) {
+                $map($p['spells'][$i], ['arrival', 'departure'], 'personne.spells.');
+                foreach (['arrival', 'departure'] as $k) {
+                    if (is_array($p['spells'][$i][$k] ?? null)) {
+                        $str($p['spells'][$i][$k], ['iso', 'precision', 'text'], "personne.spells.$k.");
+                    }
+                }
+            }
             unset($p);
         }
         $id = (int) $doc['id'];
@@ -330,7 +340,7 @@ final class Fiches
                 'subtitle' => '', 'trial' => null, 'is_trial' => false, 'formed_at_club' => false, 'international_flag' => false,
                 'birth' => null, 'death' => null, 'height' => null, 'height_cm' => null, 'weight' => null, 'weight_kg' => null,
                 'foot' => null, 'position' => null, 'line' => null, 'nationality' => '', 'international' => [],
-                'arrival' => null, 'departure' => null, 'arrival_coach' => null, 'departure_coach' => null,
+                'arrival' => null, 'departure' => null, 'arrival_coach' => null, 'departure_coach' => null, 'spells' => [],
                 'first_match' => null, 'last_match' => null, 'first_goal' => null, 'first_match_coached' => null,
                 'last_match_coached' => null, 'honours' => [], 'then' => [], 'fiche' => [], 'stats' => null,
                 'shirt_numbers' => '', 'legend' => false, 'album' => ['in' => false, 'rarity' => null, 'number' => null],
@@ -370,6 +380,56 @@ final class Fiches
             }
         }
         return $doc;
+    }
+
+    /**
+     * Années au club d'une personne : « 1980-1992 », ou « 1980-1985, 1990-1992 » quand elle a fait
+     * plusieurs passages (champ « Autres passages au club » de la fiche). Les périodes qui se touchent
+     * ou se chevauchent (joueur puis entraîneur…) sont réunies.
+     */
+    public static function clubYears(array $p): string
+    {
+        $y = fn ($d) => is_array($d) && !empty($d['iso']) ? (int) substr((string) $d['iso'], 0, 4) : null;
+        if (empty($p['spells'])) {
+            $a = $y($p['arrival'] ?? null) ?? $y($p['arrival_coach'] ?? null) ?? $y($p['trial'] ?? null);
+            $b = $y($p['departure_coach'] ?? null) ?? $y($p['departure'] ?? null);
+            if ($a && $b) {
+                return $a === $b ? (string) $a : "$a-$b";
+            }
+            return $a ? (string) $a : '';
+        }
+        $periods = [];
+        foreach (array_merge([['arrival' => $p['arrival'] ?? null, 'departure' => $p['departure'] ?? null]], (array) $p['spells'],
+            [['arrival' => $p['arrival_coach'] ?? null, 'departure' => $p['departure_coach'] ?? null]]) as $s) {
+            $a = $y($s['arrival'] ?? null);
+            $b = $y($s['departure'] ?? null);
+            if ($a || $b) {
+                $periods[] = [$a ?? $b, max($a ?? $b, $b ?? $a)];
+            }
+        }
+        usort($periods, fn ($x, $z) => $x[0] <=> $z[0]);
+        $merged = [];
+        foreach ($periods as [$a, $b]) {
+            $last = count($merged) - 1;
+            if ($last >= 0 && $a <= $merged[$last][1]) {
+                $merged[$last][1] = max($merged[$last][1], $b);
+            } else {
+                $merged[] = [$a, $b];
+            }
+        }
+        return implode(', ', array_map(fn ($r) => $r[0] === $r[1] ? (string) $r[0] : $r[0] . '-' . $r[1], $merged));
+    }
+
+    /** Toutes les années de départ connues (premier passage, autres passages, entraîneur) : la plus tardive. */
+    public static function lastDeparture(array $p): ?int
+    {
+        $ys = [];
+        foreach (array_merge([$p['departure'] ?? null, $p['departure_coach'] ?? null], array_column((array) ($p['spells'] ?? []), 'departure')) as $d) {
+            if (is_array($d) && !empty($d['iso'])) {
+                $ys[] = (int) substr((string) $d['iso'], 0, 4);
+            }
+        }
+        return $ys ? max($ys) : null;
     }
 
     public static function save(array $doc, ?array $user = null, string $message = ''): array

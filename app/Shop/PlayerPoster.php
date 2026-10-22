@@ -140,6 +140,9 @@ final class PlayerPoster
     /** Années de joueur au club : « 1987-1996 ». */
     private static function years(array $p): string
     {
+        if (!empty($p['spells'])) {
+            return \App\Data\Fiches::clubYears($p);
+        }
         $a = substr((string) ($p['arrival']['iso'] ?? ''), 0, 4);
         $b = substr((string) ($p['departure']['iso'] ?? ''), 0, 4);
         return $a !== '' && $b !== '' ? ($a === $b ? $a : $a . '-' . $b) : ($a !== '' ? $a : \App\Front\Fiche::personYears($p));

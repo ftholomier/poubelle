@@ -99,6 +99,13 @@ final class Search
         if ($p) {
             $a = (int) substr((string) ($p['arrival']['iso'] ?? $p['arrival_coach']['iso'] ?? '0'), 0, 4);
             $b = (int) substr((string) ($p['departure_coach']['iso'] ?? $p['departure']['iso'] ?? '0'), 0, 4);
+            foreach ((array) ($p['spells'] ?? []) as $sp) {
+                $sa = (int) substr((string) ($sp['arrival']['iso'] ?? '0'), 0, 4);
+                $sb = (int) substr((string) ($sp['departure']['iso'] ?? '0'), 0, 4) ?: $sa;
+                if ($sa && $sb >= $sa && $sb - $sa < 40) {
+                    $y = array_merge($y, range($sa, $sb));
+                }
+            }
             if ($a && $b && $b >= $a && $b - $a < 40) {
                 $y = array_merge($y, range($a, $b));
             } elseif ($a) {
@@ -420,7 +427,7 @@ final class Search
         } elseif ($s['type'] === 'personne') {
             $p = $s['p'];
             $label = $p['name'];
-            $meta = trim(($p['position'] ? ucfirst((string) $p['position']) : '') . (($p['arrival'] ?? null) ? ' · ' . $p['arrival'] . (($p['departure'] ?? null) && $p['departure'] !== $p['arrival'] ? '-' . $p['departure'] : '') : ''), ' ·');
+            $meta = trim(($p['position'] ? ucfirst((string) $p['position']) : '') . (!empty($p['years']) ? ' · ' . $p['years'] : (($p['arrival'] ?? null) ? ' · ' . $p['arrival'] . (($p['departure'] ?? null) && $p['departure'] !== $p['arrival'] ? '-' . $p['departure'] : '') : '')), ' ·');
         } else {
             $label = $s['title'];
             $cat = Categories::primaryOf($s['categories']);
