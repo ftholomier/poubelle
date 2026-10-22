@@ -62,12 +62,8 @@ final class Fiches extends Base
         // Validation par un historien : « validees » ou « a-valider ».
         $valid = \App\Services\Validation::all();
         $vf = $req->str('valid');
-        $vcount = ['validees' => 0, 'a-valider' => 0];
-        foreach ($all as $s) {
-            if ($s['status'] !== 'corbeille') {
-                $vcount[isset($valid[(int) $s['id']]) ? 'validees' : 'a-valider']++;
-            }
-        }
+        $vc = \App\Services\Validation::counts()[$slug];
+        $vcount = ['validees' => $vc['ok'], 'a-valider' => $vc['todo']];
         // Filtres
         $items = array_filter($all, function ($s) use ($status, $q, $req, $slug, $valid, $vf) {
             if (($vf === 'validees' && !isset($valid[(int) $s['id']])) || ($vf === 'a-valider' && isset($valid[(int) $s['id']]))) {

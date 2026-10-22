@@ -947,3 +947,35 @@ body.has-proof .bo { padding-right: 440px; }
 /* Bouton « Ticket » en tête du menu latéral (avant Pilotage) */
 .side__ticket { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 8px 18px 2px; padding: 4px 10px; border: 1px solid var(--yellow); color: var(--cream); font-size: 13px; text-decoration: none; }
 .side__ticket:hover, .side__ticket.is-on { border-color: var(--yellow); color: var(--yellow); }
+
+/* Encart « Validation des fiches » en tête des listes (matchs, personnes, articles, objets) */
+.vbox { border: 3px solid var(--navy); background: var(--butter); box-shadow: 6px 6px 0 var(--navy); padding: 14px 16px; margin: 0 0 18px; display: grid; gap: 10px; }
+.vbox__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.vbox__t { margin: 0; font-family: var(--display); font-weight: 900; font-size: 22px; text-transform: uppercase; color: var(--navy); }
+.vbox__pct { font-size: 15px; color: var(--navy); }
+.vbox__pct b { font-family: var(--display); font-weight: 900; font-size: 26px; }
+.vbox__bar { height: 14px; border: 2px solid var(--navy); background: var(--paper); padding: 2px; }
+.vbox__bar > i { display: block; height: 100%; background: var(--okd); }
+.vbox__tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.vbox__tile { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border: 2px solid var(--navy); background: var(--paper); color: var(--navy); text-decoration: none; transition: transform .15s; }
+a.vbox__tile:hover { transform: translateY(-2px); color: var(--navy); }
+.vbox__tile b { font-family: var(--display); font-weight: 900; font-size: 36px; line-height: 1; }
+.vbox__tile span { font-size: 15px; font-weight: 700; }
+.vbox__tile--ok { background: var(--ok); }
+.vbox__tile--ok b { color: var(--okd); }
+.vbox__tile--todo { background: var(--yellow); }
+.vbox__tile.is-on { box-shadow: 5px 5px 0 var(--navy); outline: 3px solid var(--navy); outline-offset: -1px; }
+.vbox__note { margin: 0; font-size: 13px; color: var(--muted); }
+/* Tableau de bord : une case de validation par liste */
+.vdash { border: 3px solid var(--navy); background: var(--butter); box-shadow: 6px 6px 0 var(--navy); padding: 14px 16px; margin: 18px 0; display: grid; gap: 12px; }
+.vdash__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.vdash__card { background: var(--paper); border: 2px solid var(--navy); padding: 12px; display: grid; gap: 6px; color: var(--navy); }
+.vdash__name { font-family: var(--display); font-weight: 900; font-size: 20px; text-transform: uppercase; color: var(--navy); text-decoration: none; }
+.vdash__pct b { font-family: var(--display); font-weight: 900; font-size: 34px; line-height: 1; color: var(--okd); }
+.vdash__nums { display: flex; gap: 8px; flex-wrap: wrap; }
+.vdash__nums a { flex: 1; min-width: 90px; padding: 6px 8px; border: 2px solid var(--navy); color: var(--navy); text-decoration: none; font-weight: 700; font-size: 14px; }
+.vdash__nums a b { display: block; font-family: var(--display); font-weight: 900; font-size: 26px; line-height: 1; }
+.vdash__ok { background: var(--ok); }
+.vdash__ok b { color: var(--okd); }
+.vdash__todo { background: var(--yellow); }
+.vdash__card small { font-size: 13px; color: var(--muted); }

@@ -22,6 +22,31 @@ final class Validation
         return self::$memo ??= (JsonStore::read(self::FILE, []) ?: []);
     }
 
+    /**
+     * Fiches validées et à valider par liste du back-office (matchs, personnes, articles & pages,
+     * objets), corbeille exclue. @return array<string,array{ok:int,todo:int}>
+     */
+    public static function counts(): array
+    {
+        $valid = self::all();
+        $byType = [];
+        $out = [];
+        foreach (\App\Admin\Fiches::LISTS as $slug => $conf) {
+            $out[$slug] = ['ok' => 0, 'todo' => 0];
+            foreach ($conf['types'] as $t) {
+                $byType[$t] = $slug;
+            }
+        }
+        foreach (\App\Data\Index::all() as $s) {
+            $slug = $byType[$s['type']] ?? null;
+            if ($slug === null || $s['status'] === 'corbeille') {
+                continue;
+            }
+            $out[$slug][isset($valid[(int) $s['id']]) ? 'ok' : 'todo']++;
+        }
+        return $out;
+    }
+
     public static function get(int $id): ?array
     {
         return self::all()[$id] ?? null;

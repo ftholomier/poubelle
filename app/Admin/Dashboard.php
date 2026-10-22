@@ -143,6 +143,7 @@ final class Dashboard extends Base
         $published = count(array_filter($moments, fn ($m) => !empty($m['open'])));
         $onze = Interactive::onzeVoters();
         return self::html('admin/dashboard', [
+            'validation' => \App\Services\Validation::counts(),
             'counts' => $counts, 'month' => $month, 'noBirth' => $noBirth, 'high' => $high, 'qualityTotal' => count($quality['stats']),
             'contribs' => count($contribs), 'oldest' => $oldest, 'subs' => $subs, 'gauge' => $gauge, 'monthDons' => $monthDons,
             'todos' => $todos, 'activity' => Activity::recent(10), 'series' => Stats::series(30), 'top' => Stats::top(30, 5),

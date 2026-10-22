@@ -16,6 +16,28 @@ $pl = fn ($n, string $one, string $many): string => (int) $n > 1 ? $many : $one;
   <a class="kpi" href="/admin/newsletter"><b><?= $fmt($subs) ?></b><span><?= $pl($subs, 'abonné newsletter', 'abonnés newsletter') ?></span><small>« Ce jour-là », chaque semaine</small></a>
 </div>
 
+<?php
+// Validation des fiches par les historiens : une case par liste du back-office.
+$vLabels = ['matchs' => ['Matchs', 'fiches de match'], 'personnes' => ['Personnes', 'fiches personnes'], 'articles' => ['Articles & pages', 'articles et pages'], 'objets' => ['Objets', 'objets des réserves']];
+?>
+<section class="vdash" aria-label="Validation des fiches">
+  <h2 class="vbox__t">Validation des fiches</h2>
+  <div class="vdash__grid">
+    <?php foreach ($vLabels as $slug => [$label, $noun]): $v = $validation[$slug] ?? ['ok' => 0, 'todo' => 0]; $all = $v['ok'] + $v['todo']; $pct = $all ? (int) floor($v['ok'] * 100 / $all) : 0; ?>
+      <div class="vdash__card">
+        <a class="vdash__name" href="/admin/<?= e($slug) ?>"><?= e($label) ?> →</a>
+        <div class="vdash__pct"><b><?= $pct === 0 && $v['ok'] > 0 ? '&lt; 1' : $pct ?> %</b> validé<?= $pct > 1 ? 's' : '' ?></div>
+        <div class="vbox__bar" role="img" aria-label="<?= $pct ?> % validés"><i style="width:<?= $pct ?>%"></i></div>
+        <div class="vdash__nums">
+          <a class="vdash__ok" href="/admin/<?= e($slug) ?>?valid=validees"><b><?= $fmt($v['ok']) ?></b> ✔ validée<?= $v['ok'] > 1 ? 's' : '' ?></a>
+          <a class="vdash__todo" href="/admin/<?= e($slug) ?>?valid=a-valider"><b><?= $fmt($v['todo']) ?></b> à valider</a>
+        </div>
+        <small><?= $fmt($all) ?> <?= e($noun) ?> au total</small>
+      </div>
+    <?php endforeach; ?>
+  </div>
+</section>
+
 <div class="cols">
   <div class="stack">
     <?php $me = \App\Core\Auth::user() ?? []; $mine = array_values(array_filter(\App\Services\Tickets::all(), fn ($t) => ($t['author']['id'] ?? '') === ($me['id'] ?? null) && in_array($t['status'], \App\Services\Tickets::OPEN, true))); ?>
