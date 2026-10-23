@@ -10,8 +10,8 @@ use App\Data\Fiches;
     <div class="card">
       <div class="card__head"><h2 class="card__t">Ordre des fiches</h2><span class="card__note"><?= (int) $total ?> fiche<?= $total > 1 ? 's' : '' ?> publiée<?= $total > 1 ? 's' : '' ?> (sous-rubriques comprises)</span></div>
       <div class="card__body">
-        <?php if (!empty($cat['season'])): ?>
-        <p class="small" style="margin:0"><b>Saison :</b> sur le site, les matchs s’affichent automatiquement dans l’ordre du calendrier, du premier match de la saison (en haut) au dernier (en bas). Rien à classer à la main.</p>
+        <?php if (!empty($cat['season']) || Categories::isDecade((string) $cat['slug'])): ?>
+        <p class="small" style="margin:0"><b><?= !empty($cat['season']) ? 'Saison' : 'Décennie' ?> :</b> sur le site, les matchs s’affichent automatiquement dans l’ordre du calendrier, du premier match <?= !empty($cat['season']) ? 'de la saison' : 'de la décennie' ?> (en haut) au dernier (en bas). Rien à classer à la main.</p>
         <input type="hidden" name="sort" value="ancien">
         <?php else: ?>
         <?= Form::select('sort', 'Ordre d’affichage sur le site', $sort, Categories::SORTS, ['help' => 'Les visiteurs peuvent toujours changer de tri sur la page ; ce réglage choisit l’ordre affiché d’abord.']) ?>

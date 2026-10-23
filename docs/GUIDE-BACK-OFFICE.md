@@ -334,7 +334,7 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   **ordre des fiches** de la rubrique (toutes, sous-rubriques comprises : ↑ / ↓, icône
   quatre flèches à glisser avec trait jaune de dépôt, clic sur le numéro pour taper une
   position, tris rapides Date ↑ / Date ↓ / A → Z, recherche dans la liste), **ordre des
-  sous-rubriques**, libellés (français et anglais), descriptions. Les **saisons** n'ont pas
+  sous-rubriques**, libellés (français et anglais), descriptions. Les **saisons** et les **décennies** n'ont pas
   d'ordre à régler : sur le site, leurs matchs vont toujours du premier (en haut) au dernier
   match de la saison (en bas).
 - **100 moments** : calendrier de parution (date modifiable tant que le moment n'est pas en

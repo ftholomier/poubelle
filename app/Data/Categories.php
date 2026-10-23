@@ -120,8 +120,9 @@ final class Categories
     public static function displaySort(string $slug): string
     {
         $c = self::get($slug) ?? [];
-        // Une saison se lit toujours dans l'ordre du calendrier : premier match en haut, dernier en bas.
-        if (!empty($c['season'])) {
+        // Une saison ou une décennie de matchs se lit toujours dans l'ordre du calendrier : premier match
+        // en haut, dernier en bas.
+        if (!empty($c['season']) || self::isDecade($slug)) {
             return 'ancien';
         }
         $hasOrder = !empty($c['order']);
@@ -134,6 +135,12 @@ final class Categories
             'nos-lions-fc-sochaux-retro-fcsm' => 'az',
             default => $hasOrder ? 'selection' : 'recent',
         };
+    }
+
+    /** Rubrique d'une décennie de matchs (« Années 80 », « Années 2020 »). */
+    public static function isDecade(string $slug): bool
+    {
+        return (bool) preg_match('/^annees-\d+/', $slug) && str_starts_with((string) (self::get($slug)['path'] ?? ''), '/matchs/');
     }
 
     public static function byPath(string $path): ?array

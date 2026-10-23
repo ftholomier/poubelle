@@ -217,8 +217,8 @@ final class Mosaic
         // Tris
         // Ordre par défaut réglé dans le back-office (Rubriques & menus) : ordre manuel, chronologique ou A–Z.
         $defaultSort = $virtual ? 'az' : Categories::displaySort($slug);
-        // Une saison choisie dans le filtre (décennie, compétition…) se lit comme sa page : premier match en haut.
-        if ($kind === 'matchs' && !empty($season)) {
+        // Une décennie ou une saison (page ou filtre) se lit dans l'ordre du calendrier : premier match en haut.
+        if ($kind === 'matchs' && (!empty($season) || !empty($decade))) {
             $defaultSort = 'ancien';
         }
         if ($sort === 'selection' && !$hasOrder) {
@@ -375,7 +375,9 @@ final class Mosaic
 
     private static function sort(array $items, string $sort, string $kind, string $slug): array
     {
-        $date = fn ($s) => (string) ($kind === 'matchs' ? ($s['m']['date'] ?? '') : ($kind === 'lions' ? sprintf('%04d', $s['p']['arrival'] ?? $s['p']['birth_year'] ?? 0) : ($s['date'] ?? '')));
+        // Matchs : saison puis date, pour suivre exactement l'ordre des pages de saison (un match sans date
+        // ferme sa saison).
+        $date = fn ($s) => (string) ($kind === 'matchs' ? (($s['m']['season'] ?? '') !== '' ? $s['m']['season'] . ' ' . (($s['m']['date'] ?? '') ?: '9999') : ($s['m']['date'] ?? '')) : ($kind === 'lions' ? sprintf('%04d', $s['p']['arrival'] ?? $s['p']['birth_year'] ?? 0) : ($s['date'] ?? '')));
         $name = fn ($s) => $kind === 'lions' ? Index::sortName($s) : ($kind === 'matchs' ? Names::ascii(($s['m']['sh'] ?? true) ? ($s['m']['away'] ?? '') : ($s['m']['home'] ?? '')) : Names::ascii($s['title']));
         if ($sort === 'selection') {
             return Index::ordered($items, $slug);
