@@ -2302,3 +2302,8 @@ Profil du club (`config/clubs/<club>.php`), clé `club_display` : clé de rappro
 ## Rôles et rubriques des personnes
 
 `FicheForm::syncPersonRubrics()` relie `personne.roles` (onglet Identité) et les rubriques Nos Lions cochées (Classement & SEO, `FicheForm::ROLE_RUBRICS` + sous-rubriques) : ce que l'historien vient de changer d'un côté est reporté de l'autre. `Fiche::personRubric()` donne la priorité à la rubrique du premier rôle. À l'enregistrement d'une fiche publiée, l'adresse suit le premier rôle (`/joueurs/x/` → `/dirigeants/x/`, redirection). Correction ponctuelle `2026-10-rubriques-des-personnes` pour les fiches déjà décalées. À l'affichage, `Fiches::effectiveRoles()` fait passer le classement coché avant un rôle resté ancien (index, fiche, carte, image de partage, album) ; le libellé d'un dirigeant vient de sa sous-rubrique (« Directeur sportif », « Président »…, `Fiche::LEADER_LABELS`), sinon du premier mot du sous-titre seulement si c'est une fonction, sinon « Dirigeant ».
+
+
+## Validation des fiches
+
+`App\Services\Validation` (`storage/validations.json`). Une validation n'est retirée que par « Retirer la validation » ou la suppression définitive (`Fiches::save` ne l'efface plus). `Validation::lostFromJournal()` retrouve dans le journal d'activité les fiches validées (dernière action « a validé la fiche ») qui ne le sont plus ; la correction `2026-10-validations-retablies` les rétablit (auteur et date d'origine) et l'inscrit dans le Journal.

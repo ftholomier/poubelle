@@ -76,7 +76,53 @@ final class Validation
         }, []);
     }
 
-    /** Retire la validation (fiche modifiée ou supprimée) ; rien n'est écrit si elle n'était pas validée. */
+    /**
+     * Validations perdues à rétablir : fiches validées dans le journal d'activité (dernière action
+     * « a validé la fiche », jamais « a retiré la validation » ensuite) qui ne le sont plus, parce que
+     * l'ancienne règle effaçait la validation à chaque modification. @return array<int,array{by:string,uid:?string,at:string}>
+     */
+    public static function lostFromJournal(): array
+    {
+        $last = [];
+        $files = glob(STORAGE_PATH . '/activity/*.jsonl') ?: [];
+        sort($files);
+        foreach ($files as $f) {
+            foreach (JsonStore::readLines($f) as $e) {
+                $id = (int) ($e['id'] ?? 0);
+                $act = (string) ($e['action'] ?? '');
+                if ($id > 0 && in_array($act, ['a validé la fiche', 'a retiré la validation de la fiche'], true)
+                    && (string) ($e['at'] ?? '') > (string) ($last[$id]['at'] ?? '')) {
+                    $last[$id] = ['on' => $act === 'a validé la fiche', 'by' => (string) ($e['by'] ?? 'équipe'), 'uid' => isset($e['uid']) ? (string) $e['uid'] : null, 'at' => (string) ($e['at'] ?? date('c'))];
+                }
+            }
+        }
+        $valid = self::all();
+        $out = [];
+        foreach ($last as $id => $v) {
+            $doc = \App\Data\Index::get($id);
+            if ($v['on'] && !isset($valid[$id]) && $doc && ($doc['status'] ?? '') !== 'corbeille') {
+                $out[$id] = ['by' => $v['by'], 'uid' => $v['uid'], 'at' => $v['at']];
+            }
+        }
+        return $out;
+    }
+
+    /** Remet des validations telles qu'elles étaient (qui, quand). */
+    public static function restore(array $items): void
+    {
+        if (!$items) {
+            return;
+        }
+        self::$memo = JsonStore::update(self::FILE, function ($d) use ($items) {
+            $d = is_array($d) ? $d : [];
+            foreach ($items as $id => $v) {
+                $d[(int) $id] ??= ['by' => (string) $v['by'], 'uid' => $v['uid'], 'at' => (string) $v['at']];
+            }
+            return $d;
+        }, []);
+    }
+
+    /** Retire la validation (« Retirer la validation » ou suppression définitive) ; rien n'est écrit si elle n'était pas validée. */
     public static function clear(int $id): void
     {
         if (!isset(self::all()[$id])) {

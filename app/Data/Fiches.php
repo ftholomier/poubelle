@@ -503,11 +503,9 @@ final class Fiches
         Derived::markDirty();
         \App\Services\Search::put($doc);
         Activity::log($user, $before ? 'a modifié' : 'a créé', $doc);
-        // Fiche « validée » puis modifiée par un membre du back-office : la validation ne vaut plus
-        // (les tâches automatiques, sans compte, ne l'effacent pas).
-        if ($before && isset($user['id']) && \App\Services\Validation::get($id)) {
-            \App\Services\Validation::clear($id);
-        }
+        // Une fiche validée le reste : corrections d'orthographe, traductions, tâches automatiques ou
+        // retouches ne la remettent pas « à valider ». Seul « Retirer la validation » (ou la suppression
+        // définitive) l'enlève.
         return $doc;
     }
 

@@ -2,7 +2,7 @@
 /**
  * Lot 2 — fiches : corbeille (double mise à la corbeille, sortie vers « brouillon », action groupée qui
  * ne compte que les fiches traitées), publication groupée (« déjà publiée » et date, comme à l'unité),
- * validation effacée par une modification au back-office et par la suppression définitive.
+ * validation gardée après toute modification (historien, correcteur, tâche), effacée seulement par la suppression définitive.
  * La fiche d'essai est supprimée à la fin. Usage : php tests/lot2-fiches.php
  */
 declare(strict_types=1);
@@ -82,7 +82,7 @@ try {
     $eq('publication groupée d’une fiche à la corbeille : 0 traitée', str_starts_with(implode(' ', array_column($_SESSION['_flash'] ?? [], 'message')), '0 fiche traitée.'), true);
     Fiches::untrash($ids[0], null);
 
-    // 13. Validation : effacée par une modification au back-office, pas par une tâche automatique.
+    // 13. Validation : une fiche validée le reste, quelle que soit la modification (seul « Retirer la validation » l'enlève).
     Validation::set($id, $user);
     $d = Fiches::fresh($id);
     $d['intro'] = 'Modifiée par une tâche.';
@@ -93,7 +93,7 @@ try {
     $eq('enregistrée sans changement : toujours validée', Validation::get($id) !== null, true);
     $d['intro'] = 'Modifiée par un historien.';
     Fiches::save($d, $user, 'essai');
-    $eq('modifiée par un historien : validation retirée', Validation::get($id), null);
+    $eq('modifiée par un historien (correction d’orthographe…) : toujours validée', Validation::get($id) !== null, true);
     Validation::set($id, $user);
     Fiches::trash($id, null);
     Fiches::destroy($id, null);

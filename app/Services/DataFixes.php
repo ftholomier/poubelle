@@ -31,6 +31,7 @@ final class DataFixes
         '2026-10-buteurs-apostrophe' => 'scorersApostrophe',
         '2026-10-rubriques-des-personnes' => 'personRubrics',
         '2026-10-bourgeois-directeur-sportif' => 'bourgeoisDirector',
+        '2026-10-validations-retablies' => 'restoreValidations',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -295,6 +296,22 @@ final class DataFixes
             \App\Data\OfficialPlayers::saveAdjustments(array_diff($a['add'], [$id]), array_merge($a['remove'], [$id]), self::AUTHOR);
         }
         return ['message' => 'M. Bourgeois classé directeur sportif (' . ($saved['path'] ?? '') . ')', 'ids' => [$id]];
+    }
+
+    /**
+     * Validations effacées par l'ancienne règle (toute modification retirait la validation, même une
+     * correction d'orthographe) : rétablies d'après le journal d'activité, avec leur auteur et leur date.
+     */
+    private static function restoreValidations(): array
+    {
+        $lost = Validation::lostFromJournal();
+        Validation::restore($lost);
+        // Visible dans le Journal du back-office : quelles fiches ont retrouvé leur validation.
+        foreach (array_keys($lost) as $id) {
+            $s = \App\Data\Index::get((int) $id);
+            \App\Data\Activity::log(['name' => 'Rétablissement des validations'], 'a rétabli la validation (validée par ' . $lost[$id]['by'] . ') de la fiche', ['id' => (int) $id, 'title' => $s['title'] ?? '', 'type' => $s['type'] ?? null], ['force' => true]);
+        }
+        return ['message' => count($lost) . ' validation(s) rétablie(s) d’après le journal', 'ids' => array_map('intval', array_keys($lost))];
     }
 
     /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */
