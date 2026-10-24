@@ -32,6 +32,7 @@ final class DataFixes
         '2026-10-rubriques-des-personnes' => 'personRubrics',
         '2026-10-bourgeois-directeur-sportif' => 'bourgeoisDirector',
         '2026-10-validations-retablies' => 'restoreValidations',
+        '2026-10-temps-forts-du-recit' => 'recitHighlights',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -312,6 +313,33 @@ final class DataFixes
             \App\Data\Activity::log(['name' => 'Rétablissement des validations'], 'a rétabli la validation (validée par ' . $lost[$id]['by'] . ') de la fiche', ['id' => (int) $id, 'title' => $s['title'] ?? '', 'type' => $s['type'] ?? null], ['force' => true]);
         }
         return ['message' => count($lost) . ' validation(s) rétablie(s) d’après le journal', 'ids' => array_map('intval', array_keys($lost))];
+    }
+
+    /**
+     * Tous les matchs : les actions minute par minute du résumé (récit) passent dans les temps forts
+     * (« Compo et événements »), buts en gras marqués « But » ; les temps forts déjà saisis restent.
+     */
+    private static function recitHighlights(): array
+    {
+        $stats = ['added' => 0];
+        $ids = Fiches::batch(function () use (&$stats) {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                if (($doc['type'] ?? '') !== 'match' || ($doc['status'] ?? '') === 'corbeille') {
+                    continue;
+                }
+                $doc = Fiches::fresh((int) $id);
+                $n = count((array) ($doc['match']['highlights'] ?? []));
+                if (!RecitHighlights::apply($doc)) {
+                    continue;
+                }
+                $stats['added'] += count($doc['match']['highlights']) - $n;
+                Fiches::save($doc, ['name' => 'Temps forts du récit'], 'Temps forts repris du récit (minute par minute, buts en gras)');
+                $ids[] = (int) $id;
+            }
+            return $ids;
+        });
+        return ['message' => count($ids) . ' match(s) : temps forts repris du récit (' . $stats['added'] . ' ajouté(s), buts marqués)', 'ids' => $ids];
     }
 
     /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */

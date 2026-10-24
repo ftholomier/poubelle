@@ -2307,3 +2307,8 @@ Profil du club (`config/clubs/<club>.php`), clé `club_display` : clé de rappro
 ## Validation des fiches
 
 `App\Services\Validation` (`storage/validations.json`). Une validation n'est retirée que par « Retirer la validation » ou la suppression définitive (`Fiches::save` ne l'efface plus). `Validation::lostFromJournal()` retrouve dans le journal d'activité les fiches validées (dernière action « a validé la fiche ») qui ne le sont plus ; la correction `2026-10-validations-retablies` les rétablit (auteur et date d'origine) et l'inscrit dans le Journal.
+
+
+## Temps forts repris du récit
+
+`App\Services\RecitHighlights` : les lignes « 65' : … » de la section Résumé (clé `resume`) deviennent des temps forts (`match.highlights`). But : score entre parenthèses, ou ligne en gras avec un score ou un mot de but (jamais « refusé / annulé / hors-jeu ») ; garde-fou : pas plus de buts que le score final. Les temps forts existants ne sont pas réécrits (minutes absentes ajoutées à leur place, but reporté sur le temps fort de la même minute qui raconte la même action). Appliqué à l'enregistrement d'un match (récit modifié ou aucun temps fort) et une fois à tous les matchs (`2026-10-temps-forts-du-recit`).

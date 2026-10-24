@@ -56,7 +56,7 @@ HTML],
 HTML],
         ['id' => 'temps-forts', 'title' => '6. Temps forts, réactions et brèves', 'html' => <<<'HTML'
 <ul>
-<li><b>Temps forts</b> : une ligne par action (minute, texte) ; cochez « But » et indiquez le score du moment pour un but. Ils forment la frise minute par minute de la fiche et le déroulé du <b>Rétro-Direct</b> (voir [[aide:interactif#retro-direct|Le Rétro-Direct]]).</li>
+<li><b>Temps forts</b> : une ligne par action (minute, texte) ; cochez « But » et indiquez le score du moment pour un but. Ils forment la frise minute par minute de la fiche et le déroulé du <b>Rétro-Direct</b> (voir [[aide:interactif#retro-direct|Le Rétro-Direct]]). <b>Repris du récit automatiquement</b> : chaque ligne « 65' : … » du « Résumé de la rencontre » devient un temps fort à l’enregistrement (si le récit a changé ou s’il n’y a encore aucun temps fort). Une ligne écrite en gras qui donne un score ou dit le but (« marque », « trompe », « égalise »…), ou une ligne avec un score « (1-0) », est cochée « But ». Les temps forts déjà saisis ne sont jamais réécrits : seules les minutes manquantes sont ajoutées.</li>
 <li><b>Réactions</b> : qui parle et sa citation.</li>
 <li><b>Brèves</b> : anecdotes autour du match, une par bloc.</li>
 </ul>

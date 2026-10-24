@@ -164,6 +164,11 @@ final class FicheForm
         if ($doc['type'] === 'personne') {
             $doc = self::syncPersonRubrics($doc, $orig);
         }
+        // Match : les lignes « 65' : … » du résumé (récit) alimentent les temps forts, quand le récit
+        // vient de changer ou qu'il n'y a encore aucun temps fort (ceux déjà saisis ne sont pas réécrits).
+        if ($doc['type'] === 'match' && (($doc['sections'] ?? []) !== ($orig['sections'] ?? []) || empty($doc['match']['highlights']))) {
+            \App\Services\RecitHighlights::apply($doc);
+        }
         $doc = self::autoCategories($doc, $origCats);
 
         // Titre automatique pour les matchs et personnes sans titre saisi.
