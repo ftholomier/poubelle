@@ -1,0 +1,71 @@
+{
+  "seo": {
+    "title": "L'ultra-accompagnement H2H · Un seul interlocuteur, du début à la fin",
+    "description": "Un seul interlocuteur, une réponse sous 24 h ouvrées, tout t'appartient : découvre la méthode H2H et choisis ta formule (sur mesure, formation, formaccompagnement, mentorat)."
+  },
+  "hero": {
+    "tag": "H2H · human to human",
+    "title": "L'ultra-accompagnement,",
+    "title_accent": "c'est quoi ?",
+    "text": "Former ou développer, beaucoup savent le faire. Ce qui fait la différence, c'est ce qui se passe autour : être écouté, compris, tenu au courant, et ne jamais se retrouver seul au moment où ça coince. C'est ça, le H2H : d'humain à humain, du début à la fin."
+  },
+  "engagements": {
+    "title": "Mes 7 engagements",
+    "badge_24h": "24 h ouvrées max"
+  },
+  "quiz": {
+    "kicker": "Quelle formule pour toi ? · 30 secondes",
+    "result_intro": "Ta formule idéale :",
+    "cta": "On en parle au café ☕",
+    "more": "En savoir plus",
+    "restart": "Recommencer",
+    "questions": [
+      { "t": "Ton outil idéal, tu le veux…", "options": [
+        { "t": "Clé en main, je ne veux pas y toucher", "score": [3, 0, 0, 0] },
+        { "t": "Construit avec moi, pour le faire vivre ensuite", "score": [0, 0, 3, 0] },
+        { "t": "Je veux apprendre à le faire moi-même", "score": [0, 3, 0, 0] }
+      ] },
+      { "t": "Ton temps disponible pour le digital ?", "options": [
+        { "t": "Quasi nul", "score": [2, 0, 0, 1] },
+        { "t": "Quelques heures par mois", "score": [0, 1, 2, 0] },
+        { "t": "J'ai envie d'y consacrer du temps", "score": [0, 2, 1, 0] }
+      ] },
+      { "t": "Ton vrai frein aujourd'hui ?", "options": [
+        { "t": "Les tâches répétitives", "score": [2, 0, 1, 0] },
+        { "t": "Je ne maîtrise pas les outils", "score": [0, 2, 1, 0] },
+        { "t": "Je décide seul, je tourne en rond", "score": [0, 0, 0, 3] }
+      ] },
+      { "t": "Dans un an, tu veux…", "options": [
+        { "t": "Avoir récupéré des heures chaque semaine", "score": [2, 0, 1, 0] },
+        { "t": "Être autonome sur mon digital", "score": [0, 2, 1, 0] },
+        { "t": "Avoir fait grandir mon activité", "score": [0, 0, 0, 2] }
+      ] }
+    ],
+    "results": [
+      { "t": "Développement sur mesure + IA", "d": "Tu veux déléguer et gagner du temps : je construis ton outil clé en main, par étapes, avec l'IA là où elle te fait gagner des heures.", "href": "/sur-mesure-ia" },
+      { "t": "Formation DIGITAL 360", "d": "Tu veux savoir faire toi-même : je te forme sur ton activité, en présentiel, en distanciel ou en ligne. IA comprise.", "href": "/formation" },
+      { "t": "Formaccompagnement", "d": "Tu veux déléguer ET devenir autonome : je construis ton projet et je te forme en même temps à le faire vivre.", "href": "/accompagnement" },
+      { "t": "Mentorat & consulting", "d": "Tu veux un regard extérieur dans la durée : stratégie business, webmarketing et mindset, en rendez-vous réguliers.", "href": "/accompagnement" }
+    ]
+  },
+  "formules": {
+    "title": "4 formules, une seule méthode",
+    "intro": "Clique sur ce qui te ressemble : je te dis quelle formule est faite pour toi.",
+    "si_label": "Pour toi si…",
+    "how_label": "Comment",
+    "items": [
+      { "k": "Formule 1", "t": "Développement sur mesure + IA", "si": "tu veux déléguer et gagner du temps", "how": "Clé en main, par étapes.", "d": "Je conçois ton site, ton CRM ou ton application, avec l'IA là où elle te fait gagner du temps. Tu valides à chaque étape.", "cta": "Voir le sur mesure", "href": "/sur-mesure-ia" },
+      { "k": "Formule 2", "t": "Formation DIGITAL 360", "si": "tu veux savoir faire toi-même", "how": "Présentiel, distanciel ou en ligne.", "d": "Webmarketing, création de site, IA : je te forme sur ton activité, pas sur un cas d'école.", "cta": "Voir la formation", "href": "/formation" },
+      { "k": "Formule 3", "t": "Formaccompagnement", "si": "tu veux déléguer et devenir autonome", "how": "Je construis, je t'explique, tu reprends la main.", "d": "Tu veux un outil professionnel sans dépendre de quelqu'un pour le faire vivre ? Je construis ton projet et je te forme en même temps à l'utiliser et à le faire évoluer.", "cta": "On en parle ?", "href": "/on-prend-rdv" },
+      { "k": "Formule 4", "t": "Mentorat & consulting", "si": "tu veux un regard extérieur dans la durée", "how": "Rendez-vous réguliers.", "d": "Développer une activité, c'est aussi décider seul. Je t'accompagne dans le temps sur ta stratégie business, ton webmarketing et ton mindset d'entrepreneur.", "cta": "On en parle ?", "href": "/on-prend-rdv" }
+    ]
+  },
+  "formula": {
+    "text": "Rien de mathématique, promis. Je te l'explique au premier rendez-vous."
+  },
+  "final": {
+    "title": "Tu hésites entre les formules ?",
+    "text": "C'est normal, et c'est justement l'objet du premier café.",
+    "cta": "On prend RdV ?"
+  }
+}

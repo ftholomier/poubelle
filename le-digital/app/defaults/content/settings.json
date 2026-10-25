@@ -1,0 +1,68 @@
+{
+  "site": {
+    "name": "LE-DIGITAL.com",
+    "url": "",
+    "owner": "Frédéric Tholomier",
+    "logo": "/assets/img/logo.png",
+    "logo_white": "/assets/img/logo-blanc.png",
+    "avatar": "/assets/img/fred-avatar.webp",
+    "og_image": "/assets/img/fred-situation-1600.webp"
+  },
+  "contact": {
+    "phone": "",
+    "email": "",
+    "linkedin": "",
+    "address": "",
+    "city": "Montbéliard",
+    "postal_code": "",
+    "siret": ""
+  },
+  "features": {
+    "animations": true
+  },
+  "mail": {
+    "mode": "mail",
+    "from_email": "",
+    "from_name": "LE-DIGITAL.com",
+    "notify_email": "",
+    "notify": true,
+    "confirm_visitor": true,
+    "smtp_host": "",
+    "smtp_port": 587,
+    "smtp_secure": "tls",
+    "smtp_user": ""
+  },
+  "sms": {
+    "provider": "none",
+    "sender": "LEDIGITAL",
+    "twilio_sid": "",
+    "twilio_from": "",
+    "reminder_text": "Rappel : café avec Fred (LE-DIGITAL.com) demain à {time}, {mode}. À demain ☕"
+  },
+  "booking": {
+    "enabled": true,
+    "days_shown": 5,
+    "weekdays": [1, 2, 3, 4, 5],
+    "slots": ["09:00", "10:30", "14:00", "15:30", "17:00", "18:00"],
+    "slots_by_day": {},
+    "duration": 45,
+    "min_notice_hours": 12,
+    "max_days_ahead": 30,
+    "blocked_dates": [],
+    "modes": ["En visio", "En vrai"],
+    "address": "",
+    "visio_link": ""
+  },
+  "seo": {
+    "title_suffix": " · LE-DIGITAL.com",
+    "analytics_head": "",
+    "google_verification": "",
+    "noindex": false
+  },
+  "performance": {
+    "page_cache": true,
+    "cache_ttl": 21600
+  },
+  "redirects": [],
+  "debug": false
+}

@@ -1,0 +1,231 @@
+{
+  "header": {
+    "cta": "On prend RdV ?",
+    "nav": [
+      { "key": "sur-mesure", "label": "Sur mesure + IA", "href": "/sur-mesure-ia" },
+      { "key": "formation", "label": "Formation", "href": "/formation" },
+      { "key": "accompagnement", "label": "L'accompagnement", "href": "/accompagnement" },
+      { "key": "solutions", "label": "Mes solutions", "href": "/mes-solutions" },
+      { "key": "qui", "label": "Qui suis-je", "href": "/qui-suis-je" }
+    ]
+  },
+  "footer": {
+    "slogan": "Le digital provoque la conversation.",
+    "slogan_accent": "La conversation provoque la conversion.",
+    "zones_title": "Zones",
+    "remote": "Partout en France à distance",
+    "solutions_title": "Mes solutions",
+    "solutions": [
+      { "label": "Intensiti", "href": "/mes-solutions#intensiti" },
+      { "label": "Formaliance", "href": "/mes-solutions#formaliance" }
+    ],
+    "links_title": "Liens",
+    "links": [
+      { "label": "Avis", "href": "/avis" },
+      { "label": "Blog", "href": "/blog" },
+      { "label": "Mentions légales", "href": "/mentions-legales" },
+      { "label": "Accessibilité", "href": "/mentions-legales#accessibilite" }
+    ],
+    "linkedin_label": "LinkedIn"
+  },
+  "services": [
+    {
+      "id": "sites",
+      "title": "Sites web sur mesure",
+      "home_text": "Un site rapide, beau sur mobile, bien référencé, et simple à mettre à jour toi-même.",
+      "home_ia": "Un assistant qui répond à tes visiteurs, t'aide à rédiger et qualifie tes demandes de contact.",
+      "text": "Vitrine, catalogue, prise de rendez-vous, demande de devis : un site qui te ressemble, rapide, lisible sur mobile, bien référencé, et que tu mets à jour toi-même.",
+      "ia": "Un assistant qui répond aux visiteurs, une aide à la rédaction de tes contenus, la qualification automatique des demandes de contact.",
+      "window": "ton-site.fr · Demandes de contact",
+      "rows": [
+        { "t": "Question visiteur répondue", "tag": "Assistant" },
+        { "t": "Demande de devis qualifiée", "tag": "IA" },
+        { "t": "Article rédigé, prêt à relire", "tag": "Brouillon" }
+      ]
+    },
+    {
+      "id": "crm",
+      "title": "CRM métier",
+      "home_text": "Tes clients, tes devis, tes dossiers et tes relances, réunis dans un outil pensé pour ton métier.",
+      "home_ia": "Il rédige tes emails, résume tes échanges et relance au bon moment.",
+      "text": "Un CRM pensé pour ton métier, pas un logiciel générique avec cent options inutiles : fiches clients, devis, suivi des dossiers, relances, documents, tableau de bord.",
+      "ia": "Elle rédige tes emails et tes devis, résume un dossier ou un échange, relance automatiquement et te dit quels clients rappeler en priorité.",
+      "window": "Ton CRM · Aujourd'hui",
+      "rows": [
+        { "t": "3 clients à rappeler en priorité", "tag": "Priorité" },
+        { "t": "Email de suivi rédigé", "tag": "À valider" },
+        { "t": "Relance devis envoyée", "tag": "Auto" }
+      ]
+    },
+    {
+      "id": "apps",
+      "title": "Solutions & applications sur mesure",
+      "home_text": "Chiffrage, planning, gestion de dossiers, extranet client, tableaux de bord : tout ce que tu gères aujourd'hui avec des fichiers Excel et des post-it.",
+      "home_ia": "Lecture de tes documents, analyse de tes chiffres, rapports générés automatiquement.",
+      "text": "Chiffrage, planning, gestion de dossiers ou de stocks, extranet client, outil terrain sur tablette, tableaux de bord : je transforme tes fichiers Excel et tes process en un outil simple et fiable.",
+      "ia": "Elle lit et extrait les infos de tes documents, analyse tes chiffres et génère tes rapports.",
+      "window": "Ton outil · Tableau de bord",
+      "rows": [
+        { "t": "Bon de commande lu et saisi", "tag": "Extraction" },
+        { "t": "Rapport mensuel généré", "tag": "Rapport" },
+        { "t": "Planning de la semaine prêt", "tag": "Planning" }
+      ]
+    },
+    {
+      "id": "auto",
+      "title": "Automatisation & assistants IA",
+      "home_text": "Les tâches répétitives disparaissent : tri des emails, saisie, extraction des infos d'une facture, génération de documents.",
+      "home_ia": "Un assistant interne qui connaît tes procédures, un chatbot pour tes clients.",
+      "text": "Je branche l'IA sur ton quotidien : tri et réponse aux emails, saisie automatique, génération de documents, assistant interne qui connaît tes procédures, chatbot pour tes clients.",
+      "ia": "",
+      "window": "Automatisations · En cours",
+      "rows": [
+        { "t": "Emails triés et classés", "tag": "Tri" },
+        { "t": "Infos de facture extraites", "tag": "Saisie" },
+        { "t": "Procédure retrouvée par l'assistant", "tag": "Interne" }
+      ]
+    },
+    {
+      "id": "plateformes",
+      "title": "Plateformes & espaces clients",
+      "home_text": "Espace membre, abonnements, paiement en ligne, messagerie, back-office : pour vendre ou servir tes clients en ligne.",
+      "home_ia": "Réponses automatiques, modération, recommandations personnalisées.",
+      "text": "Espace membre, abonnements, paiement en ligne, messagerie, back-office : pour vendre ou servir tes clients en ligne.",
+      "ia": "",
+      "window": "Espace client · Activité",
+      "rows": [
+        { "t": "Nouvel abonnement validé", "tag": "Paiement" },
+        { "t": "Message client répondu", "tag": "Auto" },
+        { "t": "Recommandation envoyée", "tag": "Perso" }
+      ]
+    },
+    {
+      "id": "refonte",
+      "title": "Refonte & modernisation",
+      "home_text": "Ton site ou ton outil a pris un coup de vieux ? Je le modernise sans tout casser.",
+      "home_ia": "J'en profite pour automatiser ce qui peut l'être.",
+      "text": "Ton site ou ton outil a pris un coup de vieux ? Je le modernise sans tout casser, et j'en profite pour automatiser ce qui peut l'être.",
+      "ia": "",
+      "window": "Avant → Après",
+      "rows": [
+        { "t": "Contenus et données repris", "tag": "Migration" },
+        { "t": "Version mobile repensée", "tag": "Design" },
+        { "t": "Nouvelles automatisations", "tag": "Bonus" }
+      ]
+    }
+  ],
+  "engagements": [
+    { "t": "Un seul interlocuteur : moi, en direct.", "d": "Pas de commercial, pas d'intermédiaire : tu as mon numéro direct, et tu parles à celui qui construit et qui forme.", "d_long": "Pas de commercial, pas d'intermédiaire : tu as mon numéro direct, et tu parles à celui qui construit et qui forme. Celui qui t'écoute au premier café est celui qui livre ton outil." },
+    { "t": "Une réponse sous 24 h ouvrées.", "d": "Une question, un doute, un blocage : tu n'attends pas des jours pour avoir une réponse.", "d_long": "Une question, un doute, un blocage : tu n'attends pas des jours pour avoir une réponse. Et quand c'est urgent, tu m'appelles." },
+    { "t": "Ton métier avant la technique.", "d": "Je commence par comprendre comment tu travailles et où tu perds du temps.", "d_long": "Je commence par comprendre comment tu travailles et où tu perds du temps. La technique vient après." },
+    { "t": "Tu vois ton projet avancer.", "d": "J'avance par étapes : tu testes, tu valides, on ajuste. Pas d'effet tunnel.", "d_long": "J'avance par étapes : tu testes, tu valides, on ajuste. Pas d'effet tunnel, pas de mauvaise surprise." },
+    { "t": "Tu comprends ce qu'on fait.", "d": "Chaque choix est expliqué avec des mots simples. C'est le formateur en moi.", "d_long": "Chaque choix est expliqué avec des mots simples. C'est le formateur en moi." },
+    { "t": "Tout t'appartient.", "d": "Code, données, nom de domaine : tout est à ton nom. Aucun abonnement qui te rend captif.", "d_long": "Code, données, nom de domaine : tout est à ton nom. Aucun abonnement qui te rend captif." },
+    { "t": "Je reste après la mise en ligne.", "d": "Prise en main, ajustements, évolutions : on continue ensemble, aussi longtemps que tu en as besoin.", "d_long": "Prise en main, ajustements, évolutions : on continue ensemble, aussi longtemps que tu en as besoin." }
+  ],
+  "formula": {
+    "kicker": "Ma formule",
+    "tokens": [
+      { "t": "(A", "tip": "A comme… je te le dis au café" },
+      { "t": "+", "tip": "" },
+      { "t": "V", "tip": "V comme… patience ☕" },
+      { "t": "+", "tip": "" },
+      { "t": "D)", "tip": "D comme… au premier RdV" },
+      { "t": "x", "tip": "" },
+      { "t": "PS", "tip": "PS… secret pro" },
+      { "t": "x", "tip": "" },
+      { "t": "H2H", "tip": "Human to human. Ça, je te le donne." },
+      { "t": "=", "tip": "" },
+      { "t": "M", "tip": "Le résultat. On en parle ?" }
+    ]
+  },
+  "simulator": {
+    "kicker": "Simulateur gain de temps",
+    "title": "Combien d'heures par semaine y passes-tu ?",
+    "tasks": [
+      { "label": "Devis et chiffrages", "short": "Devis et chiffrages", "rate": 0.6, "default": 4 },
+      { "label": "Relances clients", "short": "Relances clients", "rate": 0.8, "default": 2 },
+      { "label": "Saisie et ressaisie", "short": "Saisie et ressaisie", "rate": 0.7, "default": 3 },
+      { "label": "Chercher l'info (mails, fichiers)", "short": "Chercher l'info", "rate": 0.5, "default": 2 },
+      { "label": "Répondre aux mêmes questions", "short": "Questions répétitives", "rate": 0.6, "default": 2 }
+    ],
+    "result_intro": "Tu pourrais récupérer environ",
+    "unit": "h / semaine",
+    "today_label": "Aujourd'hui",
+    "after_label": "Avec ton outil sur mesure",
+    "weeks_per_year": 45,
+    "hours_per_day": 7,
+    "cta": "Je veux récupérer ces heures",
+    "note": "Estimation indicative, basée sur des taux d'automatisation prudents par type de tâche. On affine ensemble, gratuitement, au premier café."
+  },
+  "demo_devis": {
+    "kicker": "Démo live · IA",
+    "title": "Ton devis en 10 secondes",
+    "text": "Décris une prestation en une phrase, comme tu le dirais à un client. L'IA prépare le devis. Toi, tu relis.",
+    "placeholder": "Ex. : Rénovation d'une salle de bain de 6 m² avec douche à l'italienne pour M. Martin",
+    "default_prompt": "Rénovation d'une salle de bain de 6 m² avec douche à l'italienne pour M. Martin",
+    "examples": [
+      { "label": "Plombier", "prompt": "Remplacement d'un chauffe-eau 200 L chez Mme Durand" },
+      { "label": "Paysagiste", "prompt": "Création d'un massif de 15 m² et pose de gazon pour une maison" },
+      { "label": "Coach", "prompt": "Accompagnement de 5 séances pour un dirigeant de PME" },
+      { "label": "Photographe", "prompt": "Reportage photo d'un mariage, demi-journée, 150 photos retouchées" }
+    ],
+    "button": "Générer mon devis ✨",
+    "button_again": "Générer un autre devis",
+    "note": "Démo : prix fictifs générés à titre d'exemple. Ton outil, lui, utilisera tes vrais tarifs.",
+    "empty": "Ton devis apparaîtra ici"
+  },
+  "analyse": {
+    "kicker": "Analyse express · IA",
+    "title": "Analyse mon activité",
+    "text": "3 constats et 3 idées d'automatisation, en quelques secondes. Gratuit.",
+    "url_label": "Ton site (si tu en as un)",
+    "url_placeholder": "www.ton-site.fr",
+    "job_label": "Ton activité",
+    "job_placeholder": "Ex. : menuisier, 4 salariés",
+    "pain_label": "Ce qui te fait perdre le plus de temps",
+    "pain_placeholder": "Ex. : les devis et le suivi des chantiers",
+    "button": "Analyser maintenant ✨",
+    "button_again": "Relancer l'analyse",
+    "note": "Analyse indicative, basée sur ce que tu indiques. Fred l'approfondit avec toi au premier café.",
+    "empty": "Tes résultats\narrivent ici.",
+    "constats_title": "3 constats",
+    "idees_title": "3 idées d'automatisation",
+    "cta": "On creuse ça autour d'un café ☕"
+  },
+  "dock": {
+    "enabled": true,
+    "assistant_name": "L'assistant de Fred",
+    "assistant_status": "IA · Fred relit et te rappelle en vrai",
+    "greeting": "Salut ! 👋 Moi, c'est l'assistant de Fred. Dis-moi ce qui te prend le plus de temps dans ton activité, et je te dis ce qu'un outil sur mesure ou une formation pourrait changer.\n\nTu préfères parler ? Appuie sur « Laisse-moi un vocal » en bas de l'écran 🎙️",
+    "suggestions": ["Je perds du temps sur mes devis", "Tu peux m'aider avec un CRM ?", "Parle-moi de la formation IA", "C'est quoi ta formule ?"],
+    "input_placeholder": "Raconte-moi ce qui te prend du temps…",
+    "brief_button": "Ça me parle : je transmets mon besoin à Fred →",
+    "brief_title": "Brief transmis à Fred ✓",
+    "brief_cta": "Choisir mon créneau →",
+    "brief_done": "C'est noté ! Fred a ton brief. Choisis un créneau, il arrivera au café en sachant déjà de quoi on parle. ☕",
+    "error_text": "Oups, petite panne de mon côté. Le plus simple : on prend RdV ? Fred te répond personnellement sous 24 h ouvrées. ☕",
+    "name": "Fred",
+    "status_open": "Dispo aujourd'hui · réponse rapide",
+    "status_closed": "Te répond dès demain matin",
+    "open_from": 9,
+    "open_to": 18,
+    "voice_label": "Laisse-moi un vocal",
+    "ia_label": "IA",
+    "rdv_label": "On prend RdV ?",
+    "voice_questions": ["Tu fais quoi dans la vie ?", "Qu'est-ce qui te prend le plus de temps ?", "Et tu rêverais de quoi ?"],
+    "voice_max_seconds": 90,
+    "voice_title": "Ton vocal pour Fred",
+    "voice_sent_title": "Bien reçu{name} ! 🎙️",
+    "voice_sent_text": "Fred écoute ton vocal personnellement et te rappelle sous 24 h ouvrées. À tout de suite autour d'un café ☕",
+    "voice_error_title": "Micro indisponible",
+    "voice_error_text": "Je n'ai pas accès à ton micro. Autorise-le dans ton navigateur, ou écris-moi via le bot ou le formulaire.",
+    "voice_no_transcript": "Transcription indisponible sur ce navigateur : ton vocal sera quand même envoyé.",
+    "voice_summary_title": "Résumé IA pour Fred",
+    "voice_send": "Envoyer à Fred",
+    "voice_restart": "Recommencer",
+    "voice_finish": "Terminer",
+    "social_proof": false,
+    "social_proof_messages": ["Un dirigeant près de Belfort vient de réserver un café", "Une artisane de Besançon a lancé son diagnostic gain de temps", "Un indépendant de Dijon s'est inscrit à la formation IA"]
+  }
+}

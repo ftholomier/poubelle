@@ -1,0 +1,53 @@
+{
+  "seo": {
+    "title": "Sur mesure + IA · Sites web, CRM métier et outils boostés à l'IA",
+    "description": "Sites web sur mesure, CRM métier, applications, automatisation et assistants IA : des outils qui collent à ton métier et te font gagner du temps. Devis 100 % sur mesure."
+  },
+  "hero": {
+    "tag": "Sur mesure + IA",
+    "title": "Des outils sur mesure qui te font",
+    "title_accent": "gagner du temps",
+    "text": "Les logiciels standards t'obligent à changer ta façon de travailler. Moi, je fais l'inverse : je construis l'outil qui colle à ton métier, et j'y intègre l'intelligence artificielle partout où elle te fait gagner du temps. Résultat : moins de tâches répétitives, plus de productivité, et plus de temps pour tes clients.",
+    "cta": "Parle-moi de ton projet"
+  },
+  "blocks": {
+    "ia_title": "Ce que l'IA fait pour toi",
+    "explain_label": "Explique-moi comme à un débutant",
+    "explain_loading": "L'IA reformule…",
+    "explain_hide": "Masquer",
+    "explain_title": "En mots simples 👇",
+    "explain_fallback": "En gros : je construis un outil qui fait à ta place les tâches qui te pompent du temps. Toi, tu valides. Et je t'explique tout au premier café ☕",
+    "talk": "J'en parle à Fred →"
+  },
+  "demo": {
+    "ask": "Tu peux me montrer ce que ça donne, pour moi ?",
+    "title": "Teste l'IA sur",
+    "title_accent": "ton",
+    "title_end": "activité."
+  },
+  "principles": {
+    "title": "Ma façon de construire",
+    "items": [
+      { "t": "Sur mesure, sans usine à gaz", "d": "Des outils rapides et faciles à faire évoluer." },
+      { "t": "Tout t'appartient", "d": "Le code, les données, le nom de domaine." },
+      { "t": "Par étapes", "d": "Tu vois ton outil grandir et tu valides au fur et à mesure." },
+      { "t": "Documenté", "d": "Tu sais ce qui a été fait et pourquoi." },
+      { "t": "L'IA dans ma façon de travailler aussi", "d": "Je l'utilise au quotidien pour développer : je livre beaucoup plus vite, sans rogner sur la qualité." },
+      { "t": "L'IA sous ton contrôle", "d": "L'outil propose, tu décides." }
+    ]
+  },
+  "diagnostic": {
+    "title": "Où perds-tu le plus de temps ?",
+    "text": "Lors de notre premier échange, gratuit, on repère ensemble les 3 tâches qui te coûtent le plus de temps, et ce qu'un outil sur mesure ou l'IA pourrait automatiser. Commence ici :",
+    "card_title": "Le diagnostic, en vrai",
+    "card_text": "Un café, en vrai ou en visio. On regarde ton quotidien et on chiffre ce qu'on peut automatiser.",
+    "card_cta": "Je veux mon diagnostic",
+    "price_title": "Pas de tarif affiché, et c'est voulu",
+    "price_text": "Chaque projet est unique, alors chaque devis est construit pour toi après notre premier échange."
+  },
+  "final": {
+    "title": "On prend RdV ?",
+    "text": "Raconte-moi ce qui te prend du temps. Je te réponds personnellement, sous 24 h ouvrées.",
+    "cta": "Je prends RdV ☕"
+  }
+}

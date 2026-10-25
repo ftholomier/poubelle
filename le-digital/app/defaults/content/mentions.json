@@ -1,0 +1,13 @@
+{
+  "seo": {
+    "title": "Mentions légales & accessibilité",
+    "description": "Mentions légales, données personnelles et déclaration d'accessibilité du site LE-DIGITAL.com."
+  },
+  "title": "Mentions légales",
+  "sections": [
+    { "id": "editeur", "title": "Éditeur du site", "text": "LE-DIGITAL.com — Frédéric Tholomier.", "todo": "[Statut, SIRET, adresse, email : à fournir]" },
+    { "id": "hebergement", "title": "Hébergement", "text": "", "todo": "[Hébergeur : à fournir]" },
+    { "id": "donnees", "title": "Données personnelles", "text": "Les informations envoyées via le formulaire servent uniquement à te répondre.", "todo": "[Politique de confidentialité : à fournir]" },
+    { "id": "accessibilite", "title": "Accessibilité", "text": "Le site est conçu pour être lisible par tous : contrastes soignés, textes agrandissables, navigation au clavier. Un souci ? Écris-moi, je corrige.", "todo": "[Déclaration d'accessibilité : à fournir]" }
+  ]
+}

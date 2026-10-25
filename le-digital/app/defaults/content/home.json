@@ -1,0 +1,173 @@
+{
+  "seo": {
+    "title": "LE-DIGITAL.com · Outils sur mesure boostés à l'IA & formation digitale",
+    "description": "Site web, CRM métier, solutions sur mesure boostées à l'IA et formation DIGITAL 360. Moins de tâches, plus de business. Frédéric Tholomier, Besançon, Montbéliard, Belfort, Dijon et partout en France."
+  },
+  "hero": {
+    "tags": ["Développement sur mesure", "Intelligence artificielle", "Formation"],
+    "title_line1": "Moins de tâches,",
+    "title_line2": "plus de business.",
+    "rotating_intro": "Ton outil s'occupe",
+    "rotating_words": ["de tes devis", "de tes relances", "de ta saisie", "de tes rapports", "des questions clients"],
+    "text": "Site web, CRM métier, solutions sur mesure : je construis des outils boostés à l'IA qui travaillent pour toi. Tu gagnes du temps, ton équipe gagne en productivité, et tu n'es jamais seul : je t'accompagne de la première idée jusqu'à bien après la mise en ligne.",
+    "cta_primary": "On prend RdV ?",
+    "cta_secondary": "Découvrir mes solutions sur mesure",
+    "cta_secondary_href": "/sur-mesure-ia",
+    "note": "Premier échange gratuit, en vrai ou en visio. Devis 100 % sur mesure.",
+    "photo": "/assets/img/fred-portrait-1200.webp",
+    "photo_alt": "Frédéric Tholomier, fondateur de LE-DIGITAL.com",
+    "bubble_client_name": "Toi",
+    "bubble_client": "Fred, je passe mes soirées à faire mes devis et relancer mes clients…",
+    "bubble_fred_name": "Fred",
+    "bubble_fred": "On va confier ça à ton nouvel outil. Toi, tu valides. ☕",
+    "card1_title": "Devis préparé par l'IA",
+    "card1_sub": "prêt à relire",
+    "card2_title": "Relance client envoyée",
+    "card2_sub": "automatiquement"
+  },
+  "marquee": ["Devis préparés", "Relances envoyées", "Emails triés", "Factures lues", "Rapports générés", "Dossiers résumés"],
+  "stats": [
+    { "value": "500", "suffix": "+", "count": true, "accent": true, "label": "entreprises accompagnées" },
+    { "value": "100", "suffix": " %", "count": true, "accent": false, "label": "sur mesure, pensé pour ton métier" },
+    { "value": "IA", "suffix": "", "count": false, "accent": false, "label": "intégrée dans chaque outil" },
+    { "value": "1", "suffix": "", "count": false, "accent": false, "label": "seul interlocuteur : moi" }
+  ],
+  "services": {
+    "ask": "Concrètement, tu fais quoi pour moi ?",
+    "title": "Des outils sur mesure qui te font gagner du temps",
+    "intro": "Plutôt que de t'adapter à un logiciel standard, je construis l'outil qui s'adapte à toi. Et j'y intègre l'IA partout où elle te fait gagner du temps.",
+    "cta": "Parle-moi de ton projet"
+  },
+  "bureau": {
+    "enabled": true,
+    "title_before": "Ton bureau, aujourd'hui.",
+    "title_after": "Avec ton outil sur mesure.",
+    "window": "Ton outil · Tout est au même endroit",
+    "hint_start": "Fais défiler pour ranger ton bureau ↓",
+    "hint_progress": "Ça range…",
+    "hint_done": "Moins de tâches, plus de business.",
+    "items": [
+      { "before": "Devis Dupont à refaire !!", "after": "Devis Dupont · prêt à relire", "kind": "post", "x": 4, "y": 8, "rot": -8 },
+      { "before": "Relancer Martin ??", "after": "Relance Martin · envoyée", "kind": "post", "x": 62, "y": 6, "rot": 6 },
+      { "before": "export_final_v3 (2).xlsx", "after": "Chiffres du mois · à jour", "kind": "xls", "x": 34, "y": 30, "rot": 3 },
+      { "before": "Re: Re: Fwd: facture", "after": "Facture lue et saisie", "kind": "mail", "x": 8, "y": 52, "rot": 5 },
+      { "before": "Appeler le comptable", "after": "Rapport comptable · généré", "kind": "post", "x": 68, "y": 40, "rot": -10 },
+      { "before": "Mot de passe CRM ?", "after": "Fiches clients · centralisées", "kind": "post", "x": 40, "y": 66, "rot": -4 },
+      { "before": "planning_SEMAINE.xlsx", "after": "Planning · prêt", "kind": "xls", "x": 72, "y": 72, "rot": 8 },
+      { "before": "Où est le bon de commande ?", "after": "Bon de commande · retrouvé", "kind": "mail", "x": 2, "y": 78, "rot": -3 },
+      { "before": "47 mails non lus", "after": "Emails triés par l'IA", "kind": "mail", "x": 36, "y": 4, "rot": -6 }
+    ]
+  },
+  "ia": {
+    "kicker": "L'IA au cœur de chaque outil",
+    "title": "L'IA, pas pour faire joli.",
+    "title_accent": "Pour te faire gagner du temps.",
+    "intro": "Je n'ajoute de l'IA que là où elle t'apporte un gain concret. Voilà ce qui change, concrètement.",
+    "tab_before": "Aujourd'hui",
+    "tab_after": "Avec ton outil sur mesure",
+    "rows": [
+      { "before": "Tu ressaisis les mêmes infos à plusieurs endroits", "after": "Tout est saisi une fois, au bon endroit" },
+      { "before": "Tu passes tes soirées sur tes devis", "after": "L'IA prépare le devis, tu le relis et tu l'envoies" },
+      { "before": "Tu oublies de relancer", "after": "Les relances partent toutes seules, au bon moment" },
+      { "before": "Tu cherches l'info dans tes mails et tes fichiers", "after": "Tout est centralisé et retrouvé en un clic" },
+      { "before": "Tu réponds dix fois aux mêmes questions", "after": "Un assistant répond pour toi, 24 h/24" }
+    ],
+    "control": "L'IA toujours sous ton contrôle : l'outil propose, tu décides.",
+    "benefits": [
+      { "t": "Gain de productivité", "d": "Ton équipe se concentre sur ce qui a de la valeur." },
+      { "t": "Économie de temps", "d": "Des heures récupérées chaque semaine." },
+      { "t": "Moins d'erreurs", "d": "Fini les doubles saisies et les oublis." },
+      { "t": "Plus de temps pour tes clients", "d": "Et c'est là que se fait la conversion." }
+    ]
+  },
+  "demo": {
+    "ask": "Tu peux me montrer, là, maintenant ?",
+    "title": "Regarde l'IA bosser.",
+    "title_accent": "En direct.",
+    "intro": "Pas de vidéo, pas de promesse : c'est une vraie IA qui tourne, ici, sur ta demande. Imagine la même chose branchée sur ton métier."
+  },
+  "simulator": {
+    "ask": "Ok, mais je gagne combien de temps, moi ?",
+    "ask_dark": "L'IA, c'est pas un peu gadget ?",
+    "title": "Et toi, combien d'heures tu récupères ?",
+    "intro": "Bouge les curseurs. En 30 secondes, tu vois ce qu'un outil sur mesure pourrait te rendre chaque semaine."
+  },
+  "two_ways": {
+    "ask": "Et si je veux apprendre à le faire moi-même ?",
+    "title": "Deux façons de travailler ensemble.",
+    "title_accent": "Le même accompagnement.",
+    "dev_tag": "Développement sur mesure + IA",
+    "dev_title": "Je construis pour toi",
+    "dev_text": "Tu veux te concentrer sur ton métier ? Je conçois ton site, ton CRM ou ton application, clé en main, « all inclusive ».",
+    "dev_points": ["Tu valides à chaque étape", "L'IA intégrée là où elle te fait gagner du temps", "Tout t'appartient : code, données, nom de domaine"],
+    "dev_cta": "Voir les solutions sur mesure",
+    "form_tag": "Formation DIGITAL 360",
+    "form_title": "Je te forme",
+    "form_text": "Tu veux savoir faire toi-même ? Je te forme au webmarketing, à la création de site et à l'utilisation de l'IA dans ton activité.",
+    "form_points": ["En présentiel, directement avec moi", "En distanciel, avec moi, en direct", "En ligne, à ton rythme, seul comme un grand", "Finançable avec ton CPF (ou pas !)"],
+    "form_new_badge": "Nouveau",
+    "form_new": "Une formation courte dédiée à l'IA pour gagner du temps.",
+    "form_cta": "Découvrir la formation",
+    "extra": [
+      { "title": "Formaccompagnement →", "text": "Je construis ton outil avec toi, je t'explique tout, et tu repars autonome pour le faire vivre.", "href": "/accompagnement" },
+      { "title": "Mentorat & consulting →", "text": "Je t'accompagne dans la durée sur ta stratégie business, ton webmarketing et ton mindset d'entrepreneur.", "href": "/accompagnement" }
+    ]
+  },
+  "engagements": {
+    "ask": "Et si je suis bloqué après la livraison ?",
+    "kicker": "L'ultra-accompagnement H2H",
+    "title": "Je ne te livre pas un outil. Je t'accompagne jusqu'à ce qu'il te fasse gagner du temps."
+  },
+  "about": {
+    "ask": "Mais au fait, t'es qui ?",
+    "photo": "/assets/img/fred-situation-1600.webp",
+    "photo_alt": "Frédéric Tholomier au travail",
+    "stat_value": "500",
+    "stat_label": "entreprises accompagnées en consulting, prestation de services & formation",
+    "title": "Formateur et développeur : c'est ce qui change tout",
+    "text": "Je suis Frédéric Tholomier, fondateur de LE-DIGITAL.com. Je forme des entrepreneurs au digital, et je construis aussi leurs outils : sites web, CRM métier, solutions sur mesure boostées à l'IA. Cette double casquette, c'est ta garantie. Avec moi, ton outil n'est jamais une boîte noire.",
+    "quote": "« Je sais construire, et je sais expliquer. »",
+    "cta": "Faire connaissance"
+  },
+  "solutions": {
+    "ask": "Tu as déjà créé tes propres outils ?",
+    "title": "Mes solutions",
+    "intro": "Des outils que j'ai imaginés, construits, et que je fais vivre au quotidien.",
+    "link": "Voir mes solutions →"
+  },
+  "steps": {
+    "ask": "Ça se passe comment, en vrai ?",
+    "title": "De ton premier café à tes premières heures gagnées ☕",
+    "items": [
+      { "t": "On prend un café.", "d": "En vrai ou en visio, gratuitement. On repère les tâches qui te font perdre le plus de temps." },
+      { "t": "Une proposition sur mesure.", "d": "Ce qu'on construit, ce que tu gagnes, combien ça coûte : un devis clair, fait pour toi." },
+      { "t": "Je construis, étape par étape.", "d": "Tu testes et tu valides au fur et à mesure." },
+      { "t": "Je te forme à ton outil.", "d": "Toi et ton équipe êtes à l'aise dès le premier jour." },
+      { "t": "Et après, je suis là.", "d": "Suivi, évolutions, nouvelles automatisations." }
+    ]
+  },
+  "formula": {
+    "hint": "Survole chaque lettre : elles cachent toutes un secret 🤫",
+    "hint_touch": "Touche chaque lettre : elles cachent toutes un secret 🤫",
+    "text": "Rassure-toi, il n'y a rien de mathématique dans ma formule ! C'est ce qui fait la réussite d'un business, et je te l'explique au premier rendez-vous.",
+    "cta": "Je veux que tu m'expliques ta formule, GO ! 🚀"
+  },
+  "reviews": {
+    "ask": "Et les autres, ils en pensent quoi ?",
+    "title": "Ils en parlent mieux que moi",
+    "link": "Tous les avis →",
+    "placeholders": [
+      { "tag": "Développement", "who": "un client en développement sur mesure" },
+      { "tag": "Formation", "who": "un stagiaire de la formation DIGITAL 360" },
+      { "tag": "Accompagnement", "who": "un client en formaccompagnement ou mentorat" }
+    ]
+  },
+  "final": {
+    "title": "Combien d'heures pourrais-tu récupérer chaque semaine ?",
+    "text": "Raconte-moi ce qui te prend du temps aujourd'hui. Je te réponds personnellement, et on regarde ensemble ce qu'un outil sur mesure pourrait faire pour toi. Chaque projet est unique : chaque devis aussi.",
+    "cta": "On prend RdV ?",
+    "bubble_client": "Je perds au moins une journée par semaine sur l'administratif.",
+    "bubble_fred": "Parfait, on regarde ça ensemble autour d'un café ☕",
+    "bot_button": "Ou pose ta question à mon assistant IA →"
+  }
+}

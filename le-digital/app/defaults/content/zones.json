@@ -1,0 +1,21 @@
+{
+  "seo": {
+    "title": "Développeur sur mesure + IA et formateur digital à {city}",
+    "description": "Tu es dirigeant, artisan, commerçant ou indépendant {prep} ? Sites web, CRM métier, outils IA sur mesure et formation digitale. En vrai, autour d'un café {prep}, ou en visio."
+  },
+  "cities": [
+    { "slug": "besancon", "name": "Besançon", "prep": "à Besançon", "of": "de Besançon et du Doubs" },
+    { "slug": "montbeliard", "name": "Montbéliard", "prep": "à Montbéliard", "of": "du Pays de Montbéliard" },
+    { "slug": "belfort", "name": "Belfort", "prep": "à Belfort", "of": "de Belfort et du Territoire" },
+    { "slug": "dijon", "name": "Dijon", "prep": "à Dijon", "of": "de Dijon et de Côte-d'Or" }
+  ],
+  "title": "Développeur sur mesure + IA et formateur digital à",
+  "text": "Tu es dirigeant, artisan, commerçant ou indépendant {prep} ? Je construis tes outils sur mesure boostés à l'IA, et je te forme au digital. En vrai, autour d'un café {prep}, ou en visio.",
+  "cta_primary": "On prend un café {prep} ?",
+  "cta_secondary": "Voir le sur mesure",
+  "cards": [
+    { "title": "Sites, CRM, outils IA", "text": "Pour les entreprises {of}, sur mesure, sans usine à gaz.", "href": "/sur-mesure-ia" },
+    { "title": "Formation DIGITAL 360", "text": "En présentiel {prep}, en distanciel ou en ligne. Finançable CPF (ou pas !).", "href": "/formation" },
+    { "title": "Un seul interlocuteur", "text": "Moi, en direct. Réponse sous 24 h ouvrées. Et je me déplace.", "href": "/accompagnement" }
+  ]
+}

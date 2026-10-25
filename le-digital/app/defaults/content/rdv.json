@@ -1,0 +1,71 @@
+{
+  "seo": {
+    "title": "On prend RdV ? · Premier échange gratuit, en vrai ou en visio",
+    "description": "Réserve un créneau, remplis le formulaire ou demande à être rappelé : Frédéric te répond personnellement sous 24 h ouvrées. Premier échange gratuit et sans engagement."
+  },
+  "hero": {
+    "tag": "On prend RdV ? ☕",
+    "title": "Alors comme ça, tu veux qu'on échange sur",
+    "title_accent": "ton business et le digital ?",
+    "text": "Raconte-moi ton projet, ou simplement ce qui te fait perdre du temps aujourd'hui. Je te réponds personnellement, et on cale un premier échange gratuit, en vrai ou en visio.",
+    "reassure": ["Premier échange gratuit et sans engagement", "Réponse personnelle de Frédéric sous 24 h ouvrées", "Devis 100 % sur mesure"]
+  },
+  "diag": {
+    "kicker": "Ton diagnostic · déjà transmis à Fred",
+    "title_sim": "≈ {h} h récupérables / semaine",
+    "title_brief": "Ton brief est prêt",
+    "row_tasks": "Tes tâches les plus chronophages",
+    "row_need": "Ton besoin",
+    "row_formula": "Formule conseillée"
+  },
+  "booking": {
+    "kicker": "Option 1",
+    "title": "Réserve directement un créneau",
+    "sms_label": "M'envoyer un rappel par SMS la veille",
+    "choose": "Choisis un créneau",
+    "book": "Je réserve {t}",
+    "name_label": "Ton prénom",
+    "email_label": "Ton email",
+    "phone_label": "Ton téléphone",
+    "note": "Créneaux mis à jour en temps réel. Tu reçois une confirmation par email.",
+    "done_title": "C'est calé ! ☕",
+    "done_text": "{label}. Tu reçois une confirmation par email.",
+    "ics": "Ajouter à mon agenda 📅",
+    "sms_done": "Rappel SMS la veille ✓",
+    "change": "Changer de créneau",
+    "none": "Aucun créneau disponible pour le moment : remplis le formulaire, je te recontacte très vite."
+  },
+  "form": {
+    "kicker": "Option 2",
+    "title": "Remplis le formulaire",
+    "name": "Ton prénom",
+    "phone": "Ton téléphone",
+    "email": "Ton email",
+    "interests_label": "Je suis intéressé par",
+    "interests": ["Site web sur mesure", "CRM métier", "Solution sur mesure", "Automatisation & IA", "Formation DIGITAL 360", "Formation IA", "Formaccompagnement", "Mentorat & consulting", "Intensiti", "Formaliance", "L'explication de ta super formule !"],
+    "time": "Ce qui te prend le plus de temps aujourd'hui",
+    "why": "Et le pourquoi du comment",
+    "submit": "Envoyer, et on en parle !",
+    "consent": "En envoyant ce formulaire, tu acceptes que Frédéric utilise ces informations pour te répondre. Rien d'autre.",
+    "done_title": "Merci !",
+    "done_text": "Je reviens vers toi très vite. À tout de suite autour d'un café ☕"
+  },
+  "callback": {
+    "kicker": "Option 3 · le plus rapide",
+    "title": "Rappelle-moi, Fred.",
+    "text": "Laisse ton numéro, je t'appelle moi-même.",
+    "placeholder": "06 12 34 56 78",
+    "moments": ["Matin", "Midi", "Soir"],
+    "moments_label": ["ce matin", "ce midi", "en fin de journée"],
+    "submit": "Rappelle-moi",
+    "done": "C'est noté ! Je t'appelle {moment}. ☕"
+  },
+  "contacts": {
+    "phone_label": "Mon numéro direct",
+    "phone_todo": "À fournir",
+    "linkedin_label": "On se suit ?",
+    "linkedin": "LinkedIn",
+    "bot_label": "Une question avant ?",
+    "bot": "Demande à l'IA"
+  }
+}

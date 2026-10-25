@@ -1,0 +1,132 @@
+# LE-DIGITAL.com — site + back-office
+
+Site vitrine de Frédéric Tholomier, développé en **PHP natif** (aucune dépendance, aucun framework),
+**sans base de données** : tous les contenus et toutes les données sont stockés en **JSON**.
+HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refonte complète le-digital.com ».
+
+## Ce qui est inclus
+
+**Site public** (11 pages + article de blog, desktop et mobile)
+
+- Accueil, Sur mesure + IA, Formation, L'accompagnement, Mes solutions, Qui suis-je, Avis, Blog (liste + article),
+  On prend RdV ?, Zones (Besançon, Montbéliard, Belfort, Dijon), Mentions légales / Accessibilité.
+- Toutes les interactions de la maquette fonctionnent :
+  - conversation animée du haut de page, mots qui défilent, compteurs, apparitions au défilement ;
+  - « le bureau qui se range » au défilement ;
+  - avant / après, programme en accordéon, formats de formation, 4 formules, quiz « quelle formule ? » ;
+  - **démo IA « Ton devis en 10 secondes »**, **analyse express de l'activité** (lit réellement la page d'accueil du site indiqué),
+    **« Explique-moi comme à un débutant »** (réponses mises en cache) ;
+  - simulateur de gain de temps (mémorisé et transmis au formulaire de contact) ;
+  - **assistant IA** (barre du bas) avec brief transmis à Fred ;
+  - **vocal pour Fred** : enregistrement, visualisation, transcription, résumé IA, envoi (fichier audio reçu par e-mail) ;
+  - **prise de rendez-vous réelle** : créneaux en temps réel, confirmation e-mail + fichier agenda, rappel SMS/e-mail la veille,
+    lien d'annulation ;
+  - formulaire de contact, demande de rappel, filtres Avis / Blog, secrets de la formule (survol ou toucher).
+- Emplacements « à fournir » de la maquette affichés automatiquement tant que le contenu réel est vide.
+- Mobile soigné : menu repliable, barre « On prend RdV ? » fixée en bas, zones tactiles, aucune barre de défilement horizontale.
+
+**Back-office** (`/admin`)
+
+- Tableau de bord + checklist de mise en ligne.
+- Demandes (formulaire, RdV, rappels, vocaux avec lecteur audio, briefs de l'assistant), statuts, notes, export CSV.
+- Rendez-vous : agenda, annulation, disponibilités (jours, créneaux, congés, durée, prévenance), **flux iCal privé**
+  à ajouter dans Google Agenda / Apple Calendrier.
+- **Contenus** : éditeur générique de toutes les pages (textes, listes, boutons, images…), réinitialisation possible.
+- Avis clients, articles de blog (éditeur visuel), médiathèque (conversion WebP + tailles responsive automatiques).
+- **IA & clés API** : clés chiffrées pour Anthropic (Claude), OpenAI, Google Gemini, Mistral, Groq, OpenRouter, DeepSeek, xAI ;
+  **liste des modèles récupérée en direct** auprès de chaque fournisseur ; modèle par défaut + modèle par fonctionnalité,
+  consignes (prompts) modifiables, test en direct, plafond quotidien, suivi de consommation.
+- Paramètres : identité, coordonnées, e-mails (mail() ou SMTP), SMS (Brevo ou Twilio), SEO, cache, redirections 301,
+  tâches planifiées, **sauvegarde ZIP** complète.
+
+## Structure
+
+```
+le-digital/
+├── public/            ← SEUL dossier exposé au web (racine du site)
+│   ├── index.php      ← point d'entrée unique
+│   ├── assets/        ← CSS, JS, polices auto-hébergées, images optimisées
+│   └── uploads/       ← images envoyées depuis le back-office
+├── app/               ← code PHP (hors web)
+│   ├── bootstrap.php, helpers.php, cron.php
+│   ├── lib/           ← moteur (stockage JSON, IA, e-mails, RdV…) et contrôleurs
+│   ├── views/         ← gabarits du site et du back-office
+│   └── defaults/      ← contenus d'origine (textes de la maquette, articles de démarrage)
+└── storage/           ← données JSON (hors web, créé au premier lancement)
+    ├── content/       ← textes des pages, paramètres, réglages IA
+    ├── data/          ← demandes, rendez-vous, avis, articles, médias, vocaux
+    ├── secrets/       ← clés API chiffrées + clé de chiffrement
+    ├── cache/, logs/, sessions/
+```
+
+## Prérequis
+
+- PHP **8.1+** avec les extensions `curl`, `json`, `mbstring`, `gd` (avec WebP), `fileinfo`, `sodium` (ou `openssl`) ;
+  `zip` pour la sauvegarde.
+- Droits d'écriture sur `storage/` et `public/uploads/`.
+
+## Installation
+
+### Apache (recommandé)
+
+1. Copier le dossier `le-digital/` sur le serveur.
+2. Faire pointer la **racine web du domaine sur `le-digital/public`** (le `.htaccess` fourni gère la réécriture d'URL, le cache et la compression).
+   Si ton hébergement ne permet pas de changer la racine, place le contenu de `le-digital/` à la racine : le `.htaccess`
+   de premier niveau redirige vers `public/` et bloque l'accès à `app/` et `storage/`.
+3. Ouvrir `https://ton-domaine/admin` → création du compte administrateur (une seule fois).
+4. Dans le back-office : renseigner les paramètres (URL du site, numéro, LinkedIn, e-mails), coller une clé API d'IA,
+   puis suivre la checklist du tableau de bord.
+5. Activer HTTPS (décommenter la redirection dans `public/.htaccess`).
+
+### Nginx
+
+```nginx
+server {
+    root /var/www/le-digital/public;
+    index index.php;
+    client_max_body_size 16m;
+    location / { try_files $uri /index.php?$query_string; }
+    location ~ \.php$ { include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root/index.php; fastcgi_pass unix:/run/php/php8.3-fpm.sock; }
+    location ~* \.(css|js|woff2|webp|png|jpe?g|svg|gif)$ { expires 1y; add_header Cache-Control "public, immutable"; }
+    location ^~ /uploads/ { location ~ \.php$ { deny all; } }
+}
+```
+
+### En local
+
+```bash
+php -S localhost:8000 -t public public/index.php
+```
+
+## Tâche planifiée (rappels de rendez-vous)
+
+À lancer **toutes les heures** (les rappels partent à partir de 17 h la veille) :
+
+```
+0 * * * * php /chemin/vers/le-digital/app/cron.php
+```
+
+Sans accès SSH : appeler toutes les heures l'URL secrète affichée dans *Paramètres › Tâches planifiées*.
+
+## IA
+
+- Sans clé, le site fonctionne avec des réponses de secours (celles de la maquette).
+- Avec une clé : *IA & clés API* → coller la clé → elle est vérifiée et la liste des modèles est chargée en direct.
+- Claude : appel à l'API Messages (`anthropic-version: 2026-10-21`), effort de réflexion réglable (faible par défaut,
+  pour des réponses rapides sur le site) et bascule automatique sur un modèle de repli en cas de refus pour les modèles
+  qui le permettent.
+- Protection contre les abus : jeton signé par page, vérification d'origine, limitation par IP, plafond quotidien d'appels.
+
+## Sécurité
+
+- Code et données hors de la racine web ; sessions admin isolées ; mots de passe hachés ; jeton CSRF sur toutes les actions ;
+  limitation des tentatives de connexion.
+- Clés API et mots de passe SMTP chiffrés au repos (libsodium).
+- Médias ré-encodés à l'envoi (aucun script exécutable dans `uploads/`), articles nettoyés (liste blanche HTML),
+  analyse de site protégée contre les requêtes vers des adresses internes.
+- Aucun cookie côté visiteurs (seul le back-office utilise une session), polices auto-hébergées : pas d'appel à des services tiers.
+
+## Sauvegarde
+
+*Paramètres › Sauvegarde* télécharge un ZIP contenant `storage/content`, `storage/data`, `storage/secrets` et `public/uploads`.
+Pour restaurer : replacer ces dossiers.

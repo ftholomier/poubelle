@@ -1,0 +1,12 @@
+# Si l'hébergement ne permet pas de pointer la racine web sur /public,
+# ce fichier redirige tout vers /public et protège le code et les données.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(app|storage)(/|$) - [F,L]
+  RewriteRule ^$ public/ [L]
+  RewriteCond %{REQUEST_URI} !^/public/
+  RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+<FilesMatch "\.(md|json|lock|log)$">
+  Require all denied
+</FilesMatch>

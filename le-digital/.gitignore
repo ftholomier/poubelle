@@ -1,0 +1,6 @@
+# Données d'exécution (créées automatiquement au premier lancement)
+/storage/*
+!/storage/.gitkeep
+!/storage/.htaccess
+/public/uploads/*
+!/public/uploads/.htaccess

@@ -1,0 +1,18 @@
+{
+  "seo": {
+    "title": "Le blog · IA, sites web, webmarketing et entrepreneuriat",
+    "description": "Des conseils concrets pour gagner du temps grâce à l'IA, créer un site qui convertit et développer ton activité grâce au digital."
+  },
+  "title": "Le blog",
+  "filter_all": "Tous",
+  "themes": ["IA & productivité", "Sites web", "Webmarketing", "Formation", "Entrepreneuriat"],
+  "read_suffix": "min de lecture",
+  "author_name": "Frédéric Tholomier",
+  "author_role": "Développeur sur mesure + IA & formateur",
+  "toc_title": "Sommaire",
+  "article_cta_title": "Tu veux gagner du temps dans ton activité ?",
+  "article_cta": "On prend RdV ?",
+  "related_title": "Articles similaires",
+  "final_title": "Tu veux gagner du temps dans ton activité ?",
+  "final_cta": "On prend RdV ?"
+}

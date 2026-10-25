@@ -1,0 +1,84 @@
+{
+  "seo": {
+    "title": "Formation DIGITAL 360 · Deviens autonome sur ton digital, IA comprise",
+    "description": "Formation DIGITAL 360 : webmarketing, création de site, référencement, réseaux sociaux et IA. En présentiel, en distanciel ou en ligne. Finançable avec ton CPF (ou pas !)."
+  },
+  "hero": {
+    "badge": "Nouveau",
+    "badge_text": "La formation IA pour gagner du temps →",
+    "title": "Formation DIGITAL 360 : deviens autonome sur ton digital,",
+    "title_accent": "IA comprise",
+    "text": "Tu veux créer ou développer ton activité grâce au digital, et savoir le faire toi-même ? La formation DIGITAL 360 te donne les clés pour utiliser tous les leviers du digital, avec un formateur qui construit des outils digitaux et de l'IA tous les jours.",
+    "cta_primary": "Ça m'intéresse !",
+    "cta_secondary": "Voir le programme",
+    "note": "Finançable avec ton CPF (ou pas !)",
+    "photo": "/assets/img/fred-situation-1600.webp",
+    "photo_alt": "Frédéric Tholomier en formation",
+    "float_label": "Formé par un praticien",
+    "float_title": "Développeur + formateur"
+  },
+  "why": {
+    "title": "Pourquoi te former avec moi",
+    "items": [
+      { "t": "Je pratique ce que j'enseigne", "d": "Je développe des sites, des CRM et des outils IA pour mes clients." },
+      { "t": "On travaille sur ton activité", "d": "Pas sur un cas d'école." },
+      { "t": "Tu n'es pas lâché dans la nature", "d": "" }
+    ]
+  },
+  "formats": {
+    "title": "Trois façons de suivre la formation",
+    "intro": "Choisis celle qui te ressemble :",
+    "cta": "Ça m'intéresse !",
+    "items": [
+      { "k": "Format 1", "t": "En présentiel", "d": "Directement avec moi, en face à face.", "detail": "", "todo": "Lieux à préciser", "big": "1:1" },
+      { "k": "Format 2", "t": "En distanciel", "d": "En visio, avec moi, en direct.", "detail": "", "todo": "", "big": "Live" },
+      { "k": "Format 3", "t": "En ligne", "d": "À ton rythme, seul comme un grand.", "detail": "", "todo": "", "big": "24/7" }
+    ]
+  },
+  "programme": {
+    "title": "Au programme",
+    "todo": "Programme réel à fournir",
+    "modules": [
+      { "t": "Stratégie digitale et positionnement", "d": "Qui tu es, pour qui, et comment le digital t'aide à le faire savoir." },
+      { "t": "Créer son site internet", "d": "Un site clair, beau sur mobile, que tu sais faire évoluer toi-même." },
+      { "t": "Être trouvé sur Google", "d": "Les bases du référencement, appliquées à ton activité." },
+      { "t": "Réseaux sociaux et contenus", "d": "Quoi publier, où, et comment tenir le rythme." },
+      { "t": "Publicité en ligne et emailing", "d": "Toucher les bonnes personnes, au bon moment." },
+      { "t": "L'IA dans ton activité", "d": "Rédiger, créer des visuels, automatiser, gagner du temps." }
+    ]
+  },
+  "ia": {
+    "badge": "Nouveau",
+    "title": "L'IA pour gagner du temps dans ton entreprise",
+    "text": "Une formation courte et 100 % pratique pour utiliser l'IA dès le lendemain dans ton activité. Tu repars avec tes propres outils prêts à l'emploi, pas avec de la théorie.",
+    "for_title": "Pour qui",
+    "for_text": "Dirigeants, indépendants, équipes qui veulent gagner du temps au quotidien.",
+    "why_title": "Pourquoi avec moi",
+    "why_text": "J'intègre l'IA dans des outils sur mesure tous les jours. Je t'apprends ce qui marche vraiment.",
+    "format": "",
+    "format_todo": "Format, durée et financement : à préciser",
+    "cta": "Je veux gagner du temps avec l'IA 🚀",
+    "skills_title": "Ce que tu vas apprendre à faire",
+    "skills": [
+      "Rédiger tes emails, tes devis et tes contenus en quelques minutes",
+      "Créer des visuels pour ton site et tes réseaux sociaux",
+      "Résumer et analyser tes documents, tes comptes rendus, tes chiffres",
+      "Automatiser tes tâches répétitives",
+      "Choisir les bons outils d'IA et les utiliser en toute sécurité"
+    ]
+  },
+  "financing": {
+    "title": "Financement",
+    "text": "Finançable avec ton CPF (ou pas !).",
+    "more": "",
+    "more_todo": "Autres financements à préciser"
+  },
+  "reviews": {
+    "todo": "Avis de stagiaires à fournir.",
+    "link": "Tous les avis →"
+  },
+  "final": {
+    "title": "Prêt à devenir autonome ?",
+    "cta": "Ça m'intéresse !"
+  }
+}

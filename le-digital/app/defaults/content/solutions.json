@@ -1,0 +1,40 @@
+{
+  "seo": {
+    "title": "Mes solutions · Intensiti et Formaliance",
+    "description": "Intensiti, l'affichage dynamique piloté depuis un navigateur, et Formaliance : des outils imaginés, construits et maintenus par Frédéric Tholomier."
+  },
+  "hero": {
+    "title": "Mes",
+    "title_accent": "solutions",
+    "text": "Ces outils, je les ai imaginés, construits, et je les fais vivre au quotidien. C'est aussi la preuve que je sais mener un produit de l'idée jusqu'à ses utilisateurs."
+  },
+  "intensiti": {
+    "name": "Intensiti",
+    "tagline": "L'affichage dynamique, simplement.",
+    "short": "L'affichage dynamique qui se pilote depuis un navigateur.",
+    "text": "Pilote tes écrans à distance depuis un simple navigateur : accueil d'entreprise, vitrine de commerce ou d'agence, salle d'attente, hall. Tu programmes ce qui s'affiche, quand et où, sans te déplacer.",
+    "strengths": ["Plusieurs mises en page", "Des dizaines de thèmes", "Playlists programmées", "Flash info", "Bandeau défilant"],
+    "media": ["Images", "Vidéos", "PDF", "YouTube", "QR codes", "Textes", "Flux d'actualités", "Comptes à rebours"],
+    "image": "",
+    "url": "",
+    "cta": "Découvrir Intensiti",
+    "demo_cta": "Demander une démo"
+  },
+  "formaliance": {
+    "name": "Formaliance",
+    "tagline": "",
+    "short": "",
+    "text": "",
+    "strengths": [],
+    "image": "",
+    "url": "",
+    "cta": "Découvrir Formaliance",
+    "demo_cta": "Demander une démo"
+  },
+  "links_todo": "Liens à fournir",
+  "final": {
+    "title": "Tu as besoin d'un outil comme ça, mais pour ton métier ?",
+    "text": "C'est exactement ce que je construis. Parle-moi de ton projet.",
+    "cta": "On prend RdV ?"
+  }
+}
