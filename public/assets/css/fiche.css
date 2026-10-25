@@ -88,9 +88,13 @@
 .pitch__line--area-t { left: 30%; right: 30%; top: 14px; height: 13%; border-top: 0; }
 .pitch__p { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--cream); transition: transform .2s var(--bounce), color .2s; z-index: 1; }
 a.pitch__p:hover { transform: translate(-50%, -50%) scale(1.12); color: var(--yellow); z-index: 2; }
-.pitch__num { width: 40px; height: 40px; border-radius: 50%; background: var(--yellow); color: var(--navy); border: 2px solid var(--navy); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 900; font-size: 18px; }
+.pitch__num { position: relative; width: 54px; height: 54px; border-radius: 50%; background: var(--yellow); color: var(--navy); border: 2px solid var(--navy); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 900; font-size: 20px; }
+/* Joueur dont la fiche a une photo : la photo remplit la pastille, le numéro passe dans un petit badge. */
+.pitch__num.has-photo { background: var(--navy); border: 3px solid var(--yellow); box-shadow: 0 2px 6px rgb(0 0 0 / .35); }
+.pitch__num img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; border-radius: 50%; }
+.pitch__badge { position: absolute; right: -7px; bottom: -5px; z-index: 1; min-width: 22px; height: 22px; padding: 0 4px; border-radius: 11px; background: var(--yellow); color: var(--navy); border: 2px solid var(--navy); display: flex; align-items: center; justify-content: center; font-size: 12px; line-height: 1; }
 .pitch__name { font-family: var(--display); font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; background: rgb(var(--navy-rgb) / .75); padding: 1px 6px; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
-@media (max-width: 420px) { .pitch__num { width: 30px; height: 30px; font-size: 15px; } .pitch__name { font-size: 12px; max-width: 86px; } }
+@media (max-width: 420px) { .pitch__num { width: 44px; height: 44px; font-size: 17px; } .pitch__badge { min-width: 18px; height: 18px; font-size: 10px; right: -6px; bottom: -4px; } .pitch__name { font-size: 12px; max-width: 86px; } }
 .lineup { font-size: 16px; }
 .lineup td { padding: 8px 10px; font-size: 16px; }
 .lineup thead th { font-size: 13px; padding: 10px; }

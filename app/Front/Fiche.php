@@ -216,12 +216,28 @@ final class Fiche
             $out[] = $r + [
                 'pid' => $s ? (int) $pid : null,
                 'href' => $s && Index::visible($s) ? url($s['path']) : null,
+                'photo' => $s && Index::visible($s) ? self::portrait($s['image'] ?? null) : null,
                 'display' => Names::display((string) $r['name']),
                 'short' => mb_strtoupper(Names::lineupLastName((string) $r['name']) ?: (string) $r['name']),
                 'n' => $i + 1,
             ];
         }
         return $out;
+    }
+
+    /**
+     * Photo d'un joueur pour sa pastille sur le terrain : celle de sa fiche si c'est un portrait (image
+     * carrée ou en hauteur, pas une photo d'équipe ou d'action en largeur), hors visuels génériques.
+     */
+    private static function portrait(mixed $image): ?string
+    {
+        if (!is_string($image) || $image === '' || Index::isPlaceholderImage($image)) {
+            return null;
+        }
+        $m = \App\Data\Media::get($image);
+        $w = (int) ($m['width'] ?? 0);
+        $h = (int) ($m['height'] ?? 0);
+        return $w > 0 && $h >= 0.8 * $w ? $image : null;
     }
 
     /** Placement des titulaires sur le terrain (formation déduite des postes G / D / M / A). */

@@ -2254,6 +2254,8 @@ dans les fiches (la plupart ne vivent qu'en ligne) : la liste est livrée avec l
 
 ## Feuille de match : terrain, pictos et tweets (`templates/fiche-match.php`, `app/helpers.php`)
 
+Pastilles du terrain avec photo : `Fiche::lineupRows()` ajoute `photo` (image à la une de la fiche du joueur relié et publié, hors visuels génériques `Index::isPlaceholderImage()`, seulement si portrait : hauteur ≥ 80 % de la largeur d'après la médiathèque, pour écarter photos d'équipe et d'action). Gabarits `fiche-match.php` et `interactif/retro-match.php` : `.pitch__num.has-photo` (image 160 px WebP, `object-fit: cover`, `object-position: 50% 20%`), numéro ou poste dans `.pitch__badge` ; pastilles 54 px (44 px sous 420 px). L'export PDF garde les pastilles sans photo.
+
 Vidéos des fiches (onglet Médias) : YouTube, Dailymotion (lecture intégrée refusée par Dailymotion, « Forbidden » : image + lien « Regarder sur Dailymotion »), Vimeo, Rutube, fichier, et publications X (`provider` `x`, lien `x.com|twitter.com/<compte>/status/<numéro>`, affichées par `platform.twitter.com/embed/Tweet.html`, hauteur ajustée par le message de X). `VideoThumbs::check()` (tâche « videos ») interroge chaque semaine l'API publique Dailymotion : vidéo supprimée, ou privée notée dans `storage/videos-indisponibles.json`, masquée sur le site et signalée dans Qualité ; une erreur réseau ne change rien.
 
 - **Terrain** : chaque ligne (défense, milieu, attaque) est placée de droite à gauche, dans
