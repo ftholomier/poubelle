@@ -35,6 +35,7 @@ final class DataFixes
         '2026-10-temps-forts-du-recit' => 'recitHighlights',
         '2026-10-reactions-du-recit' => 'recitReactions',
         '2026-10-buts-par-le-score' => 'recitGoals',
+        '2026-10-temps-forts-autres-formats' => 'recitHighlightsFormats',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -395,6 +396,69 @@ final class DataFixes
             return $ids;
         });
         return ['message' => count($ids) . ' match(s) : ' . $stats['goals'] . ' but(s) reconnu(s) au score du récit et coché(s)', 'ids' => $ids];
+    }
+
+    /**
+     * Lignes du récit reconnues depuis l'élargissement des formats (« 33' Frau… » du bouton ⏱ Minute,
+     * « 33e : », « 33 min - », apostrophes typographiques, lignes séparées par un retour à la ligne ou
+     * collées…) : ajoutées aux temps forts. Seules les minutes que l'ancienne lecture ne voyait pas sont
+     * ajoutées, pour ne jamais remettre un temps fort qu'un historien aurait supprimé.
+     */
+    private static function recitHighlightsFormats(): array
+    {
+        $norm = fn (string $m) => (string) preg_replace('/[^\d+]/', '', $m);
+        $stats = ['added' => 0];
+        $ids = Fiches::batch(function () use (&$stats, $norm) {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                if (($doc['type'] ?? '') !== 'match' || ($doc['status'] ?? '') === 'corbeille') {
+                    continue;
+                }
+                $doc = Fiches::fresh((int) $id);
+                $old = self::legacyMinutes($doc);
+                $new = array_values(array_filter(RecitHighlights::extract($doc), fn ($r) => !isset($old[$norm($r['minute'])])));
+                if (!$new) {
+                    continue;
+                }
+                $existing = (array) ($doc['match']['highlights'] ?? []);
+                [$hl, $added, $goals] = RecitHighlights::merge($existing, $new);
+                // Garde-fou : pas plus de buts que le score final, sinon les lignes ajoutées restent sans « But ».
+                $sc = $doc['match']['score'] ?? null;
+                if (is_array($sc) && is_numeric($sc['home'] ?? null) && is_numeric($sc['away'] ?? null)
+                    && count(array_filter($hl, fn ($h) => !empty($h['goal']))) > (int) $sc['home'] + (int) $sc['away']) {
+                    [$hl, $added, $goals] = RecitHighlights::merge($existing, array_map(fn ($r) => ['goal' => false] + $r, $new));
+                }
+                if (!$added && !$goals) {
+                    continue;
+                }
+                $doc['match']['highlights'] = $hl;
+                $stats['added'] += $added;
+                Fiches::save($doc, ['name' => 'Temps forts du récit'], 'Temps forts repris du récit (autres façons de taper la minute)');
+                $ids[] = (int) $id;
+            }
+            return $ids;
+        });
+        return ['message' => count($ids) . ' match(s) : ' . $stats['added'] . ' temps fort(s) repris du récit (autres façons de taper la minute)', 'ids' => $ids];
+    }
+
+    /** Minutes que la première lecture du récit (« 65' : » seulement, un paragraphe par ligne) reconnaissait. */
+    private static function legacyMinutes(array $doc): array
+    {
+        $seen = [];
+        foreach (\App\Front\Fiche::splitResume((array) ($doc['sections'] ?? []))['sections'] as $s) {
+            if (($s['key'] ?? '') !== 'resume') {
+                continue;
+            }
+            $html = (string) $s['html'];
+            $blocks = preg_match_all('#<(li|p)\b[^>]*>(.*?)</\1>#is', $html, $m) && $m[2] ? $m[2] : (preg_split('#<br\s*/?>|\n#i', $html) ?: []);
+            foreach ($blocks as $b) {
+                $txt = trim((string) preg_replace('/[\s\x{00A0}]+/u', ' ', html_entity_decode(strip_tags($b), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+                if (preg_match("/^(\\d{1,3})\\s*(?:['’]\\s*)?(?:\\+\\s*(\\d{1,2})\\s*['’]?)?\\s*[:\\-–]\\s*(.+)$/us", $txt, $mm)) {
+                    $seen[$mm[1] . (($mm[2] ?? '') !== '' ? '+' . $mm[2] : '')] = true;
+                }
+            }
+        }
+        return $seen;
     }
 
     /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */

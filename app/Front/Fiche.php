@@ -279,14 +279,15 @@ final class Fiche
     /** Paragraphes d'un résumé qui ne sont pas des temps forts (« 19' : … »). */
     public static function resumeIntro(string $html): string
     {
-        $parts = preg_split('#(?=<p[\s>])|(?=<li[\s>])#i', $html) ?: [$html];
+        // Coupé aussi aux retours à la ligne (texte collé, Maj+Entrée) : une minute peut ouvrir une ligne.
+        $parts = preg_split('#(?=<p[\s>])|(?=<li[\s>])|(?=<br\s*/?>)#i', $html) ?: [$html];
         $intro = '';
         foreach ($parts as $p) {
-            $txt = trim(html_entity_decode(strip_tags($p), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+            $txt = \App\Services\RecitHighlights::plain($p);
             if ($txt === '') {
                 continue;
             }
-            if (preg_match("/^\d{1,3}\s*(?:['’]\s*)?(?:\+\s*\d{1,2}\s*['’]?)?\s*[:\-–]/u", $txt)) {
+            if (\App\Services\RecitHighlights::minuteLine($txt)) {
                 break;
             }
             $intro .= $p;

@@ -58,5 +58,42 @@ $d = $doc(implode('', array_map(fn ($l) => "<p>$l</p>", $zag)), ['home' => 0, 'a
 $t('5 plus de buts que le score final : rien', H::markGoals($d), 0);
 $t('5 sans temps forts : rien', (function () use ($doc, $zag) { $d = $doc(implode('', array_map(fn ($l) => "<p>$l</p>", $zag))); return H::markGoals($d); })(), 0);
 
+// 6. Toutes les façons de taper : retours à la ligne (texte collé, Maj+Entrée), bouton ⏱ Minute,
+//    formats de minute et de score. Chaque fois : 4 temps forts, 3 buts.
+$L = ["12' : Tir de Frau sur le poteau.", "30' : Frau marque. 1-0.", "55' : Égalisation de Lens. 1-1.", "80' : Pedretti donne la victoire. 2-1."];
+$all = '12· 30✔ 55✔ 80✔';
+$fmt = [
+    'paragraphes' => fn ($l) => "<p>$l</p>",
+    'puces' => fn ($l) => "<li>$l</li>",
+    'tout en gras' => fn ($l) => "<p><strong>$l</strong></p>",
+    'bouton ⏱ Minute' => fn ($l) => '<p>' . preg_replace("/^(\\d+)' : /", "<strong>$1'</strong>&nbsp;", $l) . '</p>',
+    'score (1-0)' => fn ($l) => '<p>' . preg_replace('/\\. (\\d-\\d)\\.$/', ' ($1)', $l) . '</p>',
+    'score 1–0' => fn ($l) => '<p>' . preg_replace('/(\\d)-(\\d)/', '$1–$2', $l) . '</p>',
+    'score 1 à 0' => fn ($l) => '<p>' . preg_replace('/(\\d)-(\\d)/', '$1 à $2', $l) . '</p>',
+    'score sans point' => fn ($l) => '<p>' . rtrim($l, '.') . '</p>',
+    'score …' => fn ($l) => '<p>' . preg_replace('/\\.$/', '…', $l) . '</p>',
+    '30e :' => fn ($l) => '<p>' . preg_replace("/^(\\d+)'/", '$1e', $l) . '</p>',
+    '30ème minute :' => fn ($l) => '<p>' . preg_replace("/^(\\d+)'/", '$1ème minute', $l) . '</p>',
+    '30 min -' => fn ($l) => '<p>' . preg_replace("/^(\\d+)' :/", '$1 min -', $l) . '</p>',
+    "30' sans deux-points" => fn ($l) => '<p>' . preg_replace("/^(\\d+)' :/", "$1'", $l) . '</p>',
+    '30’' => fn ($l) => '<p>' . str_replace("'", '’', $l) . '</p>',
+    '30‘' => fn ($l) => '<p>' . str_replace("'", '‘', $l) . '</p>',
+    "30''" => fn ($l) => '<p>' . str_replace("'", "''", $l) . '</p>',
+    "(30')" => fn ($l) => '<p>' . preg_replace("/^(\\d+)'/", "($1')", $l) . '</p>',
+    "30' —" => fn ($l) => '<p>' . str_replace("' :", "' —", $l) . '</p>',
+];
+foreach ($fmt as $label => $f) {
+    $t("6 $label", $goals($doc(implode('', array_map($f, $L)), ['home' => 2, 'away' => 1])), $all);
+}
+$t('6 texte collé (<br>)', $goals($doc('<p>' . implode('<br>', $L) . '</p>', ['home' => 2, 'away' => 1])), $all);
+$t('6 Maj+Entrée en gras', $goals($doc('<p>' . implode('<br>', array_map(fn ($l) => "<strong>$l</strong>", $L)) . '</p>', ['home' => 2, 'away' => 1])), $all);
+$t('6 lignes collées', $goals($doc('<p>30\' : Frau marque. (1-0)55\' : Égalisation de Lens. (1-1)</p>', ['home' => 1, 'away' => 1])), '30✔ 55✔');
+$t('6 retour à la ligne sans minute', array_column(H::extract($doc('<p>30\' : Frau marque<br>de la tête. 1-0.</p>', ['home' => 1, 'away' => 0])), 'text'), ['Frau marque de la tête. 1-0.']);
+$t('6 90+2\' et 90\'+2', $goals($doc('<p>90+2\' : Frau marque. 1-0.</p><p>90\'+3 : Fin.</p>', ['home' => 1, 'away' => 0])), '90+2✔ 90+3·');
+$t('6 « 43\' et 44\' : », « 55-61\' : »', $goals($doc('<p>43\' et 44\' : Deux occasions.</p><p>55-61\' : Penalty transformé. 1-0.</p>', ['home' => 1, 'away' => 0])), '43· 55✔');
+$t('6 pas des minutes', $goals($doc('<p>1 - 1 entre Rouen et Sochaux.</p><p>4-4-2 : le dispositif.</p><p>2-1</p><p>12 000 spectateurs.</p>')), '');
+// L'introduction du résumé s'arrête à la première minute, même après un retour à la ligne.
+$t('6 intro', \App\Front\Fiche::resumeIntro('<p>Belle affiche.<br>30\' : Frau marque. 1-0.</p>'), '<p>Belle affiche.');
+
 echo "$ok réussis, $ko échecs\n";
 exit($ko ? 1 : 0);

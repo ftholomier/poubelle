@@ -27,21 +27,48 @@ final class RecitReactions
             $html = (string) $s['html'];
             $blocks = preg_match_all('#<(li|p)\b[^>]*>(.*?)</\1>#is', $html, $m) && $m[2] ? $m[2] : (preg_split('#<br\s*/?>|\n#i', $html) ?: []);
             foreach ($blocks as $b) {
-                $txt = trim((string) preg_replace('/[ \t\x{00A0}]+/u', ' ', html_entity_decode(strip_tags((string) preg_replace('#<br\s*/?>#i', "\n", $b)), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
-                if ($txt === '') {
-                    continue;
-                }
-                $who = '';
-                if (preg_match('/^([^:«»"“”\n]{2,70}?)\s*:\s*(.+)$/us', $txt, $mm) && !preg_match('/^\d/u', $mm[1])) {
-                    [$who, $txt] = [trim($mm[1]), $mm[2]];
-                }
-                $txt = trim($txt, " \t\n«»\"“”");
-                if ($txt !== '') {
-                    $out[] = ['who' => mb_substr($who, 0, 120), 'text' => mb_substr($txt, 0, 6000)];
+                foreach (self::speakers((string) $b) as $one) {
+                    $out = array_merge($out, self::parse($one));
                 }
             }
         }
         return $out;
+    }
+
+    /**
+     * Bloc coupé aux retours à la ligne (texte collé, Maj+Entrée) qui ouvrent une nouvelle réaction :
+     * nom en gras suivi de « : », ou « Nom : « citation » ». Sinon la ligne continue la citation.
+     * @return list<string>
+     */
+    private static function speakers(string $b): array
+    {
+        $out = [];
+        foreach (preg_split('#<br\s*/?>#i', $b) ?: [$b] as $seg) {
+            $plain = trim(html_entity_decode(strip_tags($seg), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+            $new = preg_match('#^\s*<(strong|b)\b[^>]*>[^<]{2,70}:\s*(?:&nbsp;|\s)*</\1>#iu', $seg)
+                || preg_match('/^\p{Lu}[^:«»"“”]{1,60}:\s*[«"“]/u', $plain);
+            if ($out && !$new) {
+                $out[count($out) - 1] .= '<br>' . $seg;
+                continue;
+            }
+            $out[] = $seg;
+        }
+        return $out;
+    }
+
+    /** @return list<array{who:string,text:string}> la réaction d'un bloc (aucune s'il est vide) */
+    private static function parse(string $b): array
+    {
+        $txt = trim((string) preg_replace('/[ \t\x{00A0}]+/u', ' ', html_entity_decode(strip_tags((string) preg_replace('#<br\s*/?>#i', "\n", $b)), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+        if ($txt === '') {
+            return [];
+        }
+        $who = '';
+        if (preg_match('/^([^:«»"“”\n]{2,70}?)\s*:\s*(.+)$/us', $txt, $mm) && !preg_match('/^\d/u', $mm[1])) {
+            [$who, $txt] = [trim($mm[1]), $mm[2]];
+        }
+        $txt = trim($txt, " \t\n«»\"“”");
+        return $txt === '' ? [] : [['who' => mb_substr($who, 0, 120), 'text' => mb_substr($txt, 0, 6000)]];
     }
 
     /** Réaction d'attente reprise de l'ancien site : « À venir », « Néant », « Pas de réactions pour ce match »… */
