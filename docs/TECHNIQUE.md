@@ -2312,3 +2312,13 @@ Profil du club (`config/clubs/<club>.php`), clé `club_display` : clé de rappro
 ## Temps forts repris du récit
 
 `App\Services\RecitHighlights` : les lignes « 65' : … » de la section Résumé (clé `resume`) deviennent des temps forts (`match.highlights`). But : score entre parenthèses, ou ligne en gras avec un score ou un mot de but (jamais « refusé / annulé / hors-jeu ») ; garde-fou : pas plus de buts que le score final. Les temps forts existants ne sont pas réécrits (minutes absentes ajoutées à leur place, but reporté sur le temps fort de la même minute qui raconte la même action). Appliqué à l'enregistrement d'un match (récit modifié ou aucun temps fort) et une fois à tous les matchs (`2026-10-temps-forts-du-recit`).
+
+## Réactions reprises du récit
+
+`App\Services\RecitReactions` : chaque puce (`<li>` ou `<p>`) de la section « Réactions d'après match » (clé `reactions` de `Fiche::splitResume`) devient une réaction `match.reactions` (`who` = texte avant « : », `text` = citation sans guillemets). Les attentes (« À venir », « Néant », « Pas de réactions… », voir `placeholder()`) ne comptent pas. Règles de `apply($doc, $orig)` :
+
+- liste vide ou seulement d'attente : remplacée par les réactions du récit ;
+- liste reflet du récit d'avant l'enregistrement (mêmes auteurs et textes à la ponctuation près, cas des 1 481 matchs repris de WordPress) : elle suit le récit modifié ;
+- liste saisie à la main, différente : gardée, seules les puces nouvelles du récit (absentes du récit d'avant et de la liste, comparaison des mots) sont ajoutées à la fin.
+
+Appliqué à chaque enregistrement d'un match (`FicheForm::apply`) et une fois à tous les matchs sans `$orig` (`2026-10-reactions-du-recit`), qui ne remplit que les listes vides ou d'attente. Test : `tests/reactions-recit.php`.

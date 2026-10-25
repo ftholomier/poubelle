@@ -181,7 +181,7 @@ la recherche (les recherches Google sont gratuites jusqu'à 5 000 par mois avec 
 | Onglet | Contenu |
 |---|---|
 | Infos | date, compétition, journée, équipes, score (prolongation, tirs au but), stade, spectateurs, arbitre, buteurs par équipe |
-| Compo & événements | composition, temps forts minute par minute, réactions, brèves |
+| Compo & événements | composition, temps forts minute par minute, réactions, brèves (temps forts et réactions repris automatiquement du récit à l'enregistrement : lignes « 65' : … » du résumé, puces « Nom : « citation » » des réactions d'après match, à la place de « À venir » / « Néant ») |
 | Récit | textes (avant-match, résumé…), dans l'éditeur de texte |
 | Médias | image à la une, galerie, vidéos, publications de réseaux sociaux |
 | Tableaux | autres tableaux de la fiche (grille modifiable) |

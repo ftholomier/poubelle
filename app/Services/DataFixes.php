@@ -33,6 +33,7 @@ final class DataFixes
         '2026-10-bourgeois-directeur-sportif' => 'bourgeoisDirector',
         '2026-10-validations-retablies' => 'restoreValidations',
         '2026-10-temps-forts-du-recit' => 'recitHighlights',
+        '2026-10-reactions-du-recit' => 'recitReactions',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -340,6 +341,33 @@ final class DataFixes
             return $ids;
         });
         return ['message' => count($ids) . ' match(s) : temps forts repris du récit (' . $stats['added'] . ' ajouté(s), buts marqués)', 'ids' => $ids];
+    }
+
+    /**
+     * Réactions d'après match tapées en puces dans le récit (section « Réactions d'après match ») :
+     * reprises dans les réactions (encadrés avec guillemet) des matchs dont la liste est vide ou ne
+     * contient que des attentes (« À venir », « Néant ») ; les listes déjà remplies ne bougent pas.
+     */
+    private static function recitReactions(): array
+    {
+        $stats = ['added' => 0];
+        $ids = Fiches::batch(function () use (&$stats) {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                if (($doc['type'] ?? '') !== 'match' || ($doc['status'] ?? '') === 'corbeille') {
+                    continue;
+                }
+                $doc = Fiches::fresh((int) $id);
+                if (!RecitReactions::apply($doc)) {
+                    continue;
+                }
+                $stats['added'] += count($doc['match']['reactions']);
+                Fiches::save($doc, ['name' => 'Réactions du récit'], 'Réactions d\'après match reprises du récit (à la place de « À venir » / « Néant »)');
+                $ids[] = (int) $id;
+            }
+            return $ids;
+        });
+        return ['message' => count($ids) . ' match(s) : réactions d\'après match reprises du récit (' . $stats['added'] . ' réaction(s))', 'ids' => $ids];
     }
 
     /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */

@@ -169,6 +169,11 @@ final class FicheForm
         if ($doc['type'] === 'match' && (($doc['sections'] ?? []) !== ($orig['sections'] ?? []) || empty($doc['match']['highlights']))) {
             \App\Services\RecitHighlights::apply($doc);
         }
+        // Match : les puces de la section « Réactions d'après match » du récit alimentent les réactions
+        // (encadrés avec guillemet) : « À venir » / « Néant » remplacés, réactions saisies à la main gardées.
+        if ($doc['type'] === 'match') {
+            \App\Services\RecitReactions::apply($doc, $orig);
+        }
         $doc = self::autoCategories($doc, $origCats);
 
         // Titre automatique pour les matchs et personnes sans titre saisi.
