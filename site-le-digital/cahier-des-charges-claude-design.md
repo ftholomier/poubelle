@@ -62,7 +62,8 @@ le client comprend tout. Quand il forme, il enseigne ce qu'il pratique tous les 
 
 ### Ce que le site ne fait pas
 - **Pas de noms de clients, pas de liste de projets, pas d'études de cas** : le site reste
-  généraliste.
+  généraliste. Seule exception : une partie **« Mes solutions »** présente deux outils créés
+  par Frédéric, **Intensiti** et **Formaliance**.
 - **Pas de tarifs** : tout est sur mesure, sur devis.
 - Pas de jargon technique : on parle de bénéfices, pas de technologies.
 
@@ -155,6 +156,7 @@ Accueil
 ├── Sur mesure + IA ............ les prestations de développement
 ├── Formation .................. Formation DIGITAL 360
 ├── L'accompagnement ........... la méthode H2H, les engagements, les 4 formules
+├── Mes solutions .............. Intensiti et Formaliance, les outils créés par Frédéric
 ├── Qui suis-je ................ Frédéric
 ├── Avis ....................... témoignages
 ├── Blog ....................... liste des articles + modèle d'article
@@ -162,8 +164,8 @@ Accueil
 └── Mentions légales / Accessibilité
 ```
 
-**Menu principal** : Sur mesure + IA · Formation · L'accompagnement · Qui suis-je ·
-**[bouton] On prend RdV ?**
+**Menu principal** : Sur mesure + IA · Formation · L'accompagnement · Mes solutions ·
+Qui suis-je · **[bouton] On prend RdV ?**
 
 **Pied de page** : slogan · zones d'intervention · Avis · Blog · Mentions légales ·
 Accessibilité · LinkedIn.
@@ -252,8 +254,8 @@ tâches. Toi, tu fais ton métier. »*
 - Carte 2, **Je te forme — Formation DIGITAL 360** : Tu veux savoir faire toi-même ? Je te forme
   au webmarketing, à la création de site et à l'utilisation de l'IA dans ton activité.
   En présentiel, directement avec moi · En distanciel, avec moi, en direct · En ligne, à ton
-  rythme, seul comme un grand · Finançable avec ton CPF (ou pas !). Bouton : *Découvrir la
-  formation*.
+  rythme, seul comme un grand · Finançable avec ton CPF (ou pas !) · **Nouveau** : une formation
+  courte dédiée à l'IA pour gagner du temps. Bouton : *Découvrir la formation*.
 - Deux encarts plus petits :
   - **Formaccompagnement** : Je construis ton outil avec toi, je t'explique tout, et tu repars
     autonome pour le faire vivre.
@@ -263,18 +265,21 @@ tâches. Toi, tu fais ton métier. »*
 **6. L'ultra-accompagnement, concrètement**
 - Titre : **Je ne te livre pas un outil. Je t'accompagne jusqu'à ce qu'il te fasse gagner du
   temps.**
-- 6 engagements numérotés :
-  1. **Un seul interlocuteur : moi.** Pas de commercial, pas d'intermédiaire. Tu parles
-     directement à celui qui construit et qui forme.
-  2. **Ton métier avant la technique.** Je commence par comprendre comment tu travailles et où
+- 7 engagements numérotés (les deux premiers peuvent être mis en avant visuellement, par
+  exemple avec une icône téléphone et une icône chrono) :
+  1. **Un seul interlocuteur : moi, en direct.** Pas de commercial, pas d'intermédiaire : tu as
+     mon numéro direct, et tu parles à celui qui construit et qui forme.
+  2. **Une réponse sous 24 h ouvrées.** Une question, un doute, un blocage : tu n'attends pas
+     des jours pour avoir une réponse.
+  3. **Ton métier avant la technique.** Je commence par comprendre comment tu travailles et où
      tu perds du temps.
-  3. **Tu vois ton projet avancer.** J'avance par étapes : tu testes, tu valides, on ajuste.
+  4. **Tu vois ton projet avancer.** J'avance par étapes : tu testes, tu valides, on ajuste.
      Pas d'effet tunnel.
-  4. **Tu comprends ce qu'on fait.** Chaque choix est expliqué avec des mots simples. C'est le
+  5. **Tu comprends ce qu'on fait.** Chaque choix est expliqué avec des mots simples. C'est le
      formateur en moi.
-  5. **Tout t'appartient.** Code, données, nom de domaine : tout est à ton nom. Aucun
+  6. **Tout t'appartient.** Code, données, nom de domaine : tout est à ton nom. Aucun
      abonnement qui te rend captif.
-  6. **Je reste après la mise en ligne.** Prise en main, ajustements, évolutions : on continue
+  7. **Je reste après la mise en ligne.** Prise en main, ajustements, évolutions : on continue
      ensemble, aussi longtemps que tu en as besoin.
 
 **7. Formateur et développeur**
@@ -288,7 +293,17 @@ tâches. Toi, tu fais ton métier. »*
   consulting, prestation de services & formation ».
 - Bouton : *Faire connaissance*
 
-**8. Comment ça se passe** (5 étapes)
+**8. Mes solutions**
+- Titre : **Mes solutions**
+- Intro : Des outils que j'ai imaginés, construits, et que je fais vivre au quotidien.
+- 2 cartes, chacune avec un visuel du produit **[captures à fournir]** et un bouton :
+  - **Intensiti** — L'affichage dynamique qui se pilote depuis un navigateur. Bouton :
+    *Découvrir Intensiti*
+  - **Formaliance** — **[à fournir : une phrase de présentation]** Bouton : *Découvrir
+    Formaliance*
+- Lien : *Voir mes solutions* (vers la page Mes solutions)
+
+**9. Comment ça se passe** (5 étapes)
 - Titre : **De ton premier café à tes premières heures gagnées**
   1. **On prend un café.** En vrai ou en visio, gratuitement. On repère les tâches qui te font
      perdre le plus de temps.
@@ -298,20 +313,20 @@ tâches. Toi, tu fais ton métier. »*
   4. **Je te forme à ton outil.** Toi et ton équipe êtes à l'aise dès le premier jour.
   5. **Et après, je suis là.** Suivi, évolutions, nouvelles automatisations.
 
-**9. La formule** (bandeau en dégradé violet → magenta)
+**10. La formule** (bandeau en dégradé violet → magenta)
 - Surtitre : *Ma formule*
 - En très grand : **(A+V+D) x PS x H2H = M**
 - Texte : Rassure-toi, il n'y a rien de mathématique dans ma formule ! C'est ce qui fait la
   réussite d'un business, et je te l'explique au premier rendez-vous.
 - Bouton : **Je veux que tu m'expliques ta formule, GO !**
 
-**10. Avis**
+**11. Avis**
 - Titre : **Ils en parlent mieux que moi**
 - 3 témoignages **[à fournir]** : un client en développement sur mesure, un stagiaire de la
   formation, un client en formaccompagnement ou mentorat. Prénom + activité, sans nom
   d'entreprise obligatoire. Lien vers la page Avis.
 
-**11. Appel final**
+**12. Appel final**
 - Titre : **Combien d'heures pourrais-tu récupérer chaque semaine ?**
 - Texte : Raconte-moi ce qui te prend du temps aujourd'hui. Je te réponds personnellement, et on
   regarde ensemble ce qu'un outil sur mesure pourrait faire pour toi. Chaque projet est unique :
@@ -396,6 +411,7 @@ par un praticien.
   formateur qui construit des outils digitaux et de l'IA tous les jours.
 - Boutons : **Ça m'intéresse !** · *Voir le programme*
 - Mention : Finançable avec ton CPF (ou pas !)
+- Badge ou bandeau : **Nouveau : la formation IA pour gagner du temps** (lien vers la section 5)
 
 **2. Pourquoi te former avec moi**
 - **Je pratique ce que j'enseigne** : je développe des sites, des CRM et des outils IA pour mes
@@ -416,12 +432,29 @@ par un praticien.
 - Publicité en ligne et emailing
 - **L'IA dans ton activité** : rédiger, créer des visuels, automatiser, gagner du temps
 
-**5. Financement**
+**5. Nouveau : la formation IA** (bloc mis en valeur, idéalement sur fond sombre ou en dégradé)
+- Surtitre : *Nouveau*
+- Titre : **L'IA pour gagner du temps dans ton entreprise**
+- Texte : Une formation courte et 100 % pratique pour utiliser l'IA dès le lendemain dans ton
+  activité. Tu repars avec tes propres outils prêts à l'emploi, pas avec de la théorie.
+- Ce que tu vas apprendre à faire :
+  - Rédiger tes emails, tes devis et tes contenus en quelques minutes
+  - Créer des visuels pour ton site et tes réseaux sociaux
+  - Résumer et analyser tes documents, tes comptes rendus, tes chiffres
+  - Automatiser tes tâches répétitives
+  - Choisir les bons outils d'IA et les utiliser en toute sécurité
+- Pour qui : dirigeants, indépendants, équipes qui veulent gagner du temps au quotidien.
+- Pourquoi avec moi : j'intègre l'IA dans des outils sur mesure tous les jours. Je t'apprends
+  ce qui marche vraiment, sur ton activité.
+- Format, durée et financement : **[à préciser]**
+- Bouton : **Je veux gagner du temps avec l'IA**
+
+**6. Financement**
 Finançable avec ton CPF (ou pas !). **[autres financements à préciser]**
 
-**6. Avis de stagiaires** **[à fournir]**
+**7. Avis de stagiaires** **[à fournir]**
 
-**7. Appel final** : Titre **Prêt à devenir autonome ?** · Bouton **Ça m'intéresse !**
+**8. Appel final** : Titre **Prêt à devenir autonome ?** · Bouton **Ça m'intéresse !**
 
 ---
 
@@ -435,7 +468,8 @@ Finançable avec ton CPF (ou pas !). **[autres financements à préciser]**
   se passe autour : être écouté, compris, tenu au courant, et ne jamais se retrouver seul au
   moment où ça coince. C'est ça, le H2H : d'humain à humain, du début à la fin.
 
-**2. Les 6 engagements** (les mêmes que sur l'accueil, développés en quelques lignes chacun)
+**2. Les 7 engagements** (les mêmes que sur l'accueil, développés en quelques lignes chacun,
+avec le numéro direct et la réponse sous 24 h ouvrées mis en avant)
 
 **3. Les 4 formules** (cartes ou tableau comparatif)
 
@@ -460,7 +494,41 @@ Finançable avec ton CPF (ou pas !). **[autres financements à préciser]**
 
 ---
 
-### 7.5 Qui suis-je
+### 7.5 Mes solutions
+
+**Objectif** : présenter les deux outils créés par Frédéric, et montrer qu'il sait mener un
+produit de l'idée jusqu'à ses utilisateurs.
+
+**1. Haut de page**
+- Titre : **Mes solutions**
+- Texte : Ces outils, je les ai imaginés, construits, et je les fais vivre au quotidien. C'est
+  aussi la preuve que je sais mener un produit de l'idée jusqu'à ses utilisateurs.
+
+**2. Intensiti** (grand bloc avec visuel d'écran **[captures à fournir]**)
+- Accroche : **L'affichage dynamique, simplement.**
+- Texte : Pilote tes écrans à distance depuis un simple navigateur : accueil d'entreprise,
+  vitrine de commerce ou d'agence, salle d'attente, hall. Tu programmes ce qui s'affiche, quand
+  et où, sans te déplacer.
+- Ce qu'on peut afficher : images, vidéos, PDF, vidéos YouTube, QR codes, textes, flux
+  d'actualités, comptes à rebours.
+- Points forts : plusieurs mises en page à l'écran · des dizaines de thèmes · programmation par
+  playlists · flash info · bandeau défilant.
+- Boutons : **Découvrir Intensiti** · *Demander une démo* **[liens à fournir]**
+
+**3. Formaliance** (grand bloc avec visuel **[captures à fournir]**)
+- Accroche : **[à fournir]**
+- Texte : **[à fournir : à quoi ça sert, pour qui, ce que ça change]**
+- Points forts : **[à fournir : 3 à 5 points]**
+- Boutons : **Découvrir Formaliance** · *Demander une démo* **[liens à fournir]**
+
+**4. Appel final**
+- Titre : **Tu as besoin d'un outil comme ça, mais pour ton métier ?**
+- Texte : C'est exactement ce que je construis. Parle-moi de ton projet.
+- Bouton : **On prend RdV ?**
+
+---
+
+### 7.6 Qui suis-je
 
 **Objectif** : créer la confiance et le lien humain.
 
@@ -486,7 +554,7 @@ Finançable avec ton CPF (ou pas !). **[autres financements à préciser]**
 
 ---
 
-### 7.6 Avis
+### 7.7 Avis
 
 - Titre : **Ils en parlent mieux que moi**
 - Grille de témoignages **[à fournir]**, avec un filtre simple : Développement · Formation ·
@@ -496,7 +564,7 @@ Finançable avec ton CPF (ou pas !). **[autres financements à préciser]**
 
 ---
 
-### 7.7 Blog
+### 7.8 Blog
 
 - **Liste des articles** : titre de page « Le blog », filtres par thème (IA & productivité ·
   Sites web · Webmarketing · Formation · Entrepreneuriat), cartes d'articles avec image, thème,
@@ -507,7 +575,7 @@ Finançable avec ton CPF (ou pas !). **[autres financements à préciser]**
 
 ---
 
-### 7.8 On prend RdV ? (contact et devis)
+### 7.9 On prend RdV ? (contact et devis)
 
 **Objectif** : transformer l'intérêt en rendez-vous ou en demande de devis, le plus simplement
 possible.
@@ -522,20 +590,21 @@ possible.
      - Ton téléphone
      - Ton email
      - Je suis intéressé par (choix multiples) : Site web sur mesure · CRM métier · Solution sur
-       mesure · Automatisation & IA · Formation DIGITAL 360 · Formaccompagnement · Mentorat &
-       consulting · L'explication de ta super formule !
+       mesure · Automatisation & IA · Formation DIGITAL 360 · Formation IA · Formaccompagnement ·
+       Mentorat & consulting · Intensiti · Formaliance · L'explication de ta super formule !
      - Ce qui te prend le plus de temps aujourd'hui
      - Et le pourquoi du comment
      - Bouton : **Envoyer, et on en parle !**
-- Réassurance : Premier échange gratuit et sans engagement · Réponse personnelle de Frédéric ·
-  Devis 100 % sur mesure.
+- Réassurance : Premier échange gratuit et sans engagement · Réponse personnelle de Frédéric
+  sous 24 h ouvrées · Devis 100 % sur mesure.
+- Le **numéro direct** de Frédéric affiché en clair, cliquable sur mobile **[numéro à fournir]**.
 - Lien LinkedIn.
 - **Message de confirmation** après envoi : « Merci ! Je reviens vers toi très vite.
   À tout de suite autour d'un café ☕ »
 
 ---
 
-### 7.9 Pages utilitaires
+### 7.10 Pages utilitaires
 **Mentions légales** et **Accessibilité** : pages simples, sobres, dans la charte.
 
 ---
@@ -544,15 +613,16 @@ possible.
 
 **En-tête**
 - Logo LE-DIGITAL.com **[fichier du logo à fournir]**
-- Menu : Sur mesure + IA · Formation · L'accompagnement · Qui suis-je
+- Menu : Sur mesure + IA · Formation · L'accompagnement · Mes solutions · Qui suis-je
 - Bouton toujours visible : **On prend RdV ?**
 - Sur mobile : menu repliable + bouton « On prend RdV ? » fixé en bas de l'écran.
 
 **Pied de page**
 - Le slogan en grand : *Le digital provoque la conversation. La conversation provoque la
   conversion.*
-- LE-DIGITAL.com — Frédéric Tholomier
+- LE-DIGITAL.com — Frédéric Tholomier · numéro direct **[à fournir]**
 - Zones : Besançon · Montbéliard · Belfort · Dijon · partout en France à distance
+- Mes solutions : Intensiti · Formaliance
 - Liens : Avis · Blog · Mentions légales · Accessibilité · LinkedIn
 
 ---
@@ -563,7 +633,11 @@ Prévoir des emplacements réservés clairement identifiés pour :
 - [ ] les photos de Frédéric (portrait + photos en situation) ;
 - [ ] les témoignages réels ;
 - [ ] le programme détaillé de la formation DIGITAL 360 et ses modes de financement ;
+- [ ] le format, la durée et le financement de la formation IA ;
 - [ ] les lieux des formations en présentiel ;
+- [ ] la présentation de Formaliance, des captures d'écran d'Intensiti et de Formaliance, et
+      leurs liens ;
+- [ ] le numéro direct de Frédéric ;
 - [ ] le lien de prise de rendez-vous en ligne et le lien LinkedIn ;
 - [ ] le parcours de Frédéric pour la page « Qui suis-je ».
 
@@ -579,7 +653,8 @@ Prévoir des emplacements réservés clairement identifiés pour :
    3. Formation
    4. On prend RdV ?
    5. L'accompagnement
-   6. Qui suis-je
-   7. Avis, Blog (liste + article), Mentions légales
+   6. Mes solutions
+   7. Qui suis-je
+   8. Avis, Blog (liste + article), Mentions légales
 3. Un rendu **moderne et très design**, qui reste **chaleureux et humain**, fidèle au ton du
    tutoiement et du H2H.
