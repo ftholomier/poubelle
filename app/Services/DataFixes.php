@@ -34,6 +34,7 @@ final class DataFixes
         '2026-10-validations-retablies' => 'restoreValidations',
         '2026-10-temps-forts-du-recit' => 'recitHighlights',
         '2026-10-reactions-du-recit' => 'recitReactions',
+        '2026-10-buts-par-le-score' => 'recitGoals',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -368,6 +369,32 @@ final class DataFixes
             return $ids;
         });
         return ['message' => count($ids) . ' match(s) : réactions d\'après match reprises du récit (' . $stats['added'] . ' réaction(s))', 'ids' => $ids];
+    }
+
+    /**
+     * Buts du récit reconnus au score (« 0-1. » puis « 0-2. », même avec « hors-jeu » dans le texte) :
+     * « But » coché sur les temps forts déjà présents ; aucun temps fort ajouté, retiré ni décoché.
+     */
+    private static function recitGoals(): array
+    {
+        $stats = ['goals' => 0];
+        $ids = Fiches::batch(function () use (&$stats) {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                if (($doc['type'] ?? '') !== 'match' || ($doc['status'] ?? '') === 'corbeille' || empty($doc['match']['highlights'])) {
+                    continue;
+                }
+                $doc = Fiches::fresh((int) $id);
+                if (!($n = RecitHighlights::markGoals($doc))) {
+                    continue;
+                }
+                $stats['goals'] += $n;
+                Fiches::save($doc, ['name' => 'Temps forts du récit'], 'Buts reconnus au score du récit (« But » coché)');
+                $ids[] = (int) $id;
+            }
+            return $ids;
+        });
+        return ['message' => count($ids) . ' match(s) : ' . $stats['goals'] . ' but(s) reconnu(s) au score du récit et coché(s)', 'ids' => $ids];
     }
 
     /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */

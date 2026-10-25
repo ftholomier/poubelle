@@ -18,6 +18,7 @@ final class RecitHighlights
     public static function extract(array $doc): array
     {
         $out = [];
+        $prev = [0, 0];
         foreach (\App\Front\Fiche::splitResume((array) ($doc['sections'] ?? []))['sections'] as $s) {
             if (($s['key'] ?? '') !== 'resume') {
                 continue;
@@ -30,10 +31,14 @@ final class RecitHighlights
                 $body = trim($m[3]);
                 $score = preg_match('/\(\s*(\d{1,2})\s*-\s*(\d{1,2})\s*\)/u', $body, $sm) || preg_match('/(?<![\d\/])(\d{1,2})\s*-\s*(\d{1,2})\s*[.!]?$/u', $body, $sm)
                     ? $sm[1] . '-' . $sm[2] : null;
+                // Score « net » : entre parenthèses, ou seul en fin de ligne après une phrase (« … sous la
+                // barre. 0-1. »), pas glissé dans une phrase (« à deux doigts de signer le 0-2 »).
+                $clear = $score !== null && (preg_match('/\(\s*\d{1,2}\s*-\s*\d{1,2}\s*\)/u', $body)
+                    || preg_match('/(?:^|[.!?…:»"”)])\s*\d{1,2}\s*-\s*\d{1,2}\s*[.!]?$/u', $body));
                 $out[] = [
                     'minute' => $m[1] . (($m[2] ?? '') !== '' ? '+' . $m[2] : ''),
                     'text' => mb_substr($body, 0, 1200),
-                    'goal' => self::isGoal($inner, $body, $score),
+                    'goal' => self::isGoal($inner, $body, $score, $clear, $prev),
                     'score' => $score,
                 ];
             }
@@ -119,6 +124,32 @@ final class RecitHighlights
         return true;
     }
 
+    /**
+     * Coche seulement « But » (et le score) sur les temps forts déjà présents que le récit désigne comme
+     * buts : aucun temps fort ajouté ni retiré, aucun but décoché. Rien si le total dépasserait le score
+     * final du match. @return int nombre de buts cochés
+     */
+    public static function markGoals(array &$doc): int
+    {
+        $existing = array_values(array_filter((array) ($doc['match']['highlights'] ?? []), 'is_array'));
+        if (($doc['type'] ?? '') !== 'match' || !$existing) {
+            return 0;
+        }
+        $have = array_flip(array_map(fn ($h) => self::norm((string) ($h['minute'] ?? '')), $existing));
+        $from = array_values(array_filter(self::extract($doc), fn ($r) => $r['goal'] && isset($have[self::norm($r['minute'])])));
+        if (!$from) {
+            return 0;
+        }
+        [$hl, , $goals] = self::merge($existing, $from);
+        $sc = $doc['match']['score'] ?? null;
+        if (!$goals || (is_array($sc) && is_numeric($sc['home'] ?? null) && is_numeric($sc['away'] ?? null)
+            && count(array_filter($hl, fn ($h) => !empty($h['goal']))) > (int) $sc['home'] + (int) $sc['away'])) {
+            return 0;
+        }
+        $doc['match']['highlights'] = $hl;
+        return $goals;
+    }
+
     /** @return list<string> contenu de chaque élément de liste ou paragraphe (sinon chaque ligne). */
     private static function blocks(string $html): array
     {
@@ -134,12 +165,31 @@ final class RecitHighlights
     }
 
     /**
-     * But certain seulement : score entre parenthèses « (1-0) », ou ligne en gras (convention des
-     * historiens) qui donne un score ou dit le but (« marque », « égalise », « trompe »…). Un but
-     * refusé ou annulé n'en est pas un. Au moindre doute : pas de but.
+     * But certain seulement :
+     * - score net qui avance d'un but exactement depuis le score net précédent du récit (0-1 puis 0-2),
+     *   gras ou non, quel que soit le commentaire (« en position de hors-jeu » non sifflé…) ; un score
+     *   net inchangé n'est jamais un nouveau but (« coup de sifflet final (2-1) ») ;
+     * - sinon score entre parenthèses « (1-0) », ou ligne en gras (convention des historiens) qui donne
+     *   un score ou dit le but (« marque », « égalise », « trompe »…), hors but refusé ou annulé.
+     * Au moindre doute : pas de but. $prev : dernier score net lu dans le récit (mis à jour ; un score
+     * qui redescend, résumé recopié deux fois, repart de 0-0).
      */
-    private static function isGoal(string $inner, string $body, ?string $score): bool
+    private static function isGoal(string $inner, string $body, ?string $score, bool $clear, array &$prev): bool
     {
+        if ($score !== null && $clear) {
+            [$a, $b] = array_map('intval', explode('-', $score));
+            if ($a < $prev[0] || $b < $prev[1]) {
+                $prev = [0, 0];
+            }
+            $step = [$a - $prev[0], $b - $prev[1]];
+            $prev = [$a, $b];
+            if ($step === [1, 0] || $step === [0, 1]) {
+                return true;
+            }
+            if ($step === [0, 0]) {
+                return false;
+            }
+        }
         $l = mb_strtolower($body);
         if (preg_match('/refus|annul|invalid|hors[- ]jeu/u', $l)) {
             return false;
