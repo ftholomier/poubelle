@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Core\Club;
 use App\Core\JsonStore;
 use App\Data\Categories;
+use App\Data\Collections;
 use App\Data\Fiches;
 use App\Data\Paths;
 use App\Data\Redirects;
@@ -36,6 +37,7 @@ final class DataFixes
         '2026-10-reactions-du-recit' => 'recitReactions',
         '2026-10-buts-par-le-score' => 'recitGoals',
         '2026-10-temps-forts-autres-formats' => 'recitHighlightsFormats',
+        '2026-10-stade-rennais-fc' => 'clubDisplayAll',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -459,6 +461,71 @@ final class DataFixes
             }
         }
         return $seen;
+    }
+
+    /**
+     * Noms imposés aux adversaires (profil du club, « club_display ») appliqués à tous les matchs :
+     * « Rennes », « Stade Rennes UC », « Stade Rennes FC », « Stade Rennais » → « Stade Rennais FC »
+     * (et Marseille). Le référentiel des clubs prend aussi ce nom : titres des face-à-face et des
+     * statistiques.
+     */
+    private static function clubDisplayAll(): array
+    {
+        $map = (array) Club::get('club_display', []);
+        if (!$map) {
+            return ['message' => 'Noms imposés des adversaires : sans objet pour ce musée', 'ids' => []];
+        }
+        $renamed = [];
+        $ids = Fiches::batch(function () use (&$renamed) {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                if (($doc['type'] ?? '') !== 'match') {
+                    continue;
+                }
+                $new = Fiches::clubDisplayNames($doc);
+                if (($new['match']['home']['name'] ?? null) === ($doc['match']['home']['name'] ?? null) && ($new['match']['away']['name'] ?? null) === ($doc['match']['away']['name'] ?? null)) {
+                    continue;
+                }
+                $doc = Fiches::fresh((int) $id);
+                $new = Fiches::clubDisplayNames($doc);
+                $old = [];
+                foreach (['home', 'away'] as $side) {
+                    $a = (string) ($doc['match'][$side]['name'] ?? '');
+                    $b = (string) ($new['match'][$side]['name'] ?? '');
+                    if ($a !== $b) {
+                        $old[] = $a . ' → ' . $b;
+                        $renamed[$a . ' → ' . $b] = ($renamed[$a . ' → ' . $b] ?? 0) + 1;
+                    }
+                }
+                if (!$old) {
+                    continue;
+                }
+                // Club adverse fixé sur une ancienne variante (« stade-rennes-uc ») : recalculé d'après le nom.
+                $opp = (string) (($new['match']['sochaux_home'] ?? true) ? ($new['match']['away']['name'] ?? '') : ($new['match']['home']['name'] ?? ''));
+                if (!empty($new['match']['opponent_club']) && $new['match']['opponent_club'] !== \App\Data\Names::clubKey($opp)) {
+                    $new['match']['opponent_club'] = null;
+                }
+                Fiches::save($new, ['name' => 'Noms des clubs'], 'Nom du club : ' . implode(', ', $old));
+                $ids[] = (int) $id;
+            }
+            return $ids;
+        });
+        $clubs = 0;
+        Collections::update('clubs', function ($items) use ($map, &$clubs) {
+            foreach ((array) $items as $i => $c) {
+                $want = $map[(string) ($c['id'] ?? '')] ?? null;
+                if (is_string($want) && $want !== '' && ($c['name'] ?? '') !== $want) {
+                    $items[$i]['name'] = $want;
+                    $clubs++;
+                }
+            }
+            return $items;
+        }, ['name' => 'Noms des clubs'], 'Noms imposés des adversaires');
+        $detail = [];
+        foreach ($renamed as $k => $n) {
+            $detail[] = $k . ' (' . $n . ')';
+        }
+        return ['message' => count($ids) . ' match(s) renommé(s)' . ($detail ? ' : ' . implode(', ', $detail) : '') . ' ; ' . $clubs . ' nom(s) de club mis à jour dans le référentiel', 'ids' => $ids];
     }
 
     /** Matchs de juillet 1978 (avant-saison) rangés dans la saison 1978-1979. */

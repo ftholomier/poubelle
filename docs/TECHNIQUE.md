@@ -2296,7 +2296,7 @@ cochés marqués ✓, « Retirer cette saison de mon carnet » annule.
 
 ## Noms d'adversaires imposés
 
-Profil du club (`config/clubs/<club>.php`), clé `club_display` : clé de rapprochement (`Names::clubKey`) => nom affiché. `Fiches::clubDisplayNames()` l'applique à chaque enregistrement d'une fiche de match (équipes et titre). Sochaux : `marseille` => « Olympique de Marseille » (« Marseille », « Ol. Marseille », « OM »…). Les fiches existantes ont été renommées une fois par `DataFixes` (`2026-10-olympique-de-marseille`).
+Profil du club (`config/clubs/<club>.php`), clé `club_display` : clé de rapprochement (`Names::clubKey`) => nom affiché. `Fiches::clubDisplayNames()` l'applique à chaque enregistrement d'une fiche de match (équipes et titre). Sochaux : `marseille` => « Olympique de Marseille » (« Marseille », « Ol. Marseille », « OM »…). Les fiches existantes ont été renommées une fois par `DataFixes` (`2026-10-olympique-de-marseille`). Aussi `rennes` => « Stade Rennais FC » (« Rennes », « Stade Rennes UC », « Stade Rennes FC », « Stade Rennais », « Stade Rennais UC », « SRFC » : alias dans `Names::CLUB_ALIASES`, une seule clé `rennes` pour les statistiques ; « Rennes B » reste à part). Une précision entre parenthèses est gardée (« Rennes (B) » → « Stade Rennais FC (B) ») et le titre n'est pas retouché s'il porte déjà le nom voulu. Passe unique `2026-10-stade-rennais-fc` (`clubDisplayAll()`) : tous les matchs, plus le nom du club dans le référentiel `data/collections/clubs.json` (titre des face-à-face : « Rennes » et « Marseille » y restaient) ; un `opponent_club` resté sur une ancienne variante est remis à zéro. Test : `tests/noms-clubs.php`.
 
 
 ## Plusieurs passages au club

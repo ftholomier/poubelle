@@ -360,7 +360,9 @@ final class Fiches
      */
     /**
      * Adversaires au nom imposé (profil du club, « club_display » : « Marseille », « Ol. Marseille »,
-     * « OM » → « Olympique de Marseille ») : équipes du match et titre de la fiche.
+     * « OM » → « Olympique de Marseille » ; « Rennes », « Stade Rennes UC » → « Stade Rennais FC ») :
+     * équipes du match et titre de la fiche. Une précision entre parenthèses est gardée (« Rennes (B) »
+     * → « Stade Rennais FC (B) »).
      */
     public static function clubDisplayNames(array $doc): array
     {
@@ -374,9 +376,19 @@ final class Fiches
                 continue;
             }
             $want = $map[Names::clubKey($name)] ?? null;
-            if (is_string($want) && $want !== '' && $name !== $want) {
+            if (!is_string($want) || $want === '') {
+                continue;
+            }
+            if (preg_match('/\s*(\([^)]*\))\s*$/u', $name, $pm)) {
+                $want .= ' ' . $pm[1];
+            }
+            if ($name !== $want) {
                 $doc['match'][$side]['name'] = $want;
-                $doc['title'] = (string) preg_replace('/(?<![\w.-])(?<!de )' . preg_quote($name, '/') . '(?![\w-])/u', $want, (string) ($doc['title'] ?? ''));
+                // Titre : l'ancien nom remplacé, sauf si le titre porte déjà le nouveau (pas de « FC FC »).
+                $title = (string) ($doc['title'] ?? '');
+                if (!str_contains($title, $want)) {
+                    $doc['title'] = (string) preg_replace('/(?<![\w.-])(?<!de )' . preg_quote($name, '/') . '(?![\w-])/u', $want, $title);
+                }
             }
         }
         return $doc;
