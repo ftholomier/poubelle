@@ -52,6 +52,12 @@ final class Solutions
         return $s;
     }
 
+    /** Page de détail d'une solution. */
+    public static function url(array $s): string
+    {
+        return '/mes-solutions/' . rawurlencode((string) $s['id']);
+    }
+
     public static function name(array $s): string
     {
         return (string) (self::view($s)['name'] ?? $s['id']);

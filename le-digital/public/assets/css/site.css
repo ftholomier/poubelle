@@ -1436,3 +1436,57 @@ html.xp-open .dbar-wrap,html.xp-open .dfab{opacity:0;pointer-events:none}
 .sol-logo{height:clamp(40px,4.6vw,58px);width:auto;max-width:280px;align-self:flex-start;object-fit:contain}
 .sol-shot--dark{background:#252436;box-shadow:0 40px 80px -40px rgba(204,21,23,.6)}
 .sol-dark .sol-name{color:#fff}
+
+/* Mes solutions : mosaïque de cartes et pages de détail */
+.wrap--solgrid{padding:0 24px clamp(80px,10vw,128px)}
+.solgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:20px}
+.solc{position:relative;display:flex;flex-direction:column;border-radius:32px;overflow:hidden;text-decoration:none;background:#fff;color:#161922;box-shadow:0 30px 60px -36px rgba(204,21,23,.35),0 0 0 1px rgba(204,21,23,.06);transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+.solc:hover{transform:translateY(-6px);box-shadow:0 40px 70px -34px rgba(204,21,23,.45),0 0 0 1px rgba(204,21,23,.1)}
+.solc__img{position:relative;aspect-ratio:16/10;overflow:hidden;background:linear-gradient(135deg,#fbe1dd,#ffeceb)}
+.solc__img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.solc:hover .solc__img img{transform:scale(1.05)}
+.solc__ph{position:absolute;inset:0;display:grid;place-items:center;font:900 clamp(34px,4vw,52px) var(--fh);letter-spacing:-.04em;color:rgba(204,21,23,.25)}
+.solc__badge{position:absolute;left:16px;top:16px;padding:7px 13px;border-radius:999px;background:#D4F570;color:#0E0B16;font:800 13.5px var(--fh);box-shadow:0 8px 20px -10px rgba(0,0,0,.5)}
+.solc__body{flex:1;display:flex;flex-direction:column;gap:12px;padding:26px 28px 28px}
+.solc__name{font:900 30px/1 var(--fh);letter-spacing:-.04em}
+.solc__logo{height:34px;width:auto;max-width:200px;object-fit:contain;align-self:flex-start}
+.solc__t{font:800 21px/1.2 var(--fh);letter-spacing:-.02em;color:#cc1517;text-wrap:balance}
+.solc__x{font-size:15.5px;line-height:1.55;color:#4a4760}
+.solc__tags{display:flex;flex-wrap:wrap;gap:6px}
+.solc__tags span{padding:5px 11px;border-radius:999px;background:#ffeceb;color:#cc1517;font-size:12.5px;font-weight:700}
+.solc__more{margin-top:auto;padding-top:6px;display:inline-flex;align-items:center;gap:8px;font:800 15px var(--fh);color:#161922}
+.solc__more svg{transition:transform .3s}
+.solc:hover .solc__more svg{transform:translateX(4px)}
+.solc--dark{background:#161922;color:#fff;box-shadow:0 30px 60px -30px rgba(22,25,34,.6)}
+.solc--dark .solc__img{background:#252436}
+.solc--dark .solc__ph{color:rgba(255,255,255,.18)}
+.solc--dark .solc__t{color:#ffa89e}
+.solc--dark .solc__x{color:#c4c1d4}
+.solc--dark .solc__tags span{background:rgba(255,255,255,.08);color:#ffc9c2}
+.solc--dark .solc__more{color:#fff}
+.solc--itn{background:#0E0B16;color:#fff;box-shadow:0 30px 60px -28px rgba(108,43,217,.7)}
+.solc--itn .solc__img{background:#17131F}
+.solc--itn .solc__t{color:#D4F570}
+.solc--itn .solc__x{color:#d4cfe0}
+.solc--itn .solc__tags span{background:rgba(183,156,255,.12);color:#e6e1ec}
+.solc--itn .solc__more{color:#D4F570}
+.solc--itn .solc__logo{height:38px}
+/* Une seule solution : grande carte horizontale */
+.solgrid--one{grid-template-columns:1fr}
+@media (min-width:860px){
+  .solgrid--one .solc{flex-direction:row;min-height:400px}
+  .solgrid--one .solc__img{flex:1.15;aspect-ratio:auto}
+  .solgrid--one .solc__body{flex:1;justify-content:center;padding:44px 48px;gap:16px}
+  .solgrid--one .solc__t{font-size:28px}
+  .solgrid--one .solc__x{font-size:17px}
+  .solgrid--one .solc__more{margin-top:10px}
+}
+.sol-empty{font-size:18px;color:#4a4760}
+.sol-crumbs{background:#fff7f6;border-bottom:1px solid #f5eae8;font-size:14px}
+.sol-crumbs .wrap{padding:14px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;color:#5b5870}
+.sol-crumbs a{color:#cc1517;font-weight:700;text-decoration:none}
+.sol-crumbs a:hover{text-decoration:underline}
+.sol-crumbs [aria-current]{font-weight:700;color:#161922}
+.sol-crumbs__pv{margin-left:auto;padding:4px 10px;border-radius:999px;background:#161922;color:#fff;font-size:12px;font-weight:700}
+.wrap--others{padding:clamp(64px,8vw,104px) 24px}
+.wrap--others .head-split{margin-bottom:28px}

@@ -241,7 +241,7 @@ $rvWidget = LD\Reviews::widgetPosition('home');
     </div>
     <div class="ag" style="--min:460px">
       <?php foreach ($solCards as $i => $so): $dark = $so['kind'] === 'intensiti' || ($so['theme'] ?? '') === 'sombre'; ?>
-        <a class="prod <?= $dark ? 'prod--ink' : 'prod--rose' ?>" href="/mes-solutions#<?= e($so['id']) ?>" data-reveal<?= $i ? ' data-delay="' . min(360, $i * 120) . '"' : '' ?>>
+        <a class="prod <?= $dark ? 'prod--ink' : 'prod--rose' ?>" href="<?= e(LD\Solutions::url($so)) ?>" data-reveal<?= $i ? ' data-delay="' . min(360, $i * 120) . '"' : '' ?>>
           <div class="prod__shot"><div><?= slot($so['image'] ?? '', 'Capture ' . $so['name'] . ' — à fournir', 'Capture d’écran ' . $so['name'], ['sizes' => '(max-width: 600px) 80vw, 560px']) ?></div></div>
           <div class="prod__foot">
             <div class="prod__txt"><h3><?= t($so['name']) ?></h3><?= trim((string) ($so['short'] ?? '')) !== '' ? '<p>' . t($so['short']) . '</p>' : (trim((string) ($so['tagline'] ?? '')) !== '' ? '<p>' . t($so['tagline']) . '</p>' : '<p class="todo todo--sm">À fournir : phrase de présentation</p>') ?></div>

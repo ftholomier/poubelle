@@ -22,7 +22,7 @@ $n = count($solutions);
               <button type="submit" class="switch<?= $so['enabled'] ? ' is-on' : '' ?>" aria-pressed="<?= $so['enabled'] ? 'true' : 'false' ?>" title="<?= $so['enabled'] ? 'Masquer sur le site' : 'Afficher sur le site' ?>"><span></span><?= $so['enabled'] ? 'Affichée' : 'Masquée' ?></button>
             </form>
           </td>
-          <td class="sol-acts"><a class="link" href="/admin/solutions/<?= e($so['id']) ?>">Modifier</a><?php if ($so['enabled']): ?> · <a class="link" href="/mes-solutions#<?= e($so['id']) ?>" target="_blank" rel="noopener">Voir ↗</a><?php endif; ?></td>
+          <td class="sol-acts"><a class="link" href="/admin/solutions/<?= e($so['id']) ?>">Modifier</a><?php if ($so['enabled'] || $so['kind'] === 'standard'): ?> · <a class="link" href="<?= e(LD\Solutions::url($so)) ?>" target="_blank" rel="noopener"><?= $so['enabled'] ? 'Voir ↗' : 'Aperçu ↗' ?></a><?php endif; ?></td>
         </tr>
       <?php endforeach; ?>
     </tbody>

@@ -21,7 +21,7 @@ $fr = $f['made_in_france'] ?? [];
       </div>
       <div class="ftr__col">
         <span class="ftr__h"><?= t($f['solutions_title'] ?? 'Mes solutions') ?></span>
-        <?php foreach (LD\Solutions::enabled() as $so): ?><a href="/mes-solutions#<?= e($so['id']) ?>"><?= t($so['name']) ?></a><?php endforeach; ?>
+        <?php foreach (LD\Solutions::enabled() as $so): ?><a href="<?= e(LD\Solutions::url($so)) ?>"><?= t($so['name']) ?></a><?php endforeach; ?>
       </div>
       <div class="ftr__col">
         <span class="ftr__h"><?= t($f['links_title'] ?? 'Liens') ?></span>

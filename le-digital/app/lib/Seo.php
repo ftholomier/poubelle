@@ -75,6 +75,9 @@ final class Seo
         foreach ($urls as $u) {
             $xml .= '  <url><loc>' . e(abs_url($u)) . '</loc><changefreq>' . ($u === '/' ? 'weekly' : 'monthly') . '</changefreq><priority>' . ($u === '/' ? '1.0' : '0.8') . "</priority></url>\n";
         }
+        foreach (Solutions::enabled() as $so) {
+            $xml .= '  <url><loc>' . e(abs_url(Solutions::url($so))) . "</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>\n";
+        }
         foreach (Posts::all(true) as $p) {
             $xml .= '  <url><loc>' . e(abs_url('/blog/' . $p['slug'])) . '</loc><lastmod>' . e(substr((string) ($p['updated_at'] ?? $p['date']), 0, 10)) . "</lastmod><priority>0.6</priority></url>\n";
         }

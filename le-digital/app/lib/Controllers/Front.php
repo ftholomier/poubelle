@@ -90,6 +90,33 @@ final class Front
         self::render('blog', 'blog', ['active' => ''], ['theme' => $theme]);
     }
 
+    /** Détail d'une solution (masquée : visible seulement par l'administrateur connecté, pour la prévisualiser). */
+    public static function solution(string $id): never
+    {
+        $raw = \LD\Solutions::find($id);
+        $preview = $raw && !$raw['enabled'] && Auth::peek();
+        if (!$raw || (!$raw['enabled'] && !$preview)) {
+            self::notFound();
+        }
+        $so = \LD\Solutions::view($raw);
+        $about = trim((string) (($so['short'] ?? '') ?: ($so['text'] ?? '')));
+        $tag = trim(trim((string) ($so['tagline'] ?? '')) . ' ' . trim((string) ($so['tagline_accent'] ?? '')));
+        $others = array_values(array_filter(\LD\Solutions::enabled(), static fn($o) => $o['id'] !== $so['id']));
+        $meta = [
+            'title'       => $so['name'] . ($tag !== '' ? ' · ' . $tag : ''),
+            'description' => mb_strimwidth($about, 0, 160, '…'),
+            'image'       => ($so['image'] ?? '') ?: null,
+            'active'      => 'solutions',
+            'noindex'     => $preview,
+            'jsonld'      => [array_filter([
+                '@context' => 'https://schema.org', '@type' => 'SoftwareApplication', 'name' => $so['name'], 'description' => $about,
+                'applicationCategory' => 'BusinessApplication', 'url' => abs_url(\LD\Solutions::url($so)),
+                'image' => !empty($so['image']) ? abs_url($so['image']) : null, 'author' => ['@type' => 'Person', 'name' => Settings::get('site.owner', 'Frédéric Tholomier')],
+            ])],
+        ];
+        self::render('solution', 'solutions', $meta, ['so' => $so, 'others' => $others, 'preview' => $preview], !$preview);
+    }
+
     public static function article(string $slug): never
     {
         $post = Posts::bySlug($slug);

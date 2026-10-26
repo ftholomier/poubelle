@@ -75,6 +75,7 @@ $router->get('/sur-mesure-ia', [Front::class, 'surMesure']);
 $router->get('/formation', [Front::class, 'formation']);
 $router->get('/accompagnement', [Front::class, 'accompagnement']);
 $router->get('/mes-solutions', [Front::class, 'solutions']);
+$router->get('/mes-solutions/{id}', [Front::class, 'solution']);
 $router->get('/qui-suis-je', [Front::class, 'qui']);
 $router->get('/avis', [Front::class, 'avis']);
 $router->get('/blog', [Front::class, 'blog']);

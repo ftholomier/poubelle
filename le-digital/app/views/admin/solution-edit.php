@@ -3,7 +3,7 @@
 <form method="post" class="settings-form">
   <input type="hidden" name="_csrf" value="<?= e($csrf) ?>">
   <section class="card">
-    <div class="card__head"><h2><?= $so['id'] ? e($so['name']) : 'Nouvelle solution' ?></h2><?php if ($so['id'] && $so['enabled']): ?><a href="/mes-solutions#<?= e($so['id']) ?>" target="_blank" rel="noopener">Voir sur le site ↗</a><?php endif; ?></div>
+    <div class="card__head"><h2><?= $so['id'] ? e($so['name']) : 'Nouvelle solution' ?></h2><?php if ($so['id']): ?><a href="<?= e(LD\Solutions::url($so)) ?>" target="_blank" rel="noopener"><?= $so['enabled'] ? 'Voir sur le site ↗' : 'Aperçu (masquée) ↗' ?></a><?php endif; ?></div>
     <div class="form form--cols">
       <label>Nom<input name="name" required maxlength="80" value="<?= e($so['name']) ?>" placeholder="Ex. : Formaliance"></label>
       <label>Apparence du bloc
