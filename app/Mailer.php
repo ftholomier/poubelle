@@ -26,6 +26,23 @@ final class Mailer
      */
     public static function send(string $to, string $subject, string $htmlBody, ?string $replyTo = null, bool $obligatoire = false): bool
     {
+        // Garantie de l'appelant : envoyer un e-mail ne lève jamais.
+        //
+        // Une candidature est enregistrée avant que l'accusé de réception
+        // ne parte. Si l'envoi échouait bruyamment — fonction désactivée
+        // par l'hébergeur, serveur SMTP injoignable, disque plein au
+        // moment d'écrire le journal — le visiteur verrait une erreur et
+        // croirait sa candidature perdue, alors qu'elle est bien là.
+        try {
+            return self::envoyer($to, $subject, $htmlBody, $replyTo, $obligatoire);
+        } catch (Throwable $e) {
+            ErrorHandler::log($e);
+            return false;
+        }
+    }
+
+    private static function envoyer(string $to, string $subject, string $htmlBody, ?string $replyTo, bool $obligatoire): bool
+    {
         $to = self::adresse($to);
         $from = self::adresse((string) settings('company.email', 'contact@suisse-immo.fr'));
         $replyTo = self::adresse((string) ($replyTo ?: $from));
@@ -80,12 +97,30 @@ final class Mailer
                     $enTetes,
                     static fn ($h) => !str_starts_with($h, 'To: ') && !str_starts_with($h, 'Subject: ')
                 ));
-                // Enveloppe d'expédition explicite : sans -f, l'agent local
-                // signe avec l'utilisateur système (www-data@serveur), une
-                // adresse qui n'existe pas et que les filtres rejettent.
-                $enveloppe = escapeshellcmd('-f' . $expediteur);
-                $sent = @mail($to, self::encoder($subject), $corps, implode("\r\n", $entetesMail), $enveloppe);
-                if (!$sent) {
+                try {
+                    // Enveloppe d'expédition explicite : sans -f, l'agent
+                    // local signe avec l'utilisateur système
+                    // (www-data@serveur), une adresse qui n'existe pas et
+                    // que les filtres rejettent.
+                    //
+                    // L'adresse a déjà passé FILTER_VALIDATE_EMAIL ; on ne
+                    // s'en remet pas à escapeshellcmd(), que la plupart des
+                    // hébergements mutualisés désactivent, et dont l'appel
+                    // ferait alors échouer toute la requête.
+                    $enveloppe = preg_match('/^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$/', $expediteur) === 1
+                        ? '-f' . $expediteur
+                        : '';
+                    $sent = $enveloppe !== ''
+                        ? @mail($to, self::encoder($subject), $corps, implode("\r\n", $entetesMail), $enveloppe)
+                        : @mail($to, self::encoder($subject), $corps, implode("\r\n", $entetesMail));
+                } catch (Throwable $e) {
+                    // Certains hébergements désactivent mail() au point que
+                    // l'appel lève une erreur : cela ne doit jamais faire
+                    // échouer la candidature elle-même.
+                    $erreur = $e->getMessage();
+                    ErrorHandler::log($e);
+                }
+                if (!$sent && $erreur === '') {
                     $erreur = self::diagnosticMail();
                 }
             } else {

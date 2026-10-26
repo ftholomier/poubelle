@@ -1143,6 +1143,34 @@ input[type="range"]::-moz-range-thumb {
 .filedrop b { font-size: .93rem; }
 .filedrop small { color: var(--muted); font-size: .78rem; }
 
+/* Un fichier est joint : trait plein et teinte verte, pour que l'état se
+   lise sans avoir à déchiffrer le nom du fichier. */
+.filedrop.has-file {
+  border-style: solid; border-color: rgba(53,208,127,.5);
+  background: rgba(53,208,127,.07);
+  position: relative;
+}
+.filedrop.has-file svg { color: var(--mint); }
+.filedrop.has-file b { color: var(--text); }
+
+/* Retirer la pièce jointe. */
+.filedrop__retirer {
+  position: absolute; top: 8px; right: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--surface);
+  color: var(--muted);
+  transition: color .25s, border-color .25s, transform .3s var(--ease-out);
+}
+.filedrop__retirer:hover, .filedrop__retirer:focus-visible {
+  color: var(--text); border-color: var(--red); transform: rotate(90deg);
+}
+.filedrop__retirer svg { width: 16px; height: 16px; color: inherit; }
+
+@media (pointer: coarse), (max-width: 900px) {
+  .filedrop__retirer { width: 44px; height: 44px; top: 6px; right: 6px; }
+}
+
 .honey {
   position: absolute !important;
   width: 1px; height: 1px; padding: 0; border: 0;

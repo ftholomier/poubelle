@@ -357,11 +357,21 @@ final class ApiController
         if (($f['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
             return [];
         }
-        if (($f['error'] ?? 1) !== UPLOAD_ERR_OK) {
-            return ['error' => 'Le fichier n’a pas pu être envoyé.'];
+        $limite = taille_lisible(upload_limite());
+        $code = (int) ($f['error'] ?? UPLOAD_ERR_NO_FILE);
+        if ($code !== UPLOAD_ERR_OK) {
+            // Distinguer le dépassement de taille du reste : c'est de loin
+            // le cas le plus fréquent, et le seul que le candidat puisse
+            // corriger lui-même.
+            return ['error' => match ($code) {
+                UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => 'CV trop volumineux : ' . $limite . ' maximum.',
+                UPLOAD_ERR_PARTIAL => 'L’envoi a été interrompu. Merci de réessayer.',
+                UPLOAD_ERR_NO_TMP_DIR, UPLOAD_ERR_CANT_WRITE => 'Le serveur n’a pas pu enregistrer le fichier.',
+                default => 'Le fichier n’a pas pu être envoyé.',
+            }];
         }
-        if (($f['size'] ?? 0) > UPLOAD_MAX_BYTES) {
-            return ['error' => 'CV trop volumineux (5 Mo maximum).'];
+        if (($f['size'] ?? 0) > upload_limite()) {
+            return ['error' => 'CV trop volumineux : ' . $limite . ' maximum.'];
         }
         $ext = strtolower(pathinfo((string) $f['name'], PATHINFO_EXTENSION));
         if (!array_key_exists($ext, UPLOAD_ALLOWED)) {

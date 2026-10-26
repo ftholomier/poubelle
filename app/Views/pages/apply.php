@@ -168,8 +168,11 @@ $stats = (array) content('stats');
               <div class="filedrop" tabindex="0" role="button" aria-label="Ajouter un CV">
                 <?= icon('file') ?>
                 <b data-file-name>Glissez votre CV ici ou cliquez pour le choisir</b>
-                <small>PDF, DOC ou DOCX — 5 Mo maximum</small>
+                <small>PDF, DOC ou DOCX — <?= e(taille_lisible(upload_limite())) ?> maximum</small>
                 <input type="file" name="cv" accept=".pdf,.doc,.docx">
+                <button class="filedrop__retirer" type="button" data-file-clear hidden>
+                  <?= icon('close') ?><span class="sr-only">Retirer le CV</span>
+                </button>
               </div>
             </div>
             <?php endif; ?>

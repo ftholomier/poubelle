@@ -241,3 +241,49 @@ function csp_nonce(): string
     }
     return $nonce;
 }
+
+/**
+ * Taille de dépôt réellement applicable, en octets.
+ *
+ * La limite de l'application ne vaut que si la configuration PHP la
+ * permet : `upload_max_filesize` vaut souvent 2 Mo sur un mutualisé.
+ * Annoncer 5 Mo dans l'interface alors que le serveur refuse au-delà de
+ * 2 Mo produit un échec incompréhensible pour le candidat.
+ */
+function upload_limite(): int
+{
+    $limites = [UPLOAD_MAX_BYTES];
+    foreach (['upload_max_filesize', 'post_max_size'] as $cle) {
+        $octets = taille_ini((string) ini_get($cle));
+        if ($octets > 0) {
+            $limites[] = $octets;
+        }
+    }
+    return min($limites);
+}
+
+/** Convertit une valeur de php.ini (« 2M », « 8M », « 512K ») en octets. */
+function taille_ini(string $valeur): int
+{
+    $valeur = trim($valeur);
+    if ($valeur === '') {
+        return 0;
+    }
+    $nombre = (int) $valeur;
+    return match (strtolower(substr($valeur, -1))) {
+        'g' => $nombre * 1024 * 1024 * 1024,
+        'm' => $nombre * 1024 * 1024,
+        'k' => $nombre * 1024,
+        default => $nombre,
+    };
+}
+
+/** Taille lisible : 2 Mo, 512 Ko… */
+function taille_lisible(int $octets): string
+{
+    if ($octets >= 1024 * 1024) {
+        $mo = $octets / (1024 * 1024);
+        return rtrim(rtrim(number_format($mo, $mo < 10 ? 1 : 0, ',', ' '), '0'), ',') . ' Mo';
+    }
+    return max(1, (int) round($octets / 1024)) . ' Ko';
+}

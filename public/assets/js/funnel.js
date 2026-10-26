@@ -154,15 +154,44 @@
   if (drop) {
     const input = $('input[type="file"]', drop);
     const label = $('[data-file-name]', drop);
-    const setName = (name) => { if (label) label.textContent = name || 'Glissez votre CV ici ou cliquez pour le choisir'; };
-    drop.addEventListener('click', () => input.click());
-    drop.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } });
-    input.addEventListener('change', () => setName(input.files[0] ? input.files[0].name : ''));
+    const retirer = $('[data-file-clear]', drop);
+    const vide = 'Glissez votre CV ici ou cliquez pour le choisir';
+
+    function refleter() {
+      const fichier = input.files && input.files[0];
+      if (label) label.textContent = fichier ? fichier.name : vide;
+      drop.classList.toggle('has-file', !!fichier);
+      if (retirer) retirer.hidden = !fichier;
+    }
+
+    // Un CV déposé par erreur doit pouvoir être retiré : remplacer la
+    // sélection était jusqu'ici le seul moyen de s'en défaire.
+    function effacer() {
+      input.value = '';
+      // Safari ignore input.value = '' sur un champ fichier.
+      if (input.files && input.files.length) {
+        try { input.files = new DataTransfer().files; } catch (err) {}
+      }
+      refleter();
+      input.focus();
+    }
+
+    drop.addEventListener('click', (e) => {
+      if (e.target.closest('[data-file-clear]')) { e.preventDefault(); effacer(); return; }
+      input.click();
+    });
+    drop.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      if (e.target.closest('[data-file-clear]')) { e.preventDefault(); effacer(); return; }
+      if (e.target === drop) { e.preventDefault(); input.click(); }
+    });
+    input.addEventListener('change', refleter);
     ['dragenter', 'dragover'].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add('is-over'); }));
     ['dragleave', 'drop'].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.remove('is-over'); }));
     drop.addEventListener('drop', (e) => {
-      if (e.dataTransfer.files.length) { input.files = e.dataTransfer.files; setName(e.dataTransfer.files[0].name); }
+      if (e.dataTransfer.files.length) { input.files = e.dataTransfer.files; refleter(); }
     });
+    refleter();
   }
 
   /* --------------------------------------------------- Soumission */
