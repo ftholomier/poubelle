@@ -8,7 +8,7 @@
   </div>
 </section>
 <?php if (!$items): ?>
-  <div class="card empty"><p>La médiathèque est vide. Envoie tes photos (portrait, en formation, avec un client…) et tes captures d’Intensiti et Formaliance.</p></div>
+  <div class="card empty"><p>La médiathèque est vide. Envoie tes photos (portrait, en formation, avec un client…) et les captures de tes solutions.</p></div>
 <?php else: ?>
   <div class="media-grid">
     <?php foreach ($items as $m): ?>

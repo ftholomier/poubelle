@@ -16,10 +16,6 @@
     "zones_title": "Zones",
     "remote": "Partout en France à distance",
     "solutions_title": "Mes solutions",
-    "solutions": [
-      { "label": "Intensiti", "href": "/mes-solutions#intensiti" },
-      { "label": "Formaliance", "href": "/mes-solutions#formaliance" }
-    ],
     "links_title": "Liens",
     "links": [
       { "label": "Avis", "href": "/avis" },

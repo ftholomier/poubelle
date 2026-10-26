@@ -16,7 +16,7 @@ final class Content
         'sur-mesure'     => 'Sur mesure + IA',
         'formation'      => 'Formation',
         'accompagnement' => "L'accompagnement",
-        'solutions'      => 'Mes solutions',
+        'solutions'      => 'Mes solutions : en-tête de page et bloc Intensiti',
         'qui'            => 'Qui suis-je',
         'avis'           => 'Avis (page)',
         'blog'           => 'Blog (page et thèmes)',

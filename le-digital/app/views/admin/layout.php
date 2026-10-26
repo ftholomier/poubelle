@@ -6,6 +6,7 @@ $nav = [
     ['/admin/demandes', 'Demandes', 'M4 4h16v12H5.17L4 17.17V4zM8 9h8M8 12h5', $counts['new'] ?? 0],
     ['/admin/rendez-vous', 'Rendez-vous', 'M7 3v3M17 3v3M4 8h16M5 5h14v15H5z'],
     ['/admin/contenus', 'Contenus des pages', 'M4 5h16M4 10h16M4 15h10M4 20h7'],
+    ['/admin/solutions', 'Solutions', 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z'],
     ['/admin/avis', 'Avis clients', 'M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z'],
     ['/admin/blog', 'Blog', 'M5 4h11l3 3v13H5zM9 9h6M9 13h6M9 17h4'],
     ['/admin/medias', 'Médiathèque', 'M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4'],

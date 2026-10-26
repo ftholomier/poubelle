@@ -79,7 +79,7 @@ $bkCfg = ['days' => $days, 'modes' => $modes, 'choose' => $b['choose'], 'book' =
         <label class="fld"><?= t($f['email']) ?><input name="email" type="email" maxlength="160" autocomplete="email"></label>
         <fieldset class="ct__int">
           <legend><?= t($f['interests_label']) ?></legend>
-          <div class="ct__chips"><?php foreach ($f['interests'] as $it): ?><button type="button" aria-pressed="false" data-interest="<?= e($it) ?>"><?= t($it) ?></button><?php endforeach; ?></div>
+          <div class="ct__chips"><?php foreach (LD\Solutions::interests((array) $f['interests']) as $it): ?><button type="button" aria-pressed="false" data-interest="<?= e($it) ?>"><?= t($it) ?></button><?php endforeach; ?></div>
         </fieldset>
         <label class="fld"><?= t($f['time']) ?><textarea name="time_text" rows="3" maxlength="2000" data-ct-time></textarea></label>
         <label class="fld"><?= t($f['why']) ?><textarea name="why" rows="3" maxlength="3000"></textarea></label>

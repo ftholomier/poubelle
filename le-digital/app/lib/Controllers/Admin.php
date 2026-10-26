@@ -42,6 +42,7 @@ final class Admin
         AdminContent::routes($r);
         AdminSettings::routes($r);
         AdminUpdates::routes($r);
+        AdminSolutions::routes($r);
     }
 
     /** Enveloppe un gestionnaire : connexion obligatoire (+ jeton CSRF pour les POST). */
@@ -157,7 +158,6 @@ final class Admin
     public static function dashboard(): never
     {
         $s = Settings::all();
-        $sol = \LD\Content::get('solutions');
         $qui = \LD\Content::get('qui');
         $form = \LD\Content::get('formation');
         $checks = [
@@ -167,8 +167,9 @@ final class Admin
             ['Clé API d’IA (assistant, démos)', Ai::resolve('chat') !== null, '/admin/ia'],
             ['Avis clients (Google, widget ou saisis)', count(Reviews::all(true)) > 0 || Reviews::widgetCode() !== '', \LD\GoogleReviews::enabled() || Reviews::all() ? '/admin/avis' : '/admin/avis/google'],
             ['Articles de blog publiés', count(Posts::all(true)) > 0, '/admin/blog'],
-            ['Présentation et capture de Formaliance', trim((string) $sol['formaliance']['text']) !== '' && $sol['formaliance']['image'] !== '', '/admin/contenus/solutions'],
-            ['Capture et lien d’Intensiti', $sol['intensiti']['image'] !== '' && $sol['intensiti']['url'] !== '', '/admin/contenus/solutions'],
+            ...array_map(static fn($so) => $so['kind'] === 'intensiti'
+                ? ['Intensiti : capture et lien', ($so['image'] ?? '') !== '' && ($so['url'] ?? '') !== '', '/admin/contenus/solutions']
+                : [$so['name'] . ' : présentation et capture', trim((string) $so['text']) !== '' && $so['image'] !== '', '/admin/solutions/' . $so['id']], \LD\Solutions::enabled()),
             ['Parcours de Frédéric validé', !empty($qui['story_validated']), '/admin/contenus/qui'],
             ['Programme réel de la formation', trim((string) $form['programme']['todo']) === '', '/admin/contenus/formation'],
             ['Mentions légales complétées', !str_contains((string) json_encode(\LD\Content::get('mentions'), JSON_UNESCAPED_UNICODE), 'à fournir'), '/admin/contenus/mentions'],

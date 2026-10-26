@@ -1429,3 +1429,10 @@ html.xp-open .dbar-wrap,html.xp-open .dfab{opacity:0;pointer-events:none}
   .xp__cta{height:56px}
 }
 @media (max-width:360px){.xp__cb-row{flex-direction:column}.xp__cb button{height:46px}}
+
+/* Solutions génériques (back-office › Solutions) */
+.sol-grid--flip .sol-shot{order:2}
+.sol-grid--flip .sol-txt{order:1}
+.sol-logo{height:clamp(40px,4.6vw,58px);width:auto;max-width:280px;align-self:flex-start;object-fit:contain}
+.sol-shot--dark{background:#252436;box-shadow:0 40px 80px -40px rgba(204,21,23,.6)}
+.sol-dark .sol-name{color:#fff}

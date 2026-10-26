@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Mes solutions · Intensiti et Formaliance",
-    "description": "Intensiti, l'affichage dynamique piloté depuis un navigateur, et Formaliance : des outils imaginés, construits et maintenus par Frédéric Tholomier."
+    "title": "Mes solutions · {solutions}",
+    "description": "{solutions} : des outils imaginés, construits et maintenus par Frédéric Tholomier, expert du digital français."
   },
   "hero": {
     "title": "Mes",
@@ -74,17 +74,6 @@
       "cta": "Simuler mon tarif"
     },
     "france": "Conçu, développé et hébergé en France : tes données restent en France."
-  },
-  "formaliance": {
-    "name": "Formaliance",
-    "tagline": "",
-    "short": "",
-    "text": "",
-    "strengths": [],
-    "image": "",
-    "url": "",
-    "cta": "Découvrir Formaliance",
-    "demo_cta": "Demander une démo"
   },
   "links_todo": "Liens à fournir",
   "final": {

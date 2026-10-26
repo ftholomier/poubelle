@@ -68,7 +68,10 @@ final class Front
 
     public static function solutions(): never
     {
-        self::render('solutions', 'solutions', ['active' => 'solutions']);
+        $c = Content::get('solutions');
+        $names = \LD\Solutions::names();
+        $fill = static fn(string $v) => trim((string) preg_replace(['/\s*·\s*$/u', '/^\s*:\s*/u'], '', str_replace('{solutions}', $names, $v)));
+        self::render('solutions', 'solutions', ['active' => 'solutions', 'title' => $fill((string) ($c['seo']['title'] ?? '')), 'description' => $fill((string) ($c['seo']['description'] ?? ''))]);
     }
 
     public static function qui(): never

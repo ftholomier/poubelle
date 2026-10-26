@@ -1,0 +1,21 @@
+[
+  { "id": "intensiti", "kind": "intensiti", "enabled": true, "order": 1 },
+  {
+    "id": "formaliance",
+    "kind": "standard",
+    "enabled": false,
+    "order": 2,
+    "name": "Formaliance",
+    "short": "",
+    "tagline": "",
+    "text": "",
+    "strengths": [],
+    "image": "",
+    "logo": "",
+    "theme": "clair",
+    "url": "",
+    "cta": "Découvrir Formaliance",
+    "demo_cta": "Demander une démo",
+    "demo_url": "/on-prend-rdv"
+  }
+]

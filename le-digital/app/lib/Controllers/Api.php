@@ -265,7 +265,7 @@ final class Api
             Http::sendJson(['ok' => true, 'text' => $fallback, 'ai' => false]);
         }
         try {
-            $text = Ai::complete('chat', Ai::prompt('chat_system'), $msgs);
+            $text = Ai::complete('chat', Ai::fill(Ai::prompt('chat_system'), ['solutions' => \LD\Solutions::summary()]), $msgs);
             Http::sendJson(['ok' => true, 'text' => $text, 'ai' => true]);
         } catch (AiException) {
             Http::sendJson(['ok' => true, 'text' => $fallback, 'ai' => false]);

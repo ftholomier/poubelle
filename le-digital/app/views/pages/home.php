@@ -3,7 +3,7 @@
 use LD\View;
 
 $h = $c['hero'];
-$sol = LD\Content::get('solutions');
+$solCards = LD\Solutions::enabled();
 $services = $g['services'] ?? [];
 $eng = $g['engagements'] ?? [];
 $reviews = LD\Reviews::featured(3);
@@ -231,6 +231,7 @@ $rvWidget = LD\Reviews::widgetPosition('home');
   </div>
 </section>
 
+<?php if ($solCards): ?>
 <section class="sec" id="solutions">
   <div class="wrap">
     <?= ask($c['solutions']['ask']) ?>
@@ -239,24 +240,21 @@ $rvWidget = LD\Reviews::widgetPosition('home');
       <a class="link-u" href="/mes-solutions"><?= t($c['solutions']['link']) ?></a>
     </div>
     <div class="ag" style="--min:460px">
-      <?php $in = $sol['intensiti']; $fo = $sol['formaliance']; ?>
-      <a class="prod prod--ink" href="/mes-solutions#intensiti" data-reveal>
-        <div class="prod__shot"><div><?= slot($in['image'], 'Capture Intensiti — à fournir', 'Capture d’écran Intensiti', ['sizes' => '(max-width: 600px) 80vw, 560px']) ?></div></div>
-        <div class="prod__foot">
-          <div class="prod__txt"><h3><?= t($in['name']) ?></h3><p><?= t($in['short']) ?></p></div>
-          <span class="prod__btn"><?= t($in['cta']) ?></span>
-        </div>
-      </a>
-      <a class="prod prod--rose" href="/mes-solutions#formaliance" data-reveal data-delay="120">
-        <div class="prod__shot"><div><?= slot($fo['image'], 'Capture Formaliance — à fournir', 'Capture d’écran Formaliance', ['sizes' => '(max-width: 600px) 80vw, 560px']) ?></div></div>
-        <div class="prod__foot">
-          <div class="prod__txt"><h3><?= t($fo['name']) ?></h3><?= trim((string) $fo['short']) !== '' ? '<p>' . t($fo['short']) . '</p>' : '<p class="todo todo--sm">À fournir : phrase de présentation</p>' ?></div>
-          <span class="prod__btn prod__btn--red"><?= t($fo['cta']) ?></span>
-        </div>
+      <?php foreach ($solCards as $i => $so): $dark = $so['kind'] === 'intensiti' || ($so['theme'] ?? '') === 'sombre'; ?>
+        <a class="prod <?= $dark ? 'prod--ink' : 'prod--rose' ?>" href="/mes-solutions#<?= e($so['id']) ?>" data-reveal<?= $i ? ' data-delay="' . min(360, $i * 120) . '"' : '' ?>>
+          <div class="prod__shot"><div><?= slot($so['image'] ?? '', 'Capture ' . $so['name'] . ' — à fournir', 'Capture d’écran ' . $so['name'], ['sizes' => '(max-width: 600px) 80vw, 560px']) ?></div></div>
+          <div class="prod__foot">
+            <div class="prod__txt"><h3><?= t($so['name']) ?></h3><?= trim((string) ($so['short'] ?? '')) !== '' ? '<p>' . t($so['short']) . '</p>' : (trim((string) ($so['tagline'] ?? '')) !== '' ? '<p>' . t($so['tagline']) . '</p>' : '<p class="todo todo--sm">À fournir : phrase de présentation</p>') ?></div>
+            <span class="prod__btn<?= $dark ? '' : ' prod__btn--red' ?>"><?= t(($so['cta'] ?? '') ?: 'Découvrir ' . $so['name']) ?></span>
+          </div>
+        </a>
+      <?php endforeach; ?>
+    </div>
       </a>
     </div>
   </div>
 </section>
+<?php endif; ?>
 
 <section class="sec sec--rose" id="etapes">
   <div class="wrap">

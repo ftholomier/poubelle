@@ -37,6 +37,10 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
 - **Contenus** : éditeur générique de toutes les pages (textes, listes, boutons, images…), réinitialisation possible.
 - **Avis clients** : saisis à la main, **importés depuis Google** (synchronisation quotidienne) et/ou **widget d'un service d'avis**
   (code HTML/JS à coller) — voir plus bas.
+- **Solutions** : afficher / masquer chaque solution (Formaliance masquée par défaut), changer l'ordre, en créer de
+  nouvelles (nom, accroche, présentation, points forts, capture, logo, thème clair ou sombre, liens). La page
+  « Mes solutions », les cartes de l'accueil, le pied de page, le formulaire de contact, le titre Google et l'assistant IA
+  suivent automatiquement. Les textes du bloc Intensiti restent dans *Contenus › Mes solutions*.
 - Articles de blog (éditeur visuel), médiathèque (conversion WebP + tailles responsive automatiques).
 - **IA & clés API** : clés chiffrées pour Anthropic (Claude), OpenAI, Google Gemini, Mistral, Groq, OpenRouter, DeepSeek, xAI ;
   **liste des modèles récupérée en direct** auprès de chaque fournisseur ; modèle par défaut + modèle par fonctionnalité,
