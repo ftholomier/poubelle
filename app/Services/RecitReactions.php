@@ -59,15 +59,16 @@ final class RecitReactions
     /** @return list<array{who:string,text:string}> la réaction d'un bloc (aucune s'il est vide) */
     private static function parse(string $b): array
     {
-        $txt = trim((string) preg_replace('/[ \t\x{00A0}]+/u', ' ', html_entity_decode(strip_tags((string) preg_replace('#<br\s*/?>#i', "\n", $b)), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+        // Une seule ligne : les retours à la ligne du code ou d'un texte collé ne coupent pas la citation.
+        $txt = trim((string) preg_replace('/[\s\x{00A0}]+/u', ' ', html_entity_decode(strip_tags((string) preg_replace('#<br\s*/?>#i', ' ', $b)), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
         if ($txt === '') {
             return [];
         }
         $who = '';
-        if (preg_match('/^([^:«»"“”\n]{2,70}?)\s*:\s*(.+)$/us', $txt, $mm) && !preg_match('/^\d/u', $mm[1])) {
+        if (preg_match('/^([^:«»"“”]{2,70}?)\s*:\s*(.+)$/us', $txt, $mm) && !preg_match('/^\d/u', $mm[1])) {
             [$who, $txt] = [trim($mm[1]), $mm[2]];
         }
-        $txt = trim($txt, " \t\n«»\"“”");
+        $txt = trim($txt, " «»\"“”");
         return $txt === '' ? [] : [['who' => mb_substr($who, 0, 120), 'text' => mb_substr($txt, 0, 6000)]];
     }
 

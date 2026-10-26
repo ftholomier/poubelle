@@ -2327,3 +2327,5 @@ Profil du club (`config/clubs/<club>.php`), clé `club_display` : clé de rappro
 - liste saisie à la main, différente : gardée, seules les puces nouvelles du récit (absentes du récit d'avant et de la liste, comparaison des mots) sont ajoutées à la fin.
 
 Appliqué à chaque enregistrement d'un match (`FicheForm::apply`) et une fois à tous les matchs sans `$orig` (`2026-10-reactions-du-recit`), qui ne remplit que les listes vides ou d'attente. Test : `tests/reactions-recit.php`.
+
+Affichage des citations (`quote_text()`, `app/helpers.php`) : sur la fiche, le Rétro-Direct et le PDF, les retours à la ligne d'un texte collé (journal, PDF) ou du code de l'ancien site ne coupent plus les phrases (une ligne vide sépare deux paragraphes), comme dans l'éditeur du back-office. La reprise du récit enregistre la citation sur une seule ligne.

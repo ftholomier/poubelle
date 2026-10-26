@@ -197,6 +197,17 @@ function meta_description(string $text, int $len = 158): string
  * URLs javascript: (contenu saisi dans le back-office ou importé).
  */
 /**
+ * Texte d'une citation (réaction d'après match) comme l'éditeur le montre : les retours à la ligne
+ * d'un texte collé (journal, PDF) ou du code de l'ancien site ne coupent pas les phrases ; seule une
+ * ligne vide sépare deux paragraphes.
+ */
+function quote_text(?string $s): string
+{
+    $paras = preg_split('/\R\s*\R/u', trim((string) $s)) ?: [];
+    return implode("\n\n", array_filter(array_map(fn ($p) => trim((string) preg_replace('/\s*\R\s*/u', ' ', $p)), $paras), 'strlen'));
+}
+
+/**
  * Texte court saisi au WYSIWYG du back-office (ou texte brut repris de l'ancien site),
  * affiché en ligne : les paragraphes deviennent des retours à la ligne.
  */

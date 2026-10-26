@@ -72,7 +72,11 @@ foreach (['C\'est formidable', 'Notre joie est totale', 'les réactions sont à 
 // 7 bis. Réactions collées en texte brut (une seule ligne de paragraphe, retours à la ligne) :
 // une réaction par « Nom : », une citation sur deux lignes reste entière.
 $p = ['type' => 'match', 'match' => [], 'sections' => [['title' => "Réactions d'après match", 'html' => '<p>Omar Daf : « Un vrai match de coupe. »<br>Mehdi Jeannin : « Tout le monde a été solidaire.<br>On a fait les efforts. »<br><strong>Maxence Prévot :</strong> Il faut une série.</p>']]];
-$t('7 bis collé', R::extract($p), [['who' => 'Omar Daf', 'text' => 'Un vrai match de coupe.'], ['who' => 'Mehdi Jeannin', 'text' => "Tout le monde a été solidaire.\nOn a fait les efforts."], ['who' => 'Maxence Prévot', 'text' => 'Il faut une série.']]);
+$t('7 bis collé', R::extract($p), [['who' => 'Omar Daf', 'text' => 'Un vrai match de coupe.'], ['who' => 'Mehdi Jeannin', 'text' => 'Tout le monde a été solidaire. On a fait les efforts.'], ['who' => 'Maxence Prévot', 'text' => 'Il faut une série.']]);
+
+// 7 ter. Affichage : les retours à la ligne d'un texte collé ou de l'ancien site ne coupent pas les phrases.
+$t('7 ter citation d\'un seul tenant', quote_text("On a entamé le match avec la ferme intention de le gagner. C’est la\nraison pour laquelle on a pressé très haut. On ne peut pas être déçu, compte\r\ntenu du déroulement."), 'On a entamé le match avec la ferme intention de le gagner. C’est la raison pour laquelle on a pressé très haut. On ne peut pas être déçu, compte tenu du déroulement.');
+$t('7 ter paragraphes gardés', quote_text("Premier paragraphe.\n\nSecond\nparagraphe."), "Premier paragraphe.\n\nSecond paragraphe.");
 
 // 8. Formulaire de fiche : récit rempli à la place de « A venir » → réactions remplies à l'enregistrement.
 $o = Fiches::fresh(17721);

@@ -468,7 +468,7 @@ final class PdfExport
                 self::timeline($l, $m['highlights'], (bool) ($m['sochaux_home'] ?? false));
             } elseif ($key === 'reactions' && $struct) {
                 foreach ($m['reactions'] as $q) {
-                    $txt = trim((string) preg_replace(['/^\s*[«"“]\s*/u', '/\s*[»"”]\s*([.!?…]?)\s*$/u'], ['', '$1'], strip_tags((string) $q['text'])));
+                    $txt = trim((string) preg_replace(['/^\s*[«"“]\s*/u', '/\s*[»"”]\s*([.!?…]?)\s*$/u', '/\s+/u'], ['', '$1', ' '], strip_tags((string) $q['text'])));
                     $l->quote([Layout::run('« ' . $txt . ' »', 'serif-i', 11, 'navy')], trim((string) ($q['who'] ?? '')) ?: null);
                 }
                 $m['reactions'] = [];
