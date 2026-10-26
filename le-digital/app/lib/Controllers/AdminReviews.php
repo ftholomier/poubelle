@@ -13,7 +13,7 @@ use LD\Settings;
 use LD\Store;
 
 /**
- * Back-office : sources d'avis externes — synchronisation Google et widget d'un service tiers (code à coller).
+ * Back-office : sources d'avis externes — synchronisation Google et widgets d'un service tiers (codes à coller : carrousel, mur d'avis).
  * La liste et l'édition des avis restent dans AdminContent.
  */
 final class AdminReviews
@@ -230,25 +230,31 @@ final class AdminReviews
 
     public static function widget(): never
     {
-        Admin::view('reviews-widget', ['w' => (array) Settings::get('reviews_widget', [])], 'Widget d’avis');
+        Admin::view('reviews-widget', ['w' => (array) Settings::get('reviews_widget', [])], 'Widgets d’avis');
     }
 
     public static function saveWidget(): never
     {
-        $code = trim(str_replace("\r\n", "\n", (string) ($_POST['code'] ?? '')));
-        if (mb_strlen($code) > 20000) {
-            Admin::back('/admin/avis/widget', 'err', 'Code trop long (20 000 caractères maximum).');
-        }
-        if (preg_match('#<\?(php|=)?#i', $code)) {
-            Admin::back('/admin/avis/widget', 'err', 'Le code ne peut contenir que du HTML / JavaScript.');
+        $codes = [];
+        foreach (['footer_code' => 'du carrousel', 'code' => 'du mur d’avis'] as $field => $label) {
+            $codes[$field] = trim(str_replace("\r\n", "\n", (string) ($_POST[$field] ?? '')));
+            if (mb_strlen($codes[$field]) > 20000) {
+                Admin::back('/admin/avis/widget', 'err', 'Code ' . $label . ' trop long (20 000 caractères maximum).');
+            }
+            if (preg_match('#<\?(php|=)?#i', $codes[$field])) {
+                Admin::back('/admin/avis/widget', 'err', 'Le code ' . $label . ' ne peut contenir que du HTML / JavaScript.');
+            }
         }
         $s = Store::read('content/settings.json', []);
         $s['reviews_widget'] = [
-            'code' => $code,
-            'avis' => in_array($_POST['avis'] ?? '', ['off', 'before', 'after', 'replace'], true) ? $_POST['avis'] : 'after',
-            'home' => in_array($_POST['home'] ?? '', ['off', 'after', 'replace'], true) ? $_POST['home'] : 'off',
+            'code'         => $codes['code'],
+            'avis'         => in_array($_POST['avis'] ?? '', ['off', 'before', 'after', 'replace'], true) ? $_POST['avis'] : 'after',
+            'home'         => in_array($_POST['home'] ?? '', ['off', 'after', 'replace'], true) ? $_POST['home'] : 'off',
+            'footer_code'  => $codes['footer_code'],
+            'footer_place' => ($_POST['footer_place'] ?? '') === 'inside' ? 'inside' : 'before',
         ];
         Settings::save($s);
-        Admin::back('/admin/avis/widget', 'ok', $code === '' ? 'Widget retiré du site.' : 'Widget enregistré. Il est en ligne.');
+        $on = array_keys(array_filter(['carrousel (toutes les pages)' => $codes['footer_code'], 'mur d’avis (page Avis)' => $codes['code']], static fn($c) => $c !== ''));
+        Admin::back('/admin/avis/widget', 'ok', $on ? 'Enregistré. En ligne : ' . implode(' et ', $on) . '.' : 'Enregistré. Aucun widget d’avis sur le site.');
     }
 }

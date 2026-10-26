@@ -60,10 +60,29 @@ final class Reviews
         return self::all(true) ? '' : 'replace';
     }
 
-    /** Code du widget, inséré tel quel (saisi uniquement par l'administrateur, comme le code de mesure d'audience). */
+    /** Code du mur d'avis (page Avis), inséré tel quel (saisi uniquement par l'administrateur, comme le code de mesure d'audience). */
     public static function widgetCode(): string
     {
         return trim((string) Settings::get('reviews_widget.code', ''));
+    }
+
+    /** Code du carrousel d'avis affiché sur toutes les pages, au-dessus du pied de page. */
+    public static function carouselCode(): string
+    {
+        return trim((string) Settings::get('reviews_widget.footer_code', ''));
+    }
+
+    /**
+     * Emplacement du carrousel sur la page courante : 'before' (bandeau clair juste au-dessus du pied de page),
+     * 'inside' (dans le pied de page, au-dessus de la citation) ou '' (pas de carrousel).
+     * Sur la page Avis, le mur d'avis suffit : le carrousel n'y est pas répété.
+     */
+    public static function carouselPlace(string $path): string
+    {
+        if (self::carouselCode() === '' || (rtrim($path, '/') === '/avis' && self::widgetPosition('avis') !== '')) {
+            return '';
+        }
+        return Settings::get('reviews_widget.footer_place', 'before') === 'inside' ? 'inside' : 'before';
     }
 
     public static function find(string $id): ?array

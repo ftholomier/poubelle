@@ -35,8 +35,8 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
 - Rendez-vous : agenda, annulation, disponibilités (jours, créneaux, congés, durée, prévenance), **flux iCal privé**
   à ajouter dans Google Agenda / Apple Calendrier.
 - **Contenus** : éditeur générique de toutes les pages (textes, listes, boutons, images…), réinitialisation possible.
-- **Avis clients** : saisis à la main, **importés depuis Google** (synchronisation quotidienne) et/ou **widget d'un service d'avis**
-  (code HTML/JS à coller) — voir plus bas.
+- **Avis clients** : saisis à la main, **importés depuis Google** (synchronisation quotidienne) et/ou **widgets d'un service d'avis**
+  (codes HTML/JS à coller : carrousel sur toutes les pages, mur sur la page Avis) — voir plus bas.
 - **Solutions** : afficher / masquer chaque solution (Formaliance masquée par défaut), changer l'ordre, en créer de
   nouvelles (nom, accroche, présentation, points forts, capture, logo, thème clair ou sombre, liens). Côté site, la page
   « Mes solutions » est une mosaïque de cartes (image, nom, accroche, points forts) qui mènent chacune à sa page
@@ -144,8 +144,12 @@ thème, activité affichée, mise en avant et publication restent réglables et 
 Sur le site : logo Google, photo et lien de l'auteur, réponse de Fred, « Lire la suite », badge « ★ 4,9 · 37 avis Google »
 et lien « Laisser un avis Google ». (Ils ne sont pas repris dans les données structurées, conformément aux règles de Google.)
 
-**Widget d'un service d'avis** (*Avis clients › Widget à coller*) : le code fourni par le service (Trustindex, Elfsight,
-Avis Vérifiés…) est inséré tel quel sur la page Avis (avant, après ou à la place des avis du site) et/ou sur l'accueil.
+**Widgets d'un service d'avis** (*Avis clients › Widgets à coller*) : deux codes fournis par le service (Trustindex, Elfsight,
+Avis Vérifiés…), insérés tels quels :
+- **carrousel** : sur toutes les pages, juste au-dessus du pied de page (fond blanc) ou dans le pied de page au-dessus
+  de la citation (fond sombre). Sans carrousel, le pied de page affiche la note Google et des extraits d'avis ;
+- **mur d'avis** : sur la page Avis (avant, après ou à la place des avis du site) et/ou sur l'accueil. Sur la page Avis,
+  le mur remplace le carrousel.
 
 ## Mises à jour en un clic (GitHub)
 
@@ -170,7 +174,7 @@ Avis Vérifiés…) est inséré tel quel sur la page Avis (avant, après ou à 
 - Médias ré-encodés à l'envoi (aucun script exécutable dans `uploads/`), articles nettoyés (liste blanche HTML),
   analyse de site protégée contre les requêtes vers des adresses internes.
 - Aucun cookie côté visiteurs (seul le back-office utilise une session), polices auto-hébergées : pas d'appel à des services tiers
-  (sauf, si tu les actives, les photos des auteurs d'avis Google et le widget d'avis collé).
+  (sauf, si tu les actives, les photos des auteurs d'avis Google et les widgets d'avis collés).
 
 ## Sauvegarde
 

@@ -7,5 +7,6 @@ $cur = static fn(string $tab) => $on === $tab ? ' class="is-on" aria-current="pa
 <nav class="tabs tabs--section" aria-label="Avis clients">
   <a href="/admin/avis"<?= $cur('list') ?>>Avis du site <small><?= count(LD\Reviews::all()) ?></small></a>
   <a href="/admin/avis/google"<?= $cur('google') ?>><?= google_g(13) ?> Avis Google <small><?= e($gLabel) ?></small></a>
-  <a href="/admin/avis/widget"<?= $cur('widget') ?>>Widget à coller <small><?= LD\Reviews::widgetCode() !== '' ? 'en ligne' : 'aucun' ?></small></a>
+  <?php $nW = (int) (LD\Reviews::carouselCode() !== '') + (int) (LD\Reviews::widgetCode() !== ''); ?>
+  <a href="/admin/avis/widget"<?= $cur('widget') ?>>Widgets à coller <small><?= $nW ? $nW . ' en ligne' : 'aucun' ?></small></a>
 </nav>

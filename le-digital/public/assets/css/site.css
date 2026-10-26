@@ -1040,7 +1040,7 @@ a.post:hover .post__img img{transform:scale(1.03)}
 @media (max-width:600px){.ftr__logo{height:42px}}
 .ftr__h{font-family:var(--fh);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#fff}
 .ftr::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--fr-tri);z-index:1}
-.ftr__fr{position:relative;margin-top:56px;padding:26px 28px;border-radius:24px;background:linear-gradient(160deg,#1c1f2b,#191b26);border:1px solid #2e3044;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:14px 40px;align-items:center}
+.ftr__fr{position:relative;margin:0 0 72px;padding:26px 28px;border-radius:24px;background:linear-gradient(160deg,#1c1f2b,#191b26);border:1px solid #2e3044;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:14px 40px;align-items:center}
 .ftr__fr::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--fr-tri)}
 .ftr__fr-head{display:flex;align-items:center;gap:12px;font-family:var(--fh);font-weight:900;font-size:clamp(24px,2.6vw,32px);letter-spacing:-.03em;color:#fff}
 .ftr__fr-head .fr-flag{width:34px;height:23px;border-radius:4px}
@@ -1223,6 +1223,11 @@ a.gbadge__score:hover .gbadge__count{text-decoration:underline}
 .gbadge__write{font:700 15px var(--fh);color:#cc1517;text-decoration:none;border-bottom:2px solid #ffc2bc;padding-bottom:3px}
 .rv-widget{margin:0 0 40px;min-height:80px}
 .af+.rv-widget,.ag+.rv-widget{margin:48px 0 0}
+/* Carrousel d'avis (code collé) sur toutes les pages : bandeau clair juste au-dessus du pied de page, ou dans le pied de page */
+.rv-band{background:#fff;border-top:1px solid #f3e4e2}
+.rv-band__in{max-width:1280px;margin:0 auto;padding:clamp(36px,5vw,64px) 24px}
+.rv-widget--carousel{margin:0;min-height:120px}
+.rv-widget--dark{margin:0 0 64px}
 @media (max-width:640px){
   .gbadge{margin:-6px 0 26px}
   .gbadge__score{font-size:13.5px;padding:8px 14px 8px 10px}
