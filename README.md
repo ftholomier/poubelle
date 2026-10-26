@@ -44,6 +44,7 @@ app/                      ← code applicatif (hors racine web)
   Router.php              routeur à motifs `{param}`
   Store.php               persistance JSON atomique
   ErrorHandler.php        journalisation et présentation des erreurs
+  Updater.php             mise à jour du code depuis GitHub
   PasswordReset.php       réinitialisation de mot de passe par lien e-mail
   Housekeeping.php        purge quotidienne des données échues
   Smtp.php                client SMTP sans dépendance
@@ -148,6 +149,7 @@ Trois filets complémentaires :
 | **Réglages** | Identité, mentions légales, e-mail de notification, délai de réponse annoncé, activation de la barre CTA / pop-in / dépôt de CV, **animation des halos (marche/arrêt + vitesse)** |
 | **Utilisateurs** | Création de comptes, changement de mot de passe (10 caractères minimum) |
 | **E-mails envoyés** | Journal paginé des envois : transport utilisé, erreur exacte, contenu des 60 derniers |
+| **Mise à jour** | Version installée et version disponible sur GitHub, mise à jour en un clic, sauvegardes restaurables (voir §15) |
 
 L'éditeur de contenu est **piloté par un schéma** (`app/ContentSchema.php`) : ajouter un champ
 dans ce fichier suffit à le rendre éditable, sans toucher aux vues du back-office.
@@ -485,7 +487,41 @@ transfert nécessitant un consentement.
   sortie possible est l'API Gemini, et uniquement si l'assistant est activé — ce cas est alors
   déclaré dans la politique de confidentialité, qui l'affiche de façon conditionnelle.
 
-## 15. Points à valider avant mise en ligne
+## 15. Mettre le site à jour
+
+*Back-office → Mise à jour* récupère le code directement depuis GitHub. Sur un hébergement sans
+accès SSH, c'est ce qui évite de transférer des dizaines de fichiers par FTP en espérant n'en
+oublier aucun — l'oubli étant précisément ce qui laisse un site tourner sur une version qui
+n'est plus celle du dépôt.
+
+L'écran affiche côte à côte la version installée et le dernier commit de la branche suivie, avec
+son message et sa date. Un bouton applique la seconde.
+
+**Ce qui est remplacé** : `app/`, `public/`, `outils/`, `README.md`, `.gitignore`, plus les deux
+garde-fous `data/.htaccess` et `data/index.html` — qui ne sont pas des données mais les fichiers
+refusant l'accès web au dossier.
+
+**Ce qui ne l'est jamais** : tout le reste de `data/`. Contenu éditorial, réglages, articles,
+candidatures, messages, CV déposés, comptes et clés d'API traversent la mise à jour sans être
+lus ni écrits.
+
+**Garde-fous**
+
+| Risque | Réponse |
+|---|---|
+| Remplacer le site par un téléchargement incomplet | L'archive est refusée si `app/bootstrap.php`, `public/index.php` ou `SiteController.php` y manquent — avant d'avoir touché quoi que ce soit |
+| Fichier servi alors qu'il a été retiré en amont | Les fichiers absents de l'archive sont supprimés en local. Un `robots.txt` statique remplacé par une route continuerait sinon de masquer la nouvelle version |
+| Fichier tronqué lu par un visiteur pendant l'opération | Chaque fichier est écrit dans un temporaire puis déplacé par `rename` : une requête concurrente voit l'ancienne ou la nouvelle version, jamais un entre-deux |
+| Mise à jour qui tourne mal | La version remplacée est sauvegardée dans `data/sauvegardes/` et restaurable en un clic. Les trois dernières sont conservées |
+| Déclenchement en rafale | Six mises à jour par heure et par compte, jeton CSRF exigé |
+
+**Dépôt privé** : renseigner un jeton d'accès personnel GitHub (*Settings → Developer settings →
+Personal access tokens*) avec le seul droit de lecture sur ce dépôt. Il est stocké dans
+`data/settings.json`, hors racine web, et n'est jamais transmis au navigateur.
+
+Chaque opération est tracée dans `data/logs/maj.log` et résumée sur l'écran.
+
+## 16. Points à valider avant mise en ligne
 
 Le simulateur est livré avec un barème **paramétrable et indicatif** (honoraires d'agence
 à 4,5 % du prix de vente, paliers 70 / 80 / 90 %). Ces valeurs ne figurent pas sur le site

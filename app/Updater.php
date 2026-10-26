@@ -17,8 +17,20 @@ declare(strict_types=1);
  */
 final class Updater
 {
-    /** Dossiers et fichiers gérés par la mise à jour. */
-    public const GERES = ['app', 'public', 'outils', 'README.md', '.gitignore'];
+    /**
+     * Dossiers et fichiers gérés par la mise à jour.
+     *
+     * Les deux derniers sont des fichiers de `data/` — et seulement
+     * eux : ce ne sont pas des données mais les garde-fous qui refusent
+     * l'accès web au dossier. S'ils n'étaient jamais mis à jour, un
+     * correctif de protection n'atteindrait jamais les sites installés.
+     * Le reste de `data/` n'est ni lu ni écrit par la mise à jour.
+     */
+    public const GERES = [
+        'app', 'public', 'outils',
+        'README.md', '.gitignore',
+        'data/.htaccess', 'data/index.html',
+    ];
 
     /** Nombre de sauvegardes conservées. */
     public const SAUVEGARDES_GARDEES = 3;
