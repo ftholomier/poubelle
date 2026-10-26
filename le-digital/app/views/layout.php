@@ -75,6 +75,9 @@ $cfg = [
 <?php if (!empty($g['dock']['enabled'])): ?>
 <?= LD\View::partial('dock', ['g' => $g, 's' => $s]) ?>
 <?php endif; ?>
+<?php if (!empty($g['exit_popup']['enabled']) && !preg_match('#^/(on-prend-rdv|rdv/|mentions-legales)#', (string) $meta['path'])): ?>
+<?= LD\View::partial('exit-popup', ['g' => $g, 's' => $s]) ?>
+<?php endif; ?>
 </div>
 <script id="ld-config" type="application/json"><?= json_script($cfg) ?></script>
 <script src="<?= asset('js/site.js') ?>" defer></script>

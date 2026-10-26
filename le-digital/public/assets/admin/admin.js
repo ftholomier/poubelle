@@ -143,6 +143,8 @@
 
   /* ------------------------------------------------------------------ éditeur de contenus générique */
   const LABELS = {
+    exit_popup: 'Pop-up de sortie (quand le visiteur s’apprête à partir)', delay_seconds: 'Délai minimum sur le site avant de l’afficher (secondes)', snooze_days: 'Après fermeture, ne plus l’afficher pendant (jours)',
+    sim_text: 'Texte si le visiteur a utilisé le simulateur ({h} = heures gagnées)', callback_label: 'Texte de la demande de rappel', callback_placeholder: 'Exemple dans le champ téléphone', callback_cta: 'Bouton « rappelle-moi »', callback_done: 'Message après la demande de rappel', voice_cta: 'Bouton vocal', dismiss: 'Lien pour refuser', bubble: 'Bulle sur la photo',
     made_in_france: 'Made in France', copyright: 'Mention en bas de page',
     seo: 'Référencement (titre et description Google)', title: 'Titre', description: 'Description', hero: 'Haut de page',
     tags: 'Étiquettes', tag: 'Étiquette', title_line1: 'Titre — ligne 1', title_line2: 'Titre — ligne 2 (dégradé rouge)',

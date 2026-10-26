@@ -1363,3 +1363,69 @@ a.gbadge__score:hover .gbadge__count{text-decoration:underline}
   .itn-hw__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .itn-price__v b{font-size:56px}
 }
+
+/* ==========================================================================
+   Pop-up de sortie
+   ========================================================================== */
+.xp{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:20px;font-family:var(--fb)}
+.xp__backdrop{position:absolute;inset:0;background:rgba(22,25,34,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;transition:opacity .35s ease}
+.xp__card{position:relative;width:min(880px,100%);max-height:calc(100dvh - 40px);overflow:auto;display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);border-radius:32px;background:#fff;box-shadow:0 60px 120px -40px rgba(22,25,34,.65),0 0 0 1px rgba(204,21,23,.08);opacity:0;transform:translateY(24px) scale(.95);transition:opacity .35s ease,transform .5s cubic-bezier(.2,.9,.25,1.15)}
+.xp__card::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;z-index:3;background:var(--fr-tri)}
+.xp.is-open .xp__backdrop{opacity:1}
+.xp.is-open .xp__card{opacity:1;transform:none}
+.xp__close{position:absolute;top:16px;right:16px;z-index:4;width:38px;height:38px;border-radius:50%;border:0;background:#f6eeec;color:#161922;cursor:pointer;display:grid;place-items:center;transition:background .2s,transform .2s}
+.xp__close:hover{background:#ffe0dc;transform:rotate(90deg)}
+.xp__media{position:relative;min-height:100%;background:#161922;overflow:hidden}
+.xp__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+.xp__card:focus{outline:none}
+.xp__media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,25,34,0) 45%,rgba(22,25,34,.75))}
+.xp__bubble{position:absolute;left:22px;right:22px;bottom:24px;z-index:1;max-width:280px;padding:14px 18px;border-radius:20px 20px 20px 6px;background:linear-gradient(135deg,#cc1517,#d62a22);color:#fff;font-size:15.5px;line-height:1.4;box-shadow:0 16px 34px -12px rgba(204,21,23,.7)}
+.xp.is-open .xp__bubble{animation:ldPop .5s .35s ease both}
+.xp__bubble small{display:block;font-size:12px;font-weight:700;color:#ffdcd7;margin-bottom:3px}
+.xp__body{display:flex;flex-direction:column;gap:14px;padding:44px 40px 30px}
+.xp__mini{display:none}
+.xp__kicker{font-family:var(--fh);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#cc1517}
+.xp__title{font-family:var(--fh);font-weight:900;font-size:clamp(30px,3.4vw,40px);line-height:1;letter-spacing:-.04em;color:#161922;text-wrap:balance}
+.xp__title span{display:block;background:linear-gradient(90deg,#cc1517,#e8402a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.xp__text{font-size:16px;line-height:1.6;color:#4a4760}
+.xp__ticks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.xp__ticks li{display:flex;align-items:center;gap:10px;font-size:14.5px;font-weight:600;color:#252436}
+.xp__cta{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:4px;height:58px;border-radius:999px;background:linear-gradient(135deg,#cc1517,#e8402a);color:#fff;font:800 16.5px var(--fh);text-decoration:none;box-shadow:0 18px 36px -16px rgba(204,21,23,.85);transition:transform .25s,box-shadow .25s}
+.xp__cta:hover{color:#fff;transform:translateY(-2px);box-shadow:0 22px 40px -16px rgba(204,21,23,.95)}
+.xp__cta svg{transition:transform .25s}
+.xp__cta:hover svg{transform:translateX(4px)}
+.xp__cb{display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:1px solid #f2e6e4}
+.xp__cb label{font-size:14px;font-weight:600;color:#4a4760}
+.xp__cb-row{display:flex;gap:8px}
+.xp__cb input[type=tel]{flex:1;min-width:0;height:48px;padding:0 16px;border-radius:14px;border:1.5px solid #f2dedb;background:#fffafa;font:15px var(--fb);color:#161922;outline:none}
+.xp__cb input[type=tel]:focus{border-color:#cc1517;background:#fff}
+.xp__cb input.is-err{border-color:#cc1517}
+.xp__cb button{flex:none;height:48px;padding:0 18px;border-radius:14px;border:0;background:#161922;color:#fff;font:800 14.5px var(--fh);cursor:pointer;transition:background .2s}
+.xp__cb button:hover{background:#cc1517}
+.xp__err{font-size:13.5px;color:#cc1517;font-weight:600}
+.xp__done{padding:14px 16px;border-radius:16px;background:#f5f9ea;color:#3d4f06;font-weight:700}
+.xp__foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
+.xp__voice{display:inline-flex;align-items:center;gap:8px;padding:0;border:0;background:none;cursor:pointer;font:700 14.5px var(--fh);color:#161922}
+.xp__voice span{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#f03c5a}
+.xp__voice:hover{color:#cc1517}
+.xp__no{padding:0;border:0;background:none;cursor:pointer;font-size:13.5px;color:#8a86a0;text-decoration:underline;text-underline-offset:3px}
+.xp__no:hover{color:#161922}
+html.xp-open{overflow:hidden}
+html.xp-open .dbar-wrap,html.xp-open .dfab{opacity:0;pointer-events:none}
+/* Mobile : panneau qui monte du bas de l'écran */
+@media (max-width:700px){
+  .xp{place-items:end center;padding:0}
+  .xp__card{grid-template-columns:1fr;border-radius:28px 28px 0 0;max-height:92dvh;transform:translateY(100%)}
+  .xp.is-open .xp__card{transform:none}
+  .xp__media{display:none}
+  .xp__mini{display:flex;align-items:center;gap:10px}
+  .xp__mini img{width:44px;height:44px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px #fff,0 0 0 4px #cc1517}
+  .xp__mini span{display:flex;align-items:center;gap:6px;font-size:13.5px;color:#5b5870}
+  .xp__mini b{font:800 15px var(--fh);color:#161922}
+  .xp__mini i{width:8px;height:8px;border-radius:50%;background:#9FC131;animation:ldPulse 2s infinite}
+  .xp__body{padding:30px 20px calc(22px + env(safe-area-inset-bottom));gap:12px}
+  .xp__title{font-size:30px}
+  .xp__text{font-size:15px}
+  .xp__cta{height:56px}
+}
+@media (max-width:360px){.xp__cb-row{flex-direction:column}.xp__cb button{height:46px}}

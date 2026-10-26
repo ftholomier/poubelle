@@ -134,7 +134,7 @@ final class Leads
         }
         $labels = [
             'interests' => 'Intéressé par', 'time_text' => 'Ce qui prend le plus de temps', 'why' => 'Le pourquoi du comment',
-            'date_label' => 'Créneau', 'mode' => 'Format', 'sms' => 'Rappel SMS', 'moment' => 'Moment souhaité',
+            'date_label' => 'Créneau', 'mode' => 'Format', 'sms' => 'Rappel SMS', 'moment' => 'Moment souhaité', 'origine' => 'Origine',
             'transcript' => 'Transcription', 'summary' => 'Résumé IA', 'duration' => 'Durée', 'besoin' => 'Besoin',
             'taches' => 'Tâches à automatiser', 'urgence' => 'Urgence', 'formule' => 'Formule conseillée',
             'sim' => 'Simulateur gain de temps', 'brief' => 'Brief de l’assistant', 'conversation' => 'Conversation',

@@ -130,9 +130,13 @@ final class Api
         }
         $labels = Content::get('rdv')['callback']['moments_label'] ?? ['ce matin', 'ce midi', 'en fin de journée'];
         $i = max(0, min(count($labels) - 1, (int) Http::input('moment', 0)));
-        $lead = Leads::add('rappel', ['phone' => $phone, 'data' => ['moment' => $labels[$i]]]);
+        $data = ['moment' => $labels[$i]];
+        if (Http::str('source', 20) === 'exit') {
+            $data = ['moment' => 'Dès que possible', 'origine' => 'Pop-up de sortie'];
+        }
+        $lead = Leads::add('rappel', ['phone' => $phone, 'data' => $data]);
         Leads::notify($lead);
-        Http::sendJson(['ok' => true, 'moment' => $labels[$i]]);
+        Http::sendJson(['ok' => true, 'moment' => $data['moment']]);
     }
 
     // ------------------------------------------------------------------ rendez-vous

@@ -21,7 +21,10 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
   - **vocal pour Fred** : enregistrement, visualisation, transcription, résumé IA, envoi (fichier audio reçu par e-mail) ;
   - **prise de rendez-vous réelle** : créneaux en temps réel, confirmation e-mail + fichier agenda, rappel SMS/e-mail la veille,
     lien d'annulation ;
-  - formulaire de contact, demande de rappel, filtres Avis / Blog, secrets de la formule (survol ou toucher).
+  - formulaire de contact, demande de rappel, filtres Avis / Blog, secrets de la formule (survol ou toucher) ;
+  - **pop-up de sortie** : au moment de quitter le site (souris vers le haut, remontée rapide sur mobile), une proposition
+    de café (RdV, rappel, vocal) ; une fois par visite, jamais après une prise de contact ni sur la page RdV.
+    Textes et réglages dans *Contenus › Commun* ; aperçu avec `?apercu-popup` à la fin de l'adresse.
 - Emplacements « à fournir » de la maquette affichés automatiquement tant que le contenu réel est vide.
 - Mobile soigné : menu repliable, barre « On prend RdV ? » fixée en bas, zones tactiles, aucune barre de défilement horizontale.
 

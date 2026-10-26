@@ -29,6 +29,8 @@
       err.status = res.status; err.data = j;
       throw err;
     }
+    // Visiteur passé à l'action (RdV, message, rappel, vocal, brief) : plus de pop-up de sortie.
+    if (/^\/api\/(rdv|contact|rappel|vocal|ia\/brief)$/.test(path)) store.set('ld-converted', Date.now());
     return j;
   }
 
@@ -875,6 +877,87 @@
     if (anim) $$('.itn-place', root).forEach(p => seen(p, () => p.classList.add('is-in')));
   }
 
+  /* ------------------------------------------------------------------ pop-up de sortie (au moment de quitter le site) */
+  function exitPopup() {
+    const root = $('#exit-popup');
+    if (!root) return;
+    let cfg = {};
+    try { cfg = JSON.parse(root.dataset.exit || '{}'); } catch (e) { /* réglages illisibles */ }
+    const DAY = 864e5, now = Date.now(), html = document.documentElement;
+    const preview = /[?&]apercu-popup\b/.test(location.search);
+    const converted = store.get('ld-converted'), snooze = store.get('ld-exit') || {};
+    // Une fois par visite, pas après une fermeture récente, jamais pour qui a déjà pris contact (60 jours).
+    if (!preview && ((converted && now - converted < 60 * DAY) || (snooze.until && snooze.until > now) || store.get('ld-exit-seen', sessionStorage))) return;
+
+    const card = $('.xp__card', root), text = $('[data-xp-text]', root), form = $('[data-xp-cb]', root), done = $('.xp__done', root), err = $('.xp__err', root);
+    const sim = store.get('ld-sim');
+    if (sim && sim.saved >= 1 && cfg.simText) text.textContent = cfg.simText.replace('{h}', String(sim.saved).replace('.', ','));
+
+    let armed = preview, shown = false, lastFocus = null;
+    setTimeout(() => { armed = true; }, (cfg.delay || 0) * 1000);
+    const busy = () => html.classList.contains('menu-open') || !!$('#dock-chat:not([hidden]), #dock-voice:not([hidden]), .dbar.is-rec');
+    const focusables = () => $$('a[href], button:not([disabled]), input:not([tabindex="-1"])', card).filter(el => el.offsetParent !== null);
+
+    const open = () => {
+      if (shown || !armed || busy()) return;
+      shown = true;
+      store.set('ld-exit-seen', 1, sessionStorage);
+      lastFocus = document.activeElement;
+      root.hidden = false;
+      html.classList.add('xp-open');
+      requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('is-open')));
+      setTimeout(() => card.focus({ preventScroll: true }), 60);
+    };
+    const close = (days) => {
+      if (!shown) return;
+      root.classList.remove('is-open');
+      html.classList.remove('xp-open');
+      store.set('ld-exit', { until: Date.now() + (days || cfg.snooze || 3) * DAY });
+      setTimeout(() => { root.hidden = true; }, anim ? 350 : 0);
+      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    };
+
+    // Ordinateur : la souris quitte la page par le haut (onglets, barre d'adresse, fermeture).
+    document.addEventListener('mouseout', e => { if (!e.relatedTarget && e.clientY <= 6) open(); });
+    // Mobile : remontée rapide après avoir bien parcouru la page (geste typique avant de partir).
+    if (matchMedia('(hover: none)').matches) {
+      let lastY = scrollY, lastT = performance.now(), maxY = 0;
+      addEventListener('scroll', () => {
+        const y = scrollY, t = performance.now(), up = lastY - y, speed = up / Math.max(1, t - lastT);
+        maxY = Math.max(maxY, y);
+        if (up > 80 && speed > 1.4 && maxY > innerHeight * 1.5) open();
+        lastY = y; lastT = t;
+      }, { passive: true });
+    }
+    if (preview) setTimeout(open, 400);
+
+    $$('[data-xp-close]', root).forEach(b => b.addEventListener('click', () => close()));
+    $('[data-xp-go]', root).addEventListener('click', () => store.set('ld-exit', { until: Date.now() + 30 * DAY }));
+    const voice = $('[data-xp-voice]', root);
+    if (voice) voice.addEventListener('click', () => { close(30); if (window.LDStartVoice) window.LDStartVoice(); });
+    root.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key !== 'Tab') return;
+      const f = focusables(); if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+    let sending = false;
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (sending) return;
+      const phone = form.phone.value.trim();
+      if (!isPhone(phone)) { markErr(form, 'phone'); return showErr(err, 'Ton numéro semble incomplet.'); }
+      markErr(form, null); showErr(err, ''); sending = true;
+      try {
+        await api('/api/rappel', { phone, moment: 0, source: 'exit', website: form.website.value });
+        form.hidden = true; done.hidden = false;
+        setTimeout(() => close(60), 3500);
+      } catch (ex) { showErr(err, ex.message); } finally { sending = false; }
+    });
+  }
+
   /* ------------------------------------------------------------------ avis longs (Google) : « Lire la suite » */
   function clamp() {
     const boxes = $$('[data-clamp]');
@@ -900,7 +983,7 @@
 
   /* ------------------------------------------------------------------ démarrage */
   const init = () => {
-    [header, hero, beforeAfter, bureau, devis, simulator, quiz, analyse, explain, formation, formules, filters, formula, diag, booking, contact, callback, dock, motion, clamp, intensiti]
+    [header, hero, beforeAfter, bureau, devis, simulator, quiz, analyse, explain, formation, formules, filters, formula, diag, booking, contact, callback, dock, motion, clamp, intensiti, exitPopup]
       .forEach(fn => { try { fn(); } catch (e) { if (window.console) console.error(e); } });
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();

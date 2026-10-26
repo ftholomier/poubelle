@@ -200,6 +200,26 @@
     "idees_title": "3 idées d'automatisation",
     "cta": "On creuse ça autour d'un café ☕"
   },
+  "exit_popup": {
+    "enabled": true,
+    "delay_seconds": 8,
+    "snooze_days": 3,
+    "kicker": "Avant de filer…",
+    "title": "On se prend un café ?",
+    "title_accent": "{duration} min offertes.",
+    "text": "Raconte-moi ce qui te prend du temps : on regarde ensemble ce qu'un outil sur mesure (ou l'IA) pourrait faire à ta place. Sans engagement, en vrai ou en visio.",
+    "sim_text": "Tu as estimé ≈ {h} h par semaine récupérables. On regarde ensemble comment les gagner pour de vrai ? Sans engagement, en vrai ou en visio.",
+    "items": ["Premier échange gratuit, sans engagement", "Réponse personnelle de Fred sous 24 h", "Experts du digital français, partout en France"],
+    "cta": "Je choisis mon créneau",
+    "callback_label": "Pas le temps maintenant ? Laisse ton numéro, je te rappelle.",
+    "callback_placeholder": "Ton téléphone",
+    "callback_cta": "Rappelle-moi",
+    "callback_done": "C'est noté ! Je te rappelle très vite. ☕",
+    "voice_cta": "Laisse-moi un vocal",
+    "dismiss": "Non merci, je reviendrai",
+    "bubble": "On en parle autour d'un café ? ☕",
+    "image": "/assets/img/fred-portrait-800.webp"
+  },
   "dock": {
     "enabled": true,
     "assistant_name": "L'assistant de Fred",
