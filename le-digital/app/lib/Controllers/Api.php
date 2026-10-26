@@ -83,7 +83,7 @@ final class Api
     private static function visitorMail(string $to, string $subject, string $title, string $html, array $attachments = []): void
     {
         if ($to !== '' && Settings::get('mail.confirm_visitor', true)) {
-            $reply = (string) (Settings::get('mail.notify_email') ?: Settings::get('contact.email') ?: '');
+            $reply = (string) (Settings::get('contact.email') ?: Mailer::notifyAddress());
             Mailer::send($to, $subject, Mailer::layout($title, $html), $reply ?: null, $attachments);
         }
     }

@@ -163,7 +163,7 @@ final class Admin
         $checks = [
             ['Numéro direct', !empty($s['contact']['phone']), '/admin/parametres#coordonnees'],
             ['Lien LinkedIn', !empty($s['contact']['linkedin']), '/admin/parametres#coordonnees'],
-            ['E-mail de notification des demandes', !empty($s['mail']['notify_email']), '/admin/parametres#emails'],
+            ['E-mails : adresse de notification et envoi qui fonctionne', \LD\Mailer::notifyAddress() !== '' && !empty(\LD\Mailer::recent(1)[0]['ok']), '/admin/parametres#emails'],
             ['Clé API d’IA (assistant, démos)', Ai::resolve('chat') !== null, '/admin/ia'],
             ['Avis clients (Google, widget ou saisis)', count(Reviews::all(true)) > 0 || Reviews::widgetCode() !== '', \LD\GoogleReviews::enabled() || Reviews::all() ? '/admin/avis' : '/admin/avis/google'],
             ['Articles de blog publiés', count(Posts::all(true)) > 0, '/admin/blog'],

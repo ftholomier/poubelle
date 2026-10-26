@@ -11,6 +11,9 @@ $rows = Leads::rows($lead);
       <h2><span class="pill pill--<?= e($lead['type']) ?>"><?= e(Leads::TYPES[$lead['type']] ?? $lead['type']) ?></span> <?= e($lead['name'] ?: 'Anonyme') ?></h2>
       <small class="muted">Reçue le <?= e(date('d/m/Y à H:i', strtotime($lead['created_at']))) ?></small>
     </div>
+    <?php if (isset($lead['notify'])): ?>
+      <p class="small <?= $lead['notify']['ok'] ? 'muted' : 'mail-ko' ?>">✉ <?= $lead['notify']['ok'] ? 'Notification envoyée à ' . e((string) $lead['notify']['to']) . ' le ' . e(date('d/m/Y à H:i', strtotime((string) $lead['notify']['at']))) . '.' : 'La notification e-mail n’est pas partie : ' . e((string) ($lead['notify']['error'] ?? 'erreur inconnue')) . ' — <a href="/admin/parametres#emails">voir le diagnostic</a>' ?></p>
+    <?php endif; ?>
     <?php if (!empty($lead['data']['audio'])): ?>
       <div class="audio">
         <audio controls preload="metadata" src="/admin/vocal/<?= e(rawurlencode($lead['data']['audio'])) ?>"></audio>

@@ -365,3 +365,18 @@ legend{font-weight:600;font-size:14px;margin-bottom:8px;padding:0}
 @media (max-width:600px){.maj-backups li{flex-direction:column;align-items:stretch}}
 .maj-banner{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:14px 18px;border-radius:16px;background:#fff;border:1.5px solid #ffd4cf;color:var(--ink);text-decoration:none;margin-bottom:18px}
 .maj-banner span:last-child{margin-left:auto;color:var(--red);font-weight:700}
+
+/* Diagnostic des e-mails */
+.maildiag{display:flex;flex-direction:column;gap:12px;padding-top:14px;border-top:1px solid var(--line)}
+.maildiag h3{font-family:var(--fh);font-weight:800;font-size:15px}
+.maildiag__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:8px}
+.maildiag__list li{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:#fbf8f7;font-size:14px;line-height:1.4;word-break:break-word}
+.maildiag__list li.is-ok{background:#f5f9ea}
+.maildiag__list li.is-ko{background:#ffe9e6}
+.maildiag__ic{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:12px;background:#e6e1ec;color:#161922}
+.is-ok .maildiag__ic{background:#9FC131}
+.is-ko .maildiag__ic{background:#cc1517;color:#fff}
+.table--sm td{padding:6px 8px;vertical-align:top}
+.mail-ko{color:#a30f12;font-weight:700}
+.mail-ko a{color:inherit}
+.maj-banner--err{border-color:#f5b4ab;background:#fff7f6}

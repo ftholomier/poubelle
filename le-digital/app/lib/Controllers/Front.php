@@ -154,7 +154,7 @@ final class Front
         if ($b['status'] === 'confirmed' && Http::method() === 'POST') {
             $b = Booking::setStatus($id, 'cancelled') ?? $b;
             $done = true;
-            $to = (string) Settings::get('mail.notify_email', '');
+            $to = Mailer::notifyAddress();
             if ($to !== '') {
                 Mailer::send($to, 'Rendez-vous annulé · ' . $b['name'], Mailer::layout('Rendez-vous annulé', '<p>' . e($b['name']) . ' a annulé son rendez-vous du ' . e(Booking::label($b)) . '.</p>'), $b['email'] ?: null, [
                     ['name' => 'rdv-annule.ics', 'type' => 'text/calendar; method=CANCEL', 'content' => Booking::ics([$b], true)],

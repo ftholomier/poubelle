@@ -4,7 +4,12 @@ use LD\Leads;
 
 $done = count(array_filter($checks, static fn($c) => $c[1]));
 $update = LD\Updater::available();
+$lastMail = LD\Mailer::recent(1)[0] ?? null;
+$mailIssue = LD\Mailer::notifyAddress() === '' ? 'aucune adresse ne reçoit les demandes.' : ($lastMail && empty($lastMail['ok']) ? 'le dernier e-mail n’est pas parti (' . ($lastMail['error'] ?? 'erreur') . ').' : '');
 ?>
+<?php if ($mailIssue !== ''): ?>
+  <a class="maj-banner maj-banner--err" href="/admin/parametres#emails"><span class="status status--new">E-mails</span> <b>Attention : <?= e($mailIssue) ?></b> <span>Voir le diagnostic →</span></a>
+<?php endif; ?>
 <?php if ($update): ?>
   <a class="maj-banner" href="/admin/mises-a-jour"><span class="status status--new">Mise à jour disponible</span> <b><?= e($update['latest']['message'] ?? 'Nouvelle version du site') ?></b> <span>Installer en un clic →</span></a>
 <?php endif; ?>

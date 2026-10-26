@@ -37,7 +37,7 @@ $qs = static fn(array $over) => '?' . http_build_query(array_filter(array_merge(
             <td><a href="/admin/demandes/<?= e($l['id']) ?>"><b><?= e($l['name'] ?: 'Anonyme') ?></b></a><br><small class="muted"><?= e(implode(' · ', array_filter([$l['email'], $l['phone']]))) ?></small></td>
             <td class="hide-sm"><small><?= e(mb_strimwidth(is_string($sum) ? $sum : '', 0, 110, '…')) ?></small></td>
             <td><small><?= e(date('d/m/Y H:i', strtotime($l['created_at']))) ?></small></td>
-            <td><span class="status status--<?= e($l['status']) ?>"><?= e(Leads::STATUSES[$l['status']] ?? $l['status']) ?></span></td>
+            <td><span class="status status--<?= e($l['status']) ?>"><?= e(Leads::STATUSES[$l['status']] ?? $l['status']) ?></span><?php if (isset($l['notify']['ok']) && !$l['notify']['ok']): ?><br><small class="mail-ko" title="<?= e((string) ($l['notify']['error'] ?? '')) ?>">✉ e-mail non parti</small><?php endif; ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>

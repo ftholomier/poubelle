@@ -8,28 +8,170 @@ namespace LD;
  */
 final class Mailer
 {
+    /** Raison du dernier échec d'envoi (affichée dans le back-office). */
+    public static ?string $lastError = null;
+
     /**
      * @param array $attachments [['name' => 'rdv.ics', 'type' => 'text/calendar', 'content' => '...']]
      */
     public static function send(string $to, string $subject, string $html, ?string $replyTo = null, array $attachments = []): bool
     {
+        self::$lastError = null;
         $mode = (string) Settings::get('mail.mode', 'mail');
-        if ($mode === 'off' || $to === '' || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
-            return false;
+        if ($mode === 'off') {
+            return self::fail($to, $subject, 'Envoi des e-mails désactivé (Paramètres › E-mails › Mode d’envoi).');
         }
-        $fromEmail = (string) (Settings::get('mail.from_email') ?: ('no-reply@' . preg_replace('/^www\./', '', $_SERVER['HTTP_HOST'] ?? 'le-digital.com')));
+        if ($to === '' || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
+            return self::fail($to, $subject, 'Adresse du destinataire absente ou invalide.');
+        }
+        $fromEmail = self::fromAddress();
         $fromName = (string) Settings::get('mail.from_name', 'LE-DIGITAL.com');
         [$headers, $body] = self::build($fromEmail, $fromName, $to, $subject, $html, $replyTo, $attachments);
+        $via = $mode;
         try {
-            $ok = $mode === 'smtp'
-                ? self::smtp($fromEmail, $to, array_merge(['Subject: ' . self::encodeHeader($subject)], $headers), $body)
-                : mail($to, self::encodeHeader($subject), $body, implode("\r\n", $headers), '-f' . $fromEmail);
+            if ($mode === 'smtp') {
+                self::smtp($fromEmail, $to, array_merge(['Subject: ' . self::encodeHeader($subject)], $headers), $body);
+            } else {
+                $via = self::phpMail($to, self::encodeHeader($subject), $body, implode("\r\n", $headers), $fromEmail);
+            }
         } catch (\Throwable $e) {
-            Store::appendLog('mail', ['to' => $to, 'subject' => $subject, 'error' => $e->getMessage()]);
-            return false;
+            return self::fail($to, $subject, $e->getMessage());
         }
-        Store::appendLog('mail', ['to' => $to, 'subject' => $subject, 'ok' => $ok]);
-        return $ok;
+        Store::appendLog('mail', ['to' => $to, 'subject' => $subject, 'ok' => true, 'via' => $via]);
+        return true;
+    }
+
+    /**
+     * Fonction mail() de PHP : avec l'adresse d'expédition imposée (-f), puis sans si l'hébergeur la refuse.
+     * Retourne le mode réellement utilisé, ou lève une exception avec la raison.
+     */
+    private static function phpMail(string $to, string $subject, string $body, string $headers, string $from): string
+    {
+        if (!self::mailAvailable()) {
+            throw new \RuntimeException('La fonction mail() de PHP est désactivée chez ton hébergeur : choisis l’envoi par SMTP.');
+        }
+        error_clear_last();
+        if (@mail($to, $subject, $body, $headers, '-f' . $from)) {
+            return 'mail';
+        }
+        $first = error_get_last()['message'] ?? '';
+        error_clear_last();
+        if (@mail($to, $subject, $body, $headers)) {
+            return 'mail (sans -f)';
+        }
+        $err = error_get_last()['message'] ?? $first;
+        throw new \RuntimeException('L’hébergeur a refusé l’envoi par mail()' . ($err !== '' ? ' (' . $err . ')' : '') . ' : choisis l’envoi par SMTP avec une vraie boîte e-mail.');
+    }
+
+    private static function fail(string $to, string $subject, string $error): bool
+    {
+        self::$lastError = $error;
+        Store::appendLog('mail', ['to' => $to, 'subject' => $subject, 'ok' => false, 'error' => $error]);
+        return false;
+    }
+
+    public static function mailAvailable(): bool
+    {
+        $disabled = array_map('trim', explode(',', (string) ini_get('disable_functions')));
+        return function_exists('mail') && !in_array('mail', $disabled, true);
+    }
+
+    /** Domaine du site (pour l'adresse d'expédition par défaut). */
+    public static function domain(): string
+    {
+        $host = (string) (parse_url((string) Settings::get('site.url', ''), PHP_URL_HOST) ?: ($_SERVER['HTTP_HOST'] ?? 'le-digital.com'));
+        return (string) preg_replace(['/^www\./', '/:\d+$/'], '', strtolower($host));
+    }
+
+    public static function fromAddress(): string
+    {
+        $from = trim((string) Settings::get('mail.from_email', ''));
+        if (filter_var($from, FILTER_VALIDATE_EMAIL)) {
+            return $from;
+        }
+        // En SMTP, la plupart des serveurs n'acceptent comme expéditeur que la boîte connectée.
+        $user = trim((string) Settings::get('mail.smtp_user', ''));
+        if (Settings::get('mail.mode') === 'smtp' && filter_var($user, FILTER_VALIDATE_EMAIL)) {
+            return $user;
+        }
+        // Sinon l'e-mail public du site s'il est sur le même domaine (une vraie boîte, mieux acceptée que no-reply@).
+        $contact = trim((string) Settings::get('contact.email', ''));
+        if (filter_var($contact, FILTER_VALIDATE_EMAIL) && str_ends_with(strtolower($contact), '@' . self::domain())) {
+            return $contact;
+        }
+        return 'no-reply@' . self::domain();
+    }
+
+    /** Adresse qui reçoit les demandes : celle des paramètres, sinon celle du compte administrateur. */
+    public static function notifyAddress(): string
+    {
+        $to = trim((string) Settings::get('mail.notify_email', ''));
+        if (filter_var($to, FILTER_VALIDATE_EMAIL)) {
+            return $to;
+        }
+        foreach (Store::read('data/users.json', []) as $u) {
+            if (filter_var($u['email'] ?? '', FILTER_VALIDATE_EMAIL)) {
+                return (string) $u['email'];
+            }
+        }
+        return '';
+    }
+
+    /** Derniers envois (journal), du plus récent au plus ancien. */
+    public static function recent(int $n = 8): array
+    {
+        $file = Store::path('logs/mail.log');
+        if (!is_file($file)) {
+            return [];
+        }
+        $lines = array_slice(file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [], -$n);
+        return array_reverse(array_values(array_filter(array_map(static fn($l) => json_decode($l, true), $lines), 'is_array')));
+    }
+
+    /**
+     * Vérifications affichées dans Paramètres › E-mails : [libellé, true|false|null, détail].
+     */
+    public static function diagnostics(): array
+    {
+        $mode = (string) Settings::get('mail.mode', 'mail');
+        $to = self::notifyAddress();
+        $from = self::fromAddress();
+        $fromDomain = substr(strrchr($from, '@') ?: '@', 1);
+        $checks = [];
+        $checks[] = ['Adresse qui reçoit les demandes', $to !== '', $to !== '' ? $to . (trim((string) Settings::get('mail.notify_email', '')) === '' ? ' (celle de ton compte, aucune adresse saisie ci-dessous)' : '') : 'aucune : aucun e-mail ne peut partir'];
+        $checks[] = ['Notification à chaque demande', (bool) Settings::get('mail.notify', true), Settings::get('mail.notify', true) ? 'activée' : 'désactivée (case ci-dessous)'];
+        if ($mode === 'smtp') {
+            $ready = Settings::get('mail.smtp_host') && (!Settings::get('mail.smtp_user') || Secrets::has('smtp_password'));
+            $checks[] = ['Envoi par SMTP', (bool) $ready, $ready ? Settings::get('mail.smtp_host') . ':' . Settings::get('mail.smtp_port', 587) : 'serveur ou mot de passe SMTP manquant'];
+        } elseif ($mode === 'mail') {
+            $bin = strtok((string) (ini_get('sendmail_path') ?: '/usr/sbin/sendmail'), ' ');
+            $binOk = !$bin || !str_starts_with($bin, '/') || @is_executable($bin);
+            $checks[] = ['Fonction mail() de PHP', self::mailAvailable() && $binOk, !self::mailAvailable()
+                ? 'désactivée par l’hébergeur : passe en SMTP'
+                : ($binOk ? 'disponible (' . (ini_get('sendmail_path') ?: 'sendmail') . ')' : 'programme d’envoi introuvable sur le serveur (' . $bin . ') : passe en SMTP')];
+        } else {
+            $checks[] = ['Mode d’envoi', false, 'désactivé'];
+        }
+        $default = trim((string) Settings::get('mail.from_email', '')) === '' && str_starts_with($from, 'no-reply@');
+        $checks[] = ['Adresse d’expédition', $default ? false : null, $from . ($default ? ' : adresse par défaut, souvent refusée par les hébergeurs si la boîte n’existe pas. Indique une vraie boîte de ton domaine (ex. contact@' . self::domain() . ').' : '')];
+        if ($fromDomain !== '' && function_exists('dns_get_record')) {
+            $txt = @dns_get_record($fromDomain, DNS_TXT) ?: [];
+            $spf = '';
+            foreach ($txt as $r) {
+                $v = implode('', (array) ($r['entries'] ?? [$r['txt'] ?? '']));
+                if (str_starts_with(strtolower($v), 'v=spf1')) {
+                    $spf = $v;
+                }
+            }
+            $checks[] = ['SPF du domaine ' . $fromDomain, null, $spf !== ''
+                ? $spf . ' — le serveur qui envoie (ton hébergeur avec mail(), ou ton serveur SMTP) doit y être autorisé'
+                : ($txt ? 'aucun enregistrement SPF : Gmail, Outlook… risquent de refuser tes e-mails' : 'vérification DNS impossible depuis le serveur')];
+        }
+        $last = self::recent(1)[0] ?? null;
+        if ($last) {
+            $checks[] = ['Dernier envoi', !empty($last['ok']), date('d/m/Y H:i', strtotime((string) $last['at'])) . ' à ' . ($last['to'] ?? '?') . ' : ' . (!empty($last['ok']) ? 'accepté par le serveur d’envoi' : ($last['error'] ?? 'échec'))];
+        }
+        return $checks;
     }
 
     private static function encodeHeader(string $s): string

@@ -59,6 +59,29 @@ $redirects = implode("\n", array_map(static fn($r) => $r['from'] . ' => ' . $r['
       <label>Identifiant SMTP<input name="mail[smtp_user]" value="<?= $v('mail.smtp_user') ?>" autocomplete="off"></label>
       <?= $secretField('smtp_password', 'Mot de passe SMTP') ?>
     </div>
+    <div class="maildiag">
+      <h3>Diagnostic des e-mails</h3>
+      <ul class="maildiag__list">
+        <?php foreach (LD\Mailer::diagnostics() as [$label, $ok, $detail]): ?>
+          <li class="<?= $ok === true ? 'is-ok' : ($ok === false ? 'is-ko' : 'is-info') ?>"><span class="maildiag__ic" aria-hidden="true"><?= $ok === true ? '✓' : ($ok === false ? '!' : 'i') ?></span><span><b><?= e($label) ?></b><br><small><?= e((string) $detail) ?></small></span></li>
+        <?php endforeach; ?>
+      </ul>
+      <?php if ($recent = LD\Mailer::recent(8)): ?>
+        <details class="details"><summary>Derniers envois</summary>
+          <table class="table table--sm"><tbody>
+            <?php foreach ($recent as $m): ?><tr><td><small><?= e(date('d/m H:i', strtotime((string) $m['at']))) ?></small></td><td><small><?= e(mb_strimwidth((string) ($m['subject'] ?? ''), 0, 60, '…')) ?></small><br><small class="muted"><?= e((string) ($m['to'] ?? '')) ?></small></td><td><?= !empty($m['ok']) ? '<span class="status status--done">Parti</span>' : '<span class="status status--new">Échec</span><br><small>' . e((string) ($m['error'] ?? '')) . '</small>' ?></td></tr><?php endforeach; ?>
+          </tbody></table>
+        </details>
+      <?php endif; ?>
+      <details class="details"><summary>Les e-mails n’arrivent pas ? La solution la plus fiable : SMTP</summary>
+        <ol class="small steps">
+          <li>Crée une boîte e-mail sur ton domaine chez ton hébergeur (ex. <code>contact@<?= e(LD\Mailer::domain()) ?></code>) ou utilise Brevo (gratuit jusqu’à 300 e-mails/jour).</li>
+          <li>Ici : <i>Mode d’envoi</i> = <b>Serveur SMTP</b>, puis le serveur (ex. <code>mail.<?= e(LD\Mailer::domain()) ?></code> ou <code>smtp-relay.brevo.com</code>), port 587 + STARTTLS (ou 465 + SSL), l’adresse complète en identifiant et son mot de passe.</li>
+          <li><i>Adresse d’expédition</i> : la même boîte. Enregistre, puis clique sur « Envoyer un e-mail de test ».</li>
+          <li>Avec la fonction mail(), l’hébergeur doit figurer dans l’enregistrement SPF du domaine, sinon Gmail et Outlook rejettent ou classent en indésirables.</li>
+        </ol>
+      </details>
+    </div>
   </section>
 
   <section class="card" id="sms">

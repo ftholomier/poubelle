@@ -80,7 +80,7 @@ final class Leads
         Store::update(self::FILE, static function (array &$all) use ($id, $changes): void {
             foreach ($all as &$l) {
                 if ($l['id'] === $id) {
-                    foreach (['status', 'notes'] as $k) {
+                    foreach (['status', 'notes', 'notify'] as $k) {
                         if (array_key_exists($k, $changes)) {
                             $l[$k] = $changes[$k];
                         }
@@ -160,18 +160,25 @@ final class Leads
     }
 
     /** Notification e-mail à Fred pour chaque nouvelle demande. */
-    public static function notify(array $lead, array $attachments = []): void
+    /** E-mail à Fred pour une nouvelle demande. Le résultat est noté sur la demande (visible dans le back-office). */
+    public static function notify(array $lead, array $attachments = []): bool
     {
-        $to = (string) Settings::get('mail.notify_email', '');
-        if ($to === '' || !Settings::get('mail.notify', true)) {
-            return;
+        if (!Settings::get('mail.notify', true)) {
+            return false;
         }
+        $to = Mailer::notifyAddress();
         $html = '<table style="width:100%;border-collapse:collapse">';
         foreach (self::rows($lead) as $label => $value) {
             $html .= '<tr><td style="padding:8px 10px 8px 0;vertical-align:top;color:#8a86a0;font-size:13px;white-space:nowrap">' . e($label) . '</td><td style="padding:8px 0;border-bottom:1px solid #f6ecea">' . nl2br(e($value)) . '</td></tr>';
         }
         $html .= '</table>';
         $title = (self::TYPES[$lead['type']] ?? 'Demande') . ($lead['name'] ? ' · ' . $lead['name'] : '');
-        Mailer::send($to, '☕ ' . $title, Mailer::layout($title, $html, 'Ouvrir dans le back-office', abs_url('/admin/demandes/' . $lead['id'])), $lead['email'] ?: null, $attachments);
+        $ok = Mailer::send($to, '☕ ' . $title, Mailer::layout($title, $html, 'Ouvrir dans le back-office', abs_url('/admin/demandes/' . $lead['id'])), $lead['email'] ?: null, $attachments);
+        if (!$ok && $attachments) {
+            // Pièce jointe trop lourde pour le serveur d'envoi ? Nouvel essai sans (le vocal reste dans le back-office).
+            $ok = Mailer::send($to, '☕ ' . $title, Mailer::layout($title, $html . '<p>(Pièce jointe non envoyée : écoute-la dans le back-office.)</p>', 'Ouvrir dans le back-office', abs_url('/admin/demandes/' . $lead['id'])), $lead['email'] ?: null);
+        }
+        self::update($lead['id'], ['notify' => ['ok' => $ok, 'at' => date('c'), 'to' => $to, 'error' => $ok ? null : Mailer::$lastError]]);
+        return $ok;
     }
 }

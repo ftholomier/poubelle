@@ -250,10 +250,10 @@ final class AdminSettings
 
     public static function testEmail(): never
     {
-        $to = (string) (Settings::get('mail.notify_email') ?: (Auth::user()['email'] ?? ''));
+        $to = Mailer::notifyAddress() ?: (string) (Auth::user()['email'] ?? '');
         $ok = Mailer::send($to, 'Test d’envoi · LE-DIGITAL.com', Mailer::layout('Ça marche ! ☕', '<p>Les e-mails de ton site partent correctement. Tu recevras ici les demandes, rendez-vous et vocaux.</p>'));
-        $ok ? Http::sendJson(['ok' => true, 'message' => 'E-mail de test envoyé à ' . $to . '.'])
-            : Http::fail('Échec de l’envoi à ' . ($to ?: '(aucune adresse)') . '. Consulte storage/logs/mail.log ou vérifie les réglages SMTP.', 422);
+        $ok ? Http::sendJson(['ok' => true, 'message' => 'E-mail de test accepté pour ' . $to . '. S’il n’arrive pas d’ici 5 minutes (pense aux indésirables), passe en SMTP.'])
+            : Http::fail('Échec de l’envoi à ' . ($to ?: '(aucune adresse)') . ' : ' . (Mailer::$lastError ?? 'raison inconnue'), 422);
     }
 
     public static function testSms(): never
