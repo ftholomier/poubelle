@@ -838,6 +838,43 @@
     window.LDStartVoice = startVoice;
   }
 
+  /* ------------------------------------------------------------------ Mes solutions : Intensiti (vidéo réelle, écran en direct) */
+  function intensiti() {
+    const root = $('#intensiti');
+    if (!root) return;
+    const seen = (el, on, off) => {
+      if (!('IntersectionObserver' in window)) { on(); return; }
+      new IntersectionObserver(es => es.forEach(e => (e.isIntersecting ? on : (off || (() => {})))()), { threshold: .2 }).observe(el);
+    };
+    // Vidéo du back-office : lecture muette en boucle seulement quand elle est visible.
+    const v = $('[data-itn-video]', root);
+    if (v) {
+      if (anim) seen(v, () => { if (v.preload === 'none') { v.preload = 'auto'; v.load(); } v.play().catch(() => {}); }, () => v.pause());
+      else v.setAttribute('controls', '');
+    }
+    // Écran d'exemple : horloge, diapositives qui tournent, bandeau défilant (CSS).
+    const live = $('[data-itn-live]', root);
+    if (live) {
+      let slides = [];
+      try { slides = JSON.parse(live.dataset.slides || '[]'); } catch (e) { /* rien */ }
+      const clock = $('[data-itn-clock]', live), title = $('[data-itn-title]', live), sub = $('[data-itn-sub]', live), box = $('.itn-live__slide', live);
+      const tick = () => { const d = new Date(); clock.textContent = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+      let i = 0;
+      const show = () => {
+        if (!slides.length) return;
+        const [t, s] = slides[i % slides.length];
+        title.textContent = t; sub.textContent = s;
+        box.classList.remove('is-swap'); void box.offsetWidth; box.classList.add('is-swap');
+        i++;
+      };
+      tick(); show();
+      setInterval(tick, 15000);
+      if (anim && slides.length > 1) setInterval(() => { if (!document.hidden) show(); }, 4200);
+    }
+    // Photos : léger mouvement lent une fois à l'écran.
+    if (anim) $$('.itn-place', root).forEach(p => seen(p, () => p.classList.add('is-in')));
+  }
+
   /* ------------------------------------------------------------------ avis longs (Google) : « Lire la suite » */
   function clamp() {
     const boxes = $$('[data-clamp]');
@@ -863,7 +900,7 @@
 
   /* ------------------------------------------------------------------ démarrage */
   const init = () => {
-    [header, hero, beforeAfter, bureau, devis, simulator, quiz, analyse, explain, formation, formules, filters, formula, diag, booking, contact, callback, dock, motion, clamp]
+    [header, hero, beforeAfter, bureau, devis, simulator, quiz, analyse, explain, formation, formules, filters, formula, diag, booking, contact, callback, dock, motion, clamp, intensiti]
       .forEach(fn => { try { fn(); } catch (e) { if (window.console) console.error(e); } });
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();

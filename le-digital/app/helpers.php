@@ -188,6 +188,13 @@ function site_logo(bool $white = false): string
     return $logo === '' || $logo === $legacy ? substr($legacy, 0, -4) . '.svg' : $logo;
 }
 
+/** Photo ronde de Fred (barre du bas, assistant, articles) : l'ancien cadrage large est remplacé par le cadrage serré sur le visage. */
+function site_avatar(): string
+{
+    $a = trim((string) LD\Settings::get('site.avatar', ''));
+    return $a === '' || $a === '/assets/img/fred-avatar.webp' ? '/assets/img/fred-avatar-face.webp' : $a;
+}
+
 /** Petit drapeau français (rappels « Made in France »). */
 function fr_flag(): string
 {

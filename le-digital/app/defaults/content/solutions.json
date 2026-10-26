@@ -10,15 +10,70 @@
   },
   "intensiti": {
     "name": "Intensiti",
-    "tagline": "L'affichage dynamique, simplement.",
-    "short": "L'affichage dynamique qui se pilote depuis un navigateur.",
-    "text": "Pilote tes écrans à distance depuis un simple navigateur : accueil d'entreprise, vitrine de commerce ou d'agence, salle d'attente, hall. Tu programmes ce qui s'affiche, quand et où, sans te déplacer.",
-    "strengths": ["Plusieurs mises en page", "Des dizaines de thèmes", "Playlists programmées", "Flash info", "Bandeau défilant"],
-    "media": ["Images", "Vidéos", "PDF", "YouTube", "QR codes", "Textes", "Flux d'actualités", "Comptes à rebours"],
-    "image": "",
-    "url": "",
+    "logo": "/assets/img/intensiti/logo-intensiti-blanc.svg",
+    "kicker": "Logiciel d'affichage dynamique · français",
+    "tagline": "L'affichage dynamique",
+    "tagline_accent": "le plus simple du marché.",
+    "short": "L'affichage dynamique le plus simple du marché, piloté depuis un navigateur.",
+    "text": "Intensiti transforme un simple ordinateur en écran d'affichage dynamique. Salle d'attente, vitrine, showroom, stand, hall d'accueil : tu pilotes tous tes écrans depuis ton navigateur, et chaque modification apparaît instantanément.",
+    "price": "Dès 17 € HT / mois",
+    "price_note": "écrans illimités · 15 jours d'essai gratuit · sans engagement",
+    "strengths": ["Écrans illimités par licence", "Mise à jour en temps réel", "Bandeau défilant « News »", "À tes couleurs", "Hébergé en France"],
+    "media": ["Images", "Vidéos YouTube", "PDF", "Textes", "Flux RSS", "QR codes", "Météo", "Bandeau défilant", "Logo & couleurs"],
+    "image": "/assets/img/intensiti/video-poster-1280.webp",
+    "video": "/assets/video/intensiti-editeur",
+    "video_caption": "Vidéo réelle : le back-office Intensiti à gauche, deux vrais écrans à droite, mis à jour en direct.",
+    "url": "https://www.intensiti.fr/",
     "cta": "Découvrir Intensiti",
-    "demo_cta": "Demander une démo"
+    "trial_url": "https://www.intensiti.fr/contact-essai-gratuit-affichage-dynamique",
+    "trial_cta": "Je teste 15 jours gratuitement",
+    "demo_url": "https://www.intensiti.fr/demo-logiciel-affichage-dynamique",
+    "demo_cta": "Voir la démo",
+    "steps_title": "Trois choses suffisent pour être en ligne.",
+    "steps": [
+      {"tag": "Wi-Fi ✓", "title": "Un ordinateur", "text": "Un ordinateur bureautique et une connexion Internet en Wi-Fi suffisent pour faire tourner Intensiti."},
+      {"tag": "Chrome · Firefox", "title": "Un navigateur web", "text": "Aucun logiciel à installer : tout se pilote depuis ton navigateur, où que tu sois."},
+      {"tag": "intensiti.fr/ecran/…", "title": "Une adresse privée", "text": "Tu l'ouvres en plein écran sur la TV : ton affichage dynamique est en ligne."}
+    ],
+    "live": {"brand": "Maison Arlette", "city": "Lyon 18°", "slides": ["Bienvenue chez Maison Arlette|Installez-vous, nous arrivons dans un instant.", "Soldes d'hiver|Jusqu'à -40 % en magasin", "Réservez votre table|Scannez le QR code à l'accueil"], "ticker": "Ouvert 7j/7 de 9h à 19h · -20 % sur toute la collection ce week-end · Suivez-nous sur Instagram"},
+    "places_title": "Partout où il y a un écran.",
+    "places": [
+      {"image": "/assets/img/intensiti/ecrans-cafe-1600.webp", "label": "Cafés & restaurants"},
+      {"image": "/assets/img/intensiti/boutique-1200.webp", "label": "Boutiques & showrooms"},
+      {"image": "/assets/img/intensiti/brasserie-1200.webp", "label": "Hôtels & brasseries"},
+      {"image": "/assets/img/intensiti/cafe-1200.webp", "label": "Salles d'attente & halls d'accueil"}
+    ],
+    "features_title": "Tout ce qu'il faut, maîtrisé en quelques minutes.",
+    "features": [
+      {"title": "Contenus variés", "text": "Image, PDF, vidéo YouTube, texte, flux RSS, QR code, météo… pour capter ton public."},
+      {"title": "Bandeau défilant « News »", "text": "Tes infos à la Une défilent en bas de l'écran, toujours visibles."},
+      {"title": "Écrans personnalisés", "text": "Logo, météo locale, couleurs : un affichage qui respecte ta charte graphique."},
+      {"title": "Mises à jour en temps réel", "text": "Modifie, désactive, duplique tes diapositives et fixe la durée de chacune."},
+      {"title": "Gestion centralisée", "text": "Tous tes écrans pilotés depuis une seule interface web, à tout moment."},
+      {"title": "Multi-écrans", "text": "1 licence = 1 playlist, diffusable sur un nombre illimité d'écrans."},
+      {"title": "Simple et intuitif", "text": "Aucune compétence technique : quelques clics et ton affichage tourne."}
+    ],
+    "features_url": "https://www.intensiti.fr/fonctionnalites-affichage-dynamique",
+    "features_cta": "Essayer l'éditeur en ligne",
+    "hardware_title": "Pas d'investissement lourd.",
+    "hardware_text": "Le matériel reste ta propriété : on te conseille pour le choisir et l'installer, guides inclus.",
+    "hardware": [
+      {"image": "/assets/img/intensiti/mat-ecran-900.webp", "tag": "Port HDMI", "title": "Un écran", "text": "Un téléviseur standard avec un port HDMI suffit."},
+      {"image": "/assets/img/intensiti/mat-ordi-900.webp", "tag": "Bureautique", "title": "Un ordinateur", "text": "Inutile d'investir dans une machine puissante."},
+      {"image": "/assets/img/intensiti/mat-stick-900.webp", "tag": "150 € HT", "title": "Mini PC stick HDMI", "text": "Compact et discret, il se branche directement sur la TV."},
+      {"image": "/assets/img/intensiti/mat-wifi-900.webp", "tag": "Sans fil", "title": "HDMI via Wi-Fi", "text": "Plus aucun câble entre l'ordinateur et le téléviseur."}
+    ],
+    "hardware_url": "https://www.intensiti.fr/materiel-affichage-dynamique-ecran-tv",
+    "pricing": {
+      "kicker": "Offre unique, tout inclus",
+      "price": "17 €",
+      "unit": "HT / mois",
+      "note": "par licence, écrans illimités",
+      "items": ["Toutes les fonctionnalités", "Personnalisation à tes couleurs", "Mises à jour du logiciel", "Assistance & accompagnement", "Aucun engagement de durée", "15 jours d'essai gratuit"],
+      "url": "https://www.intensiti.fr/tarif-affichage-dynamique",
+      "cta": "Simuler mon tarif"
+    },
+    "france": "Conçu, développé et hébergé en France : tes données restent en France."
   },
   "formaliance": {
     "name": "Formaliance",

@@ -1,7 +1,7 @@
 <?php
 /** @var array $g @var array $s */
 $d = $g['dock'];
-$avatar = $s['site']['avatar'] ?? '/assets/img/fred-avatar.webp';
+$avatar = site_avatar();
 ?>
 <div class="dock" id="dock">
   <section class="dpanel" id="dock-chat" role="dialog" aria-label="<?= e($d['assistant_name']) ?>" hidden>

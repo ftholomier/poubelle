@@ -18,7 +18,7 @@ $themeBg = static function (string $th) use ($themes, $bgs): string {
       <h1 class="art-title"><?= t($post['title']) ?></h1>
       <?php if (trim((string) ($post['excerpt'] ?? '')) !== ''): ?><p class="art-lead"><?= t($post['excerpt']) ?></p><?php endif; ?>
       <div class="art-author">
-        <span class="art-author__av"><img src="<?= e($s['site']['avatar'] ?? '/assets/img/fred-avatar.webp') ?>" alt="" width="52" height="52"></span>
+        <span class="art-author__av"><img src="<?= e(site_avatar()) ?>" alt="" width="52" height="52"></span>
         <span class="art-author__id"><b><?= t($c['author_name']) ?></b><span><?= t($c['author_role']) ?> · <time datetime="<?= e(substr((string) $post['date'], 0, 10)) ?>"><?= e(date_fr((string) $post['date'])) ?></time></span></span>
       </div>
     </div>

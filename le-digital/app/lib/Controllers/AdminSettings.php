@@ -193,7 +193,7 @@ final class AdminSettings
             'owner'      => $str('site.owner', 80),
             'logo'       => $str('site.logo', 300) ?: '/assets/img/logo.svg',
             'logo_white' => $str('site.logo_white', 300) ?: '/assets/img/logo-blanc.svg',
-            'avatar'     => $str('site.avatar', 300) ?: '/assets/img/fred-avatar.webp',
+            'avatar'     => $str('site.avatar', 300) ?: '/assets/img/fred-avatar-face.webp',
             'og_image'   => $str('site.og_image', 300),
         ];
         $s['contact'] = [
