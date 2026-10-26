@@ -67,17 +67,22 @@ $avatar = $s['site']['avatar'] ?? '/assets/img/fred-avatar.webp';
         <button type="button" class="dbar__cancel" data-voice-cancel aria-label="Annuler"><?= icon('close', 12, '#fff') ?></button>
       </div>
       <div class="dbar__idle" id="dock-idle">
-        <button type="button" class="dbar__av" data-dock-toggle title="Parler à l'assistant de Fred" aria-label="Parler à l'assistant de Fred">
-          <span aria-hidden="true">F</span><img src="<?= e($avatar) ?>" alt="" width="50" height="50" loading="lazy"><i aria-hidden="true"></i>
-        </button>
+        <span class="dbar__av" aria-hidden="true">
+          <span>F</span><img src="<?= e($avatar) ?>" alt="" width="50" height="50" loading="lazy"><i></i>
+        </span>
         <span class="dbar__who"><b><?= t($d['name']) ?></b><span id="dock-status"><?= t($d['status_open']) ?></span></span>
         <button type="button" class="dbar__voice" data-voice-start title="Laisse un vocal à Fred">
           <span class="dbar__rec-ic" aria-hidden="true"><?= icon('mic', 12, '#fff', 2.6) ?></span><span class="dbar__lbl"><?= t($d['voice_label']) ?></span>
         </button>
-        <button type="button" class="dbar__ia" data-dock-toggle title="Demande à l'IA" aria-label="Demande à l'IA"><?= icon('spark', 18, '#ffc9c2', 1.8) ?><span class="dbar__lbl"><?= t($d['ia_label']) ?></span></button>
         <a class="dbar__rdv" href="/on-prend-rdv"><?= t($d['rdv_label']) ?></a>
         <a class="dbar__tel" href="<?= e(tel_href()) ?>" aria-label="Appeler Frédéric"><?= icon('phone', 19, '#161922') ?></a>
       </div>
     </div>
   </div>
+
+  <button type="button" class="dfab" data-dock-toggle aria-controls="dock-chat" aria-expanded="false" aria-label="Demande à l’assistant IA de Fred" title="Demande à l’IA">
+    <span class="dfab__ic dfab__ic--open" aria-hidden="true"><?= icon('spark', 26, '#fff', 1.8) ?></span>
+    <span class="dfab__ic dfab__ic--close" aria-hidden="true"><?= icon('close', 18, '#fff', 2.4) ?></span>
+    <span class="dfab__badge" aria-hidden="true"><?= t($d['ia_label']) ?></span>
+  </button>
 </div>

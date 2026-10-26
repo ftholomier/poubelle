@@ -66,14 +66,55 @@
 
   /* ------------------------------------------------------------------ en-tête mobile */
   function header() {
+    const hdr = $('[data-hdr]');
+    if (!hdr) return;
+    // Au défilement : en-tête en « capsule » flottante + barre de progression de lecture.
+    let ticking = false;
+    const onScroll = () => {
+      ticking = false;
+      const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
+      hdr.classList.toggle('is-scrolled', y > 24);
+      hdr.style.setProperty('--p', max > 0 ? Math.min(1, y / max).toFixed(4) : 0);
+    };
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+    onScroll();
+
+    // Pastille qui glisse sous le lien survolé, puis revient sur la page en cours.
+    const nav = $('[data-hdr-nav]'), ind = nav && $('.hdr__ind', nav);
+    if (nav && ind) {
+      const links = $$('a', nav), current = links.find(a => a.classList.contains('is-active'));
+      const moveTo = (a, instant) => {
+        links.forEach(l => l.classList.toggle('is-hover', l === a && a !== current));
+        if (!a) { ind.style.opacity = '0'; return; }
+        if (instant) ind.style.transition = 'none';
+        ind.style.width = a.offsetWidth + 'px';
+        ind.style.transform = `translateX(${a.offsetLeft}px)`;
+        ind.style.opacity = '1';
+        if (instant) { ind.getBoundingClientRect(); ind.style.transition = ''; }
+      };
+      nav.classList.add('has-ind');
+      links.forEach(a => { a.addEventListener('mouseenter', () => moveTo(a)); a.addEventListener('focus', () => moveTo(a)); });
+      nav.addEventListener('mouseleave', () => moveTo(current));
+      nav.addEventListener('focusout', e => { if (!nav.contains(e.relatedTarget)) moveTo(current); });
+      const place = () => moveTo(current, true);
+      place();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+      addEventListener('resize', place);
+    }
+
+    // Menu mobile plein écran.
     const btn = $('[data-menu-toggle]'), menu = $('#hdr-menu');
     if (!btn || !menu) return;
-    btn.addEventListener('click', () => {
-      const open = menu.hidden;
+    const setMenu = open => {
       menu.hidden = !open;
       btn.setAttribute('aria-expanded', String(open));
-    });
-    addEventListener('resize', () => { if (innerWidth >= 1080 && !menu.hidden) { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); } });
+      btn.setAttribute('aria-label', open ? 'Fermer le menu' : 'Menu');
+      document.documentElement.classList.toggle('menu-open', open);
+    };
+    btn.addEventListener('click', () => setMenu(menu.hidden));
+    $$('a', menu).forEach(a => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !menu.hidden) { setMenu(false); btn.focus(); } });
+    addEventListener('resize', () => { if (innerWidth >= 1080 && !menu.hidden) setMenu(false); });
   }
 
   /* ------------------------------------------------------------------ haut de page : conversation animée */
@@ -614,6 +655,19 @@
       updBrief();
     }
 
+    // Barre du bas : affichée à l'arrêt, masquée quand on descend, de retour dès qu'on remonte ou qu'on s'arrête.
+    const wrap = bar.closest('.dbar-wrap');
+    let lastY = scrollY, stillT = 0;
+    const away = v => wrap.classList.toggle('is-away', v && !bar.classList.contains('is-rec'));
+    addEventListener('scroll', () => {
+      const y = Math.max(0, scrollY), dy = y - lastY;
+      if (Math.abs(dy) < 6) return;
+      away(dy > 0 && y > 80);
+      lastY = y;
+      clearTimeout(stillT);
+      stillT = setTimeout(() => away(false), 900);
+    }, { passive: true });
+
     const open = v => {
       panel.hidden = !v;
       toggles.forEach(b => b.setAttribute('aria-expanded', String(v)));
@@ -739,7 +793,7 @@
         } catch (e) { sr = null; }
       }
       phase = 'rec'; secs = 0; updTime();
-      idle.hidden = true; recBar.hidden = false; bar.classList.add('is-rec');
+      idle.hidden = true; recBar.hidden = false; bar.classList.add('is-rec'); wrap.classList.remove('is-away');
       ti = setInterval(() => { secs++; updTime(); if (secs >= (D.maxSeconds || 90)) stopVoice(); }, 1000);
     }
     function stopVoice() { if (phase !== 'rec') return; phase = 'stopping'; const r = mr; cleanup(); try { r.stop(); } catch (e) { voiceError(); } }
