@@ -976,6 +976,11 @@
   }
 
   /* ------------------------------------------------------------------ pied de page : extraits d'avis qui défilent */
+  /** Pied de page : « Retour en haut » (défilement doux, sans ajouter d'ancre à l'adresse). */
+  function toTop() {
+    $$('[data-to-top]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); scrollTo({ top: 0, behavior: anim ? 'smooth' : 'auto' }); }));
+  }
+
   function footerProof() {
     const box = $('[data-fproof]');
     const qs = box ? $$('.fproof__q', box) : [];
@@ -1016,7 +1021,7 @@
 
   /* ------------------------------------------------------------------ démarrage */
   const init = () => {
-    [header, hero, beforeAfter, bureau, devis, simulator, quiz, analyse, explain, formation, formules, filters, formula, diag, booking, contact, callback, dock, motion, clamp, intensiti, exitPopup, footerProof]
+    [header, hero, beforeAfter, bureau, devis, simulator, quiz, analyse, explain, formation, formules, filters, formula, diag, booking, contact, callback, dock, motion, clamp, intensiti, exitPopup, footerProof, toTop]
       .forEach(fn => { try { fn(); } catch (e) { if (window.console) console.error(e); } });
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
