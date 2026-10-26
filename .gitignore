@@ -10,6 +10,7 @@
 /data/REINITIALISATION.txt
 /data/sauvegardes/
 /data/version.json
+/data/version-distante.json
 /data/maj-*
 /data/events/
 /data/ratelimit/

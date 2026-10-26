@@ -35,6 +35,15 @@ final class Updater
     /** Nombre de sauvegardes conservées. */
     public const SAUVEGARDES_GARDEES = 3;
 
+    /**
+     * Témoin de déploiement.
+     *
+     * Affiché sur l'écran « Mise à jour » et nulle part ailleurs : il
+     * permet de vérifier d'un coup d'œil quelle version du code tourne
+     * réellement, sans rien montrer aux visiteurs du site.
+     */
+    public const TEMOIN = 'Essai n° 1 — 26 octobre 2026';
+
     /** Fichiers dont la présence prouve que l'archive est bien le projet. */
     private const TEMOINS = ['app/bootstrap.php', 'public/index.php', 'app/Controllers/SiteController.php'];
 
@@ -64,30 +73,87 @@ final class Updater
         return is_array($d) ? $d : [];
     }
 
+    /** Durée de validité du résultat d'une vérification, en secondes. */
+    public const CACHE_VERIFICATION = 600;
+
     /**
      * Dernier commit de la branche suivie.
      *
-     * @return array{ok:bool,sha?:string,date?:string,message?:string,auteur?:string,error?:string}
+     * Le résultat est mis en cache dix minutes. Sans jeton, GitHub
+     * n'autorise que soixante appels par heure et par adresse IP :
+     * interroger l'API à chaque affichage de l'écran suffirait à épuiser
+     * ce quota, et la vérification se mettrait à échouer sans raison
+     * apparente. Le bouton « Vérifier maintenant » passe outre.
+     *
+     * @return array{ok:bool,sha?:string,date?:string,message?:string,auteur?:string,verifiee_le?:string,error?:string}
      */
-    public static function versionDistante(): array
+    public static function versionDistante(bool $forcer = false): array
     {
-        $c = self::config();
         if (!self::configure()) {
             return ['ok' => false, 'error' => 'Dépôt non renseigné dans les réglages.'];
         }
+        if (!$forcer) {
+            $cache = self::cacheVerification();
+            if ($cache !== null) {
+                return $cache;
+            }
+        }
+
+        $c = self::config();
         $url = 'https://api.github.com/repos/' . $c['repo'] . '/commits/' . rawurlencode($c['branch']);
         $res = self::http($url, $c['token']);
         if (!$res['ok']) {
+            // Un échec ponctuel ne doit pas effacer ce que l'on savait :
+            // mieux vaut une information datée que plus d'information.
+            $ancien = self::cacheVerification(true);
+            if ($ancien !== null) {
+                $ancien['avertissement'] = (string) ($res['error'] ?? '');
+                return $ancien;
+            }
             return $res;
         }
         $d = $res['data'];
-        return [
+        $version = [
             'ok' => true,
             'sha' => (string) ($d['sha'] ?? ''),
             'date' => (string) ($d['commit']['author']['date'] ?? ''),
             'message' => trim(explode("\n", (string) ($d['commit']['message'] ?? ''))[0]),
             'auteur' => (string) ($d['commit']['author']['name'] ?? ''),
+            'verifiee_le' => date('c'),
+            'branche' => $c['branch'],
         ];
+        @file_put_contents(
+            DATA_DIR . '/version-distante.json',
+            json_encode($version, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT),
+            LOCK_EX
+        );
+        return $version;
+    }
+
+    /**
+     * Dernière vérification connue.
+     *
+     * @param bool $perime accepter un résultat au-delà de sa durée de validité
+     */
+    private static function cacheVerification(bool $perime = false): ?array
+    {
+        $f = DATA_DIR . '/version-distante.json';
+        if (!is_file($f)) {
+            return null;
+        }
+        $d = json_decode((string) @file_get_contents($f), true);
+        if (!is_array($d) || empty($d['ok'])) {
+            return null;
+        }
+        // Un changement de branche invalide le cache : il décrit une autre
+        // ligne de développement.
+        if ((string) ($d['branche'] ?? '') !== self::config()['branch']) {
+            return null;
+        }
+        if (!$perime && time() - (int) strtotime((string) ($d['verifiee_le'] ?? '')) > self::CACHE_VERIFICATION) {
+            return null;
+        }
+        return $d;
     }
 
     /**

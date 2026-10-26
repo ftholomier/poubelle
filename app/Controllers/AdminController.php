@@ -577,6 +577,27 @@ final class AdminController
                 redirect(url('admin/mise-a-jour'));
             }
 
+            if ($action === 'check') {
+                // Interroger GitHub est peu coûteux, mais le quota sans
+                // jeton est de soixante appels par heure : on borne.
+                if (!RateLimit::hit('maj-verif', 20, 3600, 'compte:' . hash('sha256', (string) ($user['id'] ?? '')))) {
+                    Session::flash('Trop de vérifications. Réessayez dans une heure.', 'error');
+                    redirect(url('admin/mise-a-jour'));
+                }
+                $res = Updater::versionDistante(true);
+                if (empty($res['ok'])) {
+                    Session::flash('Vérification impossible — ' . (string) ($res['error'] ?? 'motif inconnu'), 'error');
+                } else {
+                    $installee = (string) (Updater::versionLocale()['sha'] ?? '');
+                    Session::flash(
+                        $installee !== '' && $installee === (string) $res['sha']
+                            ? 'Vérification effectuée : le site est déjà à jour.'
+                            : 'Vérification effectuée : une nouvelle version est disponible — ' . (string) $res['message']
+                    );
+                }
+                redirect(url('admin/mise-a-jour'));
+            }
+
             if ($action === 'apply') {
                 // Une mise à jour réécrit le code du site : elle ne doit pas
                 // pouvoir être déclenchée en rafale.

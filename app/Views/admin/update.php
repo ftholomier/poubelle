@@ -43,22 +43,47 @@ $aJour = $shaLocal !== '' && $shaDistant !== '' && $shaLocal === $shaDistant;
       <?php else: ?>
         <p style="margin:0 0 6px"><code><?= e(substr($shaDistant, 0, 7)) ?></code> — <?= e((string) $distante['message']) ?></p>
         <p class="txt-mini"><?= e((string) $distante['auteur']) ?>, le <?= e(fr_date((string) $distante['date'], true)) ?></p>
+        <?php if (!empty($distante['verifiee_le'])): ?>
+          <p class="txt-mini">Vérifié le <?= e(fr_date((string) $distante['verifiee_le'], true)) ?></p>
+        <?php endif; ?>
+        <?php if (!empty($distante['avertissement'])): ?>
+          <p class="txt-mini" style="color:#ffc79a">
+            Information datée : la dernière tentative a échoué (<?= e((string) $distante['avertissement']) ?>).
+          </p>
+        <?php endif; ?>
       <?php endif; ?>
     </div>
   </div>
 
-  <?php if (Updater::configure() && !empty($distante['ok'])): ?>
-    <form method="post" style="margin-top:22px" data-confirmer="Remplacer le code du site par la dernière version de GitHub ? Une sauvegarde est créée avant.">
-      <?= Csrf::field() ?>
-      <input type="hidden" name="action" value="apply">
-      <button class="btn" type="submit">
-        <?= icon('download') ?>
-        <?= $aJour ? 'Réinstaller cette version' : 'Mettre à jour maintenant' ?>
-      </button>
-      <small class="help" style="display:block;margin-top:10px">
-        Le site reste en ligne pendant l’opération, qui prend quelques secondes.
-      </small>
-    </form>
+  <p class="txt-mini" style="margin-top:18px;padding-top:14px;border-top:1px solid var(--line)">
+    Témoin de déploiement : <strong><?= e(Updater::TEMOIN) ?></strong>
+    <br>Cette ligne change à chaque version : c'est le moyen le plus simple de vérifier
+    qu'une mise à jour a bien été appliquée.
+  </p>
+
+  <?php if (Updater::configure()): ?>
+    <div class="row" style="gap:12px;margin-top:22px;flex-wrap:wrap">
+      <?php if (!empty($distante['ok'])): ?>
+        <form method="post" data-confirmer="Remplacer le code du site par la dernière version de GitHub ? Une sauvegarde est créée avant.">
+          <?= Csrf::field() ?>
+          <input type="hidden" name="action" value="apply">
+          <button class="btn" type="submit">
+            <?= icon('download') ?>
+            <?= $aJour ? 'Réinstaller cette version' : 'Mettre à jour maintenant' ?>
+          </button>
+        </form>
+      <?php endif; ?>
+      <?php // Le résultat est gardé dix minutes : ce bouton passe outre. ?>
+      <form method="post">
+        <?= Csrf::field() ?>
+        <input type="hidden" name="action" value="check">
+        <button class="btn btn--ghost" type="submit"><?= icon('sparkle') ?> Vérifier maintenant</button>
+      </form>
+    </div>
+    <small class="help" style="display:block;margin-top:10px">
+      Le site reste en ligne pendant la mise à jour, qui prend quelques secondes.
+      La version disponible est relue au plus toutes les dix minutes ; le second bouton force la vérification.
+    </small>
   <?php endif; ?>
 </div>
 
