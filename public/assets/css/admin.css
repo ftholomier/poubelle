@@ -387,3 +387,25 @@ table.data a.strong:hover { color: #ff8290; }
   .side a, .side__foot button { min-height: 44px; display: inline-flex; align-items: center; }
 }
 
+
+/* ------------------------------------------- Écran « Mise à jour »
+   Le pavé d'état remplace la rangée de boutons : quand rien n'est à
+   faire, on l'annonce au lieu de proposer une action inutile. */
+.maj-etat {
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  margin-top: 22px; padding: 18px 22px;
+  border: 1px solid; border-radius: var(--r);
+}
+.maj-etat > div:first-of-type { flex: 1; min-width: 240px; }
+.maj-etat b { display: block; font-size: 1rem; margin-bottom: 4px; }
+.maj-etat p { margin: 0; font-size: .86rem; color: var(--muted); }
+.maj-etat__icone { display: inline-flex; flex: none; }
+.maj-etat__icone svg { width: 26px; height: 26px; }
+
+.maj-etat--ok { border-color: rgba(53,208,127,.4); background: rgba(53,208,127,.08); }
+.maj-etat--ok b { color: #9ff0c4; }
+.maj-etat--ok .maj-etat__icone { color: #35d07f; }
+
+.maj-etat--maj { border-color: rgba(255,138,61,.4); background: rgba(255,138,61,.08); }
+.maj-etat--maj b { color: #ffc79a; }
+.maj-etat--maj .maj-etat__icone { color: #ff8a3d; }

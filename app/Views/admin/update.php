@@ -66,27 +66,54 @@ $aJour = $shaLocal !== '' && $shaDistant !== '' && $shaLocal === $shaDistant;
   </p>
 
   <?php if (Updater::configure()): ?>
-    <div class="row" style="gap:12px;margin-top:22px;flex-wrap:wrap">
-      <?php if (!empty($distante['ok'])): ?>
-        <form method="post" data-confirmer="Remplacer le code du site par la dernière version de GitHub ? Une sauvegarde est créée avant.">
-          <?= Csrf::field() ?>
-          <input type="hidden" name="action" value="apply">
-          <button class="btn" type="submit">
-            <?= icon('download') ?>
-            <?= $aJour ? 'Réinstaller cette version' : 'Mettre à jour maintenant' ?>
-          </button>
-        </form>
-      <?php endif; ?>
-      <?php // Le résultat est gardé dix minutes : ce bouton passe outre. ?>
-      <form method="post">
-        <?= Csrf::field() ?>
-        <input type="hidden" name="action" value="check">
-        <button class="btn btn--ghost" type="submit"><?= icon('sparkle') ?> Vérifier maintenant</button>
-      </form>
-    </div>
-    <small class="help" style="display:block;margin-top:10px">
-      Le site reste en ligne pendant la mise à jour, qui prend quelques secondes.
-      La version disponible est relue au plus toutes les dix minutes ; le second bouton force la vérification.
+    <?php // Le bouton de vérification est le seul commun aux deux états. ?>
+    <?php
+    $boutonVerifier = '<form method="post">' . Csrf::field()
+        . '<input type="hidden" name="action" value="check">'
+        . '<button class="btn btn--ghost" type="submit">' . icon('sparkle') . ' Vérifier maintenant</button>'
+        . '</form>';
+    ?>
+
+    <?php if ($aJour): ?>
+      <?php // Rien à installer : proposer une réinstallation ne ferait que
+            // semer le doute sur un site qui va bien. ?>
+      <div class="maj-etat maj-etat--ok">
+        <span class="maj-etat__icone"><?= icon('check-circle') ?></span>
+        <div>
+          <b>Votre site est à jour.</b>
+          <p>Le code installé correspond au dernier commit de la branche suivie<?php
+            if (!empty($distante['verifiee_le'])): ?>, vérifié le <?= e(fr_date((string) $distante['verifiee_le'], true)) ?><?php
+            endif; ?>. Rien à faire.</p>
+        </div>
+        <?= $boutonVerifier ?>
+      </div>
+
+    <?php elseif (!empty($distante['ok'])): ?>
+      <div class="maj-etat maj-etat--maj">
+        <span class="maj-etat__icone"><?= icon('download') ?></span>
+        <div>
+          <b>Une nouvelle version est disponible.</b>
+          <p>
+            Le site reste en ligne pendant l’opération, qui prend quelques secondes.
+            La version remplacée est sauvegardée et restaurable en un clic.
+          </p>
+        </div>
+        <div class="row" style="gap:12px;flex-wrap:wrap">
+          <form method="post" data-confirmer="Remplacer le code du site par la dernière version de GitHub ? Une sauvegarde est créée avant.">
+            <?= Csrf::field() ?>
+            <input type="hidden" name="action" value="apply">
+            <button class="btn" type="submit"><?= icon('download') ?> Mettre à jour maintenant</button>
+          </form>
+          <?= $boutonVerifier ?>
+        </div>
+      </div>
+
+    <?php else: ?>
+      <div class="row" style="margin-top:22px"><?= $boutonVerifier ?></div>
+    <?php endif; ?>
+
+    <small class="help" style="display:block;margin-top:12px">
+      La version disponible est relue au plus toutes les dix minutes ; le bouton force la vérification.
     </small>
   <?php endif; ?>
 </div>
