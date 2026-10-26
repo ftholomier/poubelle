@@ -20,10 +20,6 @@ $fr = $f['made_in_france'] ?? [];
         <span><?= t($f['remote'] ?? '') ?></span>
       </div>
       <div class="ftr__col">
-        <span class="ftr__h"><?= t($f['solutions_title'] ?? 'Mes solutions') ?></span>
-        <?php foreach (LD\Solutions::enabled() as $so): ?><a href="<?= e(LD\Solutions::url($so)) ?>"><?= t($so['name']) ?></a><?php endforeach; ?>
-      </div>
-      <div class="ftr__col">
         <span class="ftr__h"><?= t($f['links_title'] ?? 'Liens') ?></span>
         <?php foreach ($f['links'] ?? [] as $l): ?><a href="<?= e($l['href']) ?>"><?= t($l['label']) ?></a><?php endforeach; ?>
         <a<?= link_attrs(linkedin_url()) ?>><?= t($f['linkedin_label'] ?? 'LinkedIn') ?></a>

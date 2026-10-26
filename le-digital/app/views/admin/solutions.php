@@ -2,7 +2,7 @@
 $n = count($solutions);
 ?>
 <div class="toolbar">
-  <p class="intro">Les solutions présentées sur la page « Mes solutions », sur l’accueil, dans le pied de page, le formulaire de contact et l’assistant IA. Masque celles qui ne sont pas prêtes, ajoute les nouvelles au fil de tes projets.</p>
+  <p class="intro">Les solutions présentées sur la page « Mes solutions » (une carte chacune, puis sa page de détail), proposées dans le formulaire de contact et connues de l’assistant IA. Masque celles qui ne sont pas prêtes, ajoute les nouvelles au fil de tes projets.</p>
   <a class="btn btn--red" href="/admin/solutions/nouvelle">+ Ajouter une solution</a>
 </div>
 <div class="card card--flush">

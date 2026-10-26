@@ -40,8 +40,8 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
 - **Solutions** : afficher / masquer chaque solution (Formaliance masquée par défaut), changer l'ordre, en créer de
   nouvelles (nom, accroche, présentation, points forts, capture, logo, thème clair ou sombre, liens). Côté site, la page
   « Mes solutions » est une mosaïque de cartes (image, nom, accroche, points forts) qui mènent chacune à sa page
-  `/mes-solutions/<nom>` (bloc complet + « Découvrir aussi »). Accueil, pied de page, formulaire de contact, plan du site,
-  titre Google et assistant IA suivent automatiquement. Une solution masquée reste prévisualisable par l'administrateur
+  `/mes-solutions/<nom>` (bloc complet + « Découvrir aussi »), accessible par le menu « Mes solutions ». Formulaire de
+  contact, plan du site, titre Google et assistant IA suivent automatiquement. Une solution masquée reste prévisualisable par l'administrateur
   connecté. Les textes du bloc Intensiti restent dans *Contenus › Mes solutions*.
 - Articles de blog (éditeur visuel), médiathèque (conversion WebP + tailles responsive automatiques).
 - **IA & clés API** : clés chiffrées pour Anthropic (Claude), OpenAI, Google Gemini, Mistral, Groq, OpenRouter, DeepSeek, xAI ;

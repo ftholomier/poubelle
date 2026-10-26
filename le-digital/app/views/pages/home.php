@@ -3,7 +3,6 @@
 use LD\View;
 
 $h = $c['hero'];
-$solCards = LD\Solutions::enabled();
 $services = $g['services'] ?? [];
 $eng = $g['engagements'] ?? [];
 $reviews = LD\Reviews::featured(3);
@@ -230,31 +229,6 @@ $rvWidget = LD\Reviews::widgetPosition('home');
     </div>
   </div>
 </section>
-
-<?php if ($solCards): ?>
-<section class="sec" id="solutions">
-  <div class="wrap">
-    <?= ask($c['solutions']['ask']) ?>
-    <div class="head-split" data-reveal>
-      <div class="head-split__l"><h2 class="h2"><?= t($c['solutions']['title']) ?></h2><p class="lead"><?= t($c['solutions']['intro']) ?></p></div>
-      <a class="link-u" href="/mes-solutions"><?= t($c['solutions']['link']) ?></a>
-    </div>
-    <div class="ag" style="--min:460px">
-      <?php foreach ($solCards as $i => $so): $dark = $so['kind'] === 'intensiti' || ($so['theme'] ?? '') === 'sombre'; ?>
-        <a class="prod <?= $dark ? 'prod--ink' : 'prod--rose' ?>" href="<?= e(LD\Solutions::url($so)) ?>" data-reveal<?= $i ? ' data-delay="' . min(360, $i * 120) . '"' : '' ?>>
-          <div class="prod__shot"><div><?= slot($so['image'] ?? '', 'Capture ' . $so['name'] . ' — à fournir', 'Capture d’écran ' . $so['name'], ['sizes' => '(max-width: 600px) 80vw, 560px']) ?></div></div>
-          <div class="prod__foot">
-            <div class="prod__txt"><h3><?= t($so['name']) ?></h3><?= trim((string) ($so['short'] ?? '')) !== '' ? '<p>' . t($so['short']) . '</p>' : (trim((string) ($so['tagline'] ?? '')) !== '' ? '<p>' . t($so['tagline']) . '</p>' : '<p class="todo todo--sm">À fournir : phrase de présentation</p>') ?></div>
-            <span class="prod__btn<?= $dark ? '' : ' prod__btn--red' ?>"><?= t(($so['cta'] ?? '') ?: 'Découvrir ' . $so['name']) ?></span>
-          </div>
-        </a>
-      <?php endforeach; ?>
-    </div>
-      </a>
-    </div>
-  </div>
-</section>
-<?php endif; ?>
 
 <section class="sec sec--rose" id="etapes">
   <div class="wrap">
