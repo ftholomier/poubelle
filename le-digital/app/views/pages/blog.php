@@ -10,10 +10,15 @@ $themeBg = static function (string $th) use ($themes, $bgs): string {
     return $bgs[$i === false ? 0 : $i % count($bgs)];
 };
 $active = ($theme ?? '') !== '' && in_array($theme, $themes, true) ? $theme : '*';
+$li = LD\Posts::linkedinPlace();
+// Avec le fil LinkedIn, les emplacements d'articles « à fournir » n'ont plus lieu d'être.
+$showGrid = $li !== 'replace' && ($posts || $li === '');
 ?>
 <section class="sec">
   <div class="wrap wrap--list">
     <h1 class="list-title"><?= t($c['title']) ?></h1>
+    <?php if ($li === 'before' || $li === 'replace'): ?><?= View::partial('linkedin-feed') ?><?php endif; ?>
+    <?php if ($showGrid): ?>
     <div class="filters filters--blog" role="toolbar" aria-label="Filtrer par thème" data-filter="blog">
       <button type="button"<?= $active === '*' ? ' class="is-on" aria-pressed="true"' : ' aria-pressed="false"' ?> data-f="*"><?= t($c['filter_all']) ?></button>
       <?php foreach ($themes as $th): ?><button type="button"<?= $active === $th ? ' class="is-on" aria-pressed="true"' : ' aria-pressed="false"' ?> data-f="<?= e($th) ?>"><?= e($th) ?></button><?php endforeach; ?>
@@ -35,6 +40,8 @@ $active = ($theme ?? '') !== '' && in_array($theme, $themes, true) ? $theme : '*
         </div>
       <?php endforeach; endif; ?>
     </div>
+    <?php endif; ?>
+    <?php if ($li === 'after'): ?><?= View::partial('linkedin-feed') ?><?php endif; ?>
   </div>
 </section>
 <?= View::partial('final-dark', ['title' => $c['final_title'], 'text' => null, 'cta' => $c['final_cta'], 'variant' => 'blog']) ?>

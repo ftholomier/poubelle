@@ -21,6 +21,22 @@ final class Posts
         return array_values($all);
     }
 
+    /** Code du fil de posts LinkedIn (application externe), inséré tel quel sur la page Blog. */
+    public static function linkedinCode(): string
+    {
+        return trim((string) Settings::get('linkedin_feed.code', ''));
+    }
+
+    /** Position du fil LinkedIn sur la page Blog : before|after|replace, ou '' si rien à afficher. */
+    public static function linkedinPlace(): string
+    {
+        if (self::linkedinCode() === '') {
+            return '';
+        }
+        $place = (string) Settings::get('linkedin_feed.place', 'before');
+        return in_array($place, ['before', 'after', 'replace'], true) ? $place : '';
+    }
+
     public static function find(string $id): ?array
     {
         foreach (Store::read(self::FILE, []) as $p) {

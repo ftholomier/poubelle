@@ -1,4 +1,5 @@
 <?php /** @var array $posts @var array $themes */ ?>
+<?= LD\View::render('admin/blog-tabs', ['on' => 'posts']) ?>
 <div class="toolbar">
   <p class="intro">Thèmes : <?= e(implode(' · ', $themes)) ?> <a href="/admin/contenus/blog">(modifier)</a></p>
   <a class="btn btn--red" href="/admin/blog/nouveau">+ Nouvel article</a>

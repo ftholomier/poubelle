@@ -9,6 +9,8 @@ use LD\Media;
 use LD\Posts;
 use LD\Reviews;
 use LD\Router;
+use LD\Settings;
+use LD\Store;
 
 /**
  * Back-office : contenus des pages (éditeur générique), avis, blog et médiathèque.
@@ -29,6 +31,8 @@ final class AdminContent
         $r->post('/admin/avis/{id}/supprimer', $g([self::class, 'deleteReview'], true));
 
         $r->get('/admin/blog', $g([self::class, 'posts']));
+        $r->get('/admin/blog/linkedin', $g([self::class, 'linkedin']));
+        $r->post('/admin/blog/linkedin', $g([self::class, 'saveLinkedin'], true));
         $r->get('/admin/blog/{id}', $g([self::class, 'post']));
         $r->post('/admin/blog/{id}', $g([self::class, 'savePost'], true));
         $r->post('/admin/blog/{id}/supprimer', $g([self::class, 'deletePost'], true));
@@ -222,6 +226,31 @@ final class AdminContent
     {
         Posts::delete($id);
         Admin::back('/admin/blog', 'ok', 'Article supprimé.');
+    }
+
+    /** Fil de posts LinkedIn : code d'une application externe affiché sur la page Blog. */
+    public static function linkedin(): never
+    {
+        Admin::view('blog-linkedin', ['li' => (array) Settings::get('linkedin_feed', [])], 'Blog · Posts LinkedIn');
+    }
+
+    public static function saveLinkedin(): never
+    {
+        $code = trim(str_replace("\r\n", "\n", (string) ($_POST['code'] ?? '')));
+        if (mb_strlen($code) > 20000) {
+            Admin::back('/admin/blog/linkedin', 'err', 'Code trop long (20 000 caractères maximum).');
+        }
+        if (preg_match('#<\?(php|=)?#i', $code)) {
+            Admin::back('/admin/blog/linkedin', 'err', 'Le code ne peut contenir que du HTML / JavaScript.');
+        }
+        $s = Store::read('content/settings.json', []);
+        $s['linkedin_feed'] = [
+            'code'  => $code,
+            'place' => in_array($_POST['place'] ?? '', ['before', 'after', 'replace', 'off'], true) ? $_POST['place'] : 'before',
+            'title' => clean_text((string) ($_POST['title'] ?? ''), 120),
+        ];
+        Settings::save($s);
+        Admin::back('/admin/blog/linkedin', 'ok', $code === '' ? 'Fil LinkedIn retiré de la page Blog.' : ($s['linkedin_feed']['place'] === 'off' ? 'Code enregistré (masqué sur la page Blog).' : 'Code enregistré : tes posts LinkedIn sont en ligne sur la page Blog.'));
     }
 
     // ------------------------------------------------------------------ médias

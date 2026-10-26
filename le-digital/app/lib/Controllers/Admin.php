@@ -166,7 +166,7 @@ final class Admin
             ['E-mails : adresse de notification et envoi qui fonctionne', \LD\Mailer::notifyAddress() !== '' && !empty(\LD\Mailer::recent(1)[0]['ok']), '/admin/parametres#emails'],
             ['Clé API d’IA (assistant, démos)', Ai::resolve('chat') !== null, '/admin/ia'],
             ['Avis clients (Google, widget ou saisis)', count(Reviews::all(true)) > 0 || Reviews::widgetCode() !== '' || Reviews::carouselCode() !== '', \LD\GoogleReviews::enabled() || Reviews::all() ? '/admin/avis' : '/admin/avis/google'],
-            ['Articles de blog publiés', count(Posts::all(true)) > 0, '/admin/blog'],
+            ['Articles de blog publiés (ou posts LinkedIn)', count(Posts::all(true)) > 0 || Posts::linkedinPlace() !== '', '/admin/blog'],
             ...array_map(static fn($so) => $so['kind'] === 'intensiti'
                 ? ['Intensiti : capture et lien', ($so['image'] ?? '') !== '' && ($so['url'] ?? '') !== '', '/admin/contenus/solutions']
                 : [$so['name'] . ' : présentation et capture', trim((string) $so['text']) !== '' && $so['image'] !== '', '/admin/solutions/' . $so['id']], \LD\Solutions::enabled()),

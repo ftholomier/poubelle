@@ -43,7 +43,9 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
   `/mes-solutions/<nom>` (bloc complet + « Découvrir aussi »), accessible par le menu « Mes solutions ». Formulaire de
   contact, plan du site, titre Google et assistant IA suivent automatiquement. Une solution masquée reste prévisualisable par l'administrateur
   connecté. Les textes du bloc Intensiti restent dans *Contenus › Mes solutions*.
-- Articles de blog (éditeur visuel), médiathèque (conversion WebP + tailles responsive automatiques).
+- Articles de blog (éditeur visuel) et **posts LinkedIn** sur la page Blog (*Blog › Posts LinkedIn* : code d'intégration
+  d'une application externe à coller, au-dessus, sous ou à la place des articles), médiathèque (conversion WebP + tailles
+  responsive automatiques).
 - **IA & clés API** : clés chiffrées pour Anthropic (Claude), OpenAI, Google Gemini, Mistral, Groq, OpenRouter, DeepSeek, xAI ;
   **liste des modèles récupérée en direct** auprès de chaque fournisseur ; modèle par défaut + modèle par fonctionnalité,
   consignes (prompts) modifiables, test en direct, plafond quotidien, suivi de consommation.
