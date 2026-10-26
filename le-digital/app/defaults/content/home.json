@@ -150,12 +150,7 @@
   "reviews": {
     "ask": "Et les autres, ils en pensent quoi ?",
     "title": "Ils en parlent mieux que moi",
-    "link": "Tous les avis →",
-    "placeholders": [
-      { "tag": "Développement", "who": "un client en développement sur mesure" },
-      { "tag": "Formation", "who": "un stagiaire de la formation DIGITAL 360" },
-      { "tag": "Accompagnement", "who": "un client en formaccompagnement ou mentorat" }
-    ]
+    "link": "Tous les avis →"
   },
   "final": {
     "title": "Combien d'heures pourrais-tu récupérer chaque semaine ?",

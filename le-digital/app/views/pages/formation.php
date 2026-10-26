@@ -6,7 +6,8 @@ $h = $c['hero'];
 $fm = $c['formats'];
 $fi = $fm['items'][0] ?? [];
 $stages = ['linear-gradient(135deg,#cc1517,#e8402a)', '#161922', '#cf1d1a'];
-$review = LD\Reviews::featured(1, 'Formation')[0] ?? null;
+$review = LD\Reviews::featured(1, 'Formation')[0] ?? LD\Reviews::featured(1)[0] ?? null;
+$gBadge = $review ? null : LD\GoogleReviews::badge();
 ?>
 <section class="hero hero--formation" aria-labelledby="fo-title">
   <div class="dots dots--hero2" aria-hidden="true"></div>
@@ -22,7 +23,7 @@ $review = LD\Reviews::featured(1, 'Formation')[0] ?? null;
       <p class="note"><span class="dot-green" aria-hidden="true"></span><?= t($h['note']) ?></p>
     </div>
     <div class="fo-vis">
-      <div class="fo-vis__photo"><?= slot($h['photo'], 'Photo de Frédéric en formation — à fournir', $h['photo_alt'], ['eager' => true, 'sizes' => '(max-width: 600px) 92vw, 540px']) ?></div>
+      <div class="fo-vis__photo"><?= slot($h['photo'], 'Photo de Frédéric en formation', $h['photo_alt'], ['eager' => true, 'sizes' => '(max-width: 600px) 92vw, 540px']) ?></div>
       <div class="fo-vis__float"><span><?= t($h['float_label']) ?></span><b><?= t($h['float_title']) ?></b></div>
     </div>
   </div>
@@ -36,7 +37,7 @@ $review = LD\Reviews::featured(1, 'Formation')[0] ?? null;
         <div class="why<?= $i === 0 ? ' why--ink' : '' ?>" data-reveal<?= $i ? ' data-delay="' . ($i * 90) . '"' : '' ?>>
           <span class="why__n"><?= sprintf('%02d', $i + 1) ?></span>
           <h3><?= t($w['t']) ?></h3>
-          <?php if (trim((string) $w['d']) !== ''): ?><p><?= t($w['d']) ?></p><?php else: ?><p class="todo todo--why">À préciser : suivi proposé après la formation.</p><?php endif; ?>
+          <?php if (trim((string) $w['d']) !== ''): ?><p><?= t($w['d']) ?></p><?php endif; ?>
         </div>
       <?php endforeach; ?>
     </div>
@@ -56,7 +57,6 @@ $review = LD\Reviews::featured(1, 'Formation')[0] ?? null;
         <h3 class="fmt__t" data-fmt-t><?= t($fi['t'] ?? '') ?></h3>
         <p class="fmt__d" data-fmt-d><?= t($fi['d'] ?? '') ?></p>
         <p class="fmt__detail" data-fmt-detail<?= empty($fi['detail']) ? ' hidden' : '' ?>><?= t($fi['detail'] ?? '') ?></p>
-        <p class="todo todo--fmt" data-fmt-todo<?= empty($fi['todo']) || !empty($fi['detail']) ? ' hidden' : '' ?>><?= t($fi['todo'] ?? '') ?></p>
         <a class="btn btn-dark btn-md self-start" href="/on-prend-rdv"><?= t($fm['cta']) ?></a>
       </div>
       <div class="fmt__stage" data-fmt-stage style="background:<?= e($stages[0]) ?>"><span data-fmt-big><?= t($fi['big'] ?? '') ?></span></div>
@@ -68,7 +68,6 @@ $review = LD\Reviews::featured(1, 'Formation')[0] ?? null;
   <div class="wrap wrap--1000">
     <div class="prog-head" data-reveal>
       <h2 class="h2"><?= t($c['programme']['title']) ?></h2>
-      <?php if (trim((string) $c['programme']['todo']) !== ''): ?><span class="todo todo--inline"><?= t($c['programme']['todo']) ?></span><?php endif; ?>
     </div>
     <div class="acc" data-accordion>
       <?php $last = count($c['programme']['modules']) - 1; foreach ($c['programme']['modules'] as $i => $m): ?>
@@ -95,7 +94,7 @@ $review = LD\Reviews::featured(1, 'Formation')[0] ?? null;
         <div class="fo-ia__box"><b><?= t($ia['for_title']) ?></b><span><?= t($ia['for_text']) ?></span></div>
         <div class="fo-ia__box"><b><?= t($ia['why_title']) ?></b><span><?= t($ia['why_text']) ?></span></div>
       </div>
-      <?php if (trim((string) $ia['format']) !== ''): ?><p class="fo-ia__fmt"><?= t($ia['format']) ?></p><?php else: ?><p class="todo todo--dark"><?= t($ia['format_todo']) ?></p><?php endif; ?>
+      <?php if (trim((string) $ia['format']) !== ''): ?><p class="fo-ia__fmt"><?= t($ia['format']) ?></p><?php endif; ?>
       <a class="btn btn-white btn-lg btn-hover-lime self-start" href="/on-prend-rdv"><?= t($ia['cta']) ?></a>
     </div>
     <div class="fo-ia__r" data-reveal data-delay="120">
@@ -111,16 +110,15 @@ $review = LD\Reviews::featured(1, 'Formation')[0] ?? null;
     <div class="fin" data-reveal>
       <h2 class="h2 h2--fin"><?= t($fn['title']) ?></h2>
       <p class="fin__p"><?= t($fn['text']) ?></p>
-      <?php if (trim((string) $fn['more']) !== ''): ?><p class="fin__p"><?= t($fn['more']) ?></p><?php else: ?><p class="todo todo--white"><?= t($fn['more_todo']) ?></p><?php endif; ?>
+      <?php if (trim((string) $fn['more']) !== ''): ?><p class="fin__p"><?= t($fn['more']) ?></p><?php endif; ?>
     </div>
     <div class="fin-rv" data-reveal data-delay="100">
       <?php if ($review): ?>
         <span class="rv__stars" role="img" aria-label="<?= (int) $review['rating'] ?> étoiles sur 5"><?= str_repeat('★', max(1, min(5, (int) $review['rating']))) ?></span>
         <blockquote class="fin-rv__q"><?= tp($review['text']) ?></blockquote>
-        <p class="fin-rv__who"><b><?= e($review['name']) ?></b> · <?= e($review['activity']) ?></p>
-      <?php else: ?>
-        <span class="rv__stars" aria-hidden="true">★★★★★</span>
-        <p class="todo todo--rv"><?= t($c['reviews']['todo']) ?></p>
+        <p class="fin-rv__who"><b><?= e($review['name']) ?></b><?= trim((string) ($review['activity'] ?? '')) !== '' ? ' · ' . e($review['activity']) : '' ?></p>
+      <?php elseif ($gBadge): ?>
+        <?= View::partial('google-badge', ['badge' => $gBadge, 'write' => true]) ?>
       <?php endif; ?>
       <a class="fin-rv__link" href="/avis"><?= t($c['reviews']['link']) ?></a>
     </div>

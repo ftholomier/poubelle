@@ -379,13 +379,22 @@ final class Api
             $lines = [['d' => 'Prestation principale', 'q' => 1, 'u' => 'forfait', 'pu' => 800], ['d' => 'Fournitures', 'q' => 1, 'u' => 'forfait', 'pu' => 350], ['d' => "Main-d'œuvre", 'q' => 8, 'u' => 'h', 'pu' => 45]];
         }
         $tva = (float) ($d['tva'] ?? 20);
-        Http::sendJson(['ok' => true, 'ai' => $ai, 'devis' => [
+        $devis = [
             'client'     => clean_text((string) ($d['client'] ?? 'Client'), 80) ?: 'Client',
             'objet'      => clean_text((string) ($d['objet'] ?? ''), 120),
             'lignes'     => $lines,
             'tva'        => in_array($tva, [0.0, 2.1, 5.5, 10.0, 20.0], true) ? $tva : 20,
             'conditions' => clean_text((string) ($d['conditions'] ?? ''), 300),
-        ]]);
+        ];
+        $example = Http::str('prompt', 600) === '';
+        Http::sendJsonThen(['ok' => true, 'ai' => $ai, 'devis' => $devis], static function () use ($p, $devis, $example): void {
+            $ht = array_sum(array_map(static fn($l) => $l['q'] * $l['pu'], $devis['lignes']));
+            $total = number_format($ht, 2, ',', ' ') . ' € HT';
+            Leads::interaction('demo', [
+                'demande' => $p . ($example ? ' (exemple proposé par le site)' : ''),
+                'devis'   => trim($devis['objet'] . ' · ' . count($devis['lignes']) . ' ligne(s) · ' . $total, ' ·'),
+            ], mb_strimwidth($p, 0, 90, '…') . ' → ' . $total);
+        });
     }
 
     /** Texte lisible d'une page web (titre, description, titres, paragraphes). */
@@ -440,7 +449,14 @@ final class Api
             $constats = ['Tes tâches répétitives méritent un vrai outil.', 'Tes infos sont sans doute éparpillées.', 'Ton site peut travailler davantage pour toi.'];
             $idees = [['t' => 'Devis assistés', 'd' => "L'IA prépare, tu relis et tu envoies."], ['t' => 'Relances automatiques', 'd' => 'Elles partent au bon moment, sans y penser.'], ['t' => 'Assistant sur ton site', 'd' => 'Il répond aux questions fréquentes 24 h/24.']];
         }
-        Http::sendJson(['ok' => true, 'constats' => array_slice($constats, 0, 3), 'idees' => array_slice($idees, 0, 3)]);
+        $constats = array_slice($constats, 0, 3);
+        $idees = array_slice($idees, 0, 3);
+        Http::sendJsonThen(['ok' => true, 'constats' => $constats, 'idees' => $idees], static function () use ($url, $job, $pain, $constats, $idees): void {
+            Leads::interaction('analyse', [
+                'site' => $url, 'activite' => $job, 'difficulte' => $pain, 'constats' => $constats,
+                'idees' => array_map(static fn($i) => $i['t'] . ($i['d'] !== '' ? ' : ' . $i['d'] : ''), $idees),
+            ], implode(' · ', array_filter([$url, $job, $pain])) ?: 'sans précision');
+        });
     }
 
     public static function explain(): never

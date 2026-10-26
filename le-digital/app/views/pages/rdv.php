@@ -107,10 +107,12 @@ $bkCfg = ['days' => $days, 'modes' => $modes, 'choose' => $b['choose'], 'book' =
   </div>
 
   <div class="contacts ag" style="--min:300px">
-    <a class="contact" href="<?= e(tel_href()) ?>">
-      <span class="contact__ic contact__ic--red"><?= icon('phone', 22, '#fff') ?></span>
-      <span class="contact__t"><span><?= t($c['contacts']['phone_label']) ?></span><b class="accent"><?= e($phoneSet ? $s['contact']['phone'] : $c['contacts']['phone_todo']) ?></b></span>
-    </a>
+    <?php if ($phoneSet): ?>
+      <a class="contact" href="<?= e(tel_href()) ?>">
+        <span class="contact__ic contact__ic--red"><?= icon('phone', 22, '#fff') ?></span>
+        <span class="contact__t"><span><?= t($c['contacts']['phone_label']) ?></span><b class="accent"><?= e($s['contact']['phone']) ?></b></span>
+      </a>
+    <?php endif; ?>
     <a class="contact"<?= link_attrs(linkedin_url()) ?>>
       <span class="contact__ic contact__ic--ink">in</span>
       <span class="contact__t"><span><?= t($c['contacts']['linkedin_label']) ?></span><b><?= t($c['contacts']['linkedin']) ?></b></span>

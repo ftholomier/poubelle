@@ -89,7 +89,7 @@ function tel_href(?string $phone = null): string
     return 'tel:' . $digits;
 }
 
-function phone_label(string $fallback = 'Numéro direct à fournir'): string
+function phone_label(string $fallback = ''): string
 {
     $p = trim((string) Settings::get('contact.phone', ''));
     return $p !== '' ? $p : $fallback;
@@ -147,17 +147,8 @@ function img_tag(?string $src, string $alt, array $opt = []): string
 /** Emplacement d'image réservé (style « image-slot » de la maquette) ou image réelle. */
 function slot(?string $src, string $placeholder, string $alt = '', array $opt = []): string
 {
-    $img = img_tag($src, $alt !== '' ? $alt : $placeholder, $opt + ['class' => 'slot-img']);
-    if ($img !== '') {
-        return $img;
-    }
-    return '<div class="slot-empty" role="img" aria-label="' . e($placeholder) . '"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>' . e($placeholder) . '</span></div>';
-}
-
-/** Encadré « à fournir » pointillé de la maquette, affiché seulement si le contenu réel est vide. */
-function todo(string $text, string $class = 'todo'): string
-{
-    return '<p class="' . e($class) . '">' . e($text) . '</p>';
+    // Sans image : rien d'affiché (jamais d'encart « à fournir » côté visiteurs).
+    return img_tag($src, $alt !== '' ? $alt : $placeholder, $opt + ['class' => 'slot-img']);
 }
 
 /** Icônes SVG utilisées dans la maquette. */

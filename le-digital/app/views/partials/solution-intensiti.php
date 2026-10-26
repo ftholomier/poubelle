@@ -16,7 +16,6 @@
         <a class="btn btn-ghost-dark btn-sol2"<?= link_attrs($in['url'] ?: '#') ?>><?= t($in['cta']) ?> ↗</a>
       </div>
       <?php if (!empty($in['demo_url'])): ?><a class="itn__demo"<?= link_attrs($in['demo_url']) ?>>▶ <?= t($in['demo_cta']) ?></a><?php endif; ?>
-      <?php if (trim((string) $in['url']) === ''): ?><p class="sol-todo"><?= t($c['links_todo']) ?></p><?php endif; ?>
     </div>
     <figure class="screen itn-screen" data-reveal="scale">
       <div class="screen__frame"><div class="screen__in">
@@ -25,7 +24,7 @@
             <source src="<?= e($in['video']) ?>.webm" type="video/webm"><source src="<?= e($in['video']) ?>.mp4" type="video/mp4">
           </video>
         <?php else: ?>
-          <?= slot($in['image'], 'Capture Intensiti — à fournir', 'Capture d’écran Intensiti', ['sizes' => '(max-width: 600px) 90vw, 560px']) ?>
+          <?= slot($in['image'], 'Capture Intensiti', 'Capture d’écran Intensiti', ['sizes' => '(max-width: 600px) 90vw, 560px']) ?>
         <?php endif; ?>
       </div></div>
       <div class="screen__neck" aria-hidden="true"></div>

@@ -75,7 +75,11 @@ $avatar = site_avatar();
           <span class="dbar__rec-ic" aria-hidden="true"><?= icon('mic', 21, '#fff', 2.3) ?></span><span class="dbar__lbl"><?= t($d['voice_label']) ?></span>
         </button>
         <a class="dbar__rdv" href="/on-prend-rdv"><?= t($d['rdv_label']) ?></a>
-        <a class="dbar__tel" href="<?= e(tel_href()) ?>" aria-label="Appeler Frédéric"><?= icon('phone', 19, '#161922') ?></a>
+        <?php if (phone_label() !== ''): ?>
+          <a class="dbar__tel" href="<?= e(tel_href()) ?>" aria-label="Appeler Frédéric"><?= icon('phone', 19, '#161922') ?></a>
+        <?php else: ?>
+          <a class="dbar__tel" href="/on-prend-rdv#rappel" aria-label="Être rappelé par Frédéric"><?= icon('phone', 19, '#161922') ?></a>
+        <?php endif; ?>
       </div>
     </div>
   </div>

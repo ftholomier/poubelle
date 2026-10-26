@@ -31,7 +31,7 @@ $carousel = LD\Reviews::carouselPlace(LD\Http::path());
       <div class="ftr__col">
         <img src="<?= e(site_logo(true)) ?>" alt="<?= e($s['site']['name'] ?? 'LE-DIGITAL.com') ?>" width="206" height="48" loading="lazy" class="ftr__logo">
         <span><?= e($s['site']['owner'] ?? 'Frédéric Tholomier') ?></span>
-        <a class="ftr__phone" href="<?= e(tel_href()) ?>"><?= e(phone_label()) ?></a>
+        <?php if (phone_label() !== ''): ?><a class="ftr__phone" href="<?= e(tel_href()) ?>"><?= e(phone_label()) ?></a><?php endif; ?>
       </div>
       <div class="ftr__col">
         <span class="ftr__h"><?= t($f['zones_title'] ?? 'Zones') ?></span>

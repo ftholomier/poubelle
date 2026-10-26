@@ -10,13 +10,12 @@ $h = $c['hero'];
       <div class="qui-stat"><span class="qui-stat__v"><span data-count-to="<?= e($h['stat_value']) ?>"><?= e($h['stat_value']) ?></span>+</span><span><?= t($h['stat_label']) ?></span></div>
       <a class="btn btn-red btn-xl self-start" href="/on-prend-rdv"><?= t($h['cta']) ?></a>
     </div>
-    <div class="qui-photo"><?= slot($h['photo'], 'Grand portrait de Frédéric — à fournir', $h['photo_alt'], ['eager' => true, 'sizes' => '(max-width: 600px) 92vw, 560px']) ?></div>
+    <div class="qui-photo"><?= slot($h['photo'], 'Grand portrait de Frédéric', $h['photo_alt'], ['eager' => true, 'sizes' => '(max-width: 600px) 92vw, 560px']) ?></div>
   </div>
 </section>
 
 <section class="sec">
   <div class="qui-story">
-    <?php if (empty($c['story_validated']) && trim((string) $c['story_todo']) !== ''): ?><p class="todo todo--story" data-reveal><?= t($c['story_todo']) ?></p><?php endif; ?>
     <?php foreach ($c['story'] as $p): ?>
       <p data-reveal<?= ($p['kind'] ?? 'p') === 'big' ? ' class="qui-big"' : '' ?>><?= t($p['text']) ?></p>
     <?php endforeach; ?>

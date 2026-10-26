@@ -32,8 +32,10 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
 **Back-office** (`/admin`)
 
 - Tableau de bord + checklist de mise en ligne.
-- Demandes (formulaire, RdV, rappels, vocaux avec lecteur audio, discussions et briefs de l'assistant IA), statuts, notes,
-  export CSV. Chaque demande indique si l'e-mail de notification est bien parti.
+- Demandes (formulaire, RdV, rappels, vocaux avec lecteur audio, discussions et briefs de l'assistant IA, analyses IA
+  de site, démos de devis), statuts, notes, export CSV. **Chaque interaction déclenche un e-mail à Fred** (annulations de
+  RdV comprises ; essais répétés d'un même outil regroupés sur 30 min) et chaque demande indique si l'e-mail est bien parti.
+- Aucun encart « à fournir » côté visiteurs : un contenu vide (photo, texte, téléphone, avis, articles) est simplement masqué.
 - Rendez-vous : agenda, annulation, disponibilités (jours, créneaux, congés, durée, prévenance), **flux iCal privé**
   à ajouter dans Google Agenda / Apple Calendrier.
 - **Contenus** : éditeur générique de toutes les pages (textes, listes, boutons, images…), réinitialisation possible.

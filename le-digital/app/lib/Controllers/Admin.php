@@ -158,8 +158,6 @@ final class Admin
     public static function dashboard(): never
     {
         $s = Settings::all();
-        $qui = \LD\Content::get('qui');
-        $form = \LD\Content::get('formation');
         $checks = [
             ['Numéro direct', !empty($s['contact']['phone']), '/admin/parametres#coordonnees'],
             ['Lien LinkedIn', !empty($s['contact']['linkedin']), '/admin/parametres#coordonnees'],
@@ -170,9 +168,10 @@ final class Admin
             ...array_map(static fn($so) => $so['kind'] === 'intensiti'
                 ? ['Intensiti : capture et lien', ($so['image'] ?? '') !== '' && ($so['url'] ?? '') !== '', '/admin/contenus/solutions']
                 : [$so['name'] . ' : présentation et capture', trim((string) $so['text']) !== '' && $so['image'] !== '', '/admin/solutions/' . $so['id']], \LD\Solutions::enabled()),
-            ['Parcours de Frédéric validé', !empty($qui['story_validated']), '/admin/contenus/qui'],
-            ['Programme réel de la formation', trim((string) $form['programme']['todo']) === '', '/admin/contenus/formation'],
-            ['Mentions légales complétées', !str_contains((string) json_encode(\LD\Content::get('mentions'), JSON_UNESCAPED_UNICODE), 'à fournir'), '/admin/contenus/mentions'],
+            ['Mentions légales : éditeur (statut, SIRET, adresse) et hébergeur', (static function (): bool {
+                $txt = array_column(\LD\Content::get('mentions')['sections'] ?? [], 'text', 'id');
+                return trim((string) ($txt['hebergement'] ?? '')) !== '' && preg_match('/\d{9}/', str_replace(' ', '', (string) ($txt['editeur'] ?? ''))) === 1;
+            })(), '/admin/contenus/mentions'],
             ['Adresse du site (URL canonique)', !empty($s['site']['url']), '/admin/parametres#identite'],
         ];
         $usage = Store::read('data/ai-usage.json', []);

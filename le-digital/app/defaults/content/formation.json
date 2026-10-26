@@ -30,14 +30,13 @@
     "intro": "Choisis celle qui te ressemble :",
     "cta": "Ça m'intéresse !",
     "items": [
-      { "k": "Format 1", "t": "En présentiel", "d": "Directement avec moi, en face à face.", "detail": "", "todo": "Lieux à préciser", "big": "1:1" },
-      { "k": "Format 2", "t": "En distanciel", "d": "En visio, avec moi, en direct.", "detail": "", "todo": "", "big": "Live" },
-      { "k": "Format 3", "t": "En ligne", "d": "À ton rythme, seul comme un grand.", "detail": "", "todo": "", "big": "24/7" }
+      { "k": "Format 1", "t": "En présentiel", "d": "Directement avec moi, en face à face.", "detail": "", "big": "1:1" },
+      { "k": "Format 2", "t": "En distanciel", "d": "En visio, avec moi, en direct.", "detail": "", "big": "Live" },
+      { "k": "Format 3", "t": "En ligne", "d": "À ton rythme, seul comme un grand.", "detail": "", "big": "24/7" }
     ]
   },
   "programme": {
     "title": "Au programme",
-    "todo": "Programme réel à fournir",
     "modules": [
       { "t": "Stratégie digitale et positionnement", "d": "Qui tu es, pour qui, et comment le digital t'aide à le faire savoir." },
       { "t": "Créer son site internet", "d": "Un site clair, beau sur mobile, que tu sais faire évoluer toi-même." },
@@ -56,7 +55,6 @@
     "why_title": "Pourquoi avec moi",
     "why_text": "J'intègre l'IA dans des outils sur mesure tous les jours. Je t'apprends ce qui marche vraiment.",
     "format": "",
-    "format_todo": "Format, durée et financement : à préciser",
     "cta": "Je veux gagner du temps avec l'IA 🚀",
     "skills_title": "Ce que tu vas apprendre à faire",
     "skills": [
@@ -70,11 +68,9 @@
   "financing": {
     "title": "Financement",
     "text": "Finançable avec ton CPF (ou pas !).",
-    "more": "",
-    "more_todo": "Autres financements à préciser"
+    "more": ""
   },
   "reviews": {
-    "todo": "Avis de stagiaires à fournir.",
     "link": "Tous les avis →"
   },
   "final": {

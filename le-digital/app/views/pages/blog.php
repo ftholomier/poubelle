@@ -11,8 +11,7 @@ $themeBg = static function (string $th) use ($themes, $bgs): string {
 };
 $active = ($theme ?? '') !== '' && in_array($theme, $themes, true) ? $theme : '*';
 $li = LD\Posts::linkedinPlace();
-// Avec le fil LinkedIn, les emplacements d'articles « à fournir » n'ont plus lieu d'être.
-$showGrid = $li !== 'replace' && ($posts || $li === '');
+$showGrid = $li !== 'replace' && $posts;
 ?>
 <section class="sec">
   <div class="wrap wrap--list">
@@ -24,23 +23,17 @@ $showGrid = $li !== 'replace' && ($posts || $li === '');
       <?php foreach ($themes as $th): ?><button type="button"<?= $active === $th ? ' class="is-on" aria-pressed="true"' : ' aria-pressed="false"' ?> data-f="<?= e($th) ?>"><?= e($th) ?></button><?php endforeach; ?>
     </div>
     <div class="af" style="--min:340px;--gap:20px" data-filter-list="blog">
-      <?php if ($posts): foreach ($posts as $p): ?>
+      <?php foreach ($posts as $p): ?>
         <a class="post fitem" href="/blog/<?= e($p['slug']) ?>" data-tag="<?= e($p['theme']) ?>"<?= $active !== '*' && $p['theme'] !== $active ? ' hidden' : '' ?>>
           <div class="post__img" style="background:<?= e($themeBg($p['theme'])) ?>"><?= img_tag($p['image'] ?? '', $p['title'], ['sizes' => '(max-width: 700px) 92vw, 400px']) ?: '<span>' . e($p['theme']) . '</span>' ?></div>
           <div class="post__meta"><span class="post__theme"><?= e($p['theme']) ?></span><span><?= (int) $p['read'] ?> <?= t($c['read_suffix']) ?></span></div>
           <h2 class="post__t"><?= t($p['title']) ?></h2>
           <p class="post__x"><?= t($p['excerpt']) ?></p>
         </a>
-      <?php endforeach; else: foreach ([0, 1, 2, 3, 4, 0] as $i => $ti): $th = $themes[$ti] ?? ''; ?>
-        <div class="post fitem" data-tag="<?= e($th) ?>">
-          <div class="post__img" style="background:<?= e($bgs[$ti % count($bgs)]) ?>"><span>Image à fournir</span></div>
-          <div class="post__meta"><span class="post__theme"><?= e($th) ?></span><span><?= [5, 4, 6, 3, 7, 4][$i] ?> <?= t($c['read_suffix']) ?></span></div>
-          <h2 class="post__t">Titre d'article à fournir</h2>
-          <p class="post__x">Extrait de l'article à fournir.</p>
-        </div>
-      <?php endforeach; endif; ?>
+      <?php endforeach; ?>
     </div>
     <?php endif; ?>
+    <?php if (!$posts && $li === ''): ?><p class="rv-empty">Les premiers articles arrivent très vite. En attendant, <a href="/on-prend-rdv">on en parle autour d’un café</a> ?</p><?php endif; ?>
     <?php if ($li === 'after'): ?><?= View::partial('linkedin-feed') ?><?php endif; ?>
   </div>
 </section>

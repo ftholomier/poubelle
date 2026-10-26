@@ -371,7 +371,6 @@
         $$('[data-fmt]', tabs).forEach(x => { const on = x === b; x.classList.toggle('is-on', on); x.setAttribute('aria-selected', String(on)); });
         q('k').textContent = f.k; q('t').textContent = f.t; q('d').textContent = f.d;
         q('detail').textContent = f.detail || ''; q('detail').hidden = !f.detail;
-        q('todo').textContent = f.todo || ''; q('todo').hidden = !f.todo || !!f.detail;
         q('stage').style.background = f.stage;
         const big = q('big'); big.textContent = f.big; big.style.animation = 'none'; void big.offsetWidth; big.style.animation = '';
       });

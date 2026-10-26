@@ -29,7 +29,7 @@ $rvWidget = LD\Reviews::widgetPosition('home');
     </div>
 
     <div class="hero__vis" data-hero-seq>
-      <div class="hero__photo"><?= slot($h['photo'], 'Photo de Frédéric — à fournir', $h['photo_alt'], ['eager' => true, 'sizes' => '(max-width: 600px) 82vw, 443px']) ?></div>
+      <div class="hero__photo"><?= slot($h['photo'], 'Photo de Frédéric', $h['photo_alt'], ['eager' => true, 'sizes' => '(max-width: 600px) 82vw, 443px']) ?></div>
       <div class="mcard mcard--1" data-step="5">
         <span class="mcard__ic" aria-hidden="true"><?= icon('check16', 16, '#6f8d12', 2.4) ?></span>
         <span class="mcard__t"><b><?= t($h['card1_title']) ?></b><br><span><?= t($h['card1_sub']) ?></span></span>
@@ -217,7 +217,7 @@ $rvWidget = LD\Reviews::widgetPosition('home');
   <div class="wrap about">
     <?php $ab = $c['about']; ?>
     <div class="about__vis" data-reveal="scale">
-      <div class="about__photo"><?= slot($ab['photo'], 'Photo de Frédéric en situation — à fournir', $ab['photo_alt'], ['sizes' => '(max-width: 560px) 92vw, 520px']) ?></div>
+      <div class="about__photo"><?= slot($ab['photo'], 'Photo de Frédéric en situation', $ab['photo_alt'], ['sizes' => '(max-width: 560px) 92vw, 520px']) ?></div>
       <div class="about__stat"><span class="about__num"><span data-count-to="<?= e($ab['stat_value']) ?>"><?= e($ab['stat_value']) ?></span>+</span><span><?= t($ab['stat_label']) ?></span></div>
     </div>
     <div class="about__txt" data-reveal>
@@ -253,6 +253,7 @@ $rvWidget = LD\Reviews::widgetPosition('home');
   </div>
 </section>
 
+<?php if ($reviews || $rvWidget !== '' || $gBadge): ?>
 <section class="sec" id="avis">
   <div class="wrap">
     <?= ask($c['reviews']['ask']) ?>
@@ -263,18 +264,17 @@ $rvWidget = LD\Reviews::widgetPosition('home');
         <a class="link-u" href="/avis"><?= t($c['reviews']['link']) ?></a>
       </div>
     </div>
-    <?php if ($rvWidget !== 'replace' && ($reviews || $rvWidget === '')): ?>
+    <?php if ($reviews && $rvWidget !== 'replace'): ?>
       <div class="ag" style="--min:320px">
-        <?php if ($reviews): foreach ($reviews as $i => $rv): ?>
+        <?php foreach ($reviews as $i => $rv): ?>
           <?= View::partial('review', ['r' => $rv, 'variant' => 'home', 'delay' => $i * 90]) ?>
-        <?php endforeach; else: foreach ($c['reviews']['placeholders'] as $i => $ph): ?>
-          <?= View::partial('review', ['r' => null, 'tag' => $ph['tag'], 'who' => $ph['who'], 'variant' => 'home', 'delay' => $i * 90]) ?>
-        <?php endforeach; endif; ?>
+        <?php endforeach; ?>
       </div>
     <?php endif; ?>
     <?php if ($rvWidget !== ''): ?><?= View::partial('reviews-widget') ?><?php endif; ?>
   </div>
 </section>
+<?php endif; ?>
 
 <section class="final-wrap">
   <div class="final final--split" data-reveal="scale">

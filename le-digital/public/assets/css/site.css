@@ -146,24 +146,9 @@ main{display:block}
 .badge-new--pill{padding:5px 10px;border-radius:99px}
 .badge-new--lg{align-self:flex-start;font-size:12px;letter-spacing:.1em;padding:7px 12px;border-radius:99px}
 .link-u{font-family:var(--fh);font-weight:700;font-size:15px;color:#cc1517;border-bottom:2px solid #ffc2bc;padding-bottom:4px;text-decoration:none}
-.todo{font-size:15px;line-height:1.5;color:#cc1517;padding:10px 12px;border:1.5px dashed #ff9e94;border-radius:12px}
-.todo--sm{padding:6px 10px;border-radius:10px}
-.todo--why{background:#fff}
-.why p.todo{font-size:15px;line-height:1.5;color:#cc1517}
-.todo--fmt{align-self:flex-start;font-size:14.5px;padding:10px 14px}
-.todo--inline{font-size:13.5px;padding:8px 12px;border-radius:10px}
-.todo--dark{align-self:flex-start;font-size:14px;color:#ffc9c2;padding:10px 14px;border-color:#b8574f}
-.todo--white{align-self:flex-start;font-size:14px;padding:10px 14px;background:#fff}
-.todo--rv{font-size:16px;line-height:1.55;padding:16px;border-radius:14px}
-.todo--sol{font-size:16px;line-height:1.55;padding:14px 16px;border-color:#ff8f84;border-radius:14px;background:#fff}
-.todo--story{align-self:flex-start;font-size:12.5px;padding:8px 12px;border-radius:10px}
 
 /* Emplacement d'image réservé (comme « image-slot » de la maquette) */
 .slot-img{display:block;width:100%;height:100%;object-fit:cover}
-.slot-empty{position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:12px;background:rgba(127,127,127,.08);font:500 13px/1.3 system-ui,-apple-system,sans-serif;color:inherit}
-.slot-empty::after{content:'';position:absolute;inset:0;border:1.5px dashed currentColor;opacity:.35;pointer-events:none}
-.slot-empty svg{opacity:.45}
-.slot-empty span{max-width:90%;opacity:.75;letter-spacing:.01em}
 
 /* Bulle « Toi » */
 .ask{display:flex;align-items:flex-end;gap:10px;margin-bottom:22px}
@@ -548,8 +533,6 @@ html.menu-open .dbar-wrap,html.menu-open .dfab{opacity:0;pointer-events:none}
 .rv__tag{padding:5px 12px;border-radius:999px;background:#fff;font-size:12px;font-weight:700;color:#5b5870}
 .rv--page .rv__tag{background:#ffeceb;color:#cc1517}
 .rv__q{flex:1;font-size:16px;line-height:1.55;color:#252436}
-.rv__q--todo{color:#cc1517;padding:16px;border:1.5px dashed #ff9e94;border-radius:14px;background:#fff}
-.rv--page .rv__q--todo{background:transparent}
 .rv__who{display:flex;align-items:center;gap:12px}
 .rv__av{flex:none;width:44px;height:44px;border-radius:50%;background:#fbe9e7;overflow:hidden;display:grid;place-items:center;font:800 16px var(--fh);color:#cc1517}
 .rv__av img{width:100%;height:100%;object-fit:cover}
@@ -801,7 +784,6 @@ html.menu-open .dbar-wrap,html.menu-open .dfab{opacity:0;pointer-events:none}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip-dk{padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:14px;font-weight:600}
 .chip-lt{padding:9px 14px;border-radius:999px;background:#fff;border:1px solid #fbd0ca;font-size:14px;font-weight:600;color:#161922}
-.sol-todo{font-size:12.5px;color:#8f8ca5}
 .screen{display:flex;flex-direction:column;align-items:center;order:2}
 .screen__frame{width:100%;padding:14px;border-radius:24px;background:#0c0e14;box-shadow:0 50px 100px -40px rgba(204,21,23,.7),inset 0 0 0 1px #2e3044}
 .screen__in{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#252436;color:#c4c1d4}
@@ -1416,6 +1398,7 @@ html.xp-open .dbar-wrap,html.xp-open .dfab{opacity:0;pointer-events:none}
 
 /* Solutions génériques (back-office › Solutions) */
 .sol-grid--flip .sol-shot{order:2}
+.sol-grid--solo{grid-template-columns:minmax(0,820px)}
 .sol-grid--flip .sol-txt{order:1}
 .sol-logo{height:clamp(40px,4.6vw,58px);width:auto;max-width:280px;align-self:flex-start;object-fit:contain}
 .sol-shot--dark{background:#252436;box-shadow:0 40px 80px -40px rgba(204,21,23,.6)}
@@ -1513,3 +1496,6 @@ a.fproof__score:hover .fproof__meta>span:last-child{color:#fff;text-decoration:u
 .li-feed__follow{padding:11px 18px;border-radius:999px;border:1.5px solid #0a66c2;color:#0a66c2;font:700 14.5px var(--fh);text-decoration:none;white-space:nowrap}
 .li-feed__follow:hover{background:#0a66c2;color:#fff}
 .li-feed__code{min-height:120px}
+/* Pas encore d'avis ou d'article : message simple (jamais d'encart « à fournir ») */
+.rv-empty{max-width:640px;margin:8px 0 0;font-size:18px;line-height:1.6;color:#5b5870}
+.rv-empty a{color:#cc1517;font-weight:700}

@@ -13,8 +13,6 @@
     "photo": "/assets/img/fred-portrait-1200.webp",
     "photo_alt": "Portrait de Frédéric Tholomier"
   },
-  "story_todo": "Texte à personnaliser avec le parcours de Frédéric",
-  "story_validated": false,
   "story": [
     { "kind": "p", "text": "Je suis le fondateur de LE-DIGITAL.com. J'accompagne des entrepreneurs, des indépendants et des entreprises dans leur développement grâce au digital : plus de 500 entreprises en consulting, prestation de services et formation." },
     { "kind": "p", "text": "Je suis à la fois formateur et développeur. Je forme au webmarketing, à la création de sites et à l'IA, et je conçois aussi des sites web, des CRM métier et des solutions sur mesure, avec une intelligence artificielle intégrée pour faire gagner du temps à ceux qui les utilisent." },

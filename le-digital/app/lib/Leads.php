@@ -17,6 +17,8 @@ final class Leads
         'vocal'   => 'Vocal',
         'ia'      => 'Discussion IA',
         'brief'   => 'Brief de l’assistant',
+        'analyse' => 'Analyse IA de site',
+        'demo'    => 'Démo devis IA',
     ];
 
     /** Récapitulatif d'une discussion IA envoyé après ce délai sans nouveau message (si le visiteur n'a pas fermé la fenêtre). */
@@ -80,6 +82,36 @@ final class Leads
         });
         if (empty($lead['data']['notified']) && !isset($lead['notify']) && $brief === null) {
             self::notifyChat($lead, true);
+        }
+        return $lead;
+    }
+
+    /**
+     * Essai d'un outil du site (analyse IA du site, démo de devis) : une demande par visiteur et par outil sur 30 min.
+     * Fred est alerté au premier essai ; les suivants s'ajoutent à la même demande (pas d'avalanche d'e-mails).
+     */
+    public static function interaction(string $type, array $data, string $summary): array
+    {
+        $ip = substr(hash('sha256', Http::ip() . Settings::appSecret()), 0, 12);
+        $since = date('c', time() - 1800);
+        $lead = null;
+        $isNew = false;
+        Store::update(self::FILE, static function (array &$all) use ($type, $data, $summary, $ip, $since, &$lead, &$isNew): void {
+            foreach ($all as &$l) {
+                if ($l['type'] === $type && ($l['meta']['ip'] ?? '') === $ip && $l['created_at'] >= $since) {
+                    $l['data']['essais'] = array_slice([...(array) ($l['data']['essais'] ?? []), date('H:i') . ' · ' . $summary], -10);
+                    $l['updated_at'] = date('c');
+                    $lead = $l;
+                    return;
+                }
+            }
+            unset($l);
+            $lead = self::make($type, ['data' => $data]);
+            $all[] = $lead;
+            $isNew = true;
+        });
+        if ($isNew) {
+            self::notify($lead);
         }
         return $lead;
     }
@@ -235,6 +267,8 @@ final class Leads
             'transcript' => 'Transcription', 'summary' => 'Résumé IA', 'duration' => 'Durée', 'besoin' => 'Besoin',
             'taches' => 'Tâches à automatiser', 'urgence' => 'Urgence', 'formule' => 'Formule conseillée',
             'sim' => 'Simulateur gain de temps', 'brief' => 'Brief de l’assistant', 'conversation' => 'Conversation',
+            'site' => 'Site analysé', 'activite' => 'Activité', 'difficulte' => 'Ce qui lui prend du temps', 'constats' => 'Constats de l’IA',
+            'idees' => 'Idées proposées', 'demande' => 'Devis demandé', 'devis' => 'Devis généré', 'essais' => 'Essais suivants',
         ];
         $data = $lead['data'] ?? [];
         if (isset($data['conversation'])) {
@@ -255,6 +289,8 @@ final class Leads
                 $v = implode("\n", array_map(static fn($m) => (($m['role'] ?? '') === 'user' ? 'Visiteur : ' : 'Assistant : ') . ($m['content'] ?? ''), $v));
             } elseif (is_bool($v)) {
                 $v = $v ? 'Oui' : 'Non';
+            } elseif (is_array($v) && in_array($k, ['constats', 'idees', 'essais'], true)) {
+                $v = '• ' . implode("\n• ", array_map('strval', $v));
             } elseif (is_array($v)) {
                 $v = implode(', ', array_map('strval', $v));
             }

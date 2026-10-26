@@ -23,7 +23,11 @@ $cur = $fo[0] ?? [];
         <span class="eng-xl__n">01</span>
         <h3><?= t($eng[0]['t'] ?? '') ?></h3>
         <p><?= t($eng[0]['d_long'] ?? '') ?></p>
-        <a class="eng-xl__tel" href="<?= e(tel_href()) ?>"><?= icon('phone', 18, '#cc1517') ?><?= e(phone_label()) ?></a>
+        <?php if (phone_label() !== ''): ?>
+          <a class="eng-xl__tel" href="<?= e(tel_href()) ?>"><?= icon('phone', 18, '#cc1517') ?><?= e(phone_label()) ?></a>
+        <?php else: ?>
+          <a class="eng-xl__tel" href="/on-prend-rdv#rappel"><?= icon('phone', 18, '#cc1517') ?>Je te rappelle</a>
+        <?php endif; ?>
       </div>
       <div class="eng-xl eng-xl--ink" data-reveal data-delay="120">
         <span class="eng-xl__n">02</span>
