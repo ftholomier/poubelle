@@ -199,6 +199,7 @@ final class Cron
                 // Juste après une mise à jour : index, données calculées et recherche refaits avec
                 // le nouveau code, si aucune page ne l'a déjà fait.
                 $done = Updater::refresh() ? 'index et données calculées refaits après la mise à jour' : null;
+                Updater::purgeTrash(); // caches mis de côté par une mise à jour, s'il en reste
                 // Photos copiées sur le serveur hors du back-office (copie depuis WordPress, envoi par FTP) :
                 // les alertes « photo absente » sont revues toutes les 30 minutes tant qu'il en reste.
                 if (strtotime(Derived::built()) < time() - 1800 && array_filter(Derived::part('quality'), fn ($q) => $q['code'] === 'photos' || ($q['ref'] ?? '') === 'serveur')) {

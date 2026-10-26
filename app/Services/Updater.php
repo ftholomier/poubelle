@@ -45,6 +45,10 @@ final class Updater
     public const REPO = 'ftholomier/poubelle';
     public const BRANCH = 'claude/sweet-einstein-hawxrw';
     private const MAX_ZIP = 400 * 1024 * 1024;
+    /** Au-delà de ce nombre de fichiers à remplacer, l'archive complète est téléchargée. */
+    private const MAX_FILES = 300;
+    /** Téléchargements simultanés des fichiers changés. */
+    private const PARALLEL = 6;
     private const KEEP_BACKUPS = 5;
     private const CHECK_TTL = 3600;
     /**
@@ -60,7 +64,11 @@ final class Updater
         . '|memo/.+|chiffres-[a-z]+\.json|ascii-fold\.php)$#';
     /** Marque « caches à refaire » posée par la mise à jour, prise par la requête suivante (public/index.php). */
     private const REFRESH = 'apres-mise-a-jour';
+    /** Dossiers de cache mis de côté par une mise à jour, vidés ensuite (purgeTrash()). */
+    private const TRASH = '.a-vider-';
 
+    /** Dernière comparaison faite pendant cette requête : ['sha', 'tree', 'paths', 'crc'] (réutilisée par apply()). */
+    private static array $lastSync = [];
     public static string $root = APP_ROOT;
     /** Commun à tous les musées (un seul code) : état, manifeste, sauvegardes, pause « maintenance ». */
     public static string $dir = APP_ROOT . '/storage/update';
@@ -274,6 +282,8 @@ final class Updater
     {
         $res = ['sha' => $sha, 'at' => time(), 'total' => 0, 'count' => 0, 'differ' => [], 'eol' => 0, 'kept' => [], 'error' => null];
         $paths = [];
+        $crcs = [];
+        self::$lastSync = [];
         try {
             $tree = self::tree($sha);
         } catch (\Throwable $e) {
@@ -283,7 +293,10 @@ final class Updater
             if (!self::selected($rel) || in_array($rel, self::MERGED, true) || !self::safe($rel)) {
                 continue;
             }
-            $st = self::sameAs(self::$root . '/' . $rel, $blob);
+            $st = self::sameAs(self::$root . '/' . $rel, $blob, $crc);
+            if ($crc !== null) {
+                $crcs[$rel] = $crc;
+            }
             if ($st === 'différent' && in_array($rel, self::KEEP_IF_EDITED, true)) {
                 $st = 'gardé';
                 $res['kept'][] = $rel;
@@ -302,25 +315,34 @@ final class Updater
         if (!isset($tree['app/bootstrap.php'], $tree['public/index.php'])) {
             $res['error'] = 'Cette version de GitHub ne contient pas le code du musée.';
         }
+        self::$lastSync = ['sha' => $sha, 'tree' => $tree, 'paths' => $paths, 'crc' => $crcs];
         return $res;
     }
 
-    /** Fichier du serveur comparé à une empreinte Git : 'ok', 'eol' (fins de ligne seulement), 'absent' ou 'différent'. */
-    private static function sameAs(string $file, string $blob): string
+    /**
+     * Fichier du serveur comparé à une empreinte Git : 'ok', 'eol' (fins de ligne seulement), 'absent'
+     * ou 'différent'. $crc reçoit l'empreinte CRC32 du contenu de GitHub quand il est connu (ok, eol).
+     */
+    private static function sameAs(string $file, string $blob, ?string &$crc = null): string
     {
+        $crc = null;
         if (!is_file($file)) {
             return 'absent';
         }
         $data = (string) @file_get_contents($file);
         $h = fn (string $s) => sha1('blob ' . strlen($s) . "\0" . $s);
         if ($h($data) === $blob) {
+            $crc = hash('crc32b', $data);
             return 'ok';
         }
         // Texte (pas d'octet nul au début, comme Git le décide) : fins de ligne LF ou CRLF.
         if (!str_contains(substr($data, 0, 8000), "\0")) {
             $lf = str_replace("\r\n", "\n", $data);
-            if ($h($lf) === $blob || $h(str_replace("\n", "\r\n", $lf)) === $blob) {
-                return 'eol';
+            foreach ([$lf, str_replace("\n", "\r\n", $lf)] as $v) {
+                if ($h($v) === $blob) {
+                    $crc = hash('crc32b', $v);
+                    return 'eol';
+                }
             }
         }
         return 'différent';
@@ -491,12 +513,8 @@ final class Updater
         if (self::$http) {
             return (self::$http)($url, $toFile);
         }
-        $headers = ['User-Agent: SochauxRetro-MiseAJour', 'Accept: ' . (str_starts_with($url, 'https://api.github.com/') ? 'application/vnd.github+json' : '*/*')];
-        if (($t = self::token()) !== '' && str_starts_with($url, 'https://api.github.com/')) {
-            $headers[] = 'Authorization: Bearer ' . $t;
-        }
         $ch = curl_init($url);
-        $opts = [CURLOPT_HTTPHEADER => $headers, CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 5, CURLOPT_CONNECTTIMEOUT => 10,
+        $opts = [CURLOPT_HTTPHEADER => self::headers($url), CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 5, CURLOPT_CONNECTTIMEOUT => 10,
             CURLOPT_TIMEOUT => $timeout, CURLOPT_PROTOCOLS => CURLPROTO_HTTPS, CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTPS];
         $fp = null;
         if ($toFile !== null) {
@@ -517,6 +535,17 @@ final class Updater
             throw new \RuntimeException('GitHub injoignable : ' . $err);
         }
         return [$code, $toFile === null ? (string) $body : ''];
+    }
+
+    /** En-têtes d'un appel à GitHub : jeton pour l'API, contenu brut pour un fichier (git/blobs). */
+    private static function headers(string $url): array
+    {
+        $api = str_starts_with($url, 'https://api.github.com/');
+        $headers = ['User-Agent: SochauxRetro-MiseAJour', 'Accept: ' . ($api ? (str_contains($url, '/git/blobs/') ? 'application/vnd.github.raw' : 'application/vnd.github+json') : '*/*')];
+        if ($api && ($t = self::token()) !== '') {
+            $headers[] = 'Authorization: Bearer ' . $t;
+        }
+        return $headers;
     }
 
     // ------------------------------------------------------------------ application
@@ -570,6 +599,12 @@ final class Updater
             $zipPath = self::$dir . "/tmp/$target.zip";
             if (self::$fetch) {
                 return self::install((self::$fetch)($target), $target, $check, $user);
+            }
+            // Voie rapide : seuls les fichiers qui ont changé sont téléchargés (quelques Ko au lieu de
+            // l'archive complète du dépôt). L'archive reste le secours : trop de fichiers, ou
+            // téléchargement refusé ou abîmé (rien n'a encore été touché dans le site).
+            if (($r = self::applyFiles($target, $check, $user)) !== null) {
+                return $r;
             }
             // L'archive téléchargée (même partielle : coupure, délai dépassé, refus) ne reste pas
             // dans storage/update/tmp.
@@ -653,59 +688,280 @@ final class Updater
         // Préparation : chaque fichier extrait et vérifié (taille, empreinte CRC32) dans un dossier
         // de travail, avant toute écriture dans le site. Archive abîmée ou disque plein : rien
         // n'est touché.
-        foreach (glob(self::$dir . '/tmp/prepa-*') ?: [] as $d) {
-            self::removeDir($d); // reste d'une mise à jour interrompue (une seule à la fois : verrou)
-        }
-        $stage = self::$dir . '/tmp/prepa-' . substr($target, 0, 7) . '-' . bin2hex(random_bytes(3));
+        $stage = self::stage($target);
         try {
+            $meta = [];
             foreach ($plan['write'] as $rel) {
                 self::writeFrom($zip, $entries[$rel]['name'], $stage . '/' . $rel);
+                $meta[$rel] = [$entries[$rel]['size'], $entries[$rel]['crc']];
             }
             $zip->close();
-            $backup = self::backup($plan, $merged ? $plan['merge'] : null, $added, $target, $old, $user);
-
-            // Copie : le site répond « Mise à jour en cours » le temps d'écrire les fichiers. Un
-            // échec en cours de route remet aussitôt la sauvegarde en place : jamais un site
-            // mi-ancien mi-nouveau.
-            @file_put_contents(self::$dir . '/maintenance', (string) time());
-            try {
-                foreach ($plan['write'] as $rel) {
-                    self::place($stage . '/' . $rel, self::$root . '/' . $rel, $entries[$rel]['size'], $entries[$rel]['crc']);
+            $manifest = [];
+            foreach ($entries as $rel => $e) {
+                if (!in_array($rel, self::MERGED, true)) {
+                    $manifest[$rel] = $e['crc'];
                 }
-                if ($merged) {
-                    self::writeString(self::$root . '/' . $plan['merge'], $merged['json']);
-                }
-                foreach ($plan['delete'] as $rel) {
-                    @unlink(self::$root . '/' . $rel);
-                }
-            } catch (\Throwable $e) {
-                self::failed($e, $backup, $target, $user);
-            } finally {
-                @unlink(self::$dir . '/maintenance');
             }
+            return self::finish($plan, $stage, $meta, $merged, $added, $target, $check, $user, $old, $manifest, 'archive');
         } finally {
             self::removeDir($stage);
         }
-        $manifest = [];
-        foreach ($entries as $rel => $e) {
-            $manifest[$rel] = in_array($rel, self::MERGED, true) ? null : $e['crc'];
+    }
+
+    /**
+     * Voie rapide : d'après la comparaison qui vient d'être faite (empreintes Git de chaque fichier),
+     * seuls les fichiers absents ou différents sont téléchargés, en parallèle, et vérifiés par leur
+     * empreinte Git avant toute écriture. Null si l'archive complète doit prendre le relais (pas de
+     * comparaison, trop de fichiers, téléchargement refusé ou abîmé) : rien n'a alors été touché.
+     */
+    private static function applyFiles(string $target, array $check, ?array $user): ?array
+    {
+        $s = self::$lastSync;
+        if (($s['sha'] ?? '') !== $target || !is_array($check['sync'] ?? null) || $check['sync']['error'] !== null
+            || !isset($s['tree']['app/bootstrap.php'], $s['tree']['public/index.php'])) {
+            return null;
         }
-        JsonStore::write(self::$dir . '/manifeste.json', array_filter($manifest, fn ($v) => $v !== null));
+        $tree = $s['tree'];
+        $old = JsonStore::read(self::$dir . '/manifeste.json', []) ?: [];
+        $plan = ['write' => [], 'delete' => [], 'kept' => [], 'merge' => null];
+        foreach ($s['paths'] as $rel => $st) {
+            if ($st === 'absent' || $st === 'différent') {
+                $plan['write'][] = $rel;
+            } elseif ($st === 'gardé') {
+                // .htaccess : remplacé seulement s'il n'a pas été retouché sur le serveur depuis la
+                // dernière mise à jour (même règle que l'archive).
+                $cur = hash_file('crc32b', self::$root . '/' . $rel);
+                if (($old[$rel] ?? null) === $cur) {
+                    $plan['write'][] = $rel;
+                } else {
+                    $plan['kept'][] = $rel;
+                }
+            }
+        }
+        if (count($plan['write']) > self::MAX_FILES) {
+            return null;
+        }
+        foreach (array_keys($old) as $rel) {
+            if (!isset($tree[$rel]) && self::selected($rel) && self::safe($rel) && !in_array($rel, self::MERGED, true) && is_file(self::$root . '/' . $rel)) {
+                $plan['delete'][] = $rel;
+            }
+        }
+        // Libellés anglais (hors des dossiers comparés) : la version de GitHub n'est téléchargée que si
+        // elle a changé depuis la dernière fusion.
+        $mergedBlobs = (array) (self::state()['merged_blobs'] ?? []);
+        foreach (self::MERGED as $m) {
+            $b = self::blobAt($target, $m);
+            if ($b === null) {
+                return null;
+            }
+            if ($b !== '' && ($mergedBlobs[$m] ?? null) !== $b) {
+                $plan['merge'] = $m;
+                $tree[$m] = $b;
+            }
+        }
+        $want = $plan['write'];
+        if ($plan['merge']) {
+            $want[] = $plan['merge'];
+        }
+        $stage = self::stage($target);
+        try {
+            try {
+                self::fetchFiles($target, array_intersect_key($tree, array_flip($want)), $stage);
+            } catch (\Throwable $e) {
+                error_log('[mise à jour] fichiers un par un impossibles, archive complète : ' . $e->getMessage());
+                return null;
+            }
+            $merged = null;
+            if ($plan['merge']) {
+                $merged = self::mergeLabels(self::$root . '/' . $plan['merge'], (string) file_get_contents($stage . '/' . $plan['merge']));
+            }
+            $added = array_values(array_filter($plan['write'], fn ($rel) => !is_file(self::$root . '/' . $rel)));
+            $meta = [];
+            foreach ($plan['write'] as $rel) {
+                clearstatcache(true, $stage . '/' . $rel);
+                $meta[$rel] = [(int) filesize($stage . '/' . $rel), hash_file('crc32b', $stage . '/' . $rel)];
+            }
+            // Manifeste : empreinte CRC32 de la version GitHub de chaque fichier du code (celle des
+            // fichiers restés identiques est connue depuis la comparaison).
+            $manifest = [];
+            foreach ($s['paths'] as $rel => $st) {
+                $crc = $meta[$rel][1] ?? ($s['crc'][$rel] ?? ($old[$rel] ?? null));
+                if ($crc !== null) {
+                    $manifest[$rel] = $crc;
+                }
+            }
+            $r = self::finish($plan, $stage, $meta, $merged, $added, $target, $check, $user, $old, $manifest, 'fichiers');
+            if ($plan['merge']) {
+                self::saveState(['merged_blobs' => [$plan['merge'] => $tree[$plan['merge']]] + $mergedBlobs]);
+            }
+            return $r;
+        } finally {
+            self::removeDir($stage);
+        }
+    }
+
+    /**
+     * Fin commune (archive ou fichiers un par un) : sauvegarde, pause du site le temps de la copie,
+     * copie des fichiers préparés ($meta : [taille, crc32] de chacun), libellés fusionnés, fichiers
+     * retirés, manifeste, historique, caches.
+     */
+    private static function finish(array $plan, string $stage, array $meta, ?array $merged, array $added, string $target, array $check, ?array $user, array $old, array $manifest, string $via): array
+    {
+        $backup = self::backup($plan, $merged ? $plan['merge'] : null, $added, $target, $old, $user);
+
+        // Copie : le site répond « Mise à jour en cours » le temps d'écrire les fichiers. Un
+        // échec en cours de route remet aussitôt la sauvegarde en place : jamais un site
+        // mi-ancien mi-nouveau.
+        @file_put_contents(self::$dir . '/maintenance', (string) time());
+        try {
+            foreach ($plan['write'] as $rel) {
+                self::place($stage . '/' . $rel, self::$root . '/' . $rel, $meta[$rel][0], $meta[$rel][1]);
+            }
+            if ($merged) {
+                self::writeString(self::$root . '/' . $plan['merge'], $merged['json']);
+            }
+            foreach ($plan['delete'] as $rel) {
+                @unlink(self::$root . '/' . $rel);
+            }
+        } catch (\Throwable $e) {
+            self::failed($e, $backup, $target, $user);
+        } finally {
+            @unlink(self::$dir . '/maintenance');
+        }
+        JsonStore::write(self::$dir . '/manifeste.json', $manifest);
         $latest = ($check['latest']['sha'] ?? '') === $target ? $check['latest'] : ['sha' => $target, 'date' => '', 'message' => ''];
         $from = self::installed();
         $entry = ['at' => date('c'), 'by' => (string) ($user['name'] ?? 'Inconnu'), 'from' => $from['sha'] ?? null, 'to' => $target, 'message' => $latest['message'],
-            'updated' => count($plan['write']), 'deleted' => count($plan['delete']), 'kept' => $plan['kept'], 'merged' => $merged['added'] ?? 0, 'backup' => $backup];
+            'updated' => count($plan['write']), 'deleted' => count($plan['delete']), 'kept' => $plan['kept'], 'merged' => $merged['added'] ?? 0, 'backup' => $backup, 'via' => $via];
         $hist = array_slice(array_merge([$entry], self::history()), 0, 30);
         self::saveState(['installed' => $latest + ['at' => date('c'), 'by' => $entry['by']], 'history' => $hist]);
-        // Le code du serveur est maintenant celui de l'archive : comparaison à jour sans appel.
-        $n = count($entries) - ($plan['merge'] ? 1 : 0);
-        self::setSync(['sha' => $target, 'at' => time(), 'total' => $n, 'count' => 0, 'differ' => [], 'eol' => 0, 'kept' => $plan['kept'], 'error' => null]);
+        // Le code du serveur est maintenant celui de cette version : comparaison à jour sans appel.
+        self::setSync(['sha' => $target, 'at' => time(), 'total' => count($manifest) + count($plan['kept']), 'count' => 0, 'differ' => [], 'eol' => 0, 'kept' => $plan['kept'], 'error' => null]);
+        self::$lastSync = [];
         self::afterChange();
         if (self::$log) {
             Activity::log($user, 'a appliqué la mise à jour ' . substr($target, 0, 7) . ($latest['message'] !== '' ? ' (' . $latest['message'] . ')' : ''), null);
         }
         return ['sha' => $target, 'updated' => $plan['write'], 'added' => $added, 'deleted' => $plan['delete'], 'kept' => $plan['kept'],
-            'merged' => $merged['added'] ?? 0, 'backup' => $backup, 'commits' => $check['commits'] ?? []];
+            'merged' => $merged['added'] ?? 0, 'backup' => $backup, 'commits' => $check['commits'] ?? [], 'via' => $via];
+    }
+
+    /** Empreinte Git d'un fichier d'une version (un appel à l'API) ; '' s'il n'existe pas, null si GitHub ne répond pas. */
+    private static function blobAt(string $sha, string $rel): ?string
+    {
+        [$code, $body] = self::get(self::api('contents/' . implode('/', array_map('rawurlencode', explode('/', dirname($rel)))) . '?ref=' . $sha));
+        if ($code === 404) {
+            return '';
+        }
+        $list = $code === 200 ? json_decode($body, true) : null;
+        if (!is_array($list)) {
+            return null;
+        }
+        foreach ($list as $e) {
+            if (($e['name'] ?? '') === basename($rel) && ($e['type'] ?? '') === 'file' && preg_match('/^[0-9a-f]{40}$/', (string) ($e['sha'] ?? ''))) {
+                return (string) $e['sha'];
+            }
+        }
+        return '';
+    }
+
+    /** Dossier de travail neuf (les restes d'une mise à jour interrompue sont retirés : une seule à la fois). */
+    private static function stage(string $target): string
+    {
+        foreach (glob(self::$dir . '/tmp/prepa-*') ?: [] as $d) {
+            self::removeDir($d);
+        }
+        return self::$dir . '/tmp/prepa-' . substr($target, 0, 7) . '-' . bin2hex(random_bytes(3));
+    }
+
+    /**
+     * Télécharge des fichiers d'une version ([chemin => empreinte Git]) dans $stage, plusieurs à la
+     * fois, et vérifie chacun par son empreinte Git. Avec un jeton : l'API (dépôt privé possible) ;
+     * sans : raw.githubusercontent.com (sans la limite de 60 appels par heure de l'API).
+     */
+    private static function fetchFiles(string $sha, array $blobs, string $stage): void
+    {
+        $jobs = [];
+        foreach ($blobs as $rel => $blob) {
+            $dest = $stage . '/' . $rel;
+            self::ensureDir(dirname($dest));
+            $url = self::token() !== '' ? self::api('git/blobs/' . $blob)
+                : 'https://raw.githubusercontent.com/' . self::repo() . '/' . $sha . '/' . implode('/', array_map('rawurlencode', explode('/', $rel)));
+            $jobs[$rel] = [$url, $dest];
+        }
+        if (self::$http) {
+            foreach ($jobs as $rel => [$url, $dest]) {
+                [$code, $body] = (self::$http)($url, $dest);
+                if ($code !== 200) {
+                    throw new \RuntimeException('Téléchargement refusé : ' . $rel . ' (code ' . $code . ').');
+                }
+                file_put_contents($dest, $body);
+            }
+        } else {
+            self::parallel($jobs);
+        }
+        foreach ($jobs as $rel => [, $dest]) {
+            clearstatcache(true, $dest);
+            $h = hash_init('sha1');
+            hash_update($h, 'blob ' . (int) @filesize($dest) . "\0");
+            if (!is_file($dest) || !hash_update_file($h, $dest) || hash_final($h) !== $blobs[$rel]) {
+                throw new \RuntimeException('Fichier reçu incomplet ou abîmé : ' . $rel . '.');
+            }
+        }
+    }
+
+    /** Téléchargements simultanés (curl_multi) : [chemin => [adresse, fichier]] ; exception au premier échec. */
+    private static function parallel(array $jobs): void
+    {
+        $mh = curl_multi_init();
+        $queue = $jobs;
+        $active = [];
+        $error = null;
+        try {
+            do {
+                while ($queue && count($active) < self::PARALLEL) {
+                    $rel = (string) array_key_first($queue);
+                    [$url, $dest] = $queue[$rel];
+                    unset($queue[$rel]);
+                    $fp = @fopen($dest, 'wb');
+                    if (!$fp) {
+                        throw new \RuntimeException('Écriture impossible : ' . self::short($dest) . '.');
+                    }
+                    $ch = curl_init($url);
+                    curl_setopt_array($ch, [CURLOPT_HTTPHEADER => self::headers($url), CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 5,
+                        CURLOPT_CONNECTTIMEOUT => 10, CURLOPT_TIMEOUT => 120, CURLOPT_PROTOCOLS => CURLPROTO_HTTPS, CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTPS,
+                        CURLOPT_FILE => $fp]);
+                    curl_multi_add_handle($mh, $ch);
+                    $active[spl_object_id($ch)] = [$ch, $fp, $rel];
+                }
+                curl_multi_exec($mh, $running);
+                if ($running) {
+                    curl_multi_select($mh, 1.0);
+                }
+                while ($info = curl_multi_info_read($mh)) {
+                    $id = spl_object_id($info['handle']);
+                    [$ch, $fp, $rel] = $active[$id];
+                    $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    fclose($fp);
+                    if ($info['result'] !== CURLE_OK || $code !== 200) {
+                        $error ??= $rel . ' (' . ($info['result'] !== CURLE_OK ? curl_error($ch) : 'code ' . $code) . ')';
+                    }
+                    curl_multi_remove_handle($mh, $ch);
+                    curl_close($ch);
+                    unset($active[$id]);
+                }
+            } while (($queue || $active) && $error === null);
+        } finally {
+            foreach ($active as [$ch, $fp]) {
+                curl_multi_remove_handle($mh, $ch);
+                curl_close($ch);
+                @fclose($fp);
+            }
+            curl_multi_close($mh);
+        }
+        if ($error !== null) {
+            throw new \RuntimeException('Téléchargement incomplet : ' . $error . '.');
+        }
     }
 
     /** Libellés anglais : ceux de la nouvelle version qui manquent sont ajoutés, ceux du serveur gardés. */
@@ -990,16 +1246,60 @@ final class Updater
 
     private static function clearCache(string $dir): void
     {
+        // Dossiers à vider entièrement (pages, PDF, livre… : des milliers de fichiers) : mis de côté
+        // d'un seul renommage, vidés après la réponse (purgeTrash()) au lieu d'effacer chaque fichier
+        // pendant que l'administrateur attend.
+        foreach (is_dir($dir) ? (scandir($dir) ?: []) : [] as $name) {
+            if ($name[0] === '.' || $name === 'correcteur' || !is_dir($dir . '/' . $name) || self::keepsCache($dir, $name)) {
+                continue;
+            }
+            // Les dossiers restent en place, vides (le code qui écrit dans ces caches peut compter dessus).
+            $subdirs = [];
+            foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir . '/' . $name, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $f) {
+                if ($f->isDir()) {
+                    $subdirs[] = substr(str_replace('\\', '/', $f->getPathname()), strlen($dir . '/' . $name));
+                }
+            }
+            $trash = $dir . '/' . self::TRASH . getmypid();
+            @mkdir($trash, 0775, true);
+            if (@rename($dir . '/' . $name, $trash . '/' . $name . '-' . bin2hex(random_bytes(3)))) {
+                @mkdir($dir . '/' . $name, 0775);
+                foreach ($subdirs as $sub) {
+                    @mkdir($dir . '/' . $name . $sub, 0775, true);
+                }
+            }
+        }
         $it = is_dir($dir) ? new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) : [];
         foreach ($it as $f) {
             $path = str_replace('\\', '/', $f->getPathname());
             $rel = ltrim(substr($path, strlen($dir)), '/');
-            if ($f->isFile() && !str_starts_with($rel, 'correcteur/') && !in_array($f->getFilename(), ['.gitkeep', '.htaccess'], true) && !preg_match(self::KEEP_CACHES, $rel)) {
+            if ($f->isFile() && !str_starts_with($rel, 'correcteur/') && !str_starts_with($rel, self::TRASH) && !in_array($f->getFilename(), ['.gitkeep', '.htaccess'], true) && !preg_match(self::KEEP_CACHES, $rel)) {
                 @unlink($f->getPathname());
             }
         }
         @mkdir($dir, 0775, true);
         @file_put_contents($dir . '/' . self::REFRESH, (string) time());
+    }
+
+    /** Le dossier de cache $name contient-il un cache gardé par les mises à jour ? */
+    private static function keepsCache(string $dir, string $name): bool
+    {
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir . '/' . $name, \FilesystemIterator::SKIP_DOTS)) as $f) {
+            if ($f->isFile() && preg_match(self::KEEP_CACHES, $name . '/' . ltrim(str_replace('\\', '/', substr($f->getPathname(), strlen($dir . '/' . $name))), '/'))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** Vide les dossiers de cache mis de côté par la dernière mise à jour (après la réponse, ou par la tâche planifiée). */
+    public static function purgeTrash(): void
+    {
+        foreach (self::cacheDirs() as $dir) {
+            foreach (glob($dir . '/' . self::TRASH . '*', GLOB_ONLYDIR) ?: [] as $t) {
+                self::removeDir($t);
+            }
+        }
     }
 
     private static function invalidateCode(): void
@@ -1051,6 +1351,7 @@ final class Updater
             \App\Core\Response::detach();
         }
         @set_time_limit(600);
+        self::purgeTrash();
         // Toutes les fiches relues trois fois : environ 250 Mo.
         $limit = (string) ini_get('memory_limit');
         if ($limit !== '-1' && @ini_parse_quantity($limit) < 512 * 1048576) {

@@ -67,6 +67,8 @@ $put('storage/cache/media/3.php', '<?php return [];');
 $put('storage/cache/sitemap.xml', '<urlset/>');
 $put('storage/cache/memo/menus-1a2b3c4d.php', '<?php return [];');
 $put('storage/cache/correcteur/ab/abc.json', '{"items":[]}');
+$put('storage/cache/pages/ab/page.html', '<html>');
+$put('storage/cache/pdf/fiche-1.pdf', '%PDF');
 
 // 1. Première mise à jour : version installée inconnue.
 $files1 = [
@@ -95,6 +97,9 @@ $eq('version installée connue', U::installed()['sha'] ?? null, $v1);
 $eq('caches vidés, calculs Memo et relectures du correcteur gardés', [is_file("$root/storage/cache/sitemap.xml"), is_file("$root/storage/cache/memo/menus-1a2b3c4d.php"), is_file("$root/storage/cache/correcteur/ab/abc.json")], [false, true, true]);
 $eq('gros caches de données gardés (refaits en arrière-plan)', [is_file("$root/storage/cache/derived.php"), is_file("$root/storage/cache/derived/matches-0123456789ab.php"), is_file("$root/storage/cache/index-2.php"), is_file("$root/storage/cache/media/3.php")], [true, true, true, true]);
 $eq('caches à refaire signalés à la requête suivante', is_file("$root/storage/cache/apres-mise-a-jour"), true);
+$eq('dossiers de pages et PDF vidés d’un coup, dossiers gardés vides', [is_file("$root/storage/cache/pages/ab/page.html"), is_dir("$root/storage/cache/pages/ab"), is_file("$root/storage/cache/pdf/fiche-1.pdf"), is_dir("$root/storage/cache/pdf"), count(glob("$root/storage/cache/.a-vider-*") ?: [])], [false, true, false, true, 1]);
+U::purgeTrash();
+$eq('caches mis de côté vidés ensuite', [count(glob("$root/storage/cache/.a-vider-*") ?: []), is_file("$root/storage/cache/memo/menus-1a2b3c4d.php")], [0, true]);
 $eq('pause du site levée après la copie', is_file(U::$dir . '/maintenance'), false);
 $eq('sauvegarde créée', count(U::backups()), 1);
 
@@ -278,6 +283,51 @@ $eq('retour arrière : comparaison à refaire', U::differing(U::state()['check']
 U::$http = fn (string $url) => str_contains($url, '/git/trees/') ? [403, '{"message":"API rate limit exceeded"}'] : $ghHttp($url);
 $c = U::check(true);
 $eq('limite de l’API : vérification faite, comparaison reportée', [$c['error'], str_contains((string) $c['sync']['error'], 'limite'), U::differing($c)], [null, true, null]);
+U::$http = null;
+
+// 5 ter. Voie rapide : seuls les fichiers changés sont téléchargés (un par un, empreinte Git
+// vérifiée) ; l'archive complète ne sert qu'en secours.
+$gh['data/i18n/en.json'] = json_encode(['Bonjour' => 'Hello', 'Billetterie' => 'Tickets'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n";
+$put2('data/i18n/en.json', json_encode(['Bonjour' => 'Hello (serveur)'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n");
+$zip5 = $zip($sha5, $gh);
+$corrupt = null;
+$raw = [];
+U::$http = function (string $url, ?string $toFile = null) use ($ghHttp, &$gh, &$corrupt, &$raw, $zip5, $blob) {
+    if (preg_match('#^https://raw\.githubusercontent\.com/[^/]+/[^/]+/[0-9a-f]{40}/(.+)$#', $url, $m)) {
+        $rel = rawurldecode($m[1]);
+        $raw[] = $rel;
+        return isset($gh[$rel]) ? [200, $rel === $corrupt ? 'contenu abîmé' : $gh[$rel]] : [404, ''];
+    }
+    if (str_contains($url, '/contents/data/i18n?ref=')) {
+        return [200, json_encode([['name' => 'en.json', 'type' => 'file', 'sha' => $blob($gh['data/i18n/en.json'])]])];
+    }
+    if (str_contains($url, '/zipball/') || str_starts_with($url, 'https://codeload.github.com/')) {
+        copy($zip5, $toFile);
+        return [200, ''];
+    }
+    return $ghHttp($url);
+};
+$put2('app/A.php', "<?php // retouche par FTP\n");
+@unlink("$root2/templates/t.php");
+$vendor = file_get_contents("$root2/public/assets/vendor.css");
+$r = U::apply(['name' => 'Essai']);
+sort($r['updated']);
+$eq('voie rapide : seuls les fichiers changés téléchargés', [$r['via'], $r['updated'], $raw], ['fichiers', ['app/A.php', 'templates/t.php'], ['app/A.php', 'templates/t.php', 'data/i18n/en.json']]);
+$eq('voie rapide : contenus remis, .htaccess gardé, fins de ligne laissées', [file_get_contents("$root2/app/A.php"), file_get_contents("$root2/templates/t.php"), $r['kept'], file_get_contents("$root2/public/assets/vendor.css")], [$gh['app/A.php'], $gh['templates/t.php'], ['public/.htaccess'], $vendor]);
+$en = json_decode((string) file_get_contents("$root2/data/i18n/en.json"), true);
+$eq('voie rapide : libellés anglais fusionnés (ceux du serveur gardés)', [$r['merged'], $en['Bonjour'] ?? null, $en['Billetterie'] ?? null], [1, 'Hello (serveur)', 'Tickets']);
+$man = json_decode((string) file_get_contents(U::$dir . '/manifeste.json'), true);
+$eq('voie rapide : manifeste aux empreintes de GitHub', [$man['app/A.php'] ?? null, $man['public/assets/vendor.css'] ?? null], [hash('crc32b', $gh['app/A.php']), hash('crc32b', $gh['public/assets/vendor.css'])]);
+$eq('voie rapide : historique, sauvegarde, plus rien à remplacer', [U::history()[0]['via'] ?? null, is_file(U::$dir . '/sauvegardes/' . $r['backup']), U::differing(U::state()['check'])], ['fichiers', true, 0]);
+$raw = [];
+$put2('app/A.php', "<?php // encore retouché\n");
+$r = U::apply(['name' => 'Essai']);
+$eq('libellés anglais inchangés depuis la dernière fusion : pas retéléchargés', [$r['via'], $raw], ['fichiers', ['app/A.php']]);
+$put2('app/A.php', "<?php // retouché une 3e fois\n");
+$corrupt = 'app/A.php';
+$r = U::apply(['name' => 'Essai']);
+$eq('fichier reçu abîmé : rien écrit par la voie rapide, l’archive prend le relais', [$r['via'], file_get_contents("$root2/app/A.php")], ['archive', $gh['app/A.php']]);
+$corrupt = null;
 U::$http = null;
 
 // 6. Pause du site pendant la copie : le Kernel répond 503 « Mise à jour en cours ».

@@ -115,7 +115,7 @@ HTML],
 <p>Voir [[aide:fonctionnement#sauvegardes|Les sauvegardes]]. Réglages › Sauvegardes : heure de la sauvegarde quotidienne, nombre d’archives gardées, photos ajoutées le dimanche. Restaurer une sauvegarde complète (remplacer les dossiers <code>data/</code> et <code>storage/</code> sur le serveur) est une opération de webmestre, à réserver aux incidents graves.</p>
 HTML],
         ['id' => 'majs', 'title' => 'Mises à jour du site', 'admin' => true, 'html' => <<<'HTML'
-<p>Système › <b>Mises à jour</b> (administrateurs) : la version installée, la dernière version publiée sur GitHub et la liste des changements. <b>Appliquer la mise à jour</b> remplace en quelques secondes les seuls fichiers du code qui ont changé ; le site affiche « Mise à jour en cours » pendant la copie.</p>
+<p>Système › <b>Mises à jour</b> (administrateurs) : la version installée, la dernière version publiée sur GitHub et la liste des changements. <b>Appliquer la mise à jour</b> remplace en quelques secondes les seuls fichiers du code qui ont changé : seuls ces fichiers sont téléchargés depuis GitHub (l’archive complète du dépôt ne sert qu’en secours, pour un très gros changement) ; le site affiche « Mise à jour en cours » pendant la copie.</p>
 [[img:mises-a-jour.webp|Système › Mises à jour : version installée, version disponible, changements et historique]]
 <ul>
 <li><b>Jamais touchés :</b> les fiches, la médiathèque et leurs traductions, les réglages, les comptes, les journaux, les coûts IA, les photos et les voix.</li>
