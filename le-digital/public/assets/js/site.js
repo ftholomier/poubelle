@@ -958,6 +958,22 @@
     });
   }
 
+  /* ------------------------------------------------------------------ pied de page : extraits d'avis qui défilent */
+  function footerProof() {
+    const box = $('[data-fproof]');
+    const qs = box ? $$('.fproof__q', box) : [];
+    if (qs.length < 2 || !anim) return;
+    let i = 0, paused = false;
+    box.addEventListener('mouseenter', () => { paused = true; });
+    box.addEventListener('mouseleave', () => { paused = false; });
+    setInterval(() => {
+      if (paused || document.hidden) return;
+      qs[i].classList.remove('is-on'); qs[i].setAttribute('aria-hidden', 'true');
+      i = (i + 1) % qs.length;
+      qs[i].classList.add('is-on'); qs[i].removeAttribute('aria-hidden');
+    }, 6500);
+  }
+
   /* ------------------------------------------------------------------ avis longs (Google) : « Lire la suite » */
   function clamp() {
     const boxes = $$('[data-clamp]');
@@ -983,7 +999,7 @@
 
   /* ------------------------------------------------------------------ démarrage */
   const init = () => {
-    [header, hero, beforeAfter, bureau, devis, simulator, quiz, analyse, explain, formation, formules, filters, formula, diag, booking, contact, callback, dock, motion, clamp, intensiti, exitPopup]
+    [header, hero, beforeAfter, bureau, devis, simulator, quiz, analyse, explain, formation, formules, filters, formula, diag, booking, contact, callback, dock, motion, clamp, intensiti, exitPopup, footerProof]
       .forEach(fn => { try { fn(); } catch (e) { if (window.console) console.error(e); } });
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();

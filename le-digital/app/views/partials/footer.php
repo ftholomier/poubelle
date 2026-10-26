@@ -7,6 +7,7 @@ $fr = $f['made_in_france'] ?? [];
 <footer class="ftr">
   <div class="ftr__glow" aria-hidden="true"></div>
   <div class="ftr__in">
+    <?= LD\View::partial('footer-proof') ?>
     <p class="ftr__slogan"><?= t($f['slogan'] ?? '') ?> <span><?= t($f['slogan_accent'] ?? '') ?></span></p>
     <div class="ftr__cols">
       <div class="ftr__col">

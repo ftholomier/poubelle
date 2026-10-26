@@ -1469,3 +1469,33 @@ html.xp-open .dbar-wrap,html.xp-open .dfab{opacity:0;pointer-events:none}
 .sol-crumbs__pv{margin-left:auto;padding:4px 10px;border-radius:999px;background:#161922;color:#fff;font-size:12px;font-weight:700}
 .wrap--others{padding:clamp(64px,8vw,104px) 24px}
 .wrap--others .head-split{margin-bottom:28px}
+
+/* Pied de page : preuve sociale (note Google + avis), sur toutes les pages */
+.fproof{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:20px 36px;margin:0 0 64px;padding:24px 30px;border-radius:28px;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.1)}
+.fproof__score{display:flex;align-items:center;gap:14px;color:#fff;text-decoration:none}
+.fproof__g{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:#fff;flex:none}
+.fproof__score b{font:900 54px/1 var(--fh);letter-spacing:-.05em}
+.fproof__meta{display:flex;flex-direction:column;gap:4px;font-size:14px;color:#c4c1d4;white-space:nowrap}
+.fproof__stars{color:#f5a623;font-size:19px;letter-spacing:2px}
+.fproof__stars span{color:#4a4760}
+a.fproof__score:hover .fproof__meta>span:last-child{color:#fff;text-decoration:underline}
+.fproof__quotes{display:grid;min-height:84px;padding-left:36px;border-left:1px solid rgba(255,255,255,.1)}
+.fproof__q{grid-area:1/1;margin:0;display:flex;flex-direction:column;justify-content:center;gap:8px;opacity:0;transform:translateY(8px);transition:opacity .6s ease,transform .6s ease;pointer-events:none}
+.fproof__q.is-on{opacity:1;transform:none;pointer-events:auto}
+.fproof__q blockquote{margin:0;font:700 17px/1.45 var(--fh);letter-spacing:-.01em;color:#fff}
+.fproof__q figcaption{font-size:13.5px;color:#b9b6c9}
+.fproof__acts{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.fproof__all{padding:12px 20px;border-radius:999px;background:#fff;color:#161922;font:800 14.5px var(--fh);text-decoration:none;white-space:nowrap}
+.fproof__all:hover{background:#ffd9d4;color:#161922}
+.fproof__write{font:700 14px var(--fh);color:#ffa89e;text-decoration:none;white-space:nowrap}
+.fproof__write:hover{color:#fff}
+@media (max-width:1023px){
+  .fproof{grid-template-columns:auto minmax(0,1fr)}
+  .fproof__acts{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:flex-start;gap:18px}
+}
+@media (max-width:640px){
+  .fproof{grid-template-columns:1fr;padding:22px 20px;margin-bottom:48px}
+  .fproof__quotes{padding-left:0;border-left:0;padding-top:18px;border-top:1px solid rgba(255,255,255,.1);min-height:110px}
+  .fproof__score b{font-size:46px}
+  .fproof__acts{flex-wrap:wrap}
+}
