@@ -191,8 +191,8 @@ final class AdminSettings
             'name'       => $str('site.name', 80) ?: 'LE-DIGITAL.com',
             'url'        => rtrim($url((string) array_get($p, 'site.url', '')), '/'),
             'owner'      => $str('site.owner', 80),
-            'logo'       => $str('site.logo', 300) ?: '/assets/img/logo.png',
-            'logo_white' => $str('site.logo_white', 300) ?: '/assets/img/logo-blanc.png',
+            'logo'       => $str('site.logo', 300) ?: '/assets/img/logo.svg',
+            'logo_white' => $str('site.logo_white', 300) ?: '/assets/img/logo-blanc.svg',
             'avatar'     => $str('site.avatar', 300) ?: '/assets/img/fred-avatar.webp',
             'og_image'   => $str('site.og_image', 300),
         ];

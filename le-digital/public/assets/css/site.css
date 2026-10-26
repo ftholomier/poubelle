@@ -12,7 +12,8 @@
 @font-face{font-family:'Montserrat Alternates';font-style:normal;font-weight:800;font-display:swap;src:url(../fonts/montserrat-alt-800.woff2) format('woff2')}
 
 /* ---------- Base ---------- */
-:root{--red:#cc1517;--red2:#e8402a;--ink:#161922;--ink2:#252436;--fh:Montserrat,sans-serif;--fb:'DM Sans',system-ui,sans-serif}
+:root{--red:#cc1517;--red2:#e8402a;--ink:#161922;--ink2:#252436;--fh:Montserrat,sans-serif;--fb:'DM Sans',system-ui,sans-serif;
+  --fr-bleu:#1E40AF;--fr-blanc:#F5F3EE;--fr-rouge:#DC2626;--fr-tri:linear-gradient(90deg,var(--fr-bleu) 0 33.34%,var(--fr-blanc) 33.34% 66.67%,var(--fr-rouge) 66.67% 100%)}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:84px}
 body{margin:0;background:#fff;color:#161922;font-family:var(--fb);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 *,*::before,*::after{box-sizing:border-box}
@@ -186,12 +187,12 @@ main{display:block}
 .hdr__in{position:relative;z-index:2;max-width:1280px;height:68px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-radius:26px;transition:max-width .5s cubic-bezier(.2,.8,.2,1),height .4s cubic-bezier(.2,.8,.2,1),margin .4s cubic-bezier(.2,.8,.2,1),padding .4s cubic-bezier(.2,.8,.2,1),background .35s,box-shadow .35s}
 .hdr.is-scrolled::before{opacity:0}
 .hdr.is-scrolled .hdr__in{max-width:1200px;height:58px;margin-top:6px;padding:0 7px 0 20px;border-radius:999px;background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);box-shadow:0 18px 44px -22px rgba(22,25,34,.42),0 0 0 1px rgba(204,21,23,.07),inset 0 1px 0 rgba(255,255,255,.9)}
-.hdr__progress{position:fixed;top:0;left:0;right:0;z-index:3;height:3px;transform-origin:0 50%;transform:scaleX(var(--p,0));background:linear-gradient(90deg,#cc1517,#e8402a,#ff9a7a);opacity:0;transition:opacity .3s;pointer-events:none}
-.hdr.is-scrolled .hdr__progress{opacity:1}
+/* Liseré bleu-blanc-rouge : court en haut de page, il s'allonge à mesure qu'on descend (avancement de la lecture). */
+.hdr__progress{position:fixed;top:0;left:0;right:0;z-index:3;height:4px;transform-origin:0 50%;transform:scaleX(calc(.12 + .88 * var(--p,0)));background:var(--fr-tri);box-shadow:0 1px 0 rgba(22,25,34,.06);border-radius:0 2px 2px 0;pointer-events:none;transition:transform .12s linear}
 .hdr__logo{display:flex;align-items:center;gap:10px;color:#161922;text-decoration:none;flex:none;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
 .hdr__logo:hover{transform:scale(1.03)}
-.hdr__logo img{height:34px;width:auto;display:block;transition:height .4s cubic-bezier(.2,.8,.2,1)}
-.hdr.is-scrolled .hdr__logo img{height:30px}
+.hdr__logo img{height:44px;width:auto;display:block;transition:height .4s cubic-bezier(.2,.8,.2,1)}
+.hdr.is-scrolled .hdr__logo img{height:38px}
 .hdr__nav{position:relative;display:flex;align-items:center;gap:2px;padding:5px;border-radius:999px;background:#fdf3f2;box-shadow:inset 0 0 0 1px rgba(204,21,23,.05)}
 .hdr.is-scrolled .hdr__nav{background:rgba(253,243,242,.85)}
 /* Pastille blanche qui glisse sous le lien survolé (et revient sur la page en cours). */
@@ -240,18 +241,12 @@ html.menu-open .dbar-wrap,html.menu-open .dfab{opacity:0;pointer-events:none}
 @media (max-width:1079px){.hdr__nav{display:none}.hdr__burger{display:block}}
 @media (min-width:1080px){.hdr__menu{display:none!important}}
 @media (max-width:760px){.hdr.is-scrolled .hdr__in{margin:6px 10px 0;padding:0 6px 0 16px}}
-@media (max-width:374px){
-  .hdr__in{gap:8px}
-  .hdr__logo img,.hdr.is-scrolled .hdr__logo img{height:24px!important}
-  .hdr__cta,.hdr__cta:hover{padding:10px 12px!important;font-size:12.5px!important}
-  .hdr.is-scrolled .hdr__in{padding:0 5px 0 12px}
-}
-@media (max-width:420px){
+/* Petits écrans : logo plus grand, le bouton RdV reste dans la barre du bas et dans le menu. */
+@media (max-width:480px){
   .hdr__in{padding:0 16px;gap:12px}
-  .hdr__logo img,.hdr.is-scrolled .hdr__logo img{height:30px}
-  .hdr__actions{gap:8px}
-  .hdr__cta{padding:11px 16px;font-size:13.5px}
-  .hdr__cta:hover{padding:11px 12px 11px 16px}
+  .hdr__logo img{height:40px}
+  .hdr.is-scrolled .hdr__logo img{height:36px}
+  .hdr__cta{display:none}
   .hdr__menu{padding-left:16px;padding-right:16px}
 }
 
@@ -549,7 +544,8 @@ html.menu-open .dbar-wrap,html.menu-open .dfab{opacity:0;pointer-events:none}
 /* La formule */
 .sec--formula{background:linear-gradient(120deg,#cc1517,#e8402a,#c41315,#e8402a);background-size:300% 300%;animation:ldGrad 14s ease infinite;color:#fff;overflow:hidden}
 .formula-wrap{padding:clamp(88px,12vw,160px) 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:30px}
-.formula{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:.12em .18em;font-family:var(--fh);font-weight:900;font-size:clamp(40px,9vw,136px);line-height:1;letter-spacing:-.05em}
+/* Toujours sur une seule ligne : la taille suit la largeur de l'écran (la formule fait ~11,5 fois sa taille de police). */
+.formula{display:flex;flex-wrap:nowrap;white-space:nowrap;justify-content:center;align-items:baseline;gap:.12em .18em;max-width:100%;font-family:var(--fh);font-weight:900;font-size:calc((min(100vw, 1280px) - 64px) / 12);line-height:1;letter-spacing:-.05em}
 .formula__op{display:inline-block;color:rgba(255,255,255,.55)}
 .formula__t{display:inline-block;cursor:help;color:#fff;background:none;border:0;padding:0;font:inherit;letter-spacing:inherit;line-height:inherit;transition:transform .3s cubic-bezier(.2,.8,.2,1),color .3s,text-shadow .3s}
 .formula__t:hover,.formula__t.is-on{transform:translateY(-10px) scale(1.12);color:#ffe9a8;text-shadow:0 0 40px rgba(255,233,168,.6)}
@@ -558,7 +554,7 @@ html.menu-open .dbar-wrap,html.menu-open .dfab{opacity:0;pointer-events:none}
 .formula__hint.is-tip{font-family:var(--fh);font-weight:800;font-size:16px;color:#fff;animation:ldPop .3s ease both}
 .formula__text{font-size:clamp(17px,1.6vw,20px);line-height:1.6;max-width:640px;color:#fff5f3}
 .formula-wrap--acc{padding:clamp(80px,11vw,140px) 24px;gap:26px}
-.formula-static{font-family:var(--fh);font-weight:900;font-size:clamp(40px,9vw,128px);line-height:.95;letter-spacing:-.05em}
+.formula-static{font-family:var(--fh);font-weight:900;font-size:calc((min(100vw, 1280px) - 64px) / 11.6);white-space:nowrap;line-height:.95;letter-spacing:-.05em}
 .formula__text--acc{font-size:18px;max-width:620px}
 
 /* Avis */
@@ -1061,8 +1057,28 @@ a.post:hover .post__img img{transform:scale(1.03)}
 .ftr__col a{color:#b9b6c9;text-decoration:none;align-self:flex-start}
 .ftr__col a:hover{color:#fff}
 .ftr__col .ftr__phone{color:#ffa89e}
-.ftr__logo{height:30px;width:auto;align-self:flex-start}
+.ftr__logo{height:48px;width:auto;align-self:flex-start}
+@media (max-width:600px){.ftr__logo{height:42px}}
 .ftr__h{font-family:var(--fh);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#fff}
+.ftr::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--fr-tri);z-index:1}
+.ftr__fr{position:relative;margin-top:56px;padding:26px 28px;border-radius:24px;background:linear-gradient(160deg,#1c1f2b,#191b26);border:1px solid #2e3044;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:14px 40px;align-items:center}
+.ftr__fr::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--fr-tri)}
+.ftr__fr-head{display:flex;align-items:center;gap:12px;font-family:var(--fh);font-weight:900;font-size:clamp(24px,2.6vw,32px);letter-spacing:-.03em;color:#fff}
+.ftr__fr-head .fr-flag{width:34px;height:23px;border-radius:4px}
+.ftr__fr-text{grid-column:1;font-size:15px;line-height:1.6;color:#b9b6c9;margin:0}
+.ftr__fr-items{grid-column:2;grid-row:1/span 2;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px}
+.ftr__fr-items li{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);font-size:14.5px;font-weight:600;color:#e6e3f0}
+.ftr__legal{margin:28px 0 0;font-size:13.5px;color:#8f8ca5}
+@media (max-width:760px){.ftr__fr{grid-template-columns:1fr;padding:24px 20px}.ftr__fr-items{grid-column:1;grid-row:auto}}
+/* Drapeau et pastilles « Made in France » */
+.fr-flag{display:inline-flex;width:20px;height:14px;border-radius:3px;overflow:hidden;flex:none;vertical-align:-2px;box-shadow:0 0 0 1px rgba(22,25,34,.14)}
+.fr-flag i{flex:1}
+.fr-flag i:nth-child(1){background:var(--fr-bleu)}
+.fr-flag i:nth-child(2){background:#fff}
+.fr-flag i:nth-child(3){background:var(--fr-rouge)}
+.fr-chip{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.tag--fr{display:inline-flex;align-items:center;gap:8px;color:#252436}
+.hdr__menu-fr{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px;font:700 13px var(--fh);letter-spacing:.06em;text-transform:uppercase;color:#5b5870}
 
 /* ==========================================================================
    Dock : assistant IA, vocal, RdV (fixé en bas d'écran)
@@ -1081,9 +1097,10 @@ a.post:hover .post__img img{transform:scale(1.03)}
 .dbar__who{display:flex;flex-direction:column;padding:0 6px 0 2px;line-height:1.25;white-space:nowrap}
 .dbar__who b{font:700 13.5px var(--fh);color:#fff}
 .dbar__who span{font-size:12.5px;color:#c4c1d4}
-.dbar__voice{flex:none;display:flex;align-items:center;justify-content:center;gap:10px;height:50px;padding:0 20px 0 14px;border-radius:999px;border:0;background:#fff;color:#161922;font:800 14.5px var(--fh);cursor:pointer;white-space:nowrap}
+.dbar__voice{flex:none;display:flex;align-items:center;justify-content:center;gap:10px;height:50px;padding:0 18px 0 8px;border-radius:999px;border:0;background:#fff;color:#161922;font:800 14.5px var(--fh);cursor:pointer;white-space:nowrap}
+.dbar__voice .dbar__lbl{white-space:normal;max-width:86px;text-align:left;font-size:14px;line-height:1.08;letter-spacing:-.01em}
 .dbar__voice:hover{background:#ffe9ee}
-.dbar__rec-ic{position:relative;width:22px;height:22px;border-radius:50%;background:#f03c5a;display:grid;place-items:center;animation:ldRec 2s infinite}
+.dbar__rec-ic{flex:none;position:relative;width:36px;height:36px;border-radius:50%;background:#f03c5a;display:grid;place-items:center;animation:ldRec 2s infinite;box-shadow:inset 0 -2px 0 rgba(0,0,0,.12)}
 .dbar__rdv{flex:1;display:flex;align-items:center;justify-content:center;height:50px;padding:0 22px;border-radius:999px;background:linear-gradient(135deg,#cc1517,#d62a22);color:#fff;font:800 15.5px var(--fh);text-decoration:none;white-space:nowrap;box-shadow:0 8px 20px -8px rgba(204,21,23,.9)}
 .dbar__rdv:hover{background:#e8402a;color:#fff}
 .dbar__tel{flex:none;width:50px;height:50px;border-radius:50%;background:#fff;display:grid;place-items:center}
@@ -1181,7 +1198,7 @@ a.post:hover .post__img img{transform:scale(1.03)}
   .dbar-wrap{bottom:10px;bottom:calc(10px + env(safe-area-inset-bottom));padding:0 78px 0 10px;justify-content:flex-start}
   .dbar{width:100%}
   .dbar__av,.dbar__who,.dbar__lbl,.dbar__q{display:none}
-  .dbar__voice{padding:0 14px}
+  .dbar__voice{padding:0 7px}
   .dfab{right:10px;bottom:14px;bottom:calc(14px + env(safe-area-inset-bottom));width:56px;height:56px}
   .dbar__rdv{padding:0 14px;font-size:15px}
   .dpanel,.vpanel{right:10px;left:10px;bottom:80px;bottom:calc(80px + env(safe-area-inset-bottom));width:auto}
@@ -1194,7 +1211,7 @@ a.post:hover .post__img img{transform:scale(1.03)}
   .dbar-wrap{padding:0 66px 0 8px}
   .dbar{padding:5px}
   .dbar__idle{gap:6px}
-  .dbar__voice{height:46px;padding:0 12px}
+  .dbar__voice{height:46px;padding:0 5px}
   .dbar__tel{width:46px;height:46px}
   .dbar__rdv{height:46px;min-width:0;padding:0 8px;font-size:13px;letter-spacing:-.01em}
   .dfab{right:8px;width:52px;height:52px;bottom:12px;bottom:calc(12px + env(safe-area-inset-bottom))}

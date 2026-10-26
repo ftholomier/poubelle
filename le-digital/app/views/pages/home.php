@@ -15,7 +15,7 @@ $rvWidget = LD\Reviews::widgetPosition('home');
   <div class="blob blob--line blob--hero-a" aria-hidden="true"></div><div class="blob blob--fill blob--hero-b" aria-hidden="true"></div>
   <div class="hero__in">
     <div class="hero__txt">
-      <div class="tags"><?php foreach ($h['tags'] as $tg): ?><span class="tag"><?= t($tg) ?></span><?php endforeach; ?></div>
+      <div class="tags"><?php foreach ($h['tags'] as $tg): ?><span class="tag"><?= t($tg) ?></span><?php endforeach; ?><?php if (trim((string) ($h['made_in_france'] ?? '')) !== ''): ?><span class="tag tag--fr"><?= fr_flag() ?><?= t($h['made_in_france']) ?></span><?php endif; ?></div>
       <h1 class="hero__title" id="hero-title"><?= t($h['title_line1']) ?><br><span class="grad-anim"><?= t($h['title_line2']) ?></span></h1>
       <div class="rot">
         <span class="rot__intro"><?= t($h['rotating_intro']) ?></span>

@@ -143,6 +143,7 @@
 
   /* ------------------------------------------------------------------ éditeur de contenus générique */
   const LABELS = {
+    made_in_france: 'Made in France', copyright: 'Mention en bas de page',
     seo: 'Référencement (titre et description Google)', title: 'Titre', description: 'Description', hero: 'Haut de page',
     tags: 'Étiquettes', tag: 'Étiquette', title_line1: 'Titre — ligne 1', title_line2: 'Titre — ligne 2 (dégradé rouge)',
     rotating_intro: 'Texte avant le mot qui change', rotating_words: 'Mots qui défilent', text: 'Texte', cta: 'Texte du bouton',

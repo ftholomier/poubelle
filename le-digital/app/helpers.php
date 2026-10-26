@@ -179,6 +179,21 @@ function icon(string $name, int $size = 16, string $stroke = 'currentColor', flo
     return '<svg width="' . $size . '" height="' . $size . '" viewBox="' . $vb . '" fill="none" stroke="' . e($stroke) . '" stroke-width="' . $width . '" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $inner . '</svg>';
 }
 
+/** Logo du site (couleur ou blanc). Les anciens logos PNG livrés sont remplacés par leur version vectorielle, nette à toute taille. */
+function site_logo(bool $white = false): string
+{
+    $key = $white ? 'site.logo_white' : 'site.logo';
+    $logo = trim((string) LD\Settings::get($key, ''));
+    $legacy = $white ? '/assets/img/logo-blanc.png' : '/assets/img/logo.png';
+    return $logo === '' || $logo === $legacy ? substr($legacy, 0, -4) . '.svg' : $logo;
+}
+
+/** Petit drapeau français (rappels « Made in France »). */
+function fr_flag(): string
+{
+    return '<span class="fr-flag" aria-hidden="true"><i></i><i></i><i></i></span>';
+}
+
 /** Logo « G » de Google (attribution des avis importés). */
 function google_g(int $size = 16): string
 {

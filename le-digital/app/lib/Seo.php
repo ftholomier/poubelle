@@ -18,7 +18,7 @@ final class Seo
             '@id'         => abs_url('/#entreprise'),
             'name'        => $s['site']['name'] ?? 'LE-DIGITAL.com',
             'url'         => abs_url('/'),
-            'logo'        => abs_url($s['site']['logo'] ?? '/assets/img/logo.png'),
+            'logo'        => abs_url(str_ends_with((string) ($s['site']['logo'] ?? ''), '.svg') || empty($s['site']['logo']) ? '/assets/img/logo.png' : $s['site']['logo']),
             'image'       => abs_url($s['site']['og_image'] ?? '/assets/img/fred-situation-1600.webp'),
             'slogan'      => 'Le digital provoque la conversation. La conversation provoque la conversion.',
             'description' => 'Développement sur mesure boosté à l’IA (sites web, CRM métier, applications, automatisation) et formation DIGITAL 360.',

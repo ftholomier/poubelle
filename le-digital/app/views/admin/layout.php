@@ -28,7 +28,7 @@ $isActive = static fn(string $href) => $href === '/admin' ? $path === '/admin' :
 <body class="adm">
 <aside class="side" id="side">
   <div class="side__top">
-    <a class="side__logo" href="/admin"><img src="/assets/img/logo-blanc.png" alt="LE-DIGITAL.com" width="128" height="30"><span>Back-office</span></a>
+    <a class="side__logo" href="/admin"><img src="/assets/img/logo-blanc.svg" alt="LE-DIGITAL.com" width="128" height="30"><span>Back-office</span></a>
     <button class="side__close" type="button" data-side-toggle aria-label="Fermer le menu">×</button>
   </div>
   <nav class="side__nav">

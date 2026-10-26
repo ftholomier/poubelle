@@ -1,6 +1,7 @@
 {
   "header": {
     "cta": "On prend RdV ?",
+    "made_in_france": "Made in France",
     "nav": [
       { "key": "sur-mesure", "label": "Sur mesure + IA", "href": "/sur-mesure-ia" },
       { "key": "formation", "label": "Formation", "href": "/formation" },
@@ -26,7 +27,13 @@
       { "label": "Mentions légales", "href": "/mentions-legales" },
       { "label": "Accessibilité", "href": "/mentions-legales#accessibilite" }
     ],
-    "linkedin_label": "LinkedIn"
+    "linkedin_label": "LinkedIn",
+    "made_in_france": {
+      "title": "Made in France",
+      "text": "Consultant et développeur français, basé en Bourgogne-Franche-Comté : tes outils sont pensés, écrits et suivis ici, avec l'exigence de la qualité française.",
+      "items": ["Consulting 100 % français", "Code écrit à la main, en France", "Accompagnement en français, en vrai ou en visio", "Proximité : Besançon, Montbéliard, Belfort, Dijon"],
+      "copyright": "Fait avec soin en France"
+    }
   },
   "services": [
     {

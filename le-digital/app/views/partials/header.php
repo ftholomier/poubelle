@@ -10,7 +10,7 @@ $arrow = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="cu
   <span class="hdr__progress" aria-hidden="true"></span>
   <div class="hdr__in">
     <a class="hdr__logo" href="/" aria-label="<?= e($s['site']['name'] ?? 'LE-DIGITAL.com') ?> — accueil">
-      <img src="<?= e($s['site']['logo'] ?? '/assets/img/logo.png') ?>" alt="<?= e($s['site']['name'] ?? 'LE-DIGITAL.com') ?>" width="146" height="34">
+      <img src="<?= e(site_logo()) ?>" alt="<?= e($s['site']['name'] ?? 'LE-DIGITAL.com') ?>" width="189" height="44">
     </a>
     <nav class="hdr__nav" aria-label="Navigation principale" data-hdr-nav>
       <span class="hdr__ind" aria-hidden="true"></span>
@@ -32,6 +32,7 @@ $arrow = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="cu
     <div class="hdr__menu-foot" style="--i:<?= count($nav) ?>">
       <a class="hdr__menu-cta" href="/on-prend-rdv"><?= t($cta) ?> <?= $arrow ?></a>
       <?php if ($phone !== ''): ?><a class="hdr__menu-tel" href="<?= e(tel_href()) ?>"><?= icon('phone', 18, '#cc1517') ?> <?= e($phone) ?></a><?php endif; ?>
+      <?php if (trim((string) ($g['header']['made_in_france'] ?? '')) !== ''): ?><span class="hdr__menu-fr"><?= fr_flag() ?><?= t($g['header']['made_in_france']) ?></span><?php endif; ?>
     </div>
   </nav>
 </header>

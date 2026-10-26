@@ -10,7 +10,7 @@
 </head>
 <body class="auth">
 <main class="auth__card">
-  <img src="/assets/img/logo.png" alt="LE-DIGITAL.com" width="146" height="34" class="auth__logo">
+  <img src="/assets/img/logo.svg" alt="LE-DIGITAL.com" width="146" height="34" class="auth__logo">
   <?php if ($mode === 'setup'): ?>
     <h1>Bienvenue Fred 👋</h1>
     <p class="auth__p">Crée ton compte administrateur. C’est la seule fois que cette page s’affiche.</p>

@@ -72,7 +72,7 @@ $avatar = $s['site']['avatar'] ?? '/assets/img/fred-avatar.webp';
         </span>
         <span class="dbar__who"><b><?= t($d['name']) ?></b><span id="dock-status"><?= t($d['status_open']) ?></span></span>
         <button type="button" class="dbar__voice" data-voice-start title="Laisse un vocal à Fred">
-          <span class="dbar__rec-ic" aria-hidden="true"><?= icon('mic', 12, '#fff', 2.6) ?></span><span class="dbar__lbl"><?= t($d['voice_label']) ?></span>
+          <span class="dbar__rec-ic" aria-hidden="true"><?= icon('mic', 21, '#fff', 2.3) ?></span><span class="dbar__lbl"><?= t($d['voice_label']) ?></span>
         </button>
         <a class="dbar__rdv" href="/on-prend-rdv"><?= t($d['rdv_label']) ?></a>
         <a class="dbar__tel" href="<?= e(tel_href()) ?>" aria-label="Appeler Frédéric"><?= icon('phone', 19, '#161922') ?></a>
