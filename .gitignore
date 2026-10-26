@@ -8,6 +8,9 @@
 /data/NOUVEAU-COMPTE.txt
 /data/NOUVEAU-COMPTE.txt.resultat.txt
 /data/REINITIALISATION.txt
+/data/sauvegardes/
+/data/version.json
+/data/maj-*
 /data/events/
 /data/ratelimit/
 /data/logs/

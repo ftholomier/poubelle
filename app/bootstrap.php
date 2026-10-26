@@ -14,6 +14,7 @@ require __DIR__ . '/Mailer.php';
 require __DIR__ . '/PasswordReset.php';
 require __DIR__ . '/Analytics.php';
 require __DIR__ . '/Housekeeping.php';
+require __DIR__ . '/Updater.php';
 require __DIR__ . '/DocText.php';
 require __DIR__ . '/Bot.php';
 require __DIR__ . '/Controllers/SiteController.php';

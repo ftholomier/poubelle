@@ -552,6 +552,80 @@ final class AdminController
         redirect(url('admin/reglages'));
     }
 
+    /** Écran « Mise à jour » : versions, action, sauvegardes, journal. */
+    public static function update(): void
+    {
+        $user = self::guard();
+
+        if (is_post() && Csrf::check($_POST['_csrf'] ?? null)) {
+            $action = (string) ($_POST['action'] ?? '');
+
+            if ($action === 'config') {
+                $s = Store::read('settings');
+                $s['update']['repo'] = trim((string) ($_POST['repo'] ?? ''));
+                $s['update']['branch'] = trim((string) ($_POST['branch'] ?? '')) ?: 'main';
+                // Un champ jeton laissé vide signifie « ne change rien ».
+                $jeton = trim((string) ($_POST['token'] ?? ''));
+                if ($jeton !== '' && !str_starts_with($jeton, '••')) {
+                    $s['update']['token'] = $jeton;
+                }
+                if (($_POST['clear_token'] ?? '') === '1') {
+                    $s['update']['token'] = '';
+                }
+                Store::write('settings', $s);
+                Session::flash('Dépôt enregistré.');
+                redirect(url('admin/mise-a-jour'));
+            }
+
+            if ($action === 'apply') {
+                // Une mise à jour réécrit le code du site : elle ne doit pas
+                // pouvoir être déclenchée en rafale.
+                if (!RateLimit::hit('maj', 6, 3600, 'compte:' . hash('sha256', (string) ($user['id'] ?? '')))) {
+                    Session::flash('Trop de mises à jour lancées. Réessayez dans une heure.', 'error');
+                    redirect(url('admin/mise-a-jour'));
+                }
+                $res = Updater::appliquer();
+                if (!empty($res['ok'])) {
+                    Session::flash(sprintf(
+                        'Mise à jour appliquée : %d fichier(s) écrit(s), %d supprimé(s). Sauvegarde conservée sous %s.',
+                        (int) $res['remplaces'],
+                        (int) $res['supprimes'],
+                        (string) $res['sauvegarde']
+                    ));
+                } else {
+                    Session::flash('Mise à jour impossible — ' . (string) ($res['error'] ?? 'motif inconnu'), 'error');
+                }
+                redirect(url('admin/mise-a-jour'));
+            }
+
+            if ($action === 'restore') {
+                $res = Updater::restaurer((string) ($_POST['sauvegarde'] ?? ''));
+                Session::flash(
+                    !empty($res['ok'])
+                        ? 'Sauvegarde restaurée : ' . (int) $res['remplaces'] . ' fichier(s) remis en place.'
+                        : 'Restauration impossible — ' . (string) ($res['error'] ?? ''),
+                    !empty($res['ok']) ? 'success' : 'error'
+                );
+                redirect(url('admin/mise-a-jour'));
+            }
+        }
+
+        // La version distante n'est consultée que si le dépôt est renseigné :
+        // inutile d'attendre un appel réseau pour afficher un écran vide.
+        $distante = Updater::configure() ? Updater::versionDistante() : ['ok' => false, 'error' => ''];
+
+        echo view('admin/update', [
+            'user' => $user,
+            'nav' => 'update',
+            'title' => 'Mise à jour',
+            'config' => Updater::config(),
+            'locale' => Updater::versionLocale(),
+            'distante' => $distante,
+            'sauvegardes' => Updater::sauvegardes(),
+            'journal' => Updater::journal(),
+        ], 'admin/layout');
+    }
+
     public static function users(): void
     {
         $user = self::guard();

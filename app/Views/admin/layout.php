@@ -16,6 +16,7 @@ $items2 = [
     ['settings', 'Réglages',        url('admin/reglages'),     'tools'],
     ['users',    'Utilisateurs',    url('admin/utilisateurs'), 'lock'],
     ['mails',    'E-mails envoyés', url('admin/emails'),       'file'],
+    ['update',   'Mise à jour',     url('admin/mise-a-jour'),  'download'],
 ];
 ?><!doctype html>
 <html lang="fr">

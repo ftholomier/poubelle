@@ -88,5 +88,10 @@
     "smtp_encryption": "tls",
     "smtp_user": "",
     "smtp_password": ""
+  },
+  "update": {
+    "repo": "",
+    "branch": "main",
+    "token": ""
   }
 }
