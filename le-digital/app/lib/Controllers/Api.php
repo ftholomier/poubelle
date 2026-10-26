@@ -64,11 +64,12 @@ final class Api
     }
 
     /** Historique de conversation envoyé par l'assistant (16 derniers messages, 1 500 caractères chacun). */
-    private static function conversation(): array
+    /** Messages de la discussion envoyés par le navigateur ($max derniers ; 16 suffisent comme contexte pour l'IA). */
+    private static function conversation(int $max = 16): array
     {
         $msgs = Http::input('messages', []);
         $out = [];
-        foreach (array_slice(is_array($msgs) ? $msgs : [], -16) as $m) {
+        foreach (array_slice(is_array($msgs) ? $msgs : [], -$max) as $m) {
             if (!is_array($m)) {
                 continue;
             }
@@ -253,6 +254,17 @@ final class Api
         RateLimit::enforce('ai-' . $feature, $max, 600);
     }
 
+    /** Identifiant de la discussion, tiré au hasard par le navigateur. */
+    private static function cid(): string
+    {
+        $cid = Http::str('cid', 40);
+        return preg_match('/^[a-z0-9-]{12,40}$/i', $cid) ? $cid : '';
+    }
+
+    /**
+     * Discussion avec l'assistant. Chaque conversation est enregistrée dans Demandes (« Discussion IA ») et Fred
+     * reçoit un e-mail dès le premier échange, puis le récapitulatif à la fin.
+     */
     public static function chat(): never
     {
         self::aiGuard('chat', 40);
@@ -260,16 +272,37 @@ final class Api
         if (!$msgs || end($msgs)['role'] !== 'user') {
             Http::fail('Message vide', 422);
         }
-        $fallback = (string) (Content::get('global')['dock']['error_text'] ?? '');
-        if (!Ai::enabled('chat')) {
-            Http::sendJson(['ok' => true, 'text' => $fallback, 'ai' => false]);
+        $text = (string) (Content::get('global')['dock']['error_text'] ?? '');
+        $ai = false;
+        if (Ai::enabled('chat')) {
+            try {
+                $text = Ai::complete('chat', Ai::fill(Ai::prompt('chat_system'), ['solutions' => \LD\Solutions::summary()]), $msgs);
+                $ai = true;
+            } catch (AiException) {
+            }
         }
-        try {
-            $text = Ai::complete('chat', Ai::fill(Ai::prompt('chat_system'), ['solutions' => \LD\Solutions::summary()]), $msgs);
-            Http::sendJson(['ok' => true, 'text' => $text, 'ai' => true]);
-        } catch (AiException) {
-            Http::sendJson(['ok' => true, 'text' => $fallback, 'ai' => false]);
-        }
+        $cid = self::cid();
+        $history = [...self::conversation(80), ['role' => 'assistant', 'content' => $text]];
+        Http::sendJsonThen(['ok' => true, 'text' => $text, 'ai' => $ai], static function () use ($cid, $history): void {
+            if ($cid !== '') {
+                Leads::chat($cid, $history);
+            }
+            Leads::flushChats();
+        });
+    }
+
+    /** Fenêtre de discussion fermée ou visiteur parti : récapitulatif de la conversation à Fred (s'il y a du nouveau). */
+    public static function chatEnd(): never
+    {
+        Guard::api();
+        RateLimit::enforce('ai-end', 30, 600);
+        $cid = self::cid();
+        Http::sendJsonThen(['ok' => true], static function () use ($cid): void {
+            if ($cid !== '' && ($lead = Leads::chatLead($cid))) {
+                Leads::notifyChat($lead);
+            }
+            Leads::flushChats();
+        });
     }
 
     public static function brief(): never
@@ -285,9 +318,18 @@ final class Api
             }
         }
         $b = self::cleanBrief($b) ?? ['besoin' => 'À préciser au premier café', 'taches' => '—', 'urgence' => 'moyenne', 'formule' => 'À définir ensemble'];
-        $lead = Leads::add('brief', ['data' => $b + ['conversation' => $msgs]]);
-        Leads::notify($lead);
-        Http::sendJson(['ok' => true, 'brief' => $b]);
+        $cid = self::cid();
+        if ($cid === '') {
+            $lead = Leads::add('brief', ['data' => $b + ['conversation' => $msgs]]);
+            Leads::notify($lead);
+            Http::sendJson(['ok' => true, 'brief' => $b]);
+        }
+        // Le brief complète la discussion IA déjà enregistrée et part tout de suite à Fred.
+        $history = self::conversation(80);
+        Http::sendJsonThen(['ok' => true, 'brief' => $b], static function () use ($cid, $history, $b): void {
+            $lead = Leads::chat($cid, $history, $b);
+            Leads::notifyChat($lead, false, 'Brief de l’assistant', 'Le visiteur a demandé son brief à ton assistant IA : voici son besoin et toute la conversation.');
+        });
     }
 
     public static function voiceSummary(): never

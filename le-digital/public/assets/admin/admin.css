@@ -394,3 +394,4 @@ legend{font-weight:600;font-size:14px;margin-bottom:8px;padding:0}
 .switch.is-on span{background:#9FC131}
 .switch.is-on span::after{transform:translateX(14px)}
 .sol-acts{white-space:nowrap}
+.pill--ia{background:#e3eefb;color:#0a5aa8}

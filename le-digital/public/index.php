@@ -98,6 +98,7 @@ $router->post('/api/rdv', [Api::class, 'book']);
 $router->post('/api/vocal', [Api::class, 'voice']);
 $router->post('/api/ia/chat', [Api::class, 'chat']);
 $router->post('/api/ia/brief', [Api::class, 'brief']);
+$router->post('/api/ia/fin', [Api::class, 'chatEnd']);
 $router->post('/api/ia/resume-vocal', [Api::class, 'voiceSummary']);
 $router->post('/api/ia/devis', [Api::class, 'devis']);
 $router->post('/api/ia/analyse', [Api::class, 'analyse']);

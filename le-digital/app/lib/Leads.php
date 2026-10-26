@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace LD;
 
 /**
- * Boîte de réception : formulaires, rendez-vous, rappels, vocaux et briefs de l'assistant.
+ * Boîte de réception : formulaires, rendez-vous, rappels, vocaux, discussions et briefs de l'assistant IA.
  */
 final class Leads
 {
@@ -15,14 +15,27 @@ final class Leads
         'rdv'     => 'Rendez-vous',
         'rappel'  => 'Rappel demandé',
         'vocal'   => 'Vocal',
+        'ia'      => 'Discussion IA',
         'brief'   => 'Brief de l’assistant',
     ];
+
+    /** Récapitulatif d'une discussion IA envoyé après ce délai sans nouveau message (si le visiteur n'a pas fermé la fenêtre). */
+    public const CHAT_IDLE = 600;
 
     public const STATUSES = ['new' => 'Nouveau', 'progress' => 'En cours', 'done' => 'Traité', 'archived' => 'Archivé'];
 
     public static function add(string $type, array $fields): array
     {
-        $lead = [
+        $lead = self::make($type, $fields);
+        Store::update(self::FILE, static function (array &$all) use ($lead): void {
+            $all[] = $lead;
+        });
+        return $lead;
+    }
+
+    private static function make(string $type, array $fields): array
+    {
+        return [
             'id'         => date('ymd') . '-' . bin2hex(random_bytes(4)),
             'type'       => $type,
             'status'     => 'new',
@@ -38,10 +51,94 @@ final class Leads
             ],
             'notes'      => '',
         ];
-        Store::update(self::FILE, static function (array &$all) use ($lead): void {
+    }
+
+    /**
+     * Discussion avec l'assistant IA : une demande par conversation, mise à jour à chaque échange
+     * (et complétée par le brief s'il est demandé). Fred est alerté dès le premier échange.
+     */
+    public static function chat(string $cid, array $conversation, ?array $brief = null): array
+    {
+        $users = count(array_filter($conversation, static fn($m) => ($m['role'] ?? '') === 'user'));
+        $contact = self::contactIn($conversation);
+        $lead = null;
+        Store::update(self::FILE, static function (array &$all) use ($cid, $conversation, $brief, $users, $contact, &$lead): void {
+            foreach ($all as &$l) {
+                if ($l['type'] === 'ia' && ($l['data']['cid'] ?? '') === $cid) {
+                    $l['data'] = array_merge($l['data'], $brief ?? [], ['conversation' => $conversation, 'messages' => max($users, (int) ($l['data']['messages'] ?? 0)), 'last_at' => date('c')]);
+                    foreach ($contact as $k => $v) {
+                        $l[$k] = $l[$k] !== '' ? $l[$k] : $v;
+                    }
+                    $l['updated_at'] = date('c');
+                    $lead = $l;
+                    return;
+                }
+            }
+            unset($l);
+            $lead = self::make('ia', $contact + ['data' => ($brief ?? []) + ['conversation' => $conversation, 'cid' => $cid, 'messages' => $users, 'notified' => 0, 'last_at' => date('c')]]);
             $all[] = $lead;
         });
+        if (empty($lead['data']['notified']) && !isset($lead['notify']) && $brief === null) {
+            self::notifyChat($lead, true);
+        }
         return $lead;
+    }
+
+    public static function chatLead(string $cid): ?array
+    {
+        foreach (Store::read(self::FILE, []) as $l) {
+            if ($l['type'] === 'ia' && ($l['data']['cid'] ?? '') === $cid) {
+                return $l;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * E-mail à Fred pour une discussion IA : alerte au premier échange, puis récapitulatif complet à la fin
+     * (fenêtre fermée, visiteur parti ou CHAT_IDLE sans message), seulement s'il y a du nouveau depuis le dernier e-mail.
+     */
+    public static function notifyChat(array $lead, bool $first = false, string $title = '', string $intro = ''): bool
+    {
+        $users = (int) ($lead['data']['messages'] ?? 0);
+        if (!$first && $title === '' && $users <= (int) ($lead['data']['notified'] ?? 0)) {
+            return false;
+        }
+        self::update($lead['id'], ['data' => ['notified' => $users]]);
+        if ($title === '') {
+            $title = $first ? 'Discussion IA en cours' : 'Discussion IA · récapitulatif';
+            $intro = $first
+                ? 'Un visiteur discute en ce moment avec ton assistant IA. Voici le début de la conversation : la suite se met à jour dans le back-office et tu recevras le récapitulatif complet à la fin.'
+                : 'Conversation complète du visiteur avec ton assistant IA (' . $users . ' message' . ($users > 1 ? 's' : '') . ' du visiteur).';
+        }
+        return self::notify($lead, [], $title, $intro);
+    }
+
+    /** Récapitulatifs des discussions IA terminées (aucun message depuis $idle secondes). */
+    public static function flushChats(int $idle = self::CHAT_IDLE): int
+    {
+        $n = 0;
+        foreach (Store::read(self::FILE, []) as $l) {
+            if ($l['type'] === 'ia' && (int) ($l['data']['messages'] ?? 0) > (int) ($l['data']['notified'] ?? 0)
+                && (strtotime((string) ($l['data']['last_at'] ?? '')) ?: 0) <= time() - $idle) {
+                $n += (int) self::notifyChat($l);
+            }
+        }
+        return $n;
+    }
+
+    /** E-mail et téléphone donnés par le visiteur dans la discussion (pour pouvoir le recontacter). */
+    private static function contactIn(array $conversation): array
+    {
+        $text = implode("\n", array_map(static fn($m) => ($m['role'] ?? '') === 'user' ? (string) ($m['content'] ?? '') : '', $conversation));
+        $out = ['email' => '', 'phone' => ''];
+        if (preg_match('/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i', $text, $m)) {
+            $out['email'] = mb_strtolower($m[0]);
+        }
+        if (preg_match('/(?:\+33\s?|0)[1-9](?:[\s.-]?\d{2}){4}/', $text, $m)) {
+            $out['phone'] = $m[0];
+        }
+        return $out;
     }
 
     public static function all(?string $type = null, ?string $status = null, string $q = ''): array
@@ -139,8 +236,15 @@ final class Leads
             'taches' => 'Tâches à automatiser', 'urgence' => 'Urgence', 'formule' => 'Formule conseillée',
             'sim' => 'Simulateur gain de temps', 'brief' => 'Brief de l’assistant', 'conversation' => 'Conversation',
         ];
-        foreach ($lead['data'] ?? [] as $k => $v) {
-            if ($v === '' || $v === null || $v === [] || in_array($k, ['audio', 'mime', 'booking_id', 'date', 'time'], true)) {
+        $data = $lead['data'] ?? [];
+        if (isset($data['conversation'])) {
+            // La conversation, souvent longue, passe en dernier (après le besoin et le brief).
+            $conv = $data['conversation'];
+            unset($data['conversation']);
+            $data['conversation'] = $conv;
+        }
+        foreach ($data as $k => $v) {
+            if ($v === '' || $v === null || $v === [] || in_array($k, ['audio', 'mime', 'booking_id', 'date', 'time', 'cid', 'messages', 'notified', 'last_at'], true)) {
                 continue;
             }
             if ($k === 'sim' && is_array($v)) {
@@ -159,20 +263,19 @@ final class Leads
         return $rows;
     }
 
-    /** Notification e-mail à Fred pour chaque nouvelle demande. */
     /** E-mail à Fred pour une nouvelle demande. Le résultat est noté sur la demande (visible dans le back-office). */
-    public static function notify(array $lead, array $attachments = []): bool
+    public static function notify(array $lead, array $attachments = [], string $title = '', string $intro = ''): bool
     {
         if (!Settings::get('mail.notify', true)) {
             return false;
         }
         $to = Mailer::notifyAddress();
-        $html = '<table style="width:100%;border-collapse:collapse">';
+        $html = ($intro !== '' ? '<p>' . e($intro) . '</p>' : '') . '<table style="width:100%;border-collapse:collapse">';
         foreach (self::rows($lead) as $label => $value) {
             $html .= '<tr><td style="padding:8px 10px 8px 0;vertical-align:top;color:#8a86a0;font-size:13px;white-space:nowrap">' . e($label) . '</td><td style="padding:8px 0;border-bottom:1px solid #f6ecea">' . nl2br(e($value)) . '</td></tr>';
         }
         $html .= '</table>';
-        $title = (self::TYPES[$lead['type']] ?? 'Demande') . ($lead['name'] ? ' · ' . $lead['name'] : '');
+        $title = ($title !== '' ? $title : (self::TYPES[$lead['type']] ?? 'Demande')) . ($lead['name'] ? ' · ' . $lead['name'] : '');
         $ok = Mailer::send($to, '☕ ' . $title, Mailer::layout($title, $html, 'Ouvrir dans le back-office', abs_url('/admin/demandes/' . $lead['id'])), $lead['email'] ?: null, $attachments);
         if (!$ok && $attachments) {
             // Pièce jointe trop lourde pour le serveur d'envoi ? Nouvel essai sans (le vocal reste dans le back-office).

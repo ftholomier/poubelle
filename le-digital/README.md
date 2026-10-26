@@ -17,7 +17,8 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
   - **démo IA « Ton devis en 10 secondes »**, **analyse express de l'activité** (lit réellement la page d'accueil du site indiqué),
     **« Explique-moi comme à un débutant »** (réponses mises en cache) ;
   - simulateur de gain de temps (mémorisé et transmis au formulaire de contact) ;
-  - **assistant IA** (barre du bas) avec brief transmis à Fred ;
+  - **assistant IA** (barre du bas) : chaque discussion est enregistrée dans Demandes ; Fred reçoit un e-mail dès le
+    premier message, puis le récapitulatif à la fin (fenêtre fermée, visiteur parti ou 10 min sans message), et le brief ;
   - **vocal pour Fred** : enregistrement, visualisation, transcription, résumé IA, envoi (fichier audio reçu par e-mail) ;
   - **prise de rendez-vous réelle** : créneaux en temps réel, confirmation e-mail + fichier agenda, rappel SMS/e-mail la veille,
     lien d'annulation ;
@@ -31,7 +32,8 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
 **Back-office** (`/admin`)
 
 - Tableau de bord + checklist de mise en ligne.
-- Demandes (formulaire, RdV, rappels, vocaux avec lecteur audio, briefs de l'assistant), statuts, notes, export CSV.
+- Demandes (formulaire, RdV, rappels, vocaux avec lecteur audio, discussions et briefs de l'assistant IA), statuts, notes,
+  export CSV. Chaque demande indique si l'e-mail de notification est bien parti.
 - Rendez-vous : agenda, annulation, disponibilités (jours, créneaux, congés, durée, prévenance), **flux iCal privé**
   à ajouter dans Google Agenda / Apple Calendrier.
 - **Contenus** : éditeur générique de toutes les pages (textes, listes, boutons, images…), réinitialisation possible.

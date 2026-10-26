@@ -620,7 +620,7 @@
     const panel = $('#dock-chat'), list = $('#dock-list'), sugg = $('#dock-sugg'), form = $('#dock-form'), input = $('#dock-input'), briefBtn = $('#dock-brief');
     const vpanel = $('#dock-voice'), recBar = $('#dock-rec'), idle = $('#dock-idle'), bar = $('#dock-bar');
     const toggles = $$('[data-dock-toggle]');
-    let msgs = [], loading = false, briefed = false, typingEl = null;
+    let msgs = [], loading = false, briefed = false, typingEl = null, cid = '', endedAt = 0, navAt = 0;
 
     // Statut « dispo » selon l'heure du visiteur.
     const now = new Date(), h = now.getHours(), wd = now.getDay();
@@ -645,13 +645,13 @@
       if (on && !typingEl) { typingEl = document.createElement('div'); typingEl.className = 'msg__typing'; typingEl.innerHTML = '<span></span><span></span><span></span>'; list.appendChild(typingEl); scroll(); }
       if (!on && typingEl) { typingEl.remove(); typingEl = null; }
     };
-    const save = () => store.set('ld-chat', { msgs, briefed }, sessionStorage);
+    const save = () => store.set('ld-chat', { msgs, briefed, cid, endedAt }, sessionStorage);
     const updBrief = () => { briefBtn.hidden = !(msgs.filter(m => m.role === 'user').length >= 2 && !briefed && !loading); };
 
     // Conversation conservée pendant la visite (navigation entre les pages).
     const prev = store.get('ld-chat', sessionStorage);
     if (prev && Array.isArray(prev.msgs) && prev.msgs.length) {
-      msgs = prev.msgs; briefed = !!prev.briefed;
+      msgs = prev.msgs; briefed = !!prev.briefed; cid = prev.cid || ''; endedAt = prev.endedAt || 0;
       if (sugg) sugg.remove();
       msgs.forEach(m => { if (m.role === 'brief') addBrief(m.brief); else addMsg(m.role, m.content); });
       updBrief();
@@ -670,7 +670,24 @@
       stillT = setTimeout(() => away(false), 900);
     }, { passive: true });
 
+    // Fin de discussion (fenêtre fermée, visiteur parti) : Fred reçoit le récapitulatif s'il y a du nouveau.
+    const userCount = () => msgs.filter(m => m.role === 'user').length;
+    const end = () => {
+      if (!cid || userCount() <= endedAt) return;
+      endedAt = userCount(); save();
+      try { fetch('/api/ia/fin', { method: 'POST', keepalive: true, credentials: 'same-origin', headers: { 'Content-Type': 'application/json', 'X-LD-Token': CFG.token || '' }, body: JSON.stringify({ cid }) }).catch(() => {}); } catch (e) { /* hors ligne */ }
+    };
+    // Changement de page sur le site : la discussion continue, pas de récapitulatif.
+    addEventListener('click', e => {
+      const a = e.target.closest && e.target.closest('a[href]');
+      if (a && !e.defaultPrevented && a.origin === location.origin && a.target !== '_blank' && !(a.pathname === location.pathname && a.hash)) navAt = Date.now();
+    });
+    // Formulaires envoyés en arrière-plan (dont celui de la discussion) : pas un changement de page.
+    addEventListener('submit', e => { if (!e.defaultPrevented) navAt = Date.now(); });
+    addEventListener('pagehide', () => { if (Date.now() - navAt > 3000) end(); });
+
     const open = v => {
+      if (!v && !panel.hidden) end();
       panel.hidden = !v;
       toggles.forEach(b => b.setAttribute('aria-expanded', String(v)));
       if (v) { closeVoicePanel(); hideToast(); scroll(); if (matchMedia('(hover: hover)').matches) setTimeout(() => input.focus({ preventScroll: true }), 60); }
@@ -687,9 +704,10 @@
       if (!q || loading) return;
       if (sugg && sugg.isConnected) sugg.remove();
       addMsg('user', q); msgs.push({ role: 'user', content: q });
-      input.value = ''; loading = true; typing(true); updBrief();
+      if (!cid) cid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
+      input.value = ''; loading = true; typing(true); updBrief(); save();
       let text;
-      try { text = (await api('/api/ia/chat', { messages: chatHistory() })).text; }
+      try { text = (await api('/api/ia/chat', { messages: chatHistory(), cid })).text; }
       catch (e) { text = e.status === 429 ? e.message : D.error; }
       typing(false); loading = false;
       addMsg('assistant', text); msgs.push({ role: 'assistant', content: text });
@@ -701,7 +719,7 @@
       if (loading) return;
       loading = true; briefed = true; updBrief(); typing(true);
       let br;
-      try { br = (await api('/api/ia/brief', { messages: chatHistory() })).brief; }
+      try { br = (await api('/api/ia/brief', { messages: chatHistory(), cid })).brief; }
       catch (e) { br = { besoin: 'À préciser au premier café', taches: '—', urgence: 'moyenne', formule: 'À définir ensemble' }; }
       typing(false); loading = false;
       store.set('ld-brief', br);

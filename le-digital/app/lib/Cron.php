@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace LD;
 
 /**
- * Tâches planifiées : rappels de rendez-vous (e-mail + SMS) la veille, avis Google, vérification des mises à jour,
- * ménage des caches.
+ * Tâches planifiées : rappels de rendez-vous (e-mail + SMS) la veille, récapitulatifs des discussions IA, avis Google,
+ * vérification des mises à jour, ménage des caches.
  * À lancer une fois par heure : `php app/cron.php` ou via l'URL secrète affichée dans le back-office.
  */
 final class Cron
@@ -44,6 +44,10 @@ final class Cron
                 Booking::markReminded($b['id']);
                 $out[] = 'Rappel ' . $b['id'] . ' : ' . ($sent ? implode(' + ', $sent) : 'aucun canal disponible');
             }
+        }
+        // Discussions IA terminées : récapitulatif à Fred.
+        if ($n = Leads::flushChats()) {
+            $out[] = $n . ' récapitulatif(s) de discussion IA envoyé(s)';
         }
         // Avis Google : rafraîchis une fois par jour.
         if ($g = GoogleReviews::autoSync()) {

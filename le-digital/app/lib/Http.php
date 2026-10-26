@@ -84,6 +84,37 @@ final class Http
         exit;
     }
 
+    /** Répond tout de suite au navigateur, puis poursuit le travail (enregistrement, e-mail…) sans le faire attendre. */
+    public static function sendJsonThen(mixed $data, callable $after): never
+    {
+        $body = (string) json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        ignore_user_abort(true);
+        http_response_code(200);
+        header('Content-Type: application/json; charset=utf-8');
+        header('Cache-Control: no-store');
+        if (function_exists('fastcgi_finish_request') || function_exists('litespeed_finish_request')) {
+            echo $body;
+            function_exists('fastcgi_finish_request') ? fastcgi_finish_request() : litespeed_finish_request();
+        } else {
+            // Sans PHP-FPM : longueur annoncée pour que le navigateur n'attende pas la suite (sauf compression par PHP).
+            if (!ini_get('zlib.output_compression')) {
+                header('Content-Length: ' . strlen($body));
+                header('Connection: close');
+            }
+            echo $body;
+            while (ob_get_level() > 0) {
+                ob_end_flush();
+            }
+            flush();
+        }
+        try {
+            $after();
+        } catch (\Throwable $e) {
+            error_log('LE-DIGITAL : ' . $e->getMessage());
+        }
+        exit;
+    }
+
     public static function fail(string $message, int $status = 400, array $extra = []): never
     {
         self::sendJson(['ok' => false, 'error' => $message] + $extra, $status);
