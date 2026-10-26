@@ -96,6 +96,7 @@ final class Router
         $r->get('/admin/tickets', fn ($q) => TicketsAdmin::index($q));
         $r->post('/admin/tickets', fn ($q) => TicketsAdmin::create($q));
         $r->get('/admin/tickets/{id}', fn ($q, $id) => TicketsAdmin::show($q, $id));
+        $r->get('/admin/tickets/{id}/pj/{fid}', fn ($q, $id, $fid) => TicketsAdmin::file($q, $id, $fid));
         $r->post('/admin/tickets/{id}', fn ($q, $id) => TicketsAdmin::action($q, $id));
 
         // Pilotage

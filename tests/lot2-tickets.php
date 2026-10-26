@@ -98,9 +98,55 @@ try {
     $eq('adresse du site : lien', str_contains($render('/admin/fiches'), '<a href="/admin/fiches">'), true);
     $eq('« //autre-site » : pas de lien', str_contains($render('//evil.example/x'), 'href="//evil.example'), false);
     $eq('« /\\autre-site » : pas de lien', str_contains($render('/\\evil.example'), 'href="/\\evil.example'), false);
+
+    // Pièces jointes : vérifiées (type réel), rangées hors du site sous un nom au hasard, ajoutées,
+    // retirées, en réponse, servies seulement par le back-office, effacées avec le ticket.
+    $tmpDir = sys_get_temp_dir() . '/pj-' . bin2hex(random_bytes(3));
+    @mkdir($tmpDir);
+    $png = $tmpDir . '/capture.png';
+    $im = imagecreatetruecolor(4, 3);
+    imagepng($im, $png);
+    file_put_contents("$tmpDir/note.txt", "Étapes pour reproduire\n");
+    file_put_contents("$tmpDir/faux.png", '<?php echo "pirate";');
+    file_put_contents("$tmpDir/dessin.svg", '<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>');
+    $up = fn (array $names) => ['name' => array_map('basename', $names), 'tmp_name' => $names, 'error' => array_fill(0, count($names), UPLOAD_ERR_OK), 'size' => array_map('filesize', $names)];
+    \App\Services\TicketFiles::$mover = fn (string $src, string $dest) => copy($src, $dest);
+    $mails = [];
+    $p = Tickets::create($in('Avec captures'), $users['au'], $up([$png, "$tmpDir/note.txt"]));
+    $pj = $p['files'];
+    $eq('création : 2 pièces jointes', [count($pj), $pj[0]['name'], $pj[0]['mime'], $pj[1]['mime']], [2, 'capture.png', 'image/png', 'text/plain']);
+    $path0 = \App\Services\TicketFiles::path($p['id'], $pj[0]);
+    $eq('rangée hors du site, sous un nom au hasard', [is_string($path0) && str_starts_with($path0, STORAGE_PATH . '/tickets/' . $p['id'] . '/'), basename((string) $path0) !== 'capture.png'], [true, true]);
+    $eq('e-mail : pièces jointes annoncées (pas envoyées)', str_contains((string) ($mails[0][2] ?? ''), '2 pièce(s) jointe(s)'), true);
+    foreach (["$tmpDir/faux.png" => 'faux PNG (script)', "$tmpDir/dessin.svg" => 'SVG'] as $bad => $label) {
+        $msg = '';
+        try {
+            Tickets::create($in('Refusé'), $users['au'], $up([$bad]));
+        } catch (InvalidArgumentException $e) {
+            $msg = $e->getMessage();
+        }
+        $eq("refusé : $label", str_contains($msg, 'n’est pas accepté'), true);
+    }
+    $eq('fichier refusé : aucun ticket créé', count(array_filter(Tickets::all(), fn ($t) => $t['title'] === 'Refusé')), 0);
+    $q = Tickets::edit($p['id'], $in('Avec captures'), $users['au'], $up([$png]), [$pj[1]['id']]);
+    $eq('modification : une ajoutée, une retirée (fichier effacé)', [count($q['files']), \App\Services\TicketFiles::path($p['id'], $pj[1])], [2, null]);
+    $r = Tickets::comment($p['id'], '', $users['co'], $up([$png]));
+    $eq('réponse avec seulement une capture', [count(end($r['comments'])['files'] ?? []), end($r['comments'])['text']], [1, '']);
+    $eq('texte pour l’IA : pièces jointes listées', substr_count(Tickets::promptFor(Tickets::get($p['id'])), '/admin/tickets/' . $p['id'] . '/pj/'), 3);
+    $res = \App\Admin\TicketsAdmin::file(new \App\Core\Request('GET', '/', [], [], [], [], ''), (string) $p['id'], $pj[0]['id']);
+    $eq('servie : image, nosniff, bac à sable', [$res->status, $res->headers['Content-Type'] ?? null, $res->headers['X-Content-Type-Options'] ?? null, str_contains((string) ($res->headers['Content-Security-Policy'] ?? ''), 'sandbox')], [200, 'image/png', 'nosniff', true]);
+    $res = \App\Admin\TicketsAdmin::file(new \App\Core\Request('GET', '/', [], [], [], [], ''), (string) $p['id'], 'ffffffffffffffff');
+    $eq('pièce jointe inconnue : 404', $res->status, 404);
+    $res = \App\Admin\TicketsAdmin::file(new \App\Core\Request('GET', '/', [], [], [], [], ''), (string) $a['id'], $pj[0]['id']);
+    $eq('pièce jointe d’un autre ticket : 404', $res->status, 404);
+    Tickets::delete($p['id']);
+    $eq('ticket supprimé : dossier des pièces jointes effacé', is_dir(STORAGE_PATH . '/tickets/' . $p['id']), false);
+    array_map('unlink', glob("$tmpDir/*") ?: []);
+    @rmdir($tmpDir);
 } finally {
     $backup === null ? JsonStore::delete($file) : file_put_contents($file, $backup);
     @unlink("$file.lock");
+    @rmdir(STORAGE_PATH . '/tickets');
 }
 echo $fail ? "\n$fail échec(s).\n" : "\nTout est bon.\n";
 exit($fail ? 1 : 0);

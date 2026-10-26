@@ -57,42 +57,63 @@ final class Tickets
         return null;
     }
 
-    /** Nouveau ticket. @param array{title?:string,type?:string,priority?:string,body?:string,prompt?:string,page?:string} $in */
-    public static function create(array $in, array $user): array
+    /**
+     * Nouveau ticket, avec ses pièces jointes ($upload : champ « pj[] » envoyé).
+     * @param array{title?:string,type?:string,priority?:string,body?:string,prompt?:string,page?:string} $in
+     */
+    public static function create(array $in, array $user, mixed $upload = null): array
     {
         $f = self::clean($in);
+        $pending = TicketFiles::check($upload);
         $now = date('c');
-        $t = self::store(function (array $all, int &$next) use ($f, $user, $now) {
+        $t = self::store(function (array $all, int &$next) use ($f, $user, $now, $pending) {
             $id = $next++;
             $all[] = $f + [
                 'id' => $id, 'status' => 'nouveau', 'author' => self::who($user),
-                'created_at' => $now, 'updated_at' => $now, 'comments' => [],
+                'created_at' => $now, 'updated_at' => $now, 'comments' => [], 'files' => TicketFiles::store($id, $pending, $user),
                 'history' => [['at' => $now, 'by' => $user['name'] ?? '', 'what' => 'a ouvert le ticket']],
                 'seen' => [(string) ($user['id'] ?? '') => $now],
             ];
             return $all;
         });
         $t = end($t);
-        self::notify($t, $user, 'Nouveau ticket', '<p><b>' . e($user['name'] ?? '') . '</b> a ouvert un ticket.</p>' . self::summary($t));
+        self::notify($t, $user, 'Nouveau ticket', '<p><b>' . e($user['name'] ?? '') . '</b> a ouvert un ticket.</p>' . self::filesLine($t['files']) . self::summary($t));
         return $t;
     }
 
-    /** Modification du contenu : l'auteur tant que le ticket est « Nouveau », l'administrateur toujours. */
-    public static function edit(int $id, array $in, array $user): array
+    /**
+     * Modification du contenu : l'auteur tant que le ticket est « Nouveau », l'administrateur toujours.
+     * Pièces jointes ajoutées ($upload) ou retirées ($remove : leurs identifiants).
+     */
+    public static function edit(int $id, array $in, array $user, mixed $upload = null, array $remove = []): array
     {
         $f = self::clean($in);
-        return self::change($id, $user, function (array $t) use ($f, $user) {
+        $pending = TicketFiles::check($upload);
+        $gone = [];
+        $t = self::change($id, $user, function (array $t) use ($f, $user, $pending, $remove, &$gone) {
             if (!self::canEdit($t, $user)) {
                 throw new \InvalidArgumentException('Ce ticket ne peut plus être modifié : ajoutez plutôt un commentaire.');
             }
             if (!Auth::isAdmin()) {
                 $f['priority'] = $t['priority']; // la priorité reste celle choisie par l'administrateur
             }
-            if (array_intersect_key($t, $f) == $f) {
+            $files = [];
+            foreach ((array) ($t['files'] ?? []) as $pj) {
+                if (in_array($pj['id'] ?? '', $remove, true)) {
+                    $gone[] = $pj;
+                } else {
+                    $files[] = $pj;
+                }
+            }
+            $added = TicketFiles::store($t['id'], $pending, $user);
+            if (array_intersect_key($t, $f) == $f && !$added && !$gone) {
                 return [$t, null, null]; // rien de changé : ni historique ni e-mail
             }
-            return [$f + $t, 'a modifié le ticket', '<p><b>' . e($user['name'] ?? '') . '</b> a modifié le ticket.</p>'];
+            $label = 'a modifié le ticket' . ($added ? ' (' . count($added) . ' pièce(s) jointe(s) ajoutée(s))' : '') . ($gone ? ' (' . count($gone) . ' pièce(s) jointe(s) retirée(s))' : '');
+            return [['files' => array_merge($files, $added)] + $f + $t, $label, '<p><b>' . e($user['name'] ?? '') . '</b> ' . e($label) . '.</p>' . self::filesLine($added)];
         });
+        TicketFiles::remove($id, $gone);
+        return $t;
     }
 
     /** Statut et priorité : administrateurs seulement. */
@@ -126,21 +147,25 @@ final class Tickets
         });
     }
 
-    public static function comment(int $id, string $text, array $user): array
+    /** Réponse, avec ses pièces jointes ($upload) : du texte ou au moins un fichier. */
+    public static function comment(int $id, string $text, array $user, mixed $upload = null): array
     {
         $text = self::text($text, 5000);
-        if ($text === '') {
+        $pending = TicketFiles::check($upload);
+        if ($text === '' && !$pending) {
             throw new \InvalidArgumentException('Le commentaire est vide.');
         }
-        return self::change($id, $user, function (array $t) use ($text, $user) {
-            $t['comments'][] = ['at' => date('c'), 'by' => self::who($user), 'text' => $text];
-            return [$t, 'a commenté', '<p><b>' . e($user['name'] ?? '') . '</b> a répondu :</p><blockquote>' . nl2br(e($text)) . '</blockquote>'];
+        return self::change($id, $user, function (array $t) use ($text, $user, $pending) {
+            $files = TicketFiles::store($t['id'], $pending, $user);
+            $t['comments'][] = ['at' => date('c'), 'by' => self::who($user), 'text' => $text] + ($files ? ['files' => $files] : []);
+            return [$t, 'a commenté', '<p><b>' . e($user['name'] ?? '') . '</b> a répondu :</p>' . ($text !== '' ? '<blockquote>' . nl2br(e($text)) . '</blockquote>' : '') . self::filesLine($files)];
         });
     }
 
     public static function delete(int $id): void
     {
         self::store(fn (array $all) => array_filter($all, fn ($t) => $t['id'] !== $id));
+        TicketFiles::removeAll($id);
     }
 
     /** Le ticket est vu par l'utilisateur (sa pastille s'éteint). */
@@ -202,7 +227,28 @@ final class Tickets
         if ($t['prompt'] !== '') {
             $out .= "\nConsigne proposée par " . ($t['author']['name'] ?? 'l’auteur') . " :\n" . $t['prompt'] . "\n";
         }
+        if ($files = TicketFiles::all($t)) {
+            $out .= "\nPièces jointes (à ouvrir connecté au back-office) :\n";
+            foreach ($files as $f) {
+                $out .= '- ' . $f['name'] . ' : ' . rtrim(base_url(), '/') . self::fileUrl($t['id'], $f) . "\n";
+            }
+        }
         return $out;
+    }
+
+    /** Adresse d'une pièce jointe (réservée au back-office). */
+    public static function fileUrl(int $ticket, array $f): string
+    {
+        return '/admin/tickets/' . $ticket . '/pj/' . rawurlencode((string) $f['id']);
+    }
+
+    /** Ligne « 📎 pièces jointes » d'un e-mail (les fichiers restent dans le back-office). */
+    private static function filesLine(array $files): string
+    {
+        if (!$files) {
+            return '';
+        }
+        return '<p>📎 ' . count($files) . ' pièce(s) jointe(s) : ' . e(implode(', ', array_column($files, 'name'))) . ' (à ouvrir dans le ticket).</p>';
     }
 
     // ── Interne ────────────────────────────────────────────────────────────

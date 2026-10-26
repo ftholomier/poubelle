@@ -46,7 +46,7 @@ include __DIR__ . '/_style.php';
 <div class="card card--pad tk-new" id="nouveau">
   <h2 class="card__t">Nouveau ticket</h2>
   <p class="card__note">Un bug, une idée d’amélioration, une question : décrivez-la ici. <?= $admin ? 'Vous' : 'L’administrateur' ?> en <?= $admin ? 'êtes' : 'est' ?> prévenu par e-mail, et vous recevez un e-mail à chaque réponse ou changement de statut.</p>
-  <form method="post" action="/admin/tickets"><?= csrf_field() ?>
+  <form method="post" action="/admin/tickets" enctype="multipart/form-data"><?= csrf_field() ?>
     <?php $t = []; include __DIR__ . '/_form.php'; ?>
     <button class="btn btn--navy" type="submit">Envoyer le ticket</button>
   </form>

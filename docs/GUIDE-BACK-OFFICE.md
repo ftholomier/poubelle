@@ -71,6 +71,10 @@ vous regardiez est noté automatiquement dans le ticket.
   demande** (ce qui se passe, où, ce que vous attendiez).
 - **Prompt pour l'IA** (facultatif) : la consigne que vous donneriez vous-même à l'IA qui
   développe le musée, le plus précise possible ; l'administrateur la copie d'un clic.
+- **Pièces jointes** (facultatif) : choisir, glisser-déposer ou **coller une capture d'écran**
+  (Ctrl+V / ⌘+V) dans le formulaire ; aperçu et croix pour retirer avant l'envoi ; images, PDF,
+  textes, Word, Excel, ZIP, vidéos, 10 fichiers par envoi. Aussi en modifiant le ticket et dans
+  les réponses. Visibles seulement par l'équipe connectée.
 - **Statuts** : Nouveau → Pris en compte → En cours → À vérifier (c'est en ligne : contrôlez
   et répondez « c'est bon ») → Terminé, ou Refusé / sans suite avec une explication. **Seul
   l'administrateur** change le statut et la priorité.

@@ -7,6 +7,7 @@ use App\Core\Auth;
 use App\Core\Request;
 use App\Core\Response;
 use App\Data\Activity;
+use App\Services\TicketFiles;
 use App\Services\Tickets;
 
 /**
@@ -16,7 +17,7 @@ use App\Services\Tickets;
  */
 final class TicketsAdmin extends Base
 {
-    private const META = ['crumb' => 'Équipe', 'nav' => 'tickets', 'help' => 'tickets'];
+    private const META = ['crumb' => 'Équipe', 'nav' => 'tickets', 'help' => 'tickets', 'scripts' => ['admin/pieces-jointes.js']];
 
     public static function index(Request $req): Response
     {
@@ -70,8 +71,8 @@ final class TicketsAdmin extends Base
     {
         $user = self::actor();
         try {
-            $t = Tickets::create(self::fields($req), $user);
-        } catch (\InvalidArgumentException $e) {
+            $t = Tickets::create(self::fields($req), $user, $req->files['pj'] ?? null);
+        } catch (\InvalidArgumentException | \RuntimeException $e) {
             return self::back('/admin/tickets', null, $e->getMessage());
         }
         Activity::log($user, 'a ouvert un ticket', ['title' => 'n° ' . $t['id'] . ' · ' . $t['title'], 'path' => '']);
@@ -87,10 +88,10 @@ final class TicketsAdmin extends Base
         try {
             switch ($req->str('action')) {
                 case 'modifier':
-                    Tickets::edit($id, self::fields($req), $user);
+                    Tickets::edit($id, self::fields($req), $user, $req->files['pj'] ?? null, array_map('strval', (array) ($req->post['pj_retirer'] ?? [])));
                     return self::back($url, 'Ticket modifié.');
                 case 'commenter':
-                    Tickets::comment($id, $req->str('texte'), $user);
+                    Tickets::comment($id, $req->str('texte'), $user, $req->files['pj'] ?? null);
                     return self::back($url . '#fil', 'Réponse envoyée.');
                 case 'statut':
                     $t = Tickets::setStatus($id, $req->str('status'), $req->str('priority'), $req->str('texte'), $user);
@@ -104,10 +105,36 @@ final class TicketsAdmin extends Base
                     Activity::log($user, 'a supprimé un ticket', ['title' => 'n° ' . $id, 'path' => '']);
                     return self::back('/admin/tickets', 'Ticket n° ' . $id . ' supprimé.');
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException | \RuntimeException $e) {
             return self::back($url, null, $e->getMessage());
         }
         return self::back($url, null, 'Action inconnue.');
+    }
+
+    /**
+     * GET /admin/tickets/{id}/pj/{fid} : une pièce jointe, pour les membres connectés du back-office.
+     * Images, PDF et vidéos montrés dans le navigateur, le reste téléchargé ; jamais interprété comme
+     * une page (type imposé, « nosniff », bac à sable).
+     */
+    public static function file(Request $req, string $id, string $fid): Response
+    {
+        $t = Tickets::get((int) $id);
+        $f = $t ? TicketFiles::find($t, $fid) : null;
+        $path = $f ? TicketFiles::path((int) $id, $f) : null;
+        if (!$path) {
+            return new Response('Pièce jointe introuvable.', 404, ['Content-Type' => 'text/plain; charset=UTF-8']);
+        }
+        $inline = TicketFiles::inline($f) && $req->str('telecharger') !== '1';
+        $name = (string) $f['name'];
+        $ascii = (string) preg_replace('/[^\x20-\x7E]|["\\]/', '_', $name);
+        return new Response((string) file_get_contents($path), 200, [
+            'Content-Type' => $inline ? (string) $f['mime'] : 'application/octet-stream',
+            'Content-Disposition' => ($inline ? 'inline' : 'attachment') . '; filename="' . $ascii . '"; filename*=UTF-8\'\'' . rawurlencode($name),
+            'X-Content-Type-Options' => 'nosniff',
+            'Content-Security-Policy' => "default-src 'none'; img-src 'self'; media-src 'self'; object-src 'self'; sandbox",
+            'Cache-Control' => 'private, max-age=3600',
+            'X-Robots-Tag' => 'noindex',
+        ]);
     }
 
     private static function fields(Request $req): array

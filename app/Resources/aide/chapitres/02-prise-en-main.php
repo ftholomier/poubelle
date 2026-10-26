@@ -76,6 +76,7 @@ HTML],
 <li><b>Type</b> : 🐞 Correction de bug, ✨ Demande d’amélioration ou ❓ Question. <b>Priorité</b> : normale, urgente ou bloquante (l’administrateur peut l’ajuster).</li>
 <li><b>Votre demande</b> : ce qui se passe, où, et ce que vous attendiez. Pour un bug, ce que vous avez fait juste avant.</li>
 <li><b>Prompt pour l’IA</b> (facultatif) : la consigne que vous donneriez vous-même à l’IA qui développe le musée, comme si vous lui parliez (« Sur la fiche joueur, ajoute sous la photo… »). C’est vous qui savez exactement ce que vous voulez : plus c’est précis, mieux c’est. L’administrateur la copie d’un clic.</li>
+<li><b>Pièces jointes</b> (facultatif) : cliquez sur la zone 📎 pour choisir des fichiers, glissez-les dessus, ou <b>collez une capture d’écran</b> (Ctrl+V, ou ⌘+V sur Mac) n’importe où dans le formulaire, même dans le texte de la demande. Chaque fichier s’affiche avant l’envoi, avec une croix pour le retirer. Images, PDF, textes, Word, Excel, LibreOffice, ZIP et vidéos ; 10 fichiers au plus par envoi. Une capture trop lourde pour le serveur est recompressée toute seule. Les pièces jointes ne sont visibles que par l’équipe connectée ; vous pouvez en ajouter (ou en retirer) en modifiant le ticket, et en joindre à une réponse, même sans texte.</li>
 </ul>
 <p><b>Statuts</b> : <b>Nouveau</b> → <b>Pris en compte</b> → <b>En cours</b> → <b>À vérifier</b> (c’est en ligne : contrôlez et répondez « c’est bon ») → <b>Terminé</b>, ou <b>Refusé / sans suite</b> avec une explication. Seul l’administrateur change le statut et la priorité.</p>
 <ul>

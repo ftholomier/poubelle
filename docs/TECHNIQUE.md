@@ -1696,6 +1696,17 @@ déjà été enregistrés ; sitemap : la page et chaque album). Nom par club : `
   (`markSeen()`), affiché sur le bouton 🎫 Ticket en tête du menu (`Base`) ; le tableau de bord
   liste « Mes tickets en cours ». Écran en deux moitiés : liste à gauche, nouveau ticket à
   droite.
+  Pièces jointes (`App\Services\TicketFiles`) : champ `pj[]` des formulaires (création,
+  modification avec `pj_retirer[]`, réponse), `check()` avant tout enregistrement (extension
+  ET type réel `finfo` dans `TYPES`, images relues par `getimagesize`, ni SVG ni HTML ; 10
+  fichiers, `maxSize()` = min(20 Mo, `upload_max_filesize`)), rangées dans
+  `storage/tickets/<n°>/<16 hex>.<ext>` (nom d'origine seulement dans le ticket : `files` du
+  ticket ou d'une réponse), servies par `GET /admin/tickets/{id}/pj/{fid}` (membres connectés ;
+  images, PDF, vidéos en ligne, le reste téléchargé ; `nosniff`, CSP `sandbox`), effacées
+  avec le ticket. E-mails : « 📎 N pièce(s) jointe(s) » (fichiers non envoyés). `promptFor()`
+  liste leurs adresses. Navigateur : `public/assets/admin/pieces-jointes.js` (choix,
+  glisser-déposer, collage d'une capture n'importe où dans le formulaire, aperçu, retrait,
+  tailles vérifiées avant l'envoi, image trop lourde recompressée en JPEG).
 - **Validation des fiches** (`App\Services\Validation`, `POST /admin/fiche/{id}/valider`) :
   « Valider cette fiche » note qui et quand (`storage/validations.json`), pastille verte dans les listes, filtre
   « Validées / À valider », entrée au journal d'activité.

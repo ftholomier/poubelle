@@ -33,6 +33,25 @@
 .tk-half{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start;margin-top:16px}
 .tk-new{position:sticky;top:120px;border-top:6px solid var(--yellow)}
 .tk-half .tk-row{grid-template-columns:1fr}
+.tk-pj{margin:4px 0 14px}
+.tk-pj__zone{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 10px;align-items:center;padding:12px 14px;border:2px dashed var(--navy);background:rgba(255,205,0,.08);cursor:pointer;font-size:14px}
+.tk-pj__zone .xs{grid-column:2}
+.tk-pj__zone input{position:absolute;width:1px;height:1px;opacity:0}
+.tk-pj__zone:focus-within{outline:3px solid var(--yellow)}
+.tk-pj.is-over .tk-pj__zone{background:rgba(255,205,0,.3);border-style:solid}
+.tk-pj__ico{font-size:22px;grid-row:span 2}
+.tk-pj--compact .tk-pj__zone{padding:8px 12px;font-size:13px}
+.tk-pj__list{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.tk-pj__list li{display:flex;align-items:center;gap:8px;padding:4px 6px 4px 4px;border:2px solid var(--navy);background:var(--cream,#fff);font-size:13px;max-width:100%}
+.tk-pj__list img{width:44px;height:44px;object-fit:cover;display:block}
+.tk-pj__list button{border:0;background:none;cursor:pointer;font-size:16px;line-height:1;padding:2px 4px}
+.tk-pj__list .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px}
+.tk-pj__err{color:#b00;font-weight:700;margin:6px 0 0}
+.tk-files{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.tk-file{display:flex;gap:8px;align-items:flex-start;max-width:100%}
+.tk-file__thumb img{display:block;width:160px;max-height:120px;object-fit:cover;border:2px solid var(--navy)}
+.tk-file__meta{display:flex;flex-direction:column;gap:2px;font-size:14px;min-width:0}
+.tk-file__meta>a{overflow-wrap:anywhere;font-weight:700}
 @media (max-width:1100px){.tk-half{grid-template-columns:1fr}.tk-new{position:static;order:-1}}
 @media (max-width:900px){.tk-row,.tk-grid{grid-template-columns:1fr}.tk-list li{grid-template-columns:48px minmax(0,1fr)}.tk-list li>:last-child{grid-column:2}}
 </style>
