@@ -37,7 +37,11 @@ $aJour = $shaLocal !== '' && $shaDistant !== '' && $shaLocal === $shaDistant;
     <div>
       <h3 class="h4" style="margin-bottom:10px">Disponible sur GitHub</h3>
       <?php if (!Updater::configure()): ?>
-        <p class="txt-attenue">Renseignez le dépôt ci-dessous.</p>
+        <p style="color:#ffc79a">
+          <?= $config['repo'] === ''
+              ? 'Le champ « Dépôt GitHub » est vide : renseignez-le ci-dessous.'
+              : 'Le dépôt « ' . e((string) $config['repo']) . ' » n’est pas au format attendu (proprietaire/depot).' ?>
+        </p>
       <?php elseif (empty($distante['ok'])): ?>
         <p style="color:#ffa9b3"><?= e((string) ($distante['error'] ?? 'Impossible de joindre GitHub.')) ?></p>
       <?php else: ?>
@@ -96,11 +100,13 @@ $aJour = $shaLocal !== '' && $shaDistant !== '' && $shaLocal === $shaDistant;
       <div class="field">
         <label for="repo">Dépôt GitHub</label>
         <small class="help">Au format <code>proprietaire/depot</code>.</small>
-        <input class="input" id="repo" name="repo" placeholder="ftholomier/poubelle" value="<?= e((string) $config['repo']) ?>">
+        <input class="input" id="repo" name="repo" placeholder="proprietaire/depot" required
+               value="<?= e((string) $config['repo']) ?>">
       </div>
       <div class="field">
         <label for="branch">Branche</label>
-        <input class="input" id="branch" name="branch" placeholder="main" value="<?= e((string) $config['branch']) ?>">
+        <input class="input" id="branch" name="branch" placeholder="main" required
+               value="<?= e((string) $config['branch']) ?>">
       </div>
       <div class="field col-pleine">
         <label for="token">Jeton d’accès <span class="muted small">(obligatoire si le dépôt est privé)</span></label>
@@ -113,8 +119,14 @@ $aJour = $shaLocal !== '' && $shaDistant !== '' && $shaLocal === $shaDistant;
                placeholder="<?= $config['token'] !== '' ? '•••••••• (inchangé si laissé vide)' : 'github_pat_…' ?>" value="">
       </div>
     </div>
+    <?php if ($config['token'] !== '' && !empty($distante['ok'])): ?>
+      <p class="txt-mini" style="color:#ffc79a">
+        Un jeton est enregistré. Si le dépôt est public, il est inutile : vous pouvez l’effacer.
+      </p>
+    <?php endif; ?>
+
     <div class="row" style="gap:12px;margin-top:6px">
-      <button class="btn btn--ghost" type="submit">Enregistrer le dépôt</button>
+      <button class="btn" type="submit">Enregistrer le dépôt</button>
       <?php if ($config['token'] !== ''): ?>
         <button class="btn btn--ghost" type="submit" name="clear_token" value="1"
                 data-confirmer="Effacer le jeton d’accès enregistré ?">Effacer le jeton</button>
