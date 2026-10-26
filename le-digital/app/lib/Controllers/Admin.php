@@ -168,10 +168,7 @@ final class Admin
             ...array_map(static fn($so) => $so['kind'] === 'intensiti'
                 ? ['Intensiti : capture et lien', ($so['image'] ?? '') !== '' && ($so['url'] ?? '') !== '', '/admin/contenus/solutions']
                 : [$so['name'] . ' : présentation et capture', trim((string) $so['text']) !== '' && $so['image'] !== '', '/admin/solutions/' . $so['id']], \LD\Solutions::enabled()),
-            ['Mentions légales : éditeur (statut, SIRET, adresse) et hébergeur', (static function (): bool {
-                $txt = array_column(\LD\Content::get('mentions')['sections'] ?? [], 'text', 'id');
-                return trim((string) ($txt['hebergement'] ?? '')) !== '' && preg_match('/\d{9}/', str_replace(' ', '', (string) ($txt['editeur'] ?? ''))) === 1;
-            })(), '/admin/contenus/mentions'],
+            ['Mentions légales : e-mail et téléphone de contact (obligatoires)', !empty($s['contact']['email']) && !empty($s['contact']['phone']), '/admin/parametres#coordonnees'],
             ['Adresse du site (URL canonique)', !empty($s['site']['url']), '/admin/parametres#identite'],
         ];
         $usage = Store::read('data/ai-usage.json', []);

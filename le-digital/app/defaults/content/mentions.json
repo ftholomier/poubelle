@@ -1,13 +1,76 @@
 {
   "seo": {
-    "title": "Mentions légales & accessibilité",
-    "description": "Mentions légales, données personnelles et déclaration d'accessibilité du site LE-DIGITAL.com."
+    "title": "Mentions légales, données personnelles & accessibilité",
+    "description": "Mentions légales du site LE-DIGITAL.com : éditeur, hébergeur, propriété intellectuelle, données personnelles (RGPD), cookies, intelligence artificielle et accessibilité."
   },
   "title": "Mentions légales",
-  "sections": [
-    { "id": "editeur", "title": "Éditeur du site", "text": "LE-DIGITAL.com — Frédéric Tholomier." },
-    { "id": "hebergement", "title": "Hébergement", "text": "" },
-    { "id": "donnees", "title": "Données personnelles", "text": "Les informations envoyées via le formulaire servent uniquement à te répondre." },
-    { "id": "accessibilite", "title": "Accessibilité", "text": "Le site est conçu pour être lisible par tous : contrastes soignés, textes agrandissables, navigation au clavier. Un souci ? Écris-moi, je corrige." }
+  "intro": "Informations prévues par la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN), le Règlement général sur la protection des données (RGPD) et la loi Informatique et Libertés.",
+  "updated": "Dernière mise à jour : octobre 2026",
+  "rubriques": [
+    {
+      "id": "editeur",
+      "title": "Éditeur du site",
+      "text": "Le site {site} est édité par la société LE-DIGITAL.COM, société par actions simplifiée (SAS) au capital de 1 000 €.\nSiège social : 11 rue du Chenois, 25260 Lougres, France.\nImmatriculée au Registre du commerce et des sociétés de Belfort sous le numéro 977 556 315 (RCS Belfort 977 556 315).\nSIRET : 977 556 315 00017 · Code APE : 62.02A (conseil en systèmes et logiciels informatiques).\nNuméro de TVA intracommunautaire : FR57977556315.\nTéléphone : {telephone}\nE-mail : {email}"
+    },
+    {
+      "id": "publication",
+      "title": "Directeur de la publication",
+      "text": "Frédéric Tholomier, Président de LE-DIGITAL.COM."
+    },
+    {
+      "id": "hebergement",
+      "title": "Hébergement",
+      "text": "Le site est hébergé par o2switch, 222-224 boulevard Gustave Flaubert, 63000 Clermont-Ferrand, France.\nTéléphone : 04 44 44 60 40 · www.o2switch.fr\nLes serveurs sont situés en France."
+    },
+    {
+      "id": "propriete",
+      "title": "Propriété intellectuelle",
+      "text": "L'ensemble des contenus de ce site (textes, logos, photographies, vidéos, illustrations, mise en page et code) est la propriété de LE-DIGITAL.COM ou de ses partenaires et est protégé par le Code de la propriété intellectuelle. Toute reproduction, représentation ou adaptation, totale ou partielle, sans autorisation écrite préalable est interdite et constitue une contrefaçon (articles L.335-2 et suivants du Code de la propriété intellectuelle).\nLes marques et logos de tiers cités (Google, LinkedIn…) appartiennent à leurs propriétaires respectifs."
+    },
+    {
+      "id": "donnees",
+      "title": "Données personnelles (RGPD)",
+      "text": "Responsable du traitement : LE-DIGITAL.COM, représentée par Frédéric Tholomier, joignable {contact}.\n\nDonnées collectées : uniquement celles que tu choisis de transmettre : formulaire de contact (prénom, e-mail, téléphone, message, centres d'intérêt), prise de rendez-vous (créneau, format, coordonnées), demande de rappel (téléphone), message vocal (enregistrement audio et sa transcription), échanges avec l'assistant IA et informations saisies dans les outils de démonstration (adresse d'un site, activité, description d'un devis).\n\nFinalités et bases légales : répondre à tes demandes et organiser nos échanges (mesures précontractuelles prises à ta demande, article 6.1.b du RGPD) ; t'envoyer les confirmations et rappels de rendez-vous (même base) ; assurer la sécurité du site et prévenir les abus (intérêt légitime, article 6.1.f du RGPD). Tes données ne sont ni vendues, ni louées, ni cédées à des tiers à des fins commerciales. Aucune décision produisant des effets juridiques à ton égard n'est prise de façon automatisée.\n\nDurées de conservation : 3 ans à compter de notre dernier échange pour les demandes, rendez-vous, messages vocaux et conversations avec l'assistant (ou plus tôt, sur simple demande de ta part) ; 24 heures pour les données techniques anti-abus, qui ne contiennent qu'une empreinte anonymisée de l'adresse IP.\n\nDestinataires : Frédéric Tholomier uniquement, ainsi que les prestataires techniques strictement nécessaires, qui agissent sur instruction : l'hébergeur o2switch et le prestataire de messagerie, situés en France, pour le stockage des données et l'envoi des e-mails ; {ia} pour le fonctionnement de l'assistant et des démonstrations IA. Lorsque les serveurs d'un prestataire sont situés hors de l'Union européenne, le transfert est encadré par les garanties prévues par le RGPD (décision d'adéquation de la Commission européenne ou clauses contractuelles types).\n\nTes droits : tu disposes d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité de tes données, ainsi que du droit de définir des directives sur leur sort après ton décès. Pour les exercer, contacte LE-DIGITAL.COM {contact} : une réponse t'est apportée dans un délai d'un mois. Si tu estimes, après nous avoir contactés, que tes droits ne sont pas respectés, tu peux adresser une réclamation à la CNIL (www.cnil.fr)."
+    },
+    {
+      "id": "cookies",
+      "title": "Cookies et traceurs",
+      "text": "Le site ne dépose aucun cookie publicitaire. Il utilise uniquement le stockage local de ton navigateur pour les fonctions que tu utilises (conversation en cours avec l'assistant, résultat du simulateur, ne pas réafficher la fenêtre de rappel) : ces informations restent sur ton appareil et ne nous sont pas transmises. Strictement nécessaires au service que tu demandes, ces traceurs sont dispensés de consentement (article 82 de la loi Informatique et Libertés). L'espace d'administration, réservé à l'éditeur, utilise un cookie de session.\nCertains contenus sont fournis par des services tiers (avis Google, widgets d'avis, publications LinkedIn). Leur affichage peut entraîner la transmission de ton adresse IP à ces services et le dépôt de leurs propres traceurs, régis par leurs politiques de confidentialité."
+    },
+    {
+      "id": "ia",
+      "title": "Assistant IA et outils de démonstration",
+      "text": "L'assistant de discussion et les outils de démonstration (analyse de site, devis) reposent sur un système d'intelligence artificielle : tu échanges avec une IA, pas avec un humain. Ses réponses sont générées automatiquement, peuvent contenir des erreurs et ne constituent ni un conseil professionnel ni un engagement contractuel. Frédéric Tholomier reçoit ces échanges et te répond personnellement pour toute suite à donner. Merci de ne pas y transmettre de données sensibles (santé, données bancaires, opinions…)."
+    },
+    {
+      "id": "avis",
+      "title": "Avis clients",
+      "text": "Les avis affichés sur le site ne donnent lieu à aucune contrepartie. Les avis Google sont repris depuis Google avec leur auteur, leur note et leur date ; la note moyenne affichée est celle calculée par Google. Les autres avis sont transmis directement par des clients de LE-DIGITAL.COM ou proviennent du service d'avis indiqué sur le widget."
+    },
+    {
+      "id": "responsabilite",
+      "title": "Responsabilité et liens",
+      "text": "LE-DIGITAL.COM s'efforce de publier des informations exactes et à jour, sans pouvoir en garantir l'exhaustivité ; elles peuvent être modifiées à tout moment et sont fournies à titre indicatif. Les liens vers d'autres sites sont proposés pour information : LE-DIGITAL.COM n'exerce aucun contrôle sur leur contenu et n'en assume pas la responsabilité."
+    },
+    {
+      "id": "mediation",
+      "title": "Médiation de la consommation",
+      "text": ""
+    },
+    {
+      "id": "droit",
+      "title": "Droit applicable",
+      "text": "Les présentes mentions légales sont régies par le droit français. En cas de différend, une solution amiable sera recherchée en priorité ; à défaut, les juridictions françaises compétentes pourront être saisies."
+    },
+    {
+      "id": "accessibilite",
+      "title": "Accessibilité",
+      "text": "Le site est conçu pour être lisible par tous : contrastes soignés, textes agrandissables, navigation au clavier, alternatives textuelles pour les images. Un souci d'accès à un contenu ? Écris-moi {contact} : je corrige au plus vite."
+    },
+    {
+      "id": "credits",
+      "title": "Crédits",
+      "text": "Conception, développement et contenus : LE-DIGITAL.COM, en France."
+    }
   ]
 }
