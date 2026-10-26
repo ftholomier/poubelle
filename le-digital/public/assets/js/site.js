@@ -979,6 +979,9 @@
   /** Pied de page : « Retour en haut » (défilement doux, sans ajouter d'ancre à l'adresse). */
   function toTop() {
     $$('[data-to-top]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); scrollTo({ top: 0, behavior: anim ? 'smooth' : 'auto' }); }));
+    // Filigrane « LE-DIGITAL.com » : dégradé animé seulement quand il est visible.
+    const mark = $('[data-ftr-mark]');
+    if (mark && anim && 'IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => mark.classList.toggle('is-on', e.isIntersecting))).observe(mark);
   }
 
   function footerProof() {
