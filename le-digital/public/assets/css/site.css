@@ -542,6 +542,8 @@ html.menu-open .dbar-wrap,html.menu-open .dfab{opacity:0;pointer-events:none}
 
 /* Appels finaux */
 .final-wrap{background:#fff;padding:0 24px clamp(80px,10vw,120px)}
+/* Après une section colorée (ex. la formule de l'accueil quand la section avis est masquée) : on garde l'espace au-dessus */
+.sec--formula+.final-wrap,.sec--rose+.final-wrap,.sec--rose2+.final-wrap,.sec--ink+.final-wrap{padding-top:clamp(80px,10vw,120px)}
 .final{max-width:1280px;margin:0 auto;border-radius:44px;position:relative;overflow:hidden}
 .final--split{background:#161922;color:#fff;padding:clamp(44px,7vw,96px) clamp(28px,6vw,88px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center}
 .final__txt{position:relative;display:flex;flex-direction:column;gap:22px}
@@ -994,7 +996,7 @@ a.post:hover .post__img img{transform:scale(1.03)}
 .wrap--zone{padding:clamp(72px,9vw,120px) 24px}
 .zcard{padding:32px;border-radius:28px;text-decoration:none;display:flex;flex-direction:column;gap:10px;transition:transform .3s}
 .zcard:hover{transform:translateY(-4px)}
-.zcard h2{font-family:var(--fh);font-weight:900;font-size:26px;letter-spacing:-.025em}
+.zcard h2,.zcard__t{font-family:var(--fh);font-weight:900;font-size:26px;letter-spacing:-.025em}
 .zcard p{font-size:16px;line-height:1.55}
 .zcard--0{background:#161922;color:#fff}.zcard--0:hover{color:#fff}.zcard--0 p{color:#cfccdd}
 .zcard--1{background:#fff7f6;color:#161922}.zcard--1:hover{color:#161922}.zcard--1 p{color:#4a4760}
@@ -1499,3 +1501,14 @@ a.fproof__score:hover .fproof__meta>span:last-child{color:#fff;text-decoration:u
 /* Pas encore d'avis ou d'article : message simple (jamais d'encart « à fournir ») */
 .rv-empty{max-width:640px;margin:8px 0 0;font-size:18px;line-height:1.6;color:#5b5870}
 .rv-empty a{color:#cc1517;font-weight:700}
+/* Page « Partout en France, à distance » */
+.city-pills a{display:inline-flex;align-items:center;gap:8px}
+.city-pills .fr-flag{width:20px;height:14px;border-radius:3px}
+.dist-kicker{align-self:flex-start;padding:8px 14px;border-radius:999px;background:#fff;border:1.5px solid #f2dedb;font:800 13px var(--fh);letter-spacing:.06em;text-transform:uppercase;color:#cc1517}
+.dist-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px;margin:10px 0 0;max-width:900px}
+.dist-stats div{padding:18px 22px;border-radius:20px;background:#fff;border:1px solid #f2dedb}
+.dist-stats dt{font:900 clamp(30px,3.4vw,40px)/1 var(--fh);letter-spacing:-.04em;color:#cc1517}
+.dist-stats dd{margin:6px 0 0;font-size:15px;line-height:1.4;color:#4a4760}
+.dist-local{margin-top:56px;padding:32px;border-radius:28px;background:#fff7f6;display:flex;flex-direction:column;gap:12px}
+.dist-local__t{font:900 clamp(24px,3vw,32px)/1.1 var(--fh);letter-spacing:-.03em}
+.dist-local p{color:#4a4760;font-size:16.5px;line-height:1.6}

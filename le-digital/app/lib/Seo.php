@@ -67,7 +67,7 @@ final class Seo
 
     public static function sitemap(): string
     {
-        $urls = ['/', '/sur-mesure-ia', '/formation', '/accompagnement', '/mes-solutions', '/qui-suis-je', '/avis', '/blog', '/on-prend-rdv', '/mentions-legales'];
+        $urls = ['/', '/sur-mesure-ia', '/formation', '/accompagnement', '/mes-solutions', '/qui-suis-je', '/avis', '/blog', '/on-prend-rdv', '/partout-en-france', '/mentions-legales'];
         foreach (Content::get('zones')['cities'] ?? [] as $z) {
             $urls[] = '/zones/' . $z['slug'];
         }

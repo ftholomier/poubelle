@@ -82,6 +82,7 @@ $router->get('/blog', [Front::class, 'blog']);
 $router->get('/blog/{slug}', [Front::class, 'article']);
 $router->get('/on-prend-rdv', [Front::class, 'rdv']);
 $router->get('/zones/{slug}', [Front::class, 'zone']);
+$router->get('/partout-en-france', [Front::class, 'distance']);
 $router->get('/mentions-legales', [Front::class, 'mentions']);
 $router->get('/accessibilite', static fn() => Http::redirect('/mentions-legales#accessibilite', 301));
 $router->any('/rdv/annuler/{id}/{token}', [Front::class, 'cancelBooking']);

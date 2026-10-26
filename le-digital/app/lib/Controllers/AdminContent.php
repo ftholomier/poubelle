@@ -50,7 +50,7 @@ final class AdminContent
         return match ($page) {
             'home', 'global' => '/', 'sur-mesure' => '/sur-mesure-ia', 'formation' => '/formation', 'accompagnement' => '/accompagnement',
             'solutions' => '/mes-solutions', 'qui' => '/qui-suis-je', 'avis' => '/avis', 'blog' => '/blog', 'rdv' => '/on-prend-rdv',
-            'zones' => '/zones/' . (Content::get('zones')['cities'][0]['slug'] ?? 'besancon'), 'mentions' => '/mentions-legales', default => '/',
+            'zones' => '/zones/' . (Content::get('zones')['cities'][0]['slug'] ?? 'besancon'), 'mentions' => '/mentions-legales', 'distance' => '/partout-en-france', default => '/',
         };
     }
 

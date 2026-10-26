@@ -9,6 +9,7 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
 **Site public** (11 pages + article de blog, desktop et mobile)
 
 - Accueil, Sur mesure + IA, Formation, L'accompagnement, Mes solutions, Qui suis-je, Avis, Blog (liste + article),
+  Partout en France (à distance, avec FAQ),
   On prend RdV ?, Zones (Besançon, Montbéliard, Belfort, Dijon), Mentions légales / Accessibilité.
 - Toutes les interactions de la maquette fonctionnent :
   - conversation animée du haut de page, mots qui défilent, compteurs, apparitions au défilement ;

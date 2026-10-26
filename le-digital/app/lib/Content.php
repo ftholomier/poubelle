@@ -22,6 +22,7 @@ final class Content
         'blog'           => 'Blog (page et thèmes)',
         'rdv'            => 'On prend RdV ?',
         'zones'          => "Zones d'intervention",
+        'distance'       => 'Partout en France (à distance)',
         'mentions'       => 'Mentions légales & accessibilité',
     ];
 

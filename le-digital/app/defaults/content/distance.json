@@ -1,0 +1,42 @@
+{
+  "seo": {
+    "title": "Expert digital à distance, partout en France et en francophonie",
+    "description": "Sites web, CRM métier, outils IA sur mesure et formation digitale en visio, partout en France et dans la francophonie. Un expert digital français en direct, réponse sous 24 h ouvrées."
+  },
+  "kicker": "Partout en France · en visio",
+  "title": "Où que tu sois,",
+  "title_accent": "on travaille ensemble.",
+  "text": "Ancré en Bourgogne-Franche-Comté, j'accompagne des entreprises dans toute la France et dans la francophonie : Belgique, Suisse, Luxembourg, Québec… Tout se fait en visio, avec le même suivi qu'autour d'un café.",
+  "cta_primary": "On prend RdV en visio ?",
+  "cta_secondary": "Voir l'accompagnement",
+  "stats": [
+    { "v": "500+", "l": "entreprises accompagnées" },
+    { "v": "24 h", "l": "pour te répondre (jours ouvrés)" },
+    { "v": "100 %", "l": "en français, en direct avec moi" }
+  ],
+  "how_ask": "Et à distance, ça marche vraiment ?",
+  "how_title": "Comment ça se passe, à distance",
+  "how": [
+    { "t": "Un premier café en visio", "d": "Gratuit et sans engagement : tu me racontes ce qui te prend du temps, je te dis ce qu'on peut faire ensemble." },
+    { "t": "Une proposition claire", "d": "Ce qu'on construit, combien ça coûte, quand c'est prêt. Chaque projet est unique : chaque devis aussi." },
+    { "t": "On avance écran partagé", "d": "Des points réguliers en visio, des démos au fil de l'eau : tu testes au fur et à mesure, rien n'est figé." },
+    { "t": "Formation et suivi", "d": "Je te forme à tes outils en visio, et je reste joignable après la mise en ligne. Un seul interlocuteur : moi." }
+  ],
+  "offers_title": "Ce que je fais à distance",
+  "offers": [
+    { "title": "Sites, CRM, outils IA", "text": "Conçus, livrés et pris en main à distance. Sur mesure, sans usine à gaz.", "href": "/sur-mesure-ia" },
+    { "title": "Formation DIGITAL 360", "text": "En distanciel, en direct avec moi, ou en ligne à ton rythme. Finançable CPF (ou pas !).", "href": "/formation" },
+    { "title": "Accompagnement", "text": "Un regard extérieur régulier sur ton digital, en visio, pour avancer sans t'éparpiller.", "href": "/accompagnement" }
+  ],
+  "faq_title": "Les questions qu'on me pose",
+  "faq": [
+    { "q": "La visio, c'est vraiment aussi efficace qu'en vrai ?", "a": "Oui : on partage l'écran, on construit et on teste ensemble en direct. Et tu gagnes le temps du trajet." },
+    { "q": "De quoi ai-je besoin ?", "a": "D'un ordinateur et d'une connexion internet. Je t'envoie un lien de visio : rien à installer." },
+    { "q": "Je ne suis pas en France, c'est possible ?", "a": "Bien sûr : partout dans la francophonie. On cale les rendez-vous en tenant compte du fuseau horaire." },
+    { "q": "Et si je préfère qu'on se voie ?", "a": "Avec plaisir si tu es du côté de Besançon, Montbéliard, Belfort ou Dijon : je me déplace. Ailleurs, on combine visio et rencontre quand c'est utile." }
+  ],
+  "zones_title": "Et si tu es dans le coin…",
+  "zones_text": "Je me déplace volontiers, autour d'un vrai café :",
+  "final_title": "Où que tu sois, on prend un café (en visio) ?",
+  "final_cta": "On prend RdV ?"
+}

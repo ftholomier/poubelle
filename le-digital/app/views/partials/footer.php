@@ -36,7 +36,7 @@ $carousel = LD\Reviews::carouselPlace(LD\Http::path());
       <div class="ftr__col">
         <span class="ftr__h"><?= t($f['zones_title'] ?? 'Zones') ?></span>
         <?php foreach ($zones as $z): ?><a href="/zones/<?= e($z['slug']) ?>"><?= e($z['name']) ?></a><?php endforeach; ?>
-        <span><?= t($f['remote'] ?? '') ?></span>
+        <?php if (trim((string) ($f['remote'] ?? '')) !== ''): ?><a href="/partout-en-france"><?= t($f['remote']) ?></a><?php endif; ?>
       </div>
       <div class="ftr__col">
         <span class="ftr__h"><?= t($f['links_title'] ?? 'Liens') ?></span>

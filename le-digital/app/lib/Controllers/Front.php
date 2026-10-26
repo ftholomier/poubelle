@@ -158,6 +158,25 @@ final class Front
         self::render('zone', 'zones', ['active' => '', 'title' => $fill($z['seo']['title']), 'description' => $fill($z['seo']['description'])], ['city' => $city]);
     }
 
+    /** Page « Partout en France, à distance » (lien « Partout en France à distance » du pied de page). */
+    public static function distance(): never
+    {
+        $c = Content::get('distance');
+        $faq = array_map(static fn($f) => ['@type' => 'Question', 'name' => strip_tags((string) $f['q']), 'acceptedAnswer' => ['@type' => 'Answer', 'text' => strip_tags((string) $f['a'])]], $c['faq'] ?? []);
+        self::render('distance', 'distance', ['active' => '', 'jsonld' => array_filter([
+            [
+                '@context'    => 'https://schema.org',
+                '@type'       => 'Service',
+                'name'        => strip_tags((string) ($c['seo']['title'] ?? '')),
+                'description' => strip_tags((string) ($c['seo']['description'] ?? '')),
+                'provider'    => ['@id' => abs_url('/#entreprise')],
+                'areaServed'  => [['@type' => 'Country', 'name' => 'France'], ['@type' => 'Country', 'name' => 'Belgique'], ['@type' => 'Country', 'name' => 'Suisse'], ['@type' => 'Country', 'name' => 'Luxembourg'], ['@type' => 'Country', 'name' => 'Canada']],
+                'availableChannel' => ['@type' => 'ServiceChannel', 'name' => 'Visioconférence', 'serviceUrl' => abs_url('/on-prend-rdv')],
+            ],
+            $faq ? ['@context' => 'https://schema.org', '@type' => 'FAQPage', 'mainEntity' => $faq] : null,
+        ])]);
+    }
+
     public static function mentions(): never
     {
         self::render('mentions', 'mentions', ['active' => '']);
