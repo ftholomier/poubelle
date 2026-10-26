@@ -7,6 +7,7 @@ $b = $c['booking'];
 $f = $c['form'];
 $cb = $c['callback'];
 $phoneSet = trim((string) ($s['contact']['phone'] ?? '')) !== '';
+$smsOn = LD\Sms::enabled();
 $bkCfg = ['days' => $days, 'modes' => $modes, 'choose' => $b['choose'], 'book' => $b['book'], 'doneText' => $b['done_text']];
 ?>
 <section class="rdv-hero" aria-labelledby="rdv-title">
@@ -33,7 +34,7 @@ $bkCfg = ['days' => $days, 'modes' => $modes, 'choose' => $b['choose'], 'book' =
         <span class="bk__done-t"><?= t($b['done_title']) ?></span>
         <span class="bk__done-p" data-bk-label></span>
         <button type="button" class="bk__ics" data-bk-ics><?= t($b['ics']) ?></button>
-        <span class="bk__smsok" data-bk-smsok hidden><?= t($b['sms_done']) ?></span>
+        <?php if ($smsOn): ?><span class="bk__smsok" data-bk-smsok hidden><?= t($b['sms_done']) ?></span><?php endif; ?>
         <button type="button" class="bk__change" data-bk-change><?= t($b['change']) ?></button>
       </div>
 
@@ -57,7 +58,7 @@ $bkCfg = ['days' => $days, 'modes' => $modes, 'choose' => $b['choose'], 'book' =
           <input id="bk-phone" name="phone" type="tel" maxlength="30" placeholder="<?= e($b['phone_label']) ?>" autocomplete="tel">
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         </div>
-        <button type="button" class="bk__sms" data-bk-sms aria-pressed="true"><span class="bk__box" aria-hidden="true">✓</span><?= t($b['sms_label']) ?></button>
+        <?php if ($smsOn): ?><button type="button" class="bk__sms" data-bk-sms aria-pressed="true"><span class="bk__box" aria-hidden="true">✓</span><?= t($b['sms_label']) ?></button><?php endif; ?>
         <p class="bk__err" data-bk-err role="alert" hidden></p>
         <button type="submit" class="bk__go" data-bk-go disabled><?= t($b['choose']) ?></button>
         <p class="bk__note"><?= t($b['note']) ?></p>

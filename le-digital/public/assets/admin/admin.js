@@ -40,6 +40,11 @@
   function general() {
     $$('[data-side-toggle]').forEach(b => b.addEventListener('click', () => $('#side').classList.toggle('is-open')));
     $$('[data-dismiss]').forEach(b => b.addEventListener('click', () => b.parentElement.remove()));
+    // Case à cocher qui affiche / masque un bloc de réglages (ex. SMS).
+    $$('input[data-shows]').forEach(c => {
+      const t = $(c.dataset.shows);
+      if (t) c.addEventListener('change', () => { t.hidden = !c.checked; });
+    });
     $$('form[data-confirm]').forEach(f => f.addEventListener('submit', e => { if (!confirm(f.dataset.confirm)) e.preventDefault(); }));
     $$('tr[data-href]').forEach(tr => tr.addEventListener('click', e => { if (!e.target.closest('a,button,input,form')) location.href = tr.dataset.href; }));
     $$('[data-copy]').forEach(b => b.addEventListener('click', () => {

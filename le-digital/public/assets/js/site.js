@@ -420,9 +420,10 @@
     if (!form) return;
     let cfg;
     try { cfg = JSON.parse(form.dataset.booking); } catch (e) { return; }
-    let days = cfg.days, mode = 0, day = 0, slot = -1, sms = true, lastIcs = '', sending = false;
     const daysEl = $('.bk__days', form), slotsEl = $('[data-bk-slots]', form), who = $('[data-bk-who]', form);
     const go = $('[data-bk-go]', form), err = $('[data-bk-err]', form), smsBtn = $('[data-bk-sms]', form);
+    // Case « rappel par SMS » absente quand les SMS sont désactivés dans le back-office.
+    let days = cfg.days, mode = 0, day = 0, slot = -1, sms = !!smsBtn, lastIcs = '', sending = false;
     const done = $('[data-bk-done]'), label = $('[data-bk-label]'), smsok = $('[data-bk-smsok]');
     const renderDays = () => {
       daysEl.innerHTML = days.map((d, i) => `<button type="button" role="radio" aria-checked="${i === day}" aria-label="${esc(d.label)}" class="${i === day ? 'is-on' : ''}" data-day="${i}"><span>${esc(d.wd)}</span><b>${d.n}</b></button>`).join('');
@@ -451,7 +452,7 @@
       slot = +b.dataset.slot; renderSlots(); update(); showErr(err, '');
       if (first) setTimeout(() => $('#bk-name').focus({ preventScroll: true }), 50);
     });
-    smsBtn.addEventListener('click', () => { sms = !sms; smsBtn.setAttribute('aria-pressed', String(sms)); });
+    if (smsBtn) smsBtn.addEventListener('click', () => { sms = !sms; smsBtn.setAttribute('aria-pressed', String(sms)); });
     form.addEventListener('submit', async e => {
       e.preventDefault();
       if (slot < 0 || sending) return;
@@ -466,7 +467,7 @@
         const r = await api('/api/rdv', { date: d.date, time: s.t, mode, name, email, phone, sms, website: fd.get('website'), sim: store.get('ld-sim'), brief: store.get('ld-brief') });
         lastIcs = r.ics || '';
         label.textContent = cfg.doneText.replace('{label}', r.label);
-        smsok.hidden = !r.sms;
+        if (smsok) smsok.hidden = !r.sms;
         form.hidden = true; done.hidden = false;
         done.scrollIntoView({ behavior: anim ? 'smooth' : 'auto', block: 'nearest' });
       } catch (ex) {

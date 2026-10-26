@@ -215,6 +215,7 @@ final class AdminSettings
             'smtp_user'       => $str('mail.smtp_user', 160),
         ];
         $s['sms'] = [
+            'enabled'       => !empty($p['sms']['enabled']),
             'provider'      => in_array(array_get($p, 'sms.provider'), ['none', 'brevo', 'twilio'], true) ? array_get($p, 'sms.provider') : 'none',
             'sender'        => $str('sms.sender', 11),
             'twilio_sid'    => $str('sms.twilio_sid', 60),

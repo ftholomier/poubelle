@@ -5,11 +5,16 @@ namespace LD;
 
 /**
  * Envoi de SMS (rappel de rendez-vous la veille) via Brevo ou Twilio.
+ * Désactivable dans Paramètres › SMS : la case « rappel par SMS » disparaît alors du site et aucun SMS ne part.
  */
 final class Sms
 {
+    /** SMS activés dans le back-office et fournisseur configuré. */
     public static function enabled(): bool
     {
+        if (!Settings::get('sms.enabled', false)) {
+            return false;
+        }
         $p = (string) Settings::get('sms.provider', 'none');
         return match ($p) {
             'brevo'  => Secrets::has('brevo_api_key'),

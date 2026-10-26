@@ -156,7 +156,7 @@ final class Api
         $name = Http::str('name', 80);
         $email = self::email('email');
         $phone = self::phone('phone');
-        $sms = (bool) Http::input('sms', false);
+        $sms = Sms::enabled() && (bool) Http::input('sms', false);
         if ($name === '') {
             Http::fail('Indique ton prénom pour que Fred sache qui il retrouve 🙂', 422, ['field' => 'name']);
         }
@@ -176,7 +176,7 @@ final class Api
         }
         $label = Booking::label($b);
         $lead = Leads::add('rdv', ['name' => $name, 'email' => $email, 'phone' => $phone, 'data' => [
-            'date_label' => $label, 'mode' => $mode, 'sms' => $b['sms'], 'booking_id' => $b['id'], 'date' => $date, 'time' => $time,
+            'date_label' => $label, 'mode' => $mode, 'sms' => Sms::enabled() ? $b['sms'] : null, 'booking_id' => $b['id'], 'date' => $date, 'time' => $time,
             'sim' => self::cleanSim(Http::input('sim')), 'brief' => self::cleanBrief(Http::input('brief')),
         ]]);
         Leads::notify($lead, [['name' => 'rdv.ics', 'type' => 'text/calendar; method=PUBLISH', 'content' => Booking::ics([$b], true)]]);

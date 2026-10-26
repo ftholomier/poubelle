@@ -33,6 +33,7 @@
     "smtp_user": ""
   },
   "sms": {
+    "enabled": false,
     "provider": "none",
     "sender": "LEDIGITAL",
     "twilio_sid": "",

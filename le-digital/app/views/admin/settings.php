@@ -62,8 +62,10 @@ $redirects = implode("\n", array_map(static fn($r) => $r['from'] . ' => ' . $r['
   </section>
 
   <section class="card" id="sms">
-    <div class="card__head"><h2>SMS (rappel de RdV la veille)</h2><button type="button" class="btn btn--ghost" data-test-sms>Envoyer un SMS de test</button></div>
-    <div class="form form--cols">
+    <div class="card__head"><h2>SMS (rappel de RdV la veille)</h2><?php if (!empty($s['sms']['enabled'])): ?><button type="button" class="btn btn--ghost" data-test-sms>Envoyer un SMS de test</button><?php endif; ?></div>
+    <label class="check"><input type="checkbox" name="sms[enabled]" value="1" data-shows="#sms-fields"<?= $chk('sms.enabled') ?>> Activer les SMS</label>
+    <p class="small muted">Désactivés, la case « M’envoyer un rappel par SMS la veille » disparaît de la prise de RdV et aucun SMS ne part (le rappel par e-mail reste). Tes réglages ci-dessous sont gardés. Activés, la case n’apparaît sur le site qu’une fois un fournisseur configuré.</p>
+    <div class="form form--cols" id="sms-fields"<?= !empty($s['sms']['enabled']) ? '' : ' hidden' ?>>
       <label>Fournisseur
         <select name="sms[provider]">
           <?php foreach (['none' => 'Aucun (rappel par e-mail uniquement)', 'brevo' => 'Brevo', 'twilio' => 'Twilio'] as $k => $l): ?><option value="<?= $k ?>"<?= ($s['sms']['provider'] ?? 'none') === $k ? ' selected' : '' ?>><?= $l ?></option><?php endforeach; ?>
@@ -109,7 +111,7 @@ $redirects = implode("\n", array_map(static fn($r) => $r['from'] . ' => ' . $r['
 
 <section class="card" id="cron">
   <div class="card__head"><h2>Tâches planifiées</h2></div>
-  <p class="small">Les rappels de rendez-vous (e-mail + SMS la veille) partent grâce à une tâche lancée <b>toutes les heures</b>. Dernier passage : <?= $cron ? e(date('d/m/Y à H:i', strtotime($cron))) : '<b>jamais</b>' ?>.</p>
+  <p class="small">Les rappels de rendez-vous (e-mail<?= LD\Sms::enabled() ? ' + SMS' : '' ?> la veille) partent grâce à une tâche lancée <b>toutes les heures</b>. Dernier passage : <?= $cron ? e(date('d/m/Y à H:i', strtotime($cron))) : '<b>jamais</b>' ?>.</p>
   <p class="small">Commande « cron » (hébergement avec accès SSH) :</p>
   <div class="copy"><input readonly value="0 * * * * <?= e($cronCmd) ?>" aria-label="Commande cron"><button type="button" class="btn btn--ghost" data-copy>Copier</button></div>
   <p class="small">Ou adresse à appeler toutes les heures (tâche planifiée de ton hébergeur, cron-job.org…) :</p>
