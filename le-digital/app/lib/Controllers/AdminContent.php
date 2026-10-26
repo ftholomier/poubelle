@@ -131,26 +131,38 @@ final class AdminContent
 
     public static function review(string $id): never
     {
-        $r = $id === 'nouveau' ? ['id' => '', 'rating' => 5, 'text' => '', 'name' => '', 'activity' => '', 'tag' => 'Développement', 'photo' => '', 'home' => false, 'published' => true, 'order' => 0, 'source' => '']
+        $r = $id === 'nouveau' ? ['id' => '', 'rating' => 5, 'text' => '', 'name' => '', 'activity' => '', 'tag' => Reviews::TAGS[0], 'photo' => '', 'home' => false, 'published' => true, 'order' => 0, 'source' => '']
             : (Reviews::find($id) ?? Admin::back('/admin/avis', 'err', 'Avis introuvable.'));
         Admin::view('review-edit', ['r' => $r], $id === 'nouveau' ? 'Nouvel avis' : 'Modifier un avis');
     }
 
     public static function saveReview(string $id): never
     {
+        $existing = $id !== 'nouveau' ? (Reviews::find($id) ?? []) : [];
+        $tag = in_array($_POST['tag'] ?? '', Reviews::TAGS, true) ? $_POST['tag'] : '';
+        if ($existing && Reviews::isGoogle($existing)) {
+            // Avis Google : texte, note et auteur restent ceux de Google ; seuls les réglages d'affichage changent.
+            Reviews::save(array_merge($existing, [
+                'activity'  => clean_text((string) ($_POST['activity'] ?? ''), 120),
+                'tag'       => $tag,
+                'home'      => !empty($_POST['home']),
+                'published' => !empty($_POST['published']),
+                'order'     => (int) ($_POST['order'] ?? 0),
+            ]));
+            Admin::back('/admin/avis/' . $id, 'ok', 'Avis enregistré.');
+        }
         $text = trim(clean_text((string) ($_POST['text'] ?? ''), 3000));
         $name = clean_text((string) ($_POST['name'] ?? ''), 80);
         if ($text === '' || $name === '') {
             Admin::back('/admin/avis/' . $id, 'err', 'Le texte et le prénom sont obligatoires.');
         }
-        $existing = $id !== 'nouveau' ? (Reviews::find($id) ?? []) : [];
         $r = Reviews::save(array_merge($existing, [
             'id'        => $id === 'nouveau' ? '' : $id,
             'rating'    => max(1, min(5, (int) ($_POST['rating'] ?? 5))),
             'text'      => $text,
             'name'      => $name,
             'activity'  => clean_text((string) ($_POST['activity'] ?? ''), 120),
-            'tag'       => in_array($_POST['tag'] ?? '', Reviews::TAGS, true) ? $_POST['tag'] : Reviews::TAGS[0],
+            'tag'       => $tag,
             'photo'     => clean_text((string) ($_POST['photo'] ?? ''), 300),
             'home'      => !empty($_POST['home']),
             'published' => !empty($_POST['published']),

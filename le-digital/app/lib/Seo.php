@@ -38,7 +38,8 @@ final class Seo
         if (!empty($s['contact']['city'])) {
             $data['address'] = array_filter(['@type' => 'PostalAddress', 'streetAddress' => $s['contact']['address'] ?? '', 'postalCode' => $s['contact']['postal_code'] ?? '', 'addressLocality' => $s['contact']['city'], 'addressCountry' => 'FR']);
         }
-        $reviews = Reviews::all(true);
+        // Règles Google : uniquement les avis recueillis par le site lui-même, pas ceux importés de Google.
+        $reviews = array_values(array_filter(Reviews::all(true), static fn($r) => !Reviews::isGoogle($r)));
         if (count($reviews) >= 3) {
             $sum = array_sum(array_map(static fn($r) => (int) ($r['rating'] ?? 5), $reviews));
             $data['aggregateRating'] = ['@type' => 'AggregateRating', 'ratingValue' => round($sum / count($reviews), 1), 'reviewCount' => count($reviews)];

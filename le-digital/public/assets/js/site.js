@@ -783,9 +783,32 @@
     window.LDStartVoice = startVoice;
   }
 
+  /* ------------------------------------------------------------------ avis longs (Google) : « Lire la suite » */
+  function clamp() {
+    const boxes = $$('[data-clamp]');
+    if (!boxes.length) return;
+    const check = () => boxes.forEach(box => {
+      if (box.classList.contains('is-open') || box.dataset.clampDone) return;
+      if (box.scrollHeight - box.clientHeight < 4) return;
+      box.dataset.clampDone = '1';
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'rv__more'; b.textContent = 'Lire la suite'; b.setAttribute('aria-expanded', 'false');
+      b.addEventListener('click', () => {
+        const open = box.classList.toggle('is-open');
+        b.textContent = open ? 'Réduire' : 'Lire la suite'; b.setAttribute('aria-expanded', String(open));
+      });
+      box.after(b);
+    });
+    check();
+    // Polices chargées, filtres ou redimensionnement : la hauteur des textes change.
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(check);
+    window.addEventListener('resize', check, { passive: true });
+    document.addEventListener('click', e => { if (e.target.closest('[data-filter] button')) requestAnimationFrame(check); });
+  }
+
   /* ------------------------------------------------------------------ démarrage */
   const init = () => {
-    [header, hero, beforeAfter, bureau, devis, simulator, quiz, analyse, explain, formation, formules, filters, formula, diag, booking, contact, callback, dock, motion]
+    [header, hero, beforeAfter, bureau, devis, simulator, quiz, analyse, explain, formation, formules, filters, formula, diag, booking, contact, callback, dock, motion, clamp]
       .forEach(fn => { try { fn(); } catch (e) { if (window.console) console.error(e); } });
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();

@@ -454,6 +454,65 @@
     });
   }
 
-  const init = () => [general, imageFields, editor, rte, mediaPage, aiPage].forEach(fn => { try { fn(); } catch (e) { console.error(e); } });
+  /* ------------------------------------------------------------------ avis Google */
+  function googlePage() {
+    const form = $('form[data-google]');
+    if (!form) return;
+    const sync = () => {
+      const mode = (form.querySelector('input[name=mode]:checked') || {}).value || 'off';
+      $$('[data-mode-block]', form).forEach(b => { b.hidden = !b.dataset.modeBlock.split(' ').includes(mode); });
+    };
+    $$('input[name=mode]', form).forEach(r => r.addEventListener('change', sync));
+    sync();
+
+    const q = $('[data-place-q]', form), btn = $('[data-place-search]', form), list = $('[data-place-results]', form);
+    if (!q || !btn) return;
+    const search = async () => {
+      if (q.value.trim().length < 3) return toast('Tape au moins 3 caractères.', true);
+      btn.classList.add('is-loading'); btn.disabled = true;
+      try {
+        const res = await fetch('/admin/api/google/lieux?q=' + encodeURIComponent(q.value.trim()), { credentials: 'same-origin', headers: { Accept: 'application/json' } });
+        const j = await res.json().catch(() => ({}));
+        if (!res.ok || j.ok === false) throw new Error(j.error || `Erreur ${res.status}`);
+        list.replaceChildren(...(j.places.length ? j.places.map(p => el('li', {},
+          el('span', {}, el('b', { text: p.name }), el('small', { text: [p.address, p.rating ? `★ ${String(p.rating).replace('.', ',')} · ${p.count} avis` : ''].filter(Boolean).join(' · ') })),
+          el('button', { type: 'button', class: 'btn btn--ghost', text: 'Choisir', onclick: () => {
+            $('[data-place-id]', form).value = p.id; $('[data-place-name]', form).value = p.name;
+            list.hidden = true; toast('Établissement choisi : enregistre pour valider.');
+          } }))) : [el('li', { text: 'Aucun établissement trouvé. Essaie avec le nom exact de ta fiche Google et la ville.' })]));
+        list.hidden = false;
+      } catch (e) { toast(e.message, true); }
+      btn.classList.remove('is-loading'); btn.disabled = false;
+    };
+    btn.addEventListener('click', search);
+    q.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); search(); } });
+  }
+
+  /* ------------------------------------------------------------------ mises à jour */
+  function updatesPage() {
+    const run = async (btn, url, data, busy) => {
+      const label = btn.textContent;
+      btn.disabled = true; btn.classList.add('is-loading'); btn.textContent = busy;
+      try {
+        const r = await api(url, data);
+        toast(r.message || 'C’est fait.');
+        setTimeout(() => location.reload(), 1200);
+      } catch (e) {
+        toast(e.message, true);
+        btn.disabled = false; btn.classList.remove('is-loading'); btn.textContent = label;
+      }
+    };
+    $$('[data-maj-check]').forEach(b => b.addEventListener('click', () => run(b, '/admin/api/maj/verifier', {}, 'Vérification…')));
+    $$('[data-maj-apply]').forEach(b => b.addEventListener('click', () => {
+      if (confirm('Installer la dernière version du site maintenant ?\nUne sauvegarde est faite juste avant ; le site répond « mise à jour en cours » pendant quelques secondes.')) {
+        run(b, '/admin/api/maj/appliquer', {}, 'Mise à jour en cours…');
+      }
+    }));
+    $$('[data-maj-rollback]').forEach(b => b.addEventListener('click', () => {
+      if (confirm('Remettre les fichiers tels qu’ils étaient avant cette mise à jour ?')) run(b, '/admin/api/maj/retour', { backup: b.dataset.majRollback }, 'Retour en cours…');
+    }));
+  }
+
+  const init = () => [general, imageFields, editor, rte, mediaPage, aiPage, googlePage, updatesPage].forEach(fn => { try { fn(); } catch (e) { console.error(e); } });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

@@ -47,7 +47,7 @@ final class Ai
 
     public static function saveConfig(array $config): void
     {
-        Store::write('content/ai.json', $config);
+        Store::write('content/ai.json', Content::changes(Content::defaults('ai'), $config));
         self::$config = null;
         PageCache::clear();
     }

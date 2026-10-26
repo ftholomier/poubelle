@@ -314,3 +314,54 @@ legend{font-weight:600;font-size:14px;margin-bottom:8px;padding:0}
 .auth__p{color:var(--muted)}
 .auth__err{padding:10px 14px;border-radius:12px;background:#ffe6e3;color:#a30f12;font-weight:600}
 .auth__back{font-size:13.5px;color:var(--muted);text-decoration:none;align-self:center}
+
+/* Avis : Google, widget */
+.tabs--section{margin-bottom:-4px}
+.tabs--section a{display:inline-flex;align-items:center;gap:6px}
+.alert{padding:10px 14px;border-radius:12px;font-weight:600;font-size:14px}
+.alert--err{background:#ffe6e3;color:#a30f12}
+.alert--info{background:#fff7f6;color:var(--ink)}
+.gstat{display:flex;flex-direction:column;gap:6px}
+.gstat__big{display:flex;align-items:baseline;gap:10px}
+.gstat__big b{font-family:var(--fh);font-weight:900;font-size:34px;letter-spacing:-.02em}
+.gstat__stars{color:#f5a623;font-size:20px;letter-spacing:2px}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px}
+.mode{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:16px;border:1.5px solid var(--line);background:#fffdfd;cursor:pointer}
+.mode:has(input:checked){border-color:var(--red);background:#fff7f6}
+.mode input{margin-top:3px;width:18px;height:18px;accent-color:var(--red);flex:none}
+.mode span{display:flex;flex-direction:column;gap:4px}
+.mode b{font-family:var(--fh);font-weight:800}
+.mode small{color:var(--muted);font-size:13px;line-height:1.45}
+.gsearch{display:flex;gap:8px}
+.gsearch input{flex:1}
+.gresults{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.gresults li{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:10px 12px;border-radius:12px;background:#fff7f6;font-size:14px}
+.gresults li span{min-width:0}
+.gresults small{display:block;color:var(--muted)}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;line-height:1.5}
+.btn--google{background:#fff;border-color:#dadce0;color:#3c4043;font-family:inherit}
+.btn--google:hover{border-color:#4285f4;background:#f8fbff}
+.sticky-actions{position:sticky;bottom:0;padding:12px 0;background:linear-gradient(transparent,var(--bg,#fbf7f6) 30%);z-index:2}
+.src-g{display:inline-flex;vertical-align:-2px;margin-right:4px}
+.code-area{width:100%;min-height:220px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;font-size:13px!important;line-height:1.5}
+.ro{padding:14px 16px;border-radius:14px;background:#fff7f6;line-height:1.55;white-space:pre-line}
+@media (max-width:600px){.gsearch{flex-direction:column}.gresults li{flex-direction:column;align-items:stretch}}
+
+/* Mises à jour */
+.maj-versions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px}
+.maj-versions>div{display:flex;flex-direction:column;gap:3px;padding:14px 16px;border-radius:16px;background:#fffaf9;border:1px solid var(--line);min-width:0}
+.maj-versions b{font-family:var(--fh);font-weight:800;font-size:17px}
+.maj-versions small{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.maj-box{display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:18px;background:#fff7f6;border:1.5px solid #ffd4cf}
+.maj-box__title{font-weight:700;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.maj-commits{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;max-height:420px;overflow:auto}
+.maj-commits ul{margin:4px 0 0;padding-left:18px;color:var(--muted);font-size:13.5px}
+.maj-files{margin:0;padding-left:18px;columns:2 280px}
+.maj-ok{font-weight:700;color:#3d4f06;background:#eef6d8;padding:10px 14px;border-radius:12px;align-self:flex-start}
+.maj-pad{padding:18px 22px 0}
+.maj-backups{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.maj-backups li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:#fffaf9;border:1px solid var(--line)}
+.btn--lg{padding:14px 24px;font-size:15.5px}
+@media (max-width:600px){.maj-backups li{flex-direction:column;align-items:stretch}}
+.maj-banner{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:14px 18px;border-radius:16px;background:#fff;border:1.5px solid #ffd4cf;color:var(--ink);text-decoration:none;margin-bottom:18px}
+.maj-banner span:last-child{margin-left:auto;color:var(--red);font-weight:700}

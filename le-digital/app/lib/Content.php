@@ -45,18 +45,44 @@ final class Content
         return self::$loaded[$name];
     }
 
+    /**
+     * Enregistre une page. Seul ce qui diffère des textes par défaut est conservé : un texte jamais
+     * retouché dans le back-office suit donc les mises à jour du site (nouveaux textes livrés par GitHub).
+     */
     public static function save(string $name, array $data): void
     {
-        Store::write('content/' . basename($name) . '.json', $data);
+        Store::write('content/' . basename($name) . '.json', self::changes(self::defaults($name), $data));
         unset(self::$loaded[$name]);
         PageCache::clear();
     }
 
     public static function reset(string $name): void
     {
-        Store::write('content/' . basename($name) . '.json', self::defaults($name));
+        Store::delete('content/' . basename($name) . '.json');
         unset(self::$loaded[$name]);
         PageCache::clear();
+    }
+
+    /**
+     * Différence avec les valeurs par défaut : les tableaux associatifs sont comparés clé par clé,
+     * les listes et les textes en entier. Retourne [] si rien ne change.
+     */
+    public static function changes(array $default, array $value): array
+    {
+        $out = [];
+        foreach ($value as $k => $v) {
+            if (!array_key_exists($k, $default)) {
+                $out[$k] = $v;
+            } elseif (is_array($v) && is_array($default[$k]) && $v !== [] && $default[$k] !== [] && !array_is_list($v) && !array_is_list($default[$k])) {
+                $sub = self::changes($default[$k], $v);
+                if ($sub !== []) {
+                    $out[$k] = $sub;
+                }
+            } elseif ($v !== $default[$k]) {
+                $out[$k] = $v;
+            }
+        }
+        return $out;
     }
 
     /**

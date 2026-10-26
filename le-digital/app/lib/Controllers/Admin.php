@@ -38,8 +38,10 @@ final class Admin
         $r->post('/admin/rendez-vous/reglages', self::guard([self::class, 'saveBookingSettings'], true));
         $r->post('/admin/rendez-vous/{id}/annuler', self::guard([self::class, 'cancelBooking'], true));
 
+        AdminReviews::routes($r);
         AdminContent::routes($r);
         AdminSettings::routes($r);
+        AdminUpdates::routes($r);
     }
 
     /** Enveloppe un gestionnaire : connexion obligatoire (+ jeton CSRF pour les POST). */
@@ -163,7 +165,7 @@ final class Admin
             ['Lien LinkedIn', !empty($s['contact']['linkedin']), '/admin/parametres#coordonnees'],
             ['E-mail de notification des demandes', !empty($s['mail']['notify_email']), '/admin/parametres#emails'],
             ['Clé API d’IA (assistant, démos)', Ai::resolve('chat') !== null, '/admin/ia'],
-            ['Témoignages réels', count(Reviews::all(true)) > 0, '/admin/avis'],
+            ['Avis clients (Google, widget ou saisis)', count(Reviews::all(true)) > 0 || Reviews::widgetCode() !== '', \LD\GoogleReviews::enabled() || Reviews::all() ? '/admin/avis' : '/admin/avis/google'],
             ['Articles de blog publiés', count(Posts::all(true)) > 0, '/admin/blog'],
             ['Présentation et capture de Formaliance', trim((string) $sol['formaliance']['text']) !== '' && $sol['formaliance']['image'] !== '', '/admin/contenus/solutions'],
             ['Capture et lien d’Intensiti', $sol['intensiti']['image'] !== '' && $sol['intensiti']['url'] !== '', '/admin/contenus/solutions'],

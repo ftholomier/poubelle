@@ -3,7 +3,11 @@
 use LD\Leads;
 
 $done = count(array_filter($checks, static fn($c) => $c[1]));
+$update = LD\Updater::available();
 ?>
+<?php if ($update): ?>
+  <a class="maj-banner" href="/admin/mises-a-jour"><span class="status status--new">Mise à jour disponible</span> <b><?= e($update['latest']['message'] ?? 'Nouvelle version du site') ?></b> <span>Installer en un clic →</span></a>
+<?php endif; ?>
 <div class="kpis">
   <a class="kpi kpi--red" href="/admin/demandes?statut=new"><b><?= (int) $counts['new'] ?></b><span>nouvelle<?= $counts['new'] > 1 ? 's' : '' ?> demande<?= $counts['new'] > 1 ? 's' : '' ?></span></a>
   <a class="kpi" href="/admin/rendez-vous"><b><?= count($upcoming) ?></b><span>RdV à venir</span></a>

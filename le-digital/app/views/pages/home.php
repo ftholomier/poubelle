@@ -7,6 +7,8 @@ $sol = LD\Content::get('solutions');
 $services = $g['services'] ?? [];
 $eng = $g['engagements'] ?? [];
 $reviews = LD\Reviews::featured(3);
+$gBadge = LD\GoogleReviews::badge();
+$rvWidget = LD\Reviews::widgetPosition('home');
 ?>
 <section class="hero" aria-labelledby="hero-title">
   <div class="dots dots--hero" aria-hidden="true"></div>
@@ -284,15 +286,21 @@ $reviews = LD\Reviews::featured(3);
     <?= ask($c['reviews']['ask']) ?>
     <div class="head-split" data-reveal>
       <h2 class="h2"><?= t($c['reviews']['title']) ?></h2>
-      <a class="link-u" href="/avis"><?= t($c['reviews']['link']) ?></a>
+      <div class="head-split__r">
+        <?php if ($gBadge): ?><?= View::partial('google-badge', ['badge' => $gBadge]) ?><?php endif; ?>
+        <a class="link-u" href="/avis"><?= t($c['reviews']['link']) ?></a>
+      </div>
     </div>
-    <div class="ag" style="--min:320px">
-      <?php if ($reviews): foreach ($reviews as $i => $rv): ?>
-        <?= View::partial('review', ['r' => $rv, 'variant' => 'home', 'delay' => $i * 90]) ?>
-      <?php endforeach; else: foreach ($c['reviews']['placeholders'] as $i => $ph): ?>
-        <?= View::partial('review', ['r' => null, 'tag' => $ph['tag'], 'who' => $ph['who'], 'variant' => 'home', 'delay' => $i * 90]) ?>
-      <?php endforeach; endif; ?>
-    </div>
+    <?php if ($rvWidget !== 'replace' && ($reviews || $rvWidget === '')): ?>
+      <div class="ag" style="--min:320px">
+        <?php if ($reviews): foreach ($reviews as $i => $rv): ?>
+          <?= View::partial('review', ['r' => $rv, 'variant' => 'home', 'delay' => $i * 90]) ?>
+        <?php endforeach; else: foreach ($c['reviews']['placeholders'] as $i => $ph): ?>
+          <?= View::partial('review', ['r' => null, 'tag' => $ph['tag'], 'who' => $ph['who'], 'variant' => 'home', 'delay' => $i * 90]) ?>
+        <?php endforeach; endif; ?>
+      </div>
+    <?php endif; ?>
+    <?php if ($rvWidget !== ''): ?><?= View::partial('reviews-widget') ?><?php endif; ?>
   </div>
 </section>
 

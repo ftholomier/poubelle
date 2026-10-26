@@ -28,13 +28,19 @@ final class Store
             }
         }
         @file_put_contents(LD_STORAGE . '/.htaccess', "<IfModule mod_authz_core.c>\n  Require all denied\n</IfModule>\n<IfModule !mod_authz_core.c>\n  Deny from all\n</IfModule>\n");
-        // Contenus par défaut (repris de la maquette) copiés si absents.
-        foreach (glob(LD_APP . '/defaults/content/*.json') ?: [] as $f) {
-            $dest = LD_STORAGE . '/content/' . basename($f);
-            if (!is_file($dest)) {
-                copy($f, $dest);
+        // Textes des pages : seules les modifications faites dans le back-office sont stockées (les valeurs
+        // par défaut restent dans app/defaults/content et suivent les mises à jour). Anciennes copies complètes allégées.
+        foreach (glob(LD_STORAGE . '/content/*.json') ?: [] as $f) {
+            $name = basename($f, '.json');
+            $saved = json_decode((string) file_get_contents($f), true);
+            if ($name !== 'settings' && is_array($saved) && is_file(LD_APP . '/defaults/content/' . $name . '.json')) {
+                $diff = Content::changes(Content::defaults($name), $saved);
+                if ($diff !== $saved) {
+                    $diff === [] ? @unlink($f) : self::write('content/' . $name . '.json', $diff);
+                }
             }
         }
+        // Données de départ (articles, avis…) copiées si absentes.
         foreach (glob(LD_APP . '/defaults/data/*.json') ?: [] as $f) {
             $dest = LD_STORAGE . '/data/' . basename($f);
             if (!is_file($dest)) {

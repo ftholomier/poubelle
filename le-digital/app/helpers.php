@@ -179,6 +179,17 @@ function icon(string $name, int $size = 16, string $stroke = 'currentColor', flo
     return '<svg width="' . $size . '" height="' . $size . '" viewBox="' . $vb . '" fill="none" stroke="' . e($stroke) . '" stroke-width="' . $width . '" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $inner . '</svg>';
 }
 
+/** Logo « G » de Google (attribution des avis importés). */
+function google_g(int $size = 16): string
+{
+    return '<svg width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+        . '<path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.5 5.5 0 01-2.4 3.6v3h3.9c2.2-2.1 3.5-5.1 3.5-8.8z"/>'
+        . '<path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1 .7-2.4 1.1-4 1.1-3.1 0-5.7-2.1-6.7-4.9h-4v3.1A12 12 0 0012 24z"/>'
+        . '<path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 010-4.6V6.6h-4a12 12 0 000 10.8l4-3.1z"/>'
+        . '<path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 001.3 6.6l4 3.1C6.3 6.9 8.9 4.8 12 4.8z"/>'
+        . '</svg>';
+}
+
 /** Puce verte cochée de la maquette. */
 function tick(int $box = 22, int $iconSize = 10): string
 {

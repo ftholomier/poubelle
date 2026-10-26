@@ -34,6 +34,21 @@ if (Http::isHttps()) {
 $path = Http::path();
 $method = Http::method();
 
+// Mise à jour du site en cours (copie des fichiers, quelques secondes) : on fait patienter.
+if (LD\Updater::inMaintenance()) {
+    http_response_code(503);
+    header('Retry-After: 15');
+    header('Cache-Control: no-store');
+    if (str_starts_with($path, '/api/') || str_starts_with($path, '/admin/api/')) {
+        Http::fail('Mise à jour du site en cours, réessaie dans un instant.', 503);
+    }
+    header('Content-Type: text/html; charset=utf-8');
+    echo '<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="15">'
+        . '<title>Mise à jour en cours</title><body style="margin:0;min-height:100vh;display:grid;place-items:center;font-family:system-ui,sans-serif;background:#fff7f6;color:#161922;text-align:center;padding:24px">'
+        . '<div><p style="font-size:42px;margin:0">☕</p><h1 style="font-size:24px">Le site se refait une beauté</h1><p>Mise à jour en cours, il revient dans quelques secondes.</p></div></body></html>';
+    exit;
+}
+
 // Redirections 301 configurées dans le back-office (ex. anciennes URL WordPress).
 foreach ((array) Settings::get('redirects', []) as $r) {
     $from = '/' . trim((string) ($r['from'] ?? ''), '/');

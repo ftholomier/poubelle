@@ -32,12 +32,15 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
 - Rendez-vous : agenda, annulation, disponibilités (jours, créneaux, congés, durée, prévenance), **flux iCal privé**
   à ajouter dans Google Agenda / Apple Calendrier.
 - **Contenus** : éditeur générique de toutes les pages (textes, listes, boutons, images…), réinitialisation possible.
-- Avis clients, articles de blog (éditeur visuel), médiathèque (conversion WebP + tailles responsive automatiques).
+- **Avis clients** : saisis à la main, **importés depuis Google** (synchronisation quotidienne) et/ou **widget d'un service d'avis**
+  (code HTML/JS à coller) — voir plus bas.
+- Articles de blog (éditeur visuel), médiathèque (conversion WebP + tailles responsive automatiques).
 - **IA & clés API** : clés chiffrées pour Anthropic (Claude), OpenAI, Google Gemini, Mistral, Groq, OpenRouter, DeepSeek, xAI ;
   **liste des modèles récupérée en direct** auprès de chaque fournisseur ; modèle par défaut + modèle par fonctionnalité,
   consignes (prompts) modifiables, test en direct, plafond quotidien, suivi de consommation.
 - Paramètres : identité, coordonnées, e-mails (mail() ou SMTP), SMS (Brevo ou Twilio), SEO, cache, redirections 301,
   tâches planifiées, **sauvegarde ZIP** complète.
+- **Mises à jour en un clic** depuis GitHub (voir plus bas).
 
 ## Structure
 
@@ -98,9 +101,10 @@ server {
 php -S localhost:8000 -t public public/index.php
 ```
 
-## Tâche planifiée (rappels de rendez-vous)
+## Tâche planifiée (rappels, avis Google, mises à jour)
 
-À lancer **toutes les heures** (les rappels partent à partir de 17 h la veille) :
+À lancer **toutes les heures** (rappels de RdV à partir de 17 h la veille, avis Google rafraîchis une fois par jour,
+recherche de mise à jour toutes les 3 h) :
 
 ```
 0 * * * * php /chemin/vers/le-digital/app/cron.php
@@ -117,6 +121,38 @@ Sans accès SSH : appeler toutes les heures l'URL secrète affichée dans *Param
   qui le permettent.
 - Protection contre les abus : jeton signé par page, vérification d'origine, limitation par IP, plafond quotidien d'appels.
 
+## Avis Google
+
+*Avis clients › Avis Google*, deux modes au choix :
+
+- **Simple — clé API Google Places** : note globale, nombre d'avis et les 5 avis que Google juge les plus pertinents
+  (limite de Google). Clé créée dans Google Cloud (API « Places API (New) »), établissement retrouvé par son nom.
+- **Complet — Google Business Profile** : tous les avis et les réponses, via une connexion Google (OAuth).
+  Demande d'activer les API Business Profile et l'accès accordé par Google.
+
+Les avis importés sont rafraîchis chaque jour (tâche planifiée) ou à la demande. Texte, note et auteur restent ceux de Google ;
+thème, activité affichée, mise en avant et publication restent réglables et sont conservés d'une synchro à l'autre.
+Sur le site : logo Google, photo et lien de l'auteur, réponse de Fred, « Lire la suite », badge « ★ 4,9 · 37 avis Google »
+et lien « Laisser un avis Google ». (Ils ne sont pas repris dans les données structurées, conformément aux règles de Google.)
+
+**Widget d'un service d'avis** (*Avis clients › Widget à coller*) : le code fourni par le service (Trustindex, Elfsight,
+Avis Vérifiés…) est inséré tel quel sur la page Avis (avant, après ou à la place des avis du site) et/ou sur l'accueil.
+
+## Mises à jour en un clic (GitHub)
+
+*Back-office › Mises à jour* compare le code du serveur à la dernière version du dossier du site sur GitHub
+(dépôt, branche et dossier réglables ; jeton « fine-grained » en lecture seule conseillé, obligatoire si le dépôt est privé).
+
+- Liste des changements publiés, puis **« Mettre à jour maintenant »** : seuls les fichiers modifiés sont téléchargés,
+  vérifiés (empreinte Git) puis mis en place ; les fichiers supprimés sur GitHub le sont aussi.
+- Remplacés : `app/`, `public/` (sauf `public/uploads/`), `.htaccess`, `README.md`. **Jamais touchés** : `storage/`
+  (contenus, demandes, avis, clés…) et `public/uploads/`. Un `.htaccess` modifié sur le serveur est conservé.
+- Sauvegarde automatique avant chaque mise à jour (5 dernières gardées) et **« Revenir à cette version »** en un clic ;
+  le site affiche « mise à jour en cours » pendant les quelques secondes de copie.
+- Un site envoyé par FTP identique à la version GitHub est reconnu automatiquement.
+- Les textes jamais retouchés dans le back-office suivent les mises à jour (seules les modifications faites dans le
+  back-office sont stockées dans `storage/content`).
+
 ## Sécurité
 
 - Code et données hors de la racine web ; sessions admin isolées ; mots de passe hachés ; jeton CSRF sur toutes les actions ;
@@ -124,7 +160,8 @@ Sans accès SSH : appeler toutes les heures l'URL secrète affichée dans *Param
 - Clés API et mots de passe SMTP chiffrés au repos (libsodium).
 - Médias ré-encodés à l'envoi (aucun script exécutable dans `uploads/`), articles nettoyés (liste blanche HTML),
   analyse de site protégée contre les requêtes vers des adresses internes.
-- Aucun cookie côté visiteurs (seul le back-office utilise une session), polices auto-hébergées : pas d'appel à des services tiers.
+- Aucun cookie côté visiteurs (seul le back-office utilise une session), polices auto-hébergées : pas d'appel à des services tiers
+  (sauf, si tu les actives, les photos des auteurs d'avis Google et le widget d'avis collé).
 
 ## Sauvegarde
 
