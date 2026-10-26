@@ -823,9 +823,6 @@ html.menu-open .dbar-wrap,html.menu-open .dfab{opacity:0;pointer-events:none}
 @media (max-width:600px){.qui-photo{height:500px}}
 .qui-story{max-width:820px;margin:0 auto;padding:clamp(80px,10vw,136px) 24px;display:flex;flex-direction:column;gap:26px;font-size:clamp(18px,1.6vw,21px);line-height:1.7;color:#252436}
 .qui-big{font-family:var(--fh);font-weight:800;font-size:clamp(24px,2.6vw,34px)!important;line-height:1.2!important;letter-spacing:-.025em;color:#161922}
-.qui-photos-sec{padding:0 24px clamp(80px,10vw,120px)}
-.qui-photos{max-width:1280px;margin:0 auto}
-.qui-ph{height:380px;border-radius:28px;overflow:hidden;background:#fbe9e7}
 
 /* Listes (avis, blog) */
 .wrap--list{padding:clamp(56px,8vw,112px) 24px}

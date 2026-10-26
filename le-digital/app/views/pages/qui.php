@@ -22,11 +22,3 @@ $h = $c['hero'];
     <?php endforeach; ?>
   </div>
 </section>
-
-<section class="sec qui-photos-sec">
-  <div class="qui-photos ag" style="--min:300px">
-    <?php foreach ($c['photos'] as $i => $ph): ?>
-      <div class="qui-ph" data-reveal<?= $i ? ' data-delay="' . ($i * 100) . '"' : '' ?>><?= slot($ph['image'], $ph['placeholder'], $ph['alt'], ['sizes' => '(max-width: 700px) 92vw, 400px']) ?></div>
-    <?php endforeach; ?>
-  </div>
-</section>

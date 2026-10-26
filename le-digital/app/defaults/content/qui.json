@@ -21,10 +21,5 @@
     { "kind": "big", "text": "Ma conviction : le digital, ce n'est pas une affaire de technique, c'est une affaire de relations." },
     { "kind": "p", "text": "Le digital provoque la conversation. La conversation provoque la conversion. Et chaque heure que tes outils te font gagner, c'est une heure de plus pour tes clients." },
     { "kind": "p", "text": "J'interviens à Besançon, Montbéliard, Belfort et Dijon, et partout en France à distance." }
-  ],
-  "photos": [
-    { "image": "", "placeholder": "En formation — à fournir", "alt": "Frédéric en formation" },
-    { "image": "", "placeholder": "Avec un client — à fournir", "alt": "Frédéric avec un client" },
-    { "image": "/assets/img/fred-situation-1600.webp", "placeholder": "Au travail / autour d'un café — à fournir", "alt": "Frédéric au travail" }
   ]
 }
