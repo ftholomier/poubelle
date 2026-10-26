@@ -43,9 +43,9 @@ final class Reviews
     }
 
     /**
-     * Widget d'avis d'un service tiers (code HTML/JS collé dans le back-office).
-     * Retourne la position voulue pour la page ('avis' : before|after|replace, 'home' : after|replace) ou '' si rien à afficher.
-     * Tant qu'aucun avis n'est publié, le widget prend la place des emplacements « Témoignage réel à fournir ».
+     * Mur d'avis d'un service tiers (code HTML/JS collé dans le back-office), affiché sur la page Avis seulement.
+     * Retourne sa position (before|after|replace) ou '' si rien à afficher.
+     * Tant qu'aucun avis n'est publié sur le site, le mur s'affiche même réglé sur « Ne pas afficher ».
      */
     public static function widgetPosition(string $page): string
     {

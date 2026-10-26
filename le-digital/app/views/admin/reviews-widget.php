@@ -2,7 +2,6 @@
 /** @var array $w @var string $csrf */
 $code = (string) ($w['code'] ?? '');
 $avis = (string) ($w['avis'] ?? 'after');
-$home = (string) ($w['home'] ?? 'off');
 $footerCode = (string) ($w['footer_code'] ?? '');
 $footerPlace = (string) ($w['footer_place'] ?? 'before');
 $opt = static fn(string $value, string $current, string $label) => '<option value="' . e($value) . '"' . ($value === $current ? ' selected' : '') . '>' . e($label) . '</option>';
@@ -16,7 +15,7 @@ $placeholder = '&lt;script src=&quot;https://…&quot; defer&gt;&lt;/script&gt;&
 
   <section class="card">
     <div class="card__head"><h2>1. Carrousel d’avis — toutes les pages</h2><?php if ($footerCode !== ''): ?><span class="badge badge--ok">En ligne</span><?php endif; ?></div>
-    <p class="small">Affiché sur <b>toutes les pages du site</b>, au-dessus du pied de page. Choisis dans ton service un widget « carrousel » (ou « slider »). Sur la page Avis, il est remplacé par le mur d’avis ci-dessous quand celui-ci est renseigné.</p>
+    <p class="small">Affiché sur <b>toutes les pages du site</b>, au-dessus du pied de page. Choisis dans ton service un widget « carrousel » (ou « slider »). Sur l’accueil, il remplace la section « Ils en parlent mieux que moi » ; sur la page Avis, il est remplacé par le mur d’avis ci-dessous quand celui-ci est renseigné.</p>
     <label class="lbl">Code du carrousel (HTML / JavaScript)
       <textarea name="footer_code" class="code-area" rows="8" spellcheck="false" placeholder="<?= $placeholder ?>"><?= e($footerCode) ?></textarea>
     </label>
@@ -33,7 +32,7 @@ $placeholder = '&lt;script src=&quot;https://…&quot; defer&gt;&lt;/script&gt;&
 
   <section class="card">
     <div class="card__head"><h2>2. Mur d’avis — page Avis</h2><?php if ($code !== ''): ?><span class="badge badge--ok">En ligne</span><?php endif; ?></div>
-    <p class="small">Affiché sur la page <a href="/avis" target="_blank" rel="noopener">Avis</a>. Choisis dans ton service un widget « mur » (ou « grille », « wall »).</p>
+    <p class="small">Affiché uniquement sur la page <a href="/avis" target="_blank" rel="noopener">Avis</a> (pas sur l’accueil : le carrousel y est déjà). Choisis dans ton service un widget « mur » (ou « grille », « wall »).</p>
     <label class="lbl">Code du mur d’avis (HTML / JavaScript)
       <textarea name="code" class="code-area" rows="8" spellcheck="false" placeholder="<?= $placeholder ?>"><?= e($code) ?></textarea>
     </label>
@@ -46,15 +45,8 @@ $placeholder = '&lt;script src=&quot;https://…&quot; defer&gt;&lt;/script&gt;&
           <?= $opt('off', $avis, 'Ne pas afficher') ?>
         </select>
       </label>
-      <label>Page d’accueil (section « Ils en parlent mieux que moi »)
-        <select name="home">
-          <?= $opt('off', $home, 'Ne pas afficher') ?>
-          <?= $opt('after', $home, 'Sous les 3 avis mis en avant') ?>
-          <?= $opt('replace', $home, 'À la place des 3 avis') ?>
-        </select>
-      </label>
     </div>
-    <p class="small muted">Tant qu’aucun avis n’est publié sur le site, le mur s’affiche aussi (même réglé sur « Ne pas afficher ») à la place des emplacements « Témoignage réel à fournir ».</p>
+    <p class="small muted">Tant qu’aucun avis n’est publié sur le site, le mur s’affiche quand même sur la page Avis (même réglé sur « Ne pas afficher »).</p>
   </section>
 
   <div class="actions sticky-actions">

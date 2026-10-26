@@ -154,8 +154,8 @@ et lien « Laisser un avis Google ». (Ils ne sont pas repris dans les données 
 Avis Vérifiés…), insérés tels quels :
 - **carrousel** : sur toutes les pages, juste au-dessus du pied de page (fond blanc) ou dans le pied de page au-dessus
   de la citation (fond sombre). Sans carrousel, le pied de page affiche la note Google et des extraits d'avis ;
-- **mur d'avis** : sur la page Avis (avant, après ou à la place des avis du site) et/ou sur l'accueil. Sur la page Avis,
-  le mur remplace le carrousel.
+- **mur d'avis** : sur la page Avis uniquement (avant, après ou à la place des avis du site), où il remplace le carrousel.
+  Sur l'accueil, le carrousel tient lieu de section avis (sans carrousel : les 3 avis mis en avant).
 
 ## Mises à jour en un clic (GitHub)
 

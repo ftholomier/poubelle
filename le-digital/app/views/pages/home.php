@@ -7,7 +7,8 @@ $services = $g['services'] ?? [];
 $eng = $g['engagements'] ?? [];
 $reviews = LD\Reviews::featured(3);
 $gBadge = LD\GoogleReviews::badge();
-$rvWidget = LD\Reviews::widgetPosition('home');
+// Avis : le carrousel collé (au-dessus du pied de page, sur toutes les pages) suffit ; sinon les 3 avis mis en avant.
+$rvSection = LD\Reviews::carouselPlace('/') === '' && ($reviews || $gBadge);
 ?>
 <section class="hero" aria-labelledby="hero-title">
   <div class="dots dots--hero" aria-hidden="true"></div>
@@ -253,7 +254,7 @@ $rvWidget = LD\Reviews::widgetPosition('home');
   </div>
 </section>
 
-<?php if ($reviews || $rvWidget !== '' || $gBadge): ?>
+<?php if ($rvSection): ?>
 <section class="sec" id="avis">
   <div class="wrap">
     <?= ask($c['reviews']['ask']) ?>
@@ -264,14 +265,13 @@ $rvWidget = LD\Reviews::widgetPosition('home');
         <a class="link-u" href="/avis"><?= t($c['reviews']['link']) ?></a>
       </div>
     </div>
-    <?php if ($reviews && $rvWidget !== 'replace'): ?>
+    <?php if ($reviews): ?>
       <div class="ag" style="--min:320px">
         <?php foreach ($reviews as $i => $rv): ?>
           <?= View::partial('review', ['r' => $rv, 'variant' => 'home', 'delay' => $i * 90]) ?>
         <?php endforeach; ?>
       </div>
     <?php endif; ?>
-    <?php if ($rvWidget !== ''): ?><?= View::partial('reviews-widget') ?><?php endif; ?>
   </div>
 </section>
 <?php endif; ?>

@@ -249,7 +249,6 @@ final class AdminReviews
         $s['reviews_widget'] = [
             'code'         => $codes['code'],
             'avis'         => in_array($_POST['avis'] ?? '', ['off', 'before', 'after', 'replace'], true) ? $_POST['avis'] : 'after',
-            'home'         => in_array($_POST['home'] ?? '', ['off', 'after', 'replace'], true) ? $_POST['home'] : 'off',
             'footer_code'  => $codes['footer_code'],
             'footer_place' => ($_POST['footer_place'] ?? '') === 'inside' ? 'inside' : 'before',
         ];

@@ -82,6 +82,6 @@
     "show_badge": true
   },
   "linkedin_feed": { "code": "", "place": "before", "title": "Mes derniers posts LinkedIn" },
-  "reviews_widget": { "code": "", "avis": "after", "home": "off", "footer_code": "", "footer_place": "before" },
+  "reviews_widget": { "code": "", "avis": "after", "footer_code": "", "footer_place": "before" },
   "updates": { "repo": "ftholomier/poubelle", "branch": "claude/practical-cerf-dz6bx6", "path": "le-digital", "auto_check": true }
 }
