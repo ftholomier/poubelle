@@ -171,14 +171,27 @@ final class AiCosts
         return null;
     }
 
-    /** Coût en USD d'un appel (jetons, images générées par taille, minutes d'audio). */
-    public static function cost(string $provider, string $model, int $in, int $out, array $images = [], float $minutes = 0, ?string $date = null): ?float
+    /**
+     * Prix d'une recherche web faite par l'IA (USD) : Anthropic 10 $ / 1 000 recherches ; Google 14 $ / 1 000 requêtes
+     * (Gemini 3 et suivants, 5 000 gratuites par mois non déduites) ou 35 $ / 1 000 (Gemini 2.5).
+     */
+    public static function searchPrice(string $provider, string $model): float
+    {
+        return match ($provider) {
+            'anthropic' => 0.010,
+            'gemini'    => str_contains(self::norm($model), 'gemini-2-') ? 0.035 : 0.014,
+            default     => 0.0,
+        };
+    }
+
+    /** Coût en USD d'un appel (jetons, images générées par taille, minutes d'audio, recherches web). */
+    public static function cost(string $provider, string $model, int $in, int $out, array $images = [], float $minutes = 0, ?string $date = null, int $searches = 0): ?float
     {
         $p = self::price($provider, $model, $date);
         if (!$p) {
             return null;
         }
-        $usd = $in / 1e6 * $p['in'] + $out / 1e6 * $p['out'];
+        $usd = $in / 1e6 * $p['in'] + $out / 1e6 * $p['out'] + $searches * self::searchPrice($provider, $model);
         foreach ($images as $size => $n) {
             $per = $p['image'] ? ($p['image'][$size] ?? $p['image']['*'] ?? reset($p['image'])) : 0;
             $usd += $n * (float) $per;
@@ -245,11 +258,11 @@ final class AiCosts
      * Enregistre un appel dans data/ai-usage.json (par jour : total, par fonctionnalité, par modèle).
      * $images : [taille => nombre] ; $minutes : durée d'audio transcrite.
      */
-    public static function record(string $feature, string $provider, string $model, bool $ok, int $in, int $out, array $images = [], float $minutes = 0): void
+    public static function record(string $feature, string $provider, string $model, bool $ok, int $in, int $out, array $images = [], float $minutes = 0, int $searches = 0): void
     {
         $day = date('Y-m-d');
         $key = $provider . ':' . $model;
-        Store::update('data/ai-usage.json', static function (array &$u) use ($day, $feature, $key, $ok, $in, $out, $images, $minutes): void {
+        Store::update('data/ai-usage.json', static function (array &$u) use ($day, $feature, $key, $ok, $in, $out, $images, $minutes, $searches): void {
             $d = $u[$day] ?? [];
             $d += ['calls' => 0, 'errors' => 0, 'in' => 0, 'out' => 0, 'features' => [], 'models' => []];
             $d['calls']++;
@@ -258,8 +271,9 @@ final class AiCosts
             $d['out'] += $out;
             $d['features'][$feature] = ($d['features'][$feature] ?? 0) + 1;
             $m = $d['models'][$key] ?? [];
-            $m += ['calls' => 0, 'in' => 0, 'out' => 0, 'images' => [], 'minutes' => 0, 'features' => []];
+            $m += ['calls' => 0, 'in' => 0, 'out' => 0, 'images' => [], 'minutes' => 0, 'searches' => 0, 'features' => []];
             $m['calls']++;
+            $m['searches'] += $searches;
             $m['in'] += $in;
             $m['out'] += $out;
             foreach ($images as $size => $n) {
@@ -271,6 +285,7 @@ final class AiCosts
             $f['in'] += $in;
             $f['out'] += $out;
             $f['images'] += array_sum($images);
+            $f['searches'] = ($f['searches'] ?? 0) + $searches;
             $m['features'][$feature] = $f;
             $d['models'][$key] = $m;
             $u[$day] = $d;
@@ -287,7 +302,7 @@ final class AiCosts
     public static function report(string $from, string $to): array
     {
         $usage = self::backfill(Store::read('data/ai-usage.json', []));
-        $rep = ['usd' => 0.0, 'calls' => 0, 'errors' => 0, 'in' => 0, 'out' => 0, 'images' => 0, 'unknown' => [], 'days' => [], 'features' => [], 'models' => []];
+        $rep = ['usd' => 0.0, 'calls' => 0, 'errors' => 0, 'in' => 0, 'out' => 0, 'images' => 0, 'searches' => 0, 'unknown' => [], 'days' => [], 'features' => [], 'models' => []];
         for ($t = strtotime($from); $t <= strtotime($to); $t += 86400) {
             $rep['days'][date('Y-m-d', $t)] = 0.0;
         }
@@ -299,8 +314,9 @@ final class AiCosts
             $rep['errors'] += (int) ($d['errors'] ?? 0);
             foreach ($d['models'] ?? [] as $key => $m) {
                 [$provider, $model] = array_pad(explode(':', (string) $key, 2), 2, '');
-                $usd = self::cost($provider, $model, (int) $m['in'], (int) $m['out'], (array) ($m['images'] ?? []), (float) ($m['minutes'] ?? 0), $day);
-                if ($usd === null) {
+                $usd = self::cost($provider, $model, (int) $m['in'], (int) $m['out'], (array) ($m['images'] ?? []), (float) ($m['minutes'] ?? 0), $day, (int) ($m['searches'] ?? 0));
+                $priced = $usd !== null;
+                if (!$priced) {
                     $rep['unknown'][$key] = true;
                     $usd = 0.0;
                 }
@@ -308,6 +324,7 @@ final class AiCosts
                 $rep['in'] += (int) $m['in'];
                 $rep['out'] += (int) $m['out'];
                 $rep['images'] += (int) array_sum((array) ($m['images'] ?? []));
+                $rep['searches'] += (int) ($m['searches'] ?? 0);
                 $rep['days'][$day] = ($rep['days'][$day] ?? 0) + $usd;
                 $rm = $rep['models'][$key] ?? ['provider' => $provider, 'model' => $model, 'calls' => 0, 'in' => 0, 'out' => 0, 'images' => 0, 'usd' => 0.0];
                 $rm['calls'] += (int) $m['calls'];
@@ -316,16 +333,24 @@ final class AiCosts
                 $rm['images'] += (int) array_sum((array) ($m['images'] ?? []));
                 $rm['usd'] += $usd;
                 $rep['models'][$key] = $rm;
-                // Répartition par fonctionnalité au prorata des jetons de chaque fonctionnalité pour ce modèle.
-                $tokens = max(1, (int) $m['in'] + (int) $m['out']);
+                // Répartition par fonctionnalité au prorata du prix des jetons de chaque fonctionnalité pour ce modèle ;
+                // les recherches web sont attribuées exactement à la fonctionnalité qui les a faites (quand c'est connu).
+                $pr = $priced ? self::price($provider, $model, $day) : null;
+                $weight = static fn(array $x): float => $pr ? (int) $x['in'] * $pr['in'] + (int) $x['out'] * $pr['out'] : (int) $x['in'] + (int) $x['out'];
+                $tokens = max(1e-9, $weight($m));
+                $mSearch = (int) ($m['searches'] ?? 0);
+                $exact = $priced && $mSearch > 0 && array_sum(array_map(static fn($fs) => (int) ($fs['searches'] ?? 0), (array) ($m['features'] ?? []))) === $mSearch;
+                $sp = $exact ? self::searchPrice($provider, $model) : 0.0;
+                $base = $usd - $mSearch * $sp;
                 foreach ((array) ($m['features'] ?? []) as $f => $fs) {
-                    $rf = $rep['features'][$f] ?? ['calls' => 0, 'in' => 0, 'out' => 0, 'images' => 0, 'usd' => 0.0];
+                    $rf = $rep['features'][$f] ?? ['calls' => 0, 'in' => 0, 'out' => 0, 'images' => 0, 'searches' => 0, 'usd' => 0.0];
                     $rf['calls'] += (int) $fs['calls'];
                     $rf['in'] += (int) $fs['in'];
                     $rf['out'] += (int) $fs['out'];
                     $rf['images'] += (int) ($fs['images'] ?? 0);
-                    $share = count((array) $m['features']) === 1 ? 1 : ((int) $fs['in'] + (int) $fs['out']) / $tokens;
-                    $rf['usd'] += $usd * $share;
+                    $rf['searches'] += (int) ($fs['searches'] ?? 0);
+                    $share = count((array) $m['features']) === 1 ? 1 : $weight($fs) / $tokens;
+                    $rf['usd'] += $base * $share + (int) ($fs['searches'] ?? 0) * $sp;
                     $rep['features'][$f] = $rf;
                 }
             }

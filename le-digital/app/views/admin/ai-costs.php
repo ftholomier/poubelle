@@ -89,7 +89,7 @@ $priceTxt = static function (?array $p) use ($usd): string {
       <thead><tr><th>Fonctionnalité</th><th>Appels</th><th class="hide-sm">Jetons</th><th>Coût</th></tr></thead>
       <tbody>
         <?php foreach ($r['features'] as $f => $s): ?>
-          <tr><td><?= e($labels[$f] ?? $f) ?><br><small class="muted"><?= e($eur($s['usd'] / max(1, $s['calls']))) ?> par appel</small></td><td><?= $n($s['calls']) ?></td><td class="hide-sm"><small><?= $n($s['in']) ?> envoyés<br><?= $n($s['out']) ?> reçus<?= $s['images'] ? '<br>' . $n($s['images']) . ' image(s)' : '' ?></small></td><td><b class="nowrap"><?= e($eur($s['usd'])) ?></b></td></tr>
+          <tr><td><?= e($labels[$f] ?? $f) ?><br><small class="muted"><?= e($eur($s['usd'] / max(1, $s['calls']))) ?> par appel</small></td><td><?= $n($s['calls']) ?></td><td class="hide-sm"><small><?= $n($s['in']) ?> envoyés<br><?= $n($s['out']) ?> reçus<?= $s['images'] ? '<br>' . $n($s['images']) . ' image(s)' : '' ?><?= !empty($s['searches']) ? '<br>' . $n($s['searches']) . ' recherche(s) web' : '' ?></small></td><td><b class="nowrap"><?= e($eur($s['usd'])) ?></b></td></tr>
         <?php endforeach; ?>
       </tbody>
     </table>
@@ -134,7 +134,7 @@ $priceTxt = static function (?array $p) use ($usd): string {
       <label>Taux de conversion (1 $ = … €)<input type="text" inputmode="decimal" name="rate" value="<?= e((string) $rate) ?>"></label>
       <label>Budget IA mensuel (€, 0 = aucun)<input type="text" inputmode="decimal" name="budget" value="<?= e((string) ($set['budget'] ?? 0)) ?>"></label>
     </div>
-    <p class="small muted">Les montants sont des estimations calculées d’après les jetons consommés par le site et les tarifs publics (hors remises, crédits gratuits et taxes) : ta facture du fournisseur fait foi.</p>
+    <p class="small muted">Les montants sont des estimations calculées d’après les jetons consommés par le site et les tarifs publics (hors remises, crédits gratuits et taxes) : ta facture du fournisseur fait foi. Recherches web comprises : 10 $ les 1 000 avec Claude, 14 $ les 1 000 avec Gemini 3 (35 $ avec Gemini 2.5), sans déduire les recherches gratuites de Google.</p>
   </section>
   <div class="actions sticky-actions">
     <button class="btn btn--red" type="submit">Enregistrer</button>

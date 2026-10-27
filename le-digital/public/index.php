@@ -59,6 +59,10 @@ foreach ((array) Settings::get('redirects', []) as $r) {
 
 // Cache HTML : pages publiques servies sans recalcul.
 $isPublic = !str_starts_with($path, '/admin') && !str_starts_with($path, '/api/');
+if ($isPublic && $method === 'GET') {
+    // Articles programmés arrivés à leur date : mis en ligne (cache vidé) avant de servir la page.
+    LD\Posts::releaseDue();
+}
 if ($isPublic && $method === 'GET' && PageCache::enabled() && !LD\Auth::peek()) {
     $cached = PageCache::get(Front::cacheKey());
     if ($cached !== null) {

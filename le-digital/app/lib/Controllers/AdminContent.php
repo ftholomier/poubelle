@@ -34,6 +34,10 @@ final class AdminContent
         $r->get('/admin/blog/ia', $g([self::class, 'writer']));
         $r->post('/admin/api/blog/ia/texte', $g([self::class, 'writerText'], true));
         $r->post('/admin/api/blog/ia/image', $g([self::class, 'writerImage'], true));
+        $r->post('/admin/api/blog/ia/idees', $g([self::class, 'ideas'], true));
+        $r->post('/admin/api/blog/ia/idee', $g([self::class, 'ideaWrite'], true));
+        $r->post('/admin/api/blog/ia/idee/ecarter', $g([self::class, 'ideaDismiss'], true));
+        $r->post('/admin/api/blog/ia/planifier', $g([self::class, 'schedulePost'], true));
         $r->post('/admin/blog/{id}/publier', $g([self::class, 'publishPost'], true));
         $r->get('/admin/blog/linkedin', $g([self::class, 'linkedin']));
         $r->post('/admin/blog/linkedin', $g([self::class, 'saveLinkedin'], true));
@@ -237,10 +241,97 @@ final class AdminContent
     public static function writer(): never
     {
         $drafts = array_values(array_filter(Posts::all(), static fn($p) => !empty($p['ai'])));
+        $batches = \LD\BlogIdeas::batches();
+        $lot = (string) ($_GET['lot'] ?? '');
+        $batch = $batches[0] ?? null;
+        foreach ($batches as $b) {
+            if ($b['id'] === $lot) {
+                $batch = $b;
+            }
+        }
         Admin::view('blog-ai', [
             'themes' => Content::get('blog')['themes'], 'set' => \LD\BlogWriter::settings(), 'drafts' => array_slice($drafts, 0, 8),
             'canWrite' => \LD\BlogWriter::canWrite(), 'canImage' => \LD\BlogWriter::canImage(), 'writer' => \LD\Ai::resolve('blog'),
+            'batches' => $batches, 'batch' => $batch, 'ideasAi' => \LD\Ai::resolve('blog_ideas'),
         ], 'Blog · Écrire avec l’IA');
+    }
+
+    /** Idées d'articles : l'IA fait sa veille (actualité, tendances, recherche web) et propose une mosaïque de sujets. */
+    public static function ideas(): never
+    {
+        @set_time_limit(360);
+        ignore_user_abort(true);
+        try {
+            $batch = \LD\BlogIdeas::propose(clean_text((string) Http::input('focus', ''), 200), (int) Http::input('n', 6));
+        } catch (\LD\AiException $e) {
+            Http::fail($e->getMessage(), 502);
+        }
+        Http::sendJson(['ok' => true, 'batch' => $batch['id'], 'html' => \LD\View::render('admin/blog-ideas-grid', ['batch' => $batch, 'canImage' => \LD\BlogWriter::canImage()])]);
+    }
+
+    /** Une idée cochée : l'IA rédige l'article (brouillon), en vérifiant l'actualité du sujet sur le web si demandé. */
+    public static function ideaWrite(): never
+    {
+        @set_time_limit(360);
+        ignore_user_abort(true);
+        $batchId = clean_text((string) Http::input('batch', ''), 40);
+        $ideaId = clean_text((string) Http::input('idea', ''), 20);
+        $idea = \LD\BlogIdeas::find($batchId, $ideaId) ?? Http::fail('Idée introuvable : relance une proposition.', 404);
+        if ($idea['post_id'] !== '' && ($p = Posts::find($idea['post_id']))) {
+            Http::sendJson(['ok' => true, 'post' => self::writerPayload($p)]);
+        }
+        $angle = $idea['angle'];
+        if ($idea['pourquoi'] !== '') {
+            $angle .= "\nPourquoi en parler maintenant : " . $idea['pourquoi'];
+        }
+        if ($idea['sources']) {
+            $angle .= "\nSources repérées (pour le contexte, sans lien dans l’article) :\n" . implode("\n", array_map(static fn($s) => '  • ' . $s['titre'] . ' (' . $s['url'] . ')', $idea['sources']));
+        }
+        $brief = ['theme' => $idea['theme'], 'sujet' => $idea['sujet'] !== '' ? $idea['sujet'] : $idea['titre'], 'angle' => $angle,
+                  'mots_cles' => $idea['mots_cles'], 'public' => $idea['public'], 'longueur' => $idea['longueur']];
+        try {
+            $p = \LD\BlogWriter::write($brief, Http::input('web', '1') ? 3 : false, ['idea' => ['batch' => $batchId, 'id' => $ideaId, 'titre' => $idea['titre']], 'sources' => $idea['sources']]);
+        } catch (\LD\AiException $e) {
+            Http::fail($e->getMessage(), 502);
+        }
+        \LD\BlogIdeas::mark($batchId, $ideaId, ['status' => 'written', 'post_id' => $p['id']]);
+        Http::sendJson(['ok' => true, 'post' => self::writerPayload($p)]);
+    }
+
+    public static function ideaDismiss(): never
+    {
+        \LD\BlogIdeas::mark(clean_text((string) Http::input('batch', ''), 40), clean_text((string) Http::input('idea', ''), 20), ['status' => 'dismissed']);
+        Http::sendJson(['ok' => true]);
+    }
+
+    /** Date de parution d'un article : tout de suite, programmé à une date, ou laissé en brouillon. */
+    public static function schedulePost(): never
+    {
+        $p = Posts::find(clean_text((string) Http::input('id', ''), 40)) ?? Http::fail('Article introuvable.', 404);
+        $mode = (string) Http::input('mode', 'draft');
+        $date = (string) Http::input('date', '');
+        $today = date('Y-m-d');
+        if ($mode === 'date' && (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date) || !strtotime($date))) {
+            Http::fail('Choisis une date de parution valide.', 422);
+        }
+        $p = match (true) {
+            $mode === 'date' && $date > $today => Posts::save(array_merge($p, ['published' => true, 'date' => $date])),
+            $mode === 'now' || $mode === 'date' => Posts::save(array_merge($p, ['published' => true, 'date' => $today])),
+            default => Posts::save(array_merge($p, ['published' => false, 'date' => $today])),
+        };
+        Http::sendJson(['ok' => true, 'state' => self::postState($p), 'post' => self::writerPayload($p)]);
+    }
+
+    /** État d'un article pour la mosaïque d'idées : en ligne, programmé (date), brouillon. */
+    public static function postState(array $p): array
+    {
+        $date = substr((string) $p['date'], 0, 10);
+        if (empty($p['published'])) {
+            return ['key' => 'draft', 'label' => 'Brouillon à relire'];
+        }
+        return $date > date('Y-m-d')
+            ? ['key' => 'scheduled', 'label' => 'Programmé le ' . date('d/m/Y', (int) strtotime($date))]
+            : ['key' => 'live', 'label' => 'En ligne', 'url' => '/blog/' . $p['slug']];
     }
 
     /** Étape 1 : l'IA écrit l'article (brouillon). */

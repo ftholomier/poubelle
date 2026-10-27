@@ -1,12 +1,17 @@
 <?php
 /**
  * Rédaction d'articles par l'IA : brief → article complet + photo Nano Banana → validation → publication.
+ * Au-dessus : les idées d'articles proposées par l'IA (veille de l'actualité), à cocher et à programmer.
  * @var array $themes @var array $set @var array $drafts @var bool $canWrite @var bool $canImage @var ?array $writer @var string $csrf
+ * @var array $batches @var ?array $batch @var ?array $ideasAi
  */
 use LD\Ai;
 use LD\BlogWriter;
 
 $rate = LD\AiCosts::rate();
+$sched = LD\Posts::scheduled();
+$nextFree = $sched ? substr((string) end($sched)['date'], 0, 10) : '';
+$ideasWeb = $ideasAi && in_array($ideasAi[0], ['anthropic', 'gemini'], true);
 ?>
 <?= LD\View::render('admin/blog-tabs', ['on' => 'ai']) ?>
 
@@ -15,8 +20,27 @@ $rate = LD\AiCosts::rate();
 <?php endif; ?>
 
 <div class="bw" data-blog-writer>
+  <section class="card bi" id="idees" data-blog-ideas data-next="<?= e($nextFree) ?>">
+    <div class="card__head"><h2>💡 Idées d’articles proposées par l’IA</h2><?php if ($ideasAi): ?><span class="small muted">Veille par <?= e(Ai::PROVIDERS[$ideasAi[0]]['label'] ?? $ideasAi[0]) ?> · <?= e($ideasAi[1]) ?></span><?php endif; ?></div>
+    <p class="small muted bi__intro">L’IA fait sa veille : actualités des 30 derniers jours (Google Actualités), tendances de recherche en France (Google Tendances)<?= $ideasWeb ? ' et recherches sur le web' : '' ?>, croisées avec tes thèmes, tes offres et les articles déjà écrits. Tu coches les sujets qui te plaisent, tu choisis leur date de parution : elle rédige, crée la photo et programme.</p>
+    <?php if ($ideasAi && !$ideasWeb): ?><p class="small muted">Astuce : avec Claude ou Gemini pour « Idées d’articles » (IA & clés API), l’IA cherche aussi sur le web et cite ses sources.</p><?php endif; ?>
+    <form class="bi__ask" data-bi-ask>
+      <label class="sr-only" for="bi-focus">Une envie particulière ?</label>
+      <input id="bi-focus" name="focus" maxlength="200" placeholder="Une envie particulière ? (facultatif) Ex. : l’IA pour les artisans du bâtiment, la rentrée, les fêtes…">
+      <label class="sr-only" for="bi-n">Nombre d’idées</label>
+      <select id="bi-n" name="n"><option value="4">4 idées</option><option value="6" selected>6 idées</option><option value="8">8 idées</option></select>
+      <button class="btn btn--red" type="submit" data-bi-go<?= $ideasAi ? '' : ' disabled' ?>>💡 Proposer des articles</button>
+    </form>
+    <p class="bi__wait small" data-bi-wait hidden><span class="bi__spin" aria-hidden="true"></span> L’IA fait sa veille et cherche les bons sujets… (1 à 3 min, garde la page ouverte)</p>
+    <p class="bw__err" data-bi-err hidden></p>
+    <div data-bi-grid><?= $batch ? LD\View::render('admin/blog-ideas-grid', ['batch' => $batch, 'batches' => $batches, 'canImage' => $canImage]) : '' ?></div>
+    <?php if ($sched): ?>
+      <p class="small muted bi__sched">📅 Déjà programmé : <?= implode(' · ', array_map(static fn($p) => '<a href="/admin/blog/' . e($p['id']) . '">' . e(mb_strimwidth($p['title'], 0, 50, '…')) . '</a> le ' . e(date('d/m', (int) strtotime((string) $p['date']))), $sched)) ?></p>
+    <?php endif; ?>
+  </section>
+
   <form class="card bw__form" data-bw-form>
-    <div class="card__head"><h2>✨ Ton brief</h2><?php if ($writer): ?><span class="small muted">Rédigé par <?= e(Ai::PROVIDERS[$writer[0]]['label'] ?? $writer[0]) ?> · <?= e($writer[1]) ?></span><?php endif; ?></div>
+    <div class="card__head"><h2>✨ Ou ton propre brief</h2><?php if ($writer): ?><span class="small muted">Rédigé par <?= e(Ai::PROVIDERS[$writer[0]]['label'] ?? $writer[0]) ?> · <?= e($writer[1]) ?></span><?php endif; ?></div>
     <div class="form">
       <label>Sujet de l’article <small class="muted">(une phrase suffit)</small>
         <input name="sujet" required maxlength="300" placeholder="Ex. : Pourquoi un CRM sur mesure fait gagner 5 h par semaine à un artisan">

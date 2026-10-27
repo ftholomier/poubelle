@@ -16,6 +16,7 @@ $promptInfo = [
     'explain'       => ['« Explique-moi comme à un débutant »', '{title} {text}'],
     'blog_writer'   => ['Rédaction d’articles du blog', '{theme} {sujet} {angle} {mots_cles} {public} {longueur}'],
     'blog_image'    => ['Photo d’article (Nano Banana)', '{titre} {image_prompt} {style}'],
+    'blog_ideas'    => ['Idées d’articles (veille de l’actualité)', '{date} {nombre} {themes} {services} {solutions} {existants} {deja} {actus} {tendances} {focus}'],
 ];
 $ago = static function (?int $ts): string {
     if (!$ts) {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace LD;
 
 /**
- * Tâches planifiées : rappels de rendez-vous (e-mail + SMS) la veille, récapitulatifs des discussions IA, avis Google,
+ * Tâches planifiées : rappels de rendez-vous (e-mail + SMS) la veille, récapitulatifs des discussions IA, articles programmés, avis Google,
  * vérification des mises à jour, ménage des caches.
  * À lancer une fois par heure : `php app/cron.php` ou via l'URL secrète affichée dans le back-office.
  */
@@ -48,6 +48,10 @@ final class Cron
         // Discussions IA terminées : récapitulatif à Fred.
         if ($n = Leads::flushChats()) {
             $out[] = $n . ' récapitulatif(s) de discussion IA envoyé(s)';
+        }
+        // Articles du blog programmés : mis en ligne le jour venu.
+        if ($posts = Posts::releaseDue()) {
+            $out[] = count($posts) . ' article(s) programmé(s) mis en ligne';
         }
         // Tarifs IA (catalogue public) : actualisés une fois par semaine.
         if ($t = AiCosts::refreshCatalogIfDue()) {

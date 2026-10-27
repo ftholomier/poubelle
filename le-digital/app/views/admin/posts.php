@@ -2,7 +2,7 @@
 <?= LD\View::render('admin/blog-tabs', ['on' => 'posts']) ?>
 <div class="toolbar">
   <p class="intro">Thèmes : <?= e(implode(' · ', $themes)) ?> <a href="/admin/contenus/blog">(modifier)</a></p>
-  <span class="toolbar__btns"><a class="btn btn--dark" href="/admin/blog/ia">✨ Écrire avec l’IA</a> <a class="btn btn--red" href="/admin/blog/nouveau">+ Nouvel article</a></span>
+  <span class="toolbar__btns"><a class="btn btn--ghost" href="/admin/blog/ia#idees">💡 Idées d’articles</a> <a class="btn btn--dark" href="/admin/blog/ia">✨ Écrire avec l’IA</a> <a class="btn btn--red" href="/admin/blog/nouveau">+ Nouvel article</a></span>
 </div>
 <?php if (!$posts): ?>
   <div class="card empty"><p>Aucun article. Tant qu’il n’y en a pas, la page Blog affiche les emplacements de la maquette.</p><a class="btn btn--red" href="/admin/blog/nouveau">Écrire le premier article</a></div>

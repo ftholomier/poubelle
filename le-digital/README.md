@@ -39,6 +39,13 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
 - **Rédaction d'articles par l'IA** (*Blog › Écrire avec l'IA*) : sujet, thème, angle, mots-clés SEO, public, longueur →
   article complet (titre, extrait, balises SEO, intertitres) en brouillon + photo générée par Google Nano Banana
   (enregistrée dans la médiathèque) → aperçu → « Valider et publier » ou modification dans l'éditeur. Coût affiché.
+- **Idées d'articles proposées par l'IA** (*Blog › Écrire avec l'IA › 💡*) : veille de l'actualité (Google Actualités,
+  30 derniers jours, sur les thèmes du site), des tendances de recherche en France (Google Tendances) et, avec Claude ou
+  Gemini, recherche sur le web avec sources ; l'IA croise tout ça avec les thèmes, les offres et les articles existants
+  et propose une mosaïque de sujets (pourquoi maintenant, angle, mots-clés, niveau de tendance). Fred coche, choisit pour
+  chacun « publier dès qu'il est prêt », « programmer le… » (ou « étaler les parutions » : un article tous les 3, 7 ou
+  14 jours) ou « brouillon » ; l'IA rédige les articles l'un après l'autre (en vérifiant l'actualité du sujet), crée la
+  photo et applique la date. Les articles programmés sont mis en ligne le jour venu (cache vidé, e-mail à Fred).
 - **Coûts de l'IA** (*IA › Coûts*) : dépenses par jour, fonctionnalité et modèle, projection du mois, budget avec alerte
   e-mail ; tarifs officiels intégrés (Anthropic, Google : texte, Nano Banana, hausses annoncées à leur date), catalogue
   public d'OpenRouter pour les autres fournisseurs (actualisé chaque semaine), tarif modifiable à la main.

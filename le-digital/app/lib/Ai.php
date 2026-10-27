@@ -28,6 +28,7 @@ final class Ai
         'analyse' => ['label' => 'Analyse express de l’activité', 'max_tokens' => 2000],
         'explain' => ['label' => '« Explique-moi comme à un débutant »', 'max_tokens' => 1000],
         'blog'    => ['label' => 'Rédaction d’articles du blog (back-office)', 'max_tokens' => 9000],
+        'blog_ideas' => ['label' => 'Idées d’articles : veille et propositions (back-office)', 'max_tokens' => 7000],
     ];
 
     /** Jetons et coût du dernier appel (affichés par le rédacteur d'articles). */
@@ -119,7 +120,7 @@ final class Ai
     /**
      * @param array $messages [['role' => 'user'|'assistant', 'content' => string], ...]
      */
-    public static function complete(string $feature, string $system, array $messages, ?int $maxTokens = null): string
+    public static function complete(string $feature, string $system, array $messages, ?int $maxTokens = null, bool|int $web = false): string
     {
         $resolved = self::resolve($feature);
         if (!$resolved) {
@@ -133,8 +134,11 @@ final class Ai
         $maxTokens ??= (int) (self::config()['features'][$feature]['max_tokens'] ?? self::FEATURES[$feature]['max_tokens'] ?? 1500);
         $t0 = microtime(true);
         try {
-            $out = self::call($provider, $model, $system, $messages, $maxTokens);
-            self::track($feature, $provider, $model, true, $out['in'] ?? 0, $out['out'] ?? 0, microtime(true) - $t0);
+            $out = self::call($provider, $model, $system, $messages, $maxTokens, $web);
+            self::track($feature, $provider, $model, true, $out['in'] ?? 0, $out['out'] ?? 0, microtime(true) - $t0, null, [], 0, (int) ($out['searches'] ?? 0));
+            if (self::$last !== null) {
+                self::$last['web'] = $out['web'] ?? false;
+            }
             return trim($out['text']);
         } catch (AiException $e) {
             self::track($feature, $provider, $model, false, 0, 0, microtime(true) - $t0, $e->getMessage());
@@ -215,7 +219,7 @@ final class Ai
     }
 
     /** Appel brut à un fournisseur (utilisé aussi par le bouton « Tester » du back-office). */
-    public static function call(string $provider, string $model, string $system, array $messages, int $maxTokens = 1000): array
+    public static function call(string $provider, string $model, string $system, array $messages, int $maxTokens = 1000, bool|int $web = false): array
     {
         $def = self::PROVIDERS[$provider] ?? null;
         $key = Secrets::get(self::keyName($provider));
@@ -224,8 +228,8 @@ final class Ai
         }
         $messages = self::normalizeMessages($messages);
         return match ($def['type']) {
-            'anthropic' => self::callAnthropic($model, $key, $system, $messages, $maxTokens),
-            'gemini'    => self::callGemini($def, $model, $key, $system, $messages, $maxTokens),
+            'anthropic' => self::callAnthropic($model, $key, $system, $messages, $maxTokens, $web),
+            'gemini'    => self::callGemini($def, $model, $key, $system, $messages, $maxTokens, $web),
             default     => self::callOpenAi($provider, $def, $model, $key, $system, $messages, $maxTokens),
         };
     }
@@ -260,9 +264,15 @@ final class Ai
         return (bool) preg_match('/^claude-(opus-4-[5-9]|opus-5|sonnet-4-[6-9]|sonnet-5|haiku-5|fable|mythos)/', $model);
     }
 
-    private static function callAnthropic(string $model, string $key, string $system, array $messages, int $maxTokens): array
+    private static function callAnthropic(string $model, string $key, string $system, array $messages, int $maxTokens, bool|int $web = false): array
     {
         $body = ['model' => $model, 'max_tokens' => $maxTokens, 'messages' => $messages];
+        if ($web) {
+            // Recherche web côté serveur d'Anthropic (10 $ / 1 000 recherches), résultats localisés en France.
+            // Les modèles récents trient eux-mêmes les résultats (« filtrage dynamique ») : version plus récente de l'outil.
+            $tool = preg_match('/^claude-(opus-4-[6-9]|opus-5|sonnet-4-[6-9]|sonnet-5|fable)/', $model) ? 'web_search_20260209' : 'web_search_20250305';
+            $body['tools'] = [['type' => $tool, 'name' => 'web_search', 'max_uses' => is_int($web) ? $web : 6, 'user_location' => ['type' => 'approximate', 'country' => 'FR', 'timezone' => 'Europe/Paris']]];
+        }
         if ($system !== '') {
             $body['system'] = $system;
         }
@@ -277,13 +287,39 @@ final class Ai
             $headers['anthropic-beta'] = 'server-side-fallback-2026-07-01';
             $body['fallbacks'] = 'default';
         }
-        $r = Http::request('POST', self::PROVIDERS['anthropic']['base'] . '/messages', $headers, $body, 90);
+        $timeout = $web ? 240 : 90;
+        $r = Http::request('POST', self::PROVIDERS['anthropic']['base'] . '/messages', $headers, $body, $timeout);
         if ($withFallback && $r['status'] === 400 && str_contains($r['body'], 'fallback')) {
             unset($headers['anthropic-beta'], $body['fallbacks']);
-            $r = Http::request('POST', self::PROVIDERS['anthropic']['base'] . '/messages', $headers, $body, 90);
+            $r = Http::request('POST', self::PROVIDERS['anthropic']['base'] . '/messages', $headers, $body, $timeout);
+        }
+        if ($web && $r['status'] === 400 && stripos($r['body'], 'web search') !== false) {
+            // Recherche web désactivée pour l'organisation (console Anthropic) : on continue sans.
+            unset($body['tools']);
+            $web = false;
+            $r = Http::request('POST', self::PROVIDERS['anthropic']['base'] . '/messages', $headers, $body, $timeout);
         }
         self::assertOk($r);
         $j = $r['json'] ?? [];
+        $in = (int) ($j['usage']['input_tokens'] ?? 0);
+        $outTok = (int) ($j['usage']['output_tokens'] ?? 0);
+        $searches = (int) ($j['usage']['server_tool_use']['web_search_requests'] ?? 0);
+        $content = (array) ($j['content'] ?? []);
+        // Recherche longue mise en pause par l'API : on renvoie le message tel quel pour qu'elle continue.
+        for ($i = 0; $i < 3 && ($j['stop_reason'] ?? '') === 'pause_turn'; $i++) {
+            $body['messages'] = [...$messages, ['role' => 'assistant', 'content' => $content]];
+            if (!empty($j['container']['id'])) {
+                $body['container'] = $j['container']['id'];
+            }
+            $r = Http::request('POST', self::PROVIDERS['anthropic']['base'] . '/messages', $headers, $body, $timeout);
+            self::assertOk($r);
+            $j = $r['json'] ?? [];
+            $in += (int) ($j['usage']['input_tokens'] ?? 0);
+            $outTok += (int) ($j['usage']['output_tokens'] ?? 0);
+            $searches += (int) ($j['usage']['server_tool_use']['web_search_requests'] ?? 0);
+            $content = [...$content, ...(array) ($j['content'] ?? [])];
+        }
+        $j['content'] = $content;
         if (($j['stop_reason'] ?? '') === 'refusal') {
             throw new AiException('Réponse refusée par le modèle');
         }
@@ -296,7 +332,7 @@ final class Ai
         if (trim($text) === '') {
             throw new AiException('Réponse vide (augmente le nombre maximal de jetons)');
         }
-        return ['text' => $text, 'in' => (int) ($j['usage']['input_tokens'] ?? 0), 'out' => (int) ($j['usage']['output_tokens'] ?? 0)];
+        return ['text' => $text, 'in' => $in, 'out' => $outTok, 'searches' => $searches, 'web' => (bool) $web];
     }
 
     private static function callOpenAi(string $provider, array $def, string $model, string $key, string $system, array $messages, int $maxTokens): array
@@ -321,7 +357,7 @@ final class Ai
         return ['text' => (string) $content, 'in' => (int) ($j['usage']['prompt_tokens'] ?? 0), 'out' => (int) ($j['usage']['completion_tokens'] ?? 0)];
     }
 
-    private static function callGemini(array $def, string $model, string $key, string $system, array $messages, int $maxTokens): array
+    private static function callGemini(array $def, string $model, string $key, string $system, array $messages, int $maxTokens, bool|int $web = false): array
     {
         $contents = array_map(static fn($m) => ['role' => $m['role'] === 'assistant' ? 'model' : 'user', 'parts' => [['text' => $m['content']]]], $messages);
         // Les modèles « thinking » consomment une partie du budget : on laisse de la marge.
@@ -329,8 +365,11 @@ final class Ai
         if ($system !== '') {
             $body['systemInstruction'] = ['parts' => [['text' => $system]]];
         }
+        if ($web) {
+            $body['tools'] = [['google_search' => new \stdClass()]];
+        }
         $model = preg_replace('~^models/~', '', $model);
-        $r = Http::request('POST', $def['base'] . '/models/' . rawurlencode((string) $model) . ':generateContent', ['x-goog-api-key' => $key], $body, 90);
+        $r = Http::request('POST', $def['base'] . '/models/' . rawurlencode((string) $model) . ':generateContent', ['x-goog-api-key' => $key], $body, $web ? 180 : 90);
         self::assertOk($r);
         $j = $r['json'] ?? [];
         $text = '';
@@ -343,7 +382,8 @@ final class Ai
             throw new AiException('Réponse vide (' . ($j['candidates'][0]['finishReason'] ?? 'inconnue') . ')');
         }
         // Les jetons de réflexion (« thoughts ») sont facturés au tarif de sortie.
-        return ['text' => $text, 'in' => (int) ($j['usageMetadata']['promptTokenCount'] ?? 0), 'out' => (int) ($j['usageMetadata']['candidatesTokenCount'] ?? 0) + (int) ($j['usageMetadata']['thoughtsTokenCount'] ?? 0)];
+        return ['text' => $text, 'in' => (int) ($j['usageMetadata']['promptTokenCount'] ?? 0), 'out' => (int) ($j['usageMetadata']['candidatesTokenCount'] ?? 0) + (int) ($j['usageMetadata']['thoughtsTokenCount'] ?? 0),
+            'searches' => count((array) ($j['candidates'][0]['groundingMetadata']['webSearchQueries'] ?? [])), 'web' => (bool) $web];
     }
 
     private static function assertOk(array $r): void
@@ -524,11 +564,11 @@ final class Ai
     }
 
     /** Compte l'appel (jetons, images, minutes d'audio) pour le tableau de bord des coûts, et le journalise avec son coût. */
-    private static function track(string $feature, string $provider, string $model, bool $ok, int $in, int $out, float $secs, ?string $error = null, array $images = [], float $minutes = 0): void
+    private static function track(string $feature, string $provider, string $model, bool $ok, int $in, int $out, float $secs, ?string $error = null, array $images = [], float $minutes = 0, int $searches = 0): void
     {
-        AiCosts::record($feature, $provider, $model, $ok, $in, $out, $images, $minutes);
-        $usd = AiCosts::cost($provider, $model, $in, $out, $images, $minutes);
+        AiCosts::record($feature, $provider, $model, $ok, $in, $out, $images, $minutes, $searches);
+        $usd = AiCosts::cost($provider, $model, $in, $out, $images, $minutes, null, $searches);
         self::$last = ['provider' => $provider, 'model' => $model, 'in' => $in, 'out' => $out, 'usd' => $usd];
-        Store::appendLog('ai', ['feature' => $feature, 'provider' => $provider, 'model' => $model, 'ok' => $ok, 'in' => $in, 'out' => $out, 'images' => $images ?: null, 'minutes' => $minutes ?: null, 'usd' => $usd !== null ? round($usd, 6) : null, 'secs' => round($secs, 2), 'error' => $error]);
+        Store::appendLog('ai', ['feature' => $feature, 'provider' => $provider, 'model' => $model, 'ok' => $ok, 'in' => $in, 'out' => $out, 'images' => $images ?: null, 'minutes' => $minutes ?: null, 'searches' => $searches ?: null, 'usd' => $usd !== null ? round($usd, 6) : null, 'secs' => round($secs, 2), 'error' => $error]);
     }
 }

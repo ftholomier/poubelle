@@ -588,6 +588,153 @@
     });
   }
 
-  const init = () => [general, imageFields, editor, rte, mediaPage, aiPage, googlePage, updatesPage, blogWriter].forEach(fn => { try { fn(); } catch (e) { console.error(e); } });
+  /* ------------------------------------------------------------------ idées d'articles proposées par l'IA */
+  function blogIdeas() {
+    const root = $('[data-blog-ideas]');
+    if (!root) return;
+    const ask = $('[data-bi-ask]', root), grid = $('[data-bi-grid]', root), wait = $('[data-bi-wait]', root), err = $('[data-bi-err]', root);
+    const ymd = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    const addDays = (s, n) => { const [y, m, d] = s.split('-').map(Number); return ymd(new Date(y, m - 1, d + n)); };
+    const today = ymd(new Date());
+    const fr = s => s.split('-').reverse().join('/');
+    let running = false;
+    const showErr = m => { err.textContent = m || ''; err.hidden = !m; };
+    const cards = () => $$('[data-idea]', grid);
+    const picked = () => cards().filter(c => { const b = $('[data-bi-pick]', c); return b && b.checked && !b.disabled; });
+    const every = () => Number(($('[data-bi-every]', grid) || {}).value || 7);
+    const refresh = () => {
+      const n = picked().length, go = $('[data-bi-run]', grid), info = $('[data-bi-progress]', grid);
+      if (!go || running) return;
+      go.disabled = n === 0;
+      go.textContent = n > 1 ? `✨ Rédiger les ${n} articles cochés` : '✨ Rédiger l’article coché';
+      info.textContent = n ? 'Chaque article prend 1 à 3 minutes : garde la page ouverte.' : 'Coche les idées qui te plaisent.';
+      cards().forEach(c => c.classList.toggle('is-picked', picked().includes(c)));
+    };
+    // Prochaine date libre : après le dernier article programmé (ou coché avec une date), au rythme choisi.
+    const nextDate = except => {
+      let last = root.dataset.next || '';
+      picked().forEach(c => {
+        if (c === except || $('[data-bi-mode]', c).value !== 'date') return;
+        const v = $('[data-bi-date]', c).value;
+        if (v > last) last = v;
+      });
+      return last && last >= today ? addDays(last, every()) : addDays(today, every());
+    };
+    const setMode = (c, mode, date) => {
+      const m = $('[data-bi-mode]', c), d = $('[data-bi-date]', c);
+      m.value = mode; d.hidden = mode !== 'date';
+      if (mode === 'date') d.value = date || d.value || nextDate(c);
+    };
+    const status = (c, state, html) => {
+      const s = $('[data-bi-status]', c);
+      s.className = 'bi__status is-' + state; s.hidden = false;
+      s.replaceChildren(...html.filter(x => x != null));
+    };
+    const done = (c, st, post, warn) => {
+      c.classList.add('is-done'); c.classList.remove('is-picked', 'is-run');
+      const b = $('[data-bi-pick]', c); b.checked = false; b.disabled = true;
+      $('[data-bi-plan]', c).hidden = true;
+      const x = $('[data-bi-dismiss]', c); if (x) x.remove();
+      status(c, st.key, ['✓ Rédigé · ', el('b', { text: st.label }), ' · ', el('a', { href: post.edit, text: 'Relire / modifier' }),
+        st.url ? ' · ' : null, st.url ? el('a', { href: st.url, target: '_blank', rel: 'noopener', text: 'Voir sur le site' }) : null, warn ? el('small', { text: ' ' + warn }) : null]);
+    };
+
+    ask.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (running) return;
+      const fd = new FormData(ask), go = $('[data-bi-go]', ask);
+      go.disabled = true; wait.hidden = false; showErr('');
+      try {
+        const j = await api('/admin/api/blog/ia/idees', { focus: fd.get('focus') || '', n: Number(fd.get('n') || 6) });
+        grid.innerHTML = j.html; // rendu par le serveur (textes échappés)
+        refresh();
+        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (e2) { showErr(e2.message); }
+      go.disabled = false; wait.hidden = true;
+    });
+
+    grid.addEventListener('change', e => {
+      const t = e.target, c = t.closest('[data-idea]');
+      if (t.matches('[data-bi-lot]')) { location.href = '/admin/blog/ia?lot=' + encodeURIComponent(t.value) + '#idees'; return; }
+      if (t.matches('[data-bi-all]')) cards().forEach(x => { const b = $('[data-bi-pick]', x); if (b && !b.disabled) b.checked = t.checked; });
+      if (t.matches('[data-bi-mode]') && c) setMode(c, t.value);
+      refresh();
+    });
+
+    grid.addEventListener('click', async e => {
+      const t = e.target.closest('button');
+      if (!t || running) return;
+      const c = t.closest('[data-idea]'), batch = ($('[data-bi-batch]', grid) || {}).dataset;
+      if (t.matches('[data-bi-dismiss]') && c) {
+        c.classList.add('is-out');
+        try { await api('/admin/api/blog/ia/idee/ecarter', { batch: batch.biBatch, idea: c.dataset.idea }); c.remove(); refresh(); }
+        catch (e2) { c.classList.remove('is-out'); toast(e2.message, true); }
+      }
+      if (t.matches('[data-bi-spread]')) {
+        const list = picked();
+        if (!list.length) return toast('Coche d’abord les idées à programmer.', true);
+        // Le premier part tout de suite (s'il n'y a rien de programmé), puis un article au rythme choisi.
+        let d = root.dataset.next && root.dataset.next >= today ? addDays(root.dataset.next, every()) : '', last = today;
+        list.forEach(x => {
+          if (!d) { setMode(x, 'now'); d = addDays(today, every()); return; }
+          setMode(x, 'date', d); last = d; d = addDays(d, every());
+        });
+        toast(last > today ? `Parutions étalées jusqu’au ${fr(last)}.` : 'Publication dès que l’article est prêt.');
+      }
+      if (t.matches('[data-bi-run]')) run(batch.biBatch);
+    });
+
+    const leave = e => { e.preventDefault(); e.returnValue = ''; };
+    async function run(batchId) {
+      const list = picked();
+      for (const c of list) {
+        const m = $('[data-bi-mode]', c).value, d = $('[data-bi-date]', c).value;
+        if (m === 'date' && (!d || d <= today)) {
+          $('[data-bi-date]', c).focus();
+          return toast('Choisis une date de parution à venir (ou « Publier dès qu’il est prêt »).', true);
+        }
+      }
+      const withImg = !!($('[data-bi-img]', grid) || {}).checked, web = !!($('[data-bi-web]', grid) || {}).checked;
+      const go = $('[data-bi-run]', grid), info = $('[data-bi-progress]', grid);
+      running = true; go.disabled = true; $('[data-bi-go]', ask).disabled = true;
+      const controls = $$('input,select,button', grid).filter(x => !x.matches('[data-bi-run]'));
+      const was = controls.map(x => x.disabled);
+      controls.forEach(x => { x.disabled = true; });
+      addEventListener('beforeunload', leave);
+      let ok = 0;
+      for (const [i, c] of list.entries()) {
+        const mode = $('[data-bi-mode]', c).value, date = $('[data-bi-date]', c).value;
+        info.textContent = `Article ${i + 1} sur ${list.length}…`;
+        c.classList.add('is-run');
+        c.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        status(c, 'run', [web ? 'Rédaction (avec vérification de l’actualité)… 1 à 3 min' : 'Rédaction de l’article… 30 s à 1 min']);
+        let post, warn = '';
+        try {
+          post = (await api('/admin/api/blog/ia/idee', { batch: batchId, idea: c.dataset.idea, web: web ? 1 : 0 })).post;
+        } catch (e) { c.classList.remove('is-run'); status(c, 'ko', ['✗ ' + e.message]); continue; }
+        if (withImg && !post.image) {
+          status(c, 'run', ['Article rédigé · création de la photo…']);
+          try { post = (await api('/admin/api/blog/ia/image', { id: post.id })).post; }
+          catch (e) { warn = `(photo impossible : ${e.message} ; tu peux l’ajouter depuis l’article)`; }
+        }
+        try {
+          const j = await api('/admin/api/blog/ia/planifier', { id: post.id, mode, date });
+          done(c, j.state, j.post, warn); ok++;
+        } catch (e) {
+          done(c, { key: 'draft', label: 'Brouillon à relire' }, post, `(date non enregistrée : ${e.message})`);
+        }
+      }
+      removeEventListener('beforeunload', leave);
+      running = false;
+      controls.forEach((x, i) => { x.disabled = was[i] || (x.matches('[data-bi-pick]') && !!x.closest('.is-done')); });
+      $('[data-bi-go]', ask).disabled = false;
+      refresh();
+      info.textContent = ok === list.length ? `✓ ${ok > 1 ? ok + ' articles prêts' : 'Article prêt'} : chaque date de parution est enregistrée.` : `${ok} sur ${list.length} article(s) prêt(s) : relance ceux en erreur.`;
+      toast(info.textContent, ok !== list.length);
+    }
+    refresh();
+  }
+
+  const init = () => [general, imageFields, editor, rte, mediaPage, aiPage, googlePage, updatesPage, blogWriter, blogIdeas].forEach(fn => { try { fn(); } catch (e) { console.error(e); } });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

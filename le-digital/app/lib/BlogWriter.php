@@ -29,9 +29,10 @@ final class BlogWriter
 
     /**
      * Écrit l'article et l'enregistre en brouillon. Retourne le brouillon (article du blog) et le coût de l'appel.
+     * $web : l'IA peut vérifier l'actualité du sujet sur le web (nombre maximal de recherches) ; $extra : infos gardées avec l'article.
      * @param array{theme:string, sujet:string, angle:string, mots_cles:string, public:string, longueur:string} $brief
      */
-    public static function write(array $brief): array
+    public static function write(array $brief, bool|int $web = false, array $extra = []): array
     {
         $raw = Ai::complete('blog', '', [['role' => 'user', 'content' => Ai::fill(Ai::prompt('blog_writer'), [
             'theme'     => $brief['theme'],
@@ -40,7 +41,7 @@ final class BlogWriter
             'mots_cles' => $brief['mots_cles'] !== '' ? $brief['mots_cles'] : 'à déduire du sujet',
             'public'    => $brief['public'] !== '' ? $brief['public'] : 'dirigeants de TPE, artisans, commerçants et indépendants',
             'longueur'  => $brief['longueur'],
-        ])]]);
+        ])]], null, $web);
         $cost = Ai::$last['usd'] ?? null;
         [$meta, $html] = self::parse($raw);
         $title = clean_text((string) ($meta['titre'] ?? ''), 200);
@@ -53,7 +54,7 @@ final class BlogWriter
             'image' => '', 'content' => $html, 'date' => date('Y-m-d'), 'published' => false,
             'seo_title' => clean_text((string) ($meta['seo_titre'] ?? ''), 160),
             'seo_description' => clean_text((string) ($meta['seo_description'] ?? ''), 320),
-            'ai' => [
+            'ai' => $extra + [
                 'brief' => $brief, 'at' => date('c'), 'model' => (Ai::$last['provider'] ?? '') . ':' . (Ai::$last['model'] ?? ''),
                 'image_prompt' => clean_text((string) ($meta['image_prompt'] ?? ''), 1200),
                 'image_alt' => clean_text((string) ($meta['image_alt'] ?? $title), 200),
