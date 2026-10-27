@@ -245,6 +245,23 @@ final class Api
         Http::sendJson(['ok' => true]);
     }
 
+    // ------------------------------------------------------------------ cookies
+
+    /** Choix de cookies du visiteur, journalisé comme preuve du consentement (aucune donnée identifiante). */
+    public static function consent(): never
+    {
+        Guard::api();
+        RateLimit::enforce('consent', 20, 600);
+        $id = Http::str('id', 40);
+        $sent = (array) Http::input('choices', []);
+        $choices = [];
+        foreach (\LD\Consent::categories() as $cat) {
+            $choices[$cat] = !empty($sent[$cat]);
+        }
+        \LD\Consent::log(preg_match('/^[a-z0-9-]{8,40}$/i', $id) ? $id : '', $choices, Http::str('v', 12), (string) ($_SERVER['HTTP_REFERER'] ?? ''));
+        Http::sendJson(['ok' => true]);
+    }
+
     // ------------------------------------------------------------------ IA
 
     private static function aiGuard(string $feature, int $max = 20): void

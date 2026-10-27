@@ -10,5 +10,5 @@ $profile = linkedin_url();
       <?php if ($profile !== '#'): ?><a class="li-feed__follow" href="<?= e($profile) ?>" target="_blank" rel="noopener">Me suivre sur LinkedIn ↗</a><?php endif; ?>
     </div>
   <?php endif; ?>
-  <div class="li-feed__code"><?= LD\Posts::linkedinCode() ?></div>
+  <div class="li-feed__code"><?= LD\Consent::wrap('tiers', LD\Posts::linkedinCode(), LD\Consent::placeholder('publications LinkedIn')) ?></div>
 </section>

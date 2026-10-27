@@ -11,6 +11,7 @@ $noindex = $meta['noindex'] || !empty($s['seo']['noindex']);
 $cfg = [
     'token'      => LD\PageCache::TOKEN,
     'animations' => (bool) ($s['features']['animations'] ?? true),
+    'consent'    => LD\Consent::enabled() ? LD\Consent::config() : null,
     'dock'       => [
         'greeting'      => $g['dock']['greeting'] ?? '',
         'error'         => $g['dock']['error_text'] ?? '',
@@ -62,7 +63,7 @@ $cfg = [
 <?php foreach ((array) $meta['jsonld'] as $ld): ?>
 <script type="application/ld+json"><?= json_script($ld) ?></script>
 <?php endforeach; ?>
-<?= $s['seo']['analytics_head'] ?? '' ?>
+<?= LD\Consent::wrap('audience', (string) ($s['seo']['analytics_head'] ?? '')) ?>
 </head>
 <body class="<?= e($meta['bodyClass']) ?>">
 <a class="skip" href="#contenu">Aller au contenu</a>
@@ -79,6 +80,9 @@ $cfg = [
 <?= LD\View::partial('exit-popup', ['g' => $g, 's' => $s]) ?>
 <?php endif; ?>
 </div>
+<?php if (LD\Consent::enabled()): ?>
+<?= LD\View::partial('cookies', ['g' => $g]) ?>
+<?php endif; ?>
 <script id="ld-config" type="application/json"><?= json_script($cfg) ?></script>
 <script src="<?= asset('js/site.js') ?>" defer></script>
 </body>

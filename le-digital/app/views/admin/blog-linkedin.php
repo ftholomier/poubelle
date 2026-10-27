@@ -28,7 +28,7 @@ $opt = static fn(string $value, string $label) => '<option value="' . e($value) 
         </select>
       </label>
     </div>
-    <p class="small muted">Un bouton « Me suivre sur LinkedIn » accompagne le titre si l’adresse de ton profil est renseignée dans Paramètres. Tant qu’aucun article n’est publié, les emplacements « Article à fournir » sont masqués quand tes posts LinkedIn sont affichés. Le code est inséré tel quel : ne colle que du code venant d’une application de confiance.</p>
+    <p class="small muted">Un bouton « Me suivre sur LinkedIn » accompagne le titre si l’adresse de ton profil est renseignée dans Paramètres. Tant qu’aucun article n’est publié, les emplacements « Article à fournir » sont masqués quand tes posts LinkedIn sont affichés. Le code est inséré tel quel : ne colle que du code venant d’une application de confiance. Service tiers : il ne se charge qu’après l’accord du visiteur dans le bandeau cookies (sinon, un encart lui propose de l’afficher).</p>
   </section>
   <div class="actions sticky-actions">
     <button class="btn btn--red" type="submit">Enregistrer</button>

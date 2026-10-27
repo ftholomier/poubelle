@@ -36,6 +36,10 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
 - Demandes (formulaire, RdV, rappels, vocaux avec lecteur audio, discussions et briefs de l'assistant IA, analyses IA
   de site, démos de devis), statuts, notes, export CSV. **Chaque interaction déclenche un e-mail à Fred** (annulations de
   RdV comprises ; essais répétés d'un même outil regroupés sur 30 min) et chaque demande indique si l'e-mail est bien parti.
+- **Gestion des cookies** (règles CNIL) : bandeau « Tout accepter / Tout refuser / Personnaliser », panneau par catégorie
+  (essentiels, contenus tiers, mesure d'audience), rien de facultatif chargé avant l'accord (widgets d'avis, posts LinkedIn,
+  code de mesure d'audience), choix gardé 6 mois et modifiable via « Gestion des cookies » du pied de page, preuve des
+  choix dans `storage/logs/consent.log`. Textes dans *Contenus › Commun › cookies*.
 - Mentions légales complètes (LCEN, RGPD, traceurs, IA, avis) : éditeur LE-DIGITAL.COM, hébergeur o2switch ; e-mail et
   téléphone repris automatiquement des Paramètres (obligatoires pour l'éditeur), rubriques modifiables dans Contenus.
 - Aucun encart « à fournir » côté visiteurs : un contenu vide (photo, texte, téléphone, avis, articles) est simplement masqué.

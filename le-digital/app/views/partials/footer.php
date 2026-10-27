@@ -5,19 +5,24 @@ $zones = LD\Content::get('zones')['cities'] ?? [];
 $fr = $f['made_in_france'] ?? [];
 // Carrousel d'avis collé dans le back-office (Avis › Widgets) ; à défaut, preuve sociale native (note Google, extraits d'avis).
 $carousel = LD\Reviews::carouselPlace(LD\Http::path());
+// Avec la gestion des cookies, le carrousel (service tiers) n'apparaît qu'après accord ; sinon la preuve sociale native le remplace.
+$gated = $carousel !== '' && LD\Consent::enabled();
 ?>
 <?php if ($carousel === 'before'): ?>
-<section class="rv-band" aria-label="Avis clients">
-  <div class="rv-band__in"><div class="rv-widget rv-widget--carousel"><?= LD\Reviews::carouselCode() ?></div></div>
+<section class="rv-band" aria-label="Avis clients"<?= $gated ? ' data-consent-show="tiers" hidden' : '' ?>>
+  <div class="rv-band__in"><div class="rv-widget rv-widget--carousel"><?= LD\Consent::wrap('tiers', LD\Reviews::carouselCode()) ?></div></div>
 </section>
 <?php endif; ?>
 <footer class="ftr">
   <div class="ftr__glow" aria-hidden="true"></div>
   <div class="ftr__in">
     <?php if ($carousel === 'inside'): ?>
-      <div class="rv-widget rv-widget--carousel rv-widget--dark"><?= LD\Reviews::carouselCode() ?></div>
-    <?php elseif (LD\Reviews::carouselCode() === ''): ?>
+      <div class="rv-widget rv-widget--carousel rv-widget--dark"<?= $gated ? ' data-consent-show="tiers" hidden' : '' ?>><?= LD\Consent::wrap('tiers', LD\Reviews::carouselCode()) ?></div>
+    <?php endif; ?>
+    <?php if (LD\Reviews::carouselCode() === ''): ?>
       <?= LD\View::partial('footer-proof') ?>
+    <?php elseif ($gated): ?>
+      <div data-consent-hide="tiers"><?= LD\View::partial('footer-proof') ?></div>
     <?php endif; ?>
     <?php if (trim((string) ($fr['title'] ?? '')) !== ''): ?>
       <div class="ftr__fr">
@@ -53,6 +58,7 @@ $carousel = LD\Reviews::carouselPlace(LD\Http::path());
         <ul class="ftr__links">
           <?php foreach ($f['links'] ?? [] as $l): ?><li><a href="<?= e($l['href']) ?>"><span><?= t($l['label']) ?></span><?= $arrow ?></a></li><?php endforeach; ?>
           <?php if ($linkedin !== '#'): ?><li><a<?= link_attrs($linkedin) ?>><span><?= t($f['linkedin_label'] ?? 'LinkedIn') ?></span><?= $arrow ?></a></li><?php endif; ?>
+          <?php if (LD\Consent::enabled()): ?><li><button type="button" class="ftr__linkbtn" data-cookie-open><span><?= t($g['cookies']['footer_link'] ?? 'Gestion des cookies') ?></span><?= $arrow ?></button></li><?php endif; ?>
         </ul>
       </nav>
     </div>

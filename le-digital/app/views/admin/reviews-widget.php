@@ -11,7 +11,7 @@ $placeholder = '&lt;script src=&quot;https://…&quot; defer&gt;&lt;/script&gt;&
 
 <form method="post" action="/admin/avis/widget" class="settings-form">
   <input type="hidden" name="_csrf" value="<?= e($csrf) ?>">
-  <p class="small">Tu utilises un service d’avis (Trustindex, Elfsight, Avis Vérifiés, Guest Suite, Custplace, EmbedSocial…) qui fournit des codes à intégrer ? Colle chaque code tel quel dans sa case : un <b>carrousel</b> pour toutes les pages, un <b>mur d’avis</b> pour la page Avis. Le code est inséré tel quel : ne colle que du code venant d’un service de confiance.</p>
+  <p class="small">Tu utilises un service d’avis (Trustindex, Elfsight, Avis Vérifiés, Guest Suite, Custplace, EmbedSocial…) qui fournit des codes à intégrer ? Colle chaque code tel quel dans sa case : un <b>carrousel</b> pour toutes les pages, un <b>mur d’avis</b> pour la page Avis. Le code est inséré tel quel : ne colle que du code venant d’un service de confiance. Service tiers : il ne se charge qu’après l’accord du visiteur dans le bandeau cookies (à défaut, le pied de page affiche ta note Google et tes avis).</p>
 
   <section class="card">
     <div class="card__head"><h2>1. Carrousel d’avis — toutes les pages</h2><?php if ($footerCode !== ''): ?><span class="badge badge--ok">En ligne</span><?php endif; ?></div>

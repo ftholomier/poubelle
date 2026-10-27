@@ -97,6 +97,7 @@ $router->post('/api/rappel', [Api::class, 'callback']);
 $router->get('/api/rdv/creneaux', [Api::class, 'slots']);
 $router->post('/api/rdv', [Api::class, 'book']);
 $router->post('/api/vocal', [Api::class, 'voice']);
+$router->post('/api/consentement', [Api::class, 'consent']);
 $router->post('/api/ia/chat', [Api::class, 'chat']);
 $router->post('/api/ia/brief', [Api::class, 'brief']);
 $router->post('/api/ia/fin', [Api::class, 'chatEnd']);

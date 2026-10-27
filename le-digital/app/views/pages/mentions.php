@@ -40,6 +40,7 @@ $rubriques = array_values(array_filter($c['rubriques'] ?? [], static fn($r) => t
     <?php foreach (preg_split('/\n\s*\n/', $fill((string) $r['text'])) as $para): ?>
       <p><?= $links(tp(trim($para))) ?></p>
     <?php endforeach; ?>
+    <?php if (($r['id'] ?? '') === 'cookies' && LD\Consent::enabled()): ?><p><button type="button" class="cc-btn cc-btn--dark" data-cookie-open>Gérer mes cookies</button></p><?php endif; ?>
   <?php endforeach; ?>
   <?php if (trim((string) ($c['updated'] ?? '')) !== ''): ?><p class="legal__updated"><?= t($c['updated']) ?></p><?php endif; ?>
 </section>

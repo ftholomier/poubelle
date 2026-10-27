@@ -108,7 +108,7 @@ $redirects = implode("\n", array_map(static fn($r) => $r['from'] . ' => ' . $r['
     <div class="form form--cols">
       <label>Suffixe des titres de page<input name="seo[title_suffix]" value="<?= $v('seo.title_suffix') ?>"></label>
       <label>Code de vérification Google Search Console<input name="seo[google_verification]" value="<?= $v('seo.google_verification') ?>"></label>
-      <label class="span2">Code de mesure d’audience (inséré dans &lt;head&gt; : Plausible, Matomo, Google Analytics…)<textarea name="seo[analytics_head]" rows="3" class="mono"><?= $v('seo.analytics_head') ?></textarea></label>
+      <label class="span2">Code de mesure d’audience (inséré dans &lt;head&gt; : Plausible, Matomo, Google Analytics…) — chargé seulement après l’accord du visiteur (bandeau cookies)<textarea name="seo[analytics_head]" rows="3" class="mono"><?= $v('seo.analytics_head') ?></textarea></label>
       <label class="check span2"><input type="checkbox" name="seo[noindex]" value="1"<?= $chk('seo.noindex') ?>> Masquer le site aux moteurs de recherche (pré-production)</label>
     </div>
     <p class="muted small">Le sitemap (<a href="/sitemap.xml" target="_blank">/sitemap.xml</a>), le robots.txt, les balises Open Graph et les données structurées (entreprise locale, articles) sont générés automatiquement.</p>

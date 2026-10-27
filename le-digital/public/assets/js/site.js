@@ -912,7 +912,7 @@
 
     let armed = preview, shown = false, lastFocus = null;
     setTimeout(() => { armed = true; }, (cfg.delay || 0) * 1000);
-    const busy = () => html.classList.contains('menu-open') || !!$('#dock-chat:not([hidden]), #dock-voice:not([hidden]), .dbar.is-rec');
+    const busy = () => html.classList.contains('menu-open') || !!$('#dock-chat:not([hidden]), #dock-voice:not([hidden]), .dbar.is-rec, #cc-banner:not([hidden]), #cc-panel:not([hidden])');
     const focusables = () => $$('a[href], button:not([disabled]), input:not([tabindex="-1"])', card).filter(el => el.offsetParent !== null);
 
     const open = () => {
@@ -976,6 +976,89 @@
   }
 
   /* ------------------------------------------------------------------ pied de page : extraits d'avis qui défilent */
+  /**
+   * Cookies (règles de la CNIL) : les codes tiers sont inertes (<template data-consent>) tant que le visiteur n'a pas
+   * accepté leur catégorie. Choix conservé 6 mois, modifiable via « Gestion des cookies », journalisé côté serveur.
+   */
+  function cookies() {
+    const C = CFG.consent;
+    const banner = $('#cc-banner'), panel = $('#cc-panel');
+    if (!C || !panel) return;
+    const KEY = 'ld-consent', html = document.documentElement;
+    const read = () => { const c = store.get(KEY); return c && c.v === C.v && Date.now() - c.at < C.days * 864e5 ? c : null; };
+    let state = read(), lastFocus = null;
+    const granted = cat => !!(state && state.c && state.c[cat]);
+
+    // Active une catégorie : affiche ses blocs, retire les encarts, puis exécute ses codes (scripts recréés pour s'exécuter).
+    const activate = cat => {
+      $$(`[data-consent-show="${cat}"]`).forEach(el => { el.hidden = false; });
+      $$(`[data-consent-hide="${cat}"], [data-consent-ph="${cat}"]`).forEach(el => el.remove());
+      $$(`template[data-consent="${cat}"]`).forEach(tpl => {
+        const frag = tpl.content.cloneNode(true);
+        $$('script', frag).forEach(old => {
+          const s = document.createElement('script');
+          Array.from(old.attributes).forEach(a => s.setAttribute(a.name, a.value));
+          if (s.src) s.async = false;
+          s.text = old.text;
+          old.replaceWith(s);
+        });
+        tpl.replaceWith(frag);
+      });
+    };
+    const apply = () => C.cats.forEach(cat => { if (granted(cat)) activate(cat); });
+    // Cookies posés par des services refusés : effacés (sauf la session du back-office).
+    const clearCookies = () => {
+      const host = location.hostname, doms = ['', host, '.' + host, '.' + host.replace(/^www\./, '')];
+      document.cookie.split(';').map(c => c.split('=')[0].trim()).filter(n => n && n !== 'ld_admin').forEach(n => {
+        doms.forEach(d => { document.cookie = `${n}=; Max-Age=0; path=/${d ? '; domain=' + d : ''}`; });
+      });
+    };
+    const rid = () => (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
+
+    const showBanner = v => { if (banner) { banner.hidden = !v; html.classList.toggle('cc-open', v); } };
+    const openPanel = () => {
+      lastFocus = document.activeElement;
+      $$('[data-cc-cat]', panel).forEach(i => { i.checked = granted(i.dataset.ccCat); });
+      panel.hidden = false; html.classList.add('ccp-open');
+      requestAnimationFrame(() => panel.classList.add('is-open'));
+      setTimeout(() => $('.ccp__card', panel).focus({ preventScroll: true }), 40);
+    };
+    const closePanel = () => {
+      if (panel.hidden) return;
+      panel.classList.remove('is-open'); html.classList.remove('ccp-open'); panel.hidden = true;
+      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    };
+    const save = choices => {
+      const prev = state;
+      state = { v: C.v, at: Date.now(), id: (prev && prev.id) || rid(), c: choices };
+      store.set(KEY, state);
+      api('/api/consentement', { id: state.id, v: C.v, choices }).catch(() => {});
+      showBanner(false); closePanel();
+      // Accord retiré : on efface et on recharge pour décharger les services tiers déjà actifs.
+      if (prev && prev.c && Object.keys(prev.c).some(k => prev.c[k] && !choices[k])) { clearCookies(); location.reload(); return; }
+      apply();
+    };
+    const all = v => Object.fromEntries(C.cats.map(c => [c, v]));
+
+    document.addEventListener('click', e => {
+      const t = e.target.closest('[data-cc], [data-cookie-open], [data-consent-allow]');
+      if (!t) return;
+      if (t.matches('[data-cookie-open]')) { e.preventDefault(); openPanel(); return; }
+      if (t.dataset.consentAllow) { save(Object.assign(all(false), state ? state.c : {}, { [t.dataset.consentAllow]: true })); return; }
+      const a = t.dataset.cc;
+      if (a === 'accept') save(all(true));
+      else if (a === 'refuse') save(all(false));
+      else if (a === 'customize') openPanel();
+      else if (a === 'save') save(Object.fromEntries($$('[data-cc-cat]', panel).map(i => [i.dataset.ccCat, i.checked])));
+      else if (a === 'close') closePanel();
+    });
+    panel.addEventListener('click', e => { if (e.target === panel) closePanel(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden) closePanel(); });
+
+    apply();
+    if (!state && C.cats.length) setTimeout(() => showBanner(true), 500);
+  }
+
   /** Pied de page : « Retour en haut » (défilement doux, sans ajouter d'ancre à l'adresse). */
   function toTop() {
     $$('[data-to-top]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); scrollTo({ top: 0, behavior: anim ? 'smooth' : 'auto' }); }));
@@ -1024,7 +1107,7 @@
 
   /* ------------------------------------------------------------------ démarrage */
   const init = () => {
-    [header, hero, beforeAfter, bureau, devis, simulator, quiz, analyse, explain, formation, formules, filters, formula, diag, booking, contact, callback, dock, motion, clamp, intensiti, exitPopup, footerProof, toTop]
+    [header, hero, beforeAfter, bureau, devis, simulator, quiz, analyse, explain, formation, formules, filters, formula, diag, booking, contact, callback, dock, motion, clamp, intensiti, cookies, exitPopup, footerProof, toTop]
       .forEach(fn => { try { fn(); } catch (e) { if (window.console) console.error(e); } });
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
