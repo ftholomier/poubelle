@@ -27,14 +27,28 @@ final class Posts
         return trim((string) Settings::get('linkedin_feed.code', ''));
     }
 
-    /** Position du fil LinkedIn sur la page Blog : before|after|replace, ou '' si rien à afficher. */
+    /** Emplacements possibles du fil LinkedIn sur la page Blog (split : deux colonnes, LinkedIn à gauche, articles à droite). */
+    public const LINKEDIN_PLACES = ['split', 'before', 'after', 'replace', 'off'];
+
+    /** Emplacement choisi dans le back-office (deux colonnes par défaut). */
+    public static function linkedinSetting(): string
+    {
+        $place = (string) Settings::get('linkedin_feed.place', 'split');
+        // Réglage enregistré avant l'arrivée des deux colonnes : « au-dessus » était alors la valeur par défaut.
+        if ($place === 'before' && !Settings::get('linkedin_feed.v2', false)) {
+            $place = 'split';
+        }
+        return in_array($place, self::LINKEDIN_PLACES, true) ? $place : 'split';
+    }
+
+    /** Position du fil LinkedIn sur la page Blog : split|before|after|replace, ou '' si rien à afficher. */
     public static function linkedinPlace(): string
     {
         if (self::linkedinCode() === '') {
             return '';
         }
-        $place = (string) Settings::get('linkedin_feed.place', 'before');
-        return in_array($place, ['before', 'after', 'replace'], true) ? $place : '';
+        $place = self::linkedinSetting();
+        return $place === 'off' ? '' : $place;
     }
 
     public static function find(string $id): ?array

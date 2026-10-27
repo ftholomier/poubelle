@@ -72,7 +72,8 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
   contact, plan du site, titre Google et assistant IA suivent automatiquement. Une solution masquée reste prévisualisable par l'administrateur
   connecté. Les textes du bloc Intensiti restent dans *Contenus › Mes solutions*.
 - Articles de blog (éditeur visuel) et **posts LinkedIn** sur la page Blog (*Blog › Posts LinkedIn* : code d'intégration
-  d'une application externe à coller, au-dessus, sous ou à la place des articles), médiathèque (conversion WebP + tailles
+  d'une application externe à coller ; par défaut la page est en deux colonnes, posts LinkedIn à gauche et articles du
+  site à droite, l'une sous l'autre sur mobile ; sinon au-dessus, sous ou à la place des articles), médiathèque (conversion WebP + tailles
   responsive automatiques).
 - **IA & clés API** : clés chiffrées pour Anthropic (Claude), OpenAI, Google Gemini, Mistral, Groq, OpenRouter, DeepSeek, xAI ;
   **liste des modèles récupérée en direct** auprès de chaque fournisseur ; modèle par défaut + modèle par fonctionnalité,

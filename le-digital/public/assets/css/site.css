@@ -828,6 +828,29 @@ a.post:hover .post__img img{transform:scale(1.03)}
 .post__theme{padding:5px 11px;border-radius:999px;background:#ffeceb;color:#cc1517;text-decoration:none}
 .post__t{font-family:var(--fh);font-weight:800;font-size:22px;line-height:1.2;letter-spacing:-.015em}
 .post__x{font-size:15.5px;line-height:1.55;color:#4a4760}
+.post__body{display:flex;flex-direction:column;gap:16px;min-width:0}
+/* Page Blog en deux colonnes : posts LinkedIn à gauche, articles du site à droite */
+.blog-split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+.blog-split__col{min-width:0;padding-right:clamp(24px,3.5vw,56px)}
+.blog-split__col--posts{padding:0 0 0 clamp(24px,3.5vw,56px);border-left:1px solid #f2dedb}
+.blog-split .li-feed{margin:0}
+.blog-split .li-feed__head{min-height:46px}
+.blog-split__ic{display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,#cc1517,#e8402a);color:#fff}
+.blog-split .filters{margin-bottom:28px}
+.blog-split .filters button{padding:9px 15px;font-size:13.5px}
+.blog-split__list{display:flex;flex-direction:column;gap:28px}
+.post--row{display:grid;grid-template-columns:minmax(0,42%) minmax(0,1fr);gap:20px;align-items:center}
+.post--row .post__img{aspect-ratio:4/3;border-radius:18px}
+.post--row .post__body{gap:10px}
+.post--row .post__t{font-size:clamp(17px,1.5vw,20px)}
+.post--row .post__x{font-size:14.5px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+@media (max-width:960px){
+  .blog-split{grid-template-columns:1fr;gap:56px}
+  .blog-split__col{padding:0}
+  .blog-split__col--posts{padding:48px 0 0;border-left:0;border-top:1px solid #f2dedb}
+  .post--row{grid-template-columns:minmax(0,260px) minmax(0,1fr)}
+}
+@media (max-width:520px){.post--row{grid-template-columns:1fr;gap:14px}.post--row .post__img{aspect-ratio:16/10}}
 
 /* Article */
 .art-hero{position:relative;background:#fff7f6;overflow:hidden}

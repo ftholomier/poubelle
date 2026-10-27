@@ -415,8 +415,9 @@ final class AdminContent
         $s = Store::read('content/settings.json', []);
         $s['linkedin_feed'] = [
             'code'  => $code,
-            'place' => in_array($_POST['place'] ?? '', ['before', 'after', 'replace', 'off'], true) ? $_POST['place'] : 'before',
+            'place' => in_array($_POST['place'] ?? '', Posts::LINKEDIN_PLACES, true) ? $_POST['place'] : 'split',
             'title' => clean_text((string) ($_POST['title'] ?? ''), 120),
+            'v2'    => true,
         ];
         Settings::save($s);
         Admin::back('/admin/blog/linkedin', 'ok', $code === '' ? 'Fil LinkedIn retiré de la page Blog.' : ($s['linkedin_feed']['place'] === 'off' ? 'Code enregistré (masqué sur la page Blog).' : 'Code enregistré : tes posts LinkedIn sont en ligne sur la page Blog.'));

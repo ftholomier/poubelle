@@ -1,7 +1,7 @@
 <?php
 /** @var array $li @var string $csrf */
 $code = (string) ($li['code'] ?? '');
-$place = (string) ($li['place'] ?? 'before');
+$place = LD\Posts::linkedinSetting();
 $title = (string) ($li['title'] ?? 'Mes derniers posts LinkedIn');
 $opt = static fn(string $value, string $label) => '<option value="' . e($value) . '"' . ($value === $place ? ' selected' : '') . '>' . e($label) . '</option>';
 ?>
@@ -21,6 +21,7 @@ $opt = static fn(string $value, string $label) => '<option value="' . e($value) 
       </label>
       <label>Emplacement sur la page Blog
         <select name="place">
+          <?= $opt('split', 'Deux colonnes : LinkedIn à gauche, mes articles à droite') ?>
           <?= $opt('before', 'Au-dessus des articles') ?>
           <?= $opt('after', 'Sous les articles') ?>
           <?= $opt('replace', 'À la place des articles') ?>
@@ -28,7 +29,7 @@ $opt = static fn(string $value, string $label) => '<option value="' . e($value) 
         </select>
       </label>
     </div>
-    <p class="small muted">Un bouton « Me suivre sur LinkedIn » accompagne le titre si l’adresse de ton profil est renseignée dans Paramètres. Tant qu’aucun article n’est publié, les emplacements « Article à fournir » sont masqués quand tes posts LinkedIn sont affichés. Le code est inséré tel quel : ne colle que du code venant d’une application de confiance. Service tiers : il ne se charge qu’après l’accord du visiteur dans le bandeau cookies (sinon, un encart lui propose de l’afficher).</p>
+    <p class="small muted">Un bouton « Me suivre sur LinkedIn » accompagne le titre si l’adresse de ton profil est renseignée dans Paramètres. Le code est inséré tel quel : ne colle que du code venant d’une application de confiance. Service tiers : il ne se charge qu’après l’accord du visiteur dans le bandeau cookies (sinon, un encart lui propose de l’afficher).</p>
   </section>
   <div class="actions sticky-actions">
     <button class="btn btn--red" type="submit">Enregistrer</button>

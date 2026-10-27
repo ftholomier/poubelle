@@ -4,6 +4,7 @@
     "description": "Des conseils concrets pour gagner du temps grâce à l'IA, créer un site qui convertit et développer ton activité grâce au digital."
   },
   "title": "Le blog",
+  "posts_title": "Mes articles",
   "filter_all": "Tous",
   "themes": ["IA & productivité", "Sites web", "Webmarketing", "Formation", "Entrepreneuriat"],
   "read_suffix": "min de lecture",

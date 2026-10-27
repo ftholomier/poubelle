@@ -183,7 +183,7 @@
     restart: 'Recommencer', formules: '4 formules', si: 'Pour toi si…', si_label: 'Libellé « Pour toi si… »', how: 'Comment', how_label: 'Libellé « Comment »', badge_24h: 'Badge 24 h',
     intensiti: 'Intensiti', formaliance: 'Formaliance', name: 'Nom', tagline: 'Accroche', strengths: 'Points forts', media: 'Ce qu’on peut afficher', url: 'Lien du site',
     demo_cta: 'Bouton démo', links_todo: 'Mention « liens à fournir »', story: 'Parcours (paragraphes)', story_todo: 'Encadré « texte à personnaliser »',
-    story_validated: 'Parcours validé (masque l’encadré « à personnaliser »)', photos: 'Photos en situation', filter_all: 'Filtre « Tous »', themes: 'Thèmes du blog',
+    story_validated: 'Parcours validé (masque l’encadré « à personnaliser »)', photos: 'Photos en situation', posts_title: 'Titre de la colonne des articles (page en deux colonnes)', filter_all: 'Filtre « Tous »', themes: 'Thèmes du blog',
     read_suffix: 'Suffixe du temps de lecture', author_name: 'Auteur', author_role: 'Rôle de l’auteur', toc_title: 'Titre du sommaire', article_cta_title: 'Fin d’article — titre',
     article_cta: 'Fin d’article — bouton', related_title: 'Titre « articles similaires »', final_title: 'Appel final — titre', final_cta: 'Appel final — bouton',
     diag: 'Bandeau « diagnostic transmis »', booking: 'Option 1 — réservation', form: 'Option 2 — formulaire', callback: 'Option 3 — rappel', contacts: 'Encarts de contact',
