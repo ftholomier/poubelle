@@ -39,6 +39,10 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
 - **Rédaction d'articles par l'IA** (*Blog › Écrire avec l'IA*) : sujet, thème, angle, mots-clés SEO, public, longueur →
   article complet (titre, extrait, balises SEO, intertitres) en brouillon + photo générée par Google Nano Banana
   (enregistrée dans la médiathèque) → aperçu → « Valider et publier » ou modification dans l'éditeur. Coût affiché.
+  Photos toujours différentes : scène propre au contenu de l'article, imaginée en tenant compte des photos récentes du
+  blog, et pour chaque image un cadrage, une lumière et des couleurs absents des dernières photos. « Autre photo »
+  (aperçu) ou « ✨ Nouvelle photo par l'IA » (édition de l'article) : Fred peut décrire la photo voulue ; les photos
+  générées pour un article restent proposées pour revenir à l'une d'elles.
 - **Idées d'articles proposées par l'IA** (*Blog › Écrire avec l'IA › 💡*) : veille de l'actualité (Google Actualités,
   30 derniers jours, sur les thèmes du site), des tendances de recherche en France (Google Tendances) et, avec Claude ou
   Gemini, recherche sur le web avec sources ; l'IA croise tout ça avec les thèmes, les offres et les articles existants

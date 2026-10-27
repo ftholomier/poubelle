@@ -1,4 +1,4 @@
-<?php /** @var array $p @var array $themes @var string $csrf */ ?>
+<?php /** @var array $p @var array $themes @var string $csrf @var bool $canImage */ ?>
 <div class="toolbar">
   <a href="/admin/blog" class="back">← Tous les articles</a>
   <?php if ($p['id']): ?><a class="btn btn--ghost" href="/blog/<?= e($p['slug']) ?><?= empty($p['published']) ? '?apercu=1' : '' ?>" target="_blank" rel="noopener"><?= empty($p['published']) ? 'Aperçu' : 'Voir l’article' ?> ↗</a><?php endif; ?>
@@ -35,6 +35,22 @@
       <div><span class="lbl">Image de couverture</span><div class="imgfield" data-imgfield><input type="hidden" name="image" value="<?= e($p['image']) ?>"></div></div>
       <button class="btn btn--red btn--block" type="submit">Enregistrer</button>
     </div>
+    <?php if ($p['id']): $gen = array_values((array) ($p['ai']['images'] ?? [])); ?>
+      <div class="card form ph" id="photo" data-photo-ai data-id="<?= e($p['id']) ?>" data-images="<?= e(json_encode($gen)) ?>">
+        <h3 class="h3">✨ Nouvelle photo par l’IA</h3>
+        <?php if (!$canImage): ?>
+          <p class="small muted">Ajoute ta clé API Google Gemini dans <a href="/admin/ia">IA & clés API</a> pour générer la photo avec Nano Banana.</p>
+        <?php else: ?>
+          <label>Décris la photo que tu veux <small class="muted">(facultatif)</small>
+            <textarea rows="4" maxlength="1500" data-ph-prompt placeholder="Ex. : gros plan sur les mains d’une boulangère qui encaisse avec un terminal de paiement, devanture en bois, lumière du matin"></textarea>
+          </label>
+          <p class="small muted">Laissé vide, l’IA repart du contenu de l’article avec un autre cadrage, une autre lumière et d’autres couleurs que les dernières photos du blog.</p>
+          <button class="btn btn--dark btn--block" type="button" data-ph-go>✨ Générer une nouvelle photo</button>
+          <p class="ph__status small" data-ph-status hidden></p>
+          <div data-ph-hist></div>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
     <div class="card form">
       <h3 class="h3">Référencement</h3>
       <label>Adresse (slug)<input name="slug" value="<?= e($p['slug']) ?>" placeholder="genere-depuis-le-titre"></label>

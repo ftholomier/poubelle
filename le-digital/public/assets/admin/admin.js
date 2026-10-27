@@ -127,6 +127,7 @@
     const rm = el('button', { type: 'button', class: 'link-danger', onclick: () => { onChange(''); show(''); } }, 'Retirer');
     const choose = el('button', { type: 'button', class: 'btn btn--ghost', onclick: async () => { const v = await pickMedia(); if (v) { onChange(v); show(v); } } }, 'Choisir…');
     const wrap = el('div', { class: 'imgfield' }, prev, el('div', { class: 'imgfield__btns' }, choose, rm, path));
+    wrap.setImage = v => { onChange(v); show(v); }; // utilisé par la photo générée par l'IA
     show(value);
     return wrap;
   }
@@ -555,7 +556,8 @@
       step('image', 'run'); showErr('');
       const fd = new FormData(form);
       try {
-        render((await api('/admin/api/blog/ia/image', { id: post.id, model: fd.get('model'), style: fd.get('style'), size: fd.get('size') })).post);
+        const scene = $('[data-bw-imgprompt]', root);
+        render((await api('/admin/api/blog/ia/image', { id: post.id, model: fd.get('model'), style: fd.get('style'), size: fd.get('size'), prompt: scene ? scene.value : '' })).post);
         step('image', 'ok');
       } catch (e) {
         step('image', 'ko');
@@ -635,7 +637,8 @@
       const b = $('[data-bi-pick]', c); b.checked = false; b.disabled = true;
       $('[data-bi-plan]', c).hidden = true;
       const x = $('[data-bi-dismiss]', c); if (x) x.remove();
-      status(c, st.key, ['✓ Rédigé · ', el('b', { text: st.label }), ' · ', el('a', { href: post.edit, text: 'Relire / modifier' }),
+      if (post.image && !$('.bi__thumb', c)) c.prepend(el('img', { class: 'bi__thumb', src: post.image, alt: '' }));
+      status(c, st.key, ['✓ Rédigé · ', el('b', { text: st.label }), ' · ', el('a', { href: post.edit, text: 'Relire / modifier' }), ' · ', el('a', { href: post.edit + '#photo', text: 'Changer la photo' }),
         st.url ? ' · ' : null, st.url ? el('a', { href: st.url, target: '_blank', rel: 'noopener', text: 'Voir sur le site' }) : null, warn ? el('small', { text: ' ' + warn }) : null]);
     };
 
@@ -735,6 +738,38 @@
     refresh();
   }
 
-  const init = () => [general, imageFields, editor, rte, mediaPage, aiPage, googlePage, updatesPage, blogWriter, blogIdeas].forEach(fn => { try { fn(); } catch (e) { console.error(e); } });
+  /* ------------------------------------------------------------------ article : nouvelle photo de couverture par l'IA */
+  function photoAi() {
+    const box = $('[data-photo-ai]');
+    const go = box && $('[data-ph-go]', box);
+    if (!go) return;
+    const st = $('[data-ph-status]', box), hist = $('[data-ph-hist]', box);
+    const input = $('input[name=image]', box.closest('form'));
+    const field = input && input.closest('.imgfield');
+    const mark = v => $$('[data-ph-pick]', hist).forEach(b => b.classList.toggle('is-on', b.dataset.phPick === v));
+    const setImg = v => { if (field && field.setImage) field.setImage(v); else if (input) input.value = v; mark(v); };
+    const renderHist = list => {
+      hist.replaceChildren(...(list.length > 1 ? [
+        el('p', { class: 'small muted', text: 'Photos générées pour cet article : clique sur l’une d’elles pour la reprendre, puis Enregistrer.' }),
+        el('div', { class: 'ph__thumbs' }, list.map(v => el('button', { type: 'button', class: 'ph__thumb', 'data-ph-pick': v, title: 'Reprendre cette photo' }, el('img', { src: v, alt: '' })))),
+      ] : []));
+      mark(input ? input.value : '');
+    };
+    hist.addEventListener('click', e => { const b = e.target.closest('[data-ph-pick]'); if (b) setImg(b.dataset.phPick); });
+    go.addEventListener('click', async () => {
+      go.disabled = true; st.hidden = false;
+      st.className = 'ph__status small is-run'; st.textContent = 'Création de la photo… (20 à 40 s)';
+      try {
+        const p = (await api('/admin/api/blog/ia/image', { id: box.dataset.id, prompt: $('[data-ph-prompt]', box).value })).post;
+        setImg(p.image_path); renderHist(p.images || []);
+        st.className = 'ph__status small is-ok';
+        st.textContent = '✓ Nouvelle photo en place, déjà enregistrée sur l’article' + (p.cost_image ? ` (photos de cet article : ${p.cost_image})` : '') + '.';
+      } catch (e) { st.className = 'ph__status small is-ko'; st.textContent = e.message; }
+      go.disabled = false;
+    });
+    try { renderHist(JSON.parse(box.dataset.images || '[]')); } catch (e) { /* historique illisible */ }
+  }
+
+  const init = () => [general, imageFields, editor, rte, mediaPage, aiPage, googlePage, updatesPage, blogWriter, blogIdeas, photoAi].forEach(fn => { try { fn(); } catch (e) { console.error(e); } });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

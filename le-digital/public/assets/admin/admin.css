@@ -490,3 +490,18 @@ legend{font-weight:600;font-size:14px;margin-bottom:8px;padding:0}
 .bi__sched{padding-top:10px;border-top:1px solid var(--line)}
 @media (max-width:700px){.bi__bar{position:static;padding-top:6px;background:none}.bi__opts{gap:8px 14px}}
 @media (max-width:600px){.bi__ask .btn{width:100%}.bi__bar .actions .btn{width:100%}}
+
+/* Photo de couverture générée par l'IA : consigne de Fred, historique des photos */
+.bw__rephoto{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px;margin:-4px 0 16px}
+.bw__rephoto textarea{padding:10px 12px;border:1px solid var(--line);border-radius:12px;font-weight:400;resize:vertical}
+.bi__thumb{width:calc(100% + 32px);margin:-16px -16px 2px;aspect-ratio:16/9;object-fit:cover;border-radius:16px 16px 0 0;display:block;background:#f6f1f0}
+.ph__status{padding:8px 10px;border-radius:10px;background:#f6f1f0;color:var(--muted)}
+.ph__status.is-run{background:#fff3f1;color:var(--red);font-weight:700}
+.ph__status.is-run::before{content:"";display:inline-block;vertical-align:-2px;width:11px;height:11px;margin-right:8px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:bwSpin .8s linear infinite}
+.ph__status.is-ok{background:#eef6d8;color:#3d4f06}
+.ph__status.is-ko{background:#fde4e4;color:#a10f11}
+.ph__thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
+.ph__thumb{padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;cursor:pointer;background:#f6f1f0;aspect-ratio:16/9}
+.ph__thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.ph__thumb:hover{border-color:#e2cfcc}
+.ph__thumb.is-on{border-color:var(--red)}

@@ -203,7 +203,7 @@ final class AdminContent
         $p = $id === 'nouveau'
             ? ['id' => '', 'title' => '', 'slug' => '', 'theme' => $themes[0] ?? '', 'excerpt' => '', 'image' => '', 'content' => '', 'date' => date('Y-m-d'), 'published' => false, 'seo_title' => '', 'seo_description' => '', 'read' => 1]
             : (Posts::find($id) ?? Admin::back('/admin/blog', 'err', 'Article introuvable.'));
-        Admin::view('post-edit', ['p' => $p, 'themes' => $themes], $id === 'nouveau' ? 'Nouvel article' : 'Modifier l’article');
+        Admin::view('post-edit', ['p' => $p, 'themes' => $themes, 'canImage' => \LD\BlogWriter::canImage()], $id === 'nouveau' ? 'Nouvel article' : 'Modifier l’article');
     }
 
     public static function savePost(string $id): never
@@ -360,13 +360,14 @@ final class AdminContent
         Http::sendJson(['ok' => true, 'post' => self::writerPayload($p)]);
     }
 
-    /** Étape 2 : Nano Banana génère la photo de l'article (ou une nouvelle version). */
+    /** Étape 2 : Nano Banana génère la photo de l'article (ou une autre, éventuellement décrite par Fred). */
     public static function writerImage(): never
     {
         @set_time_limit(240);
         ignore_user_abort(true);
         try {
-            $p = \LD\BlogWriter::illustrate(clean_text((string) Http::input('id', ''), 40), clean_text((string) Http::input('style', ''), 200), (string) Http::input('model', ''), (string) Http::input('size', ''));
+            $p = \LD\BlogWriter::illustrate(clean_text((string) Http::input('id', ''), 40), clean_text((string) Http::input('style', ''), 200), (string) Http::input('model', ''), (string) Http::input('size', ''),
+                clean_text((string) Http::input('prompt', ''), 1500));
         } catch (\LD\AiException | \RuntimeException $e) {
             Http::fail($e->getMessage(), 502);
         }
@@ -389,6 +390,7 @@ final class AdminContent
         return [
             'id' => $p['id'], 'title' => $p['title'], 'excerpt' => $p['excerpt'], 'theme' => $p['theme'], 'read' => (int) $p['read'],
             'content' => $p['content'], 'image' => $p['image'] !== '' ? \LD\Media::best($p['image']) : '', 'image_alt' => $ai['image_alt'] ?? '',
+            'image_path' => $p['image'], 'images' => array_values((array) ($ai['images'] ?? [])), 'image_scene' => (string) ($ai['image_scene'] ?? ''),
             'seo_title' => $p['seo_title'], 'seo_description' => $p['seo_description'], 'slug' => $p['slug'],
             'cost_text' => $fmt($ai['cost_text'] ?? null), 'cost_image' => isset($ai['cost_image']) ? $fmt($ai['cost_image']) : null,
             'edit' => '/admin/blog/' . $p['id'], 'publish' => '/admin/blog/' . $p['id'] . '/publier',

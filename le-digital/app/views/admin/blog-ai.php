@@ -92,6 +92,11 @@ $ideasWeb = $ideasAi && in_array($ideasAi[0], ['anthropic', 'gemini'], true);
     <p class="bw__err" data-bw-err hidden></p>
     <article class="bw__preview" data-bw-preview hidden>
       <div class="bw__photo" data-bw-photo></div>
+      <?php if ($canImage): ?>
+        <label class="bw__rephoto">Pas convaincu par la photo ? Décris celle que tu veux <small class="muted">(facultatif, puis « ↻ Autre photo »)</small>
+          <textarea rows="2" maxlength="1500" data-bw-imgprompt placeholder="Ex. : un artisan plombier qui montre un devis sur sa tablette à une cliente, dans une cuisine en rénovation"></textarea>
+        </label>
+      <?php endif; ?>
       <p class="bw__meta" data-bw-meta></p>
       <h2 class="bw__title" data-bw-title></h2>
       <p class="bw__excerpt" data-bw-excerpt></p>
@@ -101,7 +106,7 @@ $ideasWeb = $ideasAi && in_array($ideasAi[0], ['anthropic', 'gemini'], true);
     <div class="actions sticky-actions" data-bw-actions hidden>
       <form method="post" data-bw-publish><input type="hidden" name="_csrf" value="<?= e($csrf) ?>"><button class="btn btn--red" type="submit">✓ Valider et publier sur le blog</button></form>
       <a class="btn btn--dark" data-bw-edit href="#">Modifier avant de publier</a>
-      <button class="btn btn--ghost" type="button" data-bw-reimage<?= $canImage ? '' : ' hidden' ?>>↻ Nouvelle photo</button>
+      <button class="btn btn--ghost" type="button" data-bw-reimage<?= $canImage ? '' : ' hidden' ?>>↻ Autre photo</button>
       <span class="small muted" data-bw-cost></span>
     </div>
   </section>

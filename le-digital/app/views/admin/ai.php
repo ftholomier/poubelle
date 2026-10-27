@@ -14,8 +14,8 @@ $promptInfo = [
     'analyse_system' => ['Analyse express — consignes', ''],
     'analyse'       => ['Analyse express — demande', '{url} {job} {pain} {site}'],
     'explain'       => ['« Explique-moi comme à un débutant »', '{title} {text}'],
-    'blog_writer'   => ['Rédaction d’articles du blog', '{theme} {sujet} {angle} {mots_cles} {public} {longueur}'],
-    'blog_image'    => ['Photo d’article (Nano Banana)', '{titre} {image_prompt} {style}'],
+    'blog_writer'   => ['Rédaction d’articles du blog', '{theme} {sujet} {angle} {mots_cles} {public} {longueur} {photos_recentes}'],
+    'blog_image'    => ['Photo d’article (Nano Banana)', '{titre} {resume} {points} {image_prompt} {direction} {style}'],
     'blog_ideas'    => ['Idées d’articles (veille de l’actualité)', '{date} {nombre} {themes} {services} {solutions} {existants} {deja} {actus} {tendances} {focus}'],
 ];
 $ago = static function (?int $ts): string {

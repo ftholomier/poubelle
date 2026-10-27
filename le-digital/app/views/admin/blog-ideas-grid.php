@@ -39,6 +39,7 @@ $usd = $batch['usd'] ?? null;
         $post = $i['post_id'] !== '' ? Posts::find($i['post_id']) : null;
         $state = $post ? AdminContent::postState($post) : null; ?>
       <article class="bi__card<?= $post ? ' is-done' : '' ?>" data-idea="<?= e($i['id']) ?>">
+        <?php if ($post && $post['image'] !== ''): ?><img class="bi__thumb" src="<?= e(LD\Media::best($post['image'])) ?>" alt="" loading="lazy"><?php endif; ?>
         <div class="bi__top">
           <span class="pill"><?= e($i['theme']) ?></span>
           <span class="bi__heat" title="<?= e($heat[$i['tendance']] ?? '') ?>" aria-label="Tendance : <?= e($heat[$i['tendance']] ?? '') ?>"><?php for ($k = 1; $k <= 5; $k++): ?><i<?= $k <= $i['tendance'] ? ' class="on"' : '' ?>></i><?php endfor; ?><small><?= e($heat[$i['tendance']] ?? '') ?></small></span>
@@ -71,7 +72,7 @@ $usd = $batch['usd'] ?? null;
         <p class="bi__status<?= $state ? ' is-' . e($state['key']) : '' ?>" data-bi-status<?= $state ? '' : ' hidden' ?>>
           <?php if ($state): ?>
             ✓ Rédigé · <b><?= e($state['label']) ?></b>
-            · <a href="/admin/blog/<?= e($post['id']) ?>">Relire / modifier</a><?= !empty($state['url']) ? ' · <a href="' . e($state['url']) . '" target="_blank" rel="noopener">Voir sur le site</a>' : '' ?>
+            · <a href="/admin/blog/<?= e($post['id']) ?>">Relire / modifier</a> · <a href="/admin/blog/<?= e($post['id']) ?>#photo">Changer la photo</a><?= !empty($state['url']) ? ' · <a href="' . e($state['url']) . '" target="_blank" rel="noopener">Voir sur le site</a>' : '' ?>
           <?php endif; ?>
         </p>
       </article>
