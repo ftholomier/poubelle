@@ -1065,9 +1065,12 @@ a.post:hover .post__img img{transform:scale(1.03)}
 .ftr__top:hover{color:#fff}
 .ftr__top:hover span{background:#fff;color:#161922;transform:translateY(-3px)}
 .ftr__in{container-type:inline-size}
-.ftr__mark{margin:clamp(28px,4vw,48px) 0 0;font:900 12.3cqi/.9 var(--fh);letter-spacing:-.045em;text-align:center;white-space:nowrap;user-select:none;pointer-events:none;color:transparent;background:linear-gradient(100deg,#cc1517 0%,#ff7a6b 14%,#ffd3c9 24%,#e8402a 36%,#7c3aed 50%,#cc1517 64%,#ff7a6b 78%,#ffd3c9 88%,#cc1517 100%) 0 50%/300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-mask-image:linear-gradient(180deg,#000 35%,rgba(0,0,0,.15) 100%);mask-image:linear-gradient(180deg,#000 35%,rgba(0,0,0,.15) 100%);opacity:.85;animation:ldMarkFlow 12s linear infinite;animation-play-state:paused}
+/* Filigrane : dégradé de la marque traversé par une bande du gris du fond, qui fait disparaître le mot sur son passage.
+   Motif répété deux fois (fond 200 %) : décalé d'une largeur exacte, la boucle est sans à-coup. */
+.ftr__mark{margin:clamp(28px,4vw,48px) 0 0;font:900 14.6cqi/.9 var(--fh);letter-spacing:-.045em;text-align:center;white-space:nowrap;user-select:none;pointer-events:none;color:transparent;background:linear-gradient(100deg,#161922 0%,#161922 7%,#cc1517 15%,#ff7a6b 23%,#7c3aed 31%,#e8402a 38%,#161922 45%,#161922 57%,#cc1517 65%,#ff7a6b 73%,#7c3aed 81%,#e8402a 88%,#161922 95%,#161922 100%) 0 50%/200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-mask-image:linear-gradient(180deg,#000 40%,rgba(0,0,0,.25) 100%);mask-image:linear-gradient(180deg,#000 40%,rgba(0,0,0,.25) 100%);animation:ldMarkFlow 8s linear infinite;animation-play-state:paused}
+.ftr__mark small{font-size:.4em;letter-spacing:-.02em}
 .ftr__mark.is-on{animation-play-state:running}
-@keyframes ldMarkFlow{to{background-position:300% 50%}}
+@keyframes ldMarkFlow{from{background-position:100% 50%}to{background-position:0 50%}}
 @media (max-width:900px){.ftr__grid{grid-template-columns:1fr 1fr}.ftr__brand{grid-column:1/-1}}
 @media (max-width:560px){.ftr__grid{grid-template-columns:1fr}.ftr__bottom{flex-direction:column;align-items:flex-start}}
 @media (max-width:760px){.ftr__fr{grid-template-columns:1fr;padding:24px 20px}.ftr__fr-items{grid-column:1;grid-row:auto}}
