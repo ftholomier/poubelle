@@ -228,7 +228,9 @@ final class Api
         }
         $transcript = Http::str('transcript', 6000);
         $summary = Http::str('summary', 1200);
-        if ($transcript === '' && ($t = Ai::transcribe($dest, str_replace('video/', 'audio/', $mime)))) {
+        // Durée « m:ss » envoyée par le navigateur (pour le coût de la transcription).
+        $secs = preg_match('/^(\d+):(\d{2})$/', Http::str('duration', 10), $dm) ? (int) $dm[1] * 60 + (int) $dm[2] : 0;
+        if ($transcript === '' && ($t = Ai::transcribe($dest, str_replace('video/', 'audio/', $mime), (float) $secs))) {
             $transcript = $t;
         }
         if ($summary === '' && $transcript !== '' && str_word_count($transcript) >= 6 && Ai::enabled('voice')) {

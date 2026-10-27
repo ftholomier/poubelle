@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace LD\Controllers;
 
 use LD\Ai;
+use LD\AiCosts;
 use LD\AiException;
 use LD\Auth;
 use LD\Cron;
@@ -26,6 +27,9 @@ final class AdminSettings
         $g = [Admin::class, 'guard'];
         $r->get('/admin/ia', $g([self::class, 'ai']));
         $r->post('/admin/ia', $g([self::class, 'saveAi'], true));
+        $r->get('/admin/ia/couts', $g([self::class, 'costs']));
+        $r->post('/admin/ia/couts', $g([self::class, 'saveCosts'], true));
+        $r->post('/admin/ia/couts/tarifs', $g([self::class, 'refreshPrices'], true));
         $r->post('/admin/api/ia/cle', $g([self::class, 'saveKey'], true));
         $r->post('/admin/api/ia/modeles', $g([self::class, 'models'], true));
         $r->post('/admin/api/ia/test', $g([self::class, 'test'], true));
@@ -58,6 +62,73 @@ final class AdminSettings
         }
         $usage = Store::read('data/ai-usage.json', []);
         Admin::view('ai', ['providers' => $providers, 'cfg' => Ai::config(), 'usage' => array_slice($usage, -14, 14, true), 'features' => Ai::FEATURES], 'IA & clés API');
+    }
+
+    /** Tableau de bord des coûts IA (tarifs officiels, consommation par période, fonctionnalité et modèle). */
+    public static function costs(): never
+    {
+        $periods = ['mois' => 'Ce mois-ci', 'mois-1' => 'Mois dernier', '7' => '7 jours', '30' => '30 jours', '90' => '90 jours', '365' => '12 mois'];
+        $p = isset($periods[$_GET['periode'] ?? '']) ? $_GET['periode'] : 'mois';
+        [$from, $to] = match ($p) {
+            'mois'   => [date('Y-m-01'), date('Y-m-d')],
+            'mois-1' => [date('Y-m-01', strtotime('first day of last month')), date('Y-m-t', strtotime('first day of last month'))],
+            default  => [date('Y-m-d', strtotime('-' . ((int) $p - 1) . ' days')), date('Y-m-d')],
+        };
+        // Modèles à tarifer : ceux déjà utilisés + ceux réglés pour le site et la rédaction d'articles.
+        $models = [];
+        foreach (Store::read('data/ai-usage.json', []) as $d) {
+            foreach (array_keys($d['models'] ?? []) as $k) {
+                $models[$k] = true;
+            }
+        }
+        $cfg = Ai::config();
+        foreach (array_keys(Ai::FEATURES) as $f) {
+            if ($res = Ai::resolve($f)) {
+                $models[$res[0] . ':' . $res[1]] = true;
+            }
+        }
+        $img = (string) ($cfg['blog_writer']['image_model'] ?? 'gemini-nano-banana-2.1');
+        if (Ai::hasKey('gemini')) {
+            $models['gemini:' . $img] = true;
+        }
+        ksort($models);
+        Admin::view('ai-costs', [
+            'periods' => $periods, 'period' => $p, 'from' => $from, 'to' => $to,
+            'report' => AiCosts::report($from, $to),
+            'today' => AiCosts::report(date('Y-m-d'), date('Y-m-d'))['usd'],
+            'month' => AiCosts::monthUsd(),
+            'set' => AiCosts::settings(), 'models' => array_keys($models),
+            'catalogDate' => AiCosts::catalogDate(), 'catalogCount' => count(AiCosts::catalog()),
+        ], 'Coûts de l’IA');
+    }
+
+    public static function saveCosts(): never
+    {
+        $s = AiCosts::settings();
+        $num = static fn($v) => is_numeric(str_replace(',', '.', (string) $v)) ? max(0, (float) str_replace(',', '.', (string) $v)) : null;
+        $s['rate'] = $num($_POST['rate'] ?? '') ?: 0.86;
+        $s['budget'] = $num($_POST['budget'] ?? '') ?? 0;
+        $over = [];
+        foreach ((array) ($_POST['price'] ?? []) as $key => $pr) {
+            $key = clean_text((string) $key, 200);
+            $row = array_filter(['in' => $num($pr['in'] ?? ''), 'out' => $num($pr['out'] ?? ''), 'image' => $num($pr['image'] ?? '')], static fn($v) => $v !== null);
+            if ($row && str_contains($key, ':')) {
+                $over[$key] = $row;
+            }
+        }
+        $s['overrides'] = $over;
+        AiCosts::saveSettings($s);
+        Admin::back('/admin/ia/couts' . (isset($_POST['periode']) ? '?periode=' . rawurlencode((string) $_POST['periode']) : ''), 'ok', 'Réglages des coûts enregistrés.');
+    }
+
+    public static function refreshPrices(): never
+    {
+        try {
+            $n = AiCosts::refreshCatalog();
+            Admin::back('/admin/ia/couts', 'ok', 'Catalogue des tarifs actualisé : ' . $n . ' modèles.');
+        } catch (\Throwable $e) {
+            Admin::back('/admin/ia/couts', 'err', $e->getMessage());
+        }
     }
 
     public static function saveAi(): never

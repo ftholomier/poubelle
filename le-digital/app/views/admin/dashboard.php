@@ -17,7 +17,7 @@ $mailIssue = LD\Mailer::notifyAddress() === '' ? 'aucune adresse ne reçoit les 
   <a class="kpi kpi--red" href="/admin/demandes?statut=new"><b><?= (int) $counts['new'] ?></b><span>nouvelle<?= $counts['new'] > 1 ? 's' : '' ?> demande<?= $counts['new'] > 1 ? 's' : '' ?></span></a>
   <a class="kpi" href="/admin/rendez-vous"><b><?= count($upcoming) ?></b><span>RdV à venir</span></a>
   <a class="kpi" href="/admin/demandes?type=vocal"><b><?= (int) ($counts['types']['vocal'] ?? 0) ?></b><span>vocaux reçus</span></a>
-  <a class="kpi" href="/admin/ia"><b><?= (int) $aiToday['calls'] ?></b><span>appels IA aujourd’hui · <?= (int) $aiWeek ?> sur 7 jours</span></a>
+  <a class="kpi" href="/admin/ia/couts"><b><?= e(number_format(LD\AiCosts::monthUsd() * LD\AiCosts::rate(), 2, ',', ' ')) ?> €</b><span>coût IA ce mois · <?= (int) $aiToday['calls'] ?> appels aujourd’hui</span></a>
 </div>
 
 <div class="grid2">

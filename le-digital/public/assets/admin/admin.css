@@ -397,3 +397,14 @@ legend{font-weight:600;font-size:14px;margin-bottom:8px;padding:0}
 .pill--ia{background:#e3eefb;color:#0a5aa8}
 .pill--analyse{background:#e6f6ee;color:#16794a}
 .pill--demo{background:#fff1dc;color:#9a5b00}
+/* Coûts IA */
+.aic-chart{display:flex;align-items:flex-end;gap:4px;height:180px;padding:8px 4px 26px;overflow-x:auto}
+.aic-bar{position:relative;flex:1 0 14px;height:100%;display:flex;align-items:flex-end}
+.aic-bar i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,var(--red2),var(--red));min-height:0}
+.aic-bar span{position:absolute;left:50%;bottom:-22px;transform:translateX(-50%);font-size:10.5px;color:var(--muted);white-space:nowrap}
+.aic-budget{height:12px;border-radius:99px;background:#f1ecea;overflow:hidden;margin:4px 0 10px}
+.aic-budget i{display:block;height:100%;border-radius:99px;background:#9FC131}
+.aic-budget i.is-high{background:linear-gradient(90deg,var(--red2),var(--red))}
+.aic-prices input{width:80px}
+.card--flush>.card__head{padding:18px 20px 4px}
+.nowrap{white-space:nowrap}

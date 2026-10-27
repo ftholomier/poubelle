@@ -23,6 +23,7 @@ $ago = static function (?int $ts): string {
     return $d < 3600 ? 'il y a ' . max(1, intdiv($d, 60)) . ' min' : ($d < 86400 ? 'il y a ' . intdiv($d, 3600) . ' h' : 'le ' . date('d/m/Y', $ts));
 };
 ?>
+<?= LD\View::render('admin/ai-tabs', ['on' => 'settings']) ?>
 <script type="application/json" id="ai-data"><?= json_script(['models' => $models, 'labels' => $labels, 'withKey' => $withKey]) ?></script>
 
 <section class="card">
@@ -139,18 +140,8 @@ $ago = static function (?int $ts): string {
 </section>
 
 <section class="card">
-  <div class="card__head"><h2>Consommation (14 derniers jours)</h2></div>
-  <?php if (!$usage): ?>
-    <p class="muted">Aucun appel pour l’instant.</p>
-  <?php else: ?>
-    <table class="table">
-      <thead><tr><th>Jour</th><th>Appels</th><th>Erreurs</th><th class="hide-sm">Jetons envoyés</th><th class="hide-sm">Jetons reçus</th></tr></thead>
-      <tbody>
-        <?php foreach (array_reverse($usage, true) as $day => $u): ?>
-          <tr><td><?= e(date('d/m', strtotime($day))) ?></td><td><?= (int) $u['calls'] ?></td><td><?= (int) $u['errors'] ?></td><td class="hide-sm"><?= number_format((int) $u['in'], 0, ',', ' ') ?></td><td class="hide-sm"><?= number_format((int) $u['out'], 0, ',', ' ') ?></td></tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
-  <?php endif; ?>
-  <p class="muted small">Le détail de chaque appel (durée, erreurs) est consigné dans <code>storage/logs/ai.log</code>.</p>
+  <div class="card__head"><h2>Consommation et coûts</h2><a href="/admin/ia/couts">Tableau de bord des coûts →</a></div>
+  <?php $mUsd = LD\AiCosts::monthUsd(); $tUsd = LD\AiCosts::report(date('Y-m-d'), date('Y-m-d')); ?>
+  <p>Ce mois-ci : <b><?= e(number_format($mUsd * LD\AiCosts::rate(), 2, ',', ' ')) ?> €</b> · aujourd’hui : <b><?= e(number_format($tUsd['usd'] * LD\AiCosts::rate(), 2, ',', ' ')) ?> €</b> pour <?= (int) $tUsd['calls'] ?> appel<?= $tUsd['calls'] > 1 ? 's' : '' ?>.</p>
+  <p class="muted small">Coûts estimés d’après les tarifs officiels des fournisseurs ; détail par jour, fonctionnalité et modèle dans le tableau de bord. Chaque appel est aussi consigné dans <code>storage/logs/ai.log</code>.</p>
 </section>

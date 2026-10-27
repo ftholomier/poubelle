@@ -49,6 +49,10 @@ final class Cron
         if ($n = Leads::flushChats()) {
             $out[] = $n . ' récapitulatif(s) de discussion IA envoyé(s)';
         }
+        // Tarifs IA (catalogue public) : actualisés une fois par semaine.
+        if ($t = AiCosts::refreshCatalogIfDue()) {
+            $out[] = $t;
+        }
         // Avis Google : rafraîchis une fois par jour.
         if ($g = GoogleReviews::autoSync()) {
             $out[] = $g;

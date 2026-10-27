@@ -36,6 +36,9 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
 - Demandes (formulaire, RdV, rappels, vocaux avec lecteur audio, discussions et briefs de l'assistant IA, analyses IA
   de site, démos de devis), statuts, notes, export CSV. **Chaque interaction déclenche un e-mail à Fred** (annulations de
   RdV comprises ; essais répétés d'un même outil regroupés sur 30 min) et chaque demande indique si l'e-mail est bien parti.
+- **Coûts de l'IA** (*IA › Coûts*) : dépenses par jour, fonctionnalité et modèle, projection du mois, budget avec alerte
+  e-mail ; tarifs officiels intégrés (Anthropic, Google : texte, Nano Banana, hausses annoncées à leur date), catalogue
+  public d'OpenRouter pour les autres fournisseurs (actualisé chaque semaine), tarif modifiable à la main.
 - **Gestion des cookies** (règles CNIL) : bandeau « Tout accepter / Tout refuser / Personnaliser », panneau par catégorie
   (essentiels, contenus tiers, mesure d'audience), rien de facultatif chargé avant l'accord (widgets d'avis, posts LinkedIn,
   code de mesure d'audience), choix gardé 6 mois et modifiable via « Gestion des cookies » du pied de page, preuve des

@@ -29,6 +29,14 @@ final class Ai
         'explain' => ['label' => '« Explique-moi comme à un débutant »', 'max_tokens' => 1000],
     ];
 
+    /** Modèles d'image de Google (« Nano Banana ») : identifiant => libellé. */
+    public const IMAGE_MODELS = [
+        'gemini-nano-banana-2.1'      => 'Nano Banana 2.1 — recommandé (≈ 0,03 $ l’image 1K)',
+        'gemini-3.1-flash-image'      => 'Nano Banana 2 (≈ 0,07 $ l’image 1K)',
+        'gemini-3.1-flash-lite-image' => 'Nano Banana 2 Lite — le moins cher, 1K seulement',
+        'gemini-3-pro-image'          => 'Nano Banana Pro — premium (≈ 0,13 $ l’image)',
+    ];
+
     private const ANTHROPIC_VERSION = '2026-10-21';
     /** Modèles Claude acceptant le paramètre « fallbacks » côté serveur. */
     private const ANTHROPIC_FALLBACK_MODELS = ['claude-fable-5-1', 'claude-opus-5-5', 'claude-opus-5', 'claude-sonnet-5-5'];
@@ -128,6 +136,78 @@ final class Ai
             self::track($feature, $provider, $model, false, 0, 0, microtime(true) - $t0, $e->getMessage());
             throw $e;
         }
+    }
+
+    /**
+     * Génère une image avec Google « Nano Banana » (API Interactions, repli sur generateContent).
+     * @return array{data: string, mime: string} image binaire
+     */
+    public static function image(string $feature, string $prompt, string $model, string $aspect = '16:9', string $size = '1K'): array
+    {
+        $key = Secrets::get(self::keyName('gemini'));
+        if (!$key) {
+            throw new AiException('Ajoute ta clé API Google Gemini (IA & clés API) pour générer des images.');
+        }
+        $cap = (int) (self::config()['daily_cap'] ?? 300);
+        if ($cap > 0 && self::todayCalls() >= $cap) {
+            throw new AiException('Quota quotidien atteint');
+        }
+        $base = self::PROVIDERS['gemini']['base'];
+        $t0 = microtime(true);
+        try {
+            $r = Http::request('POST', $base . '/interactions', ['x-goog-api-key' => $key], [
+                'model' => $model, 'input' => $prompt, 'store' => false,
+                'response_format' => ['type' => 'image', 'mime_type' => 'image/jpeg', 'aspect_ratio' => $aspect, 'image_size' => $size],
+            ], 150);
+            if ($r['status'] === 404) {
+                $r = Http::request('POST', $base . '/models/' . rawurlencode($model) . ':generateContent', ['x-goog-api-key' => $key], [
+                    'contents' => [['parts' => [['text' => $prompt]]]],
+                    'generationConfig' => ['responseModalities' => ['IMAGE'], 'imageConfig' => ['aspectRatio' => $aspect, 'imageSize' => $size]],
+                ], 150);
+            }
+            self::assertOk($r);
+            $j = $r['json'] ?? [];
+            $img = self::findImage($j);
+            if (!$img) {
+                throw new AiException('Aucune image renvoyée par le modèle');
+            }
+            // Jetons d'entrée + texte et réflexion en sortie (l'image elle-même est comptée au prix par image).
+            $u = $j['usage'] ?? [];
+            $in = (int) ($u['total_input_tokens'] ?? $j['usageMetadata']['promptTokenCount'] ?? 0);
+            $out = (int) ($u['total_thought_tokens'] ?? $j['usageMetadata']['thoughtsTokenCount'] ?? 0);
+            foreach ($u['output_tokens_by_modality'] ?? [] as $mm) {
+                $out += strtolower((string) ($mm['modality'] ?? '')) === 'image' ? 0 : (int) ($mm['tokens'] ?? 0);
+            }
+            self::track($feature, 'gemini', $model, true, $in, $out, microtime(true) - $t0, null, [$size => 1]);
+            return $img;
+        } catch (AiException $e) {
+            self::track($feature, 'gemini', $model, false, 0, 0, microtime(true) - $t0, $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /** Première image (base64) d'une réponse, quel que soit le format (Interactions ou generateContent). */
+    private static function findImage(mixed $node): ?array
+    {
+        if (!is_array($node)) {
+            return null;
+        }
+        if (($node['type'] ?? '') === 'image' && !empty($node['data']) && is_string($node['data'])) {
+            $bin = base64_decode($node['data'], true);
+            return $bin ? ['data' => $bin, 'mime' => (string) ($node['mime_type'] ?? 'image/jpeg')] : null;
+        }
+        foreach (['inlineData', 'inline_data'] as $k) {
+            if (!empty($node[$k]['data']) && str_starts_with((string) ($node[$k]['mimeType'] ?? $node[$k]['mime_type'] ?? 'image/'), 'image/')) {
+                $bin = base64_decode((string) $node[$k]['data'], true);
+                return $bin ? ['data' => $bin, 'mime' => (string) ($node[$k]['mimeType'] ?? $node[$k]['mime_type'] ?? 'image/png')] : null;
+            }
+        }
+        foreach ($node as $child) {
+            if (is_array($child) && ($img = self::findImage($child))) {
+                return $img;
+            }
+        }
+        return null;
     }
 
     /** Appel brut à un fournisseur (utilisé aussi par le bouton « Tester » du back-office). */
@@ -258,7 +338,8 @@ final class Ai
         if (trim($text) === '') {
             throw new AiException('Réponse vide (' . ($j['candidates'][0]['finishReason'] ?? 'inconnue') . ')');
         }
-        return ['text' => $text, 'in' => (int) ($j['usageMetadata']['promptTokenCount'] ?? 0), 'out' => (int) ($j['usageMetadata']['candidatesTokenCount'] ?? 0)];
+        // Les jetons de réflexion (« thoughts ») sont facturés au tarif de sortie.
+        return ['text' => $text, 'in' => (int) ($j['usageMetadata']['promptTokenCount'] ?? 0), 'out' => (int) ($j['usageMetadata']['candidatesTokenCount'] ?? 0) + (int) ($j['usageMetadata']['thoughtsTokenCount'] ?? 0)];
     }
 
     private static function assertOk(array $r): void
@@ -389,7 +470,7 @@ final class Ai
 
     // ------------------------------------------------------------------ transcription des vocaux (optionnelle, OpenAI)
 
-    public static function transcribe(string $file, string $mime): ?string
+    public static function transcribe(string $file, string $mime, float $seconds = 0): ?string
     {
         $c = self::config();
         if (empty($c['transcription']['enabled']) || !self::hasKey('openai')) {
@@ -407,15 +488,15 @@ final class Ai
                 'language' => 'fr',
             ],
         ]);
+        $t0 = microtime(true);
         $resp = curl_exec($ch);
         $status = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
         curl_close($ch);
         $j = is_string($resp) ? json_decode($resp, true) : null;
-        if ($status !== 200 || empty($j['text'])) {
-            Store::appendLog('ai', ['feature' => 'transcription', 'ok' => false, 'status' => $status]);
-            return null;
-        }
-        return trim((string) $j['text']);
+        $model = (string) ($c['transcription']['model'] ?: 'whisper-1');
+        $ok = $status === 200 && !empty($j['text']);
+        self::track('transcription', 'openai', $model, $ok, 0, 0, microtime(true) - $t0, $ok ? null : 'HTTP ' . $status, [], $ok ? round($seconds / 60, 2) : 0);
+        return $ok ? trim((string) $j['text']) : null;
     }
 
     // ------------------------------------------------------------------ utilitaires
@@ -438,22 +519,11 @@ final class Ai
         return (int) ($u[date('Y-m-d')]['calls'] ?? 0);
     }
 
-    private static function track(string $feature, string $provider, string $model, bool $ok, int $in, int $out, float $secs, ?string $error = null): void
+    /** Compte l'appel (jetons, images, minutes d'audio) pour le tableau de bord des coûts, et le journalise avec son coût. */
+    private static function track(string $feature, string $provider, string $model, bool $ok, int $in, int $out, float $secs, ?string $error = null, array $images = [], float $minutes = 0): void
     {
-        $day = date('Y-m-d');
-        Store::update('data/ai-usage.json', static function (array &$u) use ($day, $feature, $ok, $in, $out): void {
-            $d = $u[$day] ?? ['calls' => 0, 'errors' => 0, 'in' => 0, 'out' => 0, 'features' => []];
-            $d['calls']++;
-            if (!$ok) {
-                $d['errors']++;
-            }
-            $d['in'] += $in;
-            $d['out'] += $out;
-            $d['features'][$feature] = ($d['features'][$feature] ?? 0) + 1;
-            $u[$day] = $d;
-            ksort($u);
-            $u = array_slice($u, -90, null, true);
-        });
-        Store::appendLog('ai', ['feature' => $feature, 'provider' => $provider, 'model' => $model, 'ok' => $ok, 'in' => $in, 'out' => $out, 'secs' => round($secs, 2), 'error' => $error]);
+        AiCosts::record($feature, $provider, $model, $ok, $in, $out, $images, $minutes);
+        $usd = AiCosts::cost($provider, $model, $in, $out, $images, $minutes);
+        Store::appendLog('ai', ['feature' => $feature, 'provider' => $provider, 'model' => $model, 'ok' => $ok, 'in' => $in, 'out' => $out, 'images' => $images ?: null, 'minutes' => $minutes ?: null, 'usd' => $usd !== null ? round($usd, 6) : null, 'secs' => round($secs, 2), 'error' => $error]);
     }
 }
