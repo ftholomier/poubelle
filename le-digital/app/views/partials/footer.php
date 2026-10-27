@@ -60,7 +60,15 @@ $carousel = LD\Reviews::carouselPlace(LD\Http::path());
       <p class="ftr__legal">© <?= date('Y') ?> <?= e($s['site']['name'] ?? 'LE-DIGITAL.com') ?> · <?= e($s['site']['owner'] ?? 'Frédéric Tholomier') ?><?php if (trim((string) ($fr['copyright'] ?? '')) !== ''): ?> · <span class="fr-chip"><?= t($fr['copyright']) ?> <?= fr_flag() ?></span><?php endif; ?></p>
       <a class="ftr__top" href="#contenu" data-to-top>Retour en haut <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span></a>
     </div>
-    <?php $mark = (string) ($s['site']['name'] ?? 'LE-DIGITAL.com'); $dot = strrpos($mark, '.'); ?>
-    <div class="ftr__mark" aria-hidden="true" data-ftr-mark><?= $dot ? e(substr($mark, 0, $dot)) . '<small>' . e(substr($mark, $dot)) . '</small>' : e($mark) ?></div>
+    <?php
+    // Filigrane : une lettre par élément pour que le dégradé coule dans chaque lettre, en vague ; « .com » en petit.
+    $mark = (string) ($s['site']['name'] ?? 'LE-DIGITAL.com');
+    $dot = mb_strrpos($mark, '.');
+    $letters = '';
+    foreach (mb_str_split($mark) as $i => $ch) {
+        $letters .= '<span' . ($dot !== false && $i >= $dot ? ' class="is-sm"' : '') . ' style="--i:' . $i . '">' . e($ch) . '</span>';
+    }
+    ?>
+    <div class="ftr__mark" aria-hidden="true" data-ftr-mark><?= $letters ?></div>
   </div>
 </footer>
