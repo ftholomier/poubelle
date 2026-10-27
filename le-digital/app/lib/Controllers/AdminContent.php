@@ -31,6 +31,10 @@ final class AdminContent
         $r->post('/admin/avis/{id}/supprimer', $g([self::class, 'deleteReview'], true));
 
         $r->get('/admin/blog', $g([self::class, 'posts']));
+        $r->get('/admin/blog/ia', $g([self::class, 'writer']));
+        $r->post('/admin/api/blog/ia/texte', $g([self::class, 'writerText'], true));
+        $r->post('/admin/api/blog/ia/image', $g([self::class, 'writerImage'], true));
+        $r->post('/admin/blog/{id}/publier', $g([self::class, 'publishPost'], true));
         $r->get('/admin/blog/linkedin', $g([self::class, 'linkedin']));
         $r->post('/admin/blog/linkedin', $g([self::class, 'saveLinkedin'], true));
         $r->get('/admin/blog/{id}', $g([self::class, 'post']));
@@ -226,6 +230,78 @@ final class AdminContent
     {
         Posts::delete($id);
         Admin::back('/admin/blog', 'ok', 'Article supprimé.');
+    }
+
+    // ------------------------------------------------------------------ rédaction d'articles par l'IA
+
+    public static function writer(): never
+    {
+        $drafts = array_values(array_filter(Posts::all(), static fn($p) => !empty($p['ai'])));
+        Admin::view('blog-ai', [
+            'themes' => Content::get('blog')['themes'], 'set' => \LD\BlogWriter::settings(), 'drafts' => array_slice($drafts, 0, 8),
+            'canWrite' => \LD\BlogWriter::canWrite(), 'canImage' => \LD\BlogWriter::canImage(), 'writer' => \LD\Ai::resolve('blog'),
+        ], 'Blog · Écrire avec l’IA');
+    }
+
+    /** Étape 1 : l'IA écrit l'article (brouillon). */
+    public static function writerText(): never
+    {
+        @set_time_limit(300);
+        ignore_user_abort(true);
+        $themes = Content::get('blog')['themes'];
+        $theme = clean_text((string) Http::input('theme', ''), 60);
+        $brief = [
+            'theme'     => in_array($theme, $themes, true) ? $theme : ($themes[0] ?? ''),
+            'sujet'     => clean_text((string) Http::input('sujet', ''), 300),
+            'angle'     => clean_text((string) Http::input('angle', ''), 3000),
+            'mots_cles' => clean_text((string) Http::input('mots_cles', ''), 300),
+            'public'    => clean_text((string) Http::input('public', ''), 200),
+            'longueur'  => isset(\LD\BlogWriter::LENGTHS[(string) Http::input('longueur', '')]) ? (string) Http::input('longueur') : '1000',
+        ];
+        if ($brief['sujet'] === '') {
+            Http::fail('Donne au moins le sujet de l’article (une phrase suffit).', 422);
+        }
+        try {
+            $p = \LD\BlogWriter::write($brief);
+        } catch (\LD\AiException $e) {
+            Http::fail($e->getMessage(), 502);
+        }
+        Http::sendJson(['ok' => true, 'post' => self::writerPayload($p)]);
+    }
+
+    /** Étape 2 : Nano Banana génère la photo de l'article (ou une nouvelle version). */
+    public static function writerImage(): never
+    {
+        @set_time_limit(240);
+        ignore_user_abort(true);
+        try {
+            $p = \LD\BlogWriter::illustrate(clean_text((string) Http::input('id', ''), 40), clean_text((string) Http::input('style', ''), 200), (string) Http::input('model', ''), (string) Http::input('size', ''));
+        } catch (\LD\AiException | \RuntimeException $e) {
+            Http::fail($e->getMessage(), 502);
+        }
+        Http::sendJson(['ok' => true, 'post' => self::writerPayload($p)]);
+    }
+
+    /** Validation : l'article part en ligne (date du jour). */
+    public static function publishPost(string $id): never
+    {
+        $p = Posts::find($id) ?? Admin::back('/admin/blog', 'err', 'Article introuvable.');
+        $p = Posts::save(array_merge($p, ['published' => true, 'date' => min((string) $p['date'], date('Y-m-d'))]));
+        Admin::back('/admin/blog', 'ok', 'Article « ' . $p['title'] . ' » publié sur le blog.');
+    }
+
+    private static function writerPayload(array $p): array
+    {
+        $ai = (array) ($p['ai'] ?? []);
+        $rate = \LD\AiCosts::rate();
+        $fmt = static fn($usd) => $usd === null ? null : number_format((float) $usd * $rate, 3, ',', ' ') . ' €';
+        return [
+            'id' => $p['id'], 'title' => $p['title'], 'excerpt' => $p['excerpt'], 'theme' => $p['theme'], 'read' => (int) $p['read'],
+            'content' => $p['content'], 'image' => $p['image'] !== '' ? \LD\Media::best($p['image']) : '', 'image_alt' => $ai['image_alt'] ?? '',
+            'seo_title' => $p['seo_title'], 'seo_description' => $p['seo_description'], 'slug' => $p['slug'],
+            'cost_text' => $fmt($ai['cost_text'] ?? null), 'cost_image' => isset($ai['cost_image']) ? $fmt($ai['cost_image']) : null,
+            'edit' => '/admin/blog/' . $p['id'], 'publish' => '/admin/blog/' . $p['id'] . '/publier',
+        ];
     }
 
     /** Fil de posts LinkedIn : code d'une application externe affiché sur la page Blog. */

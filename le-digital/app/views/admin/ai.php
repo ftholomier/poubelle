@@ -14,6 +14,8 @@ $promptInfo = [
     'analyse_system' => ['Analyse express — consignes', ''],
     'analyse'       => ['Analyse express — demande', '{url} {job} {pain} {site}'],
     'explain'       => ['« Explique-moi comme à un débutant »', '{title} {text}'],
+    'blog_writer'   => ['Rédaction d’articles du blog', '{theme} {sujet} {angle} {mots_cles} {public} {longueur}'],
+    'blog_image'    => ['Photo d’article (Nano Banana)', '{titre} {image_prompt} {style}'],
 ];
 $ago = static function (?int $ts): string {
     if (!$ts) {

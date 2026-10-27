@@ -36,6 +36,9 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
 - Demandes (formulaire, RdV, rappels, vocaux avec lecteur audio, discussions et briefs de l'assistant IA, analyses IA
   de site, démos de devis), statuts, notes, export CSV. **Chaque interaction déclenche un e-mail à Fred** (annulations de
   RdV comprises ; essais répétés d'un même outil regroupés sur 30 min) et chaque demande indique si l'e-mail est bien parti.
+- **Rédaction d'articles par l'IA** (*Blog › Écrire avec l'IA*) : sujet, thème, angle, mots-clés SEO, public, longueur →
+  article complet (titre, extrait, balises SEO, intertitres) en brouillon + photo générée par Google Nano Banana
+  (enregistrée dans la médiathèque) → aperçu → « Valider et publier » ou modification dans l'éditeur. Coût affiché.
 - **Coûts de l'IA** (*IA › Coûts*) : dépenses par jour, fonctionnalité et modèle, projection du mois, budget avec alerte
   e-mail ; tarifs officiels intégrés (Anthropic, Google : texte, Nano Banana, hausses annoncées à leur date), catalogue
   public d'OpenRouter pour les autres fournisseurs (actualisé chaque semaine), tarif modifiable à la main.

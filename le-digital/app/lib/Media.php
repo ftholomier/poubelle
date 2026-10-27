@@ -95,6 +95,27 @@ final class Media
         if ($file['size'] > self::MAX_BYTES) {
             throw new \RuntimeException('Image trop lourde (12 Mo maximum).');
         }
+        return self::store($file['tmp_name'], (string) $file['name'], $alt, true);
+    }
+
+    /** Enregistre une image fournie en binaire (ex. image générée par l'IA). */
+    public static function fromBinary(string $data, string $name, string $alt = ''): array
+    {
+        if (strlen($data) > self::MAX_BYTES) {
+            throw new \RuntimeException('Image trop lourde (12 Mo maximum).');
+        }
+        $tmp = tempnam(sys_get_temp_dir(), 'ldimg');
+        file_put_contents($tmp, $data);
+        try {
+            return self::store($tmp, $name, $alt, false);
+        } finally {
+            @unlink($tmp);
+        }
+    }
+
+    private static function store(string $tmpPath, string $name, string $alt, bool $uploaded): array
+    {
+        $file = ['tmp_name' => $tmpPath, 'name' => $name];
         $info = @getimagesize($file['tmp_name']);
         $types = [IMAGETYPE_JPEG => 'jpg', IMAGETYPE_PNG => 'png', IMAGETYPE_WEBP => 'webp', IMAGETYPE_GIF => 'gif'];
         if (!$info || !isset($types[$info[2]])) {
@@ -141,7 +162,7 @@ final class Media
             }
         } else {
             $path = $dir . '/' . $base . '.' . $types[$info[2]];
-            move_uploaded_file($file['tmp_name'], LD_PUBLIC . $path);
+            $uploaded ? move_uploaded_file($file['tmp_name'], LD_PUBLIC . $path) : copy($file['tmp_name'], LD_PUBLIC . $path);
             $entry += ['path' => $path, 'w' => $info[0], 'h' => $info[1]];
         }
         $entry['size'] = (int) @filesize(LD_PUBLIC . $entry['path']);

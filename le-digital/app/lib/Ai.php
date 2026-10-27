@@ -27,7 +27,11 @@ final class Ai
         'devis'   => ['label' => 'Démo « Ton devis en 10 secondes »', 'max_tokens' => 2000],
         'analyse' => ['label' => 'Analyse express de l’activité', 'max_tokens' => 2000],
         'explain' => ['label' => '« Explique-moi comme à un débutant »', 'max_tokens' => 1000],
+        'blog'    => ['label' => 'Rédaction d’articles du blog (back-office)', 'max_tokens' => 9000],
     ];
+
+    /** Jetons et coût du dernier appel (affichés par le rédacteur d'articles). */
+    public static ?array $last = null;
 
     /** Modèles d'image de Google (« Nano Banana ») : identifiant => libellé. */
     public const IMAGE_MODELS = [
@@ -524,6 +528,7 @@ final class Ai
     {
         AiCosts::record($feature, $provider, $model, $ok, $in, $out, $images, $minutes);
         $usd = AiCosts::cost($provider, $model, $in, $out, $images, $minutes);
+        self::$last = ['provider' => $provider, 'model' => $model, 'in' => $in, 'out' => $out, 'usd' => $usd];
         Store::appendLog('ai', ['feature' => $feature, 'provider' => $provider, 'model' => $model, 'ok' => $ok, 'in' => $in, 'out' => $out, 'images' => $images ?: null, 'minutes' => $minutes ?: null, 'usd' => $usd !== null ? round($usd, 6) : null, 'secs' => round($secs, 2), 'error' => $error]);
     }
 }

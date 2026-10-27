@@ -521,6 +521,73 @@
     }));
   }
 
-  const init = () => [general, imageFields, editor, rte, mediaPage, aiPage, googlePage, updatesPage].forEach(fn => { try { fn(); } catch (e) { console.error(e); } });
+  /* ------------------------------------------------------------------ blog : rédaction par l'IA */
+  function blogWriter() {
+    const root = $('[data-blog-writer]');
+    if (!root) return;
+    const form = $('[data-bw-form]', root), out = $('[data-bw-out]', root), steps = $('[data-bw-steps]', root);
+    const err = $('[data-bw-err]', root), prev = $('[data-bw-preview]', root), acts = $('[data-bw-actions]', root);
+    let post = null;
+    const step = (name, state) => {
+      const s = $(`[data-step="${name}"]`, steps);
+      if (!s) return;
+      s.className = state && state !== 'skip' ? 'is-' + state : '';
+      s.hidden = state === 'skip';
+      if (s.dataset[state]) s.textContent = s.dataset[state];
+    };
+    const showErr = m => { err.textContent = m || ''; err.hidden = !m; };
+    const render = p => {
+      post = p;
+      prev.hidden = false; acts.hidden = false;
+      const photo = $('[data-bw-photo]', root);
+      photo.replaceChildren(...(p.image ? [el('img', { src: p.image, alt: p.image_alt || '' })] : []));
+      photo.hidden = !p.image;
+      $('[data-bw-meta]', root).textContent = `${p.theme} · ${p.read} min de lecture · brouillon`;
+      $('[data-bw-title]', root).textContent = p.title;
+      $('[data-bw-excerpt]', root).textContent = p.excerpt;
+      $('[data-bw-seo]', root).replaceChildren(el('b', { text: 'Sur Google : ' }), `${p.seo_title || p.title} — ${p.seo_description || p.excerpt} (/blog/${p.slug})`);
+      $('[data-bw-body]', root).innerHTML = p.content; // HTML déjà nettoyé par le serveur
+      $('[data-bw-edit]', root).href = p.edit;
+      $('[data-bw-publish]', root).action = p.publish;
+      $('[data-bw-cost]', root).textContent = 'Coût IA : ' + ([p.cost_text && 'texte ' + p.cost_text, p.cost_image && 'photo ' + p.cost_image].filter(Boolean).join(' + ') || '—');
+    };
+    const image = async () => {
+      step('image', 'run'); showErr('');
+      const fd = new FormData(form);
+      try {
+        render((await api('/admin/api/blog/ia/image', { id: post.id, model: fd.get('model'), style: fd.get('style'), size: fd.get('size') })).post);
+        step('image', 'ok');
+      } catch (e) {
+        step('image', 'ko');
+        showErr(`Photo : ${e.message}. L’article est bien enregistré en brouillon : tu peux relancer la photo.`);
+      }
+    };
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const fd = new FormData(form), go = $('[data-bw-go]', form);
+      const withImg = fd.get('with_image') === '1' && !$('.bw__img', form).disabled;
+      out.hidden = false; prev.hidden = true; acts.hidden = true; showErr('');
+      step('text', 'run'); step('image', withImg ? 'wait' : 'skip');
+      go.disabled = true;
+      out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      try {
+        const data = Object.fromEntries(['sujet', 'theme', 'longueur', 'angle', 'mots_cles', 'public'].map(k => [k, fd.get(k) || '']));
+        render((await api('/admin/api/blog/ia/texte', data)).post);
+        step('text', 'ok');
+        if (withImg) await image();
+      } catch (e2) { step('text', 'ko'); step('image', 'skip'); showErr(e2.message); }
+      go.disabled = false;
+    });
+    $('[data-bw-reimage]', root).addEventListener('click', async ev => {
+      if (!post) return;
+      ev.currentTarget.disabled = true;
+      const b = ev.currentTarget;
+      $(`[data-step="image"]`, steps).hidden = false;
+      await image();
+      b.disabled = false;
+    });
+  }
+
+  const init = () => [general, imageFields, editor, rte, mediaPage, aiPage, googlePage, updatesPage, blogWriter].forEach(fn => { try { fn(); } catch (e) { console.error(e); } });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
