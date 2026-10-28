@@ -69,6 +69,20 @@ eq('autres lettres (Paris)', buildTable({ letters: 'paris', digits: '1970' }).ta
   eq('un coup par mouvement de batteur', [hits, b.vy < -500], [1, true]);
 }
 
+// Lance-pierres : une bille fraîche est relancée ; une bille qui tourne depuis plus de 10 s sans
+// revenir aux batteurs ne l'est plus (pas de ping-pong sans fin entre les lance-pierres).
+{
+  const shot = stale => {
+    const ph = new Physics(t), s = t.slings[0], mx = (s.a[0] + s.c[0]) / 2, my = (s.a[1] + s.c[1]) / 2;
+    const b = ph.addBall(mx + 40, my - 10, -700, 100);
+    run(ph, 0.02);
+    if (stale) b.lowAt = ph.time - 20;
+    run(ph, 0.15);
+    return Math.hypot(b.vx, b.vy);
+  };
+  eq('lance-pierre : bille relancée, sauf si elle tourne en boucle depuis 10 s', [shot(false) > 700, shot(true) < 700], [true, true]);
+}
+
 // Rampe : franchie avec un tir franc, redescend sinon.
 {
   const res = v => { const ph = new Physics(t); let r = ''; ph.on = ev => { if (ev === 'ramp-done' || ev === 'ramp-fail') r = ev; }; const b = ph.addBall(76, 452, 0, -v); ph.enterRamp(b); run(ph, 3); return r; };
@@ -141,6 +155,17 @@ const tick = (g, sec) => { for (let i = 0; i < sec * 100; i++) g.update(0.01); }
   g.saveUntil = 0;
   for (let k = 0; k < 2; k++) { const x = ph.balls.find(o => o.state !== 'gone'); x.state = 'gone'; g.event('drain', x); }
   eq('fin du multiball : Coupe gagnée', [g.multiball, g.pl.done.has('coupe'), g.pl.cupsWon, g.pl.cup], [false, true, 1, 0]);
+}
+
+// Centre de formation : la bille renvoyée vers le haut revient dans le jeu (haut du plateau).
+{
+  const { ph, g } = newGame();
+  tick(g, 0.3); g.launch(1); tick(g, 0.05);
+  const b = ph.balls[0];
+  Object.assign(b, { x: 28, y: 740, vx: 0, vy: 300 });
+  let back = false;
+  for (let i = 0; i < 600 && !back; i++) { g.update(0.01); if (b.y < 250 && b.x > 110) back = true; }
+  eq('centre de formation : la bille revient dans le haut du plateau', back, true);
 }
 
 // Bille sauvée, puis tilt, puis fin de partie après 3 billes (la bille en plus compte).

@@ -143,11 +143,20 @@ async function boot() {
     zone.addEventListener('contextmenu', e => e.preventDefault());
   }
   // Souris (ordinateur) : clic gauche et clic droit = batteurs gauche et droit, n'importe où sur le
-  // plateau ; bouton du milieu (molette) enfoncé = on tire le lanceur, relâché = la bille part.
+  // plateau. Bouton du milieu (molette) : bille sur le lanceur → tenu puis relâché, la bille part ;
+  // pendant la partie → on bourre la machine (comme « Bousculer »).
   const mouseSide = { 0: 'L', 2: 'R' };
+  // Le navigateur ne détourne ni le bouton du milieu (défilement automatique) ni la molette, sauf
+  // dans les fenêtres (règles, scores) qui doivent pouvoir défiler.
+  root.addEventListener('mousedown', e => { if (e.button === 1) e.preventDefault(); });
+  root.addEventListener('wheel', e => { if (!e.target.closest('.fl__ov')) e.preventDefault(); }, { passive: false });
   stage.addEventListener('mousedown', e => {
     if (!game || paused || e.target.closest('button,a,input,form,.fl__ov')) return;
-    if (e.button === 1) { startPull(); e.preventDefault(); return; }
+    if (e.button === 1) {
+      e.preventDefault();
+      if (game.waiting) startPull(); else game.nudge(Math.random() < 0.5 ? -1 : 1);
+      return;
+    }
     if (mouseSide[e.button]) { game.input(mouseSide[e.button], true); e.preventDefault(); }
   });
   window.addEventListener('mouseup', e => {

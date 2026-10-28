@@ -966,10 +966,16 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   de la physique = temps réel × 0,65) ; les batteurs bougent en temps réel (`FLIP_UP` = 45 rad/s
   réels, levés en ~22 ms) et la force de leur coup est réglée à part (`HIT_UP`) ; un seul coup
   par mouvement de batteur (`sweep`), la bille déjà frappée suit ensuite le batteur sans être
-  re-visée. Réglages vérifiés par simulation (8 000 billes au hasard : aucune immobile plus de
-  1,5 s ; rampe franchie par ~8 % des frappes au hasard du batteur droit), `rules.js`
+  re-visée. Bumpers et lance-pierres : coup un peu variable (force ±10 %, angle ±6°), seulement
+  au-delà d'un vrai choc (`KICK_MIN`), et plus aucun coup pour une bille qui n'est pas revenue
+  près des batteurs depuis `LOOP_MAX` = 10 s (`lowAt`) : pas de ping-pong sans fin entre les
+  lance-pierres. Lance-pierres petits, hauts et arrondis (pointe du bas loin des batteurs).
+  Réglages vérifiés par simulation (8 000 billes au hasard : aucune immobile plus de 1,5 s ;
+  1 600 billes avec les règles : aucune boucle ; rampe franchie par ~13 % des frappes au hasard
+  du batteur droit ; ~9 % des tirs touchent un lance-pierre contre 13 % avant), `rules.js`
   (`Game` : coup d'envoi, couloirs 1-9-2-8 déplacés par les batteurs, cibles des lettres,
-  épopée en Coupe sur la rampe, multiball et jackpot, centre de formation, bille sauvée 10 s,
+  épopée en Coupe sur la rampe, multiball et jackpot, centre de formation (bille renvoyée à
+  2 000 le long du mur gauche : elle suit l'arche et revient dans le jeu), bille sauvée 10 s,
   tilt, bonus × multiplicateur, bille en plus, 1 à 4 joueurs, messages de l'écran à points),
   `render.js` (`Scene3D`, Three.js r186 : texture du plateau dessinée en canvas, lampes,
   néons, bloom `UnrealBloomPass` sur un rendu intermédiaire anticrénelé (MSAA ×4), tone mapping
@@ -980,7 +986,8 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   bouton 🔊, choix gardé dans `localStorage` `fl:son` ; démarrés au clic sur « Jouer » ; roulement
   de la bille selon sa vitesse, rumeur du stade pendant la partie, clameur de la foule,
   compresseur), `flipper.src.js` (page : clavier, souris — clic gauche / clic droit = batteurs,
-  bouton du milieu = lanceur —, zones tactiles, lanceur, secousse du téléphone via
+  bouton du milieu = lanceur quand la bille attend, sinon bourrer ; défilement automatique et
+  molette neutralisés hors des fenêtres —, zones tactiles, lanceur, secousse du téléphone via
   `devicemotion`, écrans, envoi du score).
 - **Construction** : `sh bin/build-flipper.sh` (Node : Three.js 0.186.1 et esbuild épinglés dans un
   dossier temporaire) → `public/assets/js/flipper.js` (IIFE minifiée, ~650 Ko, licences en fin

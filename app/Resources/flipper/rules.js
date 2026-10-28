@@ -292,7 +292,9 @@ export class Game {
     this.p.hold(b, this.t.kickback.x, this.t.kickback.y);
     this.say(this.tr('kickback'), this.tr('kickbackSub'), 2000, 'kickback');
     this.on.fx('kickback');
-    this.after(0.45, () => this.p.release(b, 150, -1350));
+    // Renvoi assez fort pour suivre l'arche du haut, le long du mur (une bille qui dérive vers la
+    // droite toucherait le poteau du couloir et retomberait) : elle revient dans le jeu.
+    this.after(0.45, () => this.p.release(b, -6, -2000));
   }
 
   drain(b) {

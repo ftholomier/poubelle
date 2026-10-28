@@ -19,7 +19,14 @@ const MU_FLIP = 0.1; // frottement bille / batteurs (caoutchouc)
  */
 export const SPEED = 0.65;
 const FLIP_UP = 45, FLIP_DOWN = 26;
-const HIT_UP = 36, HIT_DOWN = 20;
+const HIT_UP = 38, HIT_DOWN = 20;
+/**
+ * Bumpers et lance-pierres : coup un peu variable (force ±10 %, angle ±6°), comme sur une vraie
+ * machine, pour qu'une trajectoire ne se répète jamais à l'identique. Une bille qui n'est pas
+ * redescendue vers les batteurs depuis LOOP_MAX s (temps de la physique) n'est plus relancée :
+ * elle perd son élan et retombe (pas de ping-pong sans fin entre les lance-pierres).
+ */
+const KICK_MIN = 60, LOOP_MAX = 10;
 
 function seg(ax, ay, bx, by, o = {}) {
   const dx = bx - ax, dy = by - ay, len = Math.hypot(dx, dy) || 1;
@@ -68,7 +75,7 @@ export class Physics {
   }
 
   addBall(x, y, vx = 0, vy = 0) {
-    const b = { id: this.nextId++, x, y, vx, vy, px: x, py: y, r: R, h: 0, state: 'play', rs: 0, rv: 0, still: 0, hit: 0 };
+    const b = { id: this.nextId++, x, y, vx, vy, px: x, py: y, r: R, h: 0, state: 'play', rs: 0, rv: 0, still: 0, hit: 0, lowAt: this.time };
     this.balls.push(b);
     return b;
   }
@@ -112,7 +119,7 @@ export class Physics {
 
   hold(b, x, y) { b.state = 'held'; b.x = x; b.y = y; b.vx = b.vy = 0; }
 
-  release(b, vx, vy) { b.state = 'play'; b.vx = vx; b.vy = vy; b.still = 0; }
+  release(b, vx, vy) { b.state = 'play'; b.vx = vx; b.vy = vy; b.still = 0; b.lowAt = this.time; }
 
   enterRamp(b) {
     const p = this.t.ramp.pts;
@@ -144,6 +151,7 @@ export class Physics {
       if (b.state === 'ramp') { this.rampStep(b, dt); continue; }
       if (b.state !== 'play') continue;
       b.px = b.x; b.py = b.y;
+      if (b.y > 690) b.lowAt = this.time; // près des batteurs : la bille est jouable
       b.vy += G * dt;
       const damp = 1 - 0.06 * dt;
       b.vx *= damp; b.vy *= damp;
@@ -196,7 +204,10 @@ export class Physics {
     const e = o.e ?? 0.45, tl = Math.hypot(tx, ty);
     if (tl > 0) { const k = Math.max(0, 1 - (o.mu ?? MU) * (1 + e) * -vn / tl); tx *= k; ty *= k; }
     let nvx = tx - vn * e * nx, nvy = ty - vn * e * ny;
-    if (o.kick && -vn > 25 && (!o.kn || nx * o.kn[0] + ny * o.kn[1] > 0.5)) { nvx += nx * o.kick; nvy += ny * o.kick; }
+    if (o.kick && -vn > KICK_MIN && (!o.kn || nx * o.kn[0] + ny * o.kn[1] > 0.5) && this.time - (b.lowAt ?? this.time) < LOOP_MAX) {
+      const a = (Math.random() - 0.5) * 0.2, k = o.kick * (0.9 + Math.random() * 0.2), c = Math.cos(a), si = Math.sin(a);
+      nvx += (nx * c - ny * si) * k; nvy += (nx * si + ny * c) * k;
+    }
     b.vx = nvx + ux; b.vy = nvy + uy;
     return -vn;
   }

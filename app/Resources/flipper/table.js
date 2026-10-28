@@ -64,10 +64,11 @@ export function buildTable(opt = {}) {
   // Poteaux en caoutchouc (haut des couloirs du bas).
   const posts = [{ x: 44, y: 560, r: 6 }, { x: 330, y: 560, r: 6 }];
   const bumpers = [{ x: 158, y: 192, r: 23 }, { x: 242, y: 192, r: 23 }, { x: 200, y: 264, r: 23 }];
-  // Lance-pierres : face active (a → c) qui renvoie la bille.
+  // Lance-pierres : face active (a → c) qui renvoie la bille. Pointe du bas courte et loin des
+  // batteurs : un tir de batteur ne cogne pas dedans.
   const slings = [
-    { side: 'L', a: [72, 590], b: [72, 660], c: [110, 686] },
-    { side: 'R', a: [302, 590], b: [302, 660], c: [264, 686] },
+    { side: 'L', a: [76, 604], b: [76, 652], c: [96, 664] },
+    { side: 'R', a: [298, 604], b: [298, 652], c: [278, 664] },
   ];
   // Cibles : deux rangées verticales, faces tournées vers le centre.
   const targets = [];

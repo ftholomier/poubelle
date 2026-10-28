@@ -204,7 +204,15 @@ export class Scene3D {
 
   slingsBuild() {
     this.slings = this.t.slings.map(s => {
-      const sh = new THREE.Shape([s.a, s.b, s.c].map(([x, y]) => new THREE.Vector2(X(x), -Z(y))));
+      // Triangle aux coins arrondis (comme le caoutchouc qui l'entoure).
+      const pts = [s.a, s.b, s.c].map(([x, y]) => new THREE.Vector2(X(x), -Z(y))), sh = new THREE.Shape(), rr = 4 * S;
+      pts.forEach((p, i) => {
+        const prev = pts[(i + 2) % 3], next = pts[(i + 1) % 3];
+        const p1 = p.clone().add(prev.clone().sub(p).setLength(rr)), p2 = p.clone().add(next.clone().sub(p).setLength(rr));
+        if (i === 0) sh.moveTo(p1.x, p1.y); else sh.lineTo(p1.x, p1.y);
+        sh.quadraticCurveTo(p.x, p.y, p2.x, p2.y);
+      });
+      sh.closePath();
       const geo = new THREE.ExtrudeGeometry(sh, { depth: 2.2, bevelEnabled: true, bevelSize: 0.25, bevelThickness: 0.2, bevelSegments: 2 });
       const mat = new THREE.MeshStandardMaterial({ color: this.col.yellow, emissive: this.col.yellow, emissiveIntensity: 0.15, roughness: 0.3 });
       const m = new THREE.Mesh(geo, [mat, this.mat.rubber]); m.rotation.x = -Math.PI / 2; m.castShadow = true; this.scene.add(m);
