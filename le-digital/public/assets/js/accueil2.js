@@ -51,7 +51,8 @@
     if (!root) return;
     const scenes = $$('[data-scene]', root), caps = $$('[data-cap]', root), segs = $$('[data-go]', root), play = $('[data-a2-play]', root);
     const DUR = 5200;
-    let cur = 0, t0 = 0, elapsed = 0, paused = !anim, visible = true, raf = 0;
+    // Le film attend d'être entièrement à l'écran pour démarrer (depuis la 1re scène), puis se met en pause hors de l'écran.
+    let cur = 0, t0 = 0, elapsed = 0, paused = !anim, started = false, inView = false, pageOn = !document.hidden, raf = 0;
     // Chaque mot du sous-titre apparaît à son tour (le dernier groupe en rouge).
     caps.forEach(c => {
       const words = c.textContent.trim().split(/\s+/);
@@ -80,25 +81,37 @@
     };
     const tick = now => {
       raf = 0;
-      if (paused || !visible) return;
+      if (paused || !inView || !pageOn) return;
       elapsed += now - t0; t0 = now;
       $('i', segs[cur]).style.setProperty('--p', Math.min(1, elapsed / DUR));
       if (elapsed >= DUR) show(cur + 1);
       raf = requestAnimationFrame(tick);
     };
-    const run = () => { if (!raf && !paused && visible) { t0 = performance.now(); raf = requestAnimationFrame(tick); } };
+    const run = () => { if (started && !raf && !paused && inView && pageOn) { t0 = performance.now(); raf = requestAnimationFrame(tick); } };
+    const start = (k = 0) => { started = true; root.classList.remove('is-waiting'); show(k); run(); };
     const setPaused = p => {
       paused = p;
       root.classList.toggle('is-paused', p);
       play.setAttribute('aria-label', p ? 'Lancer l’animation' : 'Mettre en pause l’animation');
       run();
     };
-    play.addEventListener('click', () => setPaused(!paused));
-    segs.forEach((b, k) => b.addEventListener('click', () => { show(k); run(); }));
-    seen(root, () => { visible = true; run(); }, () => { visible = false; }, 0.15);
-    document.addEventListener('visibilitychange', () => { visible = !document.hidden; run(); });
+    play.addEventListener('click', () => {
+      if (!started) { inView = true; setPaused(false); start(0); return; }
+      setPaused(!paused);
+    });
+    segs.forEach((b, k) => b.addEventListener('click', () => { if (!started) { inView = true; start(k); } else { show(k); run(); } }));
+    document.addEventListener('visibilitychange', () => { pageOn = !document.hidden; run(); });
     show(0);
     setPaused(paused);
+    if (!anim) return;
+    if (!('IntersectionObserver' in window)) { inView = true; start(0); return; }
+    root.classList.add('is-waiting');
+    new IntersectionObserver(es => es.forEach(e => {
+      const r = e.intersectionRatio, full = r >= 0.85 || e.intersectionRect.height >= innerHeight * 0.85;
+      if (!started) { if (full) { inView = true; start(0); } return; }
+      inView = r > 0.3;
+      run();
+    }), { threshold: [0, 0.3, 0.5, 0.7, 0.85, 0.95, 1] }).observe(root);
   }
 
   /* ------------------------------------------------------------------ orbite : une tâche du métier s'allume et s'automatise */
