@@ -1,4 +1,4 @@
-/* LE-DIGITAL.com — Accueil v2 (/accueil2) : film du héros, orbite, parcours de formation, tâches IA, assistant. */
+/* LE-DIGITAL.com — Page d'accueil (/) : film du héros, orbite, parcours de formation, tâches IA, assistant. */
 (() => {
   'use strict';
   const $ = (s, r = document) => r.querySelector(s);

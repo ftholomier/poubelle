@@ -46,18 +46,25 @@ final class Front
         self::output($html, $status);
     }
 
+    /** Page d'accueil : structure « produit » avec film animé, blocs démonstratifs et FAQ (contenus « accueil2 »). */
     public static function home(): never
-    {
-        self::render('home', 'home', ['active' => '', 'bodyClass' => 'is-home']);
-    }
-
-    /** Accueil v2 (en test, non indexé) : structure « produit » avec film animé, blocs démonstratifs et FAQ. */
-    public static function accueil2(): never
     {
         $c = Content::get('accueil2');
         $faq = array_map(static fn($f) => ['@type' => 'Question', 'name' => strip_tags((string) $f['q']), 'acceptedAnswer' => ['@type' => 'Answer', 'text' => strip_tags((string) $f['a'])]], $c['faq']['items'] ?? []);
-        self::render('accueil2', 'accueil2', ['active' => '', 'bodyClass' => 'is-a2', 'noindex' => true, 'css' => ['css/accueil2.css'], 'js' => ['js/accueil2.js'],
+        self::render('accueil2', 'accueil2', ['active' => '', 'bodyClass' => 'is-home is-a2', 'css' => ['css/accueil2.css'], 'js' => ['js/accueil2.js'],
             'jsonld' => $faq ? [['@context' => 'https://schema.org', '@type' => 'FAQPage', 'mainEntity' => $faq]] : []]);
+    }
+
+    /** L'ancienne adresse de test mène désormais à l'accueil. */
+    public static function accueil2(): never
+    {
+        Http::redirect('/', 301);
+    }
+
+    /** Ancienne page d'accueil, gardée pour comparer ou revenir en arrière (non indexée). */
+    public static function oldHome(): never
+    {
+        self::render('home', 'home', ['active' => '', 'bodyClass' => 'is-home', 'noindex' => true]);
     }
 
     public static function surMesure(): never

@@ -1,7 +1,7 @@
 <?php
 /**
- * Accueil v2 (/accueil2) : héros + film animé, avis, trois blocs « ce que je fais » (sur mesure, formation, IA),
- * assistant IA, FAQ, mur d'avis et appel final. Textes éditables (Contenus › Accueil v2).
+ * Page d'accueil (/) : héros + film animé, avis, trois blocs « ce que je fais » (sur mesure, formation, IA),
+ * assistant IA, FAQ, mur d'avis et appel final. Textes éditables (Contenus › Accueil).
  * @var array $c contenu de la page  @var array $g contenus communs  @var array $s paramètres
  */
 use LD\View;

@@ -12,8 +12,8 @@ final class Content
     /** Pages éditables depuis le back-office : clé => libellé. */
     public const PAGES = [
         'global'         => 'Commun : en-tête, pied de page, assistant',
-        'home'           => 'Accueil',
-        'accueil2'       => 'Accueil v2 (/accueil2, en test)',
+        'accueil2'       => 'Accueil',
+        'home'           => 'Ancienne page d’accueil (/ancien-accueil)',
         'sur-mesure'     => 'Sur mesure + IA',
         'formation'      => 'Formation',
         'accompagnement' => "L'accompagnement",
