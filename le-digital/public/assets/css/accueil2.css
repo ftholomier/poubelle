@@ -19,8 +19,8 @@
 .a2-cta:hover .a2-cta__arr{transform:translateX(3px)}
 
 /* ---------- Héros ---------- */
-.a2-hero{padding:10px 16px 0}
-.a2-panel--hero{background:radial-gradient(120% 70% at 50% -10%,#2b1215 0%,#13151c 55%,#0d0f15 100%);color:#fff;padding:clamp(56px,7vw,96px) clamp(18px,4vw,56px) clamp(40px,5vw,64px)}
+.a2-hero{padding:0}
+.a2-panel--hero{max-width:none;border-radius:0;background:radial-gradient(120% 70% at 50% -10%,#2b1215 0%,#13151c 55%,#0d0f15 100%);color:#fff;padding:clamp(56px,7vw,96px) clamp(18px,4vw,56px) clamp(40px,5vw,64px)}
 .a2-hero__glow{position:absolute;left:50%;top:-240px;z-index:-1;width:min(960px,120vw);height:560px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(232,64,42,.5),rgba(204,21,23,.14) 60%,transparent);filter:blur(24px);animation:a2Glow 10s ease-in-out infinite alternate;pointer-events:none}
 .a2-hero__glow--b{top:auto;bottom:-300px;opacity:.55}
 .a2-hero__grid{position:absolute;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(70% 55% at 50% 28%,#000 25%,transparent 75%);mask-image:radial-gradient(70% 55% at 50% 28%,#000 25%,transparent 75%);pointer-events:none}
@@ -353,6 +353,7 @@
 }
 @media (max-width:640px){
   .a2-panel{border-radius:28px}
+  .a2-panel--hero{border-radius:0}
   .a2-h1__l1,.a2-h1__l2{font-size:clamp(34px,10.5vw,48px)!important}
   .a2-h1__l1{width:auto;white-space:normal;text-wrap:balance}
   .a2-frame{border-radius:26px}
