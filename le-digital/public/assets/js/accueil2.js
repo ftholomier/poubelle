@@ -50,7 +50,7 @@
     const root = $('[data-a2-film]');
     if (!root) return;
     const scenes = $$('[data-scene]', root), caps = $$('[data-cap]', root), segs = $$('[data-go]', root), play = $('[data-a2-play]', root);
-    const DUR = 5200;
+    const DUR = 3000;
     // Le film attend d'être entièrement à l'écran pour démarrer (depuis la 1re scène), puis se met en pause hors de l'écran.
     let cur = 0, t0 = 0, elapsed = 0, paused = !anim, started = false, inView = false, pageOn = !document.hidden, raf = 0;
     // Chaque mot du sous-titre apparaît à son tour (le dernier groupe en rouge).

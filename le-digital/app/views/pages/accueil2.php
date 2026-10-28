@@ -103,7 +103,7 @@ $notes = [[5, 9, -7], [57, 5, 6], [30, 31, 3], [68, 40, -9], [7, 55, 5], [43, 66
           <div class="a2-scene a2-scene--ia" data-scene>
             <div class="a2-aicards">
               <?php foreach ($h['film_ai'] as $k => $it): ?>
-                <div class="a2-aicard" style="--d:<?= 200 + $k * 380 ?>ms">
+                <div class="a2-aicard" style="--d:<?= 150 + $k * 260 ?>ms">
                   <span class="a2-aicard__ic" aria-hidden="true"><?= icon('spark1', 16, 'currentColor', 2) ?></span>
                   <span class="a2-aicard__t"><b><?= t($it['t']) ?></b><small><?= t($it['s']) ?></small></span>
                   <span class="a2-aicard__ok"><span class="a2-aicard__btn"><?= t($h['film_validate']) ?></span><span class="a2-aicard__done" aria-hidden="true"><?= $check ?></span></span>
@@ -114,7 +114,7 @@ $notes = [[5, 9, -7], [57, 5, 6], [30, 31, 3], [68, 40, -9], [7, 55, 5], [43, 66
           <div class="a2-scene a2-scene--train" data-scene>
             <div class="a2-train">
               <div class="a2-ring" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52"/><circle class="a2-ring__v" cx="60" cy="60" r="52"/></svg><img src="<?= e(site_avatar()) ?>" alt="" width="84" height="84"></div>
-              <ul class="a2-train__list"><?php foreach ($h['film_train'] as $k => $it): ?><li style="--d:<?= 500 + $k * 520 ?>ms"><span aria-hidden="true"><?= $check ?></span><?= t($it) ?></li><?php endforeach; ?></ul>
+              <ul class="a2-train__list"><?php foreach ($h['film_train'] as $k => $it): ?><li style="--d:<?= 300 + $k * 330 ?>ms"><span aria-hidden="true"><?= $check ?></span><?= t($it) ?></li><?php endforeach; ?></ul>
             </div>
           </div>
           <?php foreach ($h['film'] as $k => $sc): ?><p class="a2-cap" data-cap="<?= $k ?>"<?= $k ? ' hidden' : '' ?>><?= t($sc['caption']) ?></p><?php endforeach; ?>
