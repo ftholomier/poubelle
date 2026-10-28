@@ -24,7 +24,7 @@
       raf = 0;
       [l1, l2].forEach(el => { el.style.fontSize = ''; });
       if (!wide.matches) return;
-      const avail = h.clientWidth, used = l1.scrollWidth;
+      const avail = h.clientWidth, used = l1.getBoundingClientRect().width;
       if (!avail || !used) return;
       const size = parseFloat(getComputedStyle(l1).fontSize) * avail / used * 0.995;
       const px = Math.max(28, Math.min(132, size)) + 'px';
