@@ -68,6 +68,9 @@ return [
     'centenary_date' => '2028-06-14',
     'stadium' => 'Stade Bonal',
     'stadium_short' => 'Bonal',
+    // Le flipper du musée (/interactif/flipper/) : textes du décor, lettres des cibles, année des couloirs.
+    'flipper' => ['title' => 'Le Flipper du Lion', 'letters' => 'SOCHAUX', 'digits' => '1928', 'ramp' => 'Rampe Bonal', 'bumpers' => 'Les Lions',
+        'cap' => 'LION', 'kickback' => 'Centre de formation', 'roar' => 'Le Lion rugit !'],
     'stadium_a' => 'à Bonal',
     'official_site' => 'https://www.fcsochaux.fr',
 

@@ -7,6 +7,7 @@ use App\Core\Auth;
 use App\Core\Request;
 use App\Core\Response;
 use App\Services\DailyQuiz;
+use App\Services\Flipper;
 use App\Services\QuizChampionship;
 use App\Services\QuizLive;
 
@@ -30,8 +31,17 @@ final class QuizClub extends Base
         $ranking = QuizChampionship::ranking(null, null, true);
         $inChamp = array_flip(array_column($ranking, 'id'));
         $defi = array_values(array_filter(DailyQuiz::ranking('mois', date('Y-m')), fn ($r) => !isset($inChamp[$r['id']])));
+        // Et ceux du tableau d'honneur du flipper (100 premiers de la semaine et de tous les temps).
+        $shown = $inChamp + array_flip(array_column($defi, 'id'));
+        $week = array_column(Flipper::ranking(Flipper::week(), 100), 'score', 'cid');
+        $flipper = [];
+        foreach ([...Flipper::ranking('all', 100), ...Flipper::ranking(Flipper::week(), 100)] as $r) {
+            if (!isset($shown[$r['cid']]) && !isset($flipper[$r['cid']])) {
+                $flipper[$r['cid']] = ['id' => $r['cid'], 'pseudo' => $r['pseudo'], 'best' => $r['score'], 'week' => $week[$r['cid']] ?? null];
+            }
+        }
         return self::html('admin/collections/quiz-live', ['games' => QuizLive::all(), 'new' => $req->str('nouvelle'),
-            'season' => QuizChampionship::season(), 'ranking' => $ranking, 'defi' => $defi, 'stats' => QuizChampionship::stats(), 'banned' => $banned],
+            'season' => QuizChampionship::season(), 'ranking' => $ranking, 'defi' => $defi, 'flipper' => array_values($flipper), 'stats' => QuizChampionship::stats(), 'banned' => $banned],
             ['title' => 'Quiz du club-house', 'crumb' => 'Interactif', 'nav' => 'quizlive']);
     }
 

@@ -949,6 +949,57 @@ date de la page et termine la partie de la veille si elle est en cours (`unfinis
 « ménage ») : parties en cours de plus de 2 jours. Notification du matin : sujet `defi`
 (`app.push_defi`, à l'heure de « Ce jour-là »). Tests : `tests/defi.php`.
 
+## 7 octies ter septies. Flipper du Lion (`App\Services\Flipper`, `App\Front\FlipperPages`)
+
+Flipper 3D plein écran sur `/interactif/flipper/` (`Pages::render` avec `bare`, sans bandeau
+cookies ni assistant, `Cache-Control: private, no-store`), API `POST /api/flipper`. Le jeu tourne
+entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
+
+- **Sources** (`app/Resources/flipper/`, modules ES) : `table.js` (plan du plateau en unités de
+  400 × 840 : murs, rampe en spline avec hauteur, cibles, couloirs, batteurs, soucoupe…),
+  `physics.js` (moteur 2D maison au pas fixe de 1 ms : segments-capsules et cercles avec
+  restitution, frottement et coup de pied, batteurs effilés en rotation avec vitesse de
+  surface, portillon à sens unique, capteurs, rampe en mouvement 1D le long de la spline,
+  soucoupe qui retient la bille, chocs entre billes, bille immobile relancée), `rules.js`
+  (`Game` : coup d'envoi, couloirs 1-9-2-8 déplacés par les batteurs, cibles des lettres,
+  épopée en Coupe sur la rampe, multiball et jackpot, centre de formation, bille sauvée 10 s,
+  tilt, bonus × multiplicateur, bille en plus, 1 à 4 joueurs, messages de l'écran à points),
+  `render.js` (`Scene3D`, Three.js r186 : texture du plateau dessinée en canvas, lampes,
+  néons, bloom `UnrealBloomPass`, tone mapping ACES, `RoomEnvironment`, ombres ; caméra
+  ajustée à l'écran, plus plongeante sur téléphone ; qualité baissée seule si les images
+  ralentissent), `audio.js` (sons synthétisés en WebAudio, coupés par défaut, choix gardé dans
+  `localStorage`), `flipper.src.js` (page : clavier, zones tactiles, lanceur, secousse du
+  téléphone via `devicemotion`, écrans, envoi du score).
+- **Construction** : `sh bin/build-flipper.sh` (Node : Three.js 0.186.1 et esbuild épinglés dans un
+  dossier temporaire) → `public/assets/js/flipper.js` (IIFE minifiée, ~650 Ko, licences en fin
+  de fichier), à refaire après toute modification des sources. CSS : `public/assets/css/flipper.css`.
+  Sans WebGL, la page affiche « 3D indisponible ».
+- **Réglages du club** : clé `flipper` de `config/clubs/*.php` (`title`, `letters` des cibles,
+  `digits` des couloirs, `ramp`, `bumpers`, `cap` des bumpers, `kickback`, `roar`) lue par
+  `Flipper::config()`, avec des valeurs tirées du club à défaut. Faits « Le saviez-vous ? » :
+  `Flipper::facts()` (naissance du club, puis statistiques de `Chiffres`, 150 caractères au plus).
+- **Anti-triche** : `commencer` renvoie un jeton `heure.numéro.signature` (HMAC
+  `site_key('flipper')`, valable 4 h) ; `score` n'est accepté que si `Flipper::plausible()` le
+  juge vraisemblable (multiple de 10, partie d'au moins 10 s, au plus
+  `MARGIN + durée × MAX_RATE` = 3 000 000 + 120 000 points par seconde) et une seule fois par
+  jeton (numéros utilisés gardés dans le fichier de la semaine). Limites par IP : 600 parties et
+  300 scores par heure. Parties à plusieurs : jamais envoyées.
+- **Tableau d'honneur** : `storage/flipper/semaine-{AAAA-Wss}.json` (`scores` par id de carnet :
+  meilleur score, parties, date ; `used`) et `storage/flipper/records.json` (meilleur score de
+  toujours, 500 comptes au plus). Pseudo du championnat ; classements publics réservés aux
+  comptes `QuizChampionship::listed()` (lien de l'e-mail ouvert, pas retirés), 20 lignes, sans
+  id de compte (`publicRows`). Sans compte, `score` répond `join` : le formulaire de fin de partie
+  appelle `inscrire` (`QuizLivePages::account(…, 'flipper')`, lien de l'e-mail
+  `/carnet/acces/…/?quiz=flipper` → retour sur le jeu) et renvoie le même jeton. Back-office : tableau de
+  modération dans Interactif › Quiz du club-house (100 premiers de la semaine et de toujours).
+  Carnet supprimé → `Flipper::forget()` ; tâche « ménage » : semaines de plus de 6 mois
+  (`Flipper::purge()`).
+- **Tests** : `node tests/flipper.mjs` (physique et règles sans navigateur : lancer, portillon,
+  rampe, batteur droit vers la rampe, cibles de face ou de dos, missions, multiball, jackpot,
+  bille sauvée, tilt, fin de partie, joueurs à tour de rôle, robot qui joue des billes entières)
+  et `php tests/flipper.php` (jetons, vraisemblance, un score par jeton, classements, retrait,
+  effacement, ménage, faits, réglages).
+
 ## 7 octies bis. Murs de photos (`App\Services\PhotoWall`, `App\Front\Walls`)
 
 Quatre pages de la rubrique Interactif tirent des photos de la médiathèque au hasard à chaque

@@ -221,7 +221,7 @@ final class Carnet
         if ($quiz !== null) {
             $link .= '?quiz=' . rawurlencode($quiz);
             $html = '<p>' . e(t('Bonjour,')) . '</p>'
-                . '<p>' . e(t('Voici votre lien personnel {site}. Ouvrez-le sur le téléphone avec lequel vous jouez : il garde votre place aux classements du quiz (championnat du club-house, défi du jour), sous votre pseudo. Il ouvre aussi votre carnet du supporter. Gardez-le pour vous.')) . '</p>'
+                . '<p>' . e(t('Voici votre lien personnel {site}. Ouvrez-le sur le téléphone avec lequel vous jouez : il garde votre place aux classements des jeux (championnat du club-house, défi du jour, tableau d’honneur du flipper), sous votre pseudo. Il ouvre aussi votre carnet du supporter. Gardez-le pour vous.')) . '</p>'
                 . '<p style="margin:24px 0"><a href="' . e($link) . '" style="background:' . \App\Core\Club::color('yellow') . ';color:' . \App\Core\Club::color('navy') . ';padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Valider sur ce téléphone')) . '</a></p>'
                 . '<p style="font-size:13px;color:#555">' . e(t('Nouveau téléphone, ou lien perdu ? Redemandez un lien depuis la page du championnat, avec la même adresse.')) . ' ' . e(t('Vous n’avez rien demandé ? Ignorez ce message : sans ce lien, personne ne peut ouvrir le carnet.')) . '</p>';
             return Mailer::send($c['email'], t('Votre place aux classements du quiz {site}'), $html); // Mailer::send met en page
@@ -582,6 +582,7 @@ final class Carnet
     {
         QuizChampionship::forget($id);
         DailyQuiz::forget($id);
+        Flipper::forget($id);
         Vignettes::forget($id);
         @unlink(self::file($id));
         @unlink(self::file($id) . '.lock');

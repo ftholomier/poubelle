@@ -43,6 +43,7 @@ final class Api
                 $p === '/api/carnet' && $post => CarnetPages::api($req),
                 $p === '/api/quiz-live' && $post => QuizLivePages::api($req),
                 $p === '/api/defi' && $post => DailyQuizPages::api($req),
+                $p === '/api/flipper' && $post => FlipperPages::api($req),
                 $p === '/api/fil-jaune' => Fil::api($req),
                 $p === '/api/album-vignettes' && $post => AlbumPages::api($req),
                 $p === '/api/album-vignettes/vignettes.json' => AlbumPages::pool($req),

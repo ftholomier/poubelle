@@ -59,6 +59,7 @@ final class Menus
                 ['title' => 'Jouer', 'title_en' => '', 'tools' => [
                     $tool('?', 'Quiz', club('Êtes-vous un vrai {nickname_sg} ?'), '/interactif/quiz/'),
                     $tool('★', 'Le défi du jour', 'Dix questions, un essai par jour, un classement.', '/interactif/defi/'),
+                    $tool('◉', 'Flipper', 'Un vrai flipper en 3D : rampe, bumpers, multiball.', '/interactif/flipper/'),
                     $tool('♛', 'Championnat du club-house', 'Les soirées quiz en salle, saison après saison.', '/interactif/quiz-live/championnat/'),
                     $tool('▦', 'Album', (string) (\App\Core\Club::content('libelles', [])['album_d'] ?? 'Collectionnez les cartes des joueurs.'), '/interactif/album/'),
                     $tool('⟿', 'Fil jaune', club('Reliez deux {nickname} par leurs matchs.'), '/interactif/fil-jaune/'),
@@ -125,6 +126,21 @@ final class Menus
             foreach ((array) ($menus['interactif'] ?? []) as $i => $col) {
                 if (($col['title'] ?? '') === "Explorer l'histoire") {
                     $menus['interactif'][$i]['tools'][] = ['icon' => '▤', 'label' => \App\Front\AlbumBook::name(), 'label_en' => '', 'd' => 'Les albums de vignettes : saisons, décennies, entraîneurs, épopées… et le vôtre.', 'd_en' => '', 'href' => \App\Front\AlbumBook::PATH];
+                    break;
+                }
+            }
+        }
+        // Flipper ajouté après coup : présent dans « Jouer » même si les menus ont déjà été enregistrés.
+        $hasFlipper = false;
+        foreach ((array) ($menus['interactif'] ?? []) as $col) {
+            foreach ((array) ($col['tools'] ?? []) as $x) {
+                $hasFlipper = $hasFlipper || ($x['href'] ?? '') === '/interactif/flipper/';
+            }
+        }
+        if (!$hasFlipper) {
+            foreach ((array) ($menus['interactif'] ?? []) as $i => $col) {
+                if (($col['title'] ?? '') === 'Jouer') {
+                    $menus['interactif'][$i]['tools'][] = ['icon' => '◉', 'label' => 'Flipper', 'label_en' => '', 'd' => 'Un vrai flipper en 3D : rampe, bumpers, multiball.', 'd_en' => '', 'href' => '/interactif/flipper/'];
                     break;
                 }
             }

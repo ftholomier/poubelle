@@ -62,6 +62,9 @@ return [
     'club_short' => 'PSG',
     'stadium' => 'Parc des Princes',
     'stadium_short' => 'Parc',
+    // Le flipper du musée (/interactif/flipper/) : textes du décor, lettres des cibles, année des couloirs.
+    'flipper' => ['title' => 'Le Flipper du Parc', 'letters' => 'PARIS', 'digits' => '1970', 'ramp' => 'Rampe du Parc', 'bumpers' => 'Le Kop',
+        'cap' => 'PSG', 'kickback' => 'Camp des Loges', 'roar' => 'Le Parc s’enflamme !'],
     'stadium_a' => 'au Parc',
     'stadium_full' => 'Parc des Princes',
     'stadium_full_lc' => 'Parc des Princes',

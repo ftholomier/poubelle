@@ -95,6 +95,9 @@ final class CarnetPages
         if ($quiz === 'defi') {
             return Response::redirect(url('/interactif/defi/') . '?bienvenue=1');
         }
+        if ($quiz === 'flipper') {
+            return Response::redirect(url('/interactif/flipper/') . '?bienvenue=1');
+        }
         if ($quiz === 'championnat') {
             return Response::redirect(url('/interactif/quiz-live/championnat/') . '?bienvenue=1');
         }

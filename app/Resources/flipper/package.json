@@ -1,0 +1,6 @@
+{
+  "name": "flipper-src",
+  "private": true,
+  "type": "module",
+  "description": "Sources du flipper 3D (compilées par bin/build-flipper.sh dans public/assets/js/flipper.js)"
+}

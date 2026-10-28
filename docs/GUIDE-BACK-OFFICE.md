@@ -419,6 +419,15 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   (même compte et même pseudo que le championnat), invités sans classement. Classements du
   jour, du mois et de la saison, séparés du championnat ; résultat à partager ; rappel du matin
   par notification (sujet « Le défi du jour », Réglages › Application du musée).
+- **Flipper du Lion** (`/interactif/flipper/`, rien à régler) : un flipper en 3D plein écran
+  (téléphone et ordinateur), 1 à 4 joueurs, 3 billes : bumpers, Rampe Bonal (l'épopée en Coupe,
+  multiball en finale), cibles S-O-C-H-A-U-X, couloirs 1-9-2-8, « Le saviez-vous ? » tirés des
+  chiffres du musée. Tableau d'honneur de la semaine et de tous les temps (parties à un joueur),
+  même compte et même pseudo que le championnat ; un score n'est accepté qu'une fois, après
+  10 secondes de jeu et s'il est vraisemblable pour la durée. Modération dans Interactif › Quiz
+  du club-house : les joueurs du flipper qui ne figurent pas plus haut ont leur tableau, avec
+  « Pseudo déplacé » et « Retirer du classement ». Décor, lettres et année propres à chaque club
+  (`flipper` dans `config/clubs/*.php`).
 - **Carte du carnet sur les goodies** (Boutique › Modèles, éditeur) : bouton « + Carte du
   carnet », design « Charte du musée » ou « Billet de match » ; la carte se remplit d'après le
   carnet du client (un match suffit), matchs et pseudo figés à la commande. Le poster « Ma vie en

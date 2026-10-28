@@ -1,7 +1,8 @@
 <?php
 /**
  * Interactif › Quiz du club-house. Variables : $games (QuizLive::all), $new (code de la partie qui vient
- * d'être créée), $season, $ranking (QuizChampionship::ranking), $stats, $banned (joueurs exclus)
+ * d'être créée), $season, $ranking (QuizChampionship::ranking), $defi et $flipper (joueurs classés
+ * ailleurs, modérables aussi), $stats, $banned (joueurs exclus)
  */
 use App\Admin\QuizClub;
 
@@ -81,7 +82,7 @@ $phases = ['lobby' => ['Salle d’attente', 'info'], 'question' => ['Question en
 
 <section class="card" id="championnat">
   <div class="card__head"><h2 class="card__t">Championnat <?= e($season) ?></h2><span class="card__note"><?= (int) $stats['games'] ?> partie<?= $stats['games'] > 1 ? 's' : '' ?> comptée<?= $stats['games'] > 1 ? 's' : '' ?> · <?= (int) $stats['players'] ?> joueur<?= $stats['players'] > 1 ? 's' : '' ?> classé<?= $stats['players'] > 1 ? 's' : '' ?> · <a href="<?= e(url('/interactif/quiz-live/championnat/')) ?>" target="_blank" rel="noopener">page publique ↗</a></span></div>
-  <p class="card__body small" style="margin:0">Seuls les joueurs qui ont laissé leur e-mail (compte du carnet du supporter, lien sécurisé) comptent ; les invités jouent sans points. Un compte n’apparaît au classement public (championnat et défi du jour) qu’une fois le lien de l’e-mail ouvert : d’ici là, ses points sont gardés et il est marqué « en attente du lien » ci-dessous. Points par partie selon le rang : <?= e(implode(', ', array_map(fn ($p) => (string) ($p + 1), \App\Services\QuizChampionship::SCALE))) ?>, puis 1 point de participation ; une partie compte à partir de <?= \App\Services\QuizChampionship::MIN_PLAYERS ?> joueurs. Nouveau classement chaque 1er août. Aucun e-mail n’est affiché ici.</p>
+  <p class="card__body small" style="margin:0">Seuls les joueurs qui ont laissé leur e-mail (compte du carnet du supporter, lien sécurisé) comptent ; les invités jouent sans points. Un compte n’apparaît au classement public (championnat, défi du jour et flipper) qu’une fois le lien de l’e-mail ouvert : d’ici là, ses points sont gardés et il est marqué « en attente du lien » ci-dessous. Points par partie selon le rang : <?= e(implode(', ', array_map(fn ($p) => (string) ($p + 1), \App\Services\QuizChampionship::SCALE))) ?>, puis 1 point de participation ; une partie compte à partir de <?= \App\Services\QuizChampionship::MIN_PLAYERS ?> joueurs. Nouveau classement chaque 1er août. Aucun e-mail n’est affiché ici.</p>
   <div class="table" style="border:0">
     <table>
       <thead><tr><th>#</th><th>Pseudo</th><th class="t-num">Points</th><th class="t-num">Parties</th><th class="t-num">Victoires</th><th class="t-num">Podiums</th><th></th></tr></thead>
@@ -116,7 +117,30 @@ $phases = ['lobby' => ['Salle d’attente', 'info'], 'question' => ['Question en
             <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Remplacer le pseudo « <?= e($r['pseudo']) ?> » ?|Il devient « Joueur 1234 » ; le joueur pourra en choisir un autre.|Remplacer">
               <?= csrf_field() ?><input type="hidden" name="action" value="renommer"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs">Pseudo déplacé</button>
             </form>
-            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Retirer « <?= e($r['pseudo']) ?> » des classements ?|Il pourra encore jouer, mais n’apparaîtra plus aux classements (championnat et défi).|Retirer|danger">
+            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Retirer « <?= e($r['pseudo']) ?> » des classements ?|Il pourra encore jouer, mais n’apparaîtra plus aux classements (championnat, défi et flipper).|Retirer|danger">
+              <?= csrf_field() ?><input type="hidden" name="action" value="exclure"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs ko">Retirer du classement</button>
+            </form>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+  <?php endif; ?>
+  <?php if ($flipper): ?>
+  <div class="card__body small" style="padding-bottom:0"><b>Tableau d’honneur du flipper</b> : joueurs classés qui ne figurent pas plus haut (même pseudo, même modération).</div>
+  <div class="table" style="border:0">
+    <table>
+      <thead><tr><th>Pseudo</th><th class="t-num">Record</th><th class="t-num">Cette semaine</th><th></th></tr></thead>
+      <tbody>
+      <?php foreach ($flipper as $r): ?>
+        <tr>
+          <td><?= e($r['pseudo']) ?></td><td class="t-num"><b><?= e(number_format((int) $r['best'], 0, ',', ' ')) ?></b></td><td class="t-num"><?= $r['week'] !== null ? e(number_format((int) $r['week'], 0, ',', ' ')) : '—' ?></td>
+          <td class="nowrap">
+            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Remplacer le pseudo « <?= e($r['pseudo']) ?> » ?|Il devient « Joueur 1234 » ; le joueur pourra en choisir un autre.|Remplacer">
+              <?= csrf_field() ?><input type="hidden" name="action" value="renommer"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs">Pseudo déplacé</button>
+            </form>
+            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Retirer « <?= e($r['pseudo']) ?> » des classements ?|Il pourra encore jouer, mais n’apparaîtra plus aux classements (championnat, défi et flipper).|Retirer|danger">
               <?= csrf_field() ?><input type="hidden" name="action" value="exclure"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs ko">Retirer du classement</button>
             </form>
           </td>
