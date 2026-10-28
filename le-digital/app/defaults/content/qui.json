@@ -17,7 +17,8 @@
     { "kind": "p", "text": "Je suis le fondateur de LE-DIGITAL.com. J'accompagne des entrepreneurs, des indépendants et des entreprises dans leur développement grâce au digital : plus de 500 entreprises en consulting, prestation de services et formation." },
     { "kind": "p", "text": "Je suis à la fois formateur et développeur. Je forme au webmarketing, à la création de sites et à l'IA, et je conçois aussi des sites web, des CRM métier et des solutions sur mesure, avec une intelligence artificielle intégrée pour faire gagner du temps à ceux qui les utilisent." },
     { "kind": "big", "text": "Ma conviction : le digital, ce n'est pas une affaire de technique, c'est une affaire de relations." },
-    { "kind": "p", "text": "Le digital provoque la conversation. La conversation provoque la conversion. Et chaque heure que tes outils te font gagner, c'est une heure de plus pour tes clients." },
+    { "kind": "quote", "text": "Le digital provoque la conversation. La conversation provoque la conversion." },
+    { "kind": "p", "text": "Et chaque heure que tes outils te font gagner, c'est une heure de plus pour tes clients." },
     { "kind": "p", "text": "J'interviens à Besançon, Montbéliard, Belfort et Dijon, et partout en France à distance." }
   ]
 }

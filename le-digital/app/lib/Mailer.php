@@ -287,6 +287,6 @@ final class Mailer
             . '<p style="margin:0 0 6px;font-weight:800;color:#cc1517;font-size:13px;letter-spacing:.1em;text-transform:uppercase">LE-DIGITAL.com</p>'
             . '<h1 style="margin:0 0 18px;font-size:24px;line-height:1.2">' . e($title) . '</h1>'
             . '<div style="font-size:15px;line-height:1.6;color:#3a3650">' . $content . '</div>' . $cta
-            . '</div><p style="text-align:center;font-size:12px;color:#8a86a0;margin:18px 0 0">Le digital provoque la conversation. La conversation provoque la conversion.</p></div></body></html>';
+            . '</div><p style="text-align:center;font-size:12px;color:#8a86a0;margin:18px 0 0">« Le digital provoque la conversation. La conversation provoque la conversion. »<br>— ' . e((string) Settings::get('site.owner', 'Frédéric Tholomier') ?: 'Frédéric Tholomier') . '</p></div></body></html>';
     }
 }

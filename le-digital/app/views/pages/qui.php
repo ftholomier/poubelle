@@ -17,7 +17,14 @@ $h = $c['hero'];
 <section class="sec">
   <div class="qui-story">
     <?php foreach ($c['story'] as $p): ?>
-      <p data-reveal<?= ($p['kind'] ?? 'p') === 'big' ? ' class="qui-big"' : '' ?>><?= t($p['text']) ?></p>
+      <?php if (($p['kind'] ?? 'p') === 'quote'): ?>
+        <figure class="qui-cite" data-reveal>
+          <blockquote><p>«&nbsp;<?= t($p['text']) ?>&nbsp;»</p></blockquote>
+          <figcaption><img src="<?= e(site_avatar()) ?>" alt="" width="44" height="44" loading="lazy"><span><b><?= e($s['site']['owner'] ?? 'Frédéric Tholomier') ?></b><small>Ma citation, ma façon de voir le digital</small></span></figcaption>
+        </figure>
+      <?php else: ?>
+        <p data-reveal<?= ($p['kind'] ?? 'p') === 'big' ? ' class="qui-big"' : '' ?>><?= t($p['text']) ?></p>
+      <?php endif; ?>
     <?php endforeach; ?>
   </div>
 </section>

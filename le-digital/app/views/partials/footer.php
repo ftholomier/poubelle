@@ -31,7 +31,12 @@ $gated = $carousel !== '' && LD\Consent::enabled();
         <?php if (!empty($fr['items'])): ?><ul class="ftr__fr-items"><?php foreach ($fr['items'] as $it): ?><li><?= tick(18, 9) ?><?= t($it) ?></li><?php endforeach; ?></ul><?php endif; ?>
       </div>
     <?php endif; ?>
-    <p class="ftr__slogan"><?= t($f['slogan'] ?? '') ?> <span><?= t($f['slogan_accent'] ?? '') ?></span></p>
+    <figure class="ftr__quote">
+      <blockquote class="ftr__slogan"><p><span class="ftr__qm" aria-hidden="true">«&nbsp;</span><?= t($f['slogan'] ?? '') ?> <span><?= t($f['slogan_accent'] ?? '') ?></span><span class="ftr__qm" aria-hidden="true">&nbsp;»</span></p></blockquote>
+      <?php if (trim((string) ($f['slogan_by'] ?? '')) !== ''): ?>
+        <figcaption class="ftr__by"><img src="<?= e(site_avatar()) ?>" alt="" width="52" height="52" loading="lazy"><span><b><?= t($f['slogan_by']) ?></b><?php if (trim((string) ($f['slogan_role'] ?? '')) !== ''): ?><small><?= t($f['slogan_role']) ?></small><?php endif; ?></span></figcaption>
+      <?php endif; ?>
+    </figure>
     <?php
     $arrow = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
     $pin = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0119 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';

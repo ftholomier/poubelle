@@ -164,7 +164,7 @@
     two_ways: 'Deux façons de travailler ensemble', engagements: 'Engagements', about: 'Formateur et développeur', stat_value: 'Chiffre', stat_label: 'Libellé du chiffre',
     quote: 'Citation', solutions: 'Mes solutions', link: 'Lien', steps: 'Comment ça se passe', formula: 'La formule', hint: 'Indication (souris)', hint_touch: 'Indication (écran tactile)',
     reviews: 'Avis', placeholders: 'Emplacements affichés tant qu’il n’y a pas d’avis', who: 'Pour qui', final: 'Appel final', header: 'En-tête', nav: 'Menu',
-    key: 'Identifiant technique', href: 'Lien', footer: 'Pied de page', slogan: 'Slogan', slogan_accent: 'Slogan — partie colorée', zones_title: 'Titre « Zones »',
+    key: 'Identifiant technique', href: 'Lien', footer: 'Pied de page', slogan: 'Citation (1re phrase)', slogan_by: 'Citation : auteur', slogan_role: 'Citation : sous la signature', slogan_accent: 'Citation (2e phrase, en couleur)', zones_title: 'Titre « Zones »',
     remote: 'Mention « à distance »', solutions_title: 'Titre « Mes solutions »', links_title: 'Titre « Liens »', links: 'Liens', linkedin_label: 'Libellé LinkedIn',
     id: 'Identifiant (ancre)', home_text: 'Texte court (accueil)', home_ia: '+ IA (accueil)', d_long: 'Texte long (page Accompagnement)', tokens: 'Lettres de la formule',
     tip: 'Secret révélé au survol', tasks: 'Tâches', short: 'Libellé court (récapitulatif)', rate: 'Taux d’automatisation (0 à 1)', default: 'Heures par défaut',
