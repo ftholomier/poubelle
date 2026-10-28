@@ -68,7 +68,7 @@ $notes = [[5, 9, -7], [57, 5, 6], [30, 31, 3], [68, 40, -9], [7, 55, 5], [43, 66
         </span>
         <?= t($h['proof']) ?>
       </p>
-      <h1 class="a2-h1" id="a2-title"><?= t($h['title']) ?> <span class="a2-accent"><?= t($h['title_accent']) ?></span></h1>
+      <h1 class="a2-h1" id="a2-title" data-a2-fit><span class="a2-h1__l1"><?= t($h['title']) ?></span> <span class="a2-h1__l2 a2-accent"><?= t($h['title_accent']) ?></span></h1>
       <p class="a2-hero__p"><?= t($h['text']) ?></p>
       <ul class="a2-points">
         <?php foreach ($h['points'] as $pt): ?><li><span class="a2-points__ic" aria-hidden="true"><?= $check ?></span><?= t($pt) ?></li><?php endforeach; ?>

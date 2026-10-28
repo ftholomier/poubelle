@@ -24,7 +24,7 @@
 .a2-hero__glow{position:absolute;left:50%;top:-240px;z-index:-1;width:min(960px,120vw);height:560px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(232,64,42,.5),rgba(204,21,23,.14) 60%,transparent);filter:blur(24px);animation:a2Glow 10s ease-in-out infinite alternate;pointer-events:none}
 .a2-hero__glow--b{top:auto;bottom:-300px;opacity:.55}
 .a2-hero__grid{position:absolute;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(70% 55% at 50% 28%,#000 25%,transparent 75%);mask-image:radial-gradient(70% 55% at 50% 28%,#000 25%,transparent 75%);pointer-events:none}
-.a2-hero__in{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;align-items:center;text-align:center}
+.a2-hero__in{max-width:1248px;margin:0 auto;display:flex;flex-direction:column;align-items:center;text-align:center;container-type:inline-size}
 .a2-proof{display:inline-flex;align-items:center;gap:10px;margin-bottom:26px;padding:5px 15px 5px 6px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);font-size:13.5px;font-weight:600;color:#e8e6f0}
 .a2-proof__avs{display:flex}
 .a2-proof__avs>*{width:28px;height:28px;margin-left:-8px;border-radius:50%;border:2px solid #17191f;object-fit:cover;display:grid;place-items:center;font:800 11px var(--fh);color:#fff;background:linear-gradient(135deg,#cc1517,#e8402a)}
@@ -32,7 +32,10 @@
 .a2-proof__avs span:nth-child(3){background:#3a3d4f}
 .a2-proof__avs span:nth-child(4){background:linear-gradient(135deg,#e8402a,#ff8a5a)}
 .a2-proof__avs span:nth-child(5){background:#252436}
-.a2-h1{max-width:1000px;font:900 clamp(40px,7vw,92px)/.98 var(--fh);letter-spacing:-.045em;text-wrap:balance}
+.a2-h1{width:100%;font:900 clamp(40px,7vw,92px)/.98 var(--fh);letter-spacing:-.045em}
+/* Titre sur deux lignes : la première tient sur une seule ligne, aussi grande que possible (ajustée au pixel près par le script) */
+.a2-h1__l1,.a2-h1__l2{display:block;font-size:calc(100cqw / 14.9)}
+.a2-h1__l1{white-space:nowrap}
 .a2-accent{background:linear-gradient(100deg,#ff7a63,#e8402a 35%,#cc1517 65%,#ff7a63);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:ldGrad 7s ease infinite}
 .a2-hero__p{max-width:640px;margin:22px auto 0;font-size:clamp(17px,1.6vw,19.5px);line-height:1.6;color:#c9c6d6;text-wrap:pretty}
 .a2-points{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 24px;font-size:14.5px;font-weight:600;color:#e7e5ef}
@@ -350,6 +353,8 @@
 }
 @media (max-width:640px){
   .a2-panel{border-radius:28px}
+  .a2-h1__l1,.a2-h1__l2{font-size:clamp(34px,10.5vw,48px)!important}
+  .a2-h1__l1{white-space:normal;text-wrap:balance}
   .a2-frame{border-radius:26px}
   .a2-film{padding:6px;border-radius:22px}
   .a2-film__screen{aspect-ratio:4/5;border-radius:17px}

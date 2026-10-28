@@ -13,6 +13,29 @@
     new IntersectionObserver(es => es.forEach(e => (e.isIntersecting ? on() : off && off())), { threshold }).observe(el);
   };
 
+  /* ------------------------------------------------------------------ titre : 1re ligne sur une seule ligne, la plus grande possible */
+  function fitTitle() {
+    const h = $('[data-a2-fit]');
+    if (!h) return;
+    const l1 = $('.a2-h1__l1', h), l2 = $('.a2-h1__l2', h);
+    const wide = matchMedia('(min-width: 641px)');
+    let raf = 0;
+    const fit = () => {
+      raf = 0;
+      [l1, l2].forEach(el => { el.style.fontSize = ''; });
+      if (!wide.matches) return;
+      const avail = h.clientWidth, used = l1.scrollWidth;
+      if (!avail || !used) return;
+      const size = parseFloat(getComputedStyle(l1).fontSize) * avail / used * 0.995;
+      const px = Math.max(28, Math.min(132, size)) + 'px';
+      [l1, l2].forEach(el => { el.style.fontSize = px; });
+    };
+    const later = () => { if (!raf) raf = requestAnimationFrame(fit); };
+    fit();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(later);
+    addEventListener('resize', later);
+  }
+
   /* ------------------------------------------------------------------ apparition des maquettes */
   function inview() {
     $$('[data-a2-inview]').forEach(el => {
@@ -185,6 +208,6 @@
     }
   }
 
-  const init = () => [inview, film, orbit, chart, tasks, ask].forEach(fn => { try { fn(); } catch (e) { if (window.console) console.error(e); } });
+  const init = () => [fitTitle, inview, film, orbit, chart, tasks, ask].forEach(fn => { try { fn(); } catch (e) { if (window.console) console.error(e); } });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
