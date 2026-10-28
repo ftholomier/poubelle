@@ -1,0 +1,155 @@
+{
+  "seo": {
+    "title": "LE-DIGITAL.com · Ton site, ton logiciel et ton IA, sur mesure",
+    "description": "Frédéric Tholomier, développeur et formateur : je crée le site, le logiciel métier et les outils IA de ton entreprise, et je te forme à t'en servir. TPE, PME, artisans et indépendants, partout en France."
+  },
+  "hero": {
+    "proof": "Plus de 500 entreprises accompagnées",
+    "title": "Ton site, ton logiciel et ton IA.",
+    "title_accent": "Sur mesure.",
+    "text": "Je crée les outils digitaux de ton entreprise et je te forme à t'en servir. Pour les TPE, PME, artisans et indépendants, partout en France.",
+    "points": ["+500 entreprises accompagnées", "Réponse sous 24 h ouvrées", "Made in France"],
+    "cta": "On prend RdV ?",
+    "note": "Premier échange gratuit, en vrai ou en visio.",
+    "film": [
+      { "caption": "Tes devis, tes relances, tes mails… tu y passes tes soirées." },
+      { "caption": "Je construis l'outil fait pour ton métier." },
+      { "caption": "L'IA prépare. Toi, tu valides." },
+      { "caption": "Et je te forme à t'en servir." }
+    ],
+    "film_notes": ["Devis Dupont à refaire !!", "Relancer Martin ??", "47 mails non lus", "export_final_v3 (2).xlsx", "Où est le bon de commande ?", "Appeler le comptable"],
+    "film_window": "ton-outil.fr",
+    "film_ai": [
+      { "t": "Devis Dupont", "s": "Préparé par l'IA · prêt à relire" },
+      { "t": "Relance Martin", "s": "Envoyée au bon moment" },
+      { "t": "47 mails", "s": "Triés et résumés" }
+    ],
+    "film_validate": "Valider",
+    "film_train": ["Ton outil, tu le maîtrises", "Ton équipe est à l'aise", "Je reste là après la livraison"],
+    "solutions_label": "Mes logiciels prêts à l'emploi"
+  },
+  "dev": {
+    "tag": "Sur mesure + IA",
+    "title": "Ton logiciel métier, construit pour toi",
+    "text": "Site web, CRM, devis, planning, espace client : je construis l'outil qui s'adapte à ta façon de travailler, avec l'IA là où elle te fait gagner du temps.",
+    "cta": "Voir le sur-mesure",
+    "card1_title": "Tout ton métier au même endroit",
+    "card1_text": "Clients, devis, factures, planning, relances : fini les fichiers Excel et les post-it. Tout est saisi une fois, au bon endroit.",
+    "orbit": ["Devis", "Clients", "Planning", "Factures", "Relances", "Emails", "Stock", "Rapports"],
+    "orbit_toast": "Nouvelle tâche automatisée",
+    "card2_title": "Pilote ton activité d'un coup d'œil",
+    "card2_text": "Un tableau de bord clair, sur ordinateur comme sur mobile : tu sais où tu en es, sans chercher.",
+    "dash_url": "ton-entreprise.fr",
+    "dash_label": "Exemple de tableau de bord",
+    "dash_kpis": [
+      { "l": "Devis en cours", "v": "12" },
+      { "l": "Relances automatiques", "v": "34" },
+      { "l": "Clients actifs", "v": "86" }
+    ],
+    "dash_chart": "Demandes de devis",
+    "dash_rows": [
+      { "t": "Devis Dupont", "s": "Prêt à relire" },
+      { "t": "Relance Martin", "s": "Envoyée" },
+      { "t": "Facture Leroy", "s": "Lue et saisie" },
+      { "t": "Planning de la semaine", "s": "À jour" }
+    ],
+    "badges": ["Pensé pour ton métier", "L'IA là où elle te fait gagner du temps", "Tu valides à chaque étape", "Tout t'appartient : code, données, nom de domaine"]
+  },
+  "formation": {
+    "tag": "Formation DIGITAL 360",
+    "title": "Deviens autonome sur ton digital, IA comprise",
+    "text": "Webmarketing, création de site, référencement, réseaux sociaux et IA : je te forme sur ton activité, pas sur un cas d'école. Finançable avec ton CPF (ou pas !).",
+    "cta": "Découvrir la formation",
+    "chart_label": "Ton parcours",
+    "curves": ["Ton site", "Ta visibilité", "L'IA au quotidien"],
+    "milestones": [
+      { "t": "Étape 1", "d": "Ta stratégie digitale est claire" },
+      { "t": "Étape 2", "d": "Ton site, tu le mets à jour toi-même" },
+      { "t": "Étape 3", "d": "Google et les réseaux sociaux travaillent pour toi" },
+      { "t": "Étape 4", "d": "L'IA rédige, crée et automatise avec toi" }
+    ],
+    "blocks": [
+      { "t": "En présentiel", "d": "Directement avec moi, en face à face. On travaille sur ton activité, avec tes outils." },
+      { "t": "En distanciel", "d": "En visio, avec moi, en direct. Tu poses tes questions au moment où tu en as besoin." },
+      { "t": "En ligne", "d": "À ton rythme, seul comme un grand, avec des exercices appliqués à ton métier." }
+    ]
+  },
+  "auto": {
+    "tag": "Automatisation & IA",
+    "title": "L'IA qui fait vraiment le travail à ta place",
+    "text": "Je n'ajoute de l'IA que là où elle t'apporte un gain concret : elle prépare, trie, rédige et relance. Toi, tu gardes la main.",
+    "cta": "Voir ce que l'IA peut faire",
+    "tasks": [
+      { "t": "Devis Dupont", "k": "Devis" },
+      { "t": "Relance Martin", "k": "Relance" },
+      { "t": "47 mails du jour", "k": "Emails" },
+      { "t": "Facture fournisseur", "k": "Facture" },
+      { "t": "Rapport du mois", "k": "Rapport" },
+      { "t": "Compte rendu de RdV", "k": "Résumé" },
+      { "t": "Post LinkedIn", "k": "Contenu" },
+      { "t": "Planning de la semaine", "k": "Planning" }
+    ],
+    "task_before": "À faire",
+    "task_after": "Fait par l'IA",
+    "card1_title": "Tes tâches répétitives disparaissent",
+    "card1_text": "Tri des emails, saisie, lecture des factures, génération de documents : l'IA s'en charge chaque jour, et tu récupères des heures chaque semaine.",
+    "card2_title": "Toujours sous ton contrôle",
+    "card2_text": "L'outil propose, tu décides. Rien ne part sans ton accord.",
+    "detected": "Ce qui change avec ton outil",
+    "rows": [
+      { "before": "Tu passes tes soirées sur tes devis", "after": "L'IA prépare le devis, tu le relis et tu l'envoies" },
+      { "before": "Tu oublies de relancer", "after": "Les relances partent toutes seules, au bon moment" },
+      { "before": "Tu cherches l'info dans tes mails et tes fichiers", "after": "Tout est centralisé et retrouvé en un clic" },
+      { "before": "Tu réponds dix fois aux mêmes questions", "after": "Un assistant répond pour toi, 24 h/24" }
+    ]
+  },
+  "bot": {
+    "tag": "Assistant IA",
+    "title": "Demande à mon IA",
+    "text": "Mon assistant connaît mes offres, mes méthodes et mes solutions. Pose-lui ta question : il te répond tout de suite, même le soir et le week-end.",
+    "cta": "Discuter avec l'assistant",
+    "placeholder": "Pose ta question…",
+    "send": "Envoyer",
+    "questions": [
+      "Combien de temps je peux gagner sur mes devis ?",
+      "Un site pour mon restaurant, comment ça se passe ?",
+      "Tu peux former mon équipe à l'IA ?",
+      "C'est quoi un CRM métier ?",
+      "Tu travailles à distance ?"
+    ],
+    "demo_q": "Combien de temps je peux gagner sur mes devis ?",
+    "demo_a": "Avec un outil sur mesure, l'IA prépare ton devis à partir de la demande de ton client : tu n'as plus qu'à le relire et l'envoyer. On regarde ensemble ce que ça représente pour toi au premier café ☕",
+    "compat_label": "Propulsé par les meilleures IA du moment",
+    "compat": ["Claude", "ChatGPT", "Gemini", "Mistral"]
+  },
+  "faq": {
+    "tag": "FAQ",
+    "title": "Les questions fréquentes",
+    "text": "Tu ne trouves pas ta réponse ?",
+    "link": "Pose-la-moi directement",
+    "items": [
+      { "q": "Tu fais quoi, exactement ?", "a": "Deux choses qui vont ensemble. Je développe les outils digitaux de ton entreprise : site web, CRM métier, applications sur mesure, automatisations et assistants IA. Et je forme les entrepreneurs au digital (webmarketing, création de site, IA) pour qu'ils deviennent autonomes." },
+      { "q": "À qui tu t'adresses ?", "a": "Aux TPE, PME, artisans, commerçants et indépendants qui perdent du temps sur des tâches répétitives, ou qui veulent mieux utiliser le digital pour trouver des clients." },
+      { "q": "Je n'y connais rien en informatique, c'est grave ?", "a": "Pas du tout. Je commence par comprendre ton métier, la technique vient après. Chaque choix est expliqué avec des mots simples : c'est le formateur en moi." },
+      { "q": "Combien ça coûte ?", "a": "Chaque projet est unique, chaque devis aussi. On commence par un premier échange gratuit, en vrai ou en visio, puis je te fais une proposition claire : ce qu'on construit, ce que tu gagnes, combien ça coûte." },
+      { "q": "Tu travailles uniquement près de chez toi ?", "a": "Je me déplace en Bourgogne-Franche-Comté (Besançon, Montbéliard, Belfort, Dijon…) et je travaille avec des entreprises partout en France, en visio." },
+      { "q": "À qui appartient l'outil que tu développes ?", "a": "À toi. Code, données, nom de domaine : tout est à ton nom. Aucun abonnement qui te rend captif." },
+      { "q": "Et si je suis bloqué après la livraison ?", "a": "Je ne te livre pas un outil, je t'accompagne jusqu'à ce qu'il te fasse gagner du temps. Tu as un seul interlocuteur, moi, et une réponse sous 24 h ouvrées." }
+    ]
+  },
+  "wall": {
+    "tag": "Avis",
+    "title": "Ils m'ont fait confiance, pourquoi pas toi ?",
+    "text": "Plus de 500 entreprises accompagnées en consulting, prestation de services et formation.",
+    "cta": "Voir tous les avis"
+  },
+  "final": {
+    "title": "Prêt à gagner du temps dans ton activité ?",
+    "text": "Raconte-moi ce qui te prend du temps aujourd'hui : on regarde ensemble ce qu'un outil sur mesure ou une formation peut changer pour toi.",
+    "cta": "On prend RdV ?",
+    "screen_title": "Un café avec Fred",
+    "screen_sub": "En vrai ou en visio · gratuit",
+    "slots": ["Lun 9:30", "Mar 14:00", "Mer 10:00", "Jeu 16:30", "Ven 11:00", "Ven 15:00"],
+    "booked": "Café réservé ✓"
+  }
+}

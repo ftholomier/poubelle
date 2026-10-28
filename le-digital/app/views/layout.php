@@ -59,6 +59,8 @@ $cfg = [
 <link rel="preload" href="/assets/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/dmsans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="<?= asset('css/site.css') ?>">
+<?php foreach ((array) ($meta['css'] ?? []) as $css): ?><link rel="stylesheet" href="<?= asset($css) ?>">
+<?php endforeach; ?>
 <script>document.documentElement.classList.add('js')</script>
 <?php foreach ((array) $meta['jsonld'] as $ld): ?>
 <script type="application/ld+json"><?= json_script($ld) ?></script>
@@ -85,5 +87,7 @@ $cfg = [
 <?php endif; ?>
 <script id="ld-config" type="application/json"><?= json_script($cfg) ?></script>
 <script src="<?= asset('js/site.js') ?>" defer></script>
+<?php foreach ((array) ($meta['js'] ?? []) as $js): ?><script src="<?= asset($js) ?>" defer></script>
+<?php endforeach; ?>
 </body>
 </html>

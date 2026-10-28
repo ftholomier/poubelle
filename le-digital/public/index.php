@@ -75,6 +75,7 @@ $router = new Router();
 
 // Pages publiques
 $router->get('/', [Front::class, 'home']);
+$router->get('/accueil2', [Front::class, 'accueil2']);
 $router->get('/sur-mesure-ia', [Front::class, 'surMesure']);
 $router->get('/formation', [Front::class, 'formation']);
 $router->get('/accompagnement', [Front::class, 'accompagnement']);

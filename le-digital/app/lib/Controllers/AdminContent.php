@@ -56,7 +56,7 @@ final class AdminContent
     private static function publicUrl(string $page): string
     {
         return match ($page) {
-            'home', 'global' => '/', 'sur-mesure' => '/sur-mesure-ia', 'formation' => '/formation', 'accompagnement' => '/accompagnement',
+            'home', 'global' => '/', 'accueil2' => '/accueil2', 'sur-mesure' => '/sur-mesure-ia', 'formation' => '/formation', 'accompagnement' => '/accompagnement',
             'solutions' => '/mes-solutions', 'qui' => '/qui-suis-je', 'avis' => '/avis', 'blog' => '/blog', 'rdv' => '/on-prend-rdv',
             'zones' => '/zones/' . (Content::get('zones')['cities'][0]['slug'] ?? 'besancon'), 'mentions' => '/mentions-legales', 'distance' => '/partout-en-france', default => '/',
         };

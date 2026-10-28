@@ -51,6 +51,15 @@ final class Front
         self::render('home', 'home', ['active' => '', 'bodyClass' => 'is-home']);
     }
 
+    /** Accueil v2 (en test, non indexé) : structure « produit » avec film animé, blocs démonstratifs et FAQ. */
+    public static function accueil2(): never
+    {
+        $c = Content::get('accueil2');
+        $faq = array_map(static fn($f) => ['@type' => 'Question', 'name' => strip_tags((string) $f['q']), 'acceptedAnswer' => ['@type' => 'Answer', 'text' => strip_tags((string) $f['a'])]], $c['faq']['items'] ?? []);
+        self::render('accueil2', 'accueil2', ['active' => '', 'bodyClass' => 'is-a2', 'noindex' => true, 'css' => ['css/accueil2.css'], 'js' => ['js/accueil2.js'],
+            'jsonld' => $faq ? [['@context' => 'https://schema.org', '@type' => 'FAQPage', 'mainEntity' => $faq]] : []]);
+    }
+
     public static function surMesure(): never
     {
         self::render('sur-mesure', 'sur-mesure', ['active' => 'sur-mesure']);

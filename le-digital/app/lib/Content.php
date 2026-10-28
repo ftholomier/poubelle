@@ -13,6 +13,7 @@ final class Content
     public const PAGES = [
         'global'         => 'Commun : en-tête, pied de page, assistant',
         'home'           => 'Accueil',
+        'accueil2'       => 'Accueil v2 (/accueil2, en test)',
         'sur-mesure'     => 'Sur mesure + IA',
         'formation'      => 'Formation',
         'accompagnement' => "L'accompagnement",
