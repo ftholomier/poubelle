@@ -958,18 +958,30 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
 - **Sources** (`app/Resources/flipper/`, modules ES) : `table.js` (plan du plateau en unités de
   400 × 840 : murs, rampe en spline avec hauteur, cibles, couloirs, batteurs, soucoupe…),
   `physics.js` (moteur 2D maison au pas fixe de 1 ms : segments-capsules et cercles avec
-  restitution, frottement et coup de pied, batteurs effilés en rotation avec vitesse de
-  surface, portillon à sens unique, capteurs, rampe en mouvement 1D le long de la spline,
-  soucoupe qui retient la bille, chocs entre billes, bille immobile relancée), `rules.js`
+  restitution, frottement de Coulomb proportionnel à l'appui (`MU`, `MU_FLIP` : une bille qui
+  roule sur une pente n'est pas freinée) et coup de pied, batteurs effilés en rotation avec
+  vitesse de surface, portillon à sens unique, capteurs, rampe en mouvement 1D le long de la
+  spline, soucoupe qui retient la bille, chocs entre billes, bille immobile relancée au bout de
+  1,2 s sauf si un batteur la tient). Vitesse : le plateau vit au ralenti (`SPEED` = 0,65 : temps
+  de la physique = temps réel × 0,65) ; les batteurs bougent en temps réel (`FLIP_UP` = 45 rad/s
+  réels, levés en ~22 ms) et la force de leur coup est réglée à part (`HIT_UP`) ; un seul coup
+  par mouvement de batteur (`sweep`), la bille déjà frappée suit ensuite le batteur sans être
+  re-visée. Réglages vérifiés par simulation (8 000 billes au hasard : aucune immobile plus de
+  1,5 s ; rampe franchie par ~8 % des frappes au hasard du batteur droit), `rules.js`
   (`Game` : coup d'envoi, couloirs 1-9-2-8 déplacés par les batteurs, cibles des lettres,
   épopée en Coupe sur la rampe, multiball et jackpot, centre de formation, bille sauvée 10 s,
   tilt, bonus × multiplicateur, bille en plus, 1 à 4 joueurs, messages de l'écran à points),
   `render.js` (`Scene3D`, Three.js r186 : texture du plateau dessinée en canvas, lampes,
-  néons, bloom `UnrealBloomPass`, tone mapping ACES, `RoomEnvironment`, ombres ; caméra
-  ajustée à l'écran, plus plongeante sur téléphone ; qualité baissée seule si les images
-  ralentissent), `audio.js` (sons synthétisés en WebAudio, coupés par défaut, choix gardé dans
-  `localStorage`), `flipper.src.js` (page : clavier, zones tactiles, lanceur, secousse du
-  téléphone via `devicemotion`, écrans, envoi du score).
+  néons, bloom `UnrealBloomPass` sur un rendu intermédiaire anticrénelé (MSAA ×4), tone mapping
+  ACES, `RoomEnvironment`, ombres, filtrage anisotrope maximal ; décor du plateau en 1 600 × 3 360
+  sur grand écran (1 000 × 2 100 sur téléphone) ; caméra ajustée à l'écran, plus plongeante sur
+  téléphone ; qualité baissée seule si plus de la moitié des images sont lentes, mesuré pendant
+  la partie seulement), `audio.js` (sons synthétisés en WebAudio, allumés d'office, coupés par le
+  bouton 🔊, choix gardé dans `localStorage` `fl:son` ; démarrés au clic sur « Jouer » ; roulement
+  de la bille selon sa vitesse, rumeur du stade pendant la partie, clameur de la foule,
+  compresseur), `flipper.src.js` (page : clavier, souris — clic gauche / clic droit = batteurs,
+  bouton du milieu = lanceur —, zones tactiles, lanceur, secousse du téléphone via
+  `devicemotion`, écrans, envoi du score).
 - **Construction** : `sh bin/build-flipper.sh` (Node : Three.js 0.186.1 et esbuild épinglés dans un
   dossier temporaire) → `public/assets/js/flipper.js` (IIFE minifiée, ~650 Ko, licences en fin
   de fichier), à refaire après toute modification des sources. CSS : `public/assets/css/flipper.css`.
@@ -995,8 +1007,10 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   Carnet supprimé → `Flipper::forget()` ; tâche « ménage » : semaines de plus de 6 mois
   (`Flipper::purge()`).
 - **Tests** : `node tests/flipper.mjs` (physique et règles sans navigateur : lancer, portillon,
-  rampe, batteur droit vers la rampe, cibles de face ou de dos, missions, multiball, jackpot,
-  bille sauvée, tilt, fin de partie, joueurs à tour de rôle, robot qui joue des billes entières)
+  bille jamais coincée au pied des batteurs, ralenti et batteurs vifs, un coup par mouvement,
+  rampe, batteur droit qui franchit la rampe, cibles de face ou de dos, missions, multiball,
+  jackpot, bille sauvée, tilt, fin de partie, joueurs à tour de rôle, robot qui joue des billes
+  entières)
   et `php tests/flipper.php` (jetons, vraisemblance, un score par jeton, classements, retrait,
   effacement, ménage, faits, réglages).
 

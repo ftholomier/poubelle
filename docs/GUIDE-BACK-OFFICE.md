@@ -422,7 +422,9 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
 - **Flipper du Lion** (`/interactif/flipper/`, rien à régler) : un flipper en 3D plein écran
   (téléphone et ordinateur), 1 à 4 joueurs, 3 billes : bumpers, Rampe Bonal (l'épopée en Coupe,
   multiball en finale), cibles S-O-C-H-A-U-X, couloirs 1-9-2-8, « Le saviez-vous ? » tirés des
-  chiffres du musée. Tableau d'honneur de la semaine et de tous les temps (parties à un joueur),
+  chiffres du musée. Son allumé d'office (bouton 🔊 pour le couper) ; sur ordinateur, clic gauche
+  et clic droit pour les batteurs, bouton de la molette pour le lanceur ; la bille roule moins
+  vite qu'un vrai flipper. Tableau d'honneur de la semaine et de tous les temps (parties à un joueur),
   même compte et même pseudo que le championnat ; un score n'est accepté qu'une fois, après
   10 secondes de jeu et s'il est vraisemblable pour la durée. Modération dans Interactif › Quiz
   du club-house : les joueurs du flipper qui ne figurent pas plus haut ont leur tableau, avec

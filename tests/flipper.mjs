@@ -1,9 +1,10 @@
 // Flipper : physique et règles, sans navigateur (app/Resources/flipper/). Lancer, rampe, cibles,
-// soucoupe, bille sauvée, multiball et jackpot, tilt, fin de partie, joueurs à tour de rôle, et un
-// robot qui joue des billes entières : jamais de bille hors du plateau ni coincée.
+// soucoupe, bille sauvée, multiball et jackpot, tilt, fin de partie, joueurs à tour de rôle, bille
+// jamais coincée au pied des batteurs, jeu au ralenti mais batteurs vifs, un coup par mouvement de
+// batteur, et un robot qui joue des billes entières : jamais de bille hors du plateau ni coincée.
 // Usage : node tests/flipper.mjs (code de sortie 1 en cas d'échec).
 import { buildTable } from '../app/Resources/flipper/table.js';
-import { Physics } from '../app/Resources/flipper/physics.js';
+import { Physics, SPEED } from '../app/Resources/flipper/physics.js';
 import { Game, PTS } from '../app/Resources/flipper/rules.js';
 
 let fail = 0, ok = 0;
@@ -25,9 +26,9 @@ eq('autres lettres (Paris)', buildTable({ letters: 'paris', digits: '1970' }).ta
   eq('lancer trop faible : la bille revient sur le lanceur', ph.onPlunger(b), true);
   for (const p of [0.85, 1]) {
     const q = new Physics(t), c = q.addBall(376, 789); let top = false;
-    q.on = (ev, a) => { if (ev === 'sensor' && a === 'lane') top = true; if (ev === 'bumper') top = true; };
+    q.on = (ev, a) => { if (ev === 'sensor' && a === 'lane') top = true; if (ev === 'bumper' || (ev === 'hit' && a === 'rail')) top = true; };
     run(q, 0.3); q.launch(p); run(q, 4);
-    eq(`lancer à ${p} : couloirs du haut ou bumpers atteints`, top, true);
+    eq(`lancer à ${p} : couloirs du haut, leurs séparations ou bumpers atteints`, top, true);
   }
 }
 
@@ -38,6 +39,36 @@ eq('autres lettres (Paris)', buildTable({ letters: 'paris', digits: '1970' }).ta
   eq('pas de bille posée sur le portillon', b.y > 230 && b.x < 362, true);
 }
 
+// Bille posée au-dessus d'un batteur au repos, ou au bas d'un guide de couloir : elle roule et part.
+{
+  for (const [x, y, label] of [[115, 722, 'pied du batteur gauche'], [259, 722, 'pied du batteur droit'], [70, 700, 'guide du couloir gauche']]) {
+    const ph = new Physics(t), b = ph.addBall(x, y);
+    run(ph, 1);
+    eq(`bille posée au ${label} : elle ne reste pas coincée`, Math.hypot(b.x - x, b.y - y) > 80 || b.state === 'gone', true);
+  }
+}
+
+// Vitesse : la bille vit au ralenti, les batteurs montent en temps réel en moins de 25 ms.
+{
+  const ph = new Physics(t);
+  ph.update(0.05);
+  eq('jeu au ralenti (SPEED)', Math.abs(ph.time - 0.05 * SPEED) < 0.002, true);
+  const q = new Physics(t), f = q.flippers[0];
+  q.setFlipper('L', true);
+  for (let i = 0; i < 5; i++) q.update(0.005);
+  eq('batteur levé en 25 ms réelles', f.ang, f.up);
+}
+
+// Un seul coup par mouvement de batteur : la bille frappée n'est pas re-frappée pendant la montée.
+{
+  const ph = new Physics(t), b = ph.addBall(150, 742);
+  let hits = 0;
+  ph.on = ev => { if (ev === 'flip-hit') hits++; };
+  ph.setFlipper('L', true);
+  run(ph, 0.2);
+  eq('un coup par mouvement de batteur', [hits, b.vy < -500], [1, true]);
+}
+
 // Rampe : franchie avec un tir franc, redescend sinon.
 {
   const res = v => { const ph = new Physics(t); let r = ''; ph.on = ev => { if (ev === 'ramp-done' || ev === 'ramp-fail') r = ev; }; const b = ph.addBall(76, 452, 0, -v); ph.enterRamp(b); run(ph, 3); return r; };
@@ -45,19 +76,19 @@ eq('autres lettres (Paris)', buildTable({ letters: 'paris', digits: '1970' }).ta
   eq('rampe : tir franc', res(1800), 'ramp-done');
 }
 
-// Batteur : un tir depuis le batteur droit peut entrer dans la rampe.
+// Batteur : un tir depuis le batteur droit peut franchir la rampe.
 {
   let reached = false;
   for (let d = 24; d <= 44 && !reached; d += 2) {
     const ph = new Physics(t), b = ph.addBall(318, 600);
     let fired = false;
-    ph.on = (ev, a, v) => { if (ev === 'ramp-mouth' && v > 1400) reached = true; };
-    run(ph, 2, () => {
+    ph.on = (ev, a, v) => { if (ev === 'ramp-mouth' && v > 150) ph.enterRamp(a); if (ev === 'ramp-done') reached = true; };
+    run(ph, 3, () => {
       const f = ph.flippers[1], along = (b.x - f.px) * Math.cos(f.ang) + (b.y - f.py) * Math.sin(f.ang);
       if (!fired && b.y > 690 && along >= d) { ph.setFlipper('R', true); fired = true; }
     });
   }
-  eq('batteur droit : la rampe est atteignable', reached, true);
+  eq('batteur droit : la rampe est franchissable', reached, true);
 }
 
 // Cible : tombe quand on la frappe de face, pas de dos.

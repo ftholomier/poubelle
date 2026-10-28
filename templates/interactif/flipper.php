@@ -14,7 +14,7 @@ $digits = implode('-', str_split($data['digits']));
     <b class="fl__title"><?= e($title) ?></b>
     <div class="fl__btns">
       <button type="button" class="fl__ic" data-fl-pause aria-label="<?= e(t('Pause')) ?>" title="<?= e(t('Pause')) ?>">❚❚</button>
-      <button type="button" class="fl__ic" data-fl-sound aria-pressed="false" aria-label="<?= e(t('Son')) ?>" title="<?= e($ui['soundOn']) ?>"><span aria-hidden="true">🔇</span></button>
+      <button type="button" class="fl__ic" data-fl-sound aria-pressed="true" aria-label="<?= e(t('Son')) ?>" title="<?= e($ui['soundOff']) ?>"><span aria-hidden="true">🔊</span></button>
       <button type="button" class="fl__ic" data-fl-full aria-label="<?= e(t('Plein écran')) ?>" title="<?= e(t('Plein écran')) ?>">⛶</button>
     </div>
   </header>
@@ -46,7 +46,7 @@ $digits = implode('-', str_split($data['digits']));
           <button type="button" data-fl-go="rules"><?= e(t('Règles du jeu')) ?></button>
           <button type="button" data-fl-go="scores"><?= e(t('Tableau d’honneur')) ?></button>
         </div>
-        <p class="fl__keys"><?= e(t('Téléphone : touchez la moitié gauche ou droite de l’écran ; secouez pour bousculer. Clavier : Maj ou ← →, Espace pour le lanceur, ↑ pour bousculer.')) ?></p>
+        <p class="fl__keys"><?= e(t('Téléphone : touchez la moitié gauche ou droite de l’écran ; secouez pour bousculer. Ordinateur : clic gauche et clic droit (ou Maj, ← →) pour les batteurs ; bouton de la molette (ou Espace) tenu puis relâché pour le lanceur ; ↑ pour bousculer.')) ?></p>
       </div>
     </section>
 

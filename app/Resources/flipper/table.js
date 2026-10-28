@@ -47,11 +47,16 @@ export function buildTable(opt = {}) {
     { id: 'tour', pts: [[390, 840], ...arch, [12, 840]], r: 3, e: 0.42, h: 3.6, neon: true },
     { id: 'lanceur', pts: [[362, 840], [362, 200]], r: 3, e: 0.42, h: 2.6, neon: true },
     { id: 'rampe-g', pts: [[52, 478], [52, 404]], r: 3, e: 0.5, h: 2.2, neon: false },
-    { id: 'rampe-d', pts: [[100, 478], [100, 404]], r: 3, e: 0.5, h: 2.2, neon: false },
+    // Rail droit plus court que les cibles de gauche : pas de creux où la bille se pose entre les deux.
+    { id: 'rampe-d', pts: [[100, 478], [100, 428]], r: 3, e: 0.5, h: 2.2, neon: false },
     { id: 'poche-haut', pts: [[306, 312], [362, 292]], r: 3, e: 0.45, h: 2.4, neon: true },
     { id: 'poche-bas', pts: [[306, 408], [362, 430]], r: 3, e: 0.45, h: 2.4, neon: true },
-    { id: 'couloir-g', pts: [[44, 562], [44, 690], [104, 734]], r: 3, e: 0.45, h: 2.2, neon: true },
-    { id: 'couloir-d', pts: [[330, 562], [330, 690], [270, 734]], r: 3, e: 0.45, h: 2.2, neon: true },
+    // Fond de la poche, juste derrière les cibles de droite : une cible tombée n'ouvre pas de trou.
+    { id: 'poche-fond', pts: [[313, 310], [313, 410]], r: 3, e: 0.4, h: 2.4, neon: false },
+    // Guides des couloirs du bas : leur bord arrive à hauteur du pied du batteur (pas de marche où
+    // la bille s'arrête en descendant).
+    { id: 'couloir-g', pts: [[44, 562], [44, 690], [112.6, 734.9]], r: 3, e: 0.45, h: 2.2, neon: true },
+    { id: 'couloir-d', pts: [[330, 562], [330, 690], [261.4, 734.9]], r: 3, e: 0.45, h: 2.2, neon: true },
   ];
   // Rails des couloirs du haut (chiffres de l'année de naissance).
   const rails = [118, 158, 198, 238, 278].map(x => ({ pts: [[x, 66], [x, 108]], r: 3, e: 0.5 }));
@@ -90,7 +95,8 @@ export function buildTable(opt = {}) {
     saucer: { x: 200, y: 440, r: 13 },
     kickback: { x: 28, y: 760, r: 14 },
     plunger: { x: 376, top: 800, ball: 790 },
-    gate: { a: [362, 208], b: [390, 180] },
+    // Portillon : part du haut du mur du couloir (pas de creux entre les deux où la bille s'arrête).
+    gate: { a: [362, 200], b: [390, 172] },
     drainY: 832,
   };
 }

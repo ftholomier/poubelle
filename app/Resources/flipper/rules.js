@@ -170,7 +170,7 @@ export class Game {
         if (a === 'sling') { this.add(PTS.sling); this.on.fx('sling', d); } else this.on.fx('hit', c);
         break;
       case 'flip-hit':
-        this.on.fx('hit', c);
+        this.on.fx('flip-hit', c);
         break;
       case 'target':
         this.target(a);

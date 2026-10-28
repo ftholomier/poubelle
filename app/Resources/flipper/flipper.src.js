@@ -101,6 +101,8 @@ async function boot() {
       over: res => setTimeout(() => gameOver(res), 600),
     });
     game.start(n);
+    sound.ambience(true);
+    sound.play('start');
     started = performance.now();
     token = null;
     if (n === 1) api({ action: 'commencer' }).then(r => { token = r.tok || null; }).catch(() => {});
@@ -134,12 +136,27 @@ async function boot() {
   const touches = new Map();
   for (const zone of root.querySelectorAll('[data-fl-touch]')) {
     const side = zone.dataset.flTouch;
-    zone.addEventListener('pointerdown', e => { if (!game || paused) return; zone.setPointerCapture(e.pointerId); touches.set(e.pointerId, side); game.input(side, true); zone.classList.add('is-on'); e.preventDefault(); });
+    zone.addEventListener('pointerdown', e => { if (!game || paused || e.pointerType === 'mouse') return; zone.setPointerCapture(e.pointerId); touches.set(e.pointerId, side); game.input(side, true); zone.classList.add('is-on'); e.preventDefault(); });
     const up = e => { if (!touches.has(e.pointerId)) return; touches.delete(e.pointerId); if (![...touches.values()].includes(side)) { game && game.input(side, false); zone.classList.remove('is-on'); } };
     zone.addEventListener('pointerup', up);
     zone.addEventListener('pointercancel', up);
     zone.addEventListener('contextmenu', e => e.preventDefault());
   }
+  // Souris (ordinateur) : clic gauche et clic droit = batteurs gauche et droit, n'importe où sur le
+  // plateau ; bouton du milieu (molette) enfoncé = on tire le lanceur, relâché = la bille part.
+  const mouseSide = { 0: 'L', 2: 'R' };
+  stage.addEventListener('mousedown', e => {
+    if (!game || paused || e.target.closest('button,a,input,form,.fl__ov')) return;
+    if (e.button === 1) { startPull(); e.preventDefault(); return; }
+    if (mouseSide[e.button]) { game.input(mouseSide[e.button], true); e.preventDefault(); }
+  });
+  window.addEventListener('mouseup', e => {
+    if (!game) return;
+    if (e.button === 1) release();
+    else if (mouseSide[e.button]) game.input(mouseSide[e.button], false);
+  });
+  stage.addEventListener('contextmenu', e => { if (!e.target.closest('.fl__ov')) e.preventDefault(); });
+  stage.addEventListener('auxclick', e => { if (e.button === 1) e.preventDefault(); });
   plungerBtn.addEventListener('pointerdown', e => { plungerBtn.setPointerCapture(e.pointerId); startPull(); e.preventDefault(); e.stopPropagation(); });
   plungerBtn.addEventListener('pointerup', e => { release(); e.stopPropagation(); });
   plungerBtn.addEventListener('pointercancel', () => release());
@@ -161,18 +178,22 @@ async function boot() {
   }
 
   // ---------------------------------------------------------------- boutons du haut
+  // Son allumé d'office ; le bouton le coupe ou le rallume (choix gardé sur l'appareil). Le
+  // navigateur ne laisse démarrer le son qu'après un geste : il part au clic sur « Jouer ».
   const soundBtn = $('[data-fl-sound]');
-  const setSound = on => { sound.enable(on); soundBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); soundBtn.title = on ? U.soundOff : U.soundOn; soundBtn.querySelector('span').textContent = on ? '🔊' : '🔇'; store('sound', on ? '1' : '0'); };
-  soundBtn.addEventListener('click', () => setSound(!sound.on));
-  if (store('sound') === '1') soundBtn.setAttribute('aria-pressed', 'true');
+  let wantSound = store('son') !== '0';
+  const showSound = () => { soundBtn.setAttribute('aria-pressed', wantSound ? 'true' : 'false'); soundBtn.title = wantSound ? U.soundOff : U.soundOn; soundBtn.querySelector('span').textContent = wantSound ? '🔊' : '🔇'; };
+  const setSound = on => { wantSound = on; store('son', on ? '1' : '0'); sound.enable(on); if (on) sound.ambience(!!game && game.state === 'play' && !paused); showSound(); };
+  soundBtn.addEventListener('click', () => setSound(!wantSound));
+  showSound();
   $('[data-fl-full]').addEventListener('click', () => {
     if (document.fullscreenElement) document.exitFullscreen(); else if (root.requestFullscreen) root.requestFullscreen().catch(() => {});
   });
-  $('[data-fl-pause]').addEventListener('click', () => { if (game && game.state !== 'over') { paused = true; ov('pause'); } });
+  $('[data-fl-pause]').addEventListener('click', () => { if (game && game.state !== 'over') { paused = true; ov('pause'); sound.ambience(false); } });
   root.querySelectorAll('[data-fl-go]').forEach(b => b.addEventListener('click', () => {
     const go = b.dataset.flGo;
-    if (go === 'resume') { paused = false; ov(''); last = performance.now(); return; }
-    if (go === 'quit') { game = null; ov('start'); return; }
+    if (go === 'resume') { paused = false; ov(''); last = performance.now(); sound.ambience(true); return; }
+    if (go === 'quit') { game = null; ov('start'); sound.ambience(false); return; }
     if (go === 'rules') { ov('rules'); return; }
     if (go === 'scores') { showScores(); return; }
     if (go === 'back') { ov(game && game.state === 'over' ? 'over' : game ? 'pause' : 'start'); return; }
@@ -183,16 +204,17 @@ async function boot() {
     root.querySelectorAll('[data-fl-n]').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
   }));
   root.querySelectorAll('[data-fl-play]').forEach(b => b.addEventListener('click', () => {
-    if (store('sound') === '1' && !sound.on) setSound(true);
+    if (wantSound && !sound.on) sound.enable(true);
     askMotion();
     newGame(b.dataset.flPlay === 'again' ? (game ? game.players.length : nPlayers) : nPlayers);
   }));
-  document.addEventListener('visibilitychange', () => { if (document.hidden && game && game.state !== 'over' && game.state !== 'attract') { paused = true; ov('pause'); } });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && game && game.state !== 'over' && game.state !== 'attract') { paused = true; ov('pause'); sound.ambience(false); } });
 
   // ---------------------------------------------------------------- fin de partie, tableau d'honneur
   const overBox = $('[data-fl-ov="over"]');
   async function gameOver(res) {
     ov('over');
+    sound.ambience(false);
     const solo = res.length === 1, me = res[0];
     const best = +(store('best') || 0);
     if (solo && me.score > best) store('best', String(me.score));
@@ -260,7 +282,7 @@ async function boot() {
   });
 
   // ---------------------------------------------------------------- boucle
-  let last = performance.now(), frames = 0, slow = 0, checkUntil = 0;
+  let last = performance.now(), frames = 0, slow = 0;
   const plungerVisible = () => game && game.waiting && game.state === 'play';
   function loop(now) {
     // Jamais de temps négatif (première image : l'horodatage peut précéder « last »), ni de saut de plus de 50 ms.
@@ -269,18 +291,22 @@ async function boot() {
     if (game && !paused) game.update(dt);
     const p = game ? game.p : phys;
     scene.frame(p, game ? game.lamps() : null, dt, now / 1000, pullNow());
+    sound.update(game && !paused ? p.balls : []);
     scene.render();
     drawDmd();
     drawPlayers();
     const show = !!plungerVisible();
     if (plungerBtn.hidden === show) plungerBtn.hidden = !show;
     gauge.style.transform = `scaleY(${pullNow()})`;
-    // Qualité automatique : trop lent pendant les premières secondes → moins d'effets.
-    if (!checkUntil) checkUntil = now + 5000;
-    if (now < checkUntil) { frames++; if (dt > 0.026) slow++; }
-    else if (frames > 30) {
-      if (slow / frames > 0.4 && scene.quality > 0) { scene.setQuality(scene.quality - 1); checkUntil = now + 5000; }
-      frames = 0; slow = 0;
+    // Qualité automatique, mesurée pendant la partie seulement (au chargement, la préparation des
+    // effets ralentit les premières images) : sur 120 images, plus de la moitié lentes → moins d'effets.
+    if (game && game.state === 'play' && !paused && now - started > 2500) {
+      frames++;
+      if (dt > 0.028) slow++;
+      if (frames >= 120) {
+        if (slow / frames > 0.5 && scene.quality > 0) scene.setQuality(scene.quality - 1);
+        frames = 0; slow = 0;
+      }
     }
     requestAnimationFrame(loop);
   }

@@ -15,7 +15,9 @@ const P = (x, y, h = 0) => new THREE.Vector3(X(x), h, Z(y));
 const FONT = '"Big Shoulders Display", "Arial Narrow", sans-serif';
 
 function canvas(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return [c, c.getContext('2d')]; }
-function tex(c) { const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t; }
+// Filtrage des textures vues de biais : le maximum de la carte graphique (lu au démarrage).
+let ANISO = 8;
+function tex(c) { const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = ANISO; return t; }
 function txt(g, s, x, y, size, color, o = {}) {
   g.save(); g.translate(x, y); if (o.rot) g.rotate(o.rot);
   g.font = `${o.weight || 800} ${size}px ${FONT}`; if ('letterSpacing' in g) g.letterSpacing = (o.ls || 0) + 'px';
@@ -37,6 +39,7 @@ export class Scene3D {
     this.quality = 2;
     this.renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: true, powerPreference: 'high-performance' });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    ANISO = Math.min(16, this.renderer.capabilities.getMaxAnisotropy() || 8);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -104,7 +107,9 @@ export class Scene3D {
 
   /** Décor peint du plateau. */
   playfield() {
-    const k = 2.5, [c, g] = canvas(W * k, H * k), t = this.t, Yc = this.Y;
+    // Grand écran (ordinateur, tablette) : décor en plus haute définition, net jusqu'au bas du plateau.
+    const big = Math.min(screen.width || 0, screen.height || 0) * Math.min(window.devicePixelRatio || 1, 2) >= 700;
+    const k = big ? 4 : 2.5, [c, g] = canvas(W * k, H * k), t = this.t, Yc = this.Y;
     g.scale(k, k);
     const bg = g.createRadialGradient(190, 380, 20, 190, 380, 520);
     bg.addColorStop(0, this.cfg.colors.blue); bg.addColorStop(0.45, '#132a6e'); bg.addColorStop(1, '#050b22');
@@ -303,7 +308,10 @@ export class Scene3D {
   }
 
   makeComposer() {
-    this.composer = new EffectComposer(this.renderer);
+    // Rendu intermédiaire avec anticrénelage (MSAA) : sans lui, le halo rend les bords en escalier.
+    const rt = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
+    this.composer = new EffectComposer(this.renderer, rt);
+    this.composer.setSize(this.w || 400, this.h || 800);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
     this.bloom = new UnrealBloomPass(new THREE.Vector2(this.w || 400, this.h || 800), 0.4, 0.5, 0.9);
     this.composer.addPass(this.bloom);

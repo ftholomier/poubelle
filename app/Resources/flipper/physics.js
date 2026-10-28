@@ -6,17 +6,31 @@ import { R } from './table.js';
 
 const DT = 1 / 1000;
 export const G = 1500; // gravité le long du plateau (px/s²)
-const G_RAMP = 7000; // gravité « verticale » dans la rampe (il faut un tir franc pour la passer)
+const G_RAMP = 3000; // gravité « verticale » dans la rampe (il faut un tir franc pour la passer)
+const RAMP_SLOPE = 0.45; // part de la pente du plateau ressentie dans la rampe
 const VMAX = 3600;
+const MU = 0.1; // frottement bille / murs (loi de Coulomb)
+const MU_FLIP = 0.1; // frottement bille / batteurs (caoutchouc)
+/**
+ * Vitesse du jeu : tout le plateau vit au ralenti (temps de la physique = temps réel × SPEED), pour un
+ * jeu jouable sur téléphone. Les batteurs, eux, bougent en temps réel et très vite (FLIP_UP, FLIP_DOWN
+ * en rad/s réels : réactifs dès l'appui) ; la force de leur coup sur la bille est réglée à part
+ * (HIT_UP, HIT_DOWN, en rad/s du temps de la physique).
+ */
+export const SPEED = 0.65;
+const FLIP_UP = 45, FLIP_DOWN = 26;
+const HIT_UP = 36, HIT_DOWN = 20;
 
 function seg(ax, ay, bx, by, o = {}) {
   const dx = bx - ax, dy = by - ay, len = Math.hypot(dx, dy) || 1;
-  return { k: 'seg', ax, ay, bx, by, dx: dx / len, dy: dy / len, len, nx: -dy / len, ny: dx / len, r: 3, e: 0.45, mu: 0.02, kick: 0, on: true, ...o };
+  return { k: 'seg', ax, ay, bx, by, dx: dx / len, dy: dy / len, len, nx: -dy / len, ny: dx / len, r: 3, e: 0.45, kick: 0, on: true, ...o };
 }
 
 export class Physics {
-  constructor(table) {
+  /** opt.speed : vitesse du jeu (1 : temps réel ; par défaut SPEED). */
+  constructor(table, opt = {}) {
     this.t = table;
+    this.speed = opt.speed ?? SPEED;
     this.balls = [];
     this.segs = [];
     this.circs = [];
@@ -41,7 +55,7 @@ export class Physics {
     // Butée du lanceur et portillon (la bille sort du couloir, ne peut pas y redescendre).
     this.segs.push(seg(363, table.plunger.top, 389, table.plunger.top, { r: 1, e: 0.2, tag: 'plunger' }));
     this.segs.push(seg(table.gate.a[0], table.gate.a[1], table.gate.b[0], table.gate.b[1], { r: 2, e: 0.3, tag: 'gate', oneway: true }));
-    this.flippers = table.flippers.map(f => ({ ...f, ang: f.rest, w: 0, pressed: false }));
+    this.flippers = table.flippers.map(f => ({ ...f, ang: f.rest, w: 0, hit: 0, sweep: 0, pressed: false }));
     table.lanes.forEach((l, i) => this.sensors.push({ x: l.x, y: l.y, r: 9, tag: 'lane', ref: i, inside: new Set() }));
     const s = table.saucer;
     this.sensors.push({ x: s.x, y: s.y, r: s.r, tag: 'saucer', inside: new Set() });
@@ -65,7 +79,11 @@ export class Physics {
   }
 
   setFlipper(side, pressed) {
-    for (const f of this.flippers) if (f.side === side) f.pressed = pressed;
+    for (const f of this.flippers) {
+      if (f.side !== side) continue;
+      if (pressed && !f.pressed) f.sweep++; // nouveau coup de batteur
+      f.pressed = pressed;
+    }
   }
 
   /** Coup sur la caisse : toutes les billes en jeu reçoivent une petite poussée. */
@@ -83,7 +101,7 @@ export class Physics {
     let n = 0;
     for (const b of this.balls) {
       if (this.onPlunger(b)) {
-        b.vy = -(1080 + 560 * Math.max(0, Math.min(1, power)));
+        b.vy = -(1100 + 540 * Math.max(0, Math.min(1, power)));
         b.vx = 0;
         n++;
         this.on('launch', b, power);
@@ -105,8 +123,9 @@ export class Physics {
     b.apex = false;
   }
 
+  /** Avance de frame secondes réelles (la physique avance de frame × speed). */
   update(frame) {
-    this.acc = Math.min(this.acc + frame, 0.1); // onglet en arrière-plan : on ne rattrape pas plus de 0,1 s
+    this.acc = Math.min(this.acc + frame * this.speed, 0.1); // onglet en arrière-plan : on ne rattrape pas plus de 0,1 s
     while (this.acc >= DT) {
       this.step(DT);
       this.acc -= DT;
@@ -117,9 +136,9 @@ export class Physics {
     this.time += dt;
     for (const f of this.flippers) {
       const target = f.pressed ? f.up : f.rest, dir = Math.sign(target - f.ang);
-      const speed = f.pressed ? 30 : 18;
+      const speed = (f.pressed ? FLIP_UP : FLIP_DOWN) / this.speed;
       const next = f.ang + dir * speed * dt;
-      if (dir === 0 || Math.sign(target - next) !== dir) { f.w = 0; f.ang = target; } else { f.w = dir * speed; f.ang = next; }
+      if (dir === 0 || Math.sign(target - next) !== dir) { f.w = 0; f.hit = 0; f.ang = target; } else { f.w = dir * speed; f.hit = dir * (f.pressed ? HIT_UP : HIT_DOWN); f.ang = next; }
     }
     for (const b of this.balls) {
       if (b.state === 'ramp') { this.rampStep(b, dt); continue; }
@@ -136,9 +155,11 @@ export class Physics {
       if (v > VMAX) { b.vx *= VMAX / v; b.vy *= VMAX / v; }
       this.sense(b);
       if (b.y > this.t.drainY) { b.state = 'gone'; this.on('drain', b); }
-      // Bille immobile hors du lanceur (coincée) : petite secousse automatique.
-      b.still = v < 6 && !this.onPlunger(b) && b.y < 690 ? b.still + dt : 0;
-      if (b.still > 2.5) { b.vx += (Math.random() - 0.5) * 300; b.vy -= 200; b.still = 0; }
+      // Bille immobile hors du lanceur (coincée) : petite secousse automatique. Près des batteurs,
+      // seulement si aucun n'est levé (une bille tenue sur un batteur est voulue).
+      const held = b.y >= 690 && this.flippers.some(f => f.pressed);
+      b.still = v < 6 && !this.onPlunger(b) && !held ? b.still + dt : 0;
+      if (b.still > 1.2) { b.vx += (Math.random() < 0.5 ? -1 : 1) * (80 + Math.random() * 120); b.vy -= 150; b.still = 0; }
     }
     // Chocs entre billes (multiball).
     const live = this.balls.filter(b => b.state === 'play');
@@ -170,9 +191,11 @@ export class Physics {
     const rx = b.vx - ux, ry = b.vy - uy, vn = rx * nx + ry * ny;
     if (vn >= 0) return false;
     let tx = rx - vn * nx, ty = ry - vn * ny;
-    const mu = o.mu ?? 0.02;
-    tx *= 1 - mu; ty *= 1 - mu;
-    let nvx = tx - vn * (o.e ?? 0.45) * nx, nvy = ty - vn * (o.e ?? 0.45) * ny;
+    // Frottement proportionnel à l'appui (loi de Coulomb) : presque rien pour une bille qui roule le
+    // long d'une pente (elle ne s'arrête pas en route), davantage au choc ou dans un virage pris vite.
+    const e = o.e ?? 0.45, tl = Math.hypot(tx, ty);
+    if (tl > 0) { const k = Math.max(0, 1 - (o.mu ?? MU) * (1 + e) * -vn / tl); tx *= k; ty *= k; }
+    let nvx = tx - vn * e * nx, nvy = ty - vn * e * ny;
     if (o.kick && -vn > 25 && (!o.kn || nx * o.kn[0] + ny * o.kn[1] > 0.5)) { nvx += nx * o.kick; nvy += ny * o.kick; }
     b.vx = nvx + ux; b.vy = nvy + uy;
     return -vn;
@@ -197,10 +220,15 @@ export class Physics {
     const dx = (tx - f.px) / f.len, dy = (ty - f.py) / f.len;
     const t = Math.max(0, Math.min(f.len, (b.x - f.px) * dx + (b.y - f.py) * dy));
     const qx = f.px + dx * t, qy = f.py + dy * t, rad = f.r1 + (f.r2 - f.r1) * t / f.len;
-    // Vitesse de la surface du batteur au point de contact.
-    const ux = -f.w * (qy - f.py), uy = f.w * (qx - f.px);
-    const imp = this.bounce(b, qx, qy, rad, { e: 0.32, mu: 0.04 }, ux, uy, [dy, -dx]);
-    if (imp !== false && imp > 50) this.on('flip-hit', f.side, b, imp);
+    // Un seul coup par mouvement de batteur : ensuite, la bille déjà frappée suit le batteur (plus
+    // rapide qu'elle) sans être frappée de nouveau, ce qui fausserait la visée.
+    const key = f.side + f.sweep, again = f.w !== 0 && b.flip === key;
+    // Vitesse de la surface du batteur au point de contact (force du coup : HIT_UP).
+    const u = again ? 0 : f.hit, ux = -u * (qy - f.py), uy = u * (qx - f.px);
+    const imp = this.bounce(b, qx, qy, rad, again ? { e: 0, mu: 0 } : { e: 0.32, mu: MU_FLIP }, ux, uy, [dy, -dx]);
+    if (imp === false || again) return;
+    if (f.w !== 0) b.flip = key;
+    if (imp > 50) this.on('flip-hit', f.side, b, imp);
   }
 
   sense(b) {
@@ -220,7 +248,7 @@ export class Physics {
     while (i < p.length - 1 && p[i].s < b.rs) i++;
     const a = p[i - 1], c = p[i], seglen = (c.s - a.s) || 1, k = Math.max(0, Math.min(1, (b.rs - a.s) / seglen));
     const dirx = (c.x - a.x) / seglen, diry = (c.y - a.y) / seglen, dhds = (c.h - a.h) / seglen;
-    b.rv += (G * diry - G_RAMP * dhds - 0.35 * b.rv) * dt;
+    b.rv += (G * RAMP_SLOPE * diry - G_RAMP * dhds - 0.35 * b.rv) * dt;
     b.rs += b.rv * dt;
     b.x = a.x + (c.x - a.x) * k; b.y = a.y + (c.y - a.y) * k; b.h = a.h + (c.h - a.h) * k;
     if (!b.apex && i - 1 >= this.t.ramp.apex) { b.apex = true; this.on('ramp-apex', b); }
