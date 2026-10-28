@@ -117,9 +117,7 @@
       "Tu travailles à distance ?"
     ],
     "demo_q": "Combien de temps je peux gagner sur mes devis ?",
-    "demo_a": "Avec un outil sur mesure, l'IA prépare ton devis à partir de la demande de ton client : tu n'as plus qu'à le relire et l'envoyer. On regarde ensemble ce que ça représente pour toi au premier café ☕",
-    "compat_label": "Propulsé par les meilleures IA du moment",
-    "compat": ["Claude", "ChatGPT", "Gemini", "Mistral"]
+    "demo_a": "Avec un outil sur mesure, l'IA prépare ton devis à partir de la demande de ton client : tu n'as plus qu'à le relire et l'envoyer. On regarde ensemble ce que ça représente pour toi au premier café ☕"
   },
   "faq": {
     "tag": "FAQ",

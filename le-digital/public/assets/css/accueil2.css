@@ -256,7 +256,7 @@
 .a2-row span svg{flex:none;width:18px;height:18px;padding:3px;border-radius:50%;background:#9fc131;color:#fff}
 
 /* assistant IA */
-.a2-ask{margin:0 clamp(16px,4vw,56px);padding:clamp(18px,3vw,32px);border-radius:26px;background:#fff;border:1px solid var(--line);box-shadow:0 30px 70px -46px rgba(22,25,34,.4)}
+.a2-ask{margin:0 clamp(16px,4vw,56px) clamp(32px,5vw,56px);padding:clamp(18px,3vw,32px);border-radius:26px;background:#fff;border:1px solid var(--line);box-shadow:0 30px 70px -46px rgba(22,25,34,.4)}
 .a2-ask__bar{display:flex;align-items:center;gap:12px;padding:7px 7px 7px 18px;border-radius:999px;background:#fff;border:1.5px solid #f0d9d5;box-shadow:0 0 0 6px rgba(204,21,23,.05);transition:border-color .2s,box-shadow .2s}
 .a2-ask__bar:focus-within{border-color:#cc1517;box-shadow:0 0 0 6px rgba(204,21,23,.1)}
 .a2-ask__ic{display:grid;color:#cc1517;flex:none}
@@ -275,11 +275,6 @@
 .a2-msg--ai img{border-radius:50%;object-fit:cover}
 .a2-msg em{font-style:normal}
 .a2-msg em.is-typing::after{content:"";display:inline-block;width:2px;height:1em;margin-left:2px;vertical-align:-2px;background:#cc1517;animation:a2Blink .8s steps(1) infinite}
-.a2-compat{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:clamp(28px,4vw,44px);padding:22px;border-top:1px solid var(--line)}
-.a2-compat p{font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8a86a0}
-.a2-compat ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
-.a2-compat li{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font:800 14px var(--fh)}
-.a2-compat li svg{color:#cc1517}
 
 /* ---------- Bas de page sombre : FAQ, avis, appel final ---------- */
 .a2-bottom{padding:clamp(72px,9vw,120px) 0 0}

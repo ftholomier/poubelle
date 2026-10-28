@@ -306,10 +306,6 @@ $notes = [[5, 9, -7], [57, 5, 6], [30, 31, 3], [68, 40, -9], [7, 55, 5], [43, 66
         <p class="a2-msg a2-msg--ai"><span><img src="<?= e(site_avatar()) ?>" alt="" width="26" height="26"> Assistant de Fred</span><em data-a2-type="<?= e(nbsp($b['demo_a'])) ?>"><?= t($b['demo_a']) ?></em></p>
       </div>
     </div>
-    <div class="a2-compat" data-reveal>
-      <p><?= t($b['compat_label']) ?></p>
-      <ul><?php foreach ($b['compat'] as $cp): ?><li><?= icon('spark1', 14, 'currentColor', 2) ?><?= t($cp) ?></li><?php endforeach; ?></ul>
-    </div>
   </div>
 </section>
 
