@@ -15,7 +15,6 @@ $featured = LD\Reviews::featured(3);
 $all = LD\Reviews::featured(15);
 $wall = count($all) > 3 ? array_slice($all, 3) : [];
 $wall = count($wall) >= 3 ? $wall : (count($all) >= 3 ? $all : []);
-$solutions = LD\Solutions::enabled();
 
 // Petites icônes des maquettes (traits, couleur héritée).
 $ic = static function (string $k, int $s = 18): string {
@@ -127,20 +126,6 @@ $notes = [[5, 9, -7], [57, 5, 6], [30, 31, 3], [68, 40, -9], [7, 55, 5], [43, 66
           </div>
         </div>
       </div>
-
-      <?php if ($solutions): ?>
-        <div class="a2-logos">
-          <p><?= t($h['solutions_label']) ?></p>
-          <div class="a2-logos__row">
-            <?php foreach ($solutions as $so): ?>
-              <a href="<?= e(LD\Solutions::url($so)) ?>" class="a2-logos__it" title="<?= e($so['name'] ?? '') ?>">
-                <?php if (!empty($so['logo'])): ?><img src="<?= e($so['logo']) ?>" alt="<?= e($so['name'] ?? '') ?>" height="26" loading="lazy"><?php else: ?><b><?= e($so['name'] ?? '') ?></b><?php endif; ?>
-                <?php if (!empty($so['tagline'])): ?><small><?= e($so['tagline']) ?></small><?php endif; ?>
-              </a>
-            <?php endforeach; ?>
-          </div>
-        </div>
-      <?php endif; ?>
     </div>
 
     <?php if ($featured): ?>

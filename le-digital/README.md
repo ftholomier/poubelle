@@ -73,7 +73,7 @@ HTML, CSS et JavaScript sont écrits à la main, fidèles à la maquette « Refo
   connecté. Les textes du bloc Intensiti restent dans *Contenus › Mes solutions*.
 - **Accueil v2** (`/accueil2`, en test, non indexée par Google) : structure « produit » inspirée des pages SaaS,
   héros sombre avec film animé en 4 scènes (désordre → outil sur mesure → l'IA prépare, tu valides → formation) et barre
-  de lecture, logiciels prêts à l'emploi, avis mis en avant, trois blocs encadrés avec maquettes animées (sur mesure +
+  de lecture, avis mis en avant, trois blocs encadrés avec maquettes animées (sur mesure +
   IA : orbite et tableau de bord ; formation : parcours en courbes ; automatisation : tâches traitées une à une, avant /
   après), « Demande à mon IA » relié à l'assistant du site, FAQ (données structurées), mur d'avis et appel final.
   Tous les textes dans *Contenus › Accueil v2*.

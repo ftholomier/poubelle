@@ -116,15 +116,6 @@
 .a2-film__segs i{position:relative;display:block;width:100%;height:4px;border-radius:4px;background:rgba(255,255,255,.16);overflow:hidden}
 .a2-film__segs i::after{content:"";position:absolute;inset:0;transform:scaleX(var(--p,0));transform-origin:left;background:linear-gradient(90deg,#cc1517,#ff7a63)}
 .a2-film__segs button.is-done i::after{--p:1}
-/* logiciels prêts à l'emploi */
-.a2-logos{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:14px}
-.a2-logos>p{font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8f8ca3}
-.a2-logos__row{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 28px}
-.a2-logos__it{display:flex;align-items:center;gap:12px;padding:10px 18px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#fff;text-decoration:none;transition:background .2s,border-color .2s}
-.a2-logos__it:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.22);color:#fff}
-.a2-logos__it img{height:24px;width:auto}
-.a2-logos__it b{font:800 17px var(--fh)}
-.a2-logos__it small{font-size:13px;color:#a9a6bb}
 /* avis mis en avant */
 .a2-quotes{max-width:1180px;margin:clamp(48px,6vw,72px) auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
 .a2 .rv--a2{padding:26px;border-radius:24px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#e9e7f1;gap:16px;text-align:left}

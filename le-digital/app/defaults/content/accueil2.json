@@ -25,8 +25,7 @@
       { "t": "47 mails", "s": "Triés et résumés" }
     ],
     "film_validate": "Valider",
-    "film_train": ["Ton outil, tu le maîtrises", "Ton équipe est à l'aise", "Je reste là après la livraison"],
-    "solutions_label": "Mes logiciels prêts à l'emploi"
+    "film_train": ["Ton outil, tu le maîtrises", "Ton équipe est à l'aise", "Je reste là après la livraison"]
   },
   "dev": {
     "tag": "Sur mesure + IA",
