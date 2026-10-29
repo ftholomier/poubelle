@@ -265,6 +265,9 @@ return [
         'partner_refresh_per_run' => 1,
     ],
 
+    // Mise à jour depuis le back-office : dépôt et branche GitHub installés.
+    'update' => ['repo' => 'ftholomier/poubelle', 'branch' => 'claude/loving-ramanujan-hg8m3v'],
+
     // Alertes emploi aux candidats (avec leur accord) : false coupe tout envoi.
     'alerts' => ['enabled' => true],
 

@@ -26,6 +26,7 @@ $entries = [
     ['/admin/referencement',   'admin.seo',          '#6D4AFF'],
     ['/admin/alertes',         'admin.alerts',       '#FFC531'],
     ['/admin/cles-api',        'admin.settings',     '#FF4B3E'],
+    ['/admin/mise-a-jour',     'admin.update',       '#0FBFA4'],
 ];
 $current = parse_url((string) ($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH) ?: '';
 // Rubriques à plusieurs écrans : l'entrée reste allumée sur chacun.

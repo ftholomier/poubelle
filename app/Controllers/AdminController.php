@@ -397,6 +397,32 @@ final class AdminController extends Controller
         ], I18n::t('admin.documents'));
     }
 
+    /* ------------------------------------------------------- mise à jour */
+
+    public function update(Request $request, array $params): Response
+    {
+        if (($guard = $this->guard(true)) !== null) {
+            return $guard;
+        }
+        $result = null;
+        if ($request->isPost() && Csrf::check($request)) {
+            $action = (string) $request->input('action', '');
+            @set_time_limit(300);
+            if ($action === 'update') {
+                $result = \App\Services\Updater::update($this->userId());
+            } elseif ($action === 'rollback') {
+                $result = \App\Services\Updater::rollback((string) $request->input('backup', ''), $this->userId());
+            }
+        }
+        return $this->screen('admin/update', [
+            'installed' => \App\Services\Updater::installed(),
+            'latest'    => \App\Services\Updater::latest(),
+            'branch'    => \App\Services\Updater::branch(),
+            'backups'   => \App\Services\Updater::backups(),
+            'result'    => $result,
+        ], 'Mise à jour');
+    }
+
     /* ------------------------------------------------- échanges avec Régie */
 
     /** Conversations affichées par page de l'historique. */

@@ -236,6 +236,7 @@ final class Kernel
         $router->any('/admin/offres-externes',     [AdminController::class, 'sources']);
         $router->any('/admin/alertes',             [AdminController::class, 'alerts']);
         $router->any('/admin/referencement',       [AdminController::class, 'seo']);
+        $router->any('/admin/mise-a-jour',         [AdminController::class, 'update']);
         $router->any('/admin/cles-api',            [AdminController::class, 'settings']);
 
         return $router;

@@ -404,6 +404,7 @@ return [
     'admin.employers'    => 'Employeurs',
     'admin.documents'    => 'Docs de l’IA',
     'admin.assistant'    => 'Assistant IA',
+    'admin.update'       => 'Mise à jour',
     'admin.translations' => 'Traductions',
     'admin.backups'      => 'Sauvegardes',
     'admin.users'        => 'Utilisateurs',
