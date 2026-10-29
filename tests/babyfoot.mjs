@@ -7,7 +7,7 @@
 // Usage : node tests/babyfoot.mjs (code de sortie 1 en cas d'échec).
 import { LX, LZ, R, GOAL, buildRods } from '../app/Resources/babyfoot/table.js';
 import { Physics, VMAX } from '../app/Resources/babyfoot/physics.js';
-import { Brain, LEVELS, ASSIST, activeRod, crossZ, REACH } from '../app/Resources/babyfoot/ai.js';
+import { Brain, LEVELS, ASSIST, SIMPLE, activeRod, crossZ, REACH, kickable } from '../app/Resources/babyfoot/ai.js';
 import { Match, clock } from '../app/Resources/babyfoot/rules.js';
 
 let fail = 0, ok = 0;
@@ -144,6 +144,31 @@ eq('rebonds sur les bandes (z au bout de t)', [Math.round(crossZ(0, 10, 1) * 10)
   for (let i = 0; i < 60; i++) { brain.update(1 / 60); ph.update(1 / 60); }
   const def = ph.rods.find(r => r.team === 0 && r.role === 'D');
   eq('aide : la barre tenue garde la place voulue, les autres suivent la balle', [Math.abs(held.z + 5) < 0.01, def.offs.some(o => Math.abs(def.z + o - 25) < 4)], [true, true]);
+}
+
+{
+  // Commandes simples : la barre qui peut frapper, et le tir guidé vers le point visé.
+  const ph = new Physics();
+  const att = ph.rods.find(r => r.team === 0 && r.role === 'A');
+  ph.rods.forEach(r => { if (r !== att) ph.lift(r.i, true); });
+  run(ph, 0.3);
+  ph.place(att.x + 3.5, att.offs[1], 0, 0);
+  eq('commandes simples : la barre qui a la balle devant elle', kickable(ph, 0), att.i);
+  ph.place(att.x - 12, att.offs[1], 0, 0);
+  eq('commandes simples : balle hors de portée → aucune barre', [0, 1].map(t => kickable(ph, t)).includes(att.i), false);
+  const dirs = [7, -7].map(aim => {
+    const q = new Physics();
+    const a2 = q.rods.find(r => r.team === 0 && r.role === 'A');
+    q.rods.forEach(r => { if (r !== a2) q.lift(r.i, true); });
+    run(q, 0.3);
+    q.place(a2.x + 3.5, a2.offs[1], 0, 0);
+    q.strike(a2.i, 0.75, aim);
+    run(q, 0.08);
+    return [q.ball.vx > 0, Math.sign(q.ball.vz), Math.hypot(q.ball.vx, q.ball.vz) >= 100];
+  });
+  eq('tir guidé : vers l’avant, du côté visé, assez fort', dirs, [[true, 1, true], [true, -1, true]]);
+  const brain = new Brain(ph, 0, SIMPLE, { human: () => -1, rand });
+  eq('commandes simples : l’aide tient toutes les barres', brain.human(), -1);
 }
 
 // ------------------------------------------------------------------ règles

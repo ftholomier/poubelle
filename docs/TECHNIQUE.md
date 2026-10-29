@@ -1072,7 +1072,12 @@ le tableau d'honneur.
   voir la table), caméra du ralenti par-dessus la bande près du but, tour lent de la table sous
   l'accueil ; `screenAxis()` et `pick()` pour les commandes ; qualité 2 (halo avec anticrénelage
   MSAA), 1, 0), `audio.js` (sons Web Audio synthétisés, allumés d'office, clé `bf:son`), et
-  `babyfoot.src.js` (page : accueil, match de démonstration en fond, commandes tactiles (pouce
+  `babyfoot.src.js` (page : accueil, match de démonstration en fond ; **commandes simples**
+  (d'office, `bf:commandes`) : `SIMPLE` place toutes les barres du joueur, un toucher ou un clic
+  sur la table crée une envie de tirer gardée 0,35 s, la barre qui a la balle (`kickable()`)
+  frappe vers la hauteur du but visée (`scene.pick`), le bouton Tir et le clavier visent le coin
+  libre (`autoAim`) ; tir guidé dans `physics.js` (`strike(i, power, aim)`, direction mélangée
+  à 35 % avec la visée, `GUIDE`) ; **commandes expert** : commandes tactiles (pouce
   gauche : le doigt entraîne la figurine le long de l'axe de la barre à l'écran ; pouce droit :
   tir, appui long = fort), souris (la figurine suit le pointeur, clic gauche pour tirer), clavier
   (↑ ↓ / W S, Espace ; à deux : W S + D et ↑ ↓ + ←), barre tenue par le joueur tant qu'il agit
@@ -1112,8 +1117,9 @@ le tableau d'honneur.
   dans Interactif › Quiz du club-house (`Babyfoot::players()`). Carnet supprimé →
   `Babyfoot::forget()` ; tâche « ménage » : semaines de plus de 6 mois (`Babyfoot::purge()`).
 - **Équilibre des niveaux** : réglé par simulation (matchs entiers ordinateur contre ordinateur,
-  et joueur simulé qui ne fait que tirer, l'aide plaçant ses barres) : il bat l'Amateur (environ
-  6-1), fait jeu égal avec Ligue 2, perd nettement contre Ligue 1 (il faut alors piloter les barres).
+  et joueur simulé). Commandes simples (joueur moyen : réaction 0,25 s, 8 occasions sur 10) : il
+  bat l'Amateur, gagne plutôt contre Ligue 2 (≈ 5-3), perd en général contre Ligue 1 (≈ 3-5).
+  Commandes expert (joueur qui ne fait que tirer avec la barre allumée) : plus difficile.
 - **Tests** : `node tests/babyfoot.mjs` (table, balle qui s'arrête, bandes, poteau, but et balle
   qui reste dans la cage, figurine qui arrête la balle, frappe plus forte en appui long, barre
   levée, butées et vitesse des barres, rebonds prévus, barre tenue, aide, engagement, buteur,

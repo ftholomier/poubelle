@@ -77,6 +77,8 @@ final class BabyfootPages
                 'joined' => t('C’est noté : vos prochaines victoires comptent au tableau d’honneur.'),
                 'soundOn' => t('Allumer le son'), 'soundOff' => t('Couper le son'),
                 'glide' => t('Glisse'), 'shoot' => t('Tir'), 'shootSub' => t('Appui long = fort'), 'camera' => t('Caméra'),
+                'shootSimple' => t('Ou touchez la table'), 'hintTouch' => t('Touchez la table là où vous visez : votre figurine tire'),
+                'hintMouse' => t('Cliquez là où vous visez : votre figurine tire'),
                 'cams' => ['joueur' => t('Vue du joueur'), 'dessus' => t('Vue de dessus'), 'basse' => t('Vue basse')],
                 'rotate' => t('Tournez le téléphone pour jouer en grand.'),
                 'p1' => t('Joueur 1'), 'p2' => t('Joueur 2'),

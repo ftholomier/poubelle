@@ -5,7 +5,8 @@
 // de fin (vrai résultat, statistiques, partage, tableau d'honneur : API /api/babyfoot).
 // Compilé avec Three.js par bin/build-babyfoot.sh.
 import { Physics } from './physics.js';
-import { Brain, LEVELS, ASSIST, activeRod } from './ai.js';
+import { Brain, LEVELS, ASSIST, SIMPLE, activeRod, kickable } from './ai.js';
+import { GOAL } from './table.js';
 import { Match } from './rules.js';
 import { Scene3D, luminance } from './render.js';
 import { Sound } from './audio.js';
@@ -51,6 +52,8 @@ async function boot() {
     opp: 0,
     hist: 0,
     view: ['joueur', 'dessus', 'basse'].includes(store('vue')) ? store('vue') : 'joueur',
+    // Commandes simples (d'office) : les barres se placent seules, on touche pour tirer.
+    controls: store('commandes') === 'expert' ? 'expert' : 'simple',
   };
   const histSel = $('[data-bf-hist]');
   if (histSel) S.hist = +histSel.value;
@@ -94,6 +97,7 @@ async function boot() {
     $$('[data-bf-mode]').forEach(m => m.setAttribute('aria-checked', m.dataset.bfMode === S.mode ? 'true' : 'false'));
     $$('[data-bf-level]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.bfLevel === S.level ? 'true' : 'false'));
     $$('[data-bf-format]').forEach(b => b.setAttribute('aria-pressed', b.dataset.bfFormat === S.format ? 'true' : 'false'));
+    $$('[data-bf-controls]').forEach(b => b.setAttribute('aria-pressed', b.dataset.bfControls === S.controls ? 'true' : 'false'));
     const o = opponent();
     badge.textContent = o.ini || '';
     badge.style.background = o.kit.shirt; badge.style.color = ink(o.kit.shirt);
@@ -108,6 +112,7 @@ async function boot() {
   });
   $$('[data-bf-level]').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); S.level = +b.dataset.bfLevel; store('niveau', String(S.level)); if (S.mode === 'duo') S.mode = 'ai'; drawHome(); }));
   $$('[data-bf-format]').forEach(b => b.addEventListener('click', () => { S.format = b.dataset.bfFormat; store('duree', S.format); drawHome(); }));
+  $$('[data-bf-controls]').forEach(b => b.addEventListener('click', () => { S.controls = b.dataset.bfControls; store('commandes', S.controls); drawHome(); }));
   $$('[data-bf-opp]').forEach(b => b.addEventListener('click', () => {
     if (histMatch() || !D.opponents.length) return;
     S.opp = (S.opp + +b.dataset.bfOpp + D.opponents.length) % D.opponents.length;
@@ -126,6 +131,8 @@ async function boot() {
   let lastGoal = null;
   // Par équipe humaine : barre tenue, doigt posé, dernière commande, tir en cours, touches.
   const H = [0, 1].map(() => ({ rod: -1, drag: null, last: -9, ctl: -9, shootAt: null, wound: -1, key: 0 }));
+  // Commandes simples : envie de tirer (gardée un instant, la balle arrive peut-être) et point visé.
+  const intent = [null, null];
   const now = () => performance.now() / 1000;
 
   /** Barre tenue par le joueur de l'équipe t (-1 : l'aide place toutes les barres). */
@@ -143,14 +150,17 @@ async function boot() {
       format: S.format, half: 180, goals: 5, golden: !!(hist && hist.golden), replay: true,
       first: duo ? (Math.random() < 0.5 ? 0 : 1) : 0, names: [names0, null],
     }, { fx: onFx, over: onOver });
-    const brains = [
-      new Brain(p, 0, ASSIST, { human: () => held(0) }),
-      duo ? new Brain(p, 1, ASSIST, { human: () => held(1) }) : new Brain(p, 1, LEVELS[S.level]),
-    ];
+    // Commandes simples : l'aide place toutes les barres du joueur ; expert : il tient la barre allumée.
+    const simple = S.controls === 'simple';
+    const human = t => (simple ? new Brain(p, t, SIMPLE, { human: () => -1 }) : new Brain(p, t, ASSIST, { human: () => held(t) }));
+    const brains = [human(0), duo ? human(1) : new Brain(p, 1, LEVELS[S.level])];
     H.forEach(h => Object.assign(h, { rod: -1, drag: null, last: -9, ctl: -9, shootAt: null, wound: -1, key: 0 }));
-    game = { p, match, brains, duo, solo: !duo, opp, hist, level: S.level, format: S.format, token: null, started: performance.now() };
+    intent[0] = intent[1] = null;
+    game = { p, match, brains, duo, solo: !duo, simple, opp, hist, level: S.level, format: S.format, token: null, started: performance.now() };
     applyKits();
     root.classList.toggle('is-duo', duo);
+    root.classList.toggle('is-simple', simple);
+    $$('[data-bf-shootsub]').forEach(x => { x.textContent = simple ? U.shootSimple : (x.dataset.bfShootsub === '1' ? U.p2 : U.shootSub); });
     $$('[data-bf-glide="1"], [data-bf-shoot="1"]').forEach(x => { x.hidden = !duo; });
     scene.setView(duo ? 'dessus' : S.view);
     $('[data-bf-name="0"]').textContent = D.us.short;
@@ -167,7 +177,9 @@ async function boot() {
     $('[data-bf-replay]').hidden = true;
     sound.ambience(true);
     sound.play('start');
-    banner(U.kickoff, 1100, true);
+    // Commandes simples : le geste à faire, au premier coup d'envoi.
+    if (simple) banner(`${esc(U.kickoff)}<small>${esc(touch ? U.hintTouch : U.hintMouse)}</small>`, 3200, true);
+    else banner(U.kickoff, 1100, true);
     if (game.solo) api({ action: 'commencer', level: game.level, format: game.format }).then(r => { if (game) game.token = r.tok || null; }).catch(() => {});
     rotateHint();
   }
@@ -281,7 +293,33 @@ async function boot() {
     game.p.slideTo(h.rod, best.off);
     h.last = h.ctl = now();
   }
+  /**
+   * Commandes simples : toucher (ou cliquer) pour tirer. La figurine qui peut frapper la balle
+   * frappe, tout de suite ou dès que la balle arrive (dans les 0,35 s), vers le point visé du but.
+   */
+  function tap(t, aim = 'auto') {
+    if (!game || paused || mode !== 'play') return;
+    if (sound.on === false && wantSound) sound.enable(true);
+    intent[t] = { until: now() + 0.35, aim };
+    const b = shootBtns[t];
+    b.classList.add('is-on');
+    setTimeout(() => b.classList.remove('is-on'), 140);
+  }
+  /** Point visé : la hauteur du but sous le doigt ou la souris (sinon, visée automatique). */
+  function aimAt(x, y) {
+    const r = canvasEl.getBoundingClientRect();
+    const hit = scene.pick(x - r.left, y - r.top);
+    return hit ? clamp(hit.z, -(GOAL - 1.5), GOAL - 1.5) : 'auto';
+  }
+  function ripple(x, y) {
+    const r = stage.getBoundingClientRect(), d = document.createElement('i');
+    d.className = 'bf__ripple';
+    d.style.left = x - r.left + 'px'; d.style.top = y - r.top + 'px';
+    stage.appendChild(d);
+    setTimeout(() => d.remove(), 500);
+  }
   function shootDown(t) {
+    if (game && game.simple) { tap(t); return; }
     const h = H[t];
     if (!game || paused || mode !== 'play' || h.shootAt !== null || h.rod < 0) return;
     h.shootAt = now();
@@ -291,6 +329,7 @@ async function boot() {
   }
   function shootUp(t) {
     const h = H[t];
+    if (game && game.simple) return;
     if (h.shootAt === null) return;
     const hold = now() - h.shootAt;
     h.shootAt = null;
@@ -355,20 +394,30 @@ async function boot() {
   // Souris (seul contre l'ordinateur) : la figurine suit le pointeur, clic gauche pour tirer.
   const canvasEl = $('[data-bf-canvas]');
   stage.addEventListener('pointermove', e => {
-    if (e.pointerType !== 'mouse' || !game || game.duo || paused || mode !== 'play' || H[0].rod < 0) return;
+    if (e.pointerType !== 'mouse' || !game || game.duo || game.simple || paused || mode !== 'play' || H[0].rod < 0) return;
     if (e.target.closest('button,a,.bf__ov')) return;
     const r = canvasEl.getBoundingClientRect();
     const hit = scene.pick(e.clientX - r.left, e.clientY - r.top);
     if (hit) slideToZ(0, hit.z);
   });
   stage.addEventListener('mousedown', e => {
-    if (!game || game.duo || paused || e.button !== 0 || e.target.closest('button,a,input,select,.bf__ov')) return;
+    if (!game || game.duo || game.simple || paused || e.button !== 0 || e.target.closest('button,a,input,select,.bf__ov')) return;
     shootDown(0);
     e.preventDefault();
   });
   window.addEventListener('mouseup', e => { if (e.button === 0 && game && !game.duo) shootUp(0); });
   stage.addEventListener('contextmenu', e => { if (!e.target.closest('.bf__ov')) e.preventDefault(); });
   root.addEventListener('wheel', e => { if (!e.target.closest('.bf__ov')) e.preventDefault(); }, { passive: false });
+  // Commandes simples : toucher (ou cliquer) la table là où l'on vise. À deux, chacun sa moitié.
+  stage.addEventListener('pointerdown', e => {
+    if (!game || !game.simple || paused || mode !== 'play' || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    if (e.target.closest('button,a,input,select,.bf__ov')) return;
+    const r = stage.getBoundingClientRect();
+    const t = game.duo && e.clientX - r.left > r.width / 2 ? 1 : 0;
+    tap(t, aimAt(e.clientX, e.clientY));
+    ripple(e.clientX, e.clientY);
+    e.preventDefault();
+  });
   // Ralenti : un clic ou une touche le passe.
   stage.addEventListener('pointerdown', e => { if (mode === 'replay' && !e.target.closest('button')) endReplay(); });
 
@@ -386,6 +435,7 @@ async function boot() {
     if (e.code === 'KeyC') { nextView(); return; }
     if (e.repeat) { if (e.code in KEYS.shoot || e.code in KEYS.up || e.code in KEYS.down) e.preventDefault(); return; }
     const solo = teamOf(e.code);
+    if (game.simple && (e.code in KEYS.up || e.code in KEYS.down)) return;
     if (e.code in KEYS.up) { H[solo ?? KEYS.up[e.code]].key = -1; e.preventDefault(); }
     else if (e.code in KEYS.down) { H[solo ?? KEYS.down[e.code]].key = 1; e.preventDefault(); }
     else if (e.code in KEYS.shoot) { shootDown(solo ?? KEYS.shoot[e.code]); e.preventDefault(); }
@@ -665,7 +715,20 @@ async function boot() {
           const human = tm === 0 || g.duo;
           if (!human) continue;
           if (p.ball.live && !p.ball.goal) H[tm].rod = activeRod(p, tm, H[tm].rod);
-          keySlide(tm, dt);
+          if (g.simple) {
+            // Envie de tirer : la figurine qui a la balle frappe ; sinon, au bout de 0,35 s, la
+            // barre allumée frappe quand même (on voit le geste).
+            const it = intent[tm];
+            if (it) {
+              const k = kickable(p, tm);
+              if (k >= 0) { p.strike(k, 0.75, it.aim); intent[tm] = null; }
+              else if (now() > it.until) {
+                const r = H[tm].rod;
+                if (r >= 0 && p.rods[r].mode !== 'strike') p.strike(r, 0.75);
+                intent[tm] = null;
+              }
+            }
+          } else keySlide(tm, dt);
         }
         g.brains.forEach(b => b.update(dt));
         g.match.update(dt);

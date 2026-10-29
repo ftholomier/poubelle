@@ -3079,5 +3079,19 @@
     "64e de finale": "Round of 128",
     "Babyfoot": "Table football",
     "Un vrai babyfoot en 3D : contre l’ordi, à deux, ou pour rejouer l’histoire.": "A real 3D table football game: against the computer, two players, or replaying history.",
-    "Voici votre lien personnel {site}. Ouvrez-le sur le téléphone avec lequel vous jouez : il garde votre place aux classements des jeux (championnat du club-house, défi du jour, tableaux d’honneur du flipper et du babyfoot), sous votre pseudo. Il ouvre aussi votre carnet du supporter. Gardez-le pour vous.": "Here is your personal {site} link. Open it on the phone you play with: it keeps your place in the games’ standings (clubhouse championship, daily challenge, pinball and table football halls of fame), under your nickname. It also opens your supporter’s logbook. Keep it to yourself."
+    "Voici votre lien personnel {site}. Ouvrez-le sur le téléphone avec lequel vous jouez : il garde votre place aux classements des jeux (championnat du club-house, défi du jour, tableaux d’honneur du flipper et du babyfoot), sous votre pseudo. Il ouvre aussi votre carnet du supporter. Gardez-le pour vous.": "Here is your personal {site} link. Open it on the phone you play with: it keeps your place in the games’ standings (clubhouse championship, daily challenge, pinball and table football halls of fame), under your nickname. It also opens your supporter’s logbook. Keep it to yourself.",
+    "Commandes": "Controls",
+    "Simples": "Simple",
+    "Expert": "Expert",
+    "Les barres se placent toutes seules : touchez pour tirer.": "The rods move by themselves: tap to shoot.",
+    "Vous glissez vous-même la barre et dosez la force du tir.": "You slide the rod yourself and choose how hard to shoot.",
+    "Commandes simples (d’office)": "Simple controls (default)",
+    "Vos barres se placent toutes seules sous la balle. Touchez la table (ou cliquez) là où vous visez dans le but : la figurine qui a la balle tire de ce côté. Le bouton « Tir », Espace ou Entrée tirent aussi, en visant le coin libre. Pas besoin d’être pile à l’heure : touchez juste avant que la balle arrive.": "Your rods line up under the ball by themselves. Tap the table (or click) where you are aiming in the goal: the figure with the ball shoots that way. The “Shoot” button, Space or Enter also shoot, aiming at the open corner. No need for perfect timing: tap just before the ball arrives.",
+    "Commandes expert": "Expert controls",
+    "Téléphone : pouce gauche pour glisser la barre qui s’allume, pouce droit sur « Tir » (appui long = plus fort). Ordinateur : la figurine suit la souris, clic gauche pour tirer (tenu = plus fort) ; au clavier ↑ ↓ (ou Z S, W S) et Espace. Plus difficile, pour les habitués.": "Phone: left thumb to slide the lit rod, right thumb on “Shoot” (hold = harder). Computer: the figure follows the mouse, left click to shoot (hold = harder); on a keyboard ↑ ↓ (or W S) and Space. Harder, for regulars.",
+    "C pour changer de caméra, Échap pour la pause.": "C to change camera, Esc to pause.",
+    "La barre allumée est celle qui peut jouer la balle : elle change toute seule. Les barres se lèvent pour laisser passer les tirs de leur équipe. En expert, décalez la figurine au moment du tir pour croiser.": "The lit rod is the one that can play the ball: it switches by itself. Rods lift to let their team’s shots through. In expert mode, shift the figure as you shoot to angle it.",
+    "Ou touchez la table": "Or tap the table",
+    "Touchez la table là où vous visez : votre figurine tire": "Tap the table where you are aiming: your figure shoots",
+    "Cliquez là où vous visez : votre figurine tire": "Click where you are aiming: your figure shoots"
 }

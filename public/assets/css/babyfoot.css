@@ -45,6 +45,11 @@ body.page-babyfoot main{display:block}
 .bf.is-duo .bf__shoot b{font-size:32px}
 .bf.is-duo .bf__ring{width:96px;height:96px}
 .bf.is-replay .bf__zone,.bf.is-replay .bf__shoot{display:none}
+/* commandes simples : on touche la table (ou le bouton Tir) ; pas de zone « Glisse » */
+.bf.is-simple .bf__zone{display:none}
+.bf.is-simple .bf__canvas{cursor:crosshair}
+.bf__ripple{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;border:3px solid var(--y);pointer-events:none;animation:bfRipple .45s ease-out forwards;z-index:2}
+@keyframes bfRipple{from{transform:scale(.3);opacity:1}to{transform:scale(1.3);opacity:0}}
 /* souris : pas besoin des commandes à l'écran */
 @media (hover:hover) and (pointer:fine){.bf:not(.is-duo) .bf__zone--glide .bf__ring,.bf:not(.is-duo) .bf__shoot{display:none}}
 .bf__banner{position:absolute;left:0;right:0;top:34%;text-align:center;font-weight:900;font-size:clamp(46px,11vw,120px);line-height:.9;letter-spacing:.02em;text-transform:uppercase;color:var(--y);text-shadow:0 0 30px rgba(246,196,0,.55),0 6px 0 rgba(0,0,0,.45);opacity:0;transform:scale(.6);transition:opacity .25s,transform .35s cubic-bezier(.2,1.6,.4,1);pointer-events:none}

@@ -30,10 +30,12 @@ const LIFT_SPEED = 14;
 const STRIKE_END = 1.3;
 export const KICK_MIN = 9;
 export const KICK_ADD = 13;
+/** Tir guidé (commandes simples) : part de la direction imposée, vitesse minimale de la balle. */
+export const GUIDE = { blend: 0.35, min: 100 };
 
 export class Physics {
   constructor() {
-    this.rods = buildRods().map(r => ({ ...r, z: 0, vz: 0, target: 0, maxV: 240, ang: 0, av: 0, mode: 'idle', omega: 0, kickAt: -1 }));
+    this.rods = buildRods().map(r => ({ ...r, z: 0, vz: 0, target: 0, maxV: 240, ang: 0, av: 0, mode: 'idle', omega: 0, kickAt: -1, aim: null }));
     this.walls = buildWalls();
     this.ball = { x: 0, z: 0, vx: 0, vz: 0, live: false, goal: 0, spin: 0 };
     this.events = [];
@@ -74,11 +76,15 @@ export class Physics {
     if (r.mode === 'wind' || r.mode === 'lift') r.mode = 'idle';
   }
 
-  /** Frapper (bouton lâché) : power de 0 (petite touche) à 1 (pleine puissance). */
-  strike(i, power = 0.6) {
+  /**
+   * Frapper (bouton lâché) : power de 0 (petite touche) à 1 (pleine puissance). aim (commandes
+   * simples) : tir guidé vers ce point du but adverse (z), ou 'auto' (le coin loin du gardien).
+   */
+  strike(i, power = 0.6, aim = null) {
     const r = this.rods[i];
     if (r.mode === 'strike') return;
     r.mode = 'strike';
+    r.aim = aim;
     r.omega = KICK_MIN + KICK_ADD * Math.max(0, Math.min(1, power));
     r.kickAt = this.time;
   }
@@ -163,7 +169,7 @@ export class Physics {
       case 'lift': r.ang = Math.min(LIFTED, r.ang + LIFT_SPEED * dt); break;
       case 'strike':
         r.ang += r.omega * dt;
-        if (r.ang >= STRIKE_END) { r.ang = STRIKE_END; r.mode = 'back'; }
+        if (r.ang >= STRIKE_END) { r.ang = STRIKE_END; r.mode = 'back'; r.aim = null; }
         break;
       case 'back':
         r.ang = Math.max(0, r.ang - BACK_SPEED * dt);
@@ -198,6 +204,18 @@ export class Physics {
       const nrz = rz - (1 + E_FOOT) * vn * nz - MU_FOOT * tz;
       const ox = b.vx, oz = b.vz;
       b.vx = nrx + fvx; b.vz = nrz + r.vz;
+      // Tir guidé : la balle qui part vers l'avant file vers le point visé du but adverse.
+      if (r.aim !== null && r.mode === 'strike' && b.vx * r.dir > 0) {
+        const tz = r.aim === 'auto' ? this.autoAim(r.team) : r.aim;
+        const sp = Math.max(GUIDE.min, Math.hypot(b.vx, b.vz));
+        let gx = r.dir * LX - b.x, gz = tz - b.z;
+        const L = Math.hypot(gx, gz);
+        // Mélange de la direction de la frappe et de la direction visée (pas un tir téléguidé).
+        let vx = b.vx / sp * (1 - GUIDE.blend) + gx / L * GUIDE.blend, vz = b.vz / sp * (1 - GUIDE.blend) + gz / L * GUIDE.blend;
+        const M = Math.hypot(vx, vz) || 1;
+        b.vx = vx / M * sp; b.vz = vz / M * sp;
+        r.aim = null;
+      }
       const dv = Math.hypot(b.vx - ox, b.vz - oz);
       this.touch = this.touchBy[r.team] = { team: r.team, rod: r.i, k, t: this.time };
       if (dv > 6) this.events.push({ type: 'hit', team: r.team, rod: r.i, k, dv, kick: r.mode === 'strike', vx: b.vx, vz: b.vz, x: b.x, z: b.z });
@@ -234,6 +252,13 @@ export class Physics {
     b.vx -= 1.6 * vn * nx;
     b.vz -= 1.6 * vn * nz;
     if (-vn > 15) this.events.push({ type: 'poteau', speed: -vn, x: b.x, z: b.z });
+  }
+
+  /** Visée automatique : un point de la bouche du but adverse, plutôt du côté loin du gardien. */
+  autoAim(team) {
+    const keeper = this.rods.find(q => q.team !== team && q.role === 'G');
+    const side = keeper && keeper.z >= 0 ? -1 : 1;
+    return side * (GOAL - 2) * (2 * Math.random() - 0.6);
   }
 
   /** Position (vue de dessus) du pied de la figurine k de la barre i. */

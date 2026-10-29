@@ -23,9 +23,9 @@ $hist = $data['history'];
       </div>
       <div class="bf__zone bf__zone--glide" data-bf-glide="0" aria-hidden="true"><div class="bf__ring"><b data-bf-arrow>↕</b><span><?= e($ui['glide']) ?></span></div></div>
       <div class="bf__zone bf__zone--shoot" data-bf-shootzone="0" aria-hidden="true"></div>
-      <button type="button" class="bf__shoot" data-bf-shoot="0"><i data-bf-gauge="0"></i><b><?= e($ui['shoot']) ?></b><small><?= e($ui['shootSub']) ?></small></button>
+      <button type="button" class="bf__shoot" data-bf-shoot="0"><i data-bf-gauge="0"></i><b><?= e($ui['shoot']) ?></b><small data-bf-shootsub="0"><?= e($ui['shootSimple']) ?></small></button>
       <div class="bf__zone bf__zone--glide bf__zone--p2" data-bf-glide="1" aria-hidden="true" hidden><div class="bf__ring"><b data-bf-arrow>↕</b><span><?= e($ui['glide']) ?></span></div></div>
-      <button type="button" class="bf__shoot bf__shoot--p2" data-bf-shoot="1" hidden><i data-bf-gauge="1"></i><b><?= e($ui['shoot']) ?></b><small><?= e($ui['p2']) ?></small></button>
+      <button type="button" class="bf__shoot bf__shoot--p2" data-bf-shoot="1" hidden><i data-bf-gauge="1"></i><b><?= e($ui['shoot']) ?></b><small data-bf-shootsub="1"><?= e($ui['p2']) ?></small></button>
       <div class="bf__banner" data-bf-banner></div>
       <div class="bf__replay" data-bf-replay hidden><span>● <?= e($ui['replay']) ?></span><button type="button" data-bf-skip><?= e($ui['skip']) ?> ›</button><b class="bf__replaygoal"><?= e($ui['goal']) ?></b></div>
       <div class="bf__toast" data-bf-toast></div>
@@ -84,6 +84,13 @@ $hist = $data['history'];
               <button type="button" data-bf-format="buts" aria-pressed="false"><?= e(t('Premier à 5')) ?></button>
             </div>
           </div>
+          <div class="bf__dur">
+            <small><?= e(t('Commandes')) ?></small>
+            <div class="bf__seg" role="group" aria-label="<?= e(t('Commandes')) ?>">
+              <button type="button" data-bf-controls="simple" aria-pressed="true" title="<?= e(t('Les barres se placent toutes seules : touchez pour tirer.')) ?>"><?= e(t('Simples')) ?></button>
+              <button type="button" data-bf-controls="expert" aria-pressed="false" title="<?= e(t('Vous glissez vous-même la barre et dosez la force du tir.')) ?>"><?= e(t('Expert')) ?></button>
+            </div>
+          </div>
           <button type="button" class="bf__go" data-bf-play><?= e(t('Jouer')) ?> ▶</button>
         </div>
         <div class="bf__links">
@@ -109,10 +116,11 @@ $hist = $data['history'];
       <div class="bf__card bf__card--rules">
         <h2 class="bf__h"><?= e(t('Comment jouer')) ?></h2>
         <dl class="bf__rules">
-          <dt><?= e(t('Téléphone et tablette')) ?></dt><dd><?= e(t('Pouce gauche : glissez pour déplacer la barre qui s’allume (celle qui peut jouer la balle). Pouce droit : touchez « Tir » pour frapper ; plus vous appuyez longtemps, plus le tir est fort. Tenez le téléphone à l’horizontale.')) ?></dd>
-          <dt><?= e(t('Ordinateur')) ?></dt><dd><?= e(t('La figurine suit la souris ; clic gauche pour tirer (tenu = plus fort). Au clavier : ↑ ↓ (ou Z S, W S) pour glisser, Espace pour tirer, C pour changer de caméra, Échap pour la pause.')) ?></dd>
+          <dt><?= e(t('Commandes simples (d’office)')) ?></dt><dd><?= e(t('Vos barres se placent toutes seules sous la balle. Touchez la table (ou cliquez) là où vous visez dans le but : la figurine qui a la balle tire de ce côté. Le bouton « Tir », Espace ou Entrée tirent aussi, en visant le coin libre. Pas besoin d’être pile à l’heure : touchez juste avant que la balle arrive.')) ?></dd>
+          <dt><?= e(t('Commandes expert')) ?></dt><dd><?= e(t('Téléphone : pouce gauche pour glisser la barre qui s’allume, pouce droit sur « Tir » (appui long = plus fort). Ordinateur : la figurine suit la souris, clic gauche pour tirer (tenu = plus fort) ; au clavier ↑ ↓ (ou Z S, W S) et Espace. Plus difficile, pour les habitués.')) ?></dd>
+          <dt><?= e(t('Ordinateur')) ?></dt><dd><?= e(t('C pour changer de caméra, Échap pour la pause.')) ?></dd>
           <dt><?= e(t('À deux')) ?></dt><dd><?= e(t('Chacun garde son côté de l’écran : à gauche le joueur 1 ({a}), à droite le joueur 2. Au clavier : Z S (ou W S) et D pour le joueur 1, ↑ ↓ et ← pour le joueur 2.', ['a' => $data['us']['short']])) ?></dd>
-          <dt><?= e(t('Les barres')) ?></dt><dd><?= e(t('Vous tenez une barre à la fois : elle change toute seule selon la balle. Les autres se placent seules, et se lèvent pour laisser passer vos tirs. Décalez la figurine au moment du tir pour croiser.')) ?></dd>
+          <dt><?= e(t('Les barres')) ?></dt><dd><?= e(t('La barre allumée est celle qui peut jouer la balle : elle change toute seule. Les barres se lèvent pour laisser passer les tirs de leur équipe. En expert, décalez la figurine au moment du tir pour croiser.')) ?></dd>
           <dt><?= e(t('Le match')) ?></dt><dd><?= e(t('Deux mi-temps de 3 minutes, ou le premier à 5 buts. Après un but, l’équipe qui l’a encaissé engage. Une balle immobile hors de portée est rendue au gardien, ou remise au centre.')) ?></dd>
           <dt><?= e(t('Rejoue l’histoire')) ?></dt><dd><?= e(t('Un grand match du musée, avec la composition du jour au dos des figurines. Coupe à égalité au bout du temps : but en or. À la fin, le vrai résultat et le lien vers la fiche du match.')) ?></dd>
           <dt><?= e(t('Tableau d’honneur')) ?></dt><dd><?= e(t('Les victoires contre l’ordinateur de la semaine, niveau par niveau, sous le pseudo du carnet du supporter. Facultatif : sans compte, on joue quand même.')) ?></dd>

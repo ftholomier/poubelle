@@ -10,12 +10,14 @@ import { LX, LZ, R, GOAL, FOOT, FA, FR, LIFT } from './table.js';
 
 export const LEVELS = [
   // Amateur : lent, en retard, imprécis, tire mou et tard (la balle a souvent filé).
-  { speed: 34, react: 0.3, err: 3.5, kick: 0.5, delay: 0.32, power: [0.15, 0.55], aim: 0, think: 0.5 },
+  { speed: 38, react: 0.27, err: 3.2, kick: 0.55, delay: 0.28, power: [0.2, 0.6], aim: 0, think: 0.5 },
   // Ligue 2
-  { speed: 52, react: 0.2, err: 2.3, kick: 0.7, delay: 0.2, power: [0.4, 0.85], aim: 0.4, think: 0.3 },
+  { speed: 62, react: 0.16, err: 1.8, kick: 0.8, delay: 0.15, power: [0.45, 0.9], aim: 0.5, think: 0.25 },
   // Ligue 1 : rapide, précis, tire fort et en coin.
   { speed: 80, react: 0.11, err: 1.2, kick: 0.9, delay: 0.1, power: [0.6, 1], aim: 0.8, think: 0.2 },
 ];
+/** Commandes simples : l'aide place toutes les barres du joueur, plus vite et plus juste. */
+export const SIMPLE = { speed: 42, react: 0.22, err: 2.6, kick: 0, delay: 0, power: [0, 0], aim: 0, think: 0.3 };
 /** Aide aux barres que l'humain ne tient pas. */
 export const ASSIST = { speed: 55, react: 0.15, err: 1.8, kick: 0, delay: 0, power: [0, 0], aim: 0, think: 0.3 };
 
@@ -182,4 +184,23 @@ export function activeRod(phys, team, current = -1) {
     if (r.i === current) curCost = cost;
   }
   return current >= 0 && curCost - bestCost < 2.5 ? current : best;
+}
+
+/**
+ * Commandes simples : la barre de l'équipe qui peut frapper la balle tout de suite (balle devant
+ * une figurine, à portée), la mieux placée ; -1 si aucune.
+ */
+export function kickable(phys, team) {
+  const b = phys.ball;
+  if (!b.live || b.goal) return -1;
+  let best = -1, bestCost = Infinity;
+  for (const r of phys.rods) {
+    if (r.team !== team || r.mode === 'strike' || r.mode === 'lift') continue;
+    const d = (b.x - r.x) * r.dir;
+    if (d < FR + R - 0.8 || d > REACH) continue;
+    if (!r.offs.some(o => Math.abs(b.z - (r.z + o)) < FA + FR + R)) continue;
+    const cost = Math.abs(d - 3.5);
+    if (cost < bestCost) { bestCost = cost; best = r.i; }
+  }
+  return best;
 }
