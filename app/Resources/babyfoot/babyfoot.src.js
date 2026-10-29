@@ -1,7 +1,8 @@
 // Le babyfoot du musée : page /interactif/babyfoot/. Relie la physique (physics.js), l'ordinateur
 // (ai.js), les règles (rules.js), le rendu 3D (render.js) et les sons (audio.js) à la page : écran
-// d'accueil (façon de jouer, adversaire, durée), commandes (pouce gauche pour glisser, pouce droit
-// pour tirer, souris, clavier, à deux sur le même écran), tableau de score, ralenti des buts, écran
+// d'accueil (façon de jouer, niveau, adversaire, durée), commandes (niveau Débutant : barres placées
+// seules, toucher la table pour tirer ; au-dessus : pouce gauche pour glisser, pouce droit pour tirer,
+// souris, clavier, à deux sur le même écran), tableau de score, ralenti des buts, écran
 // de fin (vrai résultat, statistiques, partage, tableau d'honneur : API /api/babyfoot).
 // Compilé avec Three.js par bin/build-babyfoot.sh.
 import { Physics } from './physics.js';
@@ -47,14 +48,16 @@ async function boot() {
   const touch = matchMedia('(pointer: coarse)').matches;
   const S = {
     mode: 'ai',
-    level: clamp(+(store('niveau') ?? 1) || 0, 0, 2),
+    // Niveau (0 Débutant à 3 Ligue 1) ; nouvelle clé : l'ancienne comptait de 0 Amateur à 2 Ligue 1.
+    level: clamp(+(store('niv') ?? 0) || 0, 0, LEVELS.length - 1),
     format: store('duree') === 'buts' ? 'buts' : 'temps',
     opp: 0,
     hist: 0,
     view: ['joueur', 'dessus', 'basse'].includes(store('vue')) ? store('vue') : 'joueur',
-    // Commandes simples (d'office) : les barres se placent seules, on touche pour tirer.
-    controls: store('commandes') === 'expert' ? 'expert' : 'simple',
   };
+  // Commandes selon le niveau : en Débutant, les barres se placent seules et le joueur n'a qu'à
+  // tirer ; au-dessus (et à deux), c'est lui qui glisse ses barres.
+  const autoRods = () => S.mode !== 'duo' && S.level === 0;
   const histSel = $('[data-bf-hist]');
   if (histSel) S.hist = +histSel.value;
   const savedOpp = D.opponents.findIndex(o => o.id === store('adversaire'));
@@ -73,7 +76,7 @@ async function boot() {
   function newDemo() {
     const p = new Physics();
     const m = new Match(p, { format: 'buts', goals: 99 });
-    demo = { p, m, brains: [new Brain(p, 0, LEVELS[2]), new Brain(p, 1, LEVELS[1])] };
+    demo = { p, m, brains: [new Brain(p, 0, LEVELS[3]), new Brain(p, 1, LEVELS[2])] };
     m.start();
   }
   newDemo();
@@ -97,7 +100,9 @@ async function boot() {
     $$('[data-bf-mode]').forEach(m => m.setAttribute('aria-checked', m.dataset.bfMode === S.mode ? 'true' : 'false'));
     $$('[data-bf-level]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.bfLevel === S.level ? 'true' : 'false'));
     $$('[data-bf-format]').forEach(b => b.setAttribute('aria-pressed', b.dataset.bfFormat === S.format ? 'true' : 'false'));
-    $$('[data-bf-controls]').forEach(b => b.setAttribute('aria-pressed', b.dataset.bfControls === S.controls ? 'true' : 'false'));
+    // Ce que le joueur aura à faire, écrit en clair sous le choix du niveau.
+    const auto = autoRods(), lvName = D.levels[S.level];
+    $$('[data-bf-ctl]').forEach(x => { x.textContent = S.mode === 'duo' ? U.ctlDuo : fill(auto ? U.ctlAuto : U.ctlManual, { l: lvName }); x.classList.toggle('is-auto', auto); });
     const o = opponent();
     badge.textContent = o.ini || '';
     badge.style.background = o.kit.shirt; badge.style.color = ink(o.kit.shirt);
@@ -110,9 +115,8 @@ async function boot() {
     m.addEventListener('click', e => { if (!e.target.closest('select')) pick(); });
     m.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
   });
-  $$('[data-bf-level]').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); S.level = +b.dataset.bfLevel; store('niveau', String(S.level)); if (S.mode === 'duo') S.mode = 'ai'; drawHome(); }));
+  $$('[data-bf-level]').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); S.level = +b.dataset.bfLevel; store('niv', String(S.level)); if (S.mode === 'duo') S.mode = 'ai'; drawHome(); }));
   $$('[data-bf-format]').forEach(b => b.addEventListener('click', () => { S.format = b.dataset.bfFormat; store('duree', S.format); drawHome(); }));
-  $$('[data-bf-controls]').forEach(b => b.addEventListener('click', () => { S.controls = b.dataset.bfControls; store('commandes', S.controls); drawHome(); }));
   $$('[data-bf-opp]').forEach(b => b.addEventListener('click', () => {
     if (histMatch() || !D.opponents.length) return;
     S.opp = (S.opp + +b.dataset.bfOpp + D.opponents.length) % D.opponents.length;
@@ -150,8 +154,8 @@ async function boot() {
       format: S.format, half: 180, goals: 5, golden: !!(hist && hist.golden), replay: true,
       first: duo ? (Math.random() < 0.5 ? 0 : 1) : 0, names: [names0, null],
     }, { fx: onFx, over: onOver });
-    // Commandes simples : l'aide place toutes les barres du joueur ; expert : il tient la barre allumée.
-    const simple = S.controls === 'simple';
+    // Débutant : l'aide place toutes les barres du joueur ; au-dessus : il tient la barre allumée.
+    const simple = autoRods();
     const human = t => (simple ? new Brain(p, t, SIMPLE, { human: () => -1 }) : new Brain(p, t, ASSIST, { human: () => held(t) }));
     const brains = [human(0), duo ? human(1) : new Brain(p, 1, LEVELS[S.level])];
     H.forEach(h => Object.assign(h, { rod: -1, drag: null, last: -9, ctl: -9, shootAt: null, wound: -1, key: 0 }));
@@ -177,9 +181,9 @@ async function boot() {
     $('[data-bf-replay]').hidden = true;
     sound.ambience(true);
     sound.play('start');
-    // Commandes simples : le geste à faire, au premier coup d'envoi.
-    if (simple) banner(`${esc(U.kickoff)}<small>${esc(touch ? U.hintTouch : U.hintMouse)}</small>`, 3200, true);
-    else banner(U.kickoff, 1100, true);
+    // Le geste à faire, rappelé au premier coup d'envoi.
+    const hint = simple ? (touch ? U.hintTouch : U.hintMouse) : duo ? U.hintDuo : (touch ? U.hintManualTouch : U.hintManualMouse);
+    banner(`${esc(U.kickoff)}<small>${esc(hint)}</small>`, 3600, true);
     if (game.solo) api({ action: 'commencer', level: game.level, format: game.format }).then(r => { if (game) game.token = r.tok || null; }).catch(() => {});
     rotateHint();
   }

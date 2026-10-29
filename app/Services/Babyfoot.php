@@ -17,8 +17,8 @@ use App\Front\Palmares;
  * ordinateur, règles : app/Resources/babyfoot/) ; le serveur prépare les adversaires et les grands
  * matchs à rejouer (faits tirés des fiches : date, score, composition), et garde le tableau d'honneur.
  *
- * Tableau d'honneur : nombre de victoires contre l'ordinateur, par niveau (Amateur, Ligue 2,
- * Ligue 1), de la semaine et de toujours, par compte supporter (carnet) sous son pseudo du
+ * Tableau d'honneur : nombre de victoires contre l'ordinateur, par niveau (Débutant, Amateur,
+ * Ligue 2, Ligue 1), de la semaine et de toujours, par compte supporter (carnet) sous son pseudo du
  * championnat du club-house ; sans compte, on joue sans classement. Chaque partie reçoit au départ
  * un jeton signé (heure, niveau, durée de jeu) : un résultat n'est accepté qu'une fois par jeton,
  * avec un score possible et une durée vraisemblable.
@@ -28,7 +28,8 @@ final class Babyfoot
     /** Dossier des victoires (remplacé par les tests). */
     public static string $dir = STORAGE_PATH . '/babyfoot';
     public const TOP = 20;
-    public const LEVELS = ['Amateur', 'Ligue 2', 'Ligue 1'];
+    /** Niveaux : en Débutant, les barres du joueur se placent seules (il n'a qu'à tirer) ; au-dessus, il les glisse lui-même. */
+    public const LEVELS = ['Débutant', 'Amateur', 'Ligue 2', 'Ligue 1'];
     /** Durée réelle minimale (s) d'un match gagné : premier à 5 buts, 2 × 3 minutes. */
     public const MIN_GOALS = 25;
     public const MIN_TIME = 300;
@@ -302,17 +303,17 @@ final class Babyfoot
 
     // ------------------------------------------------------------------ jetons de partie
 
-    /** Jeton d'une partie : heure de début, niveau (0-2), durée (b : premier à 5, t : chrono), numéro, signature. */
+    /** Jeton d'une partie : heure de début, niveau (0-3), durée (b : premier à 5, t : chrono), numéro, signature. */
     public static function token(int $level, string $format, ?int $now = null): string
     {
-        $body = ($now ?? time()) . '.' . max(0, min(2, $level)) . ($format === 'buts' ? 'b' : 't') . '.' . bin2hex(random_bytes(8));
+        $body = ($now ?? time()) . '.' . max(0, min(count(self::LEVELS) - 1, $level)) . ($format === 'buts' ? 'b' : 't') . '.' . bin2hex(random_bytes(8));
         return $body . '.' . substr(hash_hmac('sha256', $body, site_key('babyfoot')), 0, 32);
     }
 
     /** @return array{t:int,level:int,format:string,n:string}|null jeton valable (signé, de moins de 2 h) */
     public static function check(string $tok, ?int $now = null): ?array
     {
-        if (!preg_match('/^(\d{9,11})\.([0-2])([bt])\.([a-f0-9]{16})\.([a-f0-9]{32})$/', $tok, $m)) {
+        if (!preg_match('/^(\d{9,11})\.([0-3])([bt])\.([a-f0-9]{16})\.([a-f0-9]{32})$/', $tok, $m)) {
             return null;
         }
         $sig = substr(hash_hmac('sha256', $m[1] . '.' . $m[2] . $m[3] . '.' . $m[4], site_key('babyfoot')), 0, 32);

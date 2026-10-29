@@ -79,6 +79,13 @@ final class BabyfootPages
                 'glide' => t('Glisse'), 'shoot' => t('Tir'), 'shootSub' => t('Appui long = fort'), 'camera' => t('Caméra'),
                 'shootSimple' => t('Ou touchez la table'), 'hintTouch' => t('Touchez la table là où vous visez : votre figurine tire'),
                 'hintMouse' => t('Cliquez là où vous visez : votre figurine tire'),
+                'hintManualTouch' => t('Pouce gauche : glissez votre barre · pouce droit : Tir'),
+                'hintManualMouse' => t('La figurine suit la souris · clic pour tirer'),
+                'hintDuo' => t('Chacun son côté : glissez vos barres et tirez'),
+                // Commandes selon le niveau, écrites sur l'accueil.
+                'ctlAuto' => t('{l} : vos barres se placent toutes seules, vous n’avez qu’à tirer.'),
+                'ctlManual' => t('{l} : c’est vous qui bougez vos barres et qui tirez.'),
+                'ctlDuo' => t('À deux : chacun bouge ses barres et tire.'),
                 'cams' => ['joueur' => t('Vue du joueur'), 'dessus' => t('Vue de dessus'), 'basse' => t('Vue basse')],
                 'rotate' => t('Tournez le téléphone pour jouer en grand.'),
                 'p1' => t('Joueur 1'), 'p2' => t('Joueur 2'),
@@ -95,7 +102,7 @@ final class BabyfootPages
         $action = (string) ($in['action'] ?? '');
         $c = Carnet::current();
         $me = $c ? QuizChampionship::player($c['id']) : null;
-        $level = max(0, min(2, (int) ($in['level'] ?? 0)));
+        $level = max(0, min(count(Babyfoot::LEVELS) - 1, (int) ($in['level'] ?? 0)));
         switch ($action) {
             case 'commencer':
                 if (!RateLimiter::hit('babyfoot', $req->ip(), 600, 3600)) {

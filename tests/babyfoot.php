@@ -34,6 +34,7 @@ $tok = B::token(2, 'buts', $now - 120);
 $g = B::check($tok, $now);
 $eq('jeton valable (heure, niveau, durée)', [$g['t'] ?? null, $g['level'] ?? null, $g['format'] ?? null], [$now - 120, 2, 'buts']);
 $eq('jeton « 2 × 3 min »', B::check(B::token(0, 'temps', $now), $now)['format'] ?? null, 'temps');
+$eq('quatre niveaux (Débutant à Ligue 1) : le niveau 3 passe, au-delà ramené à 3', [count(B::LEVELS), B::LEVELS[0], B::check(B::token(3, 'buts', $now), $now)['level'] ?? null, B::check(B::token(9, 'buts', $now), $now)['level'] ?? null], [4, 'Débutant', 3, 3]);
 $eq('jeton falsifié refusé', B::check(substr($tok, 0, -1) . (substr($tok, -1) === 'a' ? 'b' : 'a'), $now), null);
 $eq('niveau changé dans le jeton : refusé', B::check(preg_replace('/\.2b\./', '.0b.', $tok), $now), null);
 $eq('jeton de plus de 2 h refusé', B::check(B::token(1, 'temps', $now - 3 * 3600), $now), null);

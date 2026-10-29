@@ -1,4 +1,4 @@
-// L'ordinateur du babyfoot (trois niveaux) et l'aide au joueur humain.
+// L'ordinateur du babyfoot (quatre niveaux) et l'aide au joueur humain.
 // Chaque barre suit la balle : elle vise l'endroit où la balle croisera sa ligne (rebonds sur les
 // bandes compris), avec un temps de réaction, une vitesse de glissement et une petite erreur qui
 // dépendent du niveau. Quand la balle est devant une figurine, l'ordinateur frappe ; aux niveaux
@@ -9,14 +9,19 @@
 import { LX, LZ, R, GOAL, FOOT, FA, FR, LIFT } from './table.js';
 
 export const LEVELS = [
-  // Amateur : lent, en retard, imprécis, tire mou et tard (la balle a souvent filé).
-  { speed: 38, react: 0.27, err: 3.2, kick: 0.55, delay: 0.28, power: [0.2, 0.6], aim: 0, think: 0.5 },
+  // Débutant : le joueur n'a qu'à tirer (ses barres se placent seules) ; l'ordinateur joue
+  // correctement pour que le match reste disputé (réglé par simulation : un joueur hésitant gagne
+  // environ 3 matchs sur 4).
+  { speed: 60, react: 0.17, err: 2, kick: 0.78, delay: 0.16, power: [0.42, 0.88], aim: 0.45, think: 0.27 },
+  // À partir d'Amateur, le joueur glisse lui-même ses barres. Amateur : lent, en retard, imprécis,
+  // tire mou et tard (la balle a souvent filé).
+  { speed: 30, react: 0.34, err: 3.9, kick: 0.45, delay: 0.36, power: [0.12, 0.5], aim: 0, think: 0.55 },
   // Ligue 2
-  { speed: 62, react: 0.16, err: 1.8, kick: 0.8, delay: 0.15, power: [0.45, 0.9], aim: 0.5, think: 0.25 },
+  { speed: 40, react: 0.26, err: 3, kick: 0.58, delay: 0.27, power: [0.28, 0.72], aim: 0.22, think: 0.4 },
   // Ligue 1 : rapide, précis, tire fort et en coin.
-  { speed: 80, react: 0.11, err: 1.2, kick: 0.9, delay: 0.1, power: [0.6, 1], aim: 0.8, think: 0.2 },
+  { speed: 48, react: 0.21, err: 2.5, kick: 0.68, delay: 0.21, power: [0.45, 0.9], aim: 0.5, think: 0.3 },
 ];
-/** Commandes simples : l'aide place toutes les barres du joueur, plus vite et plus juste. */
+/** Niveau Débutant (commandes simples) : l'aide place toutes les barres du joueur. */
 export const SIMPLE = { speed: 42, react: 0.22, err: 2.6, kick: 0, delay: 0, power: [0, 0], aim: 0, think: 0.3 };
 /** Aide aux barres que l'humain ne tient pas. */
 export const ASSIST = { speed: 55, react: 0.15, err: 1.8, kick: 0, delay: 0, power: [0, 0], aim: 0, think: 0.3 };

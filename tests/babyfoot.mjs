@@ -255,7 +255,7 @@ function match(la, lb, format = 'buts') {
   return { res, out, escaped };
 }
 {
-  const runs = [match(LEVELS[1], LEVELS[1]), match(LEVELS[2], LEVELS[0]), match(LEVELS[0], LEVELS[2], 'temps')];
+  const runs = [match(LEVELS[2], LEVELS[2]), match(LEVELS[3], LEVELS[1]), match(LEVELS[1], LEVELS[3], 'temps')];
   eq('matchs entiers : tous finis, jamais de balle hors du jeu', runs.map(r => [!!r.res, r.out, r.escaped]), [[true, 0, 0], [true, 0, 0], [true, 0, 0]]);
   eq('premier à 5 : un vainqueur à 5 buts', Math.max(...runs[0].res.score), 5);
   eq('Ligue 1 bat l’Amateur', [runs[1].res.winner, runs[2].res.winner], [0, 1]);

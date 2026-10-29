@@ -46,20 +46,21 @@ $hist = $data['history'];
             <h2><?= e(t('Contre l’ordi')) ?></h2>
             <p><?= e(t('Match rapide contre l’ordinateur.')) ?></p>
             <div class="bf__chips" role="group" aria-label="<?= e(t('Niveau')) ?>">
-              <?php foreach ($data['levels'] as $i => $l): ?><button type="button" data-bf-level="<?= $i ?>" aria-pressed="<?= $i === 1 ? 'true' : 'false' ?>"><?= e($l) ?></button><?php endforeach; ?>
+              <?php foreach ($data['levels'] as $i => $l): ?><button type="button" data-bf-level="<?= $i ?>" aria-pressed="<?= $i === 0 ? 'true' : 'false' ?>"><?= e($l) ?></button><?php endforeach; ?>
             </div>
+            <p class="bf__lvhelp"><?= e(t('Débutant : vos barres se placent toutes seules, vous n’avez qu’à tirer. Amateur, Ligue 2 et Ligue 1 : c’est vous qui bougez vos barres.')) ?></p>
           </div>
           <div class="bf__mode" data-bf-mode="duo" role="radio" aria-checked="false" tabindex="0">
             <span class="bf__mi" aria-hidden="true">👥</span>
             <h2><?= e(t('À deux')) ?></h2>
-            <p><?= e(t('Sur le même écran : tablette ou ordinateur posé entre vous.')) ?></p>
+            <p><?= e(t('Sur le même écran : tablette ou ordinateur posé entre vous. Chacun bouge ses barres.')) ?></p>
             <span class="bf__pill"><?= e(t('Chacun son côté')) ?></span>
           </div>
           <?php if ($hist): ?>
           <div class="bf__mode bf__mode--hist" data-bf-mode="histoire" role="radio" aria-checked="false" tabindex="0">
             <span class="bf__mi" aria-hidden="true">🏆</span>
             <h2><?= e(t('Rejoue l’histoire')) ?></h2>
-            <p><?= e(t('Un grand match du musée, les vrais noms sur les figurines.')) ?></p>
+            <p><?= e(t('Un grand match du musée, les vrais noms sur les figurines, au niveau choisi pour « Contre l’ordi ».')) ?></p>
             <label class="bf__sel"><span class="sr-only"><?= e(t('Match à rejouer')) ?></span>
               <select data-bf-hist>
                 <?php foreach ($hist as $i => $m): ?><option value="<?= $i ?>" title="<?= e($m['title']) ?>"<?= str_starts_with($m['label'], t('Finale')) ? ' selected' : '' ?>><?= e($m['label']) ?></option><?php endforeach; ?>
@@ -84,12 +85,9 @@ $hist = $data['history'];
               <button type="button" data-bf-format="buts" aria-pressed="false"><?= e(t('Premier à 5')) ?></button>
             </div>
           </div>
-          <div class="bf__dur">
+          <div class="bf__dur bf__ctlbox">
             <small><?= e(t('Commandes')) ?></small>
-            <div class="bf__seg" role="group" aria-label="<?= e(t('Commandes')) ?>">
-              <button type="button" data-bf-controls="simple" aria-pressed="true" title="<?= e(t('Les barres se placent toutes seules : touchez pour tirer.')) ?>"><?= e(t('Simples')) ?></button>
-              <button type="button" data-bf-controls="expert" aria-pressed="false" title="<?= e(t('Vous glissez vous-même la barre et dosez la force du tir.')) ?>"><?= e(t('Expert')) ?></button>
-            </div>
+            <p class="bf__ctl" data-bf-ctl aria-live="polite"></p>
           </div>
           <button type="button" class="bf__go" data-bf-play><?= e(t('Jouer')) ?> ▶</button>
         </div>
@@ -116,11 +114,11 @@ $hist = $data['history'];
       <div class="bf__card bf__card--rules">
         <h2 class="bf__h"><?= e(t('Comment jouer')) ?></h2>
         <dl class="bf__rules">
-          <dt><?= e(t('Commandes simples (d’office)')) ?></dt><dd><?= e(t('Vos barres se placent toutes seules sous la balle. Touchez la table (ou cliquez) là où vous visez dans le but : la figurine qui a la balle tire de ce côté. Le bouton « Tir », Espace ou Entrée tirent aussi, en visant le coin libre. Pas besoin d’être pile à l’heure : touchez juste avant que la balle arrive.')) ?></dd>
-          <dt><?= e(t('Commandes expert')) ?></dt><dd><?= e(t('Téléphone : pouce gauche pour glisser la barre qui s’allume, pouce droit sur « Tir » (appui long = plus fort). Ordinateur : la figurine suit la souris, clic gauche pour tirer (tenu = plus fort) ; au clavier ↑ ↓ (ou Z S, W S) et Espace. Plus difficile, pour les habitués.')) ?></dd>
+          <dt><?= e(t('Niveau Débutant : vous n’avez qu’à tirer')) ?></dt><dd><?= e(t('Vos barres se placent toutes seules sous la balle. Touchez la table (ou cliquez) là où vous visez dans le but : la figurine qui a la balle tire de ce côté. Le bouton « Tir », Espace ou Entrée tirent aussi, en visant le coin libre. Pas besoin d’être pile à l’heure : touchez juste avant que la balle arrive.')) ?></dd>
+          <dt><?= e(t('Amateur, Ligue 2, Ligue 1 et à deux : vous bougez vos barres')) ?></dt><dd><?= e(t('Téléphone : pouce gauche pour glisser la barre qui s’allume, pouce droit sur « Tir » (appui long = plus fort). Ordinateur : la figurine suit la souris, clic gauche pour tirer (tenu = plus fort) ; au clavier ↑ ↓ (ou Z S, W S) et Espace. Les autres barres suivent la balle d’elles-mêmes.')) ?></dd>
           <dt><?= e(t('Ordinateur')) ?></dt><dd><?= e(t('C pour changer de caméra, Échap pour la pause.')) ?></dd>
           <dt><?= e(t('À deux')) ?></dt><dd><?= e(t('Chacun garde son côté de l’écran : à gauche le joueur 1 ({a}), à droite le joueur 2. Au clavier : Z S (ou W S) et D pour le joueur 1, ↑ ↓ et ← pour le joueur 2.', ['a' => $data['us']['short']])) ?></dd>
-          <dt><?= e(t('Les barres')) ?></dt><dd><?= e(t('La barre allumée est celle qui peut jouer la balle : elle change toute seule. Les barres se lèvent pour laisser passer les tirs de leur équipe. En expert, décalez la figurine au moment du tir pour croiser.')) ?></dd>
+          <dt><?= e(t('Les barres')) ?></dt><dd><?= e(t('La barre allumée est celle qui peut jouer la balle : elle change toute seule. Les barres se lèvent pour laisser passer les tirs de leur équipe. Quand vous bougez vos barres, décalez la figurine au moment du tir pour croiser.')) ?></dd>
           <dt><?= e(t('Le match')) ?></dt><dd><?= e(t('Deux mi-temps de 3 minutes, ou le premier à 5 buts. Après un but, l’équipe qui l’a encaissé engage. Une balle immobile hors de portée est rendue au gardien, ou remise au centre.')) ?></dd>
           <dt><?= e(t('Rejoue l’histoire')) ?></dt><dd><?= e(t('Un grand match du musée, avec la composition du jour au dos des figurines. Coupe à égalité au bout du temps : but en or. À la fin, le vrai résultat et le lien vers la fiche du match.')) ?></dd>
           <dt><?= e(t('Tableau d’honneur')) ?></dt><dd><?= e(t('Les victoires contre l’ordinateur de la semaine, niveau par niveau, sous le pseudo du carnet du supporter. Facultatif : sans compte, on joue quand même.')) ?></dd>
@@ -133,7 +131,7 @@ $hist = $data['history'];
       <div class="bf__card">
         <h2 class="bf__h"><?= e(t('Tableau d’honneur')) ?></h2>
         <div class="bf__seg bf__seg--lv" role="group" aria-label="<?= e(t('Niveau')) ?>">
-          <?php foreach ($data['levels'] as $i => $l): ?><button type="button" data-bf-board="<?= $i ?>" aria-pressed="<?= $i === 1 ? 'true' : 'false' ?>"><?= e($l) ?></button><?php endforeach; ?>
+          <?php foreach ($data['levels'] as $i => $l): ?><button type="button" data-bf-board="<?= $i ?>" aria-pressed="<?= $i === 0 ? 'true' : 'false' ?>"><?= e($l) ?></button><?php endforeach; ?>
         </div>
         <div class="bf__boards">
           <div><h3><?= e(t('Cette semaine')) ?></h3><ol class="bf__top" data-bf-week></ol></div>

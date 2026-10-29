@@ -1070,8 +1070,8 @@ le tableau d'honneur.
   plus de la cage ; buteur = dernière figurine de l'équipe qui marque depuis 4 s, sinon contre son
   camp ; `snapshot()` pour le ralenti), `ai.js` (`Brain` : chaque barre vise l'endroit où la balle
   croisera sa ligne (`crossZ`, rebonds compris), avec temps de réaction, vitesse, erreur et délai
-  de frappe par niveau (`LEVELS` Amateur, Ligue 2, Ligue 1 ; visée en coin loin du gardien aux
-  deux derniers), passe en retrait d'une balle lente juste derrière, barres levées quand la balle
+  de frappe par niveau (`LEVELS` Débutant, Amateur, Ligue 2, Ligue 1 ; visée en coin loin du
+  gardien à partir de Ligue 2), passe en retrait d'une balle lente juste derrière, barres levées quand la balle
   arrive de derrière ; `ASSIST` place les barres que le joueur ne tient pas, sans jamais frapper ;
   `activeRod` : barre tenue par le joueur, celle qui a la balle devant elle, sans clignoter),
   `rules.js` (`Match` : engagement par le trou de la bande pour l'équipe qui encaisse, chrono de
@@ -1087,12 +1087,14 @@ le tableau d'honneur.
   voir la table), caméra du ralenti par-dessus la bande près du but, tour lent de la table sous
   l'accueil ; `screenAxis()` et `pick()` pour les commandes ; qualité 2 (halo avec anticrénelage
   MSAA), 1, 0), `audio.js` (sons Web Audio synthétisés, allumés d'office, clé `bf:son`), et
-  `babyfoot.src.js` (page : accueil, match de démonstration en fond ; **commandes simples**
-  (d'office, `bf:commandes`) : `SIMPLE` place toutes les barres du joueur, un toucher ou un clic
+  `babyfoot.src.js` (page : accueil, match de démonstration en fond ; les commandes suivent le
+  niveau (`autoRods()`, niveau gardé dans `bf:niv`) et sont écrites en clair sur l'accueil
+  (`data-bf-ctl`) et au coup d'envoi ; **niveau Débutant** (commandes simples) : `SIMPLE` place toutes les barres du joueur, un toucher ou un clic
   sur la table crée une envie de tirer gardée 0,35 s, la barre qui a la balle (`kickable()`)
   frappe vers la hauteur du but visée (`scene.pick`), le bouton Tir et le clavier visent le coin
   libre (`autoAim`) ; tir guidé dans `physics.js` (`strike(i, power, aim)`, direction mélangée
-  à 35 % avec la visée, `GUIDE`) ; **commandes expert** : commandes tactiles (pouce
+  à 35 % avec la visée, `GUIDE`) ; **Amateur, Ligue 2, Ligue 1 et à deux** (le joueur bouge ses
+  barres) : commandes tactiles (pouce
   gauche : le doigt entraîne la figurine le long de l'axe de la barre à l'écran ; pouce droit :
   tir, appui long = fort), souris (la figurine suit le pointeur, clic gauche pour tirer), clavier
   (↑ ↓ / W S, Espace ; à deux : W S + D et ↑ ↓ + ←), barre tenue par le joueur tant qu'il agit
@@ -1132,9 +1134,10 @@ le tableau d'honneur.
   dans Interactif › Quiz du club-house (`Babyfoot::players()`). Carnet supprimé →
   `Babyfoot::forget()` ; tâche « ménage » : semaines de plus de 6 mois (`Babyfoot::purge()`).
 - **Équilibre des niveaux** : réglé par simulation (matchs entiers ordinateur contre ordinateur,
-  et joueur simulé). Commandes simples (joueur moyen : réaction 0,25 s, 8 occasions sur 10) : il
-  bat l'Amateur, gagne plutôt contre Ligue 2 (≈ 5-3), perd en général contre Ligue 1 (≈ 3-5).
-  Commandes expert (joueur qui ne fait que tirer avec la barre allumée) : plus difficile.
+  et joueur simulé). Débutant (barres automatiques ; joueur hésitant : réaction 0,35 s, 6
+  occasions sur 10) : il gagne environ 3 matchs sur 4 (≈ 5-3). Barres à bouger soi-même (joueur
+  simulé qui place la figurine sous la balle avec retard et tire) : il gagne environ un match sur
+  deux en Amateur, un sur quatre en Ligue 2, rarement en Ligue 1 (≈ 2-6).
 - **Tests** : `node tests/babyfoot.mjs` (table, balle qui s'arrête, bandes, poteau, but et balle
   qui reste dans la cage, figurine qui arrête la balle, frappe plus forte en appui long, barre
   levée, butées et vitesse des barres, rebonds prévus, barre tenue, aide, engagement, buteur,
