@@ -1009,7 +1009,9 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   puis rails en fil chromé, mini-terrain en relief (pelouse, but et filets, gardien, joueurs aux
   couleurs de l'adversaire), afficheurs LED des slingshots, tablier (chrono, jauge COMBO, maillots,
   billes), bloom `UnrealBloomPass` (MSAA ×4), tone mapping ACES, ombres ; caméra ajustée à
-  l'écran ; qualité baissée seule si plus de la moitié des images sont lentes), `stadium.js`
+  l'écran ; `warmup()` : textures envoyées à la carte graphique (`initTexture`) et shaders de
+  toute la scène compilés (`compileAsync`) avant la première image ; `prepareQuality(q)` compile
+  en arrière-plan les shaders d'un autre niveau de qualité avant d'y passer), `stadium.js`
   (stade autour de la machine : ciel, pelouse, panneaux LED, tribunes et foule en
   `InstancedMesh` qui saute aux grands moments, banderoles au logo, pylônes et projecteurs,
   tableau de score géant, figurines géantes immobiles et sans ombre portée pour alléger le rendu,
@@ -1019,7 +1021,11 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   clavier, souris — clic gauche / clic droit = batteurs, bouton du milieu = lanceur quand la bille
   attend, sinon bourrer —, zones tactiles, lanceur, secousse du téléphone via `devicemotion`,
   écran à points (score du match, chrono, bille, multiplicateur), écrans dont le parcours en Coupe
-  en fin de partie, envoi du score).
+  en fin de partie, envoi du score ; démarrage sous le voile `.fl__boot` « Chargement… », retiré
+  par la classe `is-ready` une fois la qualité de départ posée (`fl:q` retenue sur l'appareil
+  14 jours, sous la forme « niveau.jour », sinon 1 sur écran tactile, 4 cœurs ou moins ou 4 Go ou moins, 2 ailleurs) et `warmup()` fini ;
+  qualité automatique dès la seconde suivante, sur des périodes d'1,5 s : plus de la moitié des
+  images lentes → un cran de moins, préparé par `prepareQuality()` puis retenu dans `fl:q`).
 - **Construction** : `sh bin/build-flipper.sh` (Node : Three.js 0.186.1 et esbuild épinglés dans un
   dossier temporaire) → `public/assets/js/flipper.js` (IIFE minifiée, ~700 Ko, licences en fin
   de fichier), à refaire après toute modification des sources. CSS : `public/assets/css/flipper.css`.
@@ -1091,10 +1097,10 @@ le tableau d'honneur.
   qui tremblent, barres chromées qui sortent des deux bandes, poignées, figurines en un seul
   maillage coloré par équipe (`figureGeo`), noms au dos (`setNames`, numéro seulement s'il est
   sur la feuille), balle qui roule et traînée des tirs forts, lampe de bistrot (cachée vue de
-  dessus) ; vues `joueur`, `dessus`, `basse` (paysage et téléphone tenu droit, recul calculé pour
-  voir la table), caméra du ralenti par-dessus la bande près du but, tour lent de la table sous
+  dessus) ; vues `joueur`, `dessus` (d'office), `basse` (paysage et téléphone tenu droit, recul calculé pour
+  voir la table), caméra posée d'emblée à la première image, caméra du ralenti par-dessus la bande près du but, tour lent de la table sous
   l'accueil ; `screenAxis()` et `pick()` pour les commandes ; qualité 2 (halo avec anticrénelage
-  MSAA), 1, 0), `audio.js` (sons Web Audio synthétisés, allumés d'office, clé `bf:son`), et
+  MSAA), 1, 0 ; `warmup()` et `prepareQuality()` comme au flipper), `audio.js` (sons Web Audio synthétisés, allumés d'office, clé `bf:son`), et
   `babyfoot.src.js` (page : accueil, match de démonstration en fond ; les commandes suivent le
   niveau (`autoRods()`, niveau gardé dans `bf:niv`) et sont écrites en clair sur l'accueil
   (`data-bf-ctl`) et au coup d'envoi ; **niveau Débutant** (commandes simples) : `SIMPLE` place toutes les barres du joueur, un toucher ou un clic
@@ -1108,9 +1114,11 @@ le tableau d'honneur.
   (↑ ↓ / W S, Espace ; à deux : W S + D et ↑ ↓ + ←), barre tenue par le joueur tant qu'il agit
   (geste en cours, tir armé, ou dans les 1,2 s), sinon placée par l'aide ; ralenti des buts
   (instantanés des 5 dernières secondes, rejoués à 0,4×) ; tableau de score ; écran de fin
-  (vrai résultat, statistiques, image du score à partager, confettis) ; qualité automatique sur
-  des périodes de 2 s ; réglages gardés sur l'appareil (`bf:niveau`, `bf:duree`, `bf:vue`,
-  `bf:adversaire`)).
+  (vrai résultat, statistiques, image du score à partager, confettis) ; démarrage sous le voile
+  `.bf__boot` « Chargement… » (qualité de départ, caméra placée, `warmup()`, puis `is-ready`) et
+  qualité automatique comme au flipper (`bf:q`) ; réglages gardés sur l'appareil (`bf:niv`,
+  `bf:duree`, `bf:cam` — vue de dessus d'office, nouvelle clé qui remplace `bf:vue` —,
+  `bf:adversaire`, `bf:son`)).
 - **Construction** : `sh bin/build-babyfoot.sh` (Node : Three.js 0.186.1 et esbuild épinglés dans
   un dossier temporaire) → `public/assets/js/babyfoot.js` (IIFE minifiée, ~630 Ko), à refaire
   après toute modification des sources. CSS : `public/assets/css/babyfoot.css`.

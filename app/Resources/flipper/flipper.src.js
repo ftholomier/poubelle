@@ -13,6 +13,7 @@ const root = document.querySelector('[data-flipper]');
 if (root) boot().catch(err => { console.error(err); fail(); });
 
 function fail() {
+  root.classList.add('is-ready');
   root.querySelectorAll('[data-fl-ov]').forEach(o => { o.hidden = o.dataset.flOv !== 'nogl'; });
 }
 
@@ -31,7 +32,7 @@ async function boot() {
 
   // WebGL disponible ?
   const test = document.createElement('canvas');
-  if (!(test.getContext('webgl2') || test.getContext('webgl'))) { ov('nogl'); return; }
+  if (!(test.getContext('webgl2') || test.getContext('webgl'))) { root.classList.add('is-ready'); ov('nogl'); return; }
   await Promise.race([document.fonts.load('900 40px "Big Shoulders Display"'), new Promise(r => setTimeout(r, 2500))]);
   const logo = await new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = D.logo; });
 
@@ -312,7 +313,18 @@ async function boot() {
   });
 
   // ---------------------------------------------------------------- boucle
-  let last = performance.now(), frames = 0, slow = 0;
+  let last = performance.now();
+  // Qualité automatique : mesurée par périodes d'1,5 s ; plus de la moitié des images lentes → un
+  // cran d'effets en moins, compilé en arrière-plan puis appliqué, et retenu pour la visite suivante.
+  let frames = 0, slow = 0, winAt = 0, holdUntil = 0, switching = false;
+  function lower() {
+    const q = scene.quality - 1;
+    switching = true;
+    scene.prepareQuality(q).then(() => {
+      scene.setQuality(q); store('q', q + '.' + Math.floor(Date.now() / 864e5));
+      switching = false; frames = 0; slow = 0; holdUntil = performance.now() + 800;
+    });
+  }
   const plungerVisible = () => game && game.waiting && game.state === 'play';
   function loop(now) {
     // Jamais de temps négatif (première image : l'horodatage peut précéder « last »), ni de saut de plus de 50 ms.
@@ -328,19 +340,29 @@ async function boot() {
     const show = !!plungerVisible();
     if (plungerBtn.hidden === show) plungerBtn.hidden = !show;
     gauge.style.transform = `scaleY(${pullNow()})`;
-    // Qualité automatique, mesurée pendant la partie seulement (au chargement, la préparation des
-    // effets ralentit les premières images) : sur 120 images, plus de la moitié lentes → moins d'effets.
-    if (game && game.state === 'play' && !paused && now - started > 2500) {
+    if (!switching && !paused && now > holdUntil) {
+      if (!frames) winAt = now;
       frames++;
       if (dt > 0.028) slow++;
-      if (frames >= 120) {
-        if (slow / frames > 0.5 && scene.quality > 0) scene.setQuality(scene.quality - 1);
+      if (now - winAt > 1500) {
+        if (slow / frames > 0.5 && scene.quality > 0) lower();
         frames = 0; slow = 0;
       }
     }
     requestAnimationFrame(loop);
   }
   ov('start');
+  // Avant d'afficher (voile « Chargement… ») : qualité de départ, celle retenue sur cet appareil ou,
+  // sans mesure encore, sans halo sur téléphone, tablette et petit processeur ; plateau en place ;
+  // textures et shaders préparés. Les premières images sont ainsi d'emblée nettes et fluides.
+  // Qualité retenue (« niveau.jour de la mesure »), oubliée au bout de 14 jours pour retenter mieux.
+  const savedQ = /^([012])\.(\d+)$/.exec(store('q') || '');
+  const weak = matchMedia('(pointer: coarse)').matches || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
+  scene.setQuality(savedQ && Date.now() / 864e5 - savedQ[2] < 14 ? +savedQ[1] : weak ? 1 : 2);
+  scene.frame(phys, null, 0, performance.now() / 1000, 0);
+  await scene.warmup();
+  last = performance.now();
+  holdUntil = last + 1000;
   requestAnimationFrame(loop);
   root.classList.add('is-ready');
 }

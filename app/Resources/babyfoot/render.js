@@ -49,7 +49,7 @@ export class Scene3D {
     this.el = el;
     this.cfg = cfg;
     this.quality = 2;
-    this.view = 'joueur';
+    this.view = 'dessus';
     this.shake = 0;
     this.rods = buildRods();
     this.renderer = new THREE.WebGLRenderer({ canvas: el, antialias: true, powerPreference: 'high-performance', preserveDrawingBuffer: false });
@@ -336,6 +336,30 @@ export class Scene3D {
     this.scene.traverse(o => { if (o.material) [].concat(o.material).forEach(m => { m.needsUpdate = true; }); });
   }
 
+  /**
+   * Avant d'afficher : textures envoyées à la carte graphique et shaders de toute la scène compilés
+   * d'avance (même ce qui n'apparaît qu'en cours de match), puis une image pour les effets. Sans cela,
+   * la carte graphique les reçoit au fil des premières images, qui saccadent quelques secondes.
+   */
+  async warmup() {
+    const r = this.renderer;
+    const up = t => { if (t && t.isTexture) r.initTexture(t); };
+    up(this.scene.background);
+    this.scene.traverse(o => [].concat(o.material || []).forEach(m => Object.keys(m).forEach(k => up(m[k]))));
+    try { await r.compileAsync(this.scene, this.camera); } catch (e) { /* compilés au premier rendu */ }
+    this.render();
+  }
+
+  /** Compile en arrière-plan les shaders d'une autre qualité : le passage se fait ensuite sans à-coup. */
+  prepareQuality(q) {
+    const r = this.renderer, was = [r.shadowMap.enabled, this.spot.castShadow];
+    r.shadowMap.enabled = this.spot.castShadow = q >= 1;
+    let p;
+    try { p = r.compileAsync(this.scene, this.camera); } catch (e) { p = Promise.resolve(); }
+    [r.shadowMap.enabled, this.spot.castShadow] = was;
+    return p.catch(() => {});
+  }
+
   setView(v) { this.view = v; }
 
   /** Position de caméra d'une vue, reculée juste assez pour voir toute la table. */
@@ -428,7 +452,8 @@ export class Scene3D {
       want = this.pose;
       cam.fov = 38;
     }
-    const k = s.mode === 'replay' && this.lastMode !== 'replay' ? 1 : Math.min(1, dt * (s.mode === 'menu' ? 1.5 : 5));
+    // Première image, ou début du ralenti : la caméra se pose d'emblée, sans glisser depuis ailleurs.
+    const k = !this.lastMode || (s.mode === 'replay' && this.lastMode !== 'replay') ? 1 : Math.min(1, dt * (s.mode === 'menu' ? 1.5 : 5));
     this.camPos.lerp(want.pos, k);
     this.camAt.lerp(want.at, k);
     cam.up.lerp(want.up, Math.min(1, dt * 6)).normalize();

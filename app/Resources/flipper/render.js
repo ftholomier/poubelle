@@ -789,6 +789,30 @@ export class Scene3D {
     this.scene.traverse(o => { if (o.material) [].concat(o.material).forEach(m => { m.needsUpdate = true; }); });
   }
 
+  /**
+   * Avant d'afficher : textures envoyées à la carte graphique et shaders de toute la scène compilés
+   * d'avance (même ce qui n'apparaît qu'en cours de partie), puis une image pour les effets. Sans cela,
+   * la carte graphique les reçoit au fil des premières images, qui saccadent quelques secondes.
+   */
+  async warmup() {
+    const r = this.renderer;
+    const up = t => { if (t && t.isTexture) r.initTexture(t); };
+    up(this.scene.background);
+    this.scene.traverse(o => [].concat(o.material || []).forEach(m => Object.keys(m).forEach(k => up(m[k]))));
+    try { await r.compileAsync(this.scene, this.camera); } catch (e) { /* compilés au premier rendu */ }
+    this.render();
+  }
+
+  /** Compile en arrière-plan les shaders d'une autre qualité : le passage se fait ensuite sans à-coup. */
+  prepareQuality(q) {
+    const r = this.renderer, was = [r.shadowMap.enabled, this.key.castShadow];
+    r.shadowMap.enabled = this.key.castShadow = q >= 1;
+    let p;
+    try { p = r.compileAsync(this.scene, this.camera); } catch (e) { p = Promise.resolve(); }
+    [r.shadowMap.enabled, this.key.castShadow] = was;
+    return p.catch(() => {});
+  }
+
   // ------------------------------------------------------------------ animation
 
   /** Effet visuel ponctuel (appelé par les règles). */

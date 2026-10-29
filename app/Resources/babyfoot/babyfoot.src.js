@@ -16,6 +16,7 @@ const root = document.querySelector('[data-babyfoot]');
 if (root) boot().catch(err => { console.error(err); fail(); });
 
 function fail() {
+  root.classList.add('is-ready');
   root.querySelectorAll('[data-bf-ov]').forEach(o => { o.hidden = o.dataset.bfOv !== 'nogl'; });
 }
 
@@ -40,7 +41,7 @@ async function boot() {
   const fill = (s, o) => s.replace(/\{(\w+)\}/g, (m, k) => (k in o ? o[k] : m));
 
   const test = document.createElement('canvas');
-  if (!(test.getContext('webgl2') || test.getContext('webgl'))) { ov('nogl'); return; }
+  if (!(test.getContext('webgl2') || test.getContext('webgl'))) { root.classList.add('is-ready'); ov('nogl'); return; }
   await Promise.race([document.fonts.load('900 40px "Big Shoulders Display"'), new Promise(r => setTimeout(r, 2500))]);
   const logo = await new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = D.logo; });
 
@@ -53,7 +54,8 @@ async function boot() {
     format: store('duree') === 'buts' ? 'buts' : 'temps',
     opp: 0,
     hist: 0,
-    view: ['joueur', 'dessus', 'basse'].includes(store('vue')) ? store('vue') : 'joueur',
+    // Caméra : vue du dessus d'office (nouvelle clé : l'ancienne gardait la vue du joueur).
+    view: ['joueur', 'dessus', 'basse'].includes(store('cam')) ? store('cam') : 'dessus',
   };
   // Commandes selon le niveau : en Débutant, les barres se placent seules et le joueur n'a qu'à
   // tirer ; au-dessus (et à deux), c'est lui qui glisse ses barres.
@@ -470,7 +472,7 @@ async function boot() {
   function nextView() {
     const v = VIEWS[(VIEWS.indexOf(scene.view) + 1) % VIEWS.length];
     scene.setView(v);
-    if (game && !game.duo) { S.view = v; store('vue', v); }
+    if (game && !game.duo) { S.view = v; store('cam', v); }
     toast(U.cams[v]);
   }
   $('[data-bf-cam]').addEventListener('click', nextView);
@@ -699,9 +701,18 @@ async function boot() {
   let arrowT = 0;
 
   // ---------------------------------------------------------------- boucle
-  let last = performance.now(), frames = 0, slow = 0;
-  const bootAt = last;
-  let windowAt = last;
+  let last = performance.now();
+  // Qualité automatique : mesurée par périodes d'1,5 s ; plus de la moitié des images lentes → un
+  // cran d'effets en moins, compilé en arrière-plan puis appliqué, et retenu pour la visite suivante.
+  let frames = 0, slow = 0, winAt = 0, holdUntil = 0, switching = false;
+  function lower() {
+    const q = scene.quality - 1;
+    switching = true;
+    scene.prepareQuality(q).then(() => {
+      scene.setQuality(q); store('q', q + '.' + Math.floor(Date.now() / 864e5));
+      switching = false; frames = 0; slow = 0; holdUntil = performance.now() + 800;
+    });
+  }
   function loop(nowMs) {
     const dt = Math.max(0, Math.min(0.05, (nowMs - last) / 1000));
     last = nowMs;
@@ -759,19 +770,29 @@ async function boot() {
     }
     scene.frame(view, dt, t);
     scene.render();
-    // Qualité automatique (après les premières secondes, où la préparation des effets ralentit
-    // tout) : sur chaque période de 2 s, plus de la moitié des images lentes → moins d'effets.
-    if (nowMs - bootAt > 3000 && !paused && (mode === 'menu' || mode === 'play')) {
+    if (!switching && !paused && nowMs > holdUntil && (mode === 'menu' || mode === 'play')) {
+      if (!frames) winAt = nowMs;
       frames++;
       if (dt > 0.028) slow++;
-      if (nowMs - windowAt > 2000) {
-        if (frames && slow / frames > 0.5 && scene.quality > 0) scene.setQuality(scene.quality - 1);
-        frames = 0; slow = 0; windowAt = nowMs;
+      if (nowMs - winAt > 1500) {
+        if (slow / frames > 0.5 && scene.quality > 0) lower();
+        frames = 0; slow = 0;
       }
     }
     requestAnimationFrame(loop);
   }
   ov('start');
+  // Avant d'afficher (voile « Chargement… ») : qualité de départ, celle retenue sur cet appareil ou,
+  // sans mesure encore, sans halo sur téléphone, tablette et petit processeur ; caméra en place ;
+  // textures et shaders préparés. Les premières images sont ainsi d'emblée nettes et fluides.
+  // Qualité retenue (« niveau.jour de la mesure »), oubliée au bout de 14 jours pour retenter mieux.
+  const savedQ = /^([012])\.(\d+)$/.exec(store('q') || '');
+  const weak = touch || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
+  scene.setQuality(savedQ && Date.now() / 864e5 - savedQ[2] < 14 ? +savedQ[1] : weak ? 1 : 2);
+  scene.frame({ rods: demo.p.rods, ball: demo.p.ball, active: [-1, -1], mode: 'menu' }, 0, performance.now() / 1000);
+  await scene.warmup();
+  last = performance.now();
+  holdUntil = last + 1000;
   requestAnimationFrame(loop);
   root.classList.add('is-ready');
 }

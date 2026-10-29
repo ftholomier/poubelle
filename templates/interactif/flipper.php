@@ -134,5 +134,6 @@ $lb = $data['labels'];
       </div>
     </section>
     <noscript><p class="fl__nojs"><?= e(t('Le flipper a besoin de JavaScript.')) ?></p></noscript>
+    <div class="fl__boot" aria-hidden="true"><img src="<?= e($data['logo']) ?>" alt="" width="64" height="72"><span><?= e(t('Chargement…')) ?></span><i></i></div>
   </div>
 </div>

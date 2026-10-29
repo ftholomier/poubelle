@@ -432,7 +432,8 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   passes éliminent les joueurs adverses, trois billes verrouillées lancent le multiball. « Le
   saviez-vous ? » tirés des chiffres du musée. Son allumé d'office (bouton 🔊 pour le couper) ; sur
   ordinateur, clic gauche et clic droit pour les batteurs, bouton de la molette pour le lanceur puis
-  pour bourrer ; la bille roule moins vite qu'un vrai flipper. Tableau d'honneur de la semaine et de
+  pour bourrer ; la bille roule moins vite qu'un vrai flipper ; écran « Chargement… » le temps de
+  préparer la 3D, qui apparaît ensuite nette et fluide. Tableau d'honneur de la semaine et de
   tous les temps (parties à un joueur), même compte et même pseudo que le championnat ; un score
   n'est accepté qu'une fois, après 10 secondes de jeu et s'il est vraisemblable pour la durée.
   Modération dans Interactif › Quiz du club-house : les joueurs du flipper qui ne figurent pas plus
@@ -446,7 +447,7 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   suivent le niveau, et l'accueil l'écrit en clair : en Débutant, les barres se placent seules et
   on touche la table (ou on clique) là où l'on vise pour tirer ; en Amateur, Ligue 2, Ligue 1 et à
   deux, c'est le joueur qui bouge ses barres : pouce gauche pour glisser la barre qui s'allume,
-  pouce droit pour tirer (appui long = fort), souris et clavier sur ordinateur ; caméra au choix ; ralenti de chaque but ; son allumé d'office. Adversaires : les
+  pouce droit pour tirer (appui long = fort), souris et clavier sur ordinateur ; caméra au choix (vue de dessus d'office) ; écran « Chargement… » le temps de préparer la 3D, qui apparaît ensuite nette et fluide ; ralenti de chaque but ; son allumé d'office. Adversaires : les
   clubs les plus rencontrés, à leurs couleurs seulement quand elles sont sûres (sinon blanc et
   gris), avec leur sigle, jamais de logo. Grands matchs : choisis automatiquement dans les fiches
   publiées (finales, demies, affiches, à la une), noms seulement si la feuille de match est

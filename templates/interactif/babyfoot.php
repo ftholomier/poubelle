@@ -185,4 +185,5 @@ $hist = $data['history'];
     <div class="bf__rotate" data-bf-rotate hidden><span aria-hidden="true">⟲</span> <?= e($ui['rotate']) ?> <button type="button" data-bf-rotok aria-label="<?= e(t('Fermer')) ?>">×</button></div>
     <noscript><p class="bf__nojs"><?= e(t('Le babyfoot a besoin de JavaScript.')) ?></p></noscript>
   </div>
+  <div class="bf__boot" aria-hidden="true"><img src="<?= e($data['logo']) ?>" alt="" width="64" height="72"><span><?= e(t('Chargement…')) ?></span><i></i></div>
 </div>
