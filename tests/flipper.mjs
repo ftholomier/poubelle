@@ -1,5 +1,5 @@
 // Flipper « au stade » (plan « Football Super League ») : plateau, physique et règles, sans navigateur
-// (app/Resources/flipper/). Repères du plan présents, lancer, rampes (franchies, ratées), rails des
+// (app/Resources/flipper/). Repères du plan présents, lancer et souterrain, roulette, rampes (franchies, ratées), rails des
 // trous, mini-terrain (but, gardien, joueurs adverses mobiles, bille qui retombe), poches, TRICK qui
 // renvoie dans la rampe PASSE, match (chrono, mi-temps, résultat), Coupe (tours, élimination, coupe
 // gagnée), passes et COMBO, attaque, verrous et multiball, multiplicateurs et HOLD, coup d'envoi,
@@ -27,8 +27,8 @@ const count = (arr, f) => arr.filter(f).length;
 // ------------------------------------------------------------------ les repères du plan
 eq('plan : 6 batteurs (2 principaux [27], 2 TACKLE [26], 2 mini-flippers [5])',
   [t.flippers.length, count(t.flippers, f => !f.tackle && !f.mini), count(t.flippers, f => f.tackle), count(t.flippers, f => f.mini && f.lv === 1)], [6, 2, 2, 2]);
-eq('plan : 3 bumpers en triangle à gauche [18], 2 slingshots avec afficheur [23], kicker à droite [20]',
-  [t.bumpers.length, t.bumpers.every(b => b.x < 150), t.slings.length, t.slings.every(s => !!s.screen), !!t.kicker, t.kicker.a[0] > 300], [3, true, 2, true, true, true]);
+eq('plan : 3 bumpers [18] espacés (une bille passe entre deux), 2 slingshots avec afficheur [23], kicker à droite [20]',
+  [t.bumpers.length, t.bumpers.every((a, i) => t.bumpers.every((c, j) => i === j || Math.hypot(a.x - c.x, a.y - c.y) - a.r - c.r > 24)), t.slings.length, t.slings.every(s => !!s.screen), !!t.kicker, t.kicker.a[0] > 300], [3, true, 2, true, true, true]);
 eq('plan : rampes PASSE [7], DRIBBLE [6], CENTRE [8], BALLON LONG [9], accès mini-terrain [13], rails des trous [4]',
   names, ['passe', 'dribble', 'centre', 'ballon-long', 'acces', 'trou-g', 'trou-d']);
 eq('plan : PASSE et accès mènent au mini-terrain, DRIBBLE en part', [t.ramps[0].end.lv, t.ramps[4].end.lv, t.ramps[1].mouth.lv], [1, 1, 1]);
@@ -49,9 +49,18 @@ eq('hexagone → joueur du mini-terrain : attaquants, milieux, défenseurs', [0,
   run(ph, 0.3); ph.launch(0); run(ph, 3);
   eq('lancer à vide : la bille revient sur le lanceur', ph.onPlunger(b), true);
   for (const p of [0.55, 0.8, 1]) {
-    const q = new Physics(t), c = q.addBall(t.plunger.x, t.plunger.ball); let out = false;
-    run(q, 0.3); q.launch(p); run(q, 4, () => { if (c.x < 330 && c.y < 600) out = true; });
-    eq(`lancer à ${p} : la bille sort du couloir et entre en jeu`, [out, q.onPlunger(c)], [true, false]);
+    const q = new Physics(t), c = q.addBall(t.plunger.x, t.plunger.ball), ev = [];
+    q.on = (e, b) => { if (e === 'subway-in' || e === 'subway-out') ev.push([e, b.lv, Math.round(b.x), Math.round(b.y)]); };
+    run(q, 0.3); q.launch(p); run(q, 3);
+    eq(`lancer à ${p} : la bille plonge dans le souterrain et ressort en haut, par le trou droit du mini-terrain`,
+      [ev.length, ev[0] && ev[0][0], ev[1] && ev[1][0], ev[1] && ev[1][1], ev[1] && Math.hypot(ev[1][2] - t.subway.exit.x, ev[1][3] - t.subway.exit.y) < 1, q.onPlunger(c)], [2, 'subway-in', 'subway-out', 1, true, false]);
+  }
+  // Sortie du souterrain : la bille quitte le trou (il ne la reprend pas aussitôt) et descend vers les mini-flippers.
+  {
+    const q = new Physics(t), c = q.addBall(t.plunger.x, t.plunger.ball); let hole = 0;
+    q.on = e => { if (e === 'sensor') hole++; };
+    run(q, 0.3); q.launch(0.8); run(q, 1.6);
+    eq('sortie du souterrain : la bille repart sur le mini-terrain, sans retomber dans le trou', [c.lv, c.state, c.y > t.subway.exit.y + 20, hole], [1, 'play', true, 0]);
   }
 }
 
@@ -115,6 +124,15 @@ const shoot = (from, to, v) => {
   eq('l’accès du mini-terrain se prend du batteur gauche', hits('acces')([160, 712], [[143, 283], [146, 283], [149, 283]]) > 0, true);
 }
 
+// Roulette : la bille qui monte dans le couloir UNE-DEUX central la fait tourner, d'autant plus qu'elle va vite.
+{
+  const turns = v => { const ph = new Physics(t); let n = 0; ph.on = e => { if (e === 'spin') n++; }; ph.addBall(202, 420, 0, -v); run(ph, 4); return n; };
+  const slow = turns(800), fast = turns(1300);
+  eq('roulette : elle tourne au passage de la bille, davantage quand la bille va vite', [slow > 0, fast > slow], [true, true]);
+}
+// PASSE : l'entrée occupe tout le couloir de gauche ; des tirs du batteur droit y entrent.
+eq('PASSE se prend du batteur droit', [30, 40, 50].flatMap(x => [2000, 2400].map(v => shoot([210, 712], [x, 300], v))).includes('passe'), true);
+
 // ------------------------------------------------------------------ mini-terrain
 {
   const ph = new Physics(t);
@@ -158,7 +176,7 @@ const shoot = (from, to, v) => {
   ph.setFlipper('L', true); let ms = 0;
   while (Math.abs(f.ang - f.up) > 1e-9 && ms < 200) { ph.update(0.001); ms++; }
   eq('batteur levé en moins de 25 ms (temps réel)', ms < 25, true);
-  eq('jeu au ralenti (vitesse de la physique)', SPEED < 1, true);
+  eq('jeu au ralenti : la bille va deux fois moins vite qu’en vrai', SPEED <= 0.5, true);
 }
 for (const [x, y, label] of [[118, 722, 'pied du batteur gauche'], [251, 722, 'pied du batteur droit'], [70, 690, 'bas de l’inlane gauche'], [300, 690, 'bas de l’inlane droit']]) {
   const ph = new Physics(t), b = ph.addBall(x, y);
@@ -344,6 +362,11 @@ const into = (g, tag, ref) => {
   g.drain(live(g)); tick(g, 5);
   eq('2 joueurs : au tour du joueur 2, qui a son propre match', [g.cur, g.pl.home, g.pl.away], [1, 0, 0]);
 }
+{
+  const { g } = newGame(); inPlay(g);
+  const sc = g.pl.score; g.event('spin'); g.event('spin');
+  eq('roulette : 2 000 points par tour', g.pl.score - sc, 2 * PTS.spin);
+}
 eq('points de chaque élément : multiples de 10 (contrôle du tableau d’honneur)', Object.values(PTS).every(v => v % 10 === 0), true);
 
 // ------------------------------------------------------------------ robot : des parties entières
@@ -355,11 +378,12 @@ eq('points de chaque élément : multiples de 10 (contrôle du tableau d’honne
     const { g, over } = newGame();
     g.on.fx = k => { if (k === 'ramp') ramps++; if (k === 'goal') goals++; };
     const still = new Map(), hand = { L: 0, R: 0 };
-    for (let s = 0; s < 900 && !over.length; s += 1 / 60) {
+    for (let s = 0; s < 1500 && !over.length; s += 1 / 60) {
       if (g.waiting && g.state === 'play') g.launch(0.6 + Math.random() * 0.4);
       for (const side of ['L', 'R']) {
         // Coup de batteur : levé 0,15 s, puis baissé au moins 0,2 s.
-        const near = g.p.balls.some(b => b.state === 'play' && g.p.flippers.some(f => f.side === side && (f.lv || 0) === b.lv && Math.hypot(b.x - f.px, b.y - f.py) < f.len + 14 && b.vy > -50));
+        // Il vise les batteurs principaux et les mini-flippers (les TACKLE bougent avec eux).
+        const near = g.p.balls.some(b => b.state === 'play' && g.p.flippers.some(f => f.side === side && !f.tackle && (f.lv || 0) === b.lv && Math.hypot(b.x - f.px, b.y - f.py) < f.len + 14 && b.vy > -50));
         if (hand[side] <= 0 && near) hand[side] = 0.35;
         g.input(side, hand[side] > 0.2);
         hand[side] -= 1 / 60;

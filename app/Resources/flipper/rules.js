@@ -12,6 +12,7 @@ export const PTS = {
   bumper: 1000, sling: 110, pass: 25000, ramp: 50000, onetwo: 25000, onetwoBoth: 100000, lockLit: 100000, lock: 25000,
   goal: 250000, jackpot: 1000000, superJackpot: 5000000, rampJackpot: 250000, combo: 250000, hole: 25000, trick: 50000,
   trickJackpot: 500000, trap: 15000, tackle: 10000, player: 5000, save: 5000, skill: 500000, win: 1000000, draw: 250000, cup: 5000000, outlane: 10000,
+  spin: 2000,
 };
 /** Les tours de la Coupe. */
 const ROUNDS = ['r8', 'r4', 'r2', 'final'];
@@ -30,8 +31,8 @@ const HALF = 2700; // une mi-temps : 45:00 de temps de match
 const RATE = 30; // secondes de match par seconde de jeu (une mi-temps ≈ 1 min 30 de bille en jeu)
 const COMBO_MAX = 5, COMBO_DECAY = 8; // jauge COMBO : 5 cases, une case perdue toutes les 8 s sans passe
 const LION = 50, DOUBLE = 25; // coups de bumper pour réveiller le Lion, secondes de points doublés
-const SAVE = 10; // secondes de bille sauvée après le lancer
-const SKILL = 10; // secondes pour réussir le coup d'envoi après le lancer
+const SAVE = 14; // secondes de bille sauvée après le lancer (souterrain et mini-terrain compris)
+const SKILL = 12; // secondes pour réussir le coup d'envoi, à la sortie du souterrain
 const ATTACK = 6; // secondes d'attaque lancée (inlanes) : chaque passe élimine deux joueurs
 
 export class Game {
@@ -168,7 +169,7 @@ export class Game {
     if (this.state === 'play' || this.state === 'bonus') this.p.update(dt);
     const pl = this.pl;
     // Chrono du match : il défile quand une bille est en jeu ; à 00:00, mi-temps ou fin du match.
-    if (this.state === 'play' && pl && !this.waiting && !this.tilted && this.p.balls.some(b => b.state === 'play' || b.state === 'ramp')) {
+    if (this.state === 'play' && pl && !this.waiting && !this.tilted && this.p.balls.some(b => b.state === 'play' || b.state === 'ramp' || b.state === 'subway')) {
       pl.clock -= dt * RATE;
       if (pl.clock <= 0) this.whistle();
     }
@@ -261,7 +262,6 @@ export class Game {
         // « Tirez le lanceur » s'efface dès que la bille part.
         this.msgs = this.msgs.filter(m => m.small !== this.tr('launchHint'));
         if (this.saveArmed) { this.saveUntil = this.time + SAVE; this.saveArmed = false; }
-        if (this.skillArmed && this.skillUntil === Infinity) this.skillUntil = this.time + SKILL;
         a.launchedAt = this.time;
         this.on.fx('launch', a);
         break;
@@ -304,6 +304,19 @@ export class Game {
         break;
       case 'goal':
         this.goal(a);
+        break;
+      case 'subway-in':
+        // Le lanceur plonge dans le souterrain ; la bille ressort en haut, sur le mini-terrain.
+        this.on.fx('subway');
+        break;
+      case 'subway-out':
+        if (this.skillArmed && this.skillUntil === Infinity) this.skillUntil = this.time + SKILL;
+        this.on.fx('subway-out');
+        break;
+      case 'spin':
+        // Roulette : chaque tour rapporte.
+        this.add(PTS.spin);
+        this.on.fx('spin');
         break;
       case 'mini-out':
         this.say(this.tr('missed'), '', 1200, 'warn');

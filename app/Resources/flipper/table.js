@@ -63,13 +63,14 @@ export function buildTable() {
     { id: 'poche-attaquant', pts: [[82, 276], [82, 240], [88, 232], [106, 232], [112, 240], [112, 273]], r: 3, e: 0.4, h: 2.4, neon: true },
     // Entrée de la rampe CENTRE [8] : rails gauche et droit (l'entrée est en biais).
     { id: 'centre-d', pts: [[115, 356], [98, 312], [82, 276]], r: 3, e: 0.45, h: 2.2, neon: false },
-    { id: 'centre-g', pts: [[70, 372], [60, 330], [54, 289]], r: 3, e: 0.45, h: 2.2, neon: false },
-    // Entrée de la rampe PASSE [7] : deux rails ; à gauche, le bas du rail DRIBBLE.
-    { id: 'passe-g', pts: [[22, 289], [22, 250]], r: 3, e: 0.45, h: 2.2, neon: false },
-    { id: 'passe-d', pts: [[54, 289], [54, 250]], r: 3, e: 0.45, h: 2.2, neon: false },
-    { id: 'coin-g', pts: [[3, 292], [22, 289]], r: 3, e: 0.45, h: 2.2, neon: false },
-    // TRICK [11] : trou sur le flanc gauche, dans un guide en U ouvert vers le haut.
-    { id: 'trick', pts: [[8, 376], [9, 398], [19, 404], [29, 401], [34, 386]], r: 2.5, e: 0.35, h: 1.6, wire: true },
+    { id: 'centre-g', pts: [[70, 372], [62, 330], [58, 289]], r: 3, e: 0.45, h: 2.2, neon: false },
+    // Entrée de la rampe PASSE [7] : toute la largeur du couloir de gauche (une bille qui monte en
+    // biais depuis le batteur droit glisse le long du cadre et entre), bordée par le cadre et un rail.
+    { id: 'passe-g', pts: [[3, 292], [3, 236]], r: 3, e: 0.45, h: 2.2, neon: false },
+    { id: 'passe-d', pts: [[58, 289], [58, 250]], r: 3, e: 0.45, h: 2.2, neon: false },
+    // TRICK [11] : trou sur le flanc gauche, dans un guide en U ouvert vers le haut (étroit, pour
+    // laisser passer à côté les tirs vers la rampe PASSE).
+    { id: 'trick', pts: [[8, 376], [9, 398], [16, 403], [23, 400], [27, 388]], r: 2.5, e: 0.35, h: 1.6, wire: true },
     // Couloirs du bas : guides des inlanes vers les flippers principaux, plots des outlanes [25].
     { id: 'inlane-g', pts: [[32, 671], [125, 744]], r: 3, e: 0.45, h: 2.2, neon: true },
     { id: 'inlane-d', pts: [[337, 671], [244, 744]], r: 3, e: 0.45, h: 2.2, neon: true },
@@ -78,8 +79,9 @@ export function buildTable() {
     // Pied du mini-terrain [1] (niveau 0) : un bloc en pointe vers le bas.
     { id: 'mini', pts: [[140, 78], [319, 78], [319, 240], [245, 299], [212.6, 299], [140, 240], [140, 78]], r: 3, e: 0.45, h: 0, block: true },
   ];
-  // Bumpers [18] : groupe de trois en triangle, à gauche.
-  const bumpers = [{ x: 72, y: 410, r: 15 }, { x: 35, y: 440, r: 15 }, { x: 100, y: 480, r: 15 }];
+  // Bumpers [18] : trois, espacés, hors des couloirs de tir vers les rampes (réglés par simulation :
+  // les tirs vers PASSE, CENTRE, BALLON LONG et l'accès passent aussi bien que sans bumpers).
+  const bumpers = [{ x: 42, y: 432, r: 14 }, { x: 88, y: 532, r: 14 }, { x: 300, y: 550, r: 14 }];
   // Slingshots HOME / AWAY [23] : triangles hauts et étroits ; face active a → c (vers le centre).
   const slings = [
     { side: 'L', a: [88, 588], b: [84, 668], c: [114, 684], screen: [96, 630] },
@@ -104,7 +106,7 @@ export function buildTable() {
     { tag: 'outlane', ref: 0, x: 17, y: 640, r: 9 }, { tag: 'outlane', ref: 1, x: 352, y: 640, r: 9 },
     { tag: 'onetwo', ref: 0, x: 202, y: 318, r: 12 }, { tag: 'onetwo', ref: 1, x: 332, y: 376, r: 11 },
     { tag: 'lock', ref: 0, x: 97, y: 254, r: 8 }, { tag: 'lock', ref: 1, x: 262.3, y: 337, r: 8 }, { tag: 'lock', ref: 2, x: 343, y: 492, r: 8 },
-    { tag: 'trick', x: 18.7, y: 391, r: 8 },
+    { tag: 'trick', x: 16, y: 391, r: 8 },
     { tag: 'trap', x: 34, y: 494, r: 8 },
   ];
   // Le mini-terrain (niveau 1) [1] : murs (ouverture à gauche pour la rampe DRIBBLE), but et
@@ -131,8 +133,9 @@ export function buildTable() {
       { line: 'mil', y: 183, offs: [-66, -22, 22, 66], amp: 16, w: 1.7, phase: 2.1 },
       { line: 'att', y: 208, offs: [-24, 24], amp: 26, w: 1.1, phase: 4 },
     ],
-    // Joueurs fins, assez espacés pour qu'un tir puisse passer entre deux (but difficile, pas impossible).
-    player: { hw: 3, r: 3 },
+    // Joueurs ronds (la bille ne peut pas rester posée sur leur tête), assez espacés pour qu'un tir
+    // puisse passer entre deux (but difficile, pas impossible).
+    player: { hw: 0, r: 6 },
     center: 229.5,
     holes: [{ x: 162, y: 114, r: 9 }, { x: 295, y: 114, r: 9 }],
     drainY: 292,
@@ -147,7 +150,7 @@ export function buildTable() {
     // 0 · PASSE [7] : monte à gauche, épingle, débouche sur le mini-terrain.
     makeRamp('passe', [
       [39, 285, 0], [39, 240, 12], [39, 195, 26], [40, 165, 36], [46, 148, 42], [58, 140, 45], [72, 146, 48], [90, 165, 51], [106, 195, 53], [117, 218, 55], [124, 230, 56],
-    ], { a: [22, 283], b: [54, 283] }, { lv: 1, x: 152, y: 226, vx: 150, vy: 70 }, 1.3),
+    ], { a: [5, 284], b: [56, 284] }, { lv: 1, x: 152, y: 226, vx: 150, vy: 70 }, 1.9),
     // 1 · DRIBBLE [6] : part du mini-terrain (côté gauche), redescend tout à gauche, rail [10] vers l'inlane gauche.
     makeRamp('dribble', [
       [138, 137, 56], [124, 130, 58], [106, 122, 60], [84, 115, 60], [56, 112, 58], [34, 114, 54], [20, 124, 50], [13, 150, 46], [13, 200, 40], [13, 271, 32],
@@ -173,6 +176,11 @@ export function buildTable() {
     walls, bumpers, slings, kicker, flippers, sensors, ramps, mini,
     block: { x1: 140, x2: 319, y1: 78, y2: 299 },
     plunger: { x: 381, top: 800, ball: 790 },
+    // Souterrain du lanceur : en haut du couloir de lancement, la bille lancée plonge sous le plateau
+    // et ressort tout en haut, par le trou droit du mini-terrain (niveau 1), vers les mini-flippers.
+    subway: { x: 381, y: 505, r: 12, vy: -500, delay: 0.5, exit: { lv: 1, hole: 1, x: 295, y: 114, vx: -70, vy: 140 } },
+    // Roulette (spinner) en travers du couloir UNE-DEUX central : elle tourne au passage de la bille.
+    spinner: { a: [182, 334], b: [222, 334] },
     // Sortie du couloir de lancement : portillon (la bille sort, ne redescend pas dans le couloir).
     gate: { a: [339, 447], b: [384, 428], n: [-0.39, -0.92] },
     drainY: 818,
@@ -186,10 +194,10 @@ export function buildTable() {
       box: { x1: 121.8, x2: 247.7, y1: 709.5, y2: 804 },
       dots: [[156.4, 335], [201.4, 352.5], [130.6, 373], [148.7, 390.3], [168, 401.7], [274, 420.5], [317.4, 433], [263.2, 443.3], [257.4, 464.4], [148.2, 540.5], [146.7, 561], [39, 305]],
       smallHexes: [[41.9, 328.2], [160.5, 357.5], [195, 376.5], [308.6, 456], [42, 609], [327, 609], [28.7, 697], [340.5, 697]],
-      pentagons: [[130.6, 314.5], [227.8, 394], [303.9, 555]],
+      pentagons: [[130.6, 314.5], [227.8, 394], [258, 554]],
       chevrons: [[114.5, 291.6, -0.6], [247.7, 376.5, 0.6], [323.8, 521.5, 0.35]],
       modes: [[172.2, 480.5], [175, 501.3]],
-      lamp: [64.7, 531.7],
+      lamp: [40, 548],
       plate: { x1: 26, x2: 66, y1: 472, y2: 516 },
       mults: [['10X', 543], ['8X', 582], ['6X', 622.5], ['4X', 663], ['2X', 703], ['HOLD', 741]],
       clock: [88, 841, 23],

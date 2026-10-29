@@ -185,6 +185,11 @@ export class Sound {
       case 'tunnel': this.noise(0.3, 300, 1, 0.16, 0, 'bandpass', 1400); break;
       case 'pass': this.tone(880, 0.07, 'triangle', 0.1, 1175); break;
       case 'onetwo': this.arp([784, 988, 1175], 0.05, 'triangle', 0.1); break;
+      // Souterrain du lanceur : la bille plonge (grondement), puis ressort en haut (petit claquement).
+      case 'subway': this.noise(0.5, 220, 1, 0.22, 0, 'lowpass'); this.tone(70, 0.45, 'sine', 0.3, 40); break;
+      case 'subway-out': this.noise(0.06, 1400, 2, 0.18); this.tone(180, 0.1, 'sine', 0.3, 320); break;
+      // Roulette : un « tic » par tour.
+      case 'spin': this.tone(2200, 0.018, 'square', 0.05); break;
       case 'win': this.whistle(0.3); this.whistle(0.3, 0.4); this.whistle(0.7, 0.8); this.cheer(3.5, 0.45); this.arp([523, 659, 784, 1046, 1318, 1568], 0.12, 'sawtooth', 0.1); break;
       case 'draw': case 'loss': this.whistle(0.3); this.whistle(0.3, 0.4); this.whistle(0.7, 0.8); if (name === 'loss') this.groan(2, 0.16, 600, 200); break;
       case 'combo': this.arp([784, 988, 1175, 1568], 0.06, 'square', 0.09); break;

@@ -69,7 +69,7 @@ final class FlipperPages
                 'lines' => ['att' => $up('Attaquant'), 'mil' => $up('Milieu'), 'def' => $up('Défenseur')],
                 'modes' => ['jackpot' => $up('Jackpot'), 'super' => $up('Super jackpot'), 'skill' => $up('Coup d’envoi'), 'extra' => $up('Bille en plus'), 'time' => $up('Temps additionnel')],
                 'trick' => $up('Geste technique'), 'trap' => $up('Contrôle'), 'attack' => $up('Attaque'), 'tackle' => $up('Tacle'),
-                'onetwo' => $up('Une-deux'), 'goal' => $up('But !'),
+                'onetwo' => $up('Une-deux'), 'goal' => $up('But !'), 'spinner' => $up('Roulette'),
             ],
             'facts' => Flipper::facts(),
             'member' => $member,

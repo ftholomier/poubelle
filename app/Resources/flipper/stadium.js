@@ -270,7 +270,8 @@ export class Stadium {
     const m = c => new THREE.MeshStandardMaterial({ color: c, roughness: 0.55 });
     const shirt = m(k.shirt), sleeve = m(k.sleeves), shorts = m(k.shorts), socks = m(k.socks), skin = m('#d9a07a'), hair = m(side < 0 ? '#2a1a10' : '#6b4423'), boot = m('#111318');
     const root = new THREE.Group(), S = 1;
-    const part = (geo, mat, x, y, z, parent = root) => { const o = new THREE.Mesh(geo, mat); o.position.set(x, y, z); o.castShadow = true; parent.add(o); return o; };
+    // Pas d'ombre portée : les joueurs géants sont loin du plateau (rendu plus léger).
+    const part = (geo, mat, x, y, z, parent = root) => { const o = new THREE.Mesh(geo, mat); o.position.set(x, y, z); parent.add(o); return o; };
     // Jambes : hanche (pivot), cuisse dans le short, chaussette, chaussure.
     const leg = sx => {
       const hip = new THREE.Group(); hip.position.set(sx * 1.25, 10.2 * S, 0); root.add(hip);
@@ -311,11 +312,17 @@ export class Stadium {
       g.fillStyle = '#16181d'; for (let i = 0; i < 6; i++) for (let j = 0; j < 3; j++) { g.beginPath(); g.arc(10 + i * 22 + (j % 2) * 11, 10 + j * 22, 6, 0, Math.PI * 2); g.fill(); }
       ball = part(new THREE.SphereGeometry(1.3, 20, 14), new THREE.MeshStandardMaterial({ map: tex(c), roughness: 0.45 }), 1.25, 3, 2.5);
     }
+    // Pose fixe (aucune animation, pour alléger le rendu) : à gauche le ballon sur le genou levé,
+    // à droite les mains jointes devant lui.
+    if (side < 0) { legR.rotation.x = -0.9; ball.position.set(1.25, 9, 3.8); armL.rotation.z = -0.43; armR.rotation.z = 0.43; } else { armL.rotation.x = -0.9; armR.rotation.x = -0.9; armL.rotation.z = 0.17; armR.rotation.z = -0.17; }
     root.position.set(side < 0 ? b.x1 - 15 : b.x2 + 15, this.ground, b.z1 + 26);
     root.rotation.y = -side * 0.45;
     root.scale.setScalar(1.5);
     this.root.add(root);
-    return { root, legL, legR, armL, armR, head, ball, side, jump: 0 };
+    // Immobile : ses matrices sont calculées une fois pour toutes.
+    root.updateMatrixWorld(true);
+    root.traverse(o => { o.matrixAutoUpdate = false; });
+    return { root, side };
   }
 
   /** Banc de touche : abri transparent, sièges aux couleurs du club. */
@@ -336,8 +343,8 @@ export class Stadium {
 
   // ------------------------------------------------------------------ animation
 
-  /** Le club marque : la foule saute, les joueurs géants fêtent le but. */
-  celebrate(k = 1) { this.hype = Math.max(this.hype, k); for (const f of this.figures) f.jump = 1; }
+  /** Le club marque : la foule saute (les joueurs géants restent immobiles, pour alléger le rendu). */
+  celebrate(k = 1) { this.hype = Math.max(this.hype, k); }
 
   update(dt, time) {
     this.time = time;
@@ -345,26 +352,6 @@ export class Stadium {
     this.crowdU.uTime.value = time;
     this.crowdU.uHype.value = Math.min(1, this.hype);
     for (const t of this.boardTexs || []) t.offset.x = (time * 0.025) % 1;
-    for (const f of this.figures) {
-      f.jump = Math.max(0, f.jump - dt * 0.35);
-      const party = f.jump > 0;
-      const bob = party ? Math.abs(Math.sin(time * 7)) * 1.6 * Math.min(1, f.jump * 3) : 0;
-      f.root.position.y = this.ground + bob;
-      const up = party ? Math.min(1, f.jump * 4) : 0;
-      if (f.side < 0) {
-        // Jongle : le genou droit monte, le ballon saute ; en fête, bras levés.
-        const ph = (time * 1.6) % 1, kneeUp = Math.max(0, Math.sin(ph * Math.PI * 2)) * (1 - up);
-        f.legR.rotation.x = -kneeUp * 1.1;
-        if (f.ball) { f.ball.position.y = 3 + 7 * Math.sin(ph * Math.PI) * (1 - up) + up * 26; f.ball.position.z = 2.5 + kneeUp * 1.5; f.ball.rotation.x += dt * 4; }
-        f.armL.rotation.z = -0.18 - up * 2.6 - (1 - up) * 0.25; f.armR.rotation.z = 0.18 + up * 2.6 + (1 - up) * 0.25;
-      } else {
-        // Applaudit doucement ; en fête, bras levés.
-        const clap = Math.sin(time * 6) * 0.25 * (1 - up);
-        f.armL.rotation.x = -0.9 * (1 - up) + clap; f.armR.rotation.x = -0.9 * (1 - up) + clap;
-        f.armL.rotation.z = -0.18 - up * 2.7 + (1 - up) * 0.35; f.armR.rotation.z = 0.18 + up * 2.7 - (1 - up) * 0.35;
-      }
-      f.head.rotation.y = Math.sin(time * 0.7 + f.side) * 0.25;
-    }
   }
 
   setQuality(q) {

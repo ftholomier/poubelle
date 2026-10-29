@@ -423,8 +423,10 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   milieu d'un stade (téléphone et ordinateur), 1 à 4 joueurs, 3 billes, dont le plateau suit repère
   par repère le schéma de principe validé : mini-terrain surélevé (but, gardien, trois rangées de
   joueurs adverses qui coulissent, deux mini-flippers), rampes Dribble, Passe, Centre et Ballon long,
-  poches Attaquant, Milieu et Défenseur, geste technique, bumpers au logo du club, slingshots avec
-  afficheur, batteurs Tacle, multiplicateurs 2X à 10X, chrono 45:00 et jauge COMBO sur le tablier.
+  poches Attaquant, Milieu et Défenseur, geste technique, bumpers au logo du club (espacés, hors des
+  tirs vers les rampes), roulette, slingshots avec afficheur, batteurs Tacle, multiplicateurs 2X à
+  10X, chrono 45:00 et jauge COMBO sur le tablier. La bille lancée plonge dans un souterrain et
+  ressort en haut, sur le mini-terrain ; elle roule deux fois moins vite qu'en vrai.
   Chaque partie est une épopée en Coupe (8es, quarts, demie, finale) contre des adversaires de
   l'histoire du club ; on marque sur le mini-terrain, chaque bille perdue est un but encaissé ; les
   passes éliminent les joueurs adverses, trois billes verrouillées lancent le multiball. « Le

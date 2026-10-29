@@ -4,7 +4,8 @@
 // bumpers (cercles), slingshots et kicker (faces qui renvoient la bille), flippers (segments effilés
 // en rotation : principaux, TACKLE, mini-flippers), joueurs adverses du mini-terrain (trois rangées
 // qui vont et viennent) et gardien, capteurs (couloirs, poches, trous, but), rampes et rails (la
-// bille suit un chemin en hauteur, d'un niveau à l'autre), portillon du couloir de lancement.
+// bille suit un chemin en hauteur, d'un niveau à l'autre), portillon du couloir de lancement,
+// souterrain du lanceur (la bille plonge et ressort en haut du plateau), roulette (spinner).
 // Aucun rendu ici : testable dans Node.
 import { R, HM } from './table.js';
 
@@ -21,7 +22,7 @@ const MU_FLIP = 0.1; // frottement bille / flippers (caoutchouc)
  * en rad/s réels : réactifs dès l'appui) ; la force de leur coup sur la bille est réglée à part
  * (HIT_UP, HIT_DOWN, en rad/s du temps de la physique).
  */
-export const SPEED = 0.65;
+export const SPEED = 0.5;
 const FLIP_UP = 45, FLIP_DOWN = 26;
 const HIT_UP = 42, HIT_DOWN = 20;
 /**
@@ -97,6 +98,8 @@ export class Physics {
       m.holes.forEach((h, i) => this.sensors.push({ tag: 'hole', ref: i, x: h.x, y: h.y, r: h.r, inside: new Set(), lv: 1 }));
     }
     this.flippers = table.flippers.map((f, i) => ({ lv: 0, ...f, id: i, ang: f.rest, w: 0, hit: 0, sweep: 0, pressed: false }));
+    // Roulette : angle et vitesse de rotation (rad/s du temps de la physique), tours comptés.
+    this.spinner = table.spinner ? { ...table.spinner, ang: 0, w: 0 } : null;
     // Obstacles rangés par niveau (une bille ne regarde que ceux du sien).
     this.lv = [0, 1].map(l => ({
       segs: this.segs.filter(o => o.lv === l), circs: this.circs.filter(o => o.lv === l),
@@ -201,6 +204,14 @@ export class Physics {
 
   step(dt) {
     this.time += dt;
+    const sp = this.spinner;
+    if (sp && sp.w > 0.05) {
+      // La roulette ralentit ; chaque tour complet rapporte (événement 'spin').
+      const before = Math.floor(sp.ang / (Math.PI * 2));
+      sp.ang += sp.w * dt;
+      sp.w *= Math.exp(-1.3 * dt);
+      if (Math.floor(sp.ang / (Math.PI * 2)) > before) this.on('spin');
+    } else if (sp) sp.w = 0;
     for (const f of this.flippers) {
       const target = f.pressed ? f.up : f.rest, dir = Math.sign(target - f.ang);
       const speed = (f.pressed ? FLIP_UP : FLIP_DOWN) / this.speed;
@@ -211,6 +222,7 @@ export class Physics {
     const m = this.t.mini;
     for (const b of this.balls) {
       if (b.state === 'ramp') { this.rampStep(b, dt); continue; }
+      if (b.state === 'subway') { if (this.time >= b.subAt) this.subwayOut(b); continue; }
       if (b.state !== 'play') continue;
       const L = this.lv[b.lv];
       b.px = b.x; b.py = b.y;
@@ -228,13 +240,16 @@ export class Physics {
       if (v > VMAX) { b.vx *= VMAX / v; b.vy *= VMAX / v; }
       this.sense(b, L);
       if (b.state !== 'play') continue;
+      if (b.lv === 0) this.underground(b);
+      if (b.state !== 'play') continue;
       if (b.lv === 1) {
         // But : la bille franchit la ligne entre les poteaux. Bord avant : elle retombe sur le plateau.
         if (b.y < m.goal.y && b.x > m.goal.x1 && b.x < m.goal.x2 && !b.scored) { b.scored = true; this.on('goal', b); }
         if (b.state === 'play' && b.y > m.drainY) {
           const d = m.drop;
           this.place(b, 0, Math.max(d.x1, Math.min(d.x2, b.x)), d.y);
-          b.h = HM; b.hv = 0; b.vy = Math.max(b.vy, 120); b.vx *= 0.5;
+          // Elle retombe avec un petit écart de côté (pas toujours droit entre les batteurs du bas).
+          b.h = HM; b.hv = 0; b.vy = Math.max(b.vy, 120); b.vx = b.vx * 0.5 + (Math.random() < 0.5 ? -1 : 1) * (40 + Math.random() * 50);
           this.on('mini-out', b);
         }
       } else if (b.y > this.t.drainY) { b.state = 'gone'; this.on('drain', b); }
@@ -243,6 +258,12 @@ export class Physics {
       const held = L.flippers.some(f => f.pressed && Math.hypot(b.x - f.px, b.y - f.py) < f.len + 24);
       b.still = v < 6 && !this.onPlunger(b) && !held ? b.still + dt : 0;
       if (b.still > 1.2) { b.vx += (Math.random() < 0.5 ? -1 : 1) * (80 + Math.random() * 120); b.vy -= 150; b.still = 0; }
+      // Mini-terrain : une bille qui ne descend plus (portée par un joueur ou le gardien qui vont et
+      // viennent) au-dessus des mini-flippers glisse de côté et repart.
+      if (b.lv === 1) {
+        b.ride = Math.abs(b.vy) < 25 && b.y < m.drainY - 60 && !held ? (b.ride || 0) + dt : 0;
+        if (b.ride > 0.8) { b.vx += (Math.random() < 0.5 ? -1 : 1) * (90 + Math.random() * 60); b.vy += 120; b.ride = 0; }
+      }
     }
     // Chocs entre billes (multiball), sur un même niveau.
     const live = this.balls.filter(b => b.state === 'play');
@@ -353,6 +374,41 @@ export class Physics {
     b.lowAt = this.time; // frappée par un flipper : le joueur a la main, ce n'est pas une boucle
     if (f.w !== 0) b.flip = key;
     if (imp > 50) this.on('flip-hit', f.side, b, imp, f.mini ? 'mini' : f.tackle ? 'tackle' : '');
+  }
+
+  /**
+   * Plateau : la bille qui monte vite en haut du couloir de lancement plonge dans le souterrain ;
+   * celle qui franchit la roulette la fait tourner selon sa vitesse.
+   */
+  underground(b) {
+    const sw = this.t.subway;
+    if (sw && b.vy < sw.vy && (b.x - sw.x) ** 2 + (b.y - sw.y) ** 2 < sw.r * sw.r) {
+      b.state = 'subway'; b.subAt = this.time + sw.delay; b.vx = b.vy = 0;
+      for (const s of this.sensors) s.inside.delete(b);
+      this.on('subway-in', b);
+      return;
+    }
+    const sp = this.spinner;
+    if (sp) {
+      const ux = sp.b[0] - sp.a[0], uy = sp.b[1] - sp.a[1], L = Math.hypot(ux, uy), nx = -uy / L, ny = ux / L;
+      const s0 = (b.px - sp.a[0]) * nx + (b.py - sp.a[1]) * ny, s1 = (b.x - sp.a[0]) * nx + (b.y - sp.a[1]) * ny;
+      const along = ((b.x - sp.a[0]) * ux + (b.y - sp.a[1]) * uy) / L;
+      if (s0 * s1 < 0 && along > -2 && along < L + 2) {
+        const v = Math.abs(b.vx * nx + b.vy * ny);
+        if (v > 60) { sp.w = Math.max(sp.w, v * 0.045); this.on('spinner-hit', b, v); }
+      }
+    }
+  }
+
+  /** Sortie du souterrain : la bille est posée au bout (trou du mini-terrain) et repart. */
+  subwayOut(b) {
+    const e = this.t.subway.exit;
+    this.place(b, e.lv, e.x, e.y);
+    // Elle sort par le trou : il ne la reprend qu'après qu'elle en est sortie.
+    const hole = this.sensors.find(s => s.tag === 'hole' && s.ref === e.hole);
+    if (hole) hole.inside.add(b);
+    this.release(b, e.vx, e.vy);
+    this.on('subway-out', b);
   }
 
   /** Capteurs du niveau de la bille, et entrées des rampes franchies dans le bon sens. */

@@ -962,7 +962,9 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   4 défenseurs, 4 milieux, 2 attaquants, va-et-vient sinusoïdal), trous d'éjection, mini-flippers ;
   murs (polylignes, `wire` pour les guides en fil, `block` pour le pied du mini-terrain), 3 bumpers,
   2 slingshots (`screen` : afficheur), kicker, 6 batteurs (principaux, `tackle`, `mini`), capteurs
-  (`inlane`, `outlane`, `onetwo`, `lock` 0-2, `trick`, `trap`), 7 rampes et rails en spline avec
+  (`inlane`, `outlane`, `onetwo`, `lock` 0-2, `trick`, `trap`), souterrain du lanceur (`subway` :
+  entrée en haut du couloir, franchie vers le haut à plus de 500 px/s ; sortie par le trou droit du
+  mini-terrain), roulette (`spinner`, ligne en travers du couloir UNE-DEUX central), 7 rampes et rails en spline avec
   hauteur (`makeRamp` : `mouth` ligne d'entrée et niveau, `end` pose sur le mini-terrain, `wire`
   point où la rampe devient un rail) : `passe`, `dribble`, `centre`, `ballon-long`, `acces`,
   `trou-g`, `trou-d` ; repères du décor `deco`),
@@ -975,13 +977,18 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   spline (`enterRamp(b, id, rv)`, `ramp-done` : pose sur le mini-terrain ou retour au plateau,
   `ramp-fail` : la bille redescend), mini-terrain (but entre les poteaux, `save` du gardien qui
   suit la bille selon `keeperSkill`, `player`, bille qui passe entre les mini-flippers → retombe
-  dans le couloir UNE-DEUX central), chocs entre billes, bille immobile relancée au bout de 1,2 s
-  sauf si un batteur la tient). Vitesse : `SPEED` = 0,65 (temps de la physique = temps réel ×
-  0,65) ; batteurs en temps réel (`FLIP_UP` = 45 rad/s, levés en ~22 ms), force du coup à part
+  dans le couloir UNE-DEUX central, avec un petit écart de côté), souterrain (état `subway`, la
+  bille reparaît au bout de `delay`, événements `subway-in` / `subway-out`), roulette (vitesse de
+  rotation selon la vitesse de la bille, freinée, événement `spin` à chaque tour), chocs entre
+  billes, bille immobile relancée au bout de 1,2 s sauf si un batteur la tient, bille portée par
+  un joueur du mini-terrain poussée de côté au bout de 0,8 s ; joueurs ronds). Vitesse : `SPEED` =
+  0,5 (temps de la physique = temps réel × 0,5) ; batteurs en temps réel (`FLIP_UP` = 45 rad/s, levés en ~22 ms), force du coup à part
   (`HIT_UP`), un seul coup par mouvement (`sweep`) ; bumpers, slingshots et kicker : coup variable
   (force ±10 %, angle ±6°), plus aucun coup après `LOOP_MAX` = 10 s sans revenir près des batteurs.
-  Réglages vérifiés par simulation : tirs francs du batteur droit dans la rampe Centre, du gauche
-  dans Ballon long et l'accès ; geste technique qui renvoie dans la rampe Passe ; au mini-terrain,
+  Réglages vérifiés par simulation : tirs francs du batteur droit dans les rampes Centre et Passe
+  (entrée de Passe sur toute la largeur du couloir de gauche, guide du TRICK resserré), du gauche
+  dans Ballon long et l'accès ; bumpers placés hors de ces couloirs (les tirs passent aussi bien
+  que sans bumpers) ; geste technique qui renvoie dans la rampe Passe ; au mini-terrain,
   environ une visite sur sept finit au fond contre l'équipe au complet, une sur trois quand elle
   est décimée. `rules.js` (`Game` : épopée en Coupe, match en deux mi-temps de 45:00 (`RATE` = 30 s
   de match par seconde de bille en jeu), victoire / nul (à rejouer) / défaite (retour en 8es),
@@ -1005,7 +1012,8 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   l'écran ; qualité baissée seule si plus de la moitié des images sont lentes), `stadium.js`
   (stade autour de la machine : ciel, pelouse, panneaux LED, tribunes et foule en
   `InstancedMesh` qui saute aux grands moments, banderoles au logo, pylônes et projecteurs,
-  tableau de score géant, figurines géantes, banc), `audio.js` (sons synthétisés en WebAudio,
+  tableau de score géant, figurines géantes immobiles et sans ombre portée pour alléger le rendu,
+  banc), `audio.js` (sons synthétisés en WebAudio,
   allumés d'office, coupés par le bouton 🔊, choix gardé dans `localStorage` `fl:son` ;
   roulement de la bille, rumeur du stade, clameur, sifflets, soupirs), `flipper.src.js` (page :
   clavier, souris — clic gauche / clic droit = batteurs, bouton du milieu = lanceur quand la bille
@@ -1037,8 +1045,8 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   modération dans Interactif › Quiz du club-house (100 premiers de la semaine et de toujours).
   Carnet supprimé → `Flipper::forget()` ; tâche « ménage » : semaines de plus de 6 mois
   (`Flipper::purge()`).
-- **Tests** : `node tests/flipper.mjs` (85 vérifications sans navigateur : repères du plan, lancer,
-  portillon, rampes franchies ou ratées, rampe Dribble et rails des trous, tirs des batteurs dans
+- **Tests** : `node tests/flipper.mjs` (89 vérifications sans navigateur : repères du plan, lancer
+  et souterrain, roulette, tir dans la rampe Passe, portillon, rampes franchies ou ratées, rampe Dribble et rails des trous, tirs des batteurs dans
   les rampes, geste technique → rampe Passe, mini-terrain (joueurs qui bougent, but, gardien,
   joueur, bille qui retombe, mini-flippers et TACKLE avec les batteurs), batteurs vifs, bille jamais
   coincée au pied des batteurs, coup d'envoi, chrono, mi-temps, victoire, nul, défaite, coupe, but

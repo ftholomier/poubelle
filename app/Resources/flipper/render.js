@@ -112,6 +112,8 @@ export class Scene3D {
     this.slingsBuild();
     this.kickerBuild();
     this.holesBuild();
+    this.spinnerBuild();
+    this.subwayBuild();
     this.flippersBuild();
     // Nom de chaque rampe, à l'endroit du plan : f = position le long de la partie pleine, flip = sens de lecture.
     const names = { passe: [this.lb.passe, 0.55], dribble: [this.lb.dribble, 0.72, true], centre: [this.lb.centre, 0.2], 'ballon-long': [this.lb.ballonLong, 0.22, true] };
@@ -190,7 +192,7 @@ export class Scene3D {
     g.fillStyle = '#05070c'; g.beginPath(); g.roundRect(30, 476, 8, 36, 4); g.fill();
     // Textes peints.
     const paint = (s, x, y, size, rot = 0, color = '#FFF3C2', ls = 1.5) => txt(g, String(s || '').toUpperCase(), x, y, size, color, { rot, ls, weight: 900 });
-    paint(lb.bumpers, 112, 513, 8, 0, 'rgba(255,243,194,.95)', 2.5);
+    paint(lb.bumpers, 88, 567, 7, 0, 'rgba(255,243,194,.95)', 2.5);
     paint(lb.trick, 40, 360, 6.5, -Math.PI / 2);
     paint(lb.trap, 46, 523, 6);
     paint(lb.onetwo, 202, 300, 6, -Math.PI / 2);
@@ -406,6 +408,43 @@ export class Scene3D {
     for (const s of this.t.sensors.filter(o => ['inlane', 'outlane', 'onetwo'].includes(o.tag))) {
       const btn = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.5, 0.25, 16), this.mat.chrome); btn.position.copy(P(s.x, s.y, 0.12)); this.scene.add(btn);
     }
+  }
+
+  /** Roulette (spinner) : une plaque jaune au nom de la roulette, sur un axe entre deux plots, qui tourne au passage de la bille. */
+  spinnerBuild() {
+    const sp = this.t.spinner;
+    if (!sp) return;
+    const [ax, ay] = sp.a, [bx, by] = sp.b, len = Math.hypot(bx - ax, by - ay) * S, h = 2.6;
+    for (const [x, y] of [sp.a, sp.b]) {
+      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.32, h + 0.4, 12), this.mat.chrome);
+      post.position.copy(P(x, y, (h + 0.4) / 2)); this.scene.add(post);
+    }
+    const axle = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, len, 8), this.mat.chrome);
+    axle.rotation.z = Math.PI / 2; axle.rotation.y = -Math.atan2(by - ay, bx - ax);
+    axle.position.copy(P((ax + bx) / 2, (ay + by) / 2, h)); this.scene.add(axle);
+    const [c, g] = canvas(256, 64);
+    g.fillStyle = this.Y; g.fillRect(0, 0, 256, 64);
+    g.fillStyle = this.N; g.fillRect(0, 0, 256, 6); g.fillRect(0, 58, 256, 6);
+    txt(g, String(this.lb.spinner || '').toUpperCase(), 128, 33, 34, this.N, { weight: 900, ls: 4, max: 236 });
+    const geo = new THREE.BoxGeometry(len * 0.92, 1.5, 0.08);
+    geo.translate(0, -0.75, 0);
+    const plate = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: tex(c), roughness: 0.35, metalness: 0.2, emissive: this.col.yellow, emissiveIntensity: 0.12 }));
+    // Pivot sur l'axe : la plaque pend, tournée face au joueur, et tourne autour de l'axe.
+    this.spinner = new THREE.Group();
+    this.spinner.position.copy(P((ax + bx) / 2, (ay + by) / 2, h));
+    this.spinner.rotation.y = -Math.atan2(by - ay, bx - ax);
+    this.spinnerPlate = plate; this.spinner.add(plate); this.scene.add(this.spinner);
+  }
+
+  /** Entrée du souterrain, en haut du couloir de lancement : un trou sombre sous une petite voûte. */
+  subwayBuild() {
+    const sw = this.t.subway;
+    if (!sw) return;
+    const r = sw.r * S;
+    const hole = new THREE.Mesh(new THREE.CircleGeometry(r * 1.1, 32), this.mat.hole); hole.rotation.x = -Math.PI / 2; hole.position.copy(P(sw.x, sw.y, 0.05)); this.scene.add(hole);
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(r * 1.15, 0.14, 8, 32), this.mat.chrome); ring.rotation.x = Math.PI / 2; ring.position.copy(P(sw.x, sw.y, 0.08)); this.scene.add(ring);
+    const arch = new THREE.Mesh(new THREE.TorusGeometry(r * 1.2, 0.22, 10, 24, Math.PI), this.mat.yellow);
+    arch.position.copy(P(sw.x, sw.y - sw.r * 0.6, 0)); this.scene.add(arch);
   }
 
   flippersBuild() {
@@ -769,7 +808,7 @@ export class Scene3D {
   frame(phys, lamps, dt, time, plungerPull = 0) {
     dt = Math.max(0, dt);
     // billes
-    const live = phys.balls.filter(b => b.state !== 'gone');
+    const live = phys.balls.filter(b => b.state !== 'gone' && b.state !== 'subway');
     this.balls.forEach((m, i) => {
       const b = live[i];
       m.visible = !!b;
@@ -777,6 +816,8 @@ export class Scene3D {
     });
     // flippers
     phys.flippers.forEach((f, i) => { this.flippers[i].rotation.y = -f.ang; });
+    // roulette
+    if (this.spinner && phys.spinner) this.spinnerPlate.rotation.x = phys.spinner.ang;
     // joueurs adverses (vont et viennent, tombent quand ils sont éliminés) et gardien
     if (phys.players && this.players) {
       phys.players.forEach((p, i) => {
