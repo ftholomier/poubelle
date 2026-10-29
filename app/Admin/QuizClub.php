@@ -7,6 +7,7 @@ use App\Core\Auth;
 use App\Core\Request;
 use App\Core\Response;
 use App\Services\DailyQuiz;
+use App\Services\Babyfoot;
 use App\Services\Flipper;
 use App\Services\QuizChampionship;
 use App\Services\QuizLive;
@@ -40,8 +41,16 @@ final class QuizClub extends Base
                 $flipper[$r['cid']] = ['id' => $r['cid'], 'pseudo' => $r['pseudo'], 'best' => $r['score'], 'week' => $week[$r['cid']] ?? null];
             }
         }
+        // Et ceux du tableau d'honneur du babyfoot (victoires, tous niveaux).
+        $shown += $flipper;
+        $babyfoot = [];
+        foreach (array_slice(Babyfoot::players(), 0, 100, true) as $cid => $r) {
+            if (!isset($shown[$cid])) {
+                $babyfoot[] = ['id' => (string) $cid] + $r;
+            }
+        }
         return self::html('admin/collections/quiz-live', ['games' => QuizLive::all(), 'new' => $req->str('nouvelle'),
-            'season' => QuizChampionship::season(), 'ranking' => $ranking, 'defi' => $defi, 'flipper' => array_values($flipper), 'stats' => QuizChampionship::stats(), 'banned' => $banned],
+            'season' => QuizChampionship::season(), 'ranking' => $ranking, 'defi' => $defi, 'flipper' => array_values($flipper), 'babyfoot' => $babyfoot, 'stats' => QuizChampionship::stats(), 'banned' => $banned],
             ['title' => 'Quiz du club-house', 'crumb' => 'Interactif', 'nav' => 'quizlive']);
     }
 

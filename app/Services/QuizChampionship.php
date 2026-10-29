@@ -14,7 +14,7 @@ use App\Core\JsonStore;
  * dans la partie : 10, 8, 6, 5, 4, 3, 2, puis 1 point de participation pour tous. Ainsi une
  * partie de 6 questions pèse autant qu'une partie de 30.
  *
- * Les classements (championnat, défi du jour et flipper) ne montrent que les comptes confirmés : le lien
+ * Les classements (championnat, défi du jour, flipper et babyfoot) ne montrent que les comptes confirmés : le lien
  * de l'e-mail a été ouvert au moins une fois (Carnet::confirm). Les points d'un compte pas encore
  * confirmé sont gardés et apparaissent dès qu'il l'est : pas de classement truqué par des adresses
  * inventées.

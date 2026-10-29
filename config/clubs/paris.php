@@ -65,6 +65,9 @@ return [
     // Le flipper du musée (/interactif/flipper/) : textes du décor, lettres des cibles, année des couloirs.
     'flipper' => ['title' => 'Le Flipper du Parc', 'letters' => 'PARIS', 'digits' => '1970', 'ramp' => 'Rampe du Parc', 'bumpers' => 'Le Kop',
         'cap' => 'PSG', 'ramp2' => 'Rampe des Titis', 'orbit' => 'Tour d’honneur', 'kickback' => 'Camp des Loges', 'roar' => 'Le Parc s’enflamme !'],
+    // Le babyfoot du musée (/interactif/babyfoot/) : titre, sigle, maillot des figurines, barre tenue.
+    'babyfoot' => ['title' => 'Babyfoot des Parisiens', 'short' => 'PSG',
+        'kit' => ['shirt' => '#04224A', 'sleeves' => '#C8102E', 'shorts' => '#04224A', 'socks' => '#C8102E'], 'glow' => '#E8473B'],
     'stadium_a' => 'au Parc',
     'stadium_full' => 'Parc des Princes',
     'stadium_full_lc' => 'Parc des Princes',

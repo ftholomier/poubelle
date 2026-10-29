@@ -1033,6 +1033,95 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   et `php tests/flipper.php` (jetons, vraisemblance, un score par jeton, classements, retrait,
   effacement, ménage, faits, réglages).
 
+## 7 octies ter octies. Babyfoot des Lionceaux (`App\Services\Babyfoot`, `App\Front\BabyfootPages`)
+
+Babyfoot 3D plein écran sur `/interactif/babyfoot/` (`Pages::render` avec `bare`, sans bandeau
+cookies ni assistant, `Cache-Control: private, no-store`), API `POST /api/babyfoot`. Le jeu tourne
+entièrement dans le navigateur ; le serveur prépare les adversaires et les grands matchs, et garde
+le tableau d'honneur.
+
+- **Sources** (`app/Resources/babyfoot/`, modules ES) : `table.js` (terrain de 120 × 68 cm,
+  x de -60 à 60 d'un but à l'autre, z en travers ; balle de rayon 1,7 ; buts de 19 cm et 7 cm de
+  profondeur ; 8 barres 1-2-5-3 par équipe (`buildRods` : position, équipe, sens, décalage des
+  figurines, course jusqu'à toucher une balle collée à la bande, numéros 1 à 11) ; bandes en
+  segments avec pans coupés dans les coins ; poteaux), `physics.js` (pas fixe de 1 ms ; frottement
+  du tapis ; bords légèrement relevés et coins des surfaces en pente vers le gardien, pour
+  qu'aucune balle ne meure contre un bord ; pied des figurines = segment épaissi, mobile en z
+  (glissement de la barre) et en x (rotation `ang` autour de la barre, pied à 6,3 cm) ; au-delà de
+  `LIFT` (0,9 rad) le pied passe au-dessus de la balle ; rebond relatif au pied (0,45) : la
+  frappe donne sa vitesse à la balle ; modes de barre `wind` (armer), `strike` (de 9 à 22 rad/s
+  selon la puissance), `back`, `lift` (levée pour laisser passer), `idle` ; vitesse de la balle
+  plafonnée à 230 cm/s ; but quand la balle franchit la ligne entre les poteaux, elle ne ressort
+  plus de la cage ; buteur = dernière figurine de l'équipe qui marque depuis 4 s, sinon contre son
+  camp ; `snapshot()` pour le ralenti), `ai.js` (`Brain` : chaque barre vise l'endroit où la balle
+  croisera sa ligne (`crossZ`, rebonds compris), avec temps de réaction, vitesse, erreur et délai
+  de frappe par niveau (`LEVELS` Amateur, Ligue 2, Ligue 1 ; visée en coin loin du gardien aux
+  deux derniers), passe en retrait d'une balle lente juste derrière, barres levées quand la balle
+  arrive de derrière ; `ASSIST` place les barres que le joueur ne tient pas, sans jamais frapper ;
+  `activeRod` : barre tenue par le joueur, celle qui a la balle devant elle, sans clignoter),
+  `rules.js` (`Match` : engagement par le trou de la bande pour l'équipe qui encaisse, chrono de
+  deux mi-temps (`format: 'temps'`, `half`) ou premier à N buts (`'buts'`), but en or (Coupe
+  rejouée, 2 minutes au plus), balle morte (immobile hors de portée 2,5 s : rendue au gardien dans
+  une surface, sinon engagement ; gardée plus de 10 s : engagement adverse), tirs (frappe vers le
+  but, cadrée à 4 cm près), arrêts, plus beau but, état `replay` qui attend la fin du ralenti),
+  `render.js` (Three.js : table en bois et gravure, tapis peint (lignes, logo), cages et filets
+  qui tremblent, barres chromées qui sortent des deux bandes, poignées, figurines en un seul
+  maillage coloré par équipe (`figureGeo`), noms au dos (`setNames`, numéro seulement s'il est
+  sur la feuille), balle qui roule et traînée des tirs forts, lampe de bistrot (cachée vue de
+  dessus) ; vues `joueur`, `dessus`, `basse` (paysage et téléphone tenu droit, recul calculé pour
+  voir la table), caméra du ralenti par-dessus la bande près du but, tour lent de la table sous
+  l'accueil ; `screenAxis()` et `pick()` pour les commandes ; qualité 2 (halo avec anticrénelage
+  MSAA), 1, 0), `audio.js` (sons Web Audio synthétisés, allumés d'office, clé `bf:son`), et
+  `babyfoot.src.js` (page : accueil, match de démonstration en fond, commandes tactiles (pouce
+  gauche : le doigt entraîne la figurine le long de l'axe de la barre à l'écran ; pouce droit :
+  tir, appui long = fort), souris (la figurine suit le pointeur, clic gauche pour tirer), clavier
+  (↑ ↓ / W S, Espace ; à deux : W S + D et ↑ ↓ + ←), barre tenue par le joueur tant qu'il agit
+  (geste en cours, tir armé, ou dans les 1,2 s), sinon placée par l'aide ; ralenti des buts
+  (instantanés des 5 dernières secondes, rejoués à 0,4×) ; tableau de score ; écran de fin
+  (vrai résultat, statistiques, image du score à partager, confettis) ; qualité automatique sur
+  des périodes de 2 s ; réglages gardés sur l'appareil (`bf:niveau`, `bf:duree`, `bf:vue`,
+  `bf:adversaire`)).
+- **Construction** : `sh bin/build-babyfoot.sh` (Node : Three.js 0.186.1 et esbuild épinglés dans
+  un dossier temporaire) → `public/assets/js/babyfoot.js` (IIFE minifiée, ~630 Ko), à refaire
+  après toute modification des sources. CSS : `public/assets/css/babyfoot.css`.
+- **Réglages du club** : clé `babyfoot` de `config/clubs/*.php` (`title`, `short` (sigle du
+  tableau de score), `kit` : `shirt`, `sleeves`, `shorts`, `socks`, `glow` : couleur de la barre
+  tenue), lue par `Babyfoot::config()` (valeurs du club à défaut).
+- **Adversaires** (`Babyfoot::opponents()`) : les 16 clubs les plus rencontrés en match officiel
+  (`Derived::part('matches')`, nom le plus courant dans les fiches) ; `Babyfoot::COLORS` : maillot,
+  short et sigle des seuls clubs dont les couleurs sont sûres, les autres en `NEUTRAL` (blanc et
+  gris) ; maillot trop proche du nôtre → couleurs inversées, puis tenue neutre ; jamais de logo.
+- **Rejoue l'histoire** (`Babyfoot::history()`, gardé par `Memo` tant que l'index et les données
+  calculées ne changent pas) : matchs officiels publiés avec au moins 6 temps forts, classés par
+  `RetroDirect::interest()`, un par adversaire, dix, du plus ancien au plus récent ; libellé
+  (`roundLabel` : Finale, Demi-finale, 8e de finale, 7e tour, Championnat…), vrai résultat en une
+  phrase (`realText` : date, score, prolongation, tirs au but, Coupe gagnée ou perdue en finale),
+  but en or pour les matchs de Coupe, lien vers la fiche, noms (`names()` : les onze titulaires
+  G/D/M/A de la feuille, nom en majuscules ; feuille incomplète ou deux gardiens → aucun nom).
+- **API** `POST /api/babyfoot` (`lang`, `action`) : `commencer` (`level`, `format` → jeton
+  `heure.niveau+durée.numéro.signature`, HMAC `site_key('babyfoot')`, valable 2 h ; 600 par heure et
+  par adresse), `resultat` (`tok`, `gf`, `ga` ; `Babyfoot::plausible()` : premier à 5 → un des
+  deux à 5 et au moins 25 s ; 2 × 3 min → au moins 300 s ; un résultat par jeton (`used`)),
+  `classement` (`level` : semaine et toujours), `inscrire` (comme le flipper,
+  `QuizLivePages::account(…, 'babyfoot')`, lien `/carnet/acces/…/?quiz=babyfoot`).
+- **Tableau d'honneur** : `storage/babyfoot/semaine-{AAAA-Wss}.json` (`levels[niveau][id de
+  carnet]` : pseudo, victoires, matchs, date de la dernière victoire ; `used`) et
+  `storage/babyfoot/records.json` (même chose, de toujours) ; classement par victoires, puis le
+  moins de matchs, des seuls comptes confirmés et non retirés (`QuizChampionship::listed`), avec
+  au moins une victoire ; lignes publiques sans id de compte. Back-office : tableau de modération
+  dans Interactif › Quiz du club-house (`Babyfoot::players()`). Carnet supprimé →
+  `Babyfoot::forget()` ; tâche « ménage » : semaines de plus de 6 mois (`Babyfoot::purge()`).
+- **Équilibre des niveaux** : réglé par simulation (matchs entiers ordinateur contre ordinateur,
+  et joueur simulé qui ne fait que tirer, l'aide plaçant ses barres) : il bat l'Amateur (environ
+  6-1), fait jeu égal avec Ligue 2, perd nettement contre Ligue 1 (il faut alors piloter les barres).
+- **Tests** : `node tests/babyfoot.mjs` (table, balle qui s'arrête, bandes, poteau, but et balle
+  qui reste dans la cage, figurine qui arrête la balle, frappe plus forte en appui long, barre
+  levée, butées et vitesse des barres, rebonds prévus, barre tenue, aide, engagement, buteur,
+  contre son camp, déviation, premier à N, mi-temps, but en or, balle morte, règle des 10 s,
+  matchs entiers sans balle hors du jeu, Ligue 1 bat l'Amateur) et `php tests/babyfoot.php`
+  (jetons, résultats possibles, un résultat par jeton, classements par niveau, retrait,
+  effacement, ménage, couleurs et sigles, grands matchs, vrai résultat, noms au dos).
+
 ## 7 octies bis. Murs de photos (`App\Services\PhotoWall`, `App\Front\Walls`)
 
 Quatre pages de la rubrique Interactif tirent des photos de la médiathèque au hasard à chaque

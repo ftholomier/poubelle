@@ -71,6 +71,10 @@ return [
     // Le flipper du musée (/interactif/flipper/) : textes du décor, lettres des cibles, année des couloirs.
     'flipper' => ['title' => 'Le Flipper du Lion', 'letters' => 'SOCHAUX', 'digits' => '1928', 'ramp' => 'Rampe Bonal', 'bumpers' => 'Les Lions',
         'cap' => 'LION', 'ramp2' => 'Rampe des Lionceaux', 'orbit' => 'Tour d’honneur', 'kickback' => 'Centre de formation', 'roar' => 'Le Lion rugit !'],
+    // Le babyfoot du musée (/interactif/babyfoot/) : titre, sigle du tableau de score, maillot des
+    // figurines, couleur de la barre que tient le joueur.
+    'babyfoot' => ['title' => 'Babyfoot des Lionceaux', 'short' => 'FCSM',
+        'kit' => ['shirt' => '#F6C400', 'sleeves' => '#1F3FA8', 'shorts' => '#1F3FA8', 'socks' => '#1F3FA8'], 'glow' => '#F6C400'],
     'stadium_a' => 'à Bonal',
     'official_site' => 'https://www.fcsochaux.fr',
 

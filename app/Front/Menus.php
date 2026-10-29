@@ -60,6 +60,7 @@ final class Menus
                     $tool('?', 'Quiz', club('Êtes-vous un vrai {nickname_sg} ?'), '/interactif/quiz/'),
                     $tool('★', 'Le défi du jour', 'Dix questions, un essai par jour, un classement.', '/interactif/defi/'),
                     $tool('◉', 'Flipper', 'Un vrai flipper en 3D : rampe, bumpers, multiball.', '/interactif/flipper/'),
+                    $tool('⚽︎', 'Babyfoot', 'Un vrai babyfoot en 3D : contre l’ordi, à deux, ou pour rejouer l’histoire.', '/interactif/babyfoot/'),
                     $tool('♛', 'Championnat du club-house', 'Les soirées quiz en salle, saison après saison.', '/interactif/quiz-live/championnat/'),
                     $tool('▦', 'Album', (string) (\App\Core\Club::content('libelles', [])['album_d'] ?? 'Collectionnez les cartes des joueurs.'), '/interactif/album/'),
                     $tool('⟿', 'Fil jaune', club('Reliez deux {nickname} par leurs matchs.'), '/interactif/fil-jaune/'),
@@ -130,17 +131,21 @@ final class Menus
                 }
             }
         }
-        // Flipper ajouté après coup : présent dans « Jouer » même si les menus ont déjà été enregistrés.
-        $hasFlipper = false;
+        // Jeux ajoutés après coup (flipper, babyfoot) : présents dans « Jouer » même si les menus ont
+        // déjà été enregistrés.
+        $later = [
+            '/interactif/flipper/' => ['icon' => '◉', 'label' => 'Flipper', 'label_en' => '', 'd' => 'Un vrai flipper en 3D : rampe, bumpers, multiball.', 'd_en' => ''],
+            '/interactif/babyfoot/' => ['icon' => '⚽︎', 'label' => 'Babyfoot', 'label_en' => '', 'd' => 'Un vrai babyfoot en 3D : contre l’ordi, à deux, ou pour rejouer l’histoire.', 'd_en' => ''],
+        ];
         foreach ((array) ($menus['interactif'] ?? []) as $col) {
             foreach ((array) ($col['tools'] ?? []) as $x) {
-                $hasFlipper = $hasFlipper || ($x['href'] ?? '') === '/interactif/flipper/';
+                unset($later[$x['href'] ?? '']);
             }
         }
-        if (!$hasFlipper) {
+        foreach ($later as $href => $tool) {
             foreach ((array) ($menus['interactif'] ?? []) as $i => $col) {
                 if (($col['title'] ?? '') === 'Jouer') {
-                    $menus['interactif'][$i]['tools'][] = ['icon' => '◉', 'label' => 'Flipper', 'label_en' => '', 'd' => 'Un vrai flipper en 3D : rampe, bumpers, multiball.', 'd_en' => '', 'href' => '/interactif/flipper/'];
+                    $menus['interactif'][$i]['tools'][] = $tool + ['href' => $href];
                     break;
                 }
             }

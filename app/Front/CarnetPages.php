@@ -98,6 +98,9 @@ final class CarnetPages
         if ($quiz === 'flipper') {
             return Response::redirect(url('/interactif/flipper/') . '?bienvenue=1');
         }
+        if ($quiz === 'babyfoot') {
+            return Response::redirect(url('/interactif/babyfoot/') . '?bienvenue=1');
+        }
         if ($quiz === 'championnat') {
             return Response::redirect(url('/interactif/quiz-live/championnat/') . '?bienvenue=1');
         }

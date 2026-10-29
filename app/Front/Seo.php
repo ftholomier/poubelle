@@ -83,7 +83,7 @@ final class Seo
         // Pages fixes
         $add('/', date('c'), 'daily', '1.0', true);
         foreach (['/matchs/', '/nos-lions/', '/saisons/', '/face-a-face/', '/records/', '/chiffres/', '/bilans/coupe-de-france/', stadium_bilan_path(),
-            '/interactif/', '/interactif/quiz/', '/interactif/defi/', '/interactif/flipper/', '/interactif/quiz-live/championnat/', '/interactif/album/', \App\Front\AlbumBook::PATH, '/interactif/maillots/', '/interactif/frise/', '/interactif/carto/', '/interactif/retro-direct/', '/interactif/fil-jaune/', '/interactif/souvenirs/',
+            '/interactif/', '/interactif/quiz/', '/interactif/defi/', '/interactif/flipper/', '/interactif/babyfoot/', '/interactif/quiz-live/championnat/', '/interactif/album/', \App\Front\AlbumBook::PATH, '/interactif/maillots/', '/interactif/frise/', '/interactif/carto/', '/interactif/retro-direct/', '/interactif/fil-jaune/', '/interactif/souvenirs/',
             '/centenaire/', '/centenaire/100-moments/', '/reserves/', '/faire-un-don/', '/contribuer/', '/contact/', '/partage-et-newsletter/', '/mentions-legales/', '/confidentialite/', '/cookies/'] as $p) {
             if (str_starts_with($p, '/centenaire') && !Site::centenaryCountdown()) {
                 continue;

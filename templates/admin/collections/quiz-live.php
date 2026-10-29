@@ -1,7 +1,7 @@
 <?php
 /**
  * Interactif › Quiz du club-house. Variables : $games (QuizLive::all), $new (code de la partie qui vient
- * d'être créée), $season, $ranking (QuizChampionship::ranking), $defi et $flipper (joueurs classés
+ * d'être créée), $season, $ranking (QuizChampionship::ranking), $defi, $flipper et $babyfoot (joueurs classés
  * ailleurs, modérables aussi), $stats, $banned (joueurs exclus)
  */
 use App\Admin\QuizClub;
@@ -117,7 +117,7 @@ $phases = ['lobby' => ['Salle d’attente', 'info'], 'question' => ['Question en
             <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Remplacer le pseudo « <?= e($r['pseudo']) ?> » ?|Il devient « Joueur 1234 » ; le joueur pourra en choisir un autre.|Remplacer">
               <?= csrf_field() ?><input type="hidden" name="action" value="renommer"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs">Pseudo déplacé</button>
             </form>
-            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Retirer « <?= e($r['pseudo']) ?> » des classements ?|Il pourra encore jouer, mais n’apparaîtra plus aux classements (championnat, défi et flipper).|Retirer|danger">
+            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Retirer « <?= e($r['pseudo']) ?> » des classements ?|Il pourra encore jouer, mais n’apparaîtra plus aux classements (championnat, défi, flipper et babyfoot).|Retirer|danger">
               <?= csrf_field() ?><input type="hidden" name="action" value="exclure"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs ko">Retirer du classement</button>
             </form>
           </td>
@@ -140,7 +140,30 @@ $phases = ['lobby' => ['Salle d’attente', 'info'], 'question' => ['Question en
             <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Remplacer le pseudo « <?= e($r['pseudo']) ?> » ?|Il devient « Joueur 1234 » ; le joueur pourra en choisir un autre.|Remplacer">
               <?= csrf_field() ?><input type="hidden" name="action" value="renommer"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs">Pseudo déplacé</button>
             </form>
-            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Retirer « <?= e($r['pseudo']) ?> » des classements ?|Il pourra encore jouer, mais n’apparaîtra plus aux classements (championnat, défi et flipper).|Retirer|danger">
+            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Retirer « <?= e($r['pseudo']) ?> » des classements ?|Il pourra encore jouer, mais n’apparaîtra plus aux classements (championnat, défi, flipper et babyfoot).|Retirer|danger">
+              <?= csrf_field() ?><input type="hidden" name="action" value="exclure"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs ko">Retirer du classement</button>
+            </form>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+  <?php endif; ?>
+  <?php if (!empty($babyfoot)): ?>
+  <div class="card__body small" style="padding-bottom:0"><b>Tableau d’honneur du babyfoot</b> : joueurs classés qui ne figurent pas plus haut (même pseudo, même modération).</div>
+  <div class="table" style="border:0">
+    <table>
+      <thead><tr><th>Pseudo</th><th class="t-num">Victoires</th><th class="t-num">Cette semaine</th><th></th></tr></thead>
+      <tbody>
+      <?php foreach ($babyfoot as $r): ?>
+        <tr>
+          <td><?= e($r['pseudo']) ?></td><td class="t-num"><b><?= (int) $r['all'] ?></b></td><td class="t-num"><?= $r['week'] ? (int) $r['week'] : '—' ?></td>
+          <td class="nowrap">
+            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Remplacer le pseudo « <?= e($r['pseudo']) ?> » ?|Il devient « Joueur 1234 » ; le joueur pourra en choisir un autre.|Remplacer">
+              <?= csrf_field() ?><input type="hidden" name="action" value="renommer"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs">Pseudo déplacé</button>
+            </form>
+            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Retirer « <?= e($r['pseudo']) ?> » des classements ?|Il pourra encore jouer, mais n’apparaîtra plus aux classements (championnat, défi, flipper et babyfoot).|Retirer|danger">
               <?= csrf_field() ?><input type="hidden" name="action" value="exclure"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs ko">Retirer du classement</button>
             </form>
           </td>

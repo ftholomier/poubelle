@@ -1,0 +1,6 @@
+{
+  "name": "babyfoot-src",
+  "private": true,
+  "type": "module",
+  "description": "Sources du babyfoot 3D (compilées par bin/build-babyfoot.sh dans public/assets/js/babyfoot.js)"
+}

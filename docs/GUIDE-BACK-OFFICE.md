@@ -431,6 +431,19 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   du club-house : les joueurs du flipper qui ne figurent pas plus haut ont leur tableau, avec
   « Pseudo déplacé » et « Retirer du classement ». Décor, lettres et année propres à chaque club
   (`flipper` dans `config/clubs/*.php`).
+- **Babyfoot des Lionceaux** (`/interactif/babyfoot/`, rien à régler) : un babyfoot en 3D plein
+  écran (téléphone à l'horizontale, tablette, ordinateur). Contre l'ordinateur (Amateur, Ligue 2,
+  Ligue 1), à deux sur le même écran (chacun son côté), ou « Rejoue l'histoire » : un grand match
+  du musée avec les vrais noms des titulaires au dos des figurines, puis le vrai résultat et le
+  lien vers la fiche. Deux mi-temps de 3 minutes ou premier à 5 buts ; pouce gauche pour glisser
+  la barre qui s'allume, pouce droit pour tirer (appui long = fort) ; souris et clavier sur
+  ordinateur ; caméra au choix ; ralenti de chaque but ; son allumé d'office. Adversaires : les
+  clubs les plus rencontrés, à leurs couleurs seulement quand elles sont sûres (sinon blanc et
+  gris), avec leur sigle, jamais de logo. Grands matchs : choisis automatiquement dans les fiches
+  publiées (finales, demies, affiches, à la une), noms seulement si la feuille de match est
+  complète. Tableau d'honneur des victoires de la semaine par niveau (même compte et même pseudo
+  que le championnat), modération dans Interactif › Quiz du club-house. Titre, sigle et maillot
+  propres à chaque club (`babyfoot` dans `config/clubs/*.php`).
 - **Carte du carnet sur les goodies** (Boutique › Modèles, éditeur) : bouton « + Carte du
   carnet », design « Charte du musée » ou « Billet de match » ; la carte se remplit d'après le
   carnet du client (un match suffit), matchs et pseudo figés à la commande. Le poster « Ma vie en

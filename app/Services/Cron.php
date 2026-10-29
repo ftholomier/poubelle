@@ -429,6 +429,7 @@ final class Cron
         $out['quiz'] = \App\Services\QuizLive::purge();
         $out['defi'] = \App\Services\DailyQuiz::purge();
         $out['flipper'] = \App\Services\Flipper::purge();
+        $out['babyfoot'] = \App\Services\Babyfoot::purge();
         $out['vignettes'] = \App\Services\Vignettes::purge(); // collections inactives 18 mois, échanges expirés
         $old = function (string $pattern, int $seconds): int {
             $n = 0;
