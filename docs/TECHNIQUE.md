@@ -956,25 +956,35 @@ cookies ni assistant, `Cache-Control: private, no-store`), API `POST /api/flippe
 entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
 
 - **Sources** (`app/Resources/flipper/`, modules ES) : `table.js` (plan du plateau en unités de
-  400 × 840 : murs, rampe en spline avec hauteur, cibles, couloirs, batteurs, soucoupe…),
+  400 × 840 : murs, deux rampes en spline avec hauteur (`ramps` : Rampe 1 vers le haut du plateau,
+  Rampe 2 en épingle jusqu'au couloir 3), orbite le long du mur gauche (mur `orbite`, `spinner`,
+  capteur `orbit` en haut de l'arche), trois bumpers et le champignon (`kind: 'champignon'`),
+  cibles à gauche et sur le bloc de droite, couloirs, trois batteurs (dont le batteur du haut,
+  `upper`, commandé avec le batteur droit), soucoupe…),
   `physics.js` (moteur 2D maison au pas fixe de 1 ms : segments-capsules et cercles avec
   restitution, frottement de Coulomb proportionnel à l'appui (`MU`, `MU_FLIP` : une bille qui
   roule sur une pente n'est pas freinée) et coup de pied, batteurs effilés en rotation avec
-  vitesse de surface, portillon à sens unique, capteurs, rampe en mouvement 1D le long de la
-  spline, soucoupe qui retient la bille, chocs entre billes, bille immobile relancée au bout de
+  vitesse de surface, portillon à sens unique, capteurs, rampes en mouvement 1D le long de leur
+  spline (`enterRamp(b, id)`, événements avec le numéro de rampe), soucoupe qui retient la bille, chocs entre billes, bille immobile relancée au bout de
   1,2 s sauf si un batteur la tient). Vitesse : le plateau vit au ralenti (`SPEED` = 0,65 : temps
   de la physique = temps réel × 0,65) ; les batteurs bougent en temps réel (`FLIP_UP` = 45 rad/s
   réels, levés en ~22 ms) et la force de leur coup est réglée à part (`HIT_UP`) ; un seul coup
   par mouvement de batteur (`sweep`), la bille déjà frappée suit ensuite le batteur sans être
-  re-visée. Bumpers et lance-pierres : coup un peu variable (force ±10 %, angle ±6°), seulement
-  au-delà d'un vrai choc (`KICK_MIN`), et plus aucun coup pour une bille qui n'est pas revenue
-  près des batteurs depuis `LOOP_MAX` = 10 s (`lowAt`) : pas de ping-pong sans fin entre les
-  lance-pierres. Lance-pierres petits, hauts et arrondis (pointe du bas loin des batteurs).
+  re-visée (clé par batteur : les deux batteurs droits bougent ensemble). Bumpers et
+  lance-pierres : coup un peu variable (force ±10 %, angle ±6°), seulement au-delà d'un vrai choc
+  (`KICK_MIN`), et plus aucun coup pour une bille qui n'est pas revenue près des batteurs du bas
+  ni n'a été frappée par un batteur depuis `LOOP_MAX` = 10 s (`lowAt`) : pas de ping-pong sans
+  fin. Une bille tenue sur un batteur levé (quel qu'il soit) n'est pas relancée. Lance-pierres petits, hauts et arrondis (pointe du bas loin des batteurs).
   Réglages vérifiés par simulation (8 000 billes au hasard : aucune immobile plus de 1,5 s ;
-  1 600 billes avec les règles : aucune boucle ; rampe franchie par ~13 % des frappes au hasard
-  du batteur droit ; ~9 % des tirs touchent un lance-pierre contre 13 % avant), `rules.js`
+  1 600 billes avec les règles : aucune boucle ; robot qui joue 150 billes avec les trois
+  batteurs : ~60 s par bille, par bille ~22 coups de bumper, ~8 de champignon, ~6 frappes du
+  batteur du haut, ~6 couloirs, ~2,5 cibles A-U-X, ~1,3 orbite, ~0,8 rampe 1, ~0,5 rampe 2,
+  contre ~39 s et ~9 coups de bumper sur l'ancien plateau), `rules.js`
   (`Game` : coup d'envoi, couloirs 1-9-2-8 déplacés par les batteurs, cibles des lettres,
-  épopée en Coupe sur la rampe, multiball et jackpot, centre de formation (bille renvoyée à
+  épopée en Coupe sur la rampe 1, Promotion sur la rampe 2 (U17, U19, PRO : bonus et centre de
+  formation rallumé), combos (deux tirs différents en moins de 6 s : rampes, orbite), orbite
+  (comptée dans le sens gauche → droite, une fois par 1,5 s), spinner (points selon la vitesse),
+  champignon, multiball et jackpot sur les deux rampes, centre de formation (bille renvoyée à
   2 000 le long du mur gauche : elle suit l'arche et revient dans le jeu), bille sauvée 10 s,
   tilt, bonus × multiplicateur, bille en plus, 1 à 4 joueurs, messages de l'écran à points),
   `render.js` (`Scene3D`, Three.js r186 : texture du plateau dessinée en canvas, lampes,
@@ -994,7 +1004,7 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   de fichier), à refaire après toute modification des sources. CSS : `public/assets/css/flipper.css`.
   Sans WebGL, la page affiche « 3D indisponible ».
 - **Réglages du club** : clé `flipper` de `config/clubs/*.php` (`title`, `letters` des cibles,
-  `digits` des couloirs, `ramp`, `bumpers`, `cap` des bumpers, `kickback`, `roar`) lue par
+  `digits` des couloirs, `ramp`, `ramp2`, `orbit`, `bumpers`, `cap` des bumpers, `kickback`, `roar`) lue par
   `Flipper::config()`, avec des valeurs tirées du club à défaut. Faits « Le saviez-vous ? » :
   `Flipper::facts()` (naissance du club, puis statistiques de `Chiffres`, 150 caractères au plus).
 - **Anti-triche** : `commencer` renvoie un jeton `heure.numéro.signature` (HMAC
@@ -1013,7 +1023,9 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   modération dans Interactif › Quiz du club-house (100 premiers de la semaine et de toujours).
   Carnet supprimé → `Flipper::forget()` ; tâche « ménage » : semaines de plus de 6 mois
   (`Flipper::purge()`).
-- **Tests** : `node tests/flipper.mjs` (physique et règles sans navigateur : lancer, portillon,
+- **Tests** : `node tests/flipper.mjs` (physique et règles sans navigateur : plateau (3 batteurs,
+  champignon, 2 rampes, spinner, orbite), rampe 2 vers le couloir 3, batteur du haut, Promotion,
+  combos, orbite, spinner, champignon, lancer, portillon,
   bille jamais coincée au pied des batteurs, ralenti et batteurs vifs, un coup par mouvement,
   rampe, batteur droit qui franchit la rampe, cibles de face ou de dos, missions, multiball,
   jackpot, bille sauvée, tilt, fin de partie, joueurs à tour de rôle, robot qui joue des billes

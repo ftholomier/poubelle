@@ -46,13 +46,16 @@ export function buildTable(opt = {}) {
   const walls = [
     { id: 'tour', pts: [[390, 840], ...arch, [12, 840]], r: 3, e: 0.42, h: 3.6, neon: true },
     { id: 'lanceur', pts: [[362, 840], [362, 200]], r: 3, e: 0.42, h: 2.6, neon: true },
-    { id: 'rampe-g', pts: [[52, 478], [52, 404]], r: 3, e: 0.5, h: 2.2, neon: false },
+    // Orbite de gauche : couloir le long du mur (spinner), qui mène à l'arche du haut ; son mur sert
+    // aussi de rail gauche à l'entrée de la Rampe 1 (bas : la rampe passe juste au-dessus).
+    { id: 'orbite', pts: [[52, 478], [52, 330]], r: 3, e: 0.5, h: 1, neon: true },
     // Rail droit plus court que les cibles de gauche : pas de creux où la bille se pose entre les deux.
     { id: 'rampe-d', pts: [[100, 478], [100, 428]], r: 3, e: 0.5, h: 2.2, neon: false },
-    { id: 'poche-haut', pts: [[306, 312], [362, 292]], r: 3, e: 0.45, h: 2.4, neon: true },
-    { id: 'poche-bas', pts: [[306, 408], [362, 430]], r: 3, e: 0.45, h: 2.4, neon: true },
-    // Fond de la poche, juste derrière les cibles de droite : une cible tombée n'ouvre pas de trou.
-    { id: 'poche-fond', pts: [[313, 310], [313, 410]], r: 3, e: 0.4, h: 2.4, neon: false },
+    // Entrée de la Rampe 2 (centre droit), entre deux rails.
+    { id: 'rampe2-g', pts: [[234, 440], [234, 386]], r: 3, e: 0.5, h: 2.2, neon: false },
+    { id: 'rampe2-d', pts: [[278, 440], [278, 386]], r: 3, e: 0.5, h: 2.2, neon: false },
+    // Bloc des cibles de droite : dessus en pente (la bille roule vers le jeu), cibles sur sa face.
+    { id: 'bloc', pts: [[362, 398], [332, 420], [332, 524], [362, 548]], r: 3, e: 0.42, h: 2.4, neon: true },
     // Guides des couloirs du bas : leur bord arrive à hauteur du pied du batteur (pas de marche où
     // la bille s'arrête en descendant).
     { id: 'couloir-g', pts: [[44, 562], [44, 690], [112.6, 734.9]], r: 3, e: 0.45, h: 2.2, neon: true },
@@ -63,41 +66,61 @@ export function buildTable(opt = {}) {
   const lanes = [138, 178, 218, 258].map((x, i) => ({ x, y: 92, digit: digits[i] }));
   // Poteaux en caoutchouc (haut des couloirs du bas).
   const posts = [{ x: 44, y: 560, r: 6 }, { x: 330, y: 560, r: 6 }];
-  const bumpers = [{ x: 158, y: 192, r: 23 }, { x: 242, y: 192, r: 23 }, { x: 200, y: 264, r: 23 }];
+  // Bumpers : les trois du Lion, et le champignon du haut à droite (au-dessus du batteur du haut).
+  const bumpers = [
+    { x: 158, y: 192, r: 23 }, { x: 242, y: 192, r: 23 }, { x: 200, y: 264, r: 23 },
+    { x: 318, y: 236, r: 17, kind: 'champignon' },
+  ];
   // Lance-pierres : face active (a → c) qui renvoie la bille. Pointe du bas courte et loin des
   // batteurs : un tir de batteur ne cogne pas dedans.
   const slings = [
     { side: 'L', a: [76, 604], b: [76, 652], c: [96, 664] },
     { side: 'R', a: [298, 604], b: [298, 652], c: [278, 664] },
   ];
-  // Cibles : deux rangées verticales, faces tournées vers le centre.
+  // Cibles : rangée de gauche (y 296 → 408, face à droite) et rangée de droite sur la face du bloc
+  // (y 424 → 520, face à gauche), toutes deux dans l'axe des batteurs du bas.
   const targets = [];
   const nl = Math.ceil(letters.length / 2);
   const left = letters.slice(0, nl), right = letters.slice(nl);
-  // Rangée de gauche : y 296 → 408 ; rangée de droite : fond de la poche, y 318 → 402 (fermée).
-  const lh = 112 / left.length, rh = right.length ? 84 / right.length : 0;
+  const lh = 112 / left.length, rh = right.length ? 96 / right.length : 0;
   [...left].forEach((c, i) => targets.push({ letter: c, side: 'L', x: 118, y1: 296 + i * lh + 1.5, y2: 296 + (i + 1) * lh - 1.5, nx: 1 }));
-  [...right].forEach((c, i) => targets.push({ letter: c, side: 'R', x: 306, y1: 318 + i * rh + 1.5, y2: 318 + (i + 1) * rh - 1.5, nx: -1 }));
+  [...right].forEach((c, i) => targets.push({ letter: c, side: 'R', x: 326, y1: 424 + i * rh + 1.5, y2: 424 + (i + 1) * rh - 1.5, nx: -1 }));
+  // Batteurs : les deux du bas, et le batteur du haut à droite (commandé avec le batteur droit).
   const flippers = [
     { side: 'L', px: 112, py: 744, len: 64, r1: 11, r2: 6, rest: 30 * Math.PI / 180, up: -28 * Math.PI / 180 },
     { side: 'R', px: 262, py: 744, len: 64, r1: 11, r2: 6, rest: 150 * Math.PI / 180, up: 208 * Math.PI / 180 },
+    { side: 'R', px: 350, py: 296, len: 44, r1: 9, r2: 5, rest: 140 * Math.PI / 180, up: 196 * Math.PI / 180, upper: true },
   ];
-  // Rampe : (x, y, hauteur) de l'entrée à la sortie ; elle passe au-dessus du plateau.
-  const rampPts = spline([[76, 452, 0], [72, 380, 9], [70, 300, 24], [76, 220, 40], [96, 152, 52], [130, 114, 56], [160, 128, 38], [176, 152, 0]], 8);
-  let L = 0;
-  const ramp = rampPts.map((p, i) => {
-    if (i) L += Math.hypot(p[0] - rampPts[i - 1][0], p[1] - rampPts[i - 1][1]);
-    return { x: p[0], y: p[1], h: Math.max(0, p[2]), s: L };
-  });
-  const apex = ramp.reduce((m, p, i) => (p.h > ramp[m].h ? i : m), 0);
+  // Rampes : (x, y, hauteur) de l'entrée à la sortie ; elles passent au-dessus du plateau.
+  // Rampe 1 (gauche) : de l'entrée à gauche vers le haut du plateau, sortie au-dessus des bumpers.
+  // Rampe 2 (centre droit) : monte, tourne dans le coin du haut et dépose la bille dans le couloir 3.
+  const ramps = [
+    makeRamp([[76, 452, 0], [72, 380, 9], [70, 300, 24], [76, 220, 40], [96, 152, 52], [130, 114, 56], [160, 128, 38], [176, 152, 0]], { x1: 54, x2: 98, y: 448 }),
+    makeRamp([[256, 404, 0], [260, 340, 12], [268, 276, 28], [278, 212, 44], [286, 150, 56], [288, 104, 62], [278, 62, 62], [258, 42, 56], [236, 42, 44], [222, 56, 24], [220, 74, 0]], { x1: 237, x2: 275, y: 405 }, 1.9),
+  ];
   return {
-    letters, digits, walls, rails, lanes, posts, bumpers, slings, targets, flippers,
-    ramp: { pts: ramp, length: L, apex, mouth: { x1: 54, x2: 98, y: 448 } },
+    letters, digits, walls, rails, lanes, posts, bumpers, slings, targets, flippers, ramps,
+    ramp: ramps[0],
     saucer: { x: 200, y: 440, r: 13 },
     kickback: { x: 28, y: 760, r: 14 },
+    // Spinner de l'orbite (palette qui tourne au passage) et capteur de l'orbite (haut de l'arche).
+    spinner: { x: 32, y: 392, r: 13, w: 34 },
+    orbit: { x: 300, y: 44, r: 14 },
     plunger: { x: 376, top: 800, ball: 790 },
     // Portillon : part du haut du mur du couloir (pas de creux entre les deux où la bille s'arrête).
     gate: { a: [362, 200], b: [390, 172] },
     drainY: 832,
   };
+}
+
+/** Rampe : points de la courbe (avec longueur cumulée s), sommet, longueur, entrée, demi-largeur du ruban au rendu. */
+function makeRamp(pts, mouth, width = 2.6) {
+  const sp = spline(pts, 8);
+  let L = 0;
+  const out = sp.map((p, i) => {
+    if (i) L += Math.hypot(p[0] - sp[i - 1][0], p[1] - sp[i - 1][1]);
+    return { x: p[0], y: p[1], h: Math.max(0, p[2]), s: L };
+  });
+  const apex = out.reduce((m, p, i) => (p.h > out[m].h ? i : m), 0);
+  return { pts: out, length: L, apex, mouth, width };
 }

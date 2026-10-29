@@ -25,7 +25,7 @@ final class Flipper
     public const MARGIN = 3000000;
     public const MAX_SCORE = 2000000000;
 
-    /** Réglages du jeu pour ce club (textes du décor, lettres des cibles, année des couloirs). */
+    /** Réglages du jeu pour ce club (textes du décor, noms des rampes et de l'orbite, lettres des cibles, année des couloirs). */
     public static function config(): array
     {
         $c = (array) Club::get('flipper', []);
@@ -35,6 +35,8 @@ final class Flipper
             'letters' => strtoupper((string) preg_replace('/[^A-Za-z]/', '', (string) ($c['letters'] ?? Club::s('team')))) ?: 'LION',
             'digits' => substr((string) preg_replace('/\D/', '', (string) ($c['digits'] ?? Club::s('founded'))), 0, 4),
             'ramp' => (string) ($c['ramp'] ?? 'Rampe ' . Club::s('stadium_short')),
+            'ramp2' => (string) ($c['ramp2'] ?? 'Rampe des jeunes'),
+            'orbit' => (string) ($c['orbit'] ?? 'Tour d’honneur'),
             'bumpers' => (string) ($c['bumpers'] ?? 'Les bumpers'),
             'cap' => (string) ($c['cap'] ?? strtoupper($mascot)),
             'kickback' => (string) ($c['kickback'] ?? 'Centre de formation'),

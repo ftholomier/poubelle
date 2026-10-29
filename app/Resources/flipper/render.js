@@ -73,7 +73,8 @@ export class Scene3D {
     this.slingsBuild();
     this.targetsBuild();
     this.flippersBuild();
-    this.rampBuild();
+    this.t.ramps.forEach((r, i) => this.rampBuild(r, i ? this.cfg.ramp2 : this.cfg.ramp, i));
+    this.spinnerBuild();
     this.saucerBuild();
     this.plungerBuild();
     this.backboard();
@@ -126,6 +127,7 @@ export class Scene3D {
     for (const [x, y] of [[74, 616], [300, 616]]) { g.beginPath(); g.moveTo(x - 6, y + 5); g.lineTo(x, y - 4); g.lineTo(x + 6, y + 5); g.stroke(); }
     txt(g, this.cfg.kickbackLabel, 28, 640, 8, '#FFF3C2', { rot: -Math.PI / 2, ls: 1.2 });
     txt(g, this.cfg.plungerLabel, 376, 640, 9, '#FFF3C2', { rot: -Math.PI / 2, ls: 2 });
+    if (t.spinner && this.cfg.orbitLabel) txt(g, this.cfg.orbitLabel, 31, 300, 8, '#FFF3C2', { rot: -Math.PI / 2, ls: 1.5 });
     const tx = tex(c);
     const m = new THREE.Mesh(new THREE.PlaneGeometry(W * S, H * S), new THREE.MeshStandardMaterial({ map: tx, roughness: 0.45, metalness: 0.05 }));
     m.rotation.x = -Math.PI / 2; m.receiveShadow = true; this.scene.add(m);
@@ -156,6 +158,9 @@ export class Scene3D {
       kickback: this.lamp(28, 700, 7, ''),
       save: this.lamp(187, 800, 9, '', 9),
       ramp: [0, 1, 2].map(i => this.chevron(76, 520 - i * 22)),
+      ramp2: t.ramps[1] ? [0, 1, 2].map(i => this.chevron(256, 458 - i * 18)) : [],
+      promo: t.ramps[1] ? ['U17', 'U19', 'PRO'].map((s, i) => this.lamp(298, 446 + i * 23, 10, s, 7)) : [],
+      orbit: t.spinner ? [0, 1].map(i => this.chevron(32, 466 - i * 20)) : [],
     };
   }
 
@@ -194,10 +199,19 @@ export class Scene3D {
       body.position.set(p.x, 1.6, p.z); body.castShadow = true; this.scene.add(body);
       const ringMat = new THREE.MeshBasicMaterial({ color: this.col.yellow.clone().multiplyScalar(1.5) });
       const ring = new THREE.Mesh(new THREE.TorusGeometry(r * 1.02, 0.32, 12, 48), ringMat); ring.rotation.x = Math.PI / 2; ring.position.set(p.x, 1.1, p.z); this.scene.add(ring);
+      const light = new THREE.PointLight(0xffcc33, 6, 12, 2); light.position.set(p.x, 4, p.z); this.scene.add(light);
+      if (b.kind === 'champignon') {
+        // Champignon : chapeau en dôme jaune cerclé de bleu, qui s'allume à chaque coup.
+        const domeMat = new THREE.MeshStandardMaterial({ color: this.col.yellow, emissive: this.col.yellow, emissiveIntensity: 0.25, roughness: 0.25, metalness: 0.1 });
+        const dome = new THREE.Mesh(new THREE.SphereGeometry(r * 1.2, 40, 20, 0, Math.PI * 2, 0, Math.PI / 2), domeMat);
+        dome.scale.y = 0.75; dome.position.set(p.x, 2.7, p.z); dome.castShadow = true; this.scene.add(dome);
+        const band = new THREE.Mesh(new THREE.TorusGeometry(r * 1.18, 0.22, 10, 48), new THREE.MeshStandardMaterial({ color: this.col.navy, roughness: 0.4 }));
+        band.rotation.x = Math.PI / 2; band.position.set(p.x, 2.75, p.z); this.scene.add(band);
+        return { ringMat, discMat: domeMat, light, flash: 0 };
+      }
       const top = new THREE.Mesh(new THREE.CylinderGeometry(r * 1.1, r * 1.1, 0.7, 40), this.mat.yellow); top.position.set(p.x, 3.15, p.z); top.castShadow = true; this.scene.add(top);
       const discMat = new THREE.MeshStandardMaterial({ map: cap, emissiveMap: cap, emissive: 0xffffff, emissiveIntensity: 0.25, roughness: 0.3 });
       const disc = new THREE.Mesh(new THREE.CircleGeometry(r * 1.08, 48), discMat); disc.rotation.x = -Math.PI / 2; disc.position.set(p.x, 3.52, p.z); this.scene.add(disc);
-      const light = new THREE.PointLight(0xffcc33, 6, 12, 2); light.position.set(p.x, 4, p.z); this.scene.add(light);
       return { ringMat, discMat, light, flash: 0 };
     });
   }
@@ -248,23 +262,38 @@ export class Scene3D {
     });
   }
 
-  rampBuild() {
-    const pts = this.t.ramp.pts, Wd = 2.6, pos = [], uv = [], idx = [], railL = [], railR = [];
+  /** Une rampe (ruban transparent, rails chromés) ; son nom est écrit sur le ruban. */
+  rampBuild(ramp, label, i = 0) {
+    const pts = ramp.pts, Wd = ramp.width || 2.6, pos = [], uv = [], idx = [], railL = [], railR = [];
     pts.forEach((p, i) => {
       const n1 = pts[Math.min(i + 1, pts.length - 1)], p0 = pts[Math.max(i - 1, 0)];
       const d = new THREE.Vector3(n1.x - p0.x, 0, n1.y - p0.y).normalize(), n = new THREE.Vector3(-d.z, 0, d.x);
       const c = P(p.x, p.y, p.h * S + 0.25), l = c.clone().addScaledVector(n, Wd), r = c.clone().addScaledVector(n, -Wd);
-      pos.push(l.x, l.y, l.z, r.x, r.y, r.z); uv.push(1, p.s / this.t.ramp.length, 0, p.s / this.t.ramp.length);
+      pos.push(l.x, l.y, l.z, r.x, r.y, r.z); uv.push(1, p.s / ramp.length, 0, p.s / ramp.length);
       railL.push(l.clone().setY(l.y + 1.1)); railR.push(r.clone().setY(r.y + 1.1));
       if (i) { const k = i * 2; idx.push(k - 2, k - 1, k, k - 1, k + 1, k); }
     });
     const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); geo.setIndex(idx); geo.computeVertexNormals();
     const [c, g] = canvas(128, 1024);
-    g.fillStyle = 'rgba(160,190,255,.55)'; g.fillRect(0, 0, 128, 1024);
-    txt(g, this.cfg.ramp, 64, 420, 66, 'rgba(255,255,255,.95)', { rot: -Math.PI / 2, ls: 8, weight: 900 });
+    g.fillStyle = i ? 'rgba(255,214,90,.5)' : 'rgba(160,190,255,.55)'; g.fillRect(0, 0, 128, 1024);
+    txt(g, label || '', 64, 420, label && label.length > 18 ? 54 : 66, 'rgba(255,255,255,.95)', { rot: -Math.PI / 2, ls: 8, weight: 900 });
     const m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: tex(c), transparent: true, opacity: 0.8, side: THREE.DoubleSide, roughness: 0.15, metalness: 0.1 }));
     m.castShadow = true; this.scene.add(m);
     for (const r of [railL, railR]) this.scene.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(r), 90, 0.16, 8), this.mat.chrome));
+  }
+
+  /** Spinner de l'orbite : palette chromée sur un axe en travers du couloir, qui tourne au passage. */
+  spinnerBuild() {
+    const sp = this.t.spinner;
+    if (!sp) return;
+    const p = P(sp.x, sp.y, 0), w = sp.w * S;
+    for (const sx of [-1, 1]) { const post = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 2.6, 12), this.mat.chrome); post.position.set(p.x + sx * w / 2, 1.3, p.z); this.scene.add(post); }
+    const axle = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, w, 8), this.mat.chrome); axle.rotation.z = Math.PI / 2; axle.position.set(p.x, 2.3, p.z); this.scene.add(axle);
+    this.spinner = new THREE.Group(); this.spinner.position.set(p.x, 2.3, p.z);
+    const plate = new THREE.Mesh(new THREE.BoxGeometry(w * 0.92, 1.9, 0.12), new THREE.MeshStandardMaterial({ color: 0xe8edf5, metalness: 0.9, roughness: 0.2, emissive: this.col.yellow, emissiveIntensity: 0 }));
+    plate.position.y = -0.95; plate.castShadow = true; this.spinner.add(plate);
+    this.spinnerMat = plate.material; this.spinV = 0;
+    this.scene.add(this.spinner);
   }
 
   saucerBuild() {
@@ -364,7 +393,8 @@ export class Scene3D {
     else if (name === 'sling' && this.slings[data]) this.slings[data].flash = 1;
     else if (name === 'nudge') this.shake = 0.5;
     else if (name === 'tilt') this.shake = 1;
-    else if (['jackpot', 'multiball', 'cupwon', 'letters', 'lanes', 'skill', 'extra'].includes(name)) this.strobe = 1.6;
+    else if (name === 'spinner') this.spinV = Math.min(60, (this.spinV || 0) + (data || 1) * 4);
+    else if (['jackpot', 'multiball', 'cupwon', 'letters', 'lanes', 'skill', 'extra', 'promo', 'combo'].includes(name)) this.strobe = 1.6;
   }
 
   frame(phys, lamps, dt, time, plungerPull = 0) {
@@ -408,11 +438,23 @@ export class Scene3D {
       this.L.mult.forEach((l, i) => set(l, lamps.mult >= i + 2));
       set(this.L.kickback, lamps.kickback);
       set(this.L.save, lamps.save ? 'blink' : false);
-      this.L.ramp.forEach((l, i) => set(l, lamps.multiball ? 'blink' : (Math.floor(time * 4) % 3) === 2 - i));
+      // Flèches des tirs : elles défilent ; elles clignotent quand le tir compte double (jackpot en
+      // multiball, ou combo possible juste après un autre tir).
+      const hot = k => lamps.multiball || (lamps.combo && lamps.combo !== k);
+      this.L.ramp.forEach((l, i) => set(l, hot('r0') ? 'blink' : (Math.floor(time * 4) % 3) === 2 - i));
+      this.L.ramp2.forEach((l, i) => set(l, hot('r1') ? 'blink' : (Math.floor(time * 4 + 1) % 3) === 2 - i));
+      this.L.promo.forEach((l, i) => set(l, i < lamps.promo ? true : i === lamps.promo ? (slow ? 'blink' : false) : false));
+      this.L.orbit.forEach((l, i) => set(l, lamps.combo && lamps.combo !== 'orbit' ? 'blink' : (Math.floor(time * 3) % 2) === 1 - i));
       const fin = lamps.finale || lamps.multiball;
       this.saucerRing.color.copy(this.col.yellow).multiplyScalar(fin ? (blink ? 3 : 0.8) : 0.6);
       this.goldMat.emissiveIntensity = fin ? 1.2 : 0.15;
       this.goldMat.emissive.setHex(fin ? 0xffb000 : 0x3a2a00);
+    }
+    if (this.spinner) {
+      this.spinV = Math.max(0, this.spinV - dt * 14);
+      this.spinner.rotation.x += this.spinV * dt;
+      if (this.spinV < 0.3) this.spinner.rotation.x += (Math.round(this.spinner.rotation.x / Math.PI) * Math.PI - this.spinner.rotation.x) * Math.min(1, dt * 6);
+      this.spinnerMat.emissiveIntensity = Math.min(1, this.spinV / 20);
     }
     this.cup.rotation.y = time * 0.6;
     this.cup.position.y = 0.4 + Math.sin(time * 1.6) * 0.25;

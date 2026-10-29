@@ -1,7 +1,8 @@
 // Physique du flipper : bille(s) sur un plateau incliné vu de dessus, à pas fixe de 1 ms (pas de
 // bille qui traverse un mur, même lancée fort). Murs et rails (segments épais), poteaux et bumpers
-// (cercles), batteurs (segments effilés en rotation), cibles qui tombent, capteurs, rampe (la bille
-// suit un chemin en hauteur), soucoupe qui retient la bille. Aucun rendu ici : testable dans Node.
+// (cercles), batteurs (segments effilés en rotation, dont le batteur du haut), cibles qui tombent,
+// capteurs (couloirs, spinner, orbite), rampes (la bille suit un chemin en hauteur), soucoupe qui
+// retient la bille. Aucun rendu ici : testable dans Node.
 import { R } from './table.js';
 
 const DT = 1 / 1000;
@@ -23,8 +24,8 @@ const HIT_UP = 38, HIT_DOWN = 20;
 /**
  * Bumpers et lance-pierres : coup un peu variable (force ±10 %, angle ±6°), comme sur une vraie
  * machine, pour qu'une trajectoire ne se répète jamais à l'identique. Une bille qui n'est pas
- * redescendue vers les batteurs depuis LOOP_MAX s (temps de la physique) n'est plus relancée :
- * elle perd son élan et retombe (pas de ping-pong sans fin entre les lance-pierres).
+ * redescendue vers les batteurs du bas ni n'a touché un batteur depuis LOOP_MAX s (temps de la
+ * physique) n'est plus relancée : elle perd son élan et retombe (pas de ping-pong sans fin).
  */
 const KICK_MIN = 60, LOOP_MAX = 10;
 
@@ -62,12 +63,15 @@ export class Physics {
     // Butée du lanceur et portillon (la bille sort du couloir, ne peut pas y redescendre).
     this.segs.push(seg(363, table.plunger.top, 389, table.plunger.top, { r: 1, e: 0.2, tag: 'plunger' }));
     this.segs.push(seg(table.gate.a[0], table.gate.a[1], table.gate.b[0], table.gate.b[1], { r: 2, e: 0.3, tag: 'gate', oneway: true }));
-    this.flippers = table.flippers.map(f => ({ ...f, ang: f.rest, w: 0, hit: 0, sweep: 0, pressed: false }));
+    this.flippers = table.flippers.map((f, i) => ({ ...f, id: i, ang: f.rest, w: 0, hit: 0, sweep: 0, pressed: false }));
     table.lanes.forEach((l, i) => this.sensors.push({ x: l.x, y: l.y, r: 9, tag: 'lane', ref: i, inside: new Set() }));
     const s = table.saucer;
     this.sensors.push({ x: s.x, y: s.y, r: s.r, tag: 'saucer', inside: new Set() });
     const k = table.kickback;
     this.sensors.push({ x: k.x, y: k.y, r: k.r, tag: 'kickback', inside: new Set() });
+    // Spinner de l'orbite et capteur de l'orbite (haut de l'arche).
+    if (table.spinner) this.sensors.push({ x: table.spinner.x, y: table.spinner.y, r: table.spinner.r, tag: 'spinner', inside: new Set() });
+    if (table.orbit) this.sensors.push({ x: table.orbit.x, y: table.orbit.y, r: table.orbit.r, tag: 'orbit', inside: new Set() });
   }
 
   polyline(pts, o) {
@@ -121,8 +125,10 @@ export class Physics {
 
   release(b, vx, vy) { b.state = 'play'; b.vx = vx; b.vy = vy; b.still = 0; b.lowAt = this.time; }
 
-  enterRamp(b) {
-    const p = this.t.ramp.pts;
+  /** La bille entre dans la rampe n° id (0 : rampe 1, 1 : rampe 2). */
+  enterRamp(b, id = 0) {
+    b.ramp = this.t.ramps[id] ? id : 0;
+    const p = this.t.ramps[b.ramp].pts;
     const dx = p[1].x - p[0].x, dy = p[1].y - p[0].y, l = Math.hypot(dx, dy);
     b.state = 'ramp';
     b.rs = 0;
@@ -163,9 +169,9 @@ export class Physics {
       if (v > VMAX) { b.vx *= VMAX / v; b.vy *= VMAX / v; }
       this.sense(b);
       if (b.y > this.t.drainY) { b.state = 'gone'; this.on('drain', b); }
-      // Bille immobile hors du lanceur (coincée) : petite secousse automatique. Près des batteurs,
-      // seulement si aucun n'est levé (une bille tenue sur un batteur est voulue).
-      const held = b.y >= 690 && this.flippers.some(f => f.pressed);
+      // Bille immobile hors du lanceur (coincée) : petite secousse automatique, sauf si elle est tenue
+      // sur un batteur levé (voulu par le joueur).
+      const held = this.flippers.some(f => f.pressed && Math.hypot(b.x - f.px, b.y - f.py) < f.len + 24);
       b.still = v < 6 && !this.onPlunger(b) && !held ? b.still + dt : 0;
       if (b.still > 1.2) { b.vx += (Math.random() < 0.5 ? -1 : 1) * (80 + Math.random() * 120); b.vy -= 150; b.still = 0; }
     }
@@ -233,11 +239,12 @@ export class Physics {
     const qx = f.px + dx * t, qy = f.py + dy * t, rad = f.r1 + (f.r2 - f.r1) * t / f.len;
     // Un seul coup par mouvement de batteur : ensuite, la bille déjà frappée suit le batteur (plus
     // rapide qu'elle) sans être frappée de nouveau, ce qui fausserait la visée.
-    const key = f.side + f.sweep, again = f.w !== 0 && b.flip === key;
+    const key = f.id + ':' + f.sweep, again = f.w !== 0 && b.flip === key;
     // Vitesse de la surface du batteur au point de contact (force du coup : HIT_UP).
     const u = again ? 0 : f.hit, ux = -u * (qy - f.py), uy = u * (qx - f.px);
     const imp = this.bounce(b, qx, qy, rad, again ? { e: 0, mu: 0 } : { e: 0.32, mu: MU_FLIP }, ux, uy, [dy, -dx]);
     if (imp === false || again) return;
+    b.lowAt = this.time; // frappée par un batteur : le joueur a la main, ce n'est pas une boucle
     if (f.w !== 0) b.flip = key;
     if (imp > 50) this.on('flip-hit', f.side, b, imp);
   }
@@ -247,14 +254,16 @@ export class Physics {
       const inside = (b.x - s.x) ** 2 + (b.y - s.y) ** 2 < s.r * s.r;
       if (inside && !s.inside.has(b)) { s.inside.add(b); this.on('sensor', s.tag, b, s.ref); } else if (!inside) s.inside.delete(b);
     }
-    // Entrée de la rampe : la bille franchit la ligne en montant.
-    const m = this.t.ramp.mouth;
-    if (b.py >= m.y && b.y < m.y && b.x > m.x1 && b.x < m.x2) this.on('ramp-mouth', b, -b.vy);
+    // Entrée d'une rampe : la bille franchit la ligne en montant.
+    this.t.ramps.forEach((r, id) => {
+      const m = r.mouth;
+      if (b.py >= m.y && b.y < m.y && b.x > m.x1 && b.x < m.x2) this.on('ramp-mouth', b, -b.vy, id);
+    });
   }
 
   /** La bille suit la rampe : elle monte, ralentit, redescend si elle n'a pas assez d'élan. */
   rampStep(b, dt) {
-    const p = this.t.ramp.pts, L = this.t.ramp.length;
+    const r = this.t.ramps[b.ramp || 0], p = r.pts, L = r.length;
     let i = 1;
     while (i < p.length - 1 && p[i].s < b.rs) i++;
     const a = p[i - 1], c = p[i], seglen = (c.s - a.s) || 1, k = Math.max(0, Math.min(1, (b.rs - a.s) / seglen));
@@ -262,15 +271,15 @@ export class Physics {
     b.rv += (G * RAMP_SLOPE * diry - G_RAMP * dhds - 0.35 * b.rv) * dt;
     b.rs += b.rv * dt;
     b.x = a.x + (c.x - a.x) * k; b.y = a.y + (c.y - a.y) * k; b.h = a.h + (c.h - a.h) * k;
-    if (!b.apex && i - 1 >= this.t.ramp.apex) { b.apex = true; this.on('ramp-apex', b); }
+    if (!b.apex && i - 1 >= r.apex) { b.apex = true; this.on('ramp-apex', b, b.ramp || 0); }
     if (b.rs >= L) {
       const e = p[p.length - 1], f = p[p.length - 2], l = Math.hypot(e.x - f.x, e.y - f.y) || 1, v = Math.max(b.rv, 260);
       b.state = 'play'; b.h = 0; b.x = e.x; b.y = e.y; b.vx = (e.x - f.x) / l * v; b.vy = (e.y - f.y) / l * v;
-      this.on('ramp-done', b);
+      this.on('ramp-done', b, b.ramp || 0);
     } else if (b.rs <= 0 && b.rv <= 0) {
       const q = p[1], l = Math.hypot(q.x - p[0].x, q.y - p[0].y) || 1, v = Math.max(-b.rv, 120);
       b.state = 'play'; b.h = 0; b.x = p[0].x; b.y = p[0].y + 2; b.vx = -(q.x - p[0].x) / l * v; b.vy = -(q.y - p[0].y) / l * v;
-      this.on('ramp-fail', b);
+      this.on('ramp-fail', b, b.ramp || 0);
     }
   }
 

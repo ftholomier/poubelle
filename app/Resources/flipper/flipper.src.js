@@ -38,7 +38,7 @@ async function boot() {
   let phys = new Physics(table);
   const sound = new Sound();
   const scene = new Scene3D($('[data-fl-canvas]'), table, {
-    colors: D.colors, title: D.title, subtitle: D.subtitle, ramp: D.labels.ramp, bumpers: D.labels.bumpers, bumperCap: D.labels.bumperCap,
+    colors: D.colors, title: D.title, subtitle: D.subtitle, ramp: D.labels.ramp, ramp2: D.labels.ramp2, orbitLabel: D.labels.orbit, bumpers: D.labels.bumpers, bumperCap: D.labels.bumperCap,
     targetsLabel: D.labels.targets, cupLabel: D.labels.cup, kickbackLabel: D.labels.kickback, plungerLabel: D.labels.plunger, logo,
   });
   let game = null;

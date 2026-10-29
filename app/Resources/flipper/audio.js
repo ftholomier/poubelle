@@ -1,6 +1,6 @@
 // Sons du flipper, fabriqués à la volée (Web Audio) : aucun fichier son à télécharger.
 // Allumés d'office (le joueur peut les couper, choix gardé sur l'appareil) : claquements des
-// batteurs, bumpers, cibles, roulement de la bille selon sa vitesse (plus clair dans la rampe),
+// batteurs, bumpers, cibles, spinner, roulement de la bille selon sa vitesse (plus clair dans les rampes),
 // rumeur du stade pendant la partie, clameur de la foule sur les grands moments.
 
 export class Sound {
@@ -138,7 +138,7 @@ export class Sound {
       case 'lane': this.tone(660, 0.08, 'square', 0.1, 990); break;
       case 'launch': this.noise(0.08, 300, 1, 0.35, 0, 'lowpass'); this.noise(0.3, 400, 1, 0.16, 0.02, 'bandpass', 2400); break;
       case 'ramp-in': this.noise(0.4, 300, 2, 0.12, 0, 'bandpass', 1800); break;
-      case 'ramp': this.arp([523, 659, 784, 1046], 0.07); break;
+      case 'ramp': this.arp(data === 1 ? [587, 740, 880, 1175] : [523, 659, 784, 1046], 0.07); break;
       case 'ramp-fail': this.tone(300, 0.25, 'triangle', 0.1, 120); break;
       case 'saucer': this.tone(110, 0.15, 'sine', 0.35); this.tone(880, 0.6, 'sine', 0.08, null, 0.05); break;
       case 'kickback': this.noise(0.2, 800, 1, 0.25); this.arp([392, 523, 659], 0.06); break;
@@ -154,6 +154,11 @@ export class Sound {
       case 'nudge': this.tone(60, 0.08, 'sine', 0.35); this.noise(0.05, 200, 1, 0.2, 0, 'lowpass'); break;
       case 'bonus': this.arp([262, 330, 392], 0.12, 'triangle', 0.1); break;
       case 'start': this.arp([392, 523, 659, 784], 0.08, 'square', 0.1); this.cheer(1.6, 0.18); break;
+      // Spinner : une série de « tic » qui ralentit, autant que de tours de palette.
+      case 'spinner': for (let i = 0, n = Math.min(14, data || 1); i < n; i++) this.tone(2200, 0.018, 'square', 0.05, null, i * (0.03 + i * 0.006)); break;
+      case 'orbit': this.noise(0.5, 500, 1.2, 0.14, 0, 'bandpass', 2600); this.arp([659, 784, 988], 0.06, 'triangle', 0.1); break;
+      case 'promo': this.arp([523, 659, 784, 1046, 1318, 1568], 0.08, 'sawtooth', 0.09); this.cheer(2, 0.28); break;
+      case 'combo': this.arp([784, 988, 1175, 1568], 0.06, 'square', 0.09); break;
     }
   }
 }

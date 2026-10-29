@@ -1,11 +1,16 @@
-// Règles du flipper : joueurs (1 à 4, à tour de rôle), billes, missions, points, multiball,
-// bille sauvée, tilt, bonus de fin de bille, messages de l'écran à points. Aucun rendu ici.
+// Règles du flipper : joueurs (1 à 4, à tour de rôle), billes, missions (épopée en Coupe sur la
+// rampe 1, Promotion sur la rampe 2, lettres, couloirs, orbite, combos), points, multiball, bille
+// sauvée, tilt, bonus de fin de bille, messages de l'écran à points. Aucun rendu ici.
 
 /** Points de chaque élément. */
 export const PTS = {
   bumper: 1000, sling: 110, lane: 5000, lanesAll: 25000, skill: 500000, target: 7500, letters: 100000,
   ramp: 50000, rampStep: 25000, saucer: 25000, finale: 250000, jackpot: 1000000, kickback: 10000,
+  ramp2: 40000, promo: 150000, combo: 100000, orbit: 30000, spin: 500, champignon: 1500,
 };
+/** Les trois niveaux de la Promotion (rampe 2) : on monte des équipes de jeunes vers l'équipe première. */
+const PROMO = ['U17', 'U19', 'PRO'];
+const COMBO = 6; // secondes pour enchaîner deux tirs (rampes, orbite)
 const LION = 60; // coups de bumper pour réveiller le Lion
 const DOUBLE = 25; // secondes de points doublés
 const SAVE = 10; // secondes de bille sauvée après le lancer
@@ -43,7 +48,9 @@ export class Game {
     this.players = Array.from({ length: n }, (_, i) => ({
       n: i + 1, score: 0, ball: 1, extra: 0, lanes: [0, 0, 0, 0], letters: this.t.targets.map(() => 0), lettersDone: 0,
       cup: 0, cupsWon: 0, kickback: true, lion: 0, mult: 1, bonus: { lanes: 0, targets: 0, ramps: 0, bumpers: 0 }, done: new Set(), jackpots: 0,
+      promo: 0, promotions: 0, combos: 0,
     }));
+    this.lastShot = null;
     this.cur = 0;
     this.state = 'play';
     this.msgs = [];
@@ -153,9 +160,11 @@ export class Game {
         if (a === 'lane') this.lane(d);
         else if (a === 'saucer') this.saucer(b);
         else if (a === 'kickback') this.kickback(b);
+        else if (a === 'spinner') this.spinner(b);
+        else if (a === 'orbit' && b.vx > 0) this.orbit();
         break;
       case 'bumper':
-        this.add(PTS.bumper);
+        this.add(this.t.bumpers[a] && this.t.bumpers[a].kind === 'champignon' ? PTS.champignon : PTS.bumper);
         pl.bonus.bumpers++;
         this.on.fx('bumper', a);
         if (++pl.lion >= LION && this.time >= this.lionUntil) {
@@ -176,10 +185,10 @@ export class Game {
         this.target(a);
         break;
       case 'ramp-mouth':
-        if (b > 150) { this.p.enterRamp(a); this.on.fx('ramp-in'); }
+        if (b > 150) { this.p.enterRamp(a, c || 0); this.on.fx('ramp-in', c || 0); }
         break;
       case 'ramp-done':
-        this.ramp();
+        this.ramp(b || 0);
         break;
       case 'ramp-fail':
         this.on.fx('ramp-fail');
@@ -235,24 +244,80 @@ export class Game {
     }
   }
 
-  ramp() {
+  /** Rampe franchie : 0 = rampe 1 (épopée en Coupe), 1 = rampe 2 (Promotion). */
+  ramp(id = 0) {
     const pl = this.pl;
     pl.bonus.ramps++;
+    this.combo('r' + id);
+    if (id === 1) return this.ramp2();
     this.add(PTS.ramp + PTS.rampStep * Math.min(pl.cup, 5));
     this.on.fx('ramp');
-    if (this.multiball) {
-      pl.jackpots++;
-      pl.done.add('jackpot');
-      this.add(PTS.jackpot * pl.jackpots);
-      this.say('JACKPOT', this.fmt(PTS.jackpot * pl.jackpots), 2400, 'jackpot');
-      this.on.fx('jackpot');
-      return;
-    }
+    if (this.multiball) return this.jackpot();
     if (pl.cup < 5) {
       pl.cup++;
       this.say(this.tr('qualified'), pl.cup === 5 ? this.tr('finaleLit') : this.tr('nextRound', { r: this.roundName(pl.cup) }), 2400, 'cup');
       this.on.fx('cup', pl.cup);
     }
+  }
+
+  /** Rampe 2 : U17, U19, PRO ; la troisième fois, Promotion (points, centre de formation rallumé). */
+  ramp2() {
+    const pl = this.pl;
+    this.add(PTS.ramp2);
+    this.on.fx('ramp', 1);
+    if (this.multiball) return this.jackpot();
+    pl.promo++;
+    if (pl.promo < PROMO.length) {
+      this.say(this.tr('ramp2'), PROMO[pl.promo - 1], 2000, 'cup');
+      return;
+    }
+    pl.promo = 0;
+    pl.promotions++;
+    pl.done.add('promo');
+    pl.kickback = true;
+    this.add(PTS.promo * pl.promotions);
+    this.say(this.tr('promo'), this.tr('kickbackLit'), 2600, 'letters');
+    this.on.fx('promo');
+  }
+
+  jackpot() {
+    const pl = this.pl;
+    pl.jackpots++;
+    pl.done.add('jackpot');
+    this.add(PTS.jackpot * pl.jackpots);
+    this.say('JACKPOT', this.fmt(PTS.jackpot * pl.jackpots), 2400, 'jackpot');
+    this.on.fx('jackpot');
+  }
+
+  /** Tirs enchaînés (rampes, orbite) en moins de COMBO secondes : combo. */
+  combo(shot) {
+    const pl = this.pl, last = this.lastShot;
+    this.lastShot = { shot, at: this.time };
+    if (!last || last.shot === shot || this.time - last.at > COMBO) return;
+    pl.combos++;
+    pl.done.add('combo');
+    this.add(PTS.combo * Math.min(pl.combos, 5));
+    this.after(0.9, () => this.say(this.tr('combo'), '+ ' + this.fmt(PTS.combo * Math.min(pl.combos, 5)), 1800, 'skill'));
+    this.on.fx('combo');
+  }
+
+  /** Orbite : la bille a fait le tour par le couloir de gauche et l'arche. */
+  orbit() {
+    const pl = this.pl;
+    if (this.time - (this.orbitAt ?? -9) < 1.5) return; // un seul tour compté, même si la bille rebondit au capteur
+    this.orbitAt = this.time;
+    this.add(PTS.orbit);
+    pl.done.add('orbit');
+    this.combo('orbit');
+    this.say(this.tr('orbit'), '+ ' + this.fmt(PTS.orbit), 1600, 'lanes');
+    this.on.fx('orbit');
+  }
+
+  /** Spinner : des points à chaque tour de palette (selon la vitesse de la bille). */
+  spinner(b) {
+    const spins = Math.max(1, Math.min(24, Math.round(Math.abs(b.vy) / 90)));
+    this.add(PTS.spin * spins);
+    this.on.fx('spinner', spins);
   }
 
   roundName(i) {
@@ -388,7 +453,9 @@ export class Game {
     return {
       lanes: pl.lanes, skill: this.waiting || this.skillArmed ? this.skill : -1, letters: pl.letters, cup: pl.cup,
       finale: pl.cup >= 5 && !this.multiball, kickback: pl.kickback, save: this.time < this.saveUntil, lion: this.time < this.lionUntil,
-      mult: pl.mult, multiball: this.multiball, tilted: this.tilted,
+      mult: pl.mult, multiball: this.multiball, tilted: this.tilted, promo: pl.promo,
+      // Combo possible : on montre les autres tirs à enchaîner (rampes, orbite).
+      combo: this.lastShot && this.time - this.lastShot.at < COMBO ? this.lastShot.shot : '',
     };
   }
 }

@@ -58,6 +58,7 @@ final class FlipperPages
                 'ramp' => mb_strtoupper(t($cfg['ramp'])), 'bumpers' => mb_strtoupper(t($cfg['bumpers'])), 'bumperCap' => mb_strtoupper(t($cfg['cap'])),
                 'targets' => mb_strtoupper(t('Abattez les cibles {l}', ['l' => $letters])), 'cup' => mb_strtoupper(t('La Coupe')),
                 'kickback' => mb_strtoupper(t($cfg['kickback'])), 'plunger' => mb_strtoupper(t('Coup d’envoi')),
+                'ramp2' => mb_strtoupper(t($cfg['ramp2'])), 'orbit' => mb_strtoupper(t($cfg['orbit'])), 'rampName' => t($cfg['ramp']),
             ],
             'facts' => Flipper::facts(),
             'member' => $member,
@@ -72,7 +73,8 @@ final class FlipperPages
                 'r4' => t('Quarts de finale'), 'r2' => t('Demi-finale'), 'final' => t('Finale'), 'multiball' => t('Multiball : jackpot sur la rampe'),
                 'cupHole' => t('La Coupe'), 'kickback' => t($cfg['kickback']), 'kickbackSub' => t('Les jeunes sauvent la bille'),
                 'saved' => t('Bille sauvée'), 'cupWon' => t('Coupe gagnée !'), 'cupWonSub' => t('Le trophée est à vous'), 'cupLost' => t('Finale perdue'),
-                'bonus' => t('Bonus'), 'again' => t('Rejouez !'), 'jackpotHint' => t('Jackpot sur la rampe'), 'cupRound' => t('Épopée en Coupe · {r}'),
+                'bonus' => t('Bonus'), 'again' => t('Rejouez !'), 'jackpotHint' => t('Jackpot sur les rampes'), 'cupRound' => t('Épopée en Coupe · {r}'),
+                'ramp2' => t($cfg['ramp2']), 'promo' => t('Promotion !'), 'combo' => t('Combo !'), 'orbit' => t($cfg['orbit']),
             ],
             'ui' => [
                 'insertCoin' => t('Appuyez sur « Jouer »'), 'over' => t('Fin de partie'), 'record' => t('Record'), 'p' => t('J'), 'ball' => t('Bille'),
@@ -85,6 +87,7 @@ final class FlipperPages
                 'missions' => [
                     'skill' => t('Coup d’envoi parfait'), 'lanes' => t('Couloirs {d}', ['d' => $digits]), 'letters' => t('Cibles {l}', ['l' => $letters]),
                     'lion' => rtrim(t($cfg['roar']), ' !'), 'jackpot' => t('Jackpot'), 'coupe' => t('Coupe gagnée'), 'extra' => t('Bille en plus'),
+                    'promo' => t('Promotion'), 'orbit' => t($cfg['orbit']), 'combo' => t('Combo'),
                 ],
             ],
         ];

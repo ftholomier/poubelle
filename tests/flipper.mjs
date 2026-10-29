@@ -18,6 +18,8 @@ const run = (ph, sec, each) => { for (let i = 0; i < sec * 1000; i++) { if (each
 const t = buildTable();
 eq('lettres et chiffres du plateau', [t.letters, t.digits, t.targets.length, t.lanes.map(l => l.digit).join('')], ['SOCHAUX', '1928', 7, '1928']);
 eq('autres lettres (Paris)', buildTable({ letters: 'paris', digits: '1970' }).targets.map(g => g.letter).join(''), 'PARIS');
+eq('plateau évolué : 3 batteurs (dont celui du haut), champignon, 2 rampes, spinner, orbite',
+  [t.flippers.length, t.flippers.filter(f => f.upper).length, t.bumpers.filter(b => b.kind === 'champignon').length, t.ramps.length, !!t.spinner, !!t.orbit], [3, 1, 1, 2, true, true]);
 
 // Lancer : trop faible, la bille redescend sur le lanceur ; assez fort, elle atteint le haut du plateau.
 {
@@ -35,8 +37,9 @@ eq('autres lettres (Paris)', buildTable({ letters: 'paris', digits: '1970' }).ta
 // Portillon : une bille qui retombe dessus roule vers le plateau, elle ne reste pas posée.
 {
   const ph = new Physics(t), b = ph.addBall(380, 150, 0, 0);
-  run(ph, 2);
-  eq('pas de bille posée sur le portillon', b.y > 230 && b.x < 362, true);
+  let left = false;
+  run(ph, 2, () => { if (b.x < 355 && b.y > 205) left = true; });
+  eq('pas de bille posée sur le portillon : elle repart dans le jeu', left, true);
 }
 
 // Bille posée au-dessus d'un batteur au repos, ou au bas d'un guide de couloir : elle roule et part.
@@ -65,7 +68,7 @@ eq('autres lettres (Paris)', buildTable({ letters: 'paris', digits: '1970' }).ta
   let hits = 0;
   ph.on = ev => { if (ev === 'flip-hit') hits++; };
   ph.setFlipper('L', true);
-  run(ph, 0.2);
+  run(ph, 0.05);
   eq('un coup par mouvement de batteur', [hits, b.vy < -500], [1, true]);
 }
 
@@ -88,6 +91,30 @@ eq('autres lettres (Paris)', buildTable({ letters: 'paris', digits: '1970' }).ta
   const res = v => { const ph = new Physics(t); let r = ''; ph.on = ev => { if (ev === 'ramp-done' || ev === 'ramp-fail') r = ev; }; const b = ph.addBall(76, 452, 0, -v); ph.enterRamp(b); run(ph, 3); return r; };
   eq('rampe : tir faible', res(900), 'ramp-fail');
   eq('rampe : tir franc', res(1800), 'ramp-done');
+}
+
+// Rampe 2 : un tir franc la franchit et la bille ressort dans le couloir 3 du haut ; trop faible, elle redescend.
+{
+  const res = v => {
+    const ph = new Physics(t); let r = '', out = null;
+    ph.on = (ev, a, id) => { if ((ev === 'ramp-done' || ev === 'ramp-fail') && id === 1) { r = ev; out = { x: a.x, vy: a.vy }; } };
+    const m = t.ramps[1].pts[0], b = ph.addBall(m.x, m.y, 0, -v); ph.enterRamp(b, 1); run(ph, 3);
+    return [r, out && out.x > 198 && out.x < 238 && r === 'ramp-done' ? 'couloir 3' : out && out.vy > 0 ? 'redescend' : '?'];
+  };
+  eq('rampe 2 : tir faible', res(700), ['ramp-fail', 'redescend']);
+  eq('rampe 2 : tir franc', res(1900), ['ramp-done', 'couloir 3']);
+}
+
+// Batteur du haut : il bouge avec le batteur droit et frappe la bille posée dessus.
+{
+  const ph = new Physics(t), up = ph.flippers.find(f => f.upper);
+  const b = ph.addBall(up.px - 30, up.py - 6);
+  let hit = false, speed = 0;
+  ph.on = (ev, side, bb) => { if (ev === 'flip-hit' && bb === b) hit = true; };
+  run(ph, 0.05);
+  ph.setFlipper('R', true);
+  run(ph, 0.06, () => { if (hit && !speed) speed = Math.hypot(b.vx, b.vy); });
+  eq('batteur du haut : levé avec le batteur droit, il frappe la bille', [up.ang === up.up, ph.flippers[1].ang === ph.flippers[1].up, hit, speed > 500], [true, true, true, true]);
 }
 
 // Batteur : un tir depuis le batteur droit peut franchir la rampe.
@@ -168,6 +195,37 @@ const tick = (g, sec) => { for (let i = 0; i < sec * 100; i++) g.update(0.01); }
   eq('centre de formation : la bille revient dans le haut du plateau', back, true);
 }
 
+// Rampe 2 (Promotion), combos, orbite, spinner, champignon.
+{
+  const { ph, g, fx } = newGame();
+  tick(g, 0.3); g.launch(1); tick(g, 0.05);
+  const b = ph.balls[0];
+  ph.hold(b, 200, 400); // bille immobilisée : la partie ne s'arrête pas pendant le test
+  g.pl.kickback = false;
+  g.event('ramp-done', b, 1); tick(g, 1);
+  g.event('ramp-done', b, 1); tick(g, 1);
+  eq('rampe 2 : U17, U19…', [g.pl.promo, g.pl.promotions], [2, 0]);
+  g.event('ramp-done', b, 1);
+  eq('rampe 2 à la 3e : Promotion, centre de formation rallumé', [g.pl.promo, g.pl.promotions, g.pl.kickback, g.pl.done.has('promo')], [0, 1, true, true]);
+  tick(g, 7);
+  const c0 = g.pl.combos;
+  g.event('ramp-done', b, 0); tick(g, 2); g.event('ramp-done', b, 1);
+  eq('combo : rampe 1 puis rampe 2 en moins de 6 s', [g.pl.combos - c0, g.pl.done.has('combo')], [1, true]);
+  tick(g, 7); g.event('ramp-done', b, 0);
+  eq('pas de combo au-delà de 6 s', g.pl.combos - c0, 1);
+  const s0 = g.pl.score;
+  g.event('sensor', 'orbit', { vx: -500, vy: 0 });
+  eq('orbite : pas comptée dans le sens du lancer', g.pl.score, s0);
+  g.event('sensor', 'orbit', { vx: 600, vy: 0 });
+  eq('orbite : comptée dans le bon sens', [g.pl.score > s0, g.pl.done.has('orbit')], [true, true]);
+  const s1 = g.pl.score;
+  g.event('sensor', 'spinner', { vx: 0, vy: -1800 });
+  eq('spinner : des points à chaque tour', [g.pl.score - s1, fx.includes('spinner')], [20 * PTS.spin, true]);
+  const s2 = g.pl.score, champ = t.bumpers.findIndex(x => x.kind === 'champignon');
+  g.event('bumper', champ, b);
+  eq('champignon : 1 500 points', g.pl.score - s2, PTS.champignon);
+}
+
 // Bille sauvée, puis tilt, puis fin de partie après 3 billes (la bille en plus compte).
 {
   const state = newGame(), { ph, g } = state;
@@ -205,7 +263,7 @@ const tick = (g, sec) => { for (let i = 0; i < sec * 100; i++) g.update(0.01); }
   let escaped = 0, stuck = 0, events = 0;
   for (let n = 0; n < 12; n++) {
     const ph = new Physics(t), b = ph.addBall(376, 789);
-    ph.on = (ev, a, bb, c) => { events++; if (ev === 'ramp-mouth' && bb > 150) ph.enterRamp(a); if (ev === 'sensor' && a === 'saucer') { ph.hold(bb, t.saucer.x, t.saucer.y); bb.release = ph.time + 1; } };
+    ph.on = (ev, a, bb, c) => { events++; if (ev === 'ramp-mouth' && bb > 150) ph.enterRamp(a, c); if (ev === 'sensor' && a === 'saucer') { ph.hold(bb, t.saucer.x, t.saucer.y); bb.release = ph.time + 1; } };
     run(ph, 0.3); ph.launch(0.8 + (n % 5) * 0.05);
     let lastMove = ph.time, lx = b.x, ly = b.y, hold = { L: 0, R: 0 };
     for (let i = 0; i < 60000 && b.state !== 'gone'; i++) {

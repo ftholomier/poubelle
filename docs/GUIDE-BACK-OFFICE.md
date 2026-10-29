@@ -420,9 +420,10 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   jour, du mois et de la saison, séparés du championnat ; résultat à partager ; rappel du matin
   par notification (sujet « Le défi du jour », Réglages › Application du musée).
 - **Flipper du Lion** (`/interactif/flipper/`, rien à régler) : un flipper en 3D plein écran
-  (téléphone et ordinateur), 1 à 4 joueurs, 3 billes : bumpers, Rampe Bonal (l'épopée en Coupe,
-  multiball en finale), cibles S-O-C-H-A-U-X, couloirs 1-9-2-8, « Le saviez-vous ? » tirés des
-  chiffres du musée. Son allumé d'office (bouton 🔊 pour le couper) ; sur ordinateur, clic gauche
+  (téléphone et ordinateur), 1 à 4 joueurs, 3 billes : bumpers et champignon, Rampe Bonal
+  (l'épopée en Coupe, multiball en finale), Rampe des Lionceaux (la Promotion U17, U19, PRO),
+  batteur du haut, orbite « Tour d'honneur » avec spinner, combos, cibles S-O-C-H et A-U-X,
+  couloirs 1-9-2-8, « Le saviez-vous ? » tirés des chiffres du musée. Son allumé d'office (bouton 🔊 pour le couper) ; sur ordinateur, clic gauche
   et clic droit pour les batteurs, bouton de la molette pour le lanceur puis pour bourrer ; la
   bille roule moins vite qu'un vrai flipper. Tableau d'honneur de la semaine et de tous les temps (parties à un joueur),
   même compte et même pseudo que le championnat ; un score n'est accepté qu'une fois, après
