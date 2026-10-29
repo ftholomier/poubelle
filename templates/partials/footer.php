@@ -20,6 +20,7 @@ $columns = [
     'footer.site' => [
         '/metiers'         => I18n::t('nav.trades'),
         '/ressources'      => I18n::t('nav.resources'),
+        '/questions-frequentes' => I18n::t('footer.faq'),
         '/mentions-legales'=> I18n::t('footer.legal_short'),
         '/confidentialite' => I18n::t('footer.privacy'),
         '/cgu'             => I18n::t('footer.terms'),

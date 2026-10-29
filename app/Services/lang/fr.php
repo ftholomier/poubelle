@@ -19,6 +19,7 @@ return [
     'nav.account'       => 'Mon espace',
     'nav.lang_note'     => 'FR = langue pivot. Les autres passent par Google Translate avec cache serveur.',
     'nav.skip'          => 'Aller au contenu',
+    'footer.faq'        => 'Questions fréquentes',
     'alerts.title'      => 'Alertes emploi',
     'alerts.done_yes'   => 'C’est noté : vous recevrez les nouvelles offres correspondant à votre CV, au plus une fois par jour et seulement s’il y en a. Chaque e-mail permet de vous désinscrire.',
     'alerts.done_no'    => 'C’est noté : vous ne recevrez aucune alerte emploi.',
