@@ -419,18 +419,23 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   (même compte et même pseudo que le championnat), invités sans classement. Classements du
   jour, du mois et de la saison, séparés du championnat ; résultat à partager ; rappel du matin
   par notification (sujet « Le défi du jour », Réglages › Application du musée).
-- **Flipper du Lion** (`/interactif/flipper/`, rien à régler) : un flipper en 3D plein écran
-  (téléphone et ordinateur), 1 à 4 joueurs, 3 billes : bumpers et champignon, Rampe Bonal
-  (l'épopée en Coupe, multiball en finale), Rampe des Lionceaux (la Promotion U17, U19, PRO),
-  batteur du haut, orbite « Tour d'honneur » avec spinner, combos, cibles S-O-C-H et A-U-X,
-  couloirs 1-9-2-8, « Le saviez-vous ? » tirés des chiffres du musée. Son allumé d'office (bouton 🔊 pour le couper) ; sur ordinateur, clic gauche
-  et clic droit pour les batteurs, bouton de la molette pour le lanceur puis pour bourrer ; la
-  bille roule moins vite qu'un vrai flipper. Tableau d'honneur de la semaine et de tous les temps (parties à un joueur),
-  même compte et même pseudo que le championnat ; un score n'est accepté qu'une fois, après
-  10 secondes de jeu et s'il est vraisemblable pour la durée. Modération dans Interactif › Quiz
-  du club-house : les joueurs du flipper qui ne figurent pas plus haut ont leur tableau, avec
-  « Pseudo déplacé » et « Retirer du classement ». Décor, lettres et année propres à chaque club
-  (`flipper` dans `config/clubs/*.php`).
+- **Flipper du Lion** (`/interactif/flipper/`, rien à régler) : un flipper en 3D plein écran au
+  milieu d'un stade (téléphone et ordinateur), 1 à 4 joueurs, 3 billes, dont le plateau suit repère
+  par repère le schéma de principe validé : mini-terrain surélevé (but, gardien, trois rangées de
+  joueurs adverses qui coulissent, deux mini-flippers), rampes Dribble, Passe, Centre et Ballon long,
+  poches Attaquant, Milieu et Défenseur, geste technique, bumpers au logo du club, slingshots avec
+  afficheur, batteurs Tacle, multiplicateurs 2X à 10X, chrono 45:00 et jauge COMBO sur le tablier.
+  Chaque partie est une épopée en Coupe (8es, quarts, demie, finale) contre des adversaires de
+  l'histoire du club ; on marque sur le mini-terrain, chaque bille perdue est un but encaissé ; les
+  passes éliminent les joueurs adverses, trois billes verrouillées lancent le multiball. « Le
+  saviez-vous ? » tirés des chiffres du musée. Son allumé d'office (bouton 🔊 pour le couper) ; sur
+  ordinateur, clic gauche et clic droit pour les batteurs, bouton de la molette pour le lanceur puis
+  pour bourrer ; la bille roule moins vite qu'un vrai flipper. Tableau d'honneur de la semaine et de
+  tous les temps (parties à un joueur), même compte et même pseudo que le championnat ; un score
+  n'est accepté qu'une fois, après 10 secondes de jeu et s'il est vraisemblable pour la durée.
+  Modération dans Interactif › Quiz du club-house : les joueurs du flipper qui ne figurent pas plus
+  haut ont leur tableau, avec « Pseudo déplacé » et « Retirer du classement ». Titre, nom des bumpers
+  et message propres à chaque club (`flipper` dans `config/clubs/*.php`).
 - **Babyfoot des Lionceaux** (`/interactif/babyfoot/`, rien à régler) : un babyfoot en 3D plein
   écran (téléphone à l'horizontale, tablette, ordinateur). Contre l'ordinateur (Amateur, Ligue 2,
   Ligue 1), à deux sur le même écran (chacun son côté), ou « Rejoue l'histoire » : un grand match

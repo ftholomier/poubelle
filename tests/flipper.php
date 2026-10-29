@@ -86,7 +86,7 @@ $facts = F::facts();
 $eq('faits : la naissance du club en premier', str_contains($facts[0] ?? '', '1928'), true);
 $eq('faits : courts (écran à points)', count(array_filter($facts, fn ($f) => mb_strlen($f) > 150)), 0);
 $cfg = F::config();
-$eq('réglages du club', [$cfg['title'], $cfg['letters'], $cfg['digits'], $cfg['ramp']], ['Le Flipper du Lion', 'SOCHAUX', '1928', 'Rampe Bonal']);
+$eq('réglages du club', [$cfg['title'], $cfg['bumpers'], $cfg['cap'], $cfg['roar']], ['Le Flipper du Lion', 'Les Lions', 'LION', 'Le Lion rugit !']);
 
 exec('rm -rf ' . escapeshellarg($tmp));
 echo $fail ? "$fail échec(s)\n" : "Tout est bon\n";

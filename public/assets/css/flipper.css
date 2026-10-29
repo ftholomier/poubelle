@@ -1,4 +1,4 @@
-/* Le flipper du musée : jeu en plein écran (téléphone à la verticale, tablette, ordinateur). */
+/* Le flipper du musée « au stade » : jeu en plein écran (téléphone à la verticale, tablette, ordinateur). */
 body.page-flipper{margin:0;background:#02040c;overflow:hidden;overscroll-behavior:none}
 body.page-flipper main{display:block}
 .fl{position:fixed;inset:0;display:flex;flex-direction:column;background:#02040c;color:#fff;font-family:'Big Shoulders Display','Arial Narrow',sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
@@ -15,13 +15,13 @@ body.page-flipper main{display:block}
 .fl__dmd{position:relative;height:74px;flex:none;background:#140900;border-bottom:3px solid #2a1a05;color:#ffc23a;text-shadow:0 0 8px rgba(255,170,0,1),0 0 2px #fff3c2;text-align:center;overflow:hidden;text-transform:uppercase}
 .fl__dmd::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,transparent 0 1.05px,rgba(20,9,0,.8) 1.35px) 0 0/2.6px 2.6px;pointer-events:none}
 .fl__big{display:block;font-weight:900;font-size:38px;line-height:44px;letter-spacing:.06em;padding:4px 70px 0;white-space:nowrap;overflow:hidden;text-overflow:clip}
-.fl__dl,.fl__dr{position:absolute;top:7px;font-weight:800;font-size:13px;letter-spacing:.1em}
+.fl__dl,.fl__dr{position:absolute;top:7px;font-weight:800;font-size:12px;letter-spacing:.08em;white-space:nowrap}
 .fl__dl{left:12px}.fl__dr{right:12px}
 .fl__line{position:relative;overflow:hidden;white-space:nowrap;margin:0 10px;height:22px}
 .fl__small{display:inline-block;font-weight:800;font-size:15px;line-height:22px;letter-spacing:.12em}
 .fl__small.is-scroll{animation:flScroll var(--fl-dur,6s) linear 1s infinite alternate}
 @keyframes flScroll{to{transform:translateX(var(--fl-scroll,0))}}
-.fl__dmd[data-kind="tilt"],.fl__dmd[data-kind="jackpot"],.fl__dmd[data-kind="multiball"],.fl__dmd[data-kind="cupwon"]{animation:flBlink .25s steps(2) 6}
+.fl__dmd[data-kind="tilt"],.fl__dmd[data-kind="jackpot"],.fl__dmd[data-kind="multiball"],.fl__dmd[data-kind="cupwon"],.fl__dmd[data-kind="goal"],.fl__dmd[data-kind="win"]{animation:flBlink .25s steps(2) 8}
 @keyframes flBlink{50%{color:#fff3c2}}
 /* plateau */
 .fl__stage{position:relative;flex:1;min-height:0;touch-action:none}
@@ -79,6 +79,18 @@ body.page-flipper main{display:block}
 .fl__kick{font-size:15px;letter-spacing:.24em;text-transform:uppercase;color:#9aa6c8;margin:0}
 .fl__final{display:block;font-weight:900;font-size:56px;line-height:1;color:var(--yellow,#F6C400);text-shadow:0 0 18px rgba(246,196,0,.45);margin:4px 0}
 .fl__final:empty{display:none}
+/* résultat du match (fin de partie en solo) */
+.fl__result{display:flex;flex-direction:column;align-items:center;gap:2px;margin:6px 0 2px}
+.fl__result[hidden]{display:none}
+.fl__result b{font-weight:900;font-size:30px;letter-spacing:.08em;text-transform:uppercase;color:#fff}
+.fl__result[data-kind="win"] b{color:var(--yellow,#F6C400)}
+.fl__matches{list-style:none;padding:0;margin:4px 0 0;width:100%;max-width:440px}
+.fl__matches li{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:baseline;border-bottom:1px solid rgba(255,255,255,.1);padding:4px 2px;font-size:15px;letter-spacing:.03em;color:#dfe6f5;text-align:left}
+.fl__matches i{font-style:normal;font-size:12px;color:#9aa6c8;text-transform:uppercase;letter-spacing:.06em}
+.fl__matches span{font-weight:800}
+.fl__matches em{font-style:normal;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:#9aa6c8}
+.fl__matches .is-win em{color:var(--yellow,#F6C400)}
+.fl__matches .is-loss em{color:#ff8f8f}
 .fl__multi{list-style:none;padding:0;margin:6px 0;font-size:22px}
 .fl__multi li{display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.1);padding:3px 4px}
 .fl__multi li span{color:var(--yellow,#F6C400)}

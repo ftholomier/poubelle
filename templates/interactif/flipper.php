@@ -1,11 +1,11 @@
 <?php
 /**
- * Le flipper du musée (plein écran, sans en-tête du site). Variables : $data (réglages du jeu pour
- * flipper.js), $title, $welcome (arrivée par le lien de l'e-mail), $pseudo (compte supporter ou null).
+ * Le flipper du musée « au stade » (plein écran, sans en-tête du site). Variables : $data (réglages
+ * du jeu pour flipper.js), $title, $welcome (arrivée par le lien de l'e-mail), $pseudo (compte
+ * supporter ou null).
  */
 $ui = $data['ui'];
-$letters = implode('-', str_split($data['letters']));
-$digits = implode('-', str_split($data['digits']));
+$lb = $data['labels'];
 ?>
 <div class="fl" data-flipper>
   <script type="application/json" id="fl-data"><?= json_encode($data, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) ?></script>
@@ -35,7 +35,7 @@ $digits = implode('-', str_split($data['digits']));
       <div class="fl__card">
         <img class="fl__logo" src="<?= e($data['logo']) ?>" alt="" width="70" height="80">
         <h1 class="fl__h"><?= e($title) ?></h1>
-        <p class="fl__lead"><?= e(t('Un vrai flipper en 3D : deux rampes, batteur du haut, bumpers, orbite, cibles, multiball. Trois billes pour entrer au tableau d’honneur.')) ?></p>
+        <p class="fl__lead"><?= e(t('Un flipper en 3D au milieu du stade. Chaque partie est une épopée en Coupe contre des adversaires de l’histoire du club : marquez sur le mini-terrain, chaque bille perdue est un but encaissé. Trois billes pour aller le plus loin possible.')) ?></p>
         <?php if ($welcome): ?><p class="fl__ok"><?= e(t('C’est validé : vous jouez sous le nom {p}.', ['p' => $pseudo])) ?></p><?php endif; ?>
         <div class="fl__seg" role="group" aria-label="<?= e(t('Nombre de joueurs')) ?>">
           <span><?= e(t('Joueurs')) ?></span>
@@ -65,18 +65,19 @@ $digits = implode('-', str_split($data['digits']));
       <div class="fl__card fl__card--rules">
         <h2 class="fl__h"><?= e(t('Règles du jeu')) ?></h2>
         <dl class="fl__rules">
-          <dt><?= e(t('Coup d’envoi')) ?></dt><dd><?= e(t('Tirez le lanceur et faites entrer la bille dans le couloir qui clignote : 500 000 points. Les batteurs déplacent la lumière.')) ?></dd>
-          <dt><?= e(t('Couloirs {d}', ['d' => $digits])) ?></dt><dd><?= e(t('Allumez les 4 couloirs du haut (l’année de naissance du club) : le bonus de fin de bille est multiplié, jusqu’à ×5.')) ?></dd>
-          <dt><?= e(t('Cibles {l}', ['l' => $letters])) ?></dt><dd><?= e(t('Abattez toutes les lettres : 100 000 points et le centre de formation se rallume. La deuxième fois : une bille en plus.')) ?></dd>
-          <dt><?= e(t('Épopée en Coupe')) ?></dt><dd><?= e(t('Chaque passage sur la {r} fait gagner un tour : 32es, 16es, 8es, quarts, demie. En finale, la bille dans la Coupe lance un multiball à 3 billes : chaque rampe vaut un jackpot. Un jackpot, et la Coupe est gagnée.', ['r' => $data['labels']['rampName']])) ?></dd>
-          <dt><?= e($data['text']['ramp2']) ?></dt><dd><?= e(t('Chaque passage fait monter les jeunes : U17, U19, puis PRO. À la troisième, c’est la Promotion : 150 000 points (puis davantage) et « {k} » se rallume. La bille ressort par le couloir du haut.', ['k' => $data['text']['kickback']])) ?></dd>
-          <dt><?= e($data['text']['orbit']) ?></dt><dd><?= e(t('Le couloir de gauche fait faire le tour du plateau à la bille : 30 000 points. Le spinner tourne à son passage et rapporte des points à chaque tour.')) ?></dd>
-          <dt><?= e(t('Batteur du haut et champignon')) ?></dt><dd><?= e(t('Le batteur du haut, à droite, bouge avec le batteur droit : il renvoie vers les bumpers et les cibles la bille tombée de ce côté. Le champignon, au-dessus, rapporte 1 500 points par coup.')) ?></dd>
-          <dt><?= e(t('Combos')) ?></dt><dd><?= e(t('Enchaînez deux tirs différents (les deux rampes, l’orbite) en moins de 6 secondes : 100 000 points, puis davantage. Les flèches clignotent quand le combo est possible.')) ?></dd>
-          <dt><?= e(t('La Coupe')) ?></dt><dd><?= e(t('Le trou au centre : 25 000 points et un « Le saviez-vous ? » tiré des fiches du musée.')) ?></dd>
-          <dt><?= e(t('Les bumpers')) ?></dt><dd><?= e(t('1 000 points par coup. Tous les 60 coups : « {r} », points doublés pendant 25 secondes.', ['r' => $data['text']['lion']])) ?></dd>
-          <dt><?= e(t($data['text']['kickback'])) ?></dt><dd><?= e(t('Allumé, il renvoie en jeu la bille perdue dans le couloir de gauche.')) ?></dd>
-          <dt><?= e(t('Bille sauvée')) ?></dt><dd><?= e(t('Pendant les 10 secondes qui suivent le lancer, une bille perdue est rendue.')) ?></dd>
+          <dt><?= e(t('Le match')) ?></dt><dd><?= e(t('Chaque partie est une épopée en Coupe (8es, quarts, demie, finale) contre des adversaires tirés de l’histoire du club. Un match dure deux mi-temps de 45 minutes : le chrono, en bas à gauche, tourne quand une bille est en jeu. Les buts se marquent sur le mini-terrain ; chaque bille perdue est un but pour l’adversaire.')) ?></dd>
+          <dt><?= e(t('Le coup de sifflet final')) ?></dt><dd><?= e(t('Victoire : tour suivant et 1 000 000 de points par but d’écart (la finale gagnée rapporte la Coupe et 5 000 000 de points). Match nul : 250 000 points, le match est à rejouer. Défaite : retour en 8es de finale, contre un nouvel adversaire.')) ?></dd>
+          <dt><?= e(t('Le mini-terrain')) ?></dt><dd><?= e(t('La rampe {p} et l’accès du milieu montent la bille sur le mini-terrain, au fond du plateau. Ses deux petits batteurs bougent avec ceux du bas : passez les trois lignes de joueurs adverses qui coulissent et trompez le gardien. Chaque but rapporte 250 000 points, puis davantage, et monte le multiplicateur de bonus. La rampe {d} ramène la bille vers le batteur gauche.', ['p' => $lb['passe'], 'd' => $lb['dribble']])) ?></dd>
+          <dt><?= e(t('Passes et COMBO')) ?></dt><dd><?= e(t('Les rampes {c} et {b} et les couloirs {u} sont des passes : chacune élimine un joueur adverse (allumé sur les hexagones du milieu) et remplit la jauge COMBO du tablier. Cinq passes : COMBO, 250 000 points et davantage à chaque fois. Les deux couloirs {u} pris en moins de 5 secondes : 100 000 points.', ['c' => $lb['centre'], 'b' => $lb['ballonLong'], 'u' => $lb['onetwo']])) ?></dd>
+          <dt><?= e(t('Attaque')) ?></dt><dd><?= e(t('La bille qui passe dans un couloir intérieur, au-dessus des batteurs, lance l’attaque : pendant 6 secondes, chaque passe élimine deux joueurs.')) ?></dd>
+          <dt><?= e(t('Poches et multiball')) ?></dt><dd><?= e(t('Une ligne adverse éliminée (attaquants, milieux, défenseurs) allume sa poche : attaquant à gauche, milieu au centre, défenseur à droite. La bille y est alors verrouillée. Trois billes verrouillées : multiball, et chaque but devient un jackpot ; les rampes {c} et {b} en rapportent aussi.', ['c' => $lb['centre'], 'b' => $lb['ballonLong']])) ?></dd>
+          <dt><?= e(t('Geste technique')) ?></dt><dd><?= e(t('Le trou sur le flanc gauche : 50 000 points, la récompense allumée au centre du plateau (jackpot, super jackpot, coup d’envoi, bille en plus, temps additionnel) et un « Le saviez-vous ? » tiré des fiches du musée. La bille ressort droit dans la rampe {p}.', ['p' => $lb['passe']])) ?></dd>
+          <dt><?= e(t('Super jackpot')) ?></dt><dd><?= e(t('La bille dans un couloir extérieur allume le super jackpot : le but suivant rapporte 5 000 000 de points de plus.')) ?></dd>
+          <dt><?= e(t('Coup d’envoi')) ?></dt><dd><?= e(t('Avant de lancer, les batteurs choisissent le tir qui clignote ({c}, {b} ou l’accès du mini-terrain). Réussissez-le dans les 10 secondes qui suivent le lancer : 500 000 points.', ['c' => $lb['centre'], 'b' => $lb['ballonLong']])) ?></dd>
+          <dt><?= e(t('Multiplicateurs')) ?></dt><dd><?= e(t('Chaque but monte le multiplicateur du couloir de lancement : 2X, 4X, 6X, 8X, puis 10X, qui reste acquis pour la bille suivante (HOLD). Il multiplie le bonus de fin de bille : rampes, passes, bumpers et buts.')) ?></dd>
+          <dt><?= e(t('Batteurs {t}', ['t' => $lb['tackle']])) ?></dt><dd><?= e(t('Les deux petits batteurs tout en bas, au pied des couloirs extérieurs, bougent avec les grands : un tacle bien placé renvoie la bille en jeu.')) ?></dd>
+          <dt><?= e(t('Les bumpers')) ?></dt><dd><?= e(t('1 000 points par coup. Tous les 50 coups : « {r} », points doublés pendant 25 secondes.', ['r' => $data['text']['lion']])) ?></dd>
+          <dt><?= e(t('Bille sauvée')) ?></dt><dd><?= e(t('Pendant les 10 secondes qui suivent le lancer, une bille perdue est rendue (sans but encaissé).')) ?></dd>
           <dt>TILT</dt><dd><?= e(t('Bousculer aide la bille ; trop bousculer, et c’est le TILT : la bille est perdue, sans bonus.')) ?></dd>
         </dl>
         <button type="button" class="fl__go" data-fl-go="back"><?= e(t('Retour')) ?></button>
@@ -97,7 +98,8 @@ $digits = implode('-', str_split($data['digits']));
 
     <section class="fl__ov" data-fl-ov="over" hidden>
       <div class="fl__card">
-        <p class="fl__kick"><?= e(t('Fin de partie')) ?></p>
+        <p class="fl__kick"><?= e(t('Fin de la partie')) ?></p>
+        <div class="fl__result" data-fl-result hidden><b data-fl-rkey></b><ol class="fl__matches" data-fl-matches></ol></div>
         <b class="fl__final" data-fl-final></b>
         <ol class="fl__multi" data-fl-multi></ol>
         <p class="fl__rec" data-fl-rec></p>

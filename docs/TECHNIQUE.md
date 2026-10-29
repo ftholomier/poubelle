@@ -955,57 +955,71 @@ Flipper 3D plein écran sur `/interactif/flipper/` (`Pages::render` avec `bare`,
 cookies ni assistant, `Cache-Control: private, no-store`), API `POST /api/flipper`. Le jeu tourne
 entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
 
-- **Sources** (`app/Resources/flipper/`, modules ES) : `table.js` (plan du plateau en unités de
-  400 × 840 : murs, deux rampes en spline avec hauteur (`ramps` : Rampe 1 vers le haut du plateau,
-  Rampe 2 en épingle jusqu'au couloir 3), orbite le long du mur gauche (mur `orbite`, `spinner`,
-  capteur `orbit` en haut de l'arche), trois bumpers et le champignon (`kind: 'champignon'`),
-  cibles à gauche et sur le bloc de droite, couloirs, trois batteurs (dont le batteur du haut,
-  `upper`, commandé avec le batteur droit), soucoupe…),
+- **Sources** (`app/Resources/flipper/`, modules ES) : `table.js` (plateau relevé repère par
+  repère sur le schéma de principe validé, numéros [1] à [31] en commentaire ; plan de 400 × 874
+  tablier compris, bille de rayon 10 ; deux niveaux : le plateau (0) et le mini-terrain surélevé (1,
+  `HM` = 56) avec murs, filets et poteaux, gardien, trois rangées de joueurs adverses (`rows` :
+  4 défenseurs, 4 milieux, 2 attaquants, va-et-vient sinusoïdal), trous d'éjection, mini-flippers ;
+  murs (polylignes, `wire` pour les guides en fil, `block` pour le pied du mini-terrain), 3 bumpers,
+  2 slingshots (`screen` : afficheur), kicker, 6 batteurs (principaux, `tackle`, `mini`), capteurs
+  (`inlane`, `outlane`, `onetwo`, `lock` 0-2, `trick`, `trap`), 7 rampes et rails en spline avec
+  hauteur (`makeRamp` : `mouth` ligne d'entrée et niveau, `end` pose sur le mini-terrain, `wire`
+  point où la rampe devient un rail) : `passe`, `dribble`, `centre`, `ballon-long`, `acces`,
+  `trou-g`, `trou-d` ; repères du décor `deco`),
   `physics.js` (moteur 2D maison au pas fixe de 1 ms : segments-capsules et cercles avec
-  restitution, frottement de Coulomb proportionnel à l'appui (`MU`, `MU_FLIP` : une bille qui
-  roule sur une pente n'est pas freinée) et coup de pied, batteurs effilés en rotation avec
-  vitesse de surface, portillon à sens unique, capteurs, rampes en mouvement 1D le long de leur
-  spline (`enterRamp(b, id)`, événements avec le numéro de rampe), soucoupe qui retient la bille, chocs entre billes, bille immobile relancée au bout de
-  1,2 s sauf si un batteur la tient). Vitesse : le plateau vit au ralenti (`SPEED` = 0,65 : temps
-  de la physique = temps réel × 0,65) ; les batteurs bougent en temps réel (`FLIP_UP` = 45 rad/s
-  réels, levés en ~22 ms) et la force de leur coup est réglée à part (`HIT_UP`) ; un seul coup
-  par mouvement de batteur (`sweep`), la bille déjà frappée suit ensuite le batteur sans être
-  re-visée (clé par batteur : les deux batteurs droits bougent ensemble). Bumpers et
-  lance-pierres : coup un peu variable (force ±10 %, angle ±6°), seulement au-delà d'un vrai choc
-  (`KICK_MIN`), et plus aucun coup pour une bille qui n'est pas revenue près des batteurs du bas
-  ni n'a été frappée par un batteur depuis `LOOP_MAX` = 10 s (`lowAt`) : pas de ping-pong sans
-  fin. Une bille tenue sur un batteur levé (quel qu'il soit) n'est pas relancée. Lance-pierres petits, hauts et arrondis (pointe du bas loin des batteurs).
-  Réglages vérifiés par simulation (8 000 billes au hasard : aucune immobile plus de 1,5 s ;
-  1 600 billes avec les règles : aucune boucle ; robot qui joue 150 billes avec les trois
-  batteurs : ~60 s par bille, par bille ~22 coups de bumper, ~8 de champignon, ~6 frappes du
-  batteur du haut, ~6 couloirs, ~2,5 cibles A-U-X, ~1,3 orbite, ~0,8 rampe 1, ~0,5 rampe 2,
-  contre ~39 s et ~9 coups de bumper sur l'ancien plateau), `rules.js`
-  (`Game` : coup d'envoi, couloirs 1-9-2-8 déplacés par les batteurs, cibles des lettres,
-  épopée en Coupe sur la rampe 1, Promotion sur la rampe 2 (U17, U19, PRO : bonus et centre de
-  formation rallumé), combos (deux tirs différents en moins de 6 s : rampes, orbite), orbite
-  (comptée dans le sens gauche → droite, une fois par 1,5 s), spinner (points selon la vitesse),
-  champignon, multiball et jackpot sur les deux rampes, centre de formation (bille renvoyée à
-  2 000 le long du mur gauche : elle suit l'arche et revient dans le jeu), bille sauvée 10 s,
-  tilt, bonus × multiplicateur, bille en plus, 1 à 4 joueurs, messages de l'écran à points),
-  `render.js` (`Scene3D`, Three.js r186 : texture du plateau dessinée en canvas, lampes,
-  néons, bloom `UnrealBloomPass` sur un rendu intermédiaire anticrénelé (MSAA ×4), tone mapping
-  ACES, `RoomEnvironment`, ombres, filtrage anisotrope maximal ; décor du plateau en 1 600 × 3 360
-  sur grand écran (1 000 × 2 100 sur téléphone) ; caméra ajustée à l'écran, plus plongeante sur
-  téléphone ; qualité baissée seule si plus de la moitié des images sont lentes, mesuré pendant
-  la partie seulement), `audio.js` (sons synthétisés en WebAudio, allumés d'office, coupés par le
-  bouton 🔊, choix gardé dans `localStorage` `fl:son` ; démarrés au clic sur « Jouer » ; roulement
-  de la bille selon sa vitesse, rumeur du stade pendant la partie, clameur de la foule,
-  compresseur), `flipper.src.js` (page : clavier, souris — clic gauche / clic droit = batteurs,
-  bouton du milieu = lanceur quand la bille attend, sinon bourrer ; défilement automatique et
-  molette neutralisés hors des fenêtres —, zones tactiles, lanceur, secousse du téléphone via
-  `devicemotion`, écrans, envoi du score).
+  restitution, frottement de Coulomb proportionnel à l'appui (`MU`, `MU_FLIP`) et coup de pied,
+  faces actives des slingshots et du kicker, batteurs effilés en rotation avec vitesse de surface
+  (un appui lève les trois batteurs du même côté : principal, TACKLE, mini-flipper), obstacles
+  rangés par niveau, portillon à sens unique du couloir de lancement, capteurs, entrées de rampe
+  franchies dans le bon sens et assez vite (`v·n` > 150), rampes en mouvement 1D le long de leur
+  spline (`enterRamp(b, id, rv)`, `ramp-done` : pose sur le mini-terrain ou retour au plateau,
+  `ramp-fail` : la bille redescend), mini-terrain (but entre les poteaux, `save` du gardien qui
+  suit la bille selon `keeperSkill`, `player`, bille qui passe entre les mini-flippers → retombe
+  dans le couloir UNE-DEUX central), chocs entre billes, bille immobile relancée au bout de 1,2 s
+  sauf si un batteur la tient). Vitesse : `SPEED` = 0,65 (temps de la physique = temps réel ×
+  0,65) ; batteurs en temps réel (`FLIP_UP` = 45 rad/s, levés en ~22 ms), force du coup à part
+  (`HIT_UP`), un seul coup par mouvement (`sweep`) ; bumpers, slingshots et kicker : coup variable
+  (force ±10 %, angle ±6°), plus aucun coup après `LOOP_MAX` = 10 s sans revenir près des batteurs.
+  Réglages vérifiés par simulation : tirs francs du batteur droit dans la rampe Centre, du gauche
+  dans Ballon long et l'accès ; geste technique qui renvoie dans la rampe Passe ; au mini-terrain,
+  environ une visite sur sept finit au fond contre l'équipe au complet, une sur trois quand elle
+  est décimée. `rules.js` (`Game` : épopée en Coupe, match en deux mi-temps de 45:00 (`RATE` = 30 s
+  de match par seconde de bille en jeu), victoire / nul (à rejouer) / défaite (retour en 8es),
+  coupe gagnée, adversaires `opps` enchaînés (fx `opp`), buts (bille gardée au fond des filets, puis
+  rail du trou droit), but encaissé à chaque bille perdue, passes (rampes Centre et Ballon long,
+  couloirs UNE-DEUX en montant, sauf la bille qui sort du lanceur) qui éliminent les joueurs
+  adverses (`hexToPlayer` : hexagone → joueur du mini-terrain), attaque (inlane : deux joueurs par
+  passe pendant 6 s), jauge COMBO (5 cases, une perdue toutes les 8 s), poches allumées par une
+  ligne éliminée, 3 billes verrouillées → multiball (jackpot à chaque but et sur les rampes),
+  outlanes → super jackpot, geste technique (récompenses `MODES` : jackpot, super jackpot, coup
+  d'envoi, bille en plus une fois, temps additionnel ; « Le saviez-vous ? »), coup d'envoi
+  (`SHOTS`, choisi aux batteurs avant le lancer), multiplicateurs `MULTS` 2X → 10X + HOLD, bonus de
+  fin de bille, Lion (50 coups de bumper : points doublés 25 s), bille sauvée 10 s, tilt, 1 à 4
+  joueurs, messages de l'écran à points, résultats de fin avec les matchs joués),
+  `render.js` (`Scene3D`, Three.js r186 : plateau peint en canvas d'après le schéma (inserts
+  hexagonaux, pentagones, chevrons, textes en français), lampes (maillots adverses sur les
+  hexagones, inserts de mode, multiplicateurs, poches), rampes en ruban (nom peint près de l'entrée)
+  puis rails en fil chromé, mini-terrain en relief (pelouse, but et filets, gardien, joueurs aux
+  couleurs de l'adversaire), afficheurs LED des slingshots, tablier (chrono, jauge COMBO, maillots,
+  billes), bloom `UnrealBloomPass` (MSAA ×4), tone mapping ACES, ombres ; caméra ajustée à
+  l'écran ; qualité baissée seule si plus de la moitié des images sont lentes), `stadium.js`
+  (stade autour de la machine : ciel, pelouse, panneaux LED, tribunes et foule en
+  `InstancedMesh` qui saute aux grands moments, banderoles au logo, pylônes et projecteurs,
+  tableau de score géant, figurines géantes, banc), `audio.js` (sons synthétisés en WebAudio,
+  allumés d'office, coupés par le bouton 🔊, choix gardé dans `localStorage` `fl:son` ;
+  roulement de la bille, rumeur du stade, clameur, sifflets, soupirs), `flipper.src.js` (page :
+  clavier, souris — clic gauche / clic droit = batteurs, bouton du milieu = lanceur quand la bille
+  attend, sinon bourrer —, zones tactiles, lanceur, secousse du téléphone via `devicemotion`,
+  écran à points (score du match, chrono, bille, multiplicateur), écrans dont le parcours en Coupe
+  en fin de partie, envoi du score).
 - **Construction** : `sh bin/build-flipper.sh` (Node : Three.js 0.186.1 et esbuild épinglés dans un
-  dossier temporaire) → `public/assets/js/flipper.js` (IIFE minifiée, ~650 Ko, licences en fin
+  dossier temporaire) → `public/assets/js/flipper.js` (IIFE minifiée, ~700 Ko, licences en fin
   de fichier), à refaire après toute modification des sources. CSS : `public/assets/css/flipper.css`.
   Sans WebGL, la page affiche « 3D indisponible ».
-- **Réglages du club** : clé `flipper` de `config/clubs/*.php` (`title`, `letters` des cibles,
-  `digits` des couloirs, `ramp`, `ramp2`, `orbit`, `bumpers`, `cap` des bumpers, `kickback`, `roar`) lue par
-  `Flipper::config()`, avec des valeurs tirées du club à défaut. Faits « Le saviez-vous ? » :
+- **Réglages du club** : clé `flipper` de `config/clubs/*.php` (`title`, `bumpers` (nom peint sous
+  les bumpers), `cap` (chapeau des bumpers sans logo), `roar` (message du Lion)) lue par
+  `Flipper::config()`, avec des valeurs tirées du club à défaut. Tenue du club et adversaires :
+  ceux du babyfoot (`Babyfoot::config()`, `Babyfoot::opponents(12)`). Faits « Le saviez-vous ? » :
   `Flipper::facts()` (naissance du club, puis statistiques de `Chiffres`, 150 caractères au plus).
 - **Anti-triche** : `commencer` renvoie un jeton `heure.numéro.signature` (HMAC
   `site_key('flipper')`, valable 4 h) ; `score` n'est accepté que si `Flipper::plausible()` le
@@ -1023,13 +1037,14 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   modération dans Interactif › Quiz du club-house (100 premiers de la semaine et de toujours).
   Carnet supprimé → `Flipper::forget()` ; tâche « ménage » : semaines de plus de 6 mois
   (`Flipper::purge()`).
-- **Tests** : `node tests/flipper.mjs` (physique et règles sans navigateur : plateau (3 batteurs,
-  champignon, 2 rampes, spinner, orbite), rampe 2 vers le couloir 3, batteur du haut, Promotion,
-  combos, orbite, spinner, champignon, lancer, portillon,
-  bille jamais coincée au pied des batteurs, ralenti et batteurs vifs, un coup par mouvement,
-  rampe, batteur droit qui franchit la rampe, cibles de face ou de dos, missions, multiball,
-  jackpot, bille sauvée, tilt, fin de partie, joueurs à tour de rôle, robot qui joue des billes
-  entières)
+- **Tests** : `node tests/flipper.mjs` (85 vérifications sans navigateur : repères du plan, lancer,
+  portillon, rampes franchies ou ratées, rampe Dribble et rails des trous, tirs des batteurs dans
+  les rampes, geste technique → rampe Passe, mini-terrain (joueurs qui bougent, but, gardien,
+  joueur, bille qui retombe, mini-flippers et TACKLE avec les batteurs), batteurs vifs, bille jamais
+  coincée au pied des batteurs, coup d'envoi, chrono, mi-temps, victoire, nul, défaite, coupe, but
+  et multiplicateurs, passes, attaque, COMBO, poches et multiball, récompenses du geste technique,
+  super jackpot, bille sauvée, fin de partie, bonus, tilt, joueurs à tour de rôle, robot qui joue
+  6 parties entières sans bille perdue hors du plateau ni coincée)
   et `php tests/flipper.php` (jetons, vraisemblance, un score par jeton, classements, retrait,
   effacement, ménage, faits, réglages).
 

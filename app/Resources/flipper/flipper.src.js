@@ -1,10 +1,11 @@
-// Le flipper du musée : page /interactif/flipper/. Relie la physique (physics.js), les règles
-// (rules.js), le rendu 3D (render.js) et les sons (audio.js) à la page : écran à points, commandes
-// (écran tactile, clavier, secousse du téléphone), écrans de départ, de pause et de fin, tableau
-// d'honneur (API /api/flipper). Compilé avec Three.js par bin/build-flipper.sh.
+// Le flipper du musée « au stade » : page /interactif/flipper/. Relie la physique (physics.js), les
+// règles du match (rules.js), le rendu 3D du plateau et du stade (render.js, stadium.js) et les sons
+// (audio.js) à la page : écran à points et tableau de score du match, adversaire tiré de l'histoire
+// du club, commandes (écran tactile, clavier, souris, secousse du téléphone), écrans de départ, de
+// pause et de fin, tableau d'honneur (API /api/flipper). Compilé avec Three.js par bin/build-flipper.sh.
 import { buildTable } from './table.js';
 import { Physics } from './physics.js';
-import { Game } from './rules.js';
+import { Game, MULTS } from './rules.js';
 import { Scene3D } from './render.js';
 import { Sound } from './audio.js';
 
@@ -34,12 +35,14 @@ async function boot() {
   await Promise.race([document.fonts.load('900 40px "Big Shoulders Display"'), new Promise(r => setTimeout(r, 2500))]);
   const logo = await new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = D.logo; });
 
-  const table = buildTable({ letters: D.letters, digits: D.digits });
+  const table = buildTable();
   let phys = new Physics(table);
   const sound = new Sound();
+  // Adversaires : des clubs de l'histoire du musée ; les règles les enchaînent au fil de la Coupe.
+  const opps = D.opponents && D.opponents.length ? D.opponents : [{ name: U.visitors, ini: U.visitors.slice(0, 3).toUpperCase(), kit: null }];
+  let opp = opps[Math.floor(Math.random() * opps.length)];
   const scene = new Scene3D($('[data-fl-canvas]'), table, {
-    colors: D.colors, title: D.title, subtitle: D.subtitle, ramp: D.labels.ramp, ramp2: D.labels.ramp2, orbitLabel: D.labels.orbit, bumpers: D.labels.bumpers, bumperCap: D.labels.bumperCap,
-    targetsLabel: D.labels.targets, cupLabel: D.labels.cup, kickbackLabel: D.labels.kickback, plungerLabel: D.labels.plunger, logo,
+    colors: D.colors, kit: D.kit, opp, title: D.title, site: D.site, short: D.short, logo, labels: D.labels,
   });
   let game = null;
   let token = null;
@@ -67,11 +70,12 @@ async function boot() {
       setSmall(U.over);
       return;
     }
-    const s = game.screen(), pl = game.pl;
+    const s = game.screen(), pl = game.pl, m = game.match();
     dmd.big.textContent = s.big;
     dmd.box.dataset.kind = s.kind || '';
-    dmd.l.textContent = (game.players.length > 1 ? U.p + pl.n + ' · ' : '') + U.ball + ' ' + Math.min(pl.ball, game.cfg.balls) + '/' + game.cfg.balls;
-    dmd.r.textContent = pl.mult > 1 ? '×' + pl.mult : '';
+    // Coins : le score du match (le club contre l'adversaire), le chrono, la bille en cours, le multiplicateur.
+    dmd.l.textContent = (game.players.length > 1 ? U.p + pl.n + ' · ' : '') + D.short + ' ' + m.home + '–' + m.away + ' ' + (m.opp.ini || m.opp.name || '');
+    dmd.r.textContent = m.clock + ' · ' + U.ball + ' ' + Math.min(pl.ball, game.cfg.balls) + '/' + game.cfg.balls + (MULTS[pl.mult] > 1 ? ' · ×' + MULTS[pl.mult] : '');
     setSmall(s.small);
   }
   function setSmall(text) {
@@ -96,8 +100,14 @@ async function boot() {
   // ---------------------------------------------------------------- partie
   function newGame(n) {
     phys = new Physics(table);
-    game = new Game(phys, table, { balls: 3, text: D.text, facts: D.facts }, {
-      fx: (name, data) => { sound.play(name, data); scene.fx(name, data); if (name === 'bumper' && navigator.vibrate && sound.on) navigator.vibrate(8); },
+    // Les adversaires de la Coupe, dans un ordre tiré au hasard à chaque partie.
+    const list = opps.slice().sort(() => Math.random() - 0.5);
+    game = new Game(phys, table, { balls: 3, text: D.text, facts: D.facts, opps: list }, {
+      fx: (name, data) => {
+        // Nouvel adversaire (coup d'envoi d'un match, joueur suivant) : le décor prend ses couleurs.
+        if (name === 'opp') { if (data !== opp) { opp = data; scene.setOpp(opp); } return; }
+        sound.play(name, data); scene.fx(name, data); if (name === 'bumper' && navigator.vibrate && sound.on) navigator.vibrate(8);
+      },
       over: res => setTimeout(() => gameOver(res), 600),
     });
     game.start(n);
@@ -226,6 +236,17 @@ async function boot() {
     sound.ambience(false);
     const solo = res.length === 1, me = res[0];
     const best = +(store('best') || 0);
+    // Parcours en Coupe (en solo) : coupes gagnées, chaque match joué, puis le match interrompu par la dernière bille.
+    const rbox = overBox.querySelector('[data-fl-result]');
+    rbox.hidden = !solo;
+    if (solo) {
+      rbox.dataset.kind = me.cups ? 'win' : '';
+      rbox.querySelector('[data-fl-rkey]').textContent = me.cups ? U.cups.replace('{n}', me.cups) : U.cupRun;
+      const row = (round, o, h, a, label, kind) => `<li class="is-${kind}"><i>${escapeHtml(D.text[round] || '')}</i><span>${escapeHtml(D.short)} ${h} – ${a} ${escapeHtml(o)}</span><em>${escapeHtml(label)}</em></li>`;
+      const c = me.current;
+      rbox.querySelector('[data-fl-matches]').innerHTML = me.matches.map(x => row(x.round, x.opp, x.home, x.away, U[x.result], x.result)).join('')
+        + row(c.round, c.opp, c.home, c.away, U.stopped, 'stop');
+    }
     if (solo && me.score > best) store('best', String(me.score));
     overBox.querySelector('[data-fl-final]').textContent = solo ? fmt(me.score) : '';
     overBox.querySelector('[data-fl-multi]').innerHTML = solo ? '' : res.slice().sort((a, b) => b.score - a.score).map((p, i) => `<li><b>${i + 1}.</b> ${U.p}${p.n} <span>${fmt(p.score)}</span></li>`).join('');

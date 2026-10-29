@@ -68,9 +68,9 @@ return [
     'centenary_date' => '2028-06-14',
     'stadium' => 'Stade Bonal',
     'stadium_short' => 'Bonal',
-    // Le flipper du musée (/interactif/flipper/) : textes du décor, lettres des cibles, année des couloirs.
-    'flipper' => ['title' => 'Le Flipper du Lion', 'letters' => 'SOCHAUX', 'digits' => '1928', 'ramp' => 'Rampe Bonal', 'bumpers' => 'Les Lions',
-        'cap' => 'LION', 'ramp2' => 'Rampe des Lionceaux', 'orbit' => 'Tour d’honneur', 'kickback' => 'Centre de formation', 'roar' => 'Le Lion rugit !'],
+    // Le flipper du musée (/interactif/flipper/), un flipper « au stade » : titre, nom peint sous les
+    // bumpers, chapeau des bumpers (sans logo), message quand les bumpers s'emballent.
+    'flipper' => ['title' => 'Le Flipper du Lion', 'bumpers' => 'Les Lions', 'cap' => 'LION', 'roar' => 'Le Lion rugit !'],
     // Le babyfoot du musée (/interactif/babyfoot/) : titre, sigle du tableau de score, maillot des
     // figurines, couleur de la barre que tient le joueur.
     'babyfoot' => ['title' => 'Babyfoot des Lionceaux', 'short' => 'FCSM',

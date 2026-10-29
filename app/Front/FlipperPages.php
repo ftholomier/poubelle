@@ -7,13 +7,14 @@ use App\Core\Club;
 use App\Core\RateLimiter;
 use App\Core\Request;
 use App\Core\Response;
+use App\Services\Babyfoot;
 use App\Services\Carnet;
 use App\Services\Flipper;
 use App\Services\I18n;
 use App\Services\QuizChampionship;
 
 /**
- * Le flipper du musée : la page /interactif/flipper/ (jeu 3D en plein écran, public/assets/js/flipper.js)
+ * Le flipper du musée « au stade » : la page /interactif/flipper/ (jeu 3D en plein écran, public/assets/js/flipper.js)
  * et l'API /api/flipper (jeton de partie, score, tableau d'honneur, entrée au classement avec le
  * compte supporter). Jamais en cache : la page dépend du compte ouvert sur l'appareil.
  */
@@ -31,7 +32,7 @@ final class FlipperPages
             'pseudo' => $me['pseudo'] ?? null,
         ], [
             'title' => t($cfg['title']),
-            'description' => t('Un vrai flipper en 3D aux couleurs {club_de} : bumpers, rampe, cibles, multiball et tableau d’honneur. Sur téléphone, tablette ou ordinateur.'),
+            'description' => t('Un flipper en 3D au milieu d’un stade, aux couleurs {club_de} : une épopée en Coupe, des buts à marquer sur le mini-terrain, multiball et tableau d’honneur. Sur téléphone, tablette ou ordinateur.'),
             'active' => 'interactif', 'body_class' => 'page-flipper', 'bare' => true, 'no_cookie' => true, 'no_chat' => true,
             'styles' => ['css/flipper.css'], 'scripts' => ['js/flipper.js'],
         ]);
@@ -39,55 +40,79 @@ final class FlipperPages
         return $res;
     }
 
-    /** Données du jeu pour le navigateur : textes traduits, couleurs, lettres, faits du musée. */
+    /**
+     * Données du jeu pour le navigateur : textes traduits, couleurs et tenue du club, adversaires de
+     * la Coupe (tirés de l'histoire du club), faits du musée.
+     */
     private static function data(array $cfg, bool $member, bool $account): array
     {
-        $letters = implode('-', str_split($cfg['letters']));
-        $digits = implode('-', str_split($cfg['digits']));
+        $bf = Babyfoot::config();
+        $opps = array_map(fn ($o) => ['name' => $o['name'], 'ini' => $o['ini'], 'kit' => $o['kit']], Babyfoot::opponents(12));
+        $up = fn (string $s) => mb_strtoupper(t($s));
         return [
             'lang' => I18n::lang(),
             'api' => '/api/flipper',
             'url' => base_url() . url('/interactif/flipper/'),
             'title' => t($cfg['title']),
-            'subtitle' => Club::s('site') . ' · ' . t('depuis {y}', ['y' => Club::s('founded')]),
+            'site' => Club::s('site'),
+            'short' => $bf['short'],
+            'kit' => $bf['kit'],
+            'opponents' => $opps,
             'logo' => (string) Club::get('logo_400', '/assets/img/logo-sochaux-retro-400.png'),
             'colors' => ['navy' => Club::color('navy'), 'yellow' => Club::color('yellow'), 'blue' => Club::color('blue')],
-            'letters' => $cfg['letters'],
-            'digits' => $cfg['digits'],
+            // Textes peints sur le plateau (rampes, poches, couloirs, tablier).
             'labels' => [
-                'ramp' => mb_strtoupper(t($cfg['ramp'])), 'bumpers' => mb_strtoupper(t($cfg['bumpers'])), 'bumperCap' => mb_strtoupper(t($cfg['cap'])),
-                'targets' => mb_strtoupper(t('Abattez les cibles {l}', ['l' => $letters])), 'cup' => mb_strtoupper(t('La Coupe')),
-                'kickback' => mb_strtoupper(t($cfg['kickback'])), 'plunger' => mb_strtoupper(t('Coup d’envoi')),
-                'ramp2' => mb_strtoupper(t($cfg['ramp2'])), 'orbit' => mb_strtoupper(t($cfg['orbit'])), 'rampName' => t($cfg['ramp']),
+                'passe' => $up('Passe'), 'dribble' => $up('Dribble'), 'centre' => $up('Centre'), 'ballonLong' => $up('Ballon long'),
+                'bumpers' => mb_strtoupper(t($cfg['bumpers'])), 'bumperCap' => mb_strtoupper(t($cfg['cap'])),
+                'home' => $bf['short'], 'away' => $up('Visiteurs'), 'combo' => 'COMBO', 'balls' => t('Billes'),
+                'halves' => [t('1re mi-temps'), t('2e mi-temps')],
+                'lines' => ['att' => $up('Attaquant'), 'mil' => $up('Milieu'), 'def' => $up('Défenseur')],
+                'modes' => ['jackpot' => $up('Jackpot'), 'super' => $up('Super jackpot'), 'skill' => $up('Coup d’envoi'), 'extra' => $up('Bille en plus'), 'time' => $up('Temps additionnel')],
+                'trick' => $up('Geste technique'), 'trap' => $up('Contrôle'), 'attack' => $up('Attaque'), 'tackle' => $up('Tacle'),
+                'onetwo' => $up('Une-deux'), 'goal' => $up('But !'),
             ],
             'facts' => Flipper::facts(),
             'member' => $member,
             'account' => $account,
-            // Textes de l'écran à points (règles du jeu).
+            // Textes de l'écran à points (règles du jeu, rules.js).
             'text' => [
                 'player' => t('Joueur {n}'), 'ball' => t('Bille {n}/{t}'), 'launchHint' => t('Tirez le lanceur'), 'tiltLost' => t('Bille perdue'),
                 'warning' => t('Attention !'), 'lion' => t($cfg['roar']), 'lionSub' => t('Points doublés pendant 25 secondes'),
-                'skill' => t('Coup d’envoi parfait'), 'mult' => t('Bonus ×{n}'), 'kickbackLit' => t('{k} allumé', ['k' => t($cfg['kickback'])]),
-                'extraBall' => t('Bille en plus !'), 'qualified' => t('Qualifiés !'), 'finaleLit' => t('Finale : visez la Coupe !'),
-                'nextRound' => t('Prochain tour : {r}'), 'r32' => t('32es de finale'), 'r16' => t('16es de finale'), 'r8' => t('8es de finale'),
-                'r4' => t('Quarts de finale'), 'r2' => t('Demi-finale'), 'final' => t('Finale'), 'multiball' => t('Multiball : jackpot sur la rampe'),
-                'cupHole' => t('La Coupe'), 'kickback' => t($cfg['kickback']), 'kickbackSub' => t('Les jeunes sauvent la bille'),
-                'saved' => t('Bille sauvée'), 'cupWon' => t('Coupe gagnée !'), 'cupWonSub' => t('Le trophée est à vous'), 'cupLost' => t('Finale perdue'),
-                'bonus' => t('Bonus'), 'again' => t('Rejouez !'), 'jackpotHint' => t('Jackpot sur les rampes'), 'cupRound' => t('Épopée en Coupe · {r}'),
-                'ramp2' => t($cfg['ramp2']), 'promo' => t('Promotion !'), 'combo' => t('Combo !'), 'orbit' => t($cfg['orbit']),
+                'half' => t('Mi-temps'), 'scoreLine' => $bf['short'] . ' {h} – {a} {o}', 'kickoff' => t('Coup d’envoi'), 'vs' => t('{r} contre {o}'),
+                'r8' => t('8es de finale'), 'r4' => t('Quarts de finale'), 'r2' => t('Demi-finale'), 'final' => t('Finale'),
+                'win' => t('Victoire !'), 'draw' => t('Match nul'), 'loss' => t('Défaite'),
+                'nextRound' => t('Qualifiés ! Prochain tour : {r}'), 'replay' => t('Match à rejouer'), 'out' => t('Éliminés de la Coupe'),
+                'cupWon' => t('Coupe gagnée !'), 'cupWonSub' => t('Le trophée est à vous'),
+                'goal' => t('BUT !'), 'keeper' => t('Arrêt du gardien !'), 'missed' => t('Occasion manquée'), 'awayGoal' => t('But de {o}'),
+                'tackle' => t('Tacle !'), 'attack' => t('Attaque lancée !'), 'attackSub' => t('Chaque passe élimine deux joueurs'),
+                'superLit' => t('Super jackpot allumé'), 'onetwo' => t('Une-deux !'),
+                'eliminated' => t('Joueur éliminé'), 'left' => t('Encore {n} adversaires'), 'leftOne' => t('Encore un adversaire'),
+                'line_att' => t('attaquant'), 'line_mil' => t('milieu'), 'line_def' => t('défenseur'),
+                'lockLit' => t('Poche {l} allumée'), 'lockLitSub' => t('Visez la poche qui clignote'),
+                'locked' => t('Bille verrouillée : {l}'), 'locks' => t('{n}/3 billes verrouillées'),
+                'multiball' => t('Multiball !'), 'multiballSub' => t('Chaque but est un jackpot'), 'multiballEnd' => t('Fin du multiball'),
+                'mini' => t('Face au but !'), 'miniSub' => t('Les petits batteurs frappent au but'),
+                'skill' => t('Coup d’envoi parfait'), 'skillLit' => t('Coup d’envoi allumé'), 'extraBall' => t('Bille en plus !'),
+                'moreTime' => t('Temps additionnel : 5 minutes'), 'trick' => t('Geste technique !'), 'fact' => t('Le saviez-vous ?'),
+                'saved' => t('Bille sauvée'), 'bonus' => t('Bonus'), 'again' => t('Rejouez !'),
+                'jackpotHint' => t('Marquez : jackpot !'), 'lockHint' => t('Visez la poche allumée'),
             ],
             'ui' => [
-                'insertCoin' => t('Appuyez sur « Jouer »'), 'over' => t('Fin de partie'), 'record' => t('Record'), 'p' => t('J'), 'ball' => t('Bille'),
+                'insertCoin' => t('Appuyez sur « Jouer »'), 'over' => t('Fin de la partie'), 'record' => t('Record'), 'p' => t('J'), 'ball' => t('Bille'),
                 'soundOn' => t('Allumer le son'), 'soundOff' => t('Couper le son'), 'newRecord' => t('Nouveau record personnel !'),
                 'multiNoRank' => t('Les parties à plusieurs ne comptent pas au tableau d’honneur.'), 'empty' => t('Personne encore : à vous d’ouvrir le tableau !'),
                 'loading' => t('Chargement…'), 'offline' => t('Connexion perdue, réessayez.'), 'copied' => t('Score copié : collez-le où vous voulez.'),
                 'shareText' => t('{n} points au {t} !', ['t' => t($cfg['title'])]),
                 'mailed' => t('Un lien vient d’être envoyé à cette adresse : ouvrez-le sur cet appareil pour entrer au tableau d’honneur (pensez aux indésirables).'),
                 'joined' => t('C’est noté : vos prochaines parties comptent au tableau d’honneur.'),
+                'visitors' => t('Visiteurs'),
+                'cupRun' => t('Votre parcours en Coupe'), 'cups' => t('Coupes gagnées : {n}'),
+                'win' => t('Victoire'), 'draw' => t('Nul'), 'loss' => t('Défaite'), 'stopped' => t('Match interrompu'),
                 'missions' => [
-                    'skill' => t('Coup d’envoi parfait'), 'lanes' => t('Couloirs {d}', ['d' => $digits]), 'letters' => t('Cibles {l}', ['l' => $letters]),
-                    'lion' => rtrim(t($cfg['roar']), ' !'), 'jackpot' => t('Jackpot'), 'coupe' => t('Coupe gagnée'), 'extra' => t('Bille en plus'),
-                    'promo' => t('Promotion'), 'orbit' => t($cfg['orbit']), 'combo' => t('Combo'),
+                    'but' => t('But marqué'), 'victoire' => t('Match gagné'), 'coupe' => t('Coupe gagnée'), 'combo' => t('Jauge COMBO pleine'),
+                    'lock' => t('Bille verrouillée'), 'multiball' => t('Multiball'), 'jackpot' => t('Jackpot'), 'super' => t('Super jackpot'),
+                    'skill' => t('Coup d’envoi parfait'), 'trick' => t('Geste technique'), 'tacle' => t('Tacle'), 'lion' => rtrim(t($cfg['roar']), ' !'),
+                    'extra' => t('Bille en plus'),
                 ],
             ],
         ];

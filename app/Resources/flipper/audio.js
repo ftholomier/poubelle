@@ -1,7 +1,8 @@
 // Sons du flipper, fabriqués à la volée (Web Audio) : aucun fichier son à télécharger.
 // Allumés d'office (le joueur peut les couper, choix gardé sur l'appareil) : claquements des
-// batteurs, bumpers, cibles, spinner, roulement de la bille selon sa vitesse (plus clair dans les rampes),
-// rumeur du stade pendant la partie, clameur de la foule sur les grands moments.
+// batteurs, bumpers, poches, une-deux, roulement de la bille selon sa vitesse (plus clair dans les rampes),
+// rumeur du stade pendant la partie, clameur de la foule sur les grands moments (buts, jackpots),
+// soupirs (but encaissé, occasion manquée), coups de sifflet (coup d'envoi, fin du match).
 
 export class Sound {
   constructor() {
@@ -87,6 +88,24 @@ export class Sound {
     s.connect(f); f.connect(g); g.connect(this.master); s.start(t); s.stop(t + dur + 0.05);
   }
 
+  /** Coup de sifflet de l'arbitre : son aigu qui roule (modulation rapide). */
+  whistle(dur = 0.35, delay = 0) {
+    const c = this.ctx, t = c.currentTime + delay, o = c.createOscillator(), g = c.createGain(), lfo = c.createOscillator(), lg = c.createGain();
+    o.type = 'sine'; o.frequency.value = 2900; lfo.frequency.value = 34; lg.gain.value = 160;
+    lfo.connect(lg); lg.connect(o.frequency);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.16, t + 0.02); g.gain.setValueAtTime(0.16, t + dur - 0.05); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(this.master); o.start(t); lfo.start(t); o.stop(t + dur + 0.02); lfo.stop(t + dur + 0.02);
+  }
+
+  /** « Ooh » de la foule (occasion manquée, arrêt du gardien) ou soupir (but encaissé) : souffle qui retombe. */
+  groan(dur = 1.2, vol = 0.2, from = 900, to = 300) {
+    const c = this.ctx, t = c.currentTime, s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
+    s.buffer = this.noiseBuf; s.loop = true;
+    f.type = 'bandpass'; f.Q.value = 1.1; f.frequency.setValueAtTime(from, t); f.frequency.exponentialRampToValueAtTime(to, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.15); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    s.connect(f); f.connect(g); g.connect(this.master); s.start(t); s.stop(t + dur + 0.05);
+  }
+
   /** Rugissement du Lion : souffle grave filtré qui monte puis retombe. */
   roar() {
     const c = this.ctx, t = c.currentTime;
@@ -132,20 +151,20 @@ export class Sound {
       case 'flip-hit': this.tone(140, 0.05, 'triangle', Math.min(0.3, (data || 0) / 4000)); break;
       case 'hit': if ((data || 0) > 200) this.noise(0.035, 2600, 3, Math.min(0.16, (data || 0) / 5000)); break;
       case 'bumper': this.tone(240, 0.11, 'square', 0.16, 110); this.noise(0.05, 3200, 2, 0.16); this.tone(1320, 0.18, 'sine', 0.07, null, 0.01); break;
-      case 'sling': this.noise(0.04, 1800, 2, 0.2); this.tone(520, 0.07, 'triangle', 0.16, 260); break;
-      case 'target': this.tone(1046, 0.06, 'square', 0.1); this.noise(0.04, 4000, 3, 0.12); this.tone(110, 0.06, 'sine', 0.25); break;
-      case 'targets-up': this.noise(0.12, 900, 1, 0.18); this.tone(200, 0.14, 'square', 0.08, 400); break;
-      case 'lane': this.tone(660, 0.08, 'square', 0.1, 990); break;
+      case 'sling': case 'kicker': this.noise(0.04, 1800, 2, 0.2); this.tone(520, 0.07, 'triangle', 0.16, 260); break;
+      case 'lane': case 'outlane': this.tone(660, 0.08, 'square', 0.1, 990); break;
       case 'launch': this.noise(0.08, 300, 1, 0.35, 0, 'lowpass'); this.noise(0.3, 400, 1, 0.16, 0.02, 'bandpass', 2400); break;
       case 'ramp-in': this.noise(0.4, 300, 2, 0.12, 0, 'bandpass', 1800); break;
       case 'ramp': this.arp(data === 1 ? [587, 740, 880, 1175] : [523, 659, 784, 1046], 0.07); break;
       case 'ramp-fail': this.tone(300, 0.25, 'triangle', 0.1, 120); break;
-      case 'saucer': this.tone(110, 0.15, 'sine', 0.35); this.tone(880, 0.6, 'sine', 0.08, null, 0.05); break;
-      case 'kickback': this.noise(0.2, 800, 1, 0.25); this.arp([392, 523, 659], 0.06); break;
-      case 'cup': this.arp([392, 494, 587, 784], 0.08, 'sawtooth', 0.08); this.cheer(1.4, 0.16); break;
+      // Poches et trous : la bille tombe dedans, puis ressort.
+      case 'trap': case 'hole': case 'lock': this.tone(110, 0.15, 'sine', 0.35); this.tone(880, 0.6, 'sine', 0.08, null, 0.05); break;
+      case 'kickout': this.noise(0.2, 800, 1, 0.25); this.arp([392, 523, 659], 0.06); break;
+      case 'lock-lit': this.arp([523, 784, 1046], 0.08, 'square', 0.09); break;
+      case 'locked': this.tone(110, 0.15, 'sine', 0.35); this.arp([392, 523, 659, 784], 0.09, 'sawtooth', 0.09); break;
       case 'roar': this.roar(); break;
-      case 'skill': case 'lanes': case 'letters': case 'extra': this.arp([523, 659, 784, 1046, 1318], 0.07, 'square', 0.1); break;
-      case 'jackpot': case 'multiball': case 'cupwon':
+      case 'skill': case 'extra': case 'trick': this.arp([523, 659, 784, 1046, 1318], 0.07, 'square', 0.1); break;
+      case 'jackpot': case 'super': case 'multiball': case 'cupwon':
         this.arp([392, 523, 659, 784, 659, 784, 1046], 0.1, 'sawtooth', 0.1);
         this.cheer(2.6, 0.36);
         break;
@@ -153,11 +172,21 @@ export class Sound {
       case 'tilt': this.tone(110, 0.8, 'square', 0.18); break;
       case 'nudge': this.tone(60, 0.08, 'sine', 0.35); this.noise(0.05, 200, 1, 0.2, 0, 'lowpass'); break;
       case 'bonus': this.arp([262, 330, 392], 0.12, 'triangle', 0.1); break;
-      case 'start': this.arp([392, 523, 659, 784], 0.08, 'square', 0.1); this.cheer(1.6, 0.18); break;
-      // Spinner : une série de « tic » qui ralentit, autant que de tours de palette.
-      case 'spinner': for (let i = 0, n = Math.min(14, data || 1); i < n; i++) this.tone(2200, 0.018, 'square', 0.05, null, i * (0.03 + i * 0.006)); break;
-      case 'orbit': this.noise(0.5, 500, 1.2, 0.14, 0, 'bandpass', 2600); this.arp([659, 784, 988], 0.06, 'triangle', 0.1); break;
-      case 'promo': this.arp([523, 659, 784, 1046, 1318, 1568], 0.08, 'sawtooth', 0.09); this.cheer(2, 0.28); break;
+      case 'start': this.whistle(0.6); this.cheer(1.8, 0.2); break;
+      // Le match : buts, arrêts, occasions, coups de sifflet.
+      case 'goal': this.cheer(4, 0.5); this.arp([523, 659, 784, 1046, 784, 1046, 1318], 0.1, 'sawtooth', 0.11); this.noise(0.3, 120, 1, 0.4, 0, 'lowpass'); break;
+      case 'awaygoal': this.groan(1.8, 0.2, 700, 220); this.tone(330, 0.8, 'triangle', 0.1, 160, 0.1); break;
+      case 'save': this.groan(0.9, 0.14, 1000, 500); this.tone(160, 0.08, 'sine', 0.3); break;
+      case 'player': this.tone(130, 0.08, 'sine', 0.35); this.noise(0.06, 2400, 2, 0.12); break;
+      case 'tackle': this.noise(0.12, 900, 1, 0.22); this.tone(90, 0.12, 'sine', 0.4); break;
+      case 'eliminate': this.tone(1046, 0.06, 'square', 0.1); this.tone(110, 0.06, 'sine', 0.25); break;
+      case 'half': this.whistle(0.3); this.whistle(0.8, 0.4); this.cheer(1.4, 0.16); break;
+      case 'missed': this.groan(1.1, 0.16, 1000, 380); break;
+      case 'tunnel': this.noise(0.3, 300, 1, 0.16, 0, 'bandpass', 1400); break;
+      case 'pass': this.tone(880, 0.07, 'triangle', 0.1, 1175); break;
+      case 'onetwo': this.arp([784, 988, 1175], 0.05, 'triangle', 0.1); break;
+      case 'win': this.whistle(0.3); this.whistle(0.3, 0.4); this.whistle(0.7, 0.8); this.cheer(3.5, 0.45); this.arp([523, 659, 784, 1046, 1318, 1568], 0.12, 'sawtooth', 0.1); break;
+      case 'draw': case 'loss': this.whistle(0.3); this.whistle(0.3, 0.4); this.whistle(0.7, 0.8); if (name === 'loss') this.groan(2, 0.16, 600, 200); break;
       case 'combo': this.arp([784, 988, 1175, 1568], 0.06, 'square', 0.09); break;
     }
   }

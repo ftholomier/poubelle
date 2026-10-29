@@ -7,8 +7,9 @@ use App\Core\Club;
 use App\Core\JsonStore;
 
 /**
- * Le flipper du musée (/interactif/flipper/) : le jeu tourne dans le navigateur (3D, physique,
- * règles : app/Resources/flipper/) ; le serveur garde le tableau d'honneur.
+ * Le flipper du musée (/interactif/flipper/), un flipper « au stade » : chaque partie est un match du
+ * club contre un adversaire de son histoire. Le jeu tourne dans le navigateur (3D, physique, règles :
+ * app/Resources/flipper/) ; le serveur garde le tableau d'honneur.
  *
  * Tableau d'honneur : meilleur score de la semaine et de toujours, par compte supporter (carnet)
  * sous son pseudo du championnat du club-house ; sans compte, on joue sans classement. Chaque
@@ -25,21 +26,15 @@ final class Flipper
     public const MARGIN = 3000000;
     public const MAX_SCORE = 2000000000;
 
-    /** Réglages du jeu pour ce club (textes du décor, noms des rampes et de l'orbite, lettres des cibles, année des couloirs). */
+    /** Réglages du jeu pour ce club : titre, nom peint sous les bumpers, chapeau des bumpers, message quand ils s'emballent. */
     public static function config(): array
     {
         $c = (array) Club::get('flipper', []);
         $mascot = Club::s('mascot');
         return [
             'title' => (string) ($c['title'] ?? 'Le Flipper du ' . $mascot),
-            'letters' => strtoupper((string) preg_replace('/[^A-Za-z]/', '', (string) ($c['letters'] ?? Club::s('team')))) ?: 'LION',
-            'digits' => substr((string) preg_replace('/\D/', '', (string) ($c['digits'] ?? Club::s('founded'))), 0, 4),
-            'ramp' => (string) ($c['ramp'] ?? 'Rampe ' . Club::s('stadium_short')),
-            'ramp2' => (string) ($c['ramp2'] ?? 'Rampe des jeunes'),
-            'orbit' => (string) ($c['orbit'] ?? 'Tour d’honneur'),
             'bumpers' => (string) ($c['bumpers'] ?? 'Les bumpers'),
             'cap' => (string) ($c['cap'] ?? strtoupper($mascot)),
-            'kickback' => (string) ($c['kickback'] ?? 'Centre de formation'),
             'roar' => (string) ($c['roar'] ?? 'Les bumpers s’emballent !'),
         ];
     }
