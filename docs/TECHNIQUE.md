@@ -968,7 +968,9 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   hauteur (`makeRamp` : `mouth` ligne d'entrée et niveau, `end` pose sur le mini-terrain, `wire`
   point où la rampe devient un rail) : `passe`, `dribble`, `centre`, `ballon-long`, `acces`,
   `trou-g`, `trou-d` ; repères du décor `deco`),
-  `physics.js` (moteur 2D maison au pas fixe de 1 ms : segments-capsules et cercles avec
+  `physics.js` (moteur 2D maison au pas fixe de 1 ms, `alpha` = part du pas suivant déjà écoulée
+  et états d'avant le dernier pas `ox`, `oy`, `oh`, `oang` pour un rendu lissé entre deux pas
+  (sinon la bille avance de 8 pas sur une image, de 9 sur la suivante) : segments-capsules et cercles avec
   restitution, frottement de Coulomb proportionnel à l'appui (`MU`, `MU_FLIP`) et coup de pied,
   faces actives des slingshots et du kicker, batteurs effilés en rotation avec vitesse de surface
   (un appui lève les trois batteurs du même côté : principal, TACKLE, mini-flipper), obstacles
@@ -1007,15 +1009,22 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   hexagonaux, pentagones, chevrons, textes en français), lampes (maillots adverses sur les
   hexagones, inserts de mode, multiplicateurs, poches), rampes en ruban (nom peint près de l'entrée)
   puis rails en fil chromé, mini-terrain en relief (pelouse, but et filets, gardien, joueurs aux
-  couleurs de l'adversaire), afficheurs LED des slingshots, tablier (chrono, jauge COMBO, maillots,
-  billes), bloom `UnrealBloomPass` (MSAA ×4), tone mapping ACES, ombres ; caméra ajustée à
+  couleurs de l'adversaire), afficheurs LED des slingshots, tablier (jauge COMBO, maillots,
+  billes ; le chrono, qui change 30 fois par seconde, a sa propre petite toile posée dessus,
+  `drawClock`), bloom `UnrealBloomPass` (MSAA ×4), tone mapping ACES, ombres ; aucune lampe
+  ponctuelle (halos des bumpers peints en additif, `glowMat`) ; `mergeStatic()` regroupe après
+  la construction les pièces fixes de même matière en un seul objet (≈ 690 → 320 appels de dessin
+  par image, ombres comprises) ; tubes à un segment tous les 0,5 (`tube()`) ; caméra ajustée à
   l'écran ; `warmup()` : textures envoyées à la carte graphique (`initTexture`) et shaders de
   toute la scène compilés (`compileAsync`) avant la première image ; `prepareQuality(q)` compile
-  en arrière-plan les shaders d'un autre niveau de qualité avant d'y passer), `stadium.js`
+  en arrière-plan les shaders d'un autre niveau de qualité avant d'y passer ; qualités 2 (ombres
+  2048, halo, définition ×2 au plus), 1 (ombres 1024, sans halo, ×1,5 au plus), 0 (sans ombres
+  ni foule, ×1)), `stadium.js`
   (stade autour de la machine : ciel, pelouse, panneaux LED, tribunes et foule en
-  `InstancedMesh` qui saute aux grands moments, banderoles au logo, pylônes et projecteurs,
-  tableau de score géant, figurines géantes immobiles et sans ombre portée pour alléger le rendu,
-  banc), `audio.js` (sons synthétisés en WebAudio,
+  `InstancedMesh` (têtes en octaèdre : ≈ 84 000 triangles pour 4 200 spectateurs) qui saute aux
+  grands moments, banderoles au logo, pylônes et projecteurs,
+  tableau de score géant (minute sur sa propre petite toile), figurines géantes immobiles et sans
+  ombre portée pour alléger le rendu, banc), `audio.js` (sons synthétisés en WebAudio,
   allumés d'office, coupés par le bouton 🔊, choix gardé dans `localStorage` `fl:son` ;
   roulement de la bille, rumeur du stade, clameur, sifflets, soupirs), `flipper.src.js` (page :
   clavier, souris — clic gauche / clic droit = batteurs, bouton du milieu = lanceur quand la bille
@@ -1024,8 +1033,10 @@ entièrement dans le navigateur ; le serveur ne garde que le tableau d'honneur.
   en fin de partie, envoi du score ; démarrage sous le voile `.fl__boot` « Chargement… », retiré
   par la classe `is-ready` une fois la qualité de départ posée (`fl:q` retenue sur l'appareil
   14 jours, sous la forme « niveau.jour », sinon 1 sur écran tactile, 4 cœurs ou moins ou 4 Go ou moins, 2 ailleurs) et `warmup()` fini ;
-  qualité automatique dès la seconde suivante, sur des périodes d'1,5 s : plus de la moitié des
-  images lentes → un cran de moins, préparé par `prepareQuality()` puis retenu dans `fl:q`).
+  qualité automatique dès la seconde suivante, sur des périodes d'1,5 s : plus d'une image sur
+  cinq au-delà de 24 ms (une image manquée à 60 Hz) → un cran de moins, préparé par
+  `prepareQuality()` puis retenu dans `fl:q` ; écran à points, joueurs et jauge du lanceur
+  écrits dans la page seulement quand ils changent).
 - **Construction** : `sh bin/build-flipper.sh` (Node : Three.js 0.186.1 et esbuild épinglés dans un
   dossier temporaire) → `public/assets/js/flipper.js` (IIFE minifiée, ~700 Ko, licences en fin
   de fichier), à refaire après toute modification des sources. CSS : `public/assets/css/flipper.css`.

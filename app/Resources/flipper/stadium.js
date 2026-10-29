@@ -149,11 +149,13 @@ export class Stadium {
   /** Les spectateurs : un corps et une tête, une seule géométrie dupliquée ; ils sautent (shader). */
   crowd(spots) {
     const body = new THREE.BoxGeometry(0.95, 1.5, 0.6); body.translate(0, 0.75, 0);
-    const head = new THREE.SphereGeometry(0.36, 8, 6); head.translate(0, 1.85, 0);
+    // Tête à 8 faces : de si loin, on ne la distingue pas d'une sphère, et la foule compte des
+    // milliers de spectateurs (une sphère détaillée y pesait 80 % des triangles de la scène).
+    const head = new THREE.OctahedronGeometry(0.42, 0); head.translate(0, 1.85, 0);
     // Couleur par sommet : corps blanc (teinté par instance), tête couleur peau.
     const paint = (geo, r, g, b) => { const n = geo.attributes.position.count, a = new Float32Array(n * 3); for (let i = 0; i < n; i++) a.set([r, g, b], i * 3); geo.setAttribute('color', new THREE.BufferAttribute(a, 3)); };
     paint(body, 1, 1, 1); paint(head, 0.85, 0.66, 0.52);
-    const geo = mergeGeometries([body.toNonIndexed(), head.toNonIndexed()]);
+    const geo = mergeGeometries([body.toNonIndexed(), head]); // l'octaèdre est déjà sans index
     this.crowdU = { uTime: { value: 0 }, uHype: { value: 0 } };
     const mat = new THREE.MeshLambertMaterial({ vertexColors: true });
     mat.onBeforeCompile = sh => {
@@ -238,12 +240,23 @@ export class Stadium {
     const dark = new THREE.MeshStandardMaterial({ color: 0x0a0f1e, roughness: 0.6 });
     const m = new THREE.Mesh(new THREE.BoxGeometry(50, 14.6, 1.2), [dark, dark, dark, dark, face, dark]);
     m.position.set(0, this.ground + 24, b.z1 - 20); m.rotation.x = -0.12; this.root.add(m);
+    // Minute du match : sa propre petite toile devant l'écran (elle change sans cesse, le score rarement).
+    [this.minCanvas, this.minG] = canvas(256, 64);
+    this.minTex = tex(this.minCanvas, 4);
+    const mm = new THREE.Mesh(new THREE.PlaneGeometry(50 * 256 / 1024, 14.6 * 64 / 300), new THREE.MeshStandardMaterial({ map: this.minTex, emissiveMap: this.minTex, emissive: 0xffffff, emissiveIntensity: 0.85, roughness: 0.4 }));
+    mm.position.set(0, 14.6 * (150 - 262) / 300, 0.61); m.add(mm);
     for (const sx of [-1, 1]) { const leg = new THREE.Mesh(new THREE.BoxGeometry(1.2, 18, 1.2), dark); leg.position.set(sx * 20, this.ground + 9, b.z1 - 20.5); this.root.add(leg); }
     this.setScore(0, 0, '', true);
   }
 
   setScore(home, away, minute, force = false) {
-    const key = home + ':' + away + ':' + minute;
+    if (minute !== this.minKey || force) {
+      this.minKey = minute;
+      this.minG.fillStyle = '#050a18'; this.minG.fillRect(0, 0, 256, 64);
+      if (minute) txt(this.minG, minute, 128, 36, 54, this.cfg.colors.yellow, { weight: 800, ls: 4 });
+      this.minTex.needsUpdate = true;
+    }
+    const key = home + ':' + away;
     if (key === this.scrKey && !force) return;
     this.scrKey = key;
     const g = this.scrG, cfg = this.cfg, Y = cfg.colors.yellow;
@@ -258,7 +271,6 @@ export class Stadium {
     g.fillStyle = '#e9edf5'; g.fillRect(684, 96, 300, 130);
     txt(g, String(opp.ini || opp.name || '').toUpperCase(), 834, 162, 92, '#0a0f1e', { weight: 900, max: 270 });
     txt(g, home + ' – ' + away, 512, 160, 140, '#fff', { weight: 900, glow: 'rgba(255,255,255,.5)', blur: 14 });
-    if (minute) txt(g, minute, 512, 262, 54, Y, { weight: 800, ls: 4 });
     this.scrTex.needsUpdate = true;
   }
 

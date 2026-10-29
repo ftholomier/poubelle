@@ -433,7 +433,9 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   saviez-vous ? » tirés des chiffres du musée. Son allumé d'office (bouton 🔊 pour le couper) ; sur
   ordinateur, clic gauche et clic droit pour les batteurs, bouton de la molette pour le lanceur puis
   pour bourrer ; la bille roule moins vite qu'un vrai flipper ; écran « Chargement… » le temps de
-  préparer la 3D, qui apparaît ensuite nette et fluide. Tableau d'honneur de la semaine et de
+  préparer la 3D, qui apparaît ensuite nette et fluide ; rendu allégé pour rester fluide (bille au
+  mouvement régulier, pièces fixes dessinées d'un bloc, foule simplifiée, effets réduits seuls dès
+  que des images sautent). Tableau d'honneur de la semaine et de
   tous les temps (parties à un joueur), même compte et même pseudo que le championnat ; un score
   n'est accepté qu'une fois, après 10 secondes de jeu et s'il est vraisemblable pour la durée.
   Modération dans Interactif › Quiz du club-house : les joueurs du flipper qui ne figurent pas plus

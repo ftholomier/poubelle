@@ -59,24 +59,28 @@ async function boot() {
   // ---------------------------------------------------------------- écran à points
   const dmd = { big: $('[data-fl-big]'), small: $('[data-fl-small]'), l: $('[data-fl-dl]'), r: $('[data-fl-dr]'), box: $('[data-fl-dmd]') };
   let lastSmall = '';
+  // N'écrire dans la page que ce qui a changé : chaque écriture fait recalculer et repeindre
+  // l'écran à points (lueur des lettres), et la boucle tourne 60 fois par seconde.
+  const put = (el, text) => { if (el.textContent !== text) el.textContent = text; };
   function drawDmd() {
+    const kind = k => { if (dmd.box.dataset.kind !== k) dmd.box.dataset.kind = k; };
     if (!game || game.state === 'attract') {
-      dmd.big.textContent = D.title; dmd.l.textContent = ''; dmd.r.textContent = '';
+      put(dmd.big, D.title); put(dmd.l, ''); put(dmd.r, '');
       setSmall(store('best') ? U.record + ' ' + fmt(+store('best')) : U.insertCoin);
       return;
     }
     if (game.state === 'over') {
       const best = game.players.reduce((m, p) => Math.max(m, p.score), 0);
-      dmd.big.textContent = fmt(best); dmd.box.dataset.kind = ''; dmd.l.textContent = ''; dmd.r.textContent = '';
+      put(dmd.big, fmt(best)); kind(''); put(dmd.l, ''); put(dmd.r, '');
       setSmall(U.over);
       return;
     }
     const s = game.screen(), pl = game.pl, m = game.match();
-    dmd.big.textContent = s.big;
-    dmd.box.dataset.kind = s.kind || '';
+    put(dmd.big, s.big);
+    kind(s.kind || '');
     // Coins : le score du match (le club contre l'adversaire), le chrono, la bille en cours, le multiplicateur.
-    dmd.l.textContent = (game.players.length > 1 ? U.p + pl.n + ' · ' : '') + D.short + ' ' + m.home + '–' + m.away + ' ' + (m.opp.ini || m.opp.name || '');
-    dmd.r.textContent = m.clock + ' · ' + U.ball + ' ' + Math.min(pl.ball, game.cfg.balls) + '/' + game.cfg.balls + (MULTS[pl.mult] > 1 ? ' · ×' + MULTS[pl.mult] : '');
+    put(dmd.l, (game.players.length > 1 ? U.p + pl.n + ' · ' : '') + D.short + ' ' + m.home + '–' + m.away + ' ' + (m.opp.ini || m.opp.name || ''));
+    put(dmd.r, m.clock + ' · ' + U.ball + ' ' + Math.min(pl.ball, game.cfg.balls) + '/' + game.cfg.balls + (MULTS[pl.mult] > 1 ? ' · ×' + MULTS[pl.mult] : ''));
     setSmall(s.small);
   }
   function setSmall(text) {
@@ -92,10 +96,13 @@ async function boot() {
 
   // ---------------------------------------------------------------- joueurs
   const playersBox = $('[data-fl-players]');
+  let playersHtml = '';
   function drawPlayers() {
-    if (!game || game.players.length < 2) { playersBox.hidden = true; return; }
-    playersBox.hidden = false;
-    playersBox.innerHTML = game.players.map((p, i) => `<span class="${i === game.cur ? 'is-on' : ''}">${U.p}${p.n} <b>${fmt(p.score)}</b></span>`).join('');
+    const solo = !game || game.players.length < 2;
+    if (playersBox.hidden !== solo) playersBox.hidden = solo;
+    if (solo) return;
+    const html = game.players.map((p, i) => `<span class="${i === game.cur ? 'is-on' : ''}">${U.p}${p.n} <b>${fmt(p.score)}</b></span>`).join('');
+    if (html !== playersHtml) { playersHtml = html; playersBox.innerHTML = html; }
   }
 
   // ---------------------------------------------------------------- partie
@@ -314,8 +321,9 @@ async function boot() {
 
   // ---------------------------------------------------------------- boucle
   let last = performance.now();
-  // Qualité automatique : mesurée par périodes d'1,5 s ; plus de la moitié des images lentes → un
-  // cran d'effets en moins, compilé en arrière-plan puis appliqué, et retenu pour la visite suivante.
+  // Qualité automatique : mesurée par périodes d'1,5 s ; dès qu'une image sur cinq saute (plus de
+  // 24 ms : sur un écran à 60 Hz, c'est une image manquée), un cran d'effets en moins, compilé en
+  // arrière-plan puis appliqué, et retenu pour la visite suivante. La fluidité passe avant les effets.
   let frames = 0, slow = 0, winAt = 0, holdUntil = 0, switching = false;
   function lower() {
     const q = scene.quality - 1;
@@ -325,6 +333,7 @@ async function boot() {
       switching = false; frames = 0; slow = 0; holdUntil = performance.now() + 800;
     });
   }
+  let lastPull = -1;
   const plungerVisible = () => game && game.waiting && game.state === 'play';
   function loop(now) {
     // Jamais de temps négatif (première image : l'horodatage peut précéder « last »), ni de saut de plus de 50 ms.
@@ -339,13 +348,14 @@ async function boot() {
     drawPlayers();
     const show = !!plungerVisible();
     if (plungerBtn.hidden === show) plungerBtn.hidden = !show;
-    gauge.style.transform = `scaleY(${pullNow()})`;
+    const pull = pullNow();
+    if (pull !== lastPull) { lastPull = pull; gauge.style.transform = `scaleY(${pull})`; }
     if (!switching && !paused && now > holdUntil) {
       if (!frames) winAt = now;
       frames++;
-      if (dt > 0.028) slow++;
+      if (dt > 0.024) slow++;
       if (now - winAt > 1500) {
-        if (slow / frames > 0.5 && scene.quality > 0) lower();
+        if (slow / frames > 0.2 && scene.quality > 0) lower();
         frames = 0; slow = 0;
       }
     }

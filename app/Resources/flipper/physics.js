@@ -59,6 +59,7 @@ export class Physics {
     this.sensors = [];
     this.time = 0;
     this.acc = 0;
+    this.alpha = 1; // part du pas suivant déjà écoulée (rendu lissé entre deux pas, voir update())
     this.on = () => {};
     this.nextId = 1;
     this.keeperSkill = 0;
@@ -193,17 +194,26 @@ export class Physics {
     b.apex = false;
   }
 
-  /** Avance de frame secondes réelles (la physique avance de frame × speed). */
+  /**
+   * Avance de frame secondes réelles (la physique avance de frame × speed). Le pas étant fixe, une
+   * image tombe entre deux pas : alpha (0 à 1) dit où, et le rendu place la bille, les flippers et la
+   * roulette entre leur état d'avant le dernier pas (ox, oy, oh, oang) et l'actuel. Sans cela, la
+   * bille avancerait de 8 pas sur une image et de 9 sur la suivante : une saccade à vitesse égale.
+   */
   update(frame) {
     this.acc = Math.min(this.acc + frame * this.speed, 0.1); // onglet en arrière-plan : on ne rattrape pas plus de 0,1 s
     while (this.acc >= DT) {
       this.step(DT);
       this.acc -= DT;
     }
+    this.alpha = this.acc / DT;
   }
 
   step(dt) {
     this.time += dt;
+    for (const b of this.balls) { b.ox = b.x; b.oy = b.y; b.oh = b.h || 0; }
+    for (const f of this.flippers) f.oang = f.ang;
+    if (this.spinner) this.spinner.oang = this.spinner.ang;
     const sp = this.spinner;
     if (sp && sp.w > 0.05) {
       // La roulette ralentit ; chaque tour complet rapporte (événement 'spin').

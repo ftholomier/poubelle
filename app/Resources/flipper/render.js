@@ -12,6 +12,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { W, H, R, HM } from './table.js';
 import { Stadium } from './stadium.js';
 
@@ -28,6 +29,10 @@ const APRON_Y = 700, PF_W = 366;
 function canvas(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return [c, c.getContext('2d')]; }
 // Filtrage des textures vues de biais : le maximum de la carte graphique (lu au démarrage).
 let ANISO = 8;
+/** Tube le long d'une courbe : un segment tous les 0,5 environ (assez pour paraître lisse, sans plus). */
+function tube(curve, r, radial = 6, closed = false) {
+  return new THREE.TubeGeometry(curve, Math.max(8, Math.ceil(curve.getLength() / 0.5)), r, radial, closed);
+}
 function tex(c) { const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = ANISO; return t; }
 function txt(g, s, x, y, size, color, o = {}) {
   g.save(); g.translate(x, y); if (o.rot) g.rotate(o.rot);
@@ -90,6 +95,41 @@ export class Scene3D {
     this.scene.environmentIntensity = 0.45;
     this.camera = new THREE.PerspectiveCamera(39, 1, 1, 1200);
     this.build();
+    this.mergeStatic();
+  }
+
+  /**
+   * Regroupe les pièces fixes qui partagent la même matière en un seul objet : des centaines de petits
+   * morceaux (murs, poteaux, rails, gradins…) sont ainsi dessinés en quelques fois au lieu d'une par
+   * pièce, ce qui soulage le processeur et la carte graphique à chaque image (ombres comprises). Ce qui
+   * bouge (billes, flippers, roulette, joueurs, gardien, filets, lanceur, foule), ce qui est transparent
+   * et ce qui a une matière à soi (lampes qui s'allument) reste à part.
+   */
+  mergeStatic() {
+    const moving = new Set([...this.balls, ...this.lockBalls, ...this.flippers, this.spinner, this.knob, this.keeper,
+      ...(this.nets || []), ...(this.players || []).map(d => d.m), this.stadium.crowdMesh].filter(Boolean));
+    this.scene.updateMatrixWorld(true);
+    const groups = new Map(), sig = g => Object.keys(g.attributes).sort().join(',') + (g.index ? ':i' : ':n');
+    const walk = o => {
+      if (moving.has(o) || !o.visible) return;
+      if (o.isMesh && !o.isInstancedMesh && !o.children.length && !Array.isArray(o.material) && !o.material.transparent
+        && !Object.keys(o.geometry.morphAttributes).length && !o.renderOrder) {
+        const key = o.material.uuid + '|' + o.castShadow + '|' + o.receiveShadow + '|' + sig(o.geometry);
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(o);
+      }
+      for (const c of [...o.children]) walk(c);
+    };
+    walk(this.scene);
+    for (const list of groups.values()) {
+      if (list.length < 2) continue;
+      const merged = mergeGeometries(list.map(o => o.geometry.clone().applyMatrix4(o.matrixWorld)), false);
+      if (!merged) continue;
+      const m = new THREE.Mesh(merged, list[0].material);
+      m.castShadow = list[0].castShadow; m.receiveShadow = list[0].receiveShadow; m.matrixAutoUpdate = false;
+      this.scene.add(m);
+      for (const o of list) { o.removeFromParent(); o.geometry.dispose(); }
+    }
   }
 
   // ------------------------------------------------------------------ construction
@@ -141,7 +181,8 @@ export class Scene3D {
     const ballMat = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 1, roughness: 0.06 });
     this.balls = Array.from({ length: 5 }, () => { const m = new THREE.Mesh(new THREE.SphereGeometry(R * S, 32, 24), ballMat); m.castShadow = true; m.visible = false; sc.add(m); return m; });
     this.lockBalls = t.sensors.filter(s => s.tag === 'lock').map(s => { const m = new THREE.Mesh(new THREE.SphereGeometry(R * S, 24, 16), ballMat); m.position.copy(P(s.x, s.y, R * S - 0.3)); m.visible = false; sc.add(m); return m; });
-    // Lumières : projecteur principal (ombres), lumière froide des pylônes, reflets chauds.
+    // Lumières : projecteur principal (ombres) et lumière froide des pylônes ; pas de lampe ponctuelle
+    // (chacune se calculerait sur chaque pixel : les halos des bumpers sont peints).
     sc.add(new THREE.AmbientLight(0x8090c0, 0.16));
     sc.add(new THREE.HemisphereLight(0x8fa8ff, 0x1d4a22, 0.35));
     this.key = new THREE.SpotLight(0xfff4e0, 500, 0, 0.8, 0.6, 1.5);
@@ -150,7 +191,6 @@ export class Scene3D {
     sc.add(this.key, this.key.target);
     const flood = new THREE.DirectionalLight(0xdfe8ff, 1.1); flood.position.set(-60, 90, -80); sc.add(flood);
     const flood2 = new THREE.DirectionalLight(0xdfe8ff, 0.7); flood2.position.set(70, 80, -60); sc.add(flood2);
-    const warm = new THREE.PointLight(0xffb020, 40, 70, 1.6); warm.position.set(18, 14, 26); sc.add(warm);
   }
 
   /** Décor peint du plateau : pelouse rayée, lignes du terrain, bords sombres, dessins des inserts, textes. */
@@ -302,7 +342,7 @@ export class Scene3D {
     }
     if (glow) {
       const curve = new THREE.CatmullRomCurve3(pts.map(p => P(p[0], p[1], y0 + h + 0.05)), false, 'catmullrom', 0);
-      this.scene.add(new THREE.Mesh(new THREE.TubeGeometry(curve, pts.length * 4, 0.2, 8), this.mat.neon));
+      this.scene.add(new THREE.Mesh(tube(curve, 0.2, 8), this.mat.neon));
     }
   }
 
@@ -310,7 +350,7 @@ export class Scene3D {
   wire(pts, h = 1.6, y0 = 0) {
     for (const hh of [0.55, h]) {
       const curve = new THREE.CatmullRomCurve3(pts.map(p => P(p[0], p[1], y0 + hh)), false, 'catmullrom', 0);
-      this.scene.add(new THREE.Mesh(new THREE.TubeGeometry(curve, pts.length * 6, 0.14, 6), this.mat.chrome));
+      this.scene.add(new THREE.Mesh(tube(curve, 0.14), this.mat.chrome));
     }
     for (const p of [pts[0], pts[pts.length - 1]]) { const post = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, h, 8), this.mat.chrome); post.position.copy(P(p[0], p[1], y0 + h / 2)); this.scene.add(post); }
   }
@@ -327,12 +367,19 @@ export class Scene3D {
     g2.fillStyle = this.N; g2.fillRect(0, 0, 512, 64);
     for (let i = 0; i < 2; i++) txt(g2, String(this.cfg.site || '').toUpperCase(), 128 + i * 256, 34, 34, this.Y, { weight: 900, ls: 3, max: 240 });
     const band = tex(c2); band.wrapS = THREE.RepeatWrapping;
+    // Halo au pied de chaque bumper (il s'allume au choc) : une tache de lumière peinte, bien moins
+    // coûteuse qu'une vraie lampe, qui se calculerait sur chaque pixel de l'image.
+    const [c3, g3] = canvas(128, 128), gr = g3.createRadialGradient(64, 64, 8, 64, 64, 64);
+    gr.addColorStop(0, 'rgba(255,214,90,1)'); gr.addColorStop(0.45, 'rgba(255,190,40,.45)'); gr.addColorStop(1, 'rgba(255,170,0,0)');
+    g3.fillStyle = gr; g3.fillRect(0, 0, 128, 128);
+    const glowTex = tex(c3);
     this.bumpers = this.t.bumpers.map(b => {
       const p = P(b.x, b.y), r = b.r * S, R2 = r * 1.75;
       const base = new THREE.Mesh(new THREE.CylinderGeometry(r * 1.1, r * 1.1, 0.5, 40), this.mat.rubber); base.position.set(p.x, 0.25, p.z); this.scene.add(base);
       const ringMat = new THREE.MeshBasicMaterial({ color: this.col.yellow.clone().multiplyScalar(1.5) });
       const ring = new THREE.Mesh(new THREE.TorusGeometry(r * 1.0, 0.3, 12, 48), ringMat); ring.rotation.x = Math.PI / 2; ring.position.set(p.x, 1.0, p.z); this.scene.add(ring);
-      const light = new THREE.PointLight(0xffcc33, 6, 12, 2); light.position.set(p.x, 4, p.z); this.scene.add(light);
+      const glowMat = new THREE.MeshBasicMaterial({ map: glowTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.25 });
+      const glow = new THREE.Mesh(new THREE.PlaneGeometry(R2 * 4.2, R2 * 4.2), glowMat); glow.rotation.x = -Math.PI / 2; glow.position.set(p.x, 0.09, p.z); this.scene.add(glow);
       const post = new THREE.Mesh(new THREE.CylinderGeometry(r * 0.75, r * 0.75, 3.4, 32), new THREE.MeshStandardMaterial({ color: this.col.blue, emissive: this.col.blue, emissiveIntensity: 0.35, roughness: 0.3 }));
       post.position.set(p.x, 1.9, p.z); post.castShadow = true; this.scene.add(post);
       const drum = new THREE.Mesh(new THREE.CylinderGeometry(R2, R2, 1.3, 48, 1, true), new THREE.MeshStandardMaterial({ map: band, roughness: 0.35, emissiveMap: band, emissive: 0xffffff, emissiveIntensity: 0.3 }));
@@ -340,7 +387,7 @@ export class Scene3D {
       const discMat = new THREE.MeshStandardMaterial({ map: cap, emissiveMap: cap, emissive: 0xffffff, emissiveIntensity: 0.3, roughness: 0.3 });
       const disc = new THREE.Mesh(new THREE.CircleGeometry(R2, 48), discMat); disc.rotation.x = -Math.PI / 2; disc.position.set(p.x, 4.81, p.z); this.scene.add(disc);
       const under = new THREE.Mesh(new THREE.CircleGeometry(R2, 48), this.mat.wall); under.rotation.x = Math.PI / 2; under.position.set(p.x, 3.5, p.z); this.scene.add(under);
-      return { ringMat, discMat, light, flash: 0 };
+      return { ringMat, discMat, glowMat, flash: 0 };
     });
   }
 
@@ -500,7 +547,7 @@ export class Scene3D {
         const o = new THREE.Mesh(sg, wm); o.castShadow = true; this.scene.add(o);
       };
       sweep(edgeL); sweep(edgeR);
-      for (const r of [rimL, rimR]) this.scene.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(r), r.length * 2, 0.36, 8), this.mat.blue));
+      for (const r of [rimL, rimR]) this.scene.add(new THREE.Mesh(tube(new THREE.CatmullRomCurve3(r), 0.36, 8), this.mat.blue));
     }
     // Rails en fil : deux en bas, deux sur les côtés.
     if (solidEnd < pts.length - 1) {
@@ -508,7 +555,7 @@ export class Scene3D {
       for (const [o, hh] of [[-0.5, 0.05], [0.5, 0.05], [-0.95, 0.8], [0.95, 0.8]]) {
         const v = [];
         for (let i = from; i < pts.length; i++) { const { c, n } = frame(i); v.push(c.clone().addScaledVector(n, o).setY(c.y + hh)); }
-        this.scene.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(v), v.length * 3, 0.12, 6), this.mat.chrome));
+        this.scene.add(new THREE.Mesh(tube(new THREE.CatmullRomCurve3(v), 0.12), this.mat.chrome));
       }
     }
     // Piliers : de loin en loin, du plateau jusque sous la rampe (pas sur le mini-terrain).
@@ -562,7 +609,7 @@ export class Scene3D {
     block.castShadow = block.receiveShadow = true; sc.add(block);
     // Liseré jaune lumineux autour du socle.
     const rim = foot.concat([foot[0]]).map(([x, y]) => P(x, y, MH + 0.05));
-    sc.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(rim, true, 'catmullrom', 0), 80, 0.18, 6, true), this.mat.neon));
+    sc.add(new THREE.Mesh(tube(new THREE.CatmullRomCurve3(rim, true, 'catmullrom', 0), 0.18, 6, true), this.mat.neon));
     // Bandeau lumineux sur la pointe (face au joueur) : le sigle du club, « BUT ! » quand on marque.
     const [fc, fg] = canvas(512, 96);
     this.miniFront = { c: fc, g: fg, tx: tex(fc), key: '' };
@@ -685,11 +732,35 @@ export class Scene3D {
     const mat = new THREE.MeshStandardMaterial({ map: this.apron.tx, emissiveMap: this.apron.tx, emissive: 0xffffff, emissiveIntensity: 0.5, roughness: 0.5, transparent: true });
     const m = new THREE.Mesh(new THREE.PlaneGeometry(PF_W * S, (H - APRON_Y) * S), mat);
     m.rotation.x = -Math.PI / 2; m.position.set(X(PF_W / 2), 0.06, Z((H + APRON_Y) / 2)); m.receiveShadow = true; this.scene.add(m);
-    this.drawApron({ clock: '45:00', half: 1, combo: 0, comboMax: 5, hexes: Array(10).fill(true), ball: 1, balls: 3 });
+    this.drawApron({ combo: 0, comboMax: 5, hexes: Array(10).fill(true), ball: 1, balls: 3 });
+    // Chrono : sa propre petite toile posée sur le tablier. Il change 30 fois par seconde : repeindre
+    // et renvoyer à la carte graphique tout le tablier à ce rythme coûterait cher.
+    // (Toile deux fois plus large que le cadran : les chiffres en débordent un peu.)
+    const [cx, cy, cr] = this.t.deco.clock, [cc, cg] = canvas(256, 128);
+    this.clockFace = { c: cc, g: cg, tx: tex(cc), k: 128 / (cr * 2), key: '' };
+    const cm = new THREE.MeshStandardMaterial({ map: this.clockFace.tx, emissiveMap: this.clockFace.tx, emissive: 0xffffff, emissiveIntensity: 0.5, roughness: 0.5, transparent: true, polygonOffset: true, polygonOffsetFactor: -2 });
+    const face = new THREE.Mesh(new THREE.PlaneGeometry(cr * 4 * S, cr * 2 * S), cm);
+    face.rotation.x = -Math.PI / 2; face.position.copy(P(cx, cy, 0.07)); this.scene.add(face);
+    this.drawClock('45:00', 1);
+  }
+
+  drawClock(clock, half) {
+    const f = this.clockFace, key = clock + ':' + half;
+    if (key === f.key) return;
+    f.key = key;
+    const g = f.g, [cx, cy, cr] = this.t.deco.clock;
+    g.setTransform(1, 0, 0, 1, 0, 0);
+    g.clearRect(0, 0, f.c.width, f.c.height);
+    g.setTransform(f.k, 0, 0, f.k, -(cx - cr * 2) * f.k, -(cy - cr) * f.k);
+    g.fillStyle = '#2a3142'; g.beginPath(); g.arc(cx, cy, cr, 0, Math.PI * 2); g.fill();
+    g.fillStyle = '#04060c'; g.beginPath(); g.arc(cx, cy, cr - 3, 0, Math.PI * 2); g.fill();
+    led(g, clock, cx, cy - 1, 13, '#7ff0a0');
+    txt(g, String((this.lb.halves || [])[half - 1] || '').toUpperCase(), cx, cy + 12, 5, '#9aa6c0', { ls: 1 });
+    f.tx.needsUpdate = true;
   }
 
   drawApron(s) {
-    const key = [s.clock, s.half, s.combo, s.hexes.join(''), s.ball, s.balls].join(':');
+    const key = [s.combo, s.hexes.join(''), s.ball, s.balls].join(':');
     if (key === this.apron.key) return;
     this.apron.key = key;
     const { c, g } = this.apron, k = c.width / PF_W, Y = this.Y, lb = this.lb, d = this.t.deco;
@@ -701,12 +772,7 @@ export class Scene3D {
     const gr = g.createLinearGradient(0, 740, 0, H); gr.addColorStop(0, '#0b1640'); gr.addColorStop(1, '#050a1e');
     g.fillStyle = gr; g.fill();
     g.strokeStyle = Y; g.lineWidth = 1.2; g.stroke();
-    // Chrono du match.
-    const [cx, cy, cr] = d.clock;
-    g.fillStyle = '#2a3142'; g.beginPath(); g.arc(cx, cy, cr, 0, Math.PI * 2); g.fill();
-    g.fillStyle = '#04060c'; g.beginPath(); g.arc(cx, cy, cr - 3, 0, Math.PI * 2); g.fill();
-    led(g, s.clock, cx, cy - 1, 13, '#7ff0a0');
-    txt(g, String((lb.halves || [])[s.half - 1] || '').toUpperCase(), cx, cy + 12, 5, '#9aa6c0', { ls: 1 });
+    // (Le chrono a sa propre toile, posée par-dessus : drawClock.)
     // Écusson et titre.
     logoAt(g, this.cfg.logo, 184.8, 834, 24);
     txt(g, String(this.cfg.title || '').toUpperCase(), 184.8, 857, 7, Y, { weight: 900, ls: 1.5, max: 110 });
@@ -779,13 +845,23 @@ export class Scene3D {
     this.camBase = cam.position.clone(); this.camLook = look;
   }
 
-  /** Qualité : 2 = ombres et halo, 1 = sans halo, 0 = sans ombres ni foule, en définition simple. */
+  /**
+   * Qualité : 2 = ombres fines, halo, définition de l'écran (jusqu'à ×2) ; 1 = sans halo, ombres plus
+   * légères, définition ×1,5 au plus ; 0 = sans ombres ni foule, en définition simple.
+   */
   setQuality(q) {
     this.quality = q;
     this.renderer.shadowMap.enabled = q >= 1;
     this.key.castShadow = q >= 1;
+    const size = q >= 2 ? 2048 : 1024, sh = this.key.shadow;
+    if (sh.mapSize.x !== size) { sh.mapSize.set(size, size); if (sh.map) { sh.map.dispose(); sh.map = null; } }
     this.stadium.setQuality(q);
-    if (q === 0) { this.renderer.setPixelRatio(1); this.resize(this.w, this.h); }
+    const pr = q === 0 ? 1 : Math.min(window.devicePixelRatio || 1, q === 1 ? 1.5 : 2);
+    if (pr !== this.renderer.getPixelRatio()) {
+      this.renderer.setPixelRatio(pr);
+      if (this.composer) this.composer.setPixelRatio(pr);
+      if (this.w) this.resize(this.w, this.h);
+    }
     this.scene.traverse(o => { if (o.material) [].concat(o.material).forEach(m => { m.needsUpdate = true; }); });
   }
 
@@ -831,17 +907,23 @@ export class Scene3D {
 
   frame(phys, lamps, dt, time, plungerPull = 0) {
     dt = Math.max(0, dt);
+    // Entre deux pas de la physique (alpha) : mouvement régulier d'une image à l'autre. Une bille
+    // déplacée d'un coup (souterrain, chute du mini-terrain) est posée directement à sa place.
+    const a = phys.alpha ?? 1, mix = (o, v) => (o === undefined ? v : o + (v - o) * a);
     // billes
     const live = phys.balls.filter(b => b.state !== 'gone' && b.state !== 'subway');
     this.balls.forEach((m, i) => {
       const b = live[i];
       m.visible = !!b;
-      if (b) m.position.set(X(b.x), R * S + (b.h || 0) * S + (b.state === 'ramp' ? 0.25 : 0), Z(b.y));
+      if (!b) return;
+      const jump = b.ox === undefined || Math.abs(b.x - b.ox) + Math.abs(b.y - b.oy) > 20;
+      const x = jump ? b.x : mix(b.ox, b.x), y = jump ? b.y : mix(b.oy, b.y), h = jump ? b.h || 0 : mix(b.oh, b.h || 0);
+      m.position.set(X(x), R * S + h * S + (b.state === 'ramp' ? 0.25 : 0), Z(y));
     });
     // flippers
-    phys.flippers.forEach((f, i) => { this.flippers[i].rotation.y = -f.ang; });
+    phys.flippers.forEach((f, i) => { this.flippers[i].rotation.y = -mix(f.oang, f.ang); });
     // roulette
-    if (this.spinner && phys.spinner) this.spinnerPlate.rotation.x = phys.spinner.ang;
+    if (this.spinner && phys.spinner) this.spinnerPlate.rotation.x = mix(phys.spinner.oang, phys.spinner.ang);
     // joueurs adverses (vont et viennent, tombent quand ils sont éliminés) et gardien
     if (phys.players && this.players) {
       phys.players.forEach((p, i) => {
@@ -870,7 +952,7 @@ export class Scene3D {
       const k = b.flash + (lion ? 0.4 + 0.3 * Math.sin(time * 10) : 0);
       b.discMat.emissiveIntensity = 0.3 + k * 1.6;
       b.ringMat.color.copy(this.col.yellow).multiplyScalar(1.5 + k * 2.5);
-      b.light.intensity = 6 + k * 40;
+      b.glowMat.opacity = Math.min(1, 0.25 + k * 0.75);
     }
     for (const s of this.slings) { s.flash = Math.max(0, s.flash - dt * 6); s.mat.emissiveIntensity = 0.15 + s.flash * 2; }
     this.kickFlash = Math.max(0, this.kickFlash - dt * 6); this.kickerMat.emissiveIntensity = 0.2 + this.kickFlash * 2;
@@ -901,6 +983,7 @@ export class Scene3D {
       this.L.tackles.forEach(l => set(l, true));
       this.drawLeds(lamps.home, lamps.away);
       this.drawApron(lamps);
+      this.drawClock(lamps.clock, lamps.half);
       this.stadium.setScore(lamps.home, lamps.away, lamps.clock);
     } else {
       this.drawLeds(0, 0);
