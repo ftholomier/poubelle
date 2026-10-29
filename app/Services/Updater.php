@@ -20,6 +20,8 @@ final class Updater
 {
     /** Dossiers de code remplacés. */
     private const DIRS = ['app', 'bin', 'templates', 'public'];
+    /** Pages éditoriales du site (FAQ, mentions…) : livrées avec le code. */
+    private const PAGES = 'data/content/fr';
     /** Jamais écrasés, même s'ils figurent dans l'archive. */
     private const KEEP = ['config/config.php', 'config/secrets.php', 'public/.htaccess.local'];
 
@@ -117,14 +119,18 @@ final class Updater
                 return ['ok' => false, 'message' => 'Sauvegarde du code en place impossible : mise à jour annulée.'];
             }
             $count = self::install($root);
+            [$pages, $kept, $hashes] = self::installPages($root);
+            $count += $pages;
             self::rmtree($tmp);
-            Json::write(self::stateFile(), ['sha' => $latest['sha'], 'at' => date('c'), 'message' => $latest['message']]);
+            Json::write(self::stateFile(), ['sha' => $latest['sha'], 'at' => date('c'), 'message' => $latest['message'],
+                                            'pages' => $hashes]);
             if (function_exists('opcache_reset')) {
                 @opcache_reset();
             }
             Audit::log('update.installed', ['sha' => substr($latest['sha'], 0, 12), 'files' => $count, 'backup' => $backup], $userId);
             return ['ok' => true, 'message' => sprintf('Mise à jour installée : %d fichiers, version %s. Sauvegarde : %s.',
-                $count, substr($latest['sha'], 0, 7), $backup)];
+                $count, substr($latest['sha'], 0, 7), $backup)
+                . ($kept !== [] ? ' Pages retouchées au back-office, laissées telles quelles : ' . implode(', ', $kept) . '.' : '')];
         });
     }
 
@@ -157,7 +163,7 @@ final class Updater
             return '';
         }
         $root = Config::path('root');
-        foreach (self::DIRS as $dir) {
+        foreach (array_merge(self::DIRS, [self::PAGES]) as $dir) {
             foreach (self::files($root . '/' . $dir) as $abs) {
                 $zip->addFile($abs, substr($abs, strlen($root) + 1));
             }
@@ -170,8 +176,11 @@ final class Updater
         return $name;
     }
 
+    private static string $src = '';
+
     private static function install(string $src): int
     {
+        self::$src = $src;
         $root = Config::path('root');
         $count = 0;
         foreach (array_merge(self::DIRS, ['config']) as $dir) {
@@ -197,6 +206,46 @@ final class Updater
             }
         }
         return $count;
+    }
+
+    /**
+     * Pages en français. Une page modifiée sur le serveur depuis la dernière
+     * livraison (retouchée dans « Pages & contenus ») n'est pas écrasée.
+     *
+     * @return array{0:int, 1:array<int,string>, 2:array<string,string>} remplacées, gardées, empreintes livrées
+     */
+    private static function installPages(string $root): array
+    {
+        $src = self::$src . '/' . self::PAGES;
+        $known = (array) (Json::read(self::stateFile())['pages'] ?? []);
+        $count = 0;
+        $kept = [];
+        $hashes = [];
+        foreach (glob($src . '/*.json') ?: [] as $abs) {
+            $name = basename($abs);
+            $dest = $root . '/' . self::PAGES . '/' . $name;
+            $incoming = (string) md5_file($abs);
+            $hashes[$name] = $incoming;
+            if (is_file($dest)) {
+                $current = (string) md5_file($dest);
+                if ($current === $incoming) {
+                    continue;
+                }
+                // Déjà livrée et changée depuis sur le serveur : c'est une retouche, on la garde.
+                if (isset($known[$name]) && $known[$name] !== $current) {
+                    $kept[] = basename($name, '.json');
+                    $hashes[$name] = $current === '' ? $incoming : $known[$name];
+                    continue;
+                }
+            }
+            if (!is_dir(dirname($dest))) {
+                @mkdir(dirname($dest), 0755, true);
+            }
+            if (@copy($abs, $dest . '.tmp-upd') && @rename($dest . '.tmp-upd', $dest)) {
+                $count++;
+            }
+        }
+        return [$count, $kept, $hashes];
     }
 
     /** @return array<int, string> */

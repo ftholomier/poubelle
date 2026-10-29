@@ -41,8 +41,8 @@ $upToDate = $installed['sha'] !== '' && $installed['sha'] === $latest['sha'];
     </button>
   </form>
   <p class="muted" style="font-size:13px;margin:14px 0 0">
-    Seul le code est remplacé (app, bin, templates, public, et les fichiers de config nouveaux).
-    Les données, les contenus, les réglages existants de config/config.php et les clés d’API ne sont jamais touchés.
+    Le code est remplacé (app, bin, templates, public, et les fichiers de config nouveaux), ainsi que les pages du site (FAQ, mentions, conditions…) — sauf celles que vous avez retouchées dans « Pages & contenus » depuis la dernière mise à jour, laissées telles quelles et signalées.
+    Les données (offres, CV, comptes, fiches métiers modifiées), les réglages existants de config/config.php et les clés d’API ne sont jamais touchés.
     Le code en place est archivé avant chaque mise à jour ; les cinq dernières archives sont gardées.
   </p>
 </div>
