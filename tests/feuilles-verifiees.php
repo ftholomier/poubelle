@@ -104,6 +104,30 @@ try {
     $eq('entré sans minute connue : « Entré en jeu »', [array_key_exists('sub_in', $en) ? $en['sub_in'] : 'x', $en['sub_text'] ?? ''], [null, 'Entré en jeu']);
     $eq('confiance moyenne signalée dans les sources', str_contains((string) end($dn['sections'])['html'], 'à confirmer'), true);
     $eq('relancer : rien de plus', VerifiedSheets::import($file)['message'], 'feuilles de match 2025-2026 : 0 match(s) créé(s), 0 composition(s) provisoire(s) remplacée(s), 0 fiche(s) complétée(s), 0 proposition(s) dans Trouvailles');
+
+    // Fiche sans composition : la feuille l'ajoute, avec le titre et les colonnes du tableau, et sa note.
+    $v1 = $match('2026-07-01', 'Essai Foxtrot', 1, 1, [], 'M. Dupontel');
+    $doc = Fiches::fresh($v1);
+    $doc['match']['lineup'] = null;
+    Fiches::save($doc, ['name' => 'Essai']);
+    file_put_contents($file, json_encode(['saison' => '2025-2026', 'matchs' => [$sheet('2026-07-01', 'Essai Foxtrot', 1, 1, 'F', ['note' => 'Remplaçants restés sur le banc : inconnus.'])]], JSON_UNESCAPED_UNICODE));
+    $eq('composition manquante : compte rendu', VerifiedSheets::import($file)['message'], 'feuilles de match 2025-2026 : 0 match(s) créé(s), 1 composition(s) ajoutée(s), 0 composition(s) provisoire(s) remplacée(s), 0 fiche(s) complétée(s), 0 proposition(s) dans Trouvailles');
+    $dv = Fiches::fresh($v1);
+    $eq('composition manquante : ajoutée avec titre et colonnes', [count($dv['match']['lineup']['rows']), $dv['match']['lineup']['title'], $dv['match']['lineup']['headers']],
+        [14, 'Composition ' . \App\Core\Club::team(), ['Postes', 'Nom et prénom', 'Buts', 'Remp.', 'Cartons']]);
+    $eq('composition manquante : « M. Dupontel » reçoit son prénom', $dv['match']['referee'], 'Albert Dupontel');
+    $eq('note de la feuille dans les sources', str_contains((string) end($dv['sections'])['html'], '<p>Remplaçants restés sur le banc : inconnus.</p>'), true);
+
+    // Feuille livrée pour Sochaux–Nîmes du 21 février 1993 : onze titulaires, deux entrées, et la
+    // fiche du musée retrouvée (lecture seule ; la correction est appliquée par la tâche « corrections »).
+    $real = json_decode((string) file_get_contents(APP_ROOT . '/app/Resources/import/feuilles-1992-1993.json'), true);
+    $s9 = $real['matchs'][0] ?? [];
+    $eq('feuille 1992-1993 : onze titulaires et deux remplaçants entrés', [count(array_filter($s9['players'], fn ($x) => $x['pos'] !== 'R')), count(array_filter($s9['players'], fn ($x) => $x['pos'] === 'R' && $x['in'] !== null))], [11, 2]);
+    $found = \App\Services\FeuillesImport::nearest($s9, \App\Services\FeuillesImport::byDate());
+    $fm = $found ? (Fiches::get($found)['match'] ?? []) : [];
+    if (\App\Core\Club::isDefault() && is_file(DATA_PATH . '/fiches/15603.json')) {
+        $eq('feuille 1992-1993 : la fiche du match est retrouvée', [$fm['date'] ?? null, $fm['away']['name'] ?? null], ['1993-02-21', 'Nîmes']);
+    }
 } finally {
     @unlink($file);
     foreach (array_reverse(array_filter($ids)) as $id) {

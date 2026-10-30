@@ -38,6 +38,7 @@ final class DataFixes
         '2026-10-buts-par-le-score' => 'recitGoals',
         '2026-10-temps-forts-autres-formats' => 'recitHighlightsFormats',
         '2026-10-stade-rennais-fc' => 'clubDisplayAll',
+        '2026-10-feuilles-1992-1993' => 'sheets9293',
     ];
 
     /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
@@ -81,6 +82,21 @@ final class DataFixes
             return ['message' => 'feuilles de match 2022-2023 : sans objet pour ce musée', 'ids' => []];
         }
         $r = VerifiedSheets::import(APP_ROOT . '/app/Resources/import/feuilles-2022-2023.json');
+        return ['message' => $r['message'], 'ids' => $r['ids'], 'created' => $r['created'], 'proposals' => $r['proposals']];
+    }
+
+    /**
+     * Feuilles de match 1992-1993 vérifiées : composition de Sochaux pour Sochaux–Nîmes du
+     * 21 février 1993 (26e journée), absente de la fiche (Transfermarkt, conforme à l'avant-match,
+     * score, buteurs et arbitre d'après deux-zero.com). Une composition saisie entre-temps n'est pas
+     * écrasée : la feuille part alors dans Trouvailles.
+     */
+    private static function sheets9293(): array
+    {
+        if (!Club::isDefault()) {
+            return ['message' => 'feuilles de match 1992-1993 : sans objet pour ce musée', 'ids' => []];
+        }
+        $r = VerifiedSheets::import(APP_ROOT . '/app/Resources/import/feuilles-1992-1993.json');
         return ['message' => $r['message'], 'ids' => $r['ids'], 'created' => $r['created'], 'proposals' => $r['proposals']];
     }
 

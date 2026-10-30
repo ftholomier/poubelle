@@ -2360,15 +2360,23 @@ Fichier `app/Resources/import/feuilles-AAAA-AAAA.json` (`{saison, matchs: [...]}
 équipes, domicile (`neutral` pour un terrain neutre), score, mi-temps, lieu, stade, affluence, arbitre, entraîneurs
 (« NOM Prénom »), joueurs au format commun de `Compos` (`name`, `pos` G/D/M/A/R, `in`, `out`, `goals`, `yellow`,
 `red`, `cap`, `entered` pour une entrée sans minute connue), buteurs des deux équipes (texte du musée), sources,
-confiance. Appliqué une fois par `DataFixes` (clé `2026-10-feuilles-2022-2023`) : fiche retrouvée par
-`FeuillesImport::nearest` (date ± 3 jours, adversaire, score) ; absente → créée (`FeuillesImport::create` puis
-remplie) ; composition vide ou provisoire (même empreinte dans au moins trois matchs de la saison) → remplacée
-(`Compos::apply`, liens `person_id` gardés au même nom de famille) avec les buteurs ; composition saisie →
+confiance, `note` facultative (d'où vient quoi, ce qui reste inconnu ; ajoutée à la section des sources).
+Appliqué une fois par `DataFixes` (clés `2026-10-feuilles-2022-2023` et `2026-10-feuilles-1992-1993`) : fiche
+retrouvée par `FeuillesImport::nearest` (date ± 3 jours, adversaire, score) ; absente → créée
+(`FeuillesImport::create` puis remplie) ; composition vide → ajoutée (titre « Composition … » et colonnes
+habituelles posés s'ils manquent), provisoire (même empreinte dans au moins trois matchs de la saison) →
+remplacée (`Compos::apply`, liens `person_id` gardés au même nom de famille), avec les buteurs ; composition saisie →
 proposition « feuille » dans Trouvailles si elle diffère (`Compos::diff`) ; arbitre, affluence, stade vides
 complétés, arbitre noté par son initiale complété ; score, date, domicile, autre arbitre, affluence (écart > 2 %)
 → Trouvailles. Section « Sources de la feuille de match ». Test : `tests/feuilles-verifiees.php`. Les données
 de la saison 2022-2023 ont été établies par recoupement (Transfermarkt, footballdatabase.eu, Wikipédia FR et
 EN ; lequipe.fr, estrepublicain.fr, sites de la LFP inaccessibles) : faits seulement, aucun texte repris.
+`feuilles-1992-1993.json` : composition de Sochaux pour Sochaux–Nîmes du 21 février 1993 (26e journée), absente
+de la fiche : titulaires et remplacements d'après Transfermarkt (`app/Resources/compos/tm-1992.json`, match
+1012788), conformes à l'avant-match de la fiche (« même équipe que contre Auxerre ») ; score, buteurs, gardiens
+et arbitre (Claude Colombo) d'après deux-zero.com ; cartons et remplaçants restés sur le banc laissés vides
+(sur la saison, Transfermarkt donne les mêmes titulaires que les feuilles de l'association dans 32 matchs sur
+33, mais des cartons sans minute ou faux).
 
 ## Liens des compositions (`App\Services\LineupLinks`, `App\Data\PersonResolver`)
 

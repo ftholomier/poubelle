@@ -1,0 +1,167 @@
+{
+ "titre": "Feuilles de match 1992-1993 vérifiées",
+ "saison": "1992-1993",
+ "matchs": [
+  {
+   "date": "1993-02-21",
+   "kind": "officiel",
+   "competition": "Division 1",
+   "round": "26e journée",
+   "home": "Sochaux",
+   "away": "Nîmes",
+   "sochaux_home": true,
+   "score_home": 1,
+   "score_away": 1,
+   "half_time": "1-1",
+   "score_note": "",
+   "place": "Montbéliard",
+   "stadium": "Stade Auguste Bonal",
+   "referee": "Claude Colombo",
+   "confidence": "haute",
+   "coaches": [
+    "TAKAC Silvester"
+   ],
+   "players": [
+    {
+     "name": "FERRAND Stéphane",
+     "pos": "G",
+     "in": null,
+     "out": null,
+     "goals": [],
+     "yellow": [],
+     "red": [],
+     "cap": false
+    },
+    {
+     "name": "DARRAS Frédéric",
+     "pos": "D",
+     "in": null,
+     "out": null,
+     "goals": [],
+     "yellow": [],
+     "red": [],
+     "cap": false
+    },
+    {
+     "name": "PITON Bertrand",
+     "pos": "D",
+     "in": null,
+     "out": null,
+     "goals": [],
+     "yellow": [],
+     "red": [],
+     "cap": false
+    },
+    {
+     "name": "HADZIBEGIC Faruk",
+     "pos": "D",
+     "in": null,
+     "out": null,
+     "goals": [],
+     "yellow": [],
+     "red": [],
+     "cap": false
+    },
+    {
+     "name": "WEBER Nicolas",
+     "pos": "D",
+     "in": null,
+     "out": null,
+     "goals": [],
+     "yellow": [],
+     "red": [],
+     "cap": false
+    },
+    {
+     "name": "SILVESTRE Franck",
+     "pos": "M",
+     "in": null,
+     "out": null,
+     "goals": [],
+     "yellow": [],
+     "red": [],
+     "cap": false
+    },
+    {
+     "name": "BAZDAREVIC Mecha",
+     "pos": "M",
+     "in": null,
+     "out": null,
+     "goals": [],
+     "yellow": [],
+     "red": [],
+     "cap": false
+    },
+    {
+     "name": "ROBERT David",
+     "pos": "M",
+     "in": null,
+     "out": null,
+     "goals": [
+      "17"
+     ],
+     "yellow": [],
+     "red": [],
+     "cap": false
+    },
+    {
+     "name": "HENRY Fabrice",
+     "pos": "M",
+     "in": null,
+     "out": "75",
+     "goals": [],
+     "yellow": [],
+     "red": [],
+     "cap": false
+    },
+    {
+     "name": "PRAT Lionel",
+     "pos": "A",
+     "in": null,
+     "out": "75",
+     "goals": [],
+     "yellow": [],
+     "red": [],
+     "cap": false
+    },
+    {
+     "name": "CLEMENT Benjamin",
+     "pos": "A",
+     "in": null,
+     "out": null,
+     "goals": [],
+     "yellow": [],
+     "red": [],
+     "cap": false
+    },
+    {
+     "name": "GARANDE Patrice",
+     "pos": "R",
+     "in": "75",
+     "out": null,
+     "goals": [],
+     "yellow": [],
+     "red": [],
+     "cap": false
+    },
+    {
+     "name": "CAVEGLIA Alain",
+     "pos": "R",
+     "in": "75",
+     "out": null,
+     "goals": [],
+     "yellow": [],
+     "red": [],
+     "cap": false
+    }
+   ],
+   "goals_sochaux": "Robert 17'",
+   "goals_opponent": "Monczuk 19'",
+   "sources": [
+    "transfermarkt.fr",
+    "deux-zero.com"
+   ],
+   "note": "Titulaires et remplacements d’après Transfermarkt, conformes à l’avant-match (même équipe que contre Auxerre) ; score, buteurs, gardiens et arbitre d’après deux-zero.com. Remplaçants restés sur le banc et cartons : inconnus."
+  }
+ ]
+}

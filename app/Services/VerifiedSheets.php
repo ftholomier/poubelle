@@ -14,15 +14,16 @@ use App\Data\Index;
  * Appliquées une seule fois par la tâche « corrections » (DataFixes) :
  *
  * – match absent du musée : fiche créée, publiée et rangée dans sa saison ;
- * – fiche dont la composition est vide ou provisoire (la même dans plusieurs matchs de la saison,
- *   recopiée d'un modèle) : composition et buteurs remplacés par la feuille vérifiée ;
+ * – fiche dont la composition est vide (ajoutée) ou provisoire (la même dans plusieurs matchs de la
+ *   saison, recopiée d'un modèle : remplacée) : composition et buteurs pris dans la feuille vérifiée ;
  * – fiche dont la composition a été saisie : rien n'est écrasé, la feuille vérifiée part dans
  *   Trouvailles (« Feuille de match ») si elle diffère ;
  * – arbitre, affluence, stade vides et score à la mi-temps (en-tête) : complétés ; un arbitre noté par son
  *   initiale (« A. Petit ») reçoit son prénom ; tout autre écart (score, date, domicile, arbitre,
  *   affluence) part dans Trouvailles, où l'historien valide ou écarte.
  *
- * Chaque fiche modifiée garde sa version précédente (Historique).
+ * La note de la feuille (« note », facultative : d'où vient quoi, ce qui reste inconnu) s'ajoute à la
+ * section des sources. Chaque fiche modifiée garde sa version précédente (Historique).
  */
 final class VerifiedSheets
 {
@@ -41,8 +42,8 @@ final class VerifiedSheets
         $byDate = FeuillesImport::byDate();
         $models = self::models((string) ($data['saison'] ?? ''));
         $ids = $created = [];
-        $replaced = $completed = $props = 0;
-        Fiches::batch(function () use ($sheets, $byDate, $models, &$ids, &$created, &$replaced, &$completed, &$props) {
+        $replaced = $added = $completed = $props = 0;
+        Fiches::batch(function () use ($sheets, $byDate, $models, &$ids, &$created, &$replaced, &$added, &$completed, &$props) {
             $used = [];
             foreach ($sheets as $s) {
                 $id = FeuillesImport::nearest($s, $byDate, $used);
@@ -53,16 +54,16 @@ final class VerifiedSheets
                     continue;
                 }
                 $used[$id] = true;
-                [$changed, $p, $whole] = self::update($id, $s, $models);
+                [$changed, $p, $whole, $empty] = self::update($id, $s, $models);
                 $props += $p;
                 if ($changed) {
                     $ids[] = $id;
-                    $whole ? $replaced++ : $completed++;
+                    $whole ? ($empty ? $added++ : $replaced++) : $completed++;
                 }
             }
         });
         $label = (string) ($data['saison'] ?? '');
-        return ['message' => 'feuilles de match ' . $label . ' : ' . count($created) . ' match(s) créé(s), ' . $replaced . ' composition(s) provisoire(s) remplacée(s), ' . $completed . ' fiche(s) complétée(s), ' . $props . ' proposition(s) dans Trouvailles',
+        return ['message' => 'feuilles de match ' . $label . ' : ' . count($created) . ' match(s) créé(s), ' . ($added ? $added . ' composition(s) ajoutée(s), ' : '') . $replaced . ' composition(s) provisoire(s) remplacée(s), ' . $completed . ' fiche(s) complétée(s), ' . $props . ' proposition(s) dans Trouvailles',
             'ids' => $ids, 'created' => $created, 'proposals' => $props];
     }
 
@@ -80,12 +81,12 @@ final class VerifiedSheets
         return $id;
     }
 
-    /** Fiche existante : [modifiée, propositions, composition remplacée]. */
+    /** Fiche existante : [modifiée, propositions, composition remplacée ou ajoutée, fiche sans composition]. */
     private static function update(int $id, array $s, array $models): array
     {
         $doc = Fiches::fresh($id);
         if (!$doc || ($doc['type'] ?? '') !== 'match') {
-            return [false, 0, false];
+            return [false, 0, false, false];
         }
         $before = $doc;
         $m = &$doc['match'];
@@ -95,7 +96,8 @@ final class VerifiedSheets
                 'sources' => [['label' => 'Feuille de match vérifiée (' . implode(', ', (array) $s['sources']) . ')', 'url' => '', 'snippet' => '', 'kind' => FeuillesImport::ORIGIN]]];
         };
         $rows = (array) ($m['lineup']['rows'] ?? []);
-        $whole = !$rows || isset($models[self::fingerprint($rows)]);
+        $empty = !$rows;
+        $whole = $empty || isset($models[self::fingerprint($rows)]);
         unset($m);
         if ($whole) {
             self::fill($doc, $s);
@@ -146,11 +148,11 @@ final class VerifiedSheets
         unset($m);
         $props = $items ? Trouvailles::propose($id, $items) : 0;
         if ($doc == $before) {
-            return [false, $props, false];
+            return [false, $props, false, $empty];
         }
         self::sources($doc, $s);
-        Fiches::save($doc, self::AUTHOR, $whole ? 'Composition provisoire remplacée par la feuille de match vérifiée' : 'Feuille de match vérifiée : informations complétées');
-        return [true, $props, $whole];
+        Fiches::save($doc, self::AUTHOR, $whole ? ($empty ? 'Composition ajoutée d’après la feuille de match vérifiée' : 'Composition provisoire remplacée par la feuille de match vérifiée') : 'Feuille de match vérifiée : informations complétées');
+        return [true, $props, $whole, $empty];
     }
 
     /** Composition, buteurs et mentions de la feuille vérifiée écrits dans la fiche. */
@@ -158,6 +160,9 @@ final class VerifiedSheets
     {
         $m = &$doc['match'];
         Compos::apply($m, self::lines($s));
+        // Fiche qui n'avait pas de tableau de composition : titre et colonnes habituels.
+        $m['lineup']['title'] ??= 'Composition ' . Club::team();
+        $m['lineup']['headers'] ??= ['Postes', 'Nom et prénom', 'Buts', 'Remp.', 'Cartons'];
         // Entré en jeu à une minute inconnue (amicaux) : une apparition, temps de jeu inconnu.
         $entered = array_map(fn ($p) => (string) $p['name'], array_filter((array) $s['players'], fn ($p) => !empty($p['entered'])));
         foreach ($m['lineup']['rows'] as &$r) {
@@ -216,7 +221,8 @@ final class VerifiedSheets
     private static function sources(array &$doc, array $s): void
     {
         $html = '<p>Feuille de match établie en recoupant ' . e(implode(', ', (array) $s['sources'])) . '.'
-            . (($s['confidence'] ?? 'haute') !== 'haute' ? ' Composition reconstituée en partie (titulaires et remplaçants moins sûrs, minutes inconnues) : à confirmer.' : '') . '</p>';
+            . (($s['confidence'] ?? 'haute') !== 'haute' ? ' Composition reconstituée en partie (titulaires et remplaçants moins sûrs, minutes inconnues) : à confirmer.' : '') . '</p>'
+            . (trim((string) ($s['note'] ?? '')) !== '' ? '<p>' . e(trim((string) $s['note'])) . '</p>' : '');
         foreach ($doc['sections'] as &$sec) {
             if (($sec['title'] ?? '') === self::SECTION) {
                 $sec['html'] = $html;
