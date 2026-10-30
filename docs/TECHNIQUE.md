@@ -174,6 +174,9 @@ lequel les murs de photos seraient vides ; s'il manque, `PhotoWall` le recalcule
 marque `apres-mise-a-jour` demande de les refaire avec le nouveau code (`Updater::refresh()`) :
 par la première page qui suit, au moins 5 s après et une fois envoyée (seulement si PHP sait
 terminer la page avant : PHP-FPM ou LiteSpeed), sinon par la tâche planifiée « statistiques ».
+`refresh()` applique aussi, juste après l'index, les corrections de données livrées avec la version
+(`DataFixes::run()`), sans attendre la tâche planifiée « corrections » (verrou
+`storage/corrections.json.run.lock` : un seul passage à la fois, l'autre ne fait rien).
 Avant, le premier visiteur attendait le recalcul de tout (plusieurs secondes). Une nouvelle
 version de `Derived::VERSION` ou un nouveau numéro d'index restent recalculés tout de suite.
 Les dossiers de cache à vider entièrement (pages, PDF, livre… : des milliers de fichiers) sont mis
@@ -2360,7 +2363,8 @@ Fichier `app/Resources/import/feuilles-AAAA-AAAA.json` (`{saison, matchs: [...]}
 équipes, domicile (`neutral` pour un terrain neutre), score, mi-temps, lieu, stade, affluence, arbitre, entraîneurs
 (« NOM Prénom »), joueurs au format commun de `Compos` (`name`, `pos` G/D/M/A/R, `in`, `out`, `goals`, `yellow`,
 `red`, `cap`, `entered` pour une entrée sans minute connue), buteurs des deux équipes (texte du musée), sources,
-confiance, `note` facultative (d'où vient quoi, ce qui reste inconnu ; ajoutée à la section des sources).
+confiance, `note` facultative (d'où vient quoi, ce qui reste inconnu ; ajoutée à la section des sources),
+`existing` (ne compléter qu'une fiche existante : match non retrouvé → rien de créé, compté « introuvable »).
 Appliqué une fois par `DataFixes` (clés `2026-10-feuilles-2022-2023` et `2026-10-feuilles-1992-1993`) : fiche
 retrouvée par `FeuillesImport::nearest` (date ± 3 jours, adversaire, score) ; absente → créée
 (`FeuillesImport::create` puis remplie) ; composition vide → ajoutée (titre « Composition … » et colonnes

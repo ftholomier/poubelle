@@ -1359,6 +1359,13 @@ final class Updater
         }
         try {
             \App\Data\Index::rebuild();
+            // Corrections de données livrées avec cette version : appliquées tout de suite, sans
+            // attendre le passage de la tâche planifiée (elles ne s'appliquent qu'une fois).
+            try {
+                \App\Services\DataFixes::run();
+            } catch (\Throwable $e) {
+                error_log('[après mise à jour] corrections : ' . $e->getMessage());
+            }
             \App\Data\Derived::rebuild();
             \App\Services\Search::rebuild();
             \App\Services\Chiffres::warm(); // les 100 chiffres prêts avant le prochain visiteur

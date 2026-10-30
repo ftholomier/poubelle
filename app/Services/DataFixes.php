@@ -41,8 +41,25 @@ final class DataFixes
         '2026-10-feuilles-1992-1993' => 'sheets9293',
     ];
 
-    /** Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire. */
+    /**
+     * Applique les corrections pas encore faites ; compte rendu ou null s'il n'y a rien à faire (ou
+     * si un autre passage les applique déjà : tâche planifiée et après-mise à jour peuvent se croiser).
+     */
     public static function run(): ?string
+    {
+        $fp = @fopen(self::FILE . '.run.lock', 'c');
+        if (!$fp || !flock($fp, LOCK_EX | LOCK_NB)) {
+            return null;
+        }
+        try {
+            return self::runLocked();
+        } finally {
+            flock($fp, LOCK_UN);
+            fclose($fp);
+        }
+    }
+
+    private static function runLocked(): ?string
     {
         $done = JsonStore::read(self::FILE, []) ?: [];
         $out = [];

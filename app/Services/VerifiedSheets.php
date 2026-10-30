@@ -23,7 +23,8 @@ use App\Data\Index;
  *   affluence) part dans Trouvailles, où l'historien valide ou écarte.
  *
  * La note de la feuille (« note », facultative : d'où vient quoi, ce qui reste inconnu) s'ajoute à la
- * section des sources. Chaque fiche modifiée garde sa version précédente (Historique).
+ * section des sources. Une feuille marquée « existing » ne complète qu'une fiche existante : si le
+ * match n'est pas retrouvé, rien n'est créé (compté « introuvable »). Chaque fiche modifiée garde sa version précédente (Historique).
  */
 final class VerifiedSheets
 {
@@ -42,11 +43,15 @@ final class VerifiedSheets
         $byDate = FeuillesImport::byDate();
         $models = self::models((string) ($data['saison'] ?? ''));
         $ids = $created = [];
-        $replaced = $added = $completed = $props = 0;
-        Fiches::batch(function () use ($sheets, $byDate, $models, &$ids, &$created, &$replaced, &$added, &$completed, &$props) {
+        $replaced = $added = $completed = $props = $missing = 0;
+        Fiches::batch(function () use ($sheets, $byDate, $models, &$ids, &$created, &$replaced, &$added, &$completed, &$props, &$missing) {
             $used = [];
             foreach ($sheets as $s) {
                 $id = FeuillesImport::nearest($s, $byDate, $used);
+                if ($id === null && !empty($s['existing'])) {
+                    $missing++; // match connu du musée mais pas retrouvé : jamais de fiche en double
+                    continue;
+                }
                 if ($id === null) {
                     $id = self::create($s);
                     $created[] = $ids[] = $id;
@@ -63,7 +68,7 @@ final class VerifiedSheets
             }
         });
         $label = (string) ($data['saison'] ?? '');
-        return ['message' => 'feuilles de match ' . $label . ' : ' . count($created) . ' match(s) créé(s), ' . ($added ? $added . ' composition(s) ajoutée(s), ' : '') . $replaced . ' composition(s) provisoire(s) remplacée(s), ' . $completed . ' fiche(s) complétée(s), ' . $props . ' proposition(s) dans Trouvailles',
+        return ['message' => 'feuilles de match ' . $label . ' : ' . count($created) . ' match(s) créé(s), ' . ($added ? $added . ' composition(s) ajoutée(s), ' : '') . $replaced . ' composition(s) provisoire(s) remplacée(s), ' . $completed . ' fiche(s) complétée(s), ' . $props . ' proposition(s) dans Trouvailles' . ($missing ? ', ' . $missing . ' fiche(s) introuvable(s) (rien créé)' : ''),
             'ids' => $ids, 'created' => $created, 'proposals' => $props];
     }
 

@@ -118,11 +118,17 @@ try {
     $eq('composition manquante : « M. Dupontel » reçoit son prénom', $dv['match']['referee'], 'Albert Dupontel');
     $eq('note de la feuille dans les sources', str_contains((string) end($dv['sections'])['html'], '<p>Remplaçants restés sur le banc : inconnus.</p>'), true);
 
+    // Feuille « existing » sans fiche correspondante : rien n'est créé (jamais de fiche en double).
+    file_put_contents($file, json_encode(['saison' => '2025-2026', 'matchs' => [$sheet('2026-07-20', 'Essai Golf', 2, 2, 'G', ['existing' => true])]], JSON_UNESCAPED_UNICODE));
+    $rg = VerifiedSheets::import($file);
+    $eq('feuille « existing » sans fiche : rien de créé', [$rg['created'], $rg['message']], [[], 'feuilles de match 2025-2026 : 0 match(s) créé(s), 0 composition(s) provisoire(s) remplacée(s), 0 fiche(s) complétée(s), 0 proposition(s) dans Trouvailles, 1 fiche(s) introuvable(s) (rien créé)']);
+    $ids = array_merge($ids, $rg['created']);
+
     // Feuille livrée pour Sochaux–Nîmes du 21 février 1993 : onze titulaires, deux entrées, et la
     // fiche du musée retrouvée (lecture seule ; la correction est appliquée par la tâche « corrections »).
     $real = json_decode((string) file_get_contents(APP_ROOT . '/app/Resources/import/feuilles-1992-1993.json'), true);
     $s9 = $real['matchs'][0] ?? [];
-    $eq('feuille 1992-1993 : onze titulaires et deux remplaçants entrés', [count(array_filter($s9['players'], fn ($x) => $x['pos'] !== 'R')), count(array_filter($s9['players'], fn ($x) => $x['pos'] === 'R' && $x['in'] !== null))], [11, 2]);
+    $eq('feuille 1992-1993 : onze titulaires et deux remplaçants entrés, fiche existante seulement', [count(array_filter($s9['players'], fn ($x) => $x['pos'] !== 'R')), count(array_filter($s9['players'], fn ($x) => $x['pos'] === 'R' && $x['in'] !== null)), $s9['existing'] ?? false], [11, 2, true]);
     $found = \App\Services\FeuillesImport::nearest($s9, \App\Services\FeuillesImport::byDate());
     $fm = $found ? (Fiches::get($found)['match'] ?? []) : [];
     if (\App\Core\Club::isDefault() && is_file(DATA_PATH . '/fiches/15603.json')) {

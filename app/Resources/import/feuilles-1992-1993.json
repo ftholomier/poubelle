@@ -161,7 +161,8 @@
     "transfermarkt.fr",
     "deux-zero.com"
    ],
-   "note": "Titulaires et remplacements d’après Transfermarkt, conformes à l’avant-match (même équipe que contre Auxerre) ; score, buteurs, gardiens et arbitre d’après deux-zero.com. Remplaçants restés sur le banc et cartons : inconnus."
+   "note": "Titulaires et remplacements d’après Transfermarkt, conformes à l’avant-match (même équipe que contre Auxerre) ; score, buteurs, gardiens et arbitre d’après deux-zero.com. Remplaçants restés sur le banc et cartons : inconnus.",
+   "existing": true
   }
  ]
 }
