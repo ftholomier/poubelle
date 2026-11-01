@@ -646,7 +646,10 @@ l'équipe ».
   aussi le code du serveur à GitHub, fichier par fichier : version reconnue après un envoi
   par FTP, fichier oublié ou retouché signalé (« Synchroniser avec GitHub »). Le code est
   commun à tous les musées : une mise à jour lancée depuis n'importe quel back-office vaut
-  pour tous et refait les caches de chacun.
+  pour tous et refait les caches de chacun. Juste après, le site refait ses caches pendant
+  quelques minutes (bandeau « Recalcul en cours, patientez ») : le bouton est grisé jusqu'à la
+  fin, car relancer viderait de nouveau les caches et ralentirait tout le site. Un clic quand le
+  code est déjà identique ne fait rien (aucun cache vidé).
 - **Réglages** (administrateur) : identité du site, e-mail, **pied de page** (titre, phrase,
   deux boutons et leurs liens, accroche, ligne du bas et mention « Propulsé par », en
   français et en anglais ; un texte vide masque l'élément), clés Gemini, correcteur

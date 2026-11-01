@@ -310,6 +310,18 @@ U::$http = function (string $url, ?string $toFile = null) use ($ghHttp, &$gh, &$
 $put2('app/A.php', "<?php // retouche par FTP\n");
 @unlink("$root2/templates/t.php");
 $vendor = file_get_contents("$root2/public/assets/vendor.css");
+// Recalcul de la mise à jour précédente pas fini : nouvelle mise à jour refusée, rien touché.
+$eq('recalcul d’après mise à jour signalé', U::refreshing() !== null, true);
+$msg = '';
+try {
+    U::apply(['name' => 'Essai']);
+} catch (\RuntimeException $e) {
+    $msg = $e->getMessage();
+}
+$eq('pendant le recalcul : mise à jour refusée, rien touché', [str_contains($msg, 'réessayez dans quelques minutes'), file_get_contents("$root2/app/A.php"), $raw], [true, "<?php // retouche par FTP\n", []]);
+touch("$root2/storage/cache/apres-mise-a-jour", time() - 1000);
+$eq('marque de plus de 15 minutes : recalcul tenu pour arrêté', U::refreshing(), null);
+@unlink("$root2/storage/cache/apres-mise-a-jour");
 $r = U::apply(['name' => 'Essai']);
 sort($r['updated']);
 $eq('voie rapide : seuls les fichiers changés téléchargés', [$r['via'], $r['updated'], $raw], ['fichiers', ['app/A.php', 'templates/t.php'], ['app/A.php', 'templates/t.php', 'data/i18n/en.json']]);
@@ -321,13 +333,26 @@ $eq('voie rapide : manifeste aux empreintes de GitHub', [$man['app/A.php'] ?? nu
 $eq('voie rapide : historique, sauvegarde, plus rien à remplacer', [U::history()[0]['via'] ?? null, is_file(U::$dir . '/sauvegardes/' . $r['backup']), U::differing(U::state()['check'])], ['fichiers', true, 0]);
 $raw = [];
 $put2('app/A.php', "<?php // encore retouché\n");
+@unlink("$root2/storage/cache/apres-mise-a-jour"); // recalcul terminé
 $r = U::apply(['name' => 'Essai']);
 $eq('libellés anglais inchangés depuis la dernière fusion : pas retéléchargés', [$r['via'], $raw], ['fichiers', ['app/A.php']]);
 $put2('app/A.php', "<?php // retouché une 3e fois\n");
 $corrupt = 'app/A.php';
+@unlink("$root2/storage/cache/apres-mise-a-jour");
 $r = U::apply(['name' => 'Essai']);
 $eq('fichier reçu abîmé : rien écrit par la voie rapide, l’archive prend le relais', [$r['via'], file_get_contents("$root2/app/A.php")], ['archive', $gh['app/A.php']]);
 $corrupt = null;
+
+// 5 quater. Rien à remplacer : ni sauvegarde, ni caches vidés, ni recalcul relancé.
+@unlink("$root2/storage/cache/apres-mise-a-jour");
+@mkdir("$root2/storage/cache/pages/cd", 0775, true);
+file_put_contents("$root2/storage/cache/pages/cd/page.html", 'page');
+$nBackups = count(U::backups());
+$nHist = count(U::history());
+$r = U::apply(['name' => 'Essai']);
+$eq('rien à remplacer : signalé', [$r['unchanged'] ?? false, $r['updated'], $r['backup']], [true, [], null]);
+$eq('rien à remplacer : caches gardés, pas de recalcul', [is_file("$root2/storage/cache/pages/cd/page.html"), is_file("$root2/storage/cache/apres-mise-a-jour"), U::refreshing()], [true, false, null]);
+$eq('rien à remplacer : ni sauvegarde ni ligne d’historique (même version)', [count(U::backups()), count(U::history())], [$nBackups, $nHist]);
 U::$http = null;
 
 // 6. Pause du site pendant la copie : le Kernel répond 503 « Mise à jour en cours ».

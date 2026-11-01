@@ -182,6 +182,18 @@ version de `Derived::VERSION` ou un nouveau numéro d'index restent recalculés 
 Les dossiers de cache à vider entièrement (pages, PDF, livre… : des milliers de fichiers) sont mis
 de côté d'un seul renommage (`storage/cache/.a-vider-*`, arborescence recréée vide) et vidés après
 la réponse (`Updater::purgeTrash()`, appelé par `refresh()` et par la tâche « statistiques »).
+**Pas de mise à jour pour rien ni par-dessus un recalcul** (après le ralentissement du 01/11/2026 :
+trois « Appliquer » en 3 minutes, dont deux sans fichier à remplacer, avaient chacun vidé les
+caches et relancé le recalcul, puis `OpcacheGuard` avait redémarré PHP au milieu) :
+`Updater::refreshing()` donne depuis combien de secondes la marque `apres-mise-a-jour` (ou
+`.en-cours`, datée du début du recalcul) attend ou tourne, dans tous les dossiers de cache, null
+au-delà de 15 min ; `apply()` refuse alors de démarrer (message « réessayez dans quelques
+minutes », bouton grisé et bandeau « Recalcul en cours, patientez » dans Système › Mises à jour ;
+le retour arrière reste permis). Rien à remplacer (`finish()` → `unchanged()`) : ni sauvegarde, ni
+pause, ni caches vidés, ni marque, ni OPcache touché ; seule la version installée est notée (ligne
+d'historique et journal si elle change). `OpcacheGuard::tick()` ne vide pas OPcache et ne
+redémarre pas PHP tant que `refreshing()` n'est pas null : le nettoyage se fait une fois le recalcul
+terminé. Tests : `tests/updater.php` (5 ter, 5 quater).
 Système › Tâches planifiées, carte Serveur : mémoire d'OPcache utilisée et alerte si elle est
 trop petite, ou si PHP ne sait pas terminer une page avant son travail d'après-page.
 
@@ -197,7 +209,8 @@ trop petite, ou si PHP ne sait pas terminer une page avant son travail d'après-
   Sans Redis : seuils d'OPcache adaptés au nombre de musées (`BIG`, 5 Mo).
 - Les caches inchangés ne sont plus réécrits (médiathèque, mémos) et la lecture ne force plus
   de recompilation. `OpcacheGuard` : après l'envoi d'une page, au plus toutes les 5 minutes,
-  OPcache est vidé si la mémoire perdue (copies périmées) dépasse le quart. Sous LiteSpeed,
+  OPcache est vidé si la mémoire perdue (copies périmées) dépasse le quart, jamais pendant le
+  recalcul qui suit une mise à jour (`Updater::refreshing()`). Sous LiteSpeed,
   `opcache_reset()` ne suffit pas : le vidage écrit aussi `~/.lsphp_restart.txt` (redémarrage
   de PHP). Diagnostic détaillé (utile, périmé, libre, vidages, `opcache_reset` permis,
   `open_basedir`, `max_wasted_percentage`, processus).

@@ -66,6 +66,8 @@ final class Updater
     private const REFRESH = 'apres-mise-a-jour';
     /** Dossiers de cache mis de côté par une mise à jour, vidés ensuite (purgeTrash()). */
     private const TRASH = '.a-vider-';
+    /** Au-delà (secondes), un recalcul d'après mise à jour est tenu pour arrêté (repris par refresh()). */
+    private const REFRESH_MAX = 900;
 
     /** Dernière comparaison faite pendant cette requête : ['sha', 'tree', 'paths', 'crc'] (réutilisée par apply()). */
     private static array $lastSync = [];
@@ -584,6 +586,11 @@ final class Updater
     public static function apply(?array $user, ?string $sha = null): array
     {
         @set_time_limit(600);
+        // Recalcul de la mise à jour précédente pas fini : relancer viderait de nouveau les caches et
+        // relancerait tout le recalcul (site très lent plusieurs minutes, 1er novembre 2026).
+        if (($since = self::refreshing()) !== null) {
+            throw new \RuntimeException('Le site finit de refaire ses caches après la dernière mise à jour (commencé il y a ' . self::ago($since) . ') : réessayez dans quelques minutes. Relancer maintenant viderait de nouveau les caches et ralentirait tout le site.');
+        }
         class_exists(Activity::class); // chargée avant la copie : la suite de la requête ne lit plus de nouveau code
         $lock = self::lock();
         try {
@@ -807,6 +814,9 @@ final class Updater
      */
     private static function finish(array $plan, string $stage, array $meta, ?array $merged, array $added, string $target, array $check, ?array $user, array $old, array $manifest, string $via): array
     {
+        if (!$plan['write'] && !$plan['delete'] && empty($merged['added'])) {
+            return self::unchanged($target, $check, $user, $manifest, $plan['kept'], $via);
+        }
         $backup = self::backup($plan, $merged ? $plan['merge'] : null, $added, $target, $old, $user);
 
         // Copie : le site répond « Mise à jour en cours » le temps d'écrire les fichiers. Un
@@ -844,6 +854,56 @@ final class Updater
         }
         return ['sha' => $target, 'updated' => $plan['write'], 'added' => $added, 'deleted' => $plan['delete'], 'kept' => $plan['kept'],
             'merged' => $merged['added'] ?? 0, 'backup' => $backup, 'commits' => $check['commits'] ?? [], 'via' => $via];
+    }
+
+    /**
+     * Code du serveur déjà identique à la version demandée : rien n'est écrit ni sauvegardé, et
+     * surtout ni caches vidés ni mémoire PHP touchée (le faire pour rien relançait tout le recalcul
+     * et ralentissait le site plusieurs minutes). La version installée est seulement notée (une
+     * ligne d'historique si elle change).
+     */
+    private static function unchanged(string $target, array $check, ?array $user, array $manifest, array $kept, string $via): array
+    {
+        JsonStore::write(self::$dir . '/manifeste.json', $manifest);
+        $from = self::installed();
+        if (($from['sha'] ?? null) !== $target) {
+            $latest = ($check['latest']['sha'] ?? '') === $target ? $check['latest'] : ['sha' => $target, 'date' => '', 'message' => ''];
+            $entry = ['at' => date('c'), 'by' => (string) ($user['name'] ?? 'Inconnu'), 'from' => $from['sha'] ?? null, 'to' => $target, 'message' => $latest['message'],
+                'updated' => 0, 'deleted' => 0, 'kept' => $kept, 'merged' => 0, 'backup' => null, 'via' => $via];
+            self::saveState(['installed' => $latest + ['at' => date('c'), 'by' => $entry['by']], 'history' => array_slice(array_merge([$entry], self::history()), 0, 30)]);
+            if (self::$log) {
+                Activity::log($user, 'a reconnu la version ' . substr($target, 0, 7) . ' (code déjà identique, rien remplacé)', null);
+            }
+        }
+        self::setSync(['sha' => $target, 'at' => time(), 'total' => count($manifest) + count($kept), 'count' => 0, 'differ' => [], 'eol' => 0, 'kept' => $kept, 'error' => null]);
+        self::$lastSync = [];
+        return ['sha' => $target, 'updated' => [], 'added' => [], 'deleted' => [], 'kept' => $kept, 'merged' => 0, 'backup' => null,
+            'commits' => $check['commits'] ?? [], 'via' => $via, 'unchanged' => true];
+    }
+
+    /**
+     * Recalcul d'après mise à jour (index, données calculées, recherche) en attente ou en cours :
+     * depuis combien de secondes, sinon null. Au-delà de 15 minutes, il est tenu pour arrêté.
+     */
+    public static function refreshing(): ?int
+    {
+        $at = null;
+        foreach (self::cacheDirs() as $dir) {
+            foreach ([self::REFRESH, self::REFRESH . '.en-cours'] as $f) {
+                clearstatcache(true, $dir . '/' . $f); // état réel (marque posée ou prise entre-temps)
+                $t = @filemtime($dir . '/' . $f);
+                if ($t !== false && $t > time() - self::REFRESH_MAX) {
+                    $at = min($at ?? $t, $t);
+                }
+            }
+        }
+        return $at === null ? null : max(0, time() - $at);
+    }
+
+    /** « 40 s », « 3 min ». */
+    public static function ago(int $s): string
+    {
+        return $s < 60 ? $s . ' s' : intdiv($s, 60) . ' min';
     }
 
     /** Empreinte Git d'un fichier d'une version (un appel à l'API) ; '' s'il n'existe pas, null si GitHub ne répond pas. */
@@ -1347,6 +1407,8 @@ final class Updater
         if (!@rename($flag, $flag . '.en-cours')) {
             return false;
         }
+        // Début du recalcul : refreshing() et la reprise après 15 minutes comptent d'ici.
+        @touch($flag . '.en-cours');
         if ($web) {
             \App\Core\Response::detach();
         }

@@ -15,6 +15,7 @@ $differ = Updater::differing($check);           // null : pas de comparaison fic
 $newVersion = $available && Updater::isNewVersion($check);
 $title = $newVersion ? 'Nouvelle version disponible' : ($available ? 'Le serveur diffère de GitHub' : 'Le site est à jour');
 $button = $newVersion ? 'Appliquer la mise à jour' : 'Synchroniser avec GitHub';
+$refreshing = Updater::refreshing(); // recalcul d'après mise à jour en cours : pas de nouvelle mise à jour
 ?>
 <div class="kpis">
   <div class="kpi<?= $installed ? '' : ' kpi--yellow' ?>"><b><?= $installed ? e($sha($installed['sha'])) : 'FTP' ?></b><span>version installée</span><small><?php if (!$installed): ?>mise en ligne par FTP : version pas encore reconnue<?php elseif (($installed['via'] ?? '') === 'reconnue'): ?>reconnue le <?= e($when($installed['at'] ?? null)) ?> (identique à GitHub)<?php else: ?><?= e($when($installed['date'] ?? null) ?: $when($installed['at'] ?? null)) ?><?php endif; ?></small></div>
@@ -58,8 +59,11 @@ $button = $newVersion ? 'Appliquer la mise à jour' : 'Synchroniser avec GitHub'
       <?php endif; ?>
       <?php if (!empty($sync['kept'])): ?><p class="xs muted" style="margin:0">Réglé à la main sur le serveur et gardé par les mises à jour : <?= e(implode(', ', (array) $sync['kept'])) ?>.</p><?php endif; ?>
 
+      <?php if ($refreshing !== null): ?><p class="alert alert--info" role="status" style="margin:0">⏳ <b>Recalcul en cours, patientez.</b> Le site refait ses caches après la dernière mise à jour (commencé il y a <?= e(Updater::ago($refreshing)) ?> ; quelques minutes en tout). Les pages peuvent être un peu plus lentes pendant ce temps ; une nouvelle mise à jour n’est possible qu’ensuite (relancer viderait de nouveau les caches).</p><?php endif; ?>
       <div class="row" style="gap:10px">
-        <?php if ($available): ?>
+        <?php if ($available && $refreshing !== null): ?>
+          <button type="button" class="btn btn--navy" disabled title="Recalcul d’après mise à jour en cours : réessayez dans quelques minutes"><?= e($button) ?></button>
+        <?php elseif ($available): ?>
           <form method="post" action="/admin/mises-a-jour" data-confirm="<?= e($button) ?> ?|Le code est remplacé en quelques secondes (le site affiche « Mise à jour en cours » pendant la copie). Fiches, médias, réglages et comptes ne sont jamais touchés ; une sauvegarde permet de revenir en arrière.|<?= e($newVersion ? 'Appliquer' : 'Synchroniser') ?>">
             <?= csrf_field() ?><input type="hidden" name="action" value="appliquer">
             <button type="submit" class="btn btn--navy"><?= e($button) ?></button>

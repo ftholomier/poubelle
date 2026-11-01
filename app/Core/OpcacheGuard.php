@@ -30,6 +30,12 @@ final class OpcacheGuard
         if ($mt && $mt > time() - self::EVERY) {
             return;
         }
+        // Recalcul d'après mise à jour en cours : ni vidage ni redémarrage de PHP (qui coupait les
+        // pages en cours et le recalcul lui-même, puis obligeait à tout recompiler : site très lent
+        // le 1er novembre 2026). Le vidage se fait une fois le recalcul terminé.
+        if (\App\Services\Updater::refreshing() !== null) {
+            return;
+        }
         @touch(self::STATE);
         Response::detach();
         $st = @opcache_get_status(false);

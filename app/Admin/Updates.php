@@ -47,7 +47,7 @@ final class Updates extends Base
                     $n = count($r['updated']) + count($r['deleted']);
                     $msg = $n || $r['merged']
                         ? 'Mise à jour appliquée : ' . count($r['updated']) . ' fichier(s) remplacé(s) ou ajouté(s)' . ($r['deleted'] ? ', ' . count($r['deleted']) . ' supprimé(s)' : '') . ($r['merged'] ? ', ' . $r['merged'] . ' libellé(s) anglais ajouté(s)' : '') . '.'
-                        : 'Le code était déjà identique à cette version : rien à remplacer.';
+                        : 'Le code était déjà identique à cette version : rien remplacé, aucun cache vidé (le site n’est pas ralenti).';
                     if (($r['via'] ?? '') === 'fichiers' && $n) {
                         $msg .= ' Seuls les fichiers changés ont été téléchargés.';
                     }

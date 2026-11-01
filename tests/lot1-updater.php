@@ -101,6 +101,7 @@ $eq('copie interrompue : pause levée, caches à refaire, dossier de travail sup
 $eq('copie interrompue : pas de fichier temporaire laissé', glob("$root/app/*.maj-*") ?: [], []);
 
 // 3. Téléchargement raté : l'archive partielle ne reste pas dans storage/update/tmp.
+@unlink("$root/storage/cache/apres-mise-a-jour"); // recalcul de la copie précédente terminé
 foreach ([fn ($f) => [500, ''], fn ($f) => throw new \RuntimeException('GitHub injoignable : coupure')] as $i => $end) {
     U::$http = function (string $url, ?string $toFile = null) use ($end) {
         if ($toFile === null) {
