@@ -2647,7 +2647,9 @@ aussi les anciens textes (« 442 », « 4.4.2 », « 4-4-2 losange », « WM »,
 `Fiche::pitch($rows, $formation)` : système reconnu et postes qui collent (D = somme des lignes de
 défense, M + A = somme des autres) → défenseurs puis milieux puis attaquants répartis ligne par
 ligne de l'arrière vers l'avant dans l'ordre de la composition, hauteurs régulières entre 72 % et
-23 % (trois lignes : 72, 50, 23 comme avant), le premier de chaque ligne à droite, légère courbe
+23 % (trois lignes : 72, 50, 23 comme avant), le premier de chaque ligne à droite (un joueur seul :
+au centre ; deux joueurs, attaquants en pointe ou milieux défensifs : resserrés à 65 % et 35 % ;
+trois et plus : de 84 % à 16 %), légère courbe
 (centre reculé, pointe avancée) ; sinon placement automatique d'avant (G 90, D 72, M 50, A 23).
 Utilisé par la page du match, l'export PDF et Rétro-Direct ; `Formations::problem()` donne le
 message rouge de la fiche (texte non reconnu, postes qui ne collent pas). Test : `tests/formations.php`.

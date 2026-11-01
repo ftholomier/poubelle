@@ -44,12 +44,17 @@ $eq('gardien en bas au centre', $at['Richert'], [50.0, 90]);
 $eq('défense : Faty à droite … Sauget à gauche', [$at['Faty'][0], $at['Sauget'][0], $at['Faty'][1]], [84.0, 16.0, 72.0]);
 $eq('Anin seul au centre, devant la défense', [$at['Anin'][0], $at['Anin'][1] < 72, $at['Anin'][1] > $at['Martin'][1]], [50.0, true, true]);
 $eq('milieux offensifs : Boudebouz à droite, Martin au centre, Maurice-Belay à gauche', [$at['Boudebouz'][0], $at['Martin'][0], $at['Maurice-Belay'][0]], [84.0, 50.0, 16.0]);
-$eq('attaque : Ideye à droite, Maïga à gauche, devant tout le monde', [$at['Ideye'][0], $at['Maïga'][0], $at['Ideye'][1] < $at['Martin'][1]], [84.0, 16.0, true]);
+$eq('attaque : Ideye à droite, Maïga à gauche, resserrés vers l’axe, devant tout le monde', [$at['Ideye'][0], $at['Maïga'][0], $at['Ideye'][1] < $at['Martin'][1]], [65.0, 35.0, true]);
 $eq('quatre lignes de champ distinctes', count(array_unique(array_map(fn ($n) => (string) $at[$n][1], ['Faty', 'Anin', 'Boudebouz', 'Ideye']))), 4);
 
 // 3. 4-2-3-1 avec les mêmes postes (5 M, 1 A) ; 4-4-2 losange.
 $p3 = Fiche::pitch(array_merge(array_slice($rows, 0, 9), [$row('M', 'Ideye'), $row('A', 'Maïga')]), '4-2-3-1');
 $eq('4-2-3-1 : système affiché', $p3['formation'], '4-2-3-1');
+$x3 = [];
+foreach ($p3['players'] as $pl) {
+    $x3[$pl['name']] = $pl['x'];
+}
+$eq('4-2-3-1 : deux milieux défensifs resserrés vers l’axe', [$x3['Anin'], $x3['Boudebouz']], [65.0, 35.0]);
 $y3 = [];
 foreach ($p3['players'] as $pl) {
     $y3[$pl['name']] = $pl['y'];
@@ -76,7 +81,7 @@ foreach ($p5['players'] as $pl) {
 }
 $eq('sans système : 4-4-2 déduit des postes', $p5['formation'], '4-4-2');
 $eq('sans système : milieux sur une seule ligne (50, les deux du centre un peu reculés)', [$at5['Anin'][1], $at5['Boudebouz'][1], $at5['Martin'][1], $at5['Maurice-Belay'][1]], [50, 53, 53, 50]);
-$eq('sans système : défense et attaque comme avant', [$at5['Faty'], $at5['Ideye']], [[84.0, 72], [84.0, 23]]);
+$eq('sans système : défense comme avant, deux attaquants resserrés vers l’axe', [$at5['Faty'], $at5['Ideye'], $at5['Maïga']], [[84.0, 72], [65.0, 23], [35.0, 23]]);
 
 echo $fail ? "\n$fail échec(s).\n" : "\nTout est bon.\n";
 exit($fail ? 1 : 0);

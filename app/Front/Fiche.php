@@ -293,7 +293,13 @@ final class Fiche
         foreach (array_values($line) as $i => $r) {
             // Les feuilles de match listent chaque ligne de la droite vers la gauche (arrière droit
             // en premier) ; vue de dos (gardien en bas), le premier listé est donc à droite.
-            $x = $count === 1 ? 50 : 84 - (68 * $i / ($count - 1));
+            // Deux joueurs sur une ligne (deux attaquants en pointe, deux milieux défensifs…) : resserrés
+            // vers l'axe plutôt qu'aux deux bords du terrain.
+            $x = match (true) {
+                $count === 1 => 50,
+                $count === 2 => $i === 0 ? 65 : 35,
+                default => 84 - (68 * $i / ($count - 1)),
+            };
             // Légère courbe : les joueurs du centre sont un peu plus reculés (pointe avancée devant).
             $curve = $count >= 3 ? (abs($x - 50) < 20 ? ($front ? -5 : 3) : 0) : 0;
             $out[] = $r + ['x' => round($x, 1), 'y' => $y + $curve, 'num' => is_numeric($r['number'] ?? null) ? (int) $r['number'] : null];
