@@ -344,6 +344,27 @@ $r = U::apply(['name' => 'Essai']);
 $eq('fichier reçu abîmé : rien écrit par la voie rapide, l’archive prend le relais', [$r['via'], file_get_contents("$root2/app/A.php")], ['archive', $gh['app/A.php']]);
 $corrupt = null;
 
+// 5 ter bis. Recalcul ciblé : un gros cache n'est refait que si le code qui le calcule a changé.
+$eq('back-office, pages, aide, styles : aucun gros recalcul', U::rebuildSteps(['app/Admin/Updates.php', 'templates/admin/x.php', 'public/assets/admin/admin.js', 'app/Resources/aide/chapitres/08-medias.php', 'app/Services/Updater.php']), ['chiffres']);
+$eq('index des fiches changé : tout refait', U::rebuildSteps(['app/Data/Index.php']), ['index', 'derived', 'search', 'chiffres']);
+$eq('recherche seule', U::rebuildSteps(['app/Services/Search.php']), ['search', 'chiffres']);
+$eq('calcul des matchs : données calculées', U::rebuildSteps(['app/Services/MatchText.php']), ['derived', 'chiffres']);
+@unlink("$root2/storage/cache/apres-mise-a-jour");
+$put2('templates/t.php', "retouche\n");
+$r = U::apply(['name' => 'Essai']);
+$flagData = json_decode((string) @file_get_contents("$root2/storage/cache/apres-mise-a-jour"), true);
+$eq('gabarit seul remplacé : marque sans gros recalcul', $flagData['steps'] ?? null, ['chiffres']);
+// Recalcul « en cours » dont le processus a été arrêté (verrou libre) : plus compté comme en cours.
+@rename("$root2/storage/cache/apres-mise-a-jour", "$root2/storage/cache/apres-mise-a-jour.en-cours");
+touch("$root2/storage/cache/apres-mise-a-jour.lock");
+$eq('recalcul arrêté (verrou libre) : plus en cours', U::refreshing(), null);
+$lk = fopen("$root2/storage/cache/apres-mise-a-jour.lock", 'c');
+flock($lk, LOCK_EX);
+$eq('recalcul vivant (verrou tenu) : en cours', U::refreshing() !== null, true);
+flock($lk, LOCK_UN);
+fclose($lk);
+@unlink("$root2/storage/cache/apres-mise-a-jour.en-cours");
+
 // 5 quater. Rien à remplacer : ni sauvegarde, ni caches vidés, ni recalcul relancé.
 @unlink("$root2/storage/cache/apres-mise-a-jour");
 @mkdir("$root2/storage/cache/pages/cd", 0775, true);

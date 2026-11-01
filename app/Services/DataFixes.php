@@ -54,7 +54,9 @@ final class DataFixes
         }
         try {
             // Traitement automatique : aucune validation ne bouge (seul un historien valide ou dévalide).
-            return Validation::automatic(fn () => self::runLocked());
+            // Fiches enregistrées en groupe : l'index et la recherche sont écrits une fois à la fin, pas
+            // à chaque fiche (205 ms → 10 ms par fiche ; des centaines de fiches prenaient des minutes).
+            return Validation::automatic(fn () => \App\Data\Fiches::batch(fn () => self::runLocked()));
         } finally {
             flock($fp, LOCK_UN);
             fclose($fp);

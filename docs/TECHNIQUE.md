@@ -182,6 +182,18 @@ version de `Derived::VERSION` ou un nouveau numéro d'index restent recalculés 
 Les dossiers de cache à vider entièrement (pages, PDF, livre… : des milliers de fichiers) sont mis
 de côté d'un seul renommage (`storage/cache/.a-vider-*`, arborescence recréée vide) et vidés après
 la réponse (`Updater::purgeTrash()`, appelé par `refresh()` et par la tâche « statistiques »).
+**Recalcul ciblé** (`Updater::rebuildSteps()`, après le 01/11/2026 : tout était refait après chaque
+mise à jour, plusieurs minutes chez l'hébergeur) : la marque `apres-mise-a-jour` contient
+`{"at", "steps"}` ; un gros cache n'est refait que si le code qui le calcule a changé — `index` :
+`app/Data/*`, `config/*`, socle (`bootstrap.php`, `helpers.php`, `PhpCache`, `JsonStore`, `Club`,
+Redis), `Front/Unknown.php` ; `derived` : socle + `MatchText`, `VideoThumbs`, `Translator`,
+`Proofreader`, `Bilans`, `RecitHighlights`, `RecitReactions` ; `search` : socle + `Search.php`,
+`Front/Site.php` ; `chiffres` toujours (ne recalcule que si sa signature a changé). Retour arrière ou
+échec : tout. Les corrections de données (`DataFixes::run()`) passent toujours ; si elles modifient
+des fiches, les données calculées sont refaites aussi. Elles enregistrent les fiches en groupe
+(`Fiches::batch()` : index et recherche écrits une fois, 10 ms par fiche au lieu de 205 ms).
+`refresh()` tient le verrou `apres-mise-a-jour.lock` ; `refreshing()` ne compte plus un `.en-cours`
+dont le verrou est libre (processus arrêté). Tests : `tests/updater.php` (5 ter bis).
 **Pas de mise à jour pour rien ni par-dessus un recalcul** (après le ralentissement du 01/11/2026 :
 trois « Appliquer » en 3 minutes, dont deux sans fichier à remplacer, avaient chacun vidé les
 caches et relancé le recalcul, puis `OpcacheGuard` avait redémarré PHP au milieu) :

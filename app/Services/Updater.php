@@ -862,7 +862,7 @@ final class Updater
         self::setSync(['sha' => $target, 'at' => time(), 'total' => count($manifest) + count($plan['kept']), 'count' => 0, 'differ' => [], 'eol' => 0, 'kept' => $plan['kept'], 'error' => null]);
         self::$lastSync = [];
         self::step('maj', 90, 'Vidage des caches…');
-        self::afterChange();
+        self::afterChange(self::rebuildSteps(array_merge($plan['write'], $plan['delete'], $merged ? [(string) $plan['merge']] : [])));
         self::step('fini', 100, 'Mise à jour appliquée : ' . count($plan['write']) . ' fichier' . (count($plan['write']) > 1 ? 's' : '') . ' remplacé' . (count($plan['write']) > 1 ? 's' : '') . '. Le site refait maintenant ses caches.');
         if (self::$log) {
             Activity::log($user, 'a appliqué la mise à jour ' . substr($target, 0, 7) . ($latest['message'] !== '' ? ' (' . $latest['message'] . ')' : ''), null);
@@ -940,6 +940,10 @@ final class Updater
             foreach ([self::REFRESH, self::REFRESH . '.en-cours'] as $f) {
                 clearstatcache(true, $dir . '/' . $f); // état réel (marque posée ou prise entre-temps)
                 $t = @filemtime($dir . '/' . $f);
+                // Recalcul « en cours » dont le processus a été arrêté (verrou libre) : plus en cours.
+                if ($t !== false && $f !== self::REFRESH && !self::held($dir . '/' . self::REFRESH . '.lock')) {
+                    continue;
+                }
                 if ($t !== false && $t > time() - self::REFRESH_MAX) {
                     $at = min($at ?? $t, $t);
                 }
@@ -957,6 +961,20 @@ final class Updater
     {
         $fp = @fopen(($dir ?? self::$dir) . '/verrou.lock', 'c');
         if (!$fp) {
+            return false;
+        }
+        $free = flock($fp, LOCK_SH | LOCK_NB);
+        if ($free) {
+            flock($fp, LOCK_UN);
+        }
+        fclose($fp);
+        return !$free;
+    }
+
+    /** Verrou tenu par un processus (celui-ci compris) ? Faux s'il est libre ou absent. */
+    private static function held(string $file): bool
+    {
+        if (!is_file($file) || !($fp = @fopen($file, 'c'))) {
             return false;
         }
         $free = flock($fp, LOCK_SH | LOCK_NB);
@@ -1355,10 +1373,38 @@ final class Updater
      * une seconde fois). Les gros caches de données restent en place et seront refaits par la
      * requête suivante, après l'envoi de sa page (refresh()).
      */
-    private static function afterChange(): void
+    /**
+     * Recalculs à faire après une mise à jour, d'après les fichiers changés : un gros cache n'est refait
+     * que si le code qui le calcule (ou qui lit les données) a changé. Une mise à jour du back-office,
+     * des pages, de l'aide ou des styles n'en demande aucun (avant, tout était refait à chaque fois :
+     * plusieurs minutes chez l'hébergeur). Les 100 chiffres se vérifient seuls (signature) : toujours.
+     * @param list<string> $files chemins relatifs remplacés, ajoutés ou supprimés
+     * @return list<string> parmi index, derived, search, chiffres
+     */
+    public static function rebuildSteps(array $files): array
+    {
+        $hit = fn (array $patterns) => (bool) array_filter($files, fn ($f) => (bool) array_filter($patterns, fn ($p) => fnmatch($p, (string) $f)));
+        // Données et socle commun à tous les calculs (format des caches, musée, fonctions communes).
+        $base = ['app/Data/*', 'config/*', 'app/bootstrap.php', 'app/helpers.php', 'app/Core/PhpCache.php', 'app/Core/JsonStore.php', 'app/Core/Club.php', 'app/Core/Redis*.php'];
+        $steps = [];
+        if ($hit(array_merge($base, ['app/Front/Unknown.php']))) {
+            $steps[] = 'index';
+        }
+        if ($hit(array_merge($base, ['app/Services/MatchText.php', 'app/Services/VideoThumbs.php', 'app/Services/Translator.php', 'app/Services/Proofreader.php', 'app/Services/Bilans.php', 'app/Services/RecitHighlights.php', 'app/Services/RecitReactions.php']))) {
+            $steps[] = 'derived';
+        }
+        if ($hit(array_merge($base, ['app/Services/Search.php', 'app/Front/Site.php']))) {
+            $steps[] = 'search';
+        }
+        $steps[] = 'chiffres';
+        return $steps;
+    }
+
+    /** @param list<string>|null $steps recalculs à faire ensuite (null : tous, retour arrière ou échec) */
+    private static function afterChange(?array $steps = null): void
     {
         foreach (self::cacheDirs() as $dir) {
-            self::clearCache($dir);
+            self::clearCache($dir, $steps ?? ['index', 'derived', 'search', 'chiffres']);
         }
         self::invalidateCode();
     }
@@ -1378,7 +1424,7 @@ final class Updater
         return array_values(array_unique(array_map(fn ($d) => str_replace('\\', '/', $d), $dirs)));
     }
 
-    private static function clearCache(string $dir): void
+    private static function clearCache(string $dir, array $steps = ['index', 'derived', 'search', 'chiffres']): void
     {
         // Dossiers à vider entièrement (pages, PDF, livre… : des milliers de fichiers) : mis de côté
         // d'un seul renommage, vidés après la réponse (purgeTrash()) au lieu d'effacer chaque fichier
@@ -1412,7 +1458,11 @@ final class Updater
             }
         }
         @mkdir($dir, 0775, true);
-        @file_put_contents($dir . '/' . self::REFRESH, (string) time());
+        // Marque « à refaire » et recalculs demandés (une marque déjà posée et pas encore prise garde
+        // les siens : on additionne).
+        $prev = json_decode((string) @file_get_contents($dir . '/' . self::REFRESH), true);
+        $steps = array_values(array_unique(array_merge(is_array($prev['steps'] ?? null) ? $prev['steps'] : [], $steps)));
+        @file_put_contents($dir . '/' . self::REFRESH, json_encode(['at' => time(), 'steps' => $steps]));
     }
 
     /** Le dossier de cache $name contient-il un cache gardé par les mises à jour ? */
@@ -1481,8 +1531,16 @@ final class Updater
         if (!@rename($flag, $flag . '.en-cours')) {
             return false;
         }
-        // Début du recalcul : refreshing() et la reprise après 15 minutes comptent d'ici.
+        // Début du recalcul : refreshing() et la reprise après 15 minutes comptent d'ici. Verrou tenu
+        // pendant tout le recalcul : s'il est libre, le processus a été arrêté (refreshing() le sait).
         @touch($flag . '.en-cours');
+        $lk = @fopen($flag . '.lock', 'c');
+        if ($lk) {
+            flock($lk, LOCK_EX | LOCK_NB);
+        }
+        // Recalculs demandés par la mise à jour (ancienne marque sans liste : tous).
+        $asked = json_decode((string) @file_get_contents($flag . '.en-cours'), true);
+        $steps = is_array($asked['steps'] ?? null) ? $asked['steps'] : ['index', 'derived', 'search', 'chiffres'];
         if ($web) {
             \App\Core\Response::detach();
         }
@@ -1494,26 +1552,41 @@ final class Updater
             @ini_set('memory_limit', '512M');
         }
         try {
-            self::step('recalcul', 5, 'Recalcul 1 / 5 : index des fiches…');
-            \App\Data\Index::rebuild();
-            // Corrections de données livrées avec cette version : appliquées tout de suite, sans
-            // attendre le passage de la tâche planifiée (elles ne s'appliquent qu'une fois).
-            self::step('recalcul', 30, 'Recalcul 2 / 5 : corrections de données livrées avec la version…');
-            try {
-                \App\Services\DataFixes::run();
-            } catch (\Throwable $e) {
-                error_log('[après mise à jour] corrections : ' . $e->getMessage());
+            $todo = array_values(array_filter(['index', 'fixes', 'derived', 'search', 'chiffres'], fn ($k) => $k === 'fixes' || in_array($k, $steps, true)));
+            $n = count($todo);
+            $labels = ['index' => 'index des fiches', 'fixes' => 'corrections de données livrées avec la version', 'derived' => 'données calculées (saisons, joueurs, records…)', 'search' => 'index de recherche', 'chiffres' => 'les 100 chiffres'];
+            for ($i = 0; $i < count($todo); $i++) { // la liste peut s'allonger (corrections appliquées)
+                $k = $todo[$i];
+                self::step('recalcul', 5 + intdiv(90 * $i, max(1, $n)), 'Recalcul ' . ($i + 1) . ' / ' . $n . ' : ' . $labels[$k] . '…');
+                if ($k === 'index') {
+                    \App\Data\Index::rebuild();
+                } elseif ($k === 'fixes') {
+                    // Corrections livrées avec cette version : appliquées tout de suite (une seule fois).
+                    // Fiches modifiées : données calculées refaites aussi.
+                    try {
+                        if (\App\Services\DataFixes::run() !== null && !in_array('derived', $todo, true)) {
+                            array_splice($todo, $i + 1, 0, ['derived']);
+                            $n = count($todo);
+                        }
+                    } catch (\Throwable $e) {
+                        error_log('[après mise à jour] corrections : ' . $e->getMessage());
+                    }
+                } elseif ($k === 'derived') {
+                    \App\Data\Derived::rebuild();
+                } elseif ($k === 'search') {
+                    \App\Services\Search::rebuild();
+                } elseif ($k === 'chiffres') {
+                    \App\Services\Chiffres::warm(); // les 100 chiffres prêts avant le prochain visiteur (rien si inchangés)
+                }
             }
-            self::step('recalcul', 50, 'Recalcul 3 / 5 : données calculées (saisons, joueurs, records…)…');
-            \App\Data\Derived::rebuild();
-            self::step('recalcul', 75, 'Recalcul 4 / 5 : index de recherche…');
-            \App\Services\Search::rebuild();
-            self::step('recalcul', 90, 'Recalcul 5 / 5 : les 100 chiffres…');
-            \App\Services\Chiffres::warm(); // les 100 chiffres prêts avant le prochain visiteur
         } catch (\Throwable $e) {
             error_log('[après mise à jour] ' . $e->getMessage());
         } finally {
             @unlink($flag . '.en-cours');
+            if ($lk) {
+                flock($lk, LOCK_UN);
+                fclose($lk);
+            }
             self::step('pret', 100, 'Site prêt : caches refaits.');
         }
         return true;
