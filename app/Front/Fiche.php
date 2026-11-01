@@ -124,7 +124,7 @@ final class Fiche
             $links[$a[8] . '|' . $a[0]] = $a[0];
         }
         $rows = self::lineupRows($doc, $m['lineup']['rows'] ?? []);
-        $pitch = self::pitch($rows);
+        $pitch = self::pitch($rows, (string) ($m['formation'] ?? ''));
         $resume = self::splitResume($doc['sections']);
         $club = $d['club'] ?? null;
         $catSlug = Categories::primaryOf($doc['categories']);
@@ -240,8 +240,13 @@ final class Fiche
         return $w > 0 && $h >= 0.8 * $w ? $image : null;
     }
 
-    /** Placement des titulaires sur le terrain (formation déduite des postes G / D / M / A). */
-    public static function pitch(array $rows): ?array
+    /**
+     * Placement des titulaires sur le terrain. Système choisi dans la fiche ($formation, voir
+     * App\Services\Formations) et postes qui collent : une ligne par étage du système (4-1-3-2 : quatre
+     * défenseurs, un milieu défensif, trois milieux offensifs, deux attaquants), remplies de l'arrière
+     * vers l'avant dans l'ordre de la composition. Sinon, formation déduite des postes G / D / M / A.
+     */
+    public static function pitch(array $rows, ?string $formation = null): ?array
     {
         $starters = array_values(array_filter($rows, fn ($r) => in_array($r['position'], ['G', 'D', 'M', 'A'], true)));
         if (count($starters) < 7 || count($starters) > 12) {
@@ -251,23 +256,49 @@ final class Fiche
         foreach ($starters as $r) {
             $lines[$r['position']][] = $r;
         }
+        $sys = \App\Services\Formations::lines($formation, count($lines['D']), count($lines['M']) + count($lines['A']));
+        if ($sys) {
+            // Étages du système, de l'arrière vers l'avant, entre la défense (72) et l'attaque (23).
+            $layers = [];
+            $pool = $lines['D'];
+            foreach ($sys['d'] as $n) {
+                $layers[] = array_splice($pool, 0, $n);
+            }
+            $pool = array_merge($lines['M'], $lines['A']);
+            foreach ($sys['up'] as $n) {
+                $layers[] = array_splice($pool, 0, $n);
+            }
+            $last = count($layers) - 1;
+            $placed = self::placeLine($lines['G'], 90, false);
+            foreach ($layers as $j => $layer) {
+                $y = $last === 2 ? [72, 50, 23][$j] : 72 - 49 * $j / max(1, $last);
+                $placed = array_merge($placed, self::placeLine($layer, round($y, 1), $j === $last));
+            }
+            return ['players' => $placed, 'formation' => $sys['key']];
+        }
         $y = ['G' => 90, 'D' => 72, 'M' => 50, 'A' => 23];
         $placed = [];
-        $n = 1;
         foreach (['G', 'D', 'M', 'A'] as $pos) {
-            $count = count($lines[$pos]);
-            foreach ($lines[$pos] as $i => $r) {
-                // Les feuilles de match listent chaque ligne de la droite vers la gauche (arrière droit
-                // en premier) ; vue de dos (gardien en bas), le premier listé est donc à droite.
-                $x = $count === 1 ? 50 : 84 - (68 * $i / ($count - 1));
-                // Légère courbe : les joueurs du centre sont un peu plus reculés (comme la maquette).
-                $curve = $count >= 3 ? (abs($x - 50) < 20 ? ($pos === 'A' ? -5 : 3) : 0) : 0;
-                $seq = $n++;
-                $placed[] = $r + ['x' => round($x, 1), 'y' => $y[$pos] + $curve, 'num' => is_numeric($r['number'] ?? null) ? (int) $r['number'] : null];
-            }
+            $placed = array_merge($placed, self::placeLine($lines[$pos], $y[$pos], $pos === 'A'));
         }
         $formation = count($lines['D']) . '-' . count($lines['M']) . '-' . count($lines['A']);
         return ['players' => $placed, 'formation' => $formation];
+    }
+
+    /** Une ligne de joueurs à la hauteur $y (en % du terrain), de la droite vers la gauche. */
+    private static function placeLine(array $line, float|int $y, bool $front): array
+    {
+        $count = count($line);
+        $out = [];
+        foreach (array_values($line) as $i => $r) {
+            // Les feuilles de match listent chaque ligne de la droite vers la gauche (arrière droit
+            // en premier) ; vue de dos (gardien en bas), le premier listé est donc à droite.
+            $x = $count === 1 ? 50 : 84 - (68 * $i / ($count - 1));
+            // Légère courbe : les joueurs du centre sont un peu plus reculés (pointe avancée devant).
+            $curve = $count >= 3 ? (abs($x - 50) < 20 ? ($front ? -5 : 3) : 0) : 0;
+            $out[] = $r + ['x' => round($x, 1), 'y' => $y + $curve, 'num' => is_numeric($r['number'] ?? null) ? (int) $r['number'] : null];
+        }
+        return $out;
     }
 
     /**

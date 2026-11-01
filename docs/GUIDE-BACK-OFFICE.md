@@ -213,6 +213,13 @@ la recherche (les recherches Google sont gratuites jusqu'à 5 000 par mois avec 
   droite à gauche, enfin remplaçants et entraîneur. Le terrain du site place ainsi chacun du
   bon côté ; il affiche le vrai numéro de maillot quand il est saisi, sinon le poste (G, D, M,
   A), jamais un numéro inventé (fiche, PDF, Rétro-Direct, poster).
+- **Système tactique** (menu à côté du titre « Composition », ticket n° 26) : 20 systèmes
+  (4-4-2, 4-4-2 en losange, 4-3-3, 4-2-3-1, 4-1-3-2, 4-1-4-1, 4-3-1-2, 4-3-2-1, 4-4-1-1, 4-5-1,
+  4-2-2-2, 4-2-4, 3-5-2, 3-4-3, 3-4-1-2, 3-4-2-1, 5-3-2, 5-4-1, 2-3-5 « la pyramide », 3-2-2-3
+  « le WM »). Le terrain place les titulaires ligne par ligne, de l'arrière vers l'avant dans
+  l'ordre de la composition (milieux défensifs avant les offensifs), le premier listé de chaque
+  ligne à droite. Sans système : placement automatique sur trois lignes. Postes qui ne collent
+  pas au système : message rouge, placement automatique gardé.
 - Les lignes se déplacent avec ↑ / ↓ (un cran) ou en glissant l’icône quatre flèches (plus loin ; un trait jaune montre la position de dépôt).
 
 Les statistiques des joueurs (matchs, buts, minutes, cartons), les pages saison, les

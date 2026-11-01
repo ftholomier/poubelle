@@ -2611,6 +2611,20 @@ Profil du club (`config/clubs/<club>.php`), clé `club_display` : clé de rappro
 `FicheForm::syncPersonRubrics()` relie `personne.roles` (onglet Identité) et les rubriques Nos Lions cochées (Classement & SEO, `FicheForm::ROLE_RUBRICS` + sous-rubriques) : ce que l'historien vient de changer d'un côté est reporté de l'autre. `Fiche::personRubric()` donne la priorité à la rubrique du premier rôle. À l'enregistrement d'une fiche publiée, l'adresse suit le premier rôle (`/joueurs/x/` → `/dirigeants/x/`, redirection). Correction ponctuelle `2026-10-rubriques-des-personnes` pour les fiches déjà décalées. À l'affichage, `Fiches::effectiveRoles()` fait passer le classement coché avant un rôle resté ancien (index, fiche, carte, image de partage, album) ; le libellé d'un dirigeant vient de sa sous-rubrique (« Directeur sportif », « Président »…, `Fiche::LEADER_LABELS`), sinon du premier mot du sous-titre seulement si c'est une fonction, sinon « Dirigeant ».
 
 
+## Systèmes tactiques (placement sur le terrain)
+
+`App\Services\Formations` (ticket n° 26) : 20 systèmes, clé => [libellé, lignes de défense, lignes de
+milieux et d'attaquants] (`ALL`), tous à dix joueurs de champ. Le champ `match.formation` (menu de
+la fiche match, `templates/admin/fiches/_match.php`) garde la clé ; `Formations::key()` reconnaît
+aussi les anciens textes (« 442 », « 4.4.2 », « 4-4-2 losange », « WM », « pyramide »).
+`Fiche::pitch($rows, $formation)` : système reconnu et postes qui collent (D = somme des lignes de
+défense, M + A = somme des autres) → défenseurs puis milieux puis attaquants répartis ligne par
+ligne de l'arrière vers l'avant dans l'ordre de la composition, hauteurs régulières entre 72 % et
+23 % (trois lignes : 72, 50, 23 comme avant), le premier de chaque ligne à droite, légère courbe
+(centre reculé, pointe avancée) ; sinon placement automatique d'avant (G 90, D 72, M 50, A 23).
+Utilisé par la page du match, l'export PDF et Rétro-Direct ; `Formations::problem()` donne le
+message rouge de la fiche (texte non reconnu, postes qui ne collent pas). Test : `tests/formations.php`.
+
 ## Validation des fiches
 
 `App\Services\Validation` (`storage/validations.json`). Une validation n'est retirée que par « Retirer la validation » ou la suppression définitive (`Fiches::save` ne l'efface plus).

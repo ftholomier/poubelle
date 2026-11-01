@@ -1,0 +1,82 @@
+<?php
+/**
+ * Systèmes tactiques (ticket n° 26) : App\Services\Formations (systèmes reconnus, postes qui collent
+ * ou non) et Fiche::pitch() (placement ligne par ligne, de l'arrière vers l'avant et de la droite vers
+ * la gauche ; placement automatique inchangé sans système). Rien n'est écrit.
+ * Usage : php tests/formations.php
+ */
+declare(strict_types=1);
+
+require __DIR__ . '/../app/bootstrap.php';
+
+use App\Front\Fiche;
+use App\Services\Formations as F;
+
+$fail = 0;
+$eq = function (string $label, $got, $exp) use (&$fail) {
+    $ok = $got === $exp;
+    if (!$ok) {
+        $fail++;
+    }
+    echo ($ok ? 'OK   ' : 'FAIL ') . $label . ($ok ? '' : ' => ' . json_encode($got, JSON_UNESCAPED_UNICODE) . ' attendu ' . json_encode($exp, JSON_UNESCAPED_UNICODE)) . "\n";
+};
+
+// 1. Systèmes : 20, tous à dix joueurs de champ ; anciens textes reconnus.
+$eq('20 systèmes', count(F::ALL), 20);
+$eq('tous à dix joueurs de champ', array_unique(array_map(fn ($f) => array_sum($f[1]) + array_sum($f[2]), array_values(F::ALL))), [10]);
+$eq('clés écrites comme leurs lignes', array_keys(array_filter(F::ALL, fn ($f, $k) => $k !== implode('-', array_merge($f[1], $f[2])), ARRAY_FILTER_USE_BOTH)), []);
+$eq('« 442 », « 4.4.2 », « 4 - 4 - 2 »', [F::key('442'), F::key('4.4.2'), F::key('4 - 4 - 2')], ['4-4-2', '4-4-2', '4-4-2']);
+$eq('losange, WM, pyramide', [F::key('4-4-2 losange'), F::key('WM'), F::key('la pyramide')], ['4-1-2-1-2', '3-2-2-3', '2-3-5']);
+$eq('texte non reconnu ou vide', [F::key('offensif'), F::key(''), F::key('3-4-2')], [null, null, null]);
+
+// 2. L'exemple du ticket : 4-1-3-2.
+$row = fn (string $p, string $n) => ['position' => $p, 'name' => $n];
+$rows = [$row('G', 'Richert'), $row('D', 'Faty'), $row('D', 'Perquis'), $row('D', 'Bréchet'), $row('D', 'Sauget'),
+    $row('M', 'Anin'), $row('M', 'Boudebouz'), $row('M', 'Martin'), $row('M', 'Maurice-Belay'), $row('A', 'Ideye'), $row('A', 'Maïga'), $row('R', 'Pouplin')];
+$p = Fiche::pitch($rows, '4-1-3-2');
+$at = [];
+foreach ($p['players'] as $pl) {
+    $at[$pl['name']] = [$pl['x'], $pl['y']];
+}
+$eq('4-1-3-2 : système affiché', $p['formation'], '4-1-3-2');
+$eq('4-1-3-2 : onze titulaires placés', count($p['players']), 11);
+$eq('gardien en bas au centre', $at['Richert'], [50.0, 90]);
+$eq('défense : Faty à droite … Sauget à gauche', [$at['Faty'][0], $at['Sauget'][0], $at['Faty'][1]], [84.0, 16.0, 72.0]);
+$eq('Anin seul au centre, devant la défense', [$at['Anin'][0], $at['Anin'][1] < 72, $at['Anin'][1] > $at['Martin'][1]], [50.0, true, true]);
+$eq('milieux offensifs : Boudebouz à droite, Martin au centre, Maurice-Belay à gauche', [$at['Boudebouz'][0], $at['Martin'][0], $at['Maurice-Belay'][0]], [84.0, 50.0, 16.0]);
+$eq('attaque : Ideye à droite, Maïga à gauche, devant tout le monde', [$at['Ideye'][0], $at['Maïga'][0], $at['Ideye'][1] < $at['Martin'][1]], [84.0, 16.0, true]);
+$eq('quatre lignes de champ distinctes', count(array_unique(array_map(fn ($n) => (string) $at[$n][1], ['Faty', 'Anin', 'Boudebouz', 'Ideye']))), 4);
+
+// 3. 4-2-3-1 avec les mêmes postes (5 M, 1 A) ; 4-4-2 losange.
+$p3 = Fiche::pitch(array_merge(array_slice($rows, 0, 9), [$row('M', 'Ideye'), $row('A', 'Maïga')]), '4-2-3-1');
+$eq('4-2-3-1 : système affiché', $p3['formation'], '4-2-3-1');
+$y3 = [];
+foreach ($p3['players'] as $pl) {
+    $y3[$pl['name']] = $pl['y'];
+}
+$eq('4-2-3-1 : deux milieux défensifs côte à côte, trois offensifs devant, un attaquant tout devant',
+    [$y3['Anin'] === $y3['Boudebouz'], $y3['Martin'] === $y3['Ideye'] && $y3['Martin'] < $y3['Anin'], $y3['Maïga'] < $y3['Martin']], [true, true, true]);
+$eq('losange : 5 lignes de champ', count(array_unique(array_map(fn ($pl) => (string) $pl['y'], array_filter(Fiche::pitch($rows, '4-1-2-1-2')['players'], fn ($pl) => $pl['name'] !== 'Richert')))) >= 4, true);
+
+// 4. Postes qui ne collent pas : placement automatique, message pour l'historien.
+$rows3 = $rows;
+$rows3[4]['position'] = 'M'; // Sauget milieu : 3 D, 5 M, 2 A
+$p4 = Fiche::pitch($rows3, '4-1-3-2');
+$eq('postes différents : placement automatique (3-5-2 déduit)', $p4['formation'], '3-5-2');
+$eq('postes différents : message', str_contains((string) F::problem('4-1-3-2', $rows3), 'la composition compte 3 D, 5 M et 2 A'), true);
+$eq('postes qui collent : pas de message', F::problem('4-1-3-2', $rows), null);
+$eq('texte non reconnu : message', str_contains((string) F::problem('offensif', $rows), 'non reconnue'), true);
+$eq('pas de système : pas de message', F::problem('', $rows), null);
+
+// 5. Sans système : placement d'avant, inchangé.
+$p5 = Fiche::pitch($rows);
+$at5 = [];
+foreach ($p5['players'] as $pl) {
+    $at5[$pl['name']] = [$pl['x'], $pl['y']];
+}
+$eq('sans système : 4-4-2 déduit des postes', $p5['formation'], '4-4-2');
+$eq('sans système : milieux sur une seule ligne (50, les deux du centre un peu reculés)', [$at5['Anin'][1], $at5['Boudebouz'][1], $at5['Martin'][1], $at5['Maurice-Belay'][1]], [50, 53, 53, 50]);
+$eq('sans système : défense et attaque comme avant', [$at5['Faty'], $at5['Ideye']], [[84.0, 72], [84.0, 23]]);
+
+echo $fail ? "\n$fail échec(s).\n" : "\nTout est bon.\n";
+exit($fail ? 1 : 0);

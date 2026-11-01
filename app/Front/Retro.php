@@ -127,7 +127,7 @@ final class Retro
         ];
         return Pages::render('interactif/retro-match', [
             'doc' => $doc, 'm' => $m, 's' => $s, 'entry' => $entry, 'mode' => $mode, 'tl' => $tl, 'data' => $data,
-            'rows' => $rows, 'pitch' => Fiche::pitch($rows), 'ago' => $ago, 'sameDay' => $sameDay, 'intro' => $intro, 'when' => $when,
+            'rows' => $rows, 'pitch' => Fiche::pitch($rows, (string) ($m['formation'] ?? '')), 'ago' => $ago, 'sameDay' => $sameDay, 'intro' => $intro, 'when' => $when,
             'gallery' => $gallery, 'stats' => $entry ? RetroDirect::stats((int) $s['id'], $entry['date']) : null,
             'etais' => RetroDirect::etais((int) $s['id']), 'home' => $home, 'away' => $away, 'title' => $title,
         ], $page);
