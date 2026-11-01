@@ -2611,6 +2611,19 @@ Profil du club (`config/clubs/<club>.php`), clé `club_display` : clé de rappro
 `FicheForm::syncPersonRubrics()` relie `personne.roles` (onglet Identité) et les rubriques Nos Lions cochées (Classement & SEO, `FicheForm::ROLE_RUBRICS` + sous-rubriques) : ce que l'historien vient de changer d'un côté est reporté de l'autre. `Fiche::personRubric()` donne la priorité à la rubrique du premier rôle. À l'enregistrement d'une fiche publiée, l'adresse suit le premier rôle (`/joueurs/x/` → `/dirigeants/x/`, redirection). Correction ponctuelle `2026-10-rubriques-des-personnes` pour les fiches déjà décalées. À l'affichage, `Fiches::effectiveRoles()` fait passer le classement coché avant un rôle resté ancien (index, fiche, carte, image de partage, album) ; le libellé d'un dirigeant vient de sa sous-rubrique (« Directeur sportif », « Président »…, `Fiche::LEADER_LABELS`), sinon du premier mot du sous-titre seulement si c'est une fonction, sinon « Dirigeant ».
 
 
+## Orthographe « Manac'h » (correction `2026-11-manac-h`)
+
+Ticket du 01/11/2026 : `DataFixes::manach()` corrige les graphies fautives du nom d'Erwan Manac'h
+(« Manac », « Manach », « Manach’ », « Mana’ch », toutes casses, apostrophe droite, typographique ou
+en entité HTML) en « Manac'h » (« Manac’h » si l'apostrophe d'origine était typographique,
+« MANAC'H » en capitales). Motif `DataFixes::MANACH` : jamais un mot collé à « / », « - », « _ » ou
+suivi d'un point et d'une lettre (adresses, noms de fichiers, liens) ; la bonne graphie n'est jamais
+touchée. La correction passe une fois sur toutes les chaînes des fiches (titres, récits,
+compositions, buts, légendes, traductions ; jamais `path`, `slug`, `image`, `file`, `url`, `href`,
+`src`, `legacy`) et sur les légendes, crédits et textes alternatifs de la médiathèque. Les
+compositions Transfermarkt de référence (`app/Resources/compos/tm-1998/1999/2001.json`) sont écrites
+« Erwan Manac'h ». Test : `tests/manach.php`.
+
 ## Matchs amicaux hors des statistiques des joueurs
 
 Ticket du 01/11/2026 : `Derived::OFFICIAL_EXCLUDED` (Amical, Coupe d'été, Coupes diverses) sort des

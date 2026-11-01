@@ -40,6 +40,7 @@ final class DataFixes
         '2026-10-stade-rennais-fc' => 'clubDisplayAll',
         '2026-10-feuilles-1992-1993' => 'sheets9293',
         '2026-11-legendes-des-photos' => 'photoCaptions',
+        '2026-11-manac-h' => 'manachSpelling',
     ];
 
     /**
@@ -104,6 +105,78 @@ final class DataFixes
         }
         $r = VerifiedSheets::import(APP_ROOT . '/app/Resources/import/feuilles-2022-2023.json');
         return ['message' => $r['message'], 'ids' => $r['ids'], 'created' => $r['created'], 'proposals' => $r['proposals']];
+    }
+
+    /**
+     * Graphies fautives du nom d'Erwan Manac'h : « Manac », « Manach », « Manach’ », « Mana’ch » (toutes
+     * casses, apostrophe droite, typographique ou en entité HTML). Jamais un mot collé à « / », « - »,
+     * « . » ou « _ » (adresses, noms de fichiers, liens) ; la bonne graphie n'est jamais touchée.
+     */
+    public const MANACH = '/(?<![\p{L}\p{N}\/._-])(?:Mana(c)(h)?([\'’]|&(?:#8217|#x2019|rsquo|#0?39|apos);)?|Mana([\'’])(c)(h))(?![\p{L}\p{N}\/_-]|\.[\p{L}\p{N}]|[\'’]h|&(?:#8217|#x2019|rsquo|#0?39|apos);h)/iu';
+
+    /** Le nom écrit « Manac'h » (ou « Manac’h », « MANAC'H » selon l'apostrophe et la casse d'origine). */
+    public static function manach(string $s): string
+    {
+        return (string) preg_replace_callback(self::MANACH, function ($m) {
+            $curly = preg_match('/’|&(?:#8217|#x2019|rsquo);/u', $m[0]) === 1;
+            $out = 'Manac' . ($curly ? '’' : "'") . 'h';
+            return mb_strtoupper($m[0]) === $m[0] ? mb_strtoupper($out) : $out;
+        }, $s);
+    }
+
+    /** Applique $fix à toutes les chaînes d'un tableau, sauf sous les clés d'adresse, de fichier ou d'origine. */
+    private static function mapText(mixed $v, callable $fix, ?string $key = null): mixed
+    {
+        static $skip = ['path', 'slug', 'image', 'featured_image', 'file', 'url', 'href', 'src', 'legacy', 'id', 'type', 'status', 'source'];
+        if (is_string($key) && in_array($key, $skip, true)) {
+            return $v;
+        }
+        if (is_array($v)) {
+            foreach ($v as $k => $x) {
+                $v[$k] = self::mapText($x, $fix, is_string($k) ? $k : $key);
+            }
+            return $v;
+        }
+        return is_string($v) ? $fix($v) : $v;
+    }
+
+    /**
+     * Erwan Manac'h écrit partout avec son « 'h » (ticket du 01/11/2026) : titres, récits, compositions,
+     * buts, temps forts, légendes et traductions des fiches, légendes et crédits de la médiathèque.
+     */
+    private static function manachSpelling(): array
+    {
+        $fix = fn (string $s) => self::manach($s);
+        $ids = Fiches::batch(function () use ($fix) {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                $clean = $doc;
+                unset($clean['legacy']);
+                if (!preg_match(self::MANACH, (string) json_encode($clean, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))) {
+                    continue;
+                }
+                $doc = Fiches::fresh((int) $id);
+                $new = self::mapText($doc, $fix);
+                if ($new !== $doc) {
+                    Fiches::save($new, self::AUTHOR, 'Orthographe : Manac’h');
+                    $ids[] = (int) $id;
+                }
+            }
+            return $ids;
+        });
+        $media = [];
+        foreach (\App\Data\Media::all() as $rel => $m) {
+            foreach (['caption', 'caption_en', 'caption_raw', 'credit', 'alt', 'alt_en', 'date_text'] as $k) {
+                if (is_string($m[$k] ?? null) && ($v = $fix($m[$k])) !== $m[$k]) {
+                    $media[$rel][$k] = $v;
+                }
+            }
+        }
+        if ($media) {
+            \App\Data\Media::putMany($media);
+            \App\Data\Derived::markDirty();
+        }
+        return ['message' => 'Manac’h : ' . count($ids) . ' fiche(s) et ' . count($media) . ' média(s) corrigé(s)', 'ids' => $ids];
     }
 
     /**
