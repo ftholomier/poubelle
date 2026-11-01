@@ -32,7 +32,7 @@ $clean = fn (string $x): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
 <section class="mhero rdhero" data-rd data-mode="<?= e($mode) ?>">
   <script type="application/json" data-rd-data><?= json_encode($data, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) ?></script>
   <?php if (!empty($doc['featured_image'])): ?>
-  <div class="mhero__bg"><img src="<?= e(img($doc['featured_image'], 1600)) ?>" srcset="<?= e(srcset($doc['featured_image'], [800, 1200, 1600])) ?>" sizes="100vw" alt="" fetchpriority="high"></div>
+  <div class="mhero__bg<?= img_lowres($doc['featured_image'], 1200, 600) ? ' bg-soft' : '' ?>"><img src="<?= e(img($doc['featured_image'], 1600)) ?>" srcset="<?= e(srcset($doc['featured_image'], [800, 1200, 1600])) ?>" sizes="100vw" alt="" fetchpriority="high"></div>
   <?php endif; ?>
   <div class="mhero__shade rdhero__shade">
     <div class="wrap mhero__inner">

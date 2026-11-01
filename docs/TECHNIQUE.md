@@ -477,6 +477,23 @@ l'original est servi tel quel (les navigateurs l'affichent). Les vignettes des v
 `storage/media/originals/_video/` (`App\Services\VideoThumbs`) pour ne contacter
 l'hébergeur vidéo qu'après l'accord du visiteur.
 
+Photos en basse définition (`img_size()`, `img_lowres()`, `app/helpers.php`) : `img()`
+n'agrandit jamais l'original, mais le navigateur étirait une petite photo à la taille de sa
+case (photo de 163 px en grande case de galerie : pixellisée). `img_lowres($rel, $largeur,
+$hauteur = 0)` compare les dimensions de la médiathèque à la case (remplie en `cover` ; hauteur
+0 = libre) : s'il faudrait agrandir de plus de 35 %, elle renvoie la classe `is-lowres` du
+conteneur, les variables `--w`/`--h` (taille réelle) et un calque `lowres__blur` (vignette 320
+floutée) ; la photo est alors centrée à sa taille réelle, jamais au-delà (`site.css`). Cases :
+carte du joueur 346 × 380, galerie seule 860, 2 ou 3 photos 358 × 320, mosaïque 358 × 240 (grande
+case 606 × 412 : une photo trop petite y est ramenée à une case simple), photo d'article et
+images de fiche 820, récit 900. Fonds de bandeau (match, Rétro-Direct, saison, récit) : classe
+`bg-soft` (flou volontaire) en dessous de 1200 × 600. Le slider de l'accueil et la photo du
+jour choisissaient déjà des photos assez grandes. Export PDF : `Layout::figure()` ne dessine
+jamais une photo à plus d'un point par pixel (72 ppp), la légende garde sa largeur. Test :
+`tests/basse-definition.php`. Médiathèque : filtre « Basse définition »
+(`Medias::lowres()`, moins de 400 px de large et de haut) et avertissement dans la fenêtre de
+la photo.
+
 Images de partage 1200 × 630 (`App\Front\Share`, GD, `/partage/{id}.png`) : fiche lue sans
 ses « xx » (`Unknown::doc()`) ; emoji retirés et lettres stylisées ramenées aux lettres
 simples (`printable()`), sinon GD dessine un carré vide. Cache `storage/cache/share/`,

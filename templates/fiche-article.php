@@ -30,7 +30,7 @@ $recit ??= null;
 ?>
 <?php if ($recit): ?>
 <section class="ahero rhero<?= $feat ? ' rhero--img' : '' ?>">
-  <?php if ($feat): ?><div class="rhero__bg" aria-hidden="true"><img src="<?= e(img($feat, 1600)) ?>" srcset="<?= e(srcset($feat, [800, 1200, 1600])) ?>" sizes="100vw" alt="" fetchpriority="high"></div><?php endif; ?>
+  <?php if ($feat): ?><div class="rhero__bg<?= img_lowres($feat, 1200, 600) ? ' bg-soft' : '' ?>" aria-hidden="true"><img src="<?= e(img($feat, 1600)) ?>" srcset="<?= e(srcset($feat, [800, 1200, 1600])) ?>" sizes="100vw" alt="" fetchpriority="high"></div><?php endif; ?>
   <div class="wrap ahero__inner rhero__inner">
     <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>">
       <?php foreach ($crumbs as $c): ?><a href="<?= e($c['href']) ?>"><?= e($c['label']) ?></a><span aria-hidden="true">/</span><?php endforeach; ?>
@@ -76,8 +76,9 @@ $recitAside = (string) ob_get_clean();
   <article class="abody__main">
     <?php if ($feat && !$featInGallery && !$isPage): ?>
       <figure class="afeat" data-gallery>
-        <a href="<?= e(img($feat, 1600)) ?>" data-lb data-caption="<?= e(\App\Data\Media::caption($feat, (string) $doc['title'])) ?>">
-          <img src="<?= e(img($feat, 1200)) ?>" srcset="<?= e(srcset($feat, [640, 800, 1200, 1600])) ?>" sizes="(max-width: 900px) 100vw, 820px" alt="<?= e(\App\Data\Media::alt($feat) ?: $doc['title']) ?>" fetchpriority="high">
+        <?php $fLow = img_lowres($feat, 820); ?>
+        <a href="<?= e(img($feat, 1600)) ?>" data-lb data-caption="<?= e(\App\Data\Media::caption($feat, (string) $doc['title'])) ?>"<?= $fLow ? ' class="is-lowres" style="' . $fLow['style'] . '"' : '' ?>>
+          <?= $fLow ? $fLow['blur'] : '' ?><img src="<?= e(img($feat, 1200)) ?>" srcset="<?= e(srcset($feat, [640, 800, 1200, 1600])) ?>" sizes="(max-width: 900px) 100vw, 820px" alt="<?= e(\App\Data\Media::alt($feat) ?: $doc['title']) ?>" fetchpriority="high">
         </a>
         <?php if ($cap = \App\Data\Media::caption($feat)): ?><figcaption><?= e($cap) ?></figcaption><?php endif; ?>
       </figure>
@@ -94,7 +95,8 @@ $recitAside = (string) ob_get_clean();
 
     <?php foreach ($doc['images'] ?? [] as $im): $cap = trim(($im['caption'] ?? '') . (!empty($im['credit']) ? ' – ' . $im['credit'] : ''), ' –'); ?>
       <figure class="fm-figure" data-gallery>
-        <a href="<?= e(img($im['image'], 1600)) ?>" data-lb data-caption="<?= e($cap) ?>"><img src="<?= e(img($im['image'], 800)) ?>" srcset="<?= e(srcset($im['image'], [480, 800, 1200])) ?>" sizes="(max-width: 900px) 100vw, 820px" alt="<?= e($im['caption'] ?? '') ?>" loading="lazy" decoding="async"></a>
+        <?php $imLow = img_lowres($im['image'], 820); ?>
+        <a href="<?= e(img($im['image'], 1600)) ?>" data-lb data-caption="<?= e($cap) ?>"<?= $imLow ? ' class="is-lowres" style="' . $imLow['style'] . '"' : '' ?>><?= $imLow ? $imLow['blur'] : '' ?><img src="<?= e(img($im['image'], 800)) ?>" srcset="<?= e(srcset($im['image'], [480, 800, 1200])) ?>" sizes="(max-width: 900px) 100vw, 820px" alt="<?= e($im['caption'] ?? '') ?>" loading="lazy" decoding="async"></a>
         <?php if ($cap !== ''): ?><figcaption><?= e($cap) ?></figcaption><?php endif; ?>
       </figure>
     <?php endforeach; ?>

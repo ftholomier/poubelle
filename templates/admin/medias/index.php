@@ -62,6 +62,7 @@ $fmt = fn ($n) => number_format((int) $n, 0, ',', ' ');
         <b style="overflow-wrap:anywhere;font-size:13px"><?= e($it['name']) ?></b>
         <span class="<?= $it['caption'] === '' ? 'muted' : '' ?>" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden"><?= e($it['caption'] ?: 'Sans légende') ?></span>
         <span><?= $it['credit'] !== '' ? '© ' . e($it['credit']) : ($it['pdf'] ? '<span class="muted">Document</span>' : '<span class="ko">⚠ Sans crédit</span>') ?></span>
+        <?php if ($it['lowres']): ?><span class="xs ko" title="Sur le site, elle est montrée à sa taille réelle sur un fond flou, jamais agrandie. À remplacer par une version plus grande si possible.">⚠ Basse définition (<?= (int) $it['width'] ?> × <?= (int) $it['height'] ?> px)</span><?php endif; ?>
         <span class="xs muted"><?= $it['used_count'] ? 'Utilisé dans ' . (int) $it['used_count'] . ' contenu' . ($it['used_count'] > 1 ? 's' : '') : 'Utilisé nulle part' ?></span>
       </div>
     </div>

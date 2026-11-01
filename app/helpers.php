@@ -51,6 +51,36 @@ function img(?string $rel, int $width = 800): string
     return MEDIA_URL . '/' . $width . '/' . str_replace('%2F', '/', rawurlencode($rel)) . '.webp' . ($v !== null ? '?v=' . $v : '');
 }
 
+/** Largeur et hauteur d'origine d'une photo de la médiathèque (pixels), ou null (inconnues, SVG…). */
+function img_size(?string $rel): ?array
+{
+    if (!$rel) {
+        return null;
+    }
+    $m = \App\Data\Media::get($rel);
+    $w = (int) ($m['width'] ?? 0);
+    $h = (int) ($m['height'] ?? 0);
+    return $w > 0 && $h > 0 ? [$w, $h] : null;
+}
+
+/**
+ * Photo en basse définition pour une case de $px × $pxh pixels (image qui la remplit, recadrée au
+ * besoin ; $pxh = 0 : hauteur libre) : il faudrait l'agrandir de plus de 35 %, elle serait donc
+ * pixellisée. Renvoie de quoi la montrer à sa taille réelle, nette, sur un fond flou tiré d'elle-même
+ * (classe « is-lowres » du conteneur, variables CSS --w et --h, calque « lowres__blur ») ; null si
+ * elle tient la taille ou si la sienne est inconnue.
+ * @return array{w:int,h:int,style:string,blur:string}|null
+ */
+function img_lowres(?string $rel, int $px, int $pxh = 0): ?array
+{
+    $s = img_size($rel);
+    if (!$s || max($px / $s[0], $pxh / $s[1]) <= 1.35) {
+        return null;
+    }
+    return ['w' => $s[0], 'h' => $s[1], 'style' => '--w:' . $s[0] . 'px;--h:' . $s[1] . 'px',
+        'blur' => '<span class="lowres__blur" aria-hidden="true" style="background-image:url(\'' . e(img($rel, 320)) . '\')"></span>'];
+}
+
 /** srcset WebP pour une image responsive. */
 function srcset(?string $rel, array $widths = [480, 800, 1200]): string
 {

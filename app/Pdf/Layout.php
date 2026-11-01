@@ -763,15 +763,18 @@ final class Layout
         if (!$img) {
             return;
         }
-        $maxW = $o['w'] ?? $this->cw();
-        $maxH = $o['h'] ?? 300;
+        $capW = $o['w'] ?? $this->cw();
+        // Jamais plus d'un point par pixel (72 ppp) : une photo en basse définition reste à sa
+        // taille, nette, au lieu d'être étirée (pixellisée) sur toute la largeur.
+        $maxW = min($capW, (float) $img['w']);
+        $maxH = min($o['h'] ?? 300, (float) $img['h']);
         $w = $maxW;
         $h = $w * $img['h'] / $img['w'];
         if ($h > $maxH) {
             $h = $maxH;
             $w = $h * $img['w'] / $img['h'];
         }
-        $capLines = $caption !== '' ? $this->wrap([self::run($caption, 'serif-i', 8.6, 'muted')], $maxW, 1.3) : [];
+        $capLines = $caption !== '' ? $this->wrap([self::run($caption, 'serif-i', 8.6, 'muted')], $capW, 1.3) : [];
         $capH = array_sum(array_column($capLines, 'h'));
         if ($this->y + $h + $capH + 8 > $this->bottom()) {
             if ($h > 160 && $this->room() > 200) {
@@ -788,7 +791,7 @@ final class Layout
         $this->rect($x, $this->y, $w, $h, null, 'navy', 1);
         $this->y += $h + 6;
         if ($capLines) {
-            $this->y += $this->drawLines($capLines, $this->ml + ($maxW < $this->cw() ? ($this->cw() - $maxW) / 2 : 0), $this->y, $maxW, ($o['align'] ?? 'center') === 'left' ? 'left' : 'center');
+            $this->y += $this->drawLines($capLines, $this->ml + ($capW < $this->cw() ? ($this->cw() - $capW) / 2 : 0), $this->y, $capW, ($o['align'] ?? 'center') === 'left' ? 'left' : 'center');
         }
         $this->y += $o['after'] ?? 12;
     }

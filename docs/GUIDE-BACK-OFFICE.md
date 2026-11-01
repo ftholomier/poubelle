@@ -316,8 +316,12 @@ par une autre graphie.
 - **Retouche** : rotation et recadrage sans abîmer l'original (toujours récupérable).
 - **Remplacer le fichier** en gardant la même photo partout où elle est utilisée.
 - **« Utilisée dans »** : liste des fiches où la photo apparaît.
-- **Filtres** : sans crédit, sans légende, droits à préciser, doublons, inutilisées, PDF,
-  issues des contributions, récentes.
+- **Filtres** : sans crédit, sans légende, droits à préciser, doublons, basse définition,
+  inutilisées, PDF, issues des contributions, récentes.
+- **Basse définition** (moins de 400 px de large et de haut, « ⚠ Basse définition » sur la
+  vignette et dans la fenêtre de la photo) : sur le site, ces photos ne sont jamais agrandies au
+  point d'être pixellisées (taille réelle sur un fond flou, jamais une grande case de galerie,
+  fond de bandeau flouté). Une version plus grande remplace le fichier sans rien changer aux fiches.
 - Modification groupée : cocher plusieurs photos pour leur donner le même crédit ou les
   mêmes droits.
 - **Crédits écrits dans les légendes** (« … Photo Jean Dupont », « ©AGENCE ; texte ») :

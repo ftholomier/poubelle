@@ -12,7 +12,7 @@ use App\Front\Site;
 $lineLabels = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 'A' => t('Attaquant')];
 ?>
 <section class="shero">
-  <?php if ($hero): ?><div class="shero__bg"><img src="<?= e(img($hero, 1600)) ?>" srcset="<?= e(srcset($hero, [800, 1200, 1600])) ?>" sizes="100vw" alt="" fetchpriority="high"></div><?php endif; ?>
+  <?php if ($hero): ?><div class="shero__bg<?= img_lowres($hero, 1200, 600) ? ' bg-soft' : '' ?>"><img src="<?= e(img($hero, 1600)) ?>" srcset="<?= e(srcset($hero, [800, 1200, 1600])) ?>" sizes="100vw" alt="" fetchpriority="high"></div><?php endif; ?>
   <div class="wrap shero__inner">
     <div class="shero__nav">
       <?php if ($prev): ?><a href="<?= e(url('/matchs/' . $prev . '/')) ?>" rel="prev">← <?= e($prev) ?></a><?php else: ?><span></span><?php endif; ?>

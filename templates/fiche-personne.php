@@ -106,9 +106,10 @@ $rowsHtml = function (array $list, bool $coach) {
               <span class="pcard__no"><?= $cardNo ? 'N° ' . e($cardNo) : e($years) ?></span>
               <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="42" height="42">
             </span>
-            <span class="pcard__photo">
+            <?php $pLow = img_lowres($doc['featured_image'] ?? null, 346, 380); ?>
+            <span class="pcard__photo<?= $pLow ? ' is-lowres' : '' ?>"<?= $pLow ? ' style="' . $pLow['style'] . '"' : '' ?>>
               <?php if (!empty($doc['featured_image'])): ?>
-                <img src="<?= e(img($doc['featured_image'], 640)) ?>" srcset="<?= e(srcset($doc['featured_image'], [480, 640, 800])) ?>" sizes="380px" alt="<?= e($name) ?>" fetchpriority="high">
+                <?= $pLow ? $pLow['blur'] : '' ?><img src="<?= e(img($doc['featured_image'], 640)) ?>" srcset="<?= e(srcset($doc['featured_image'], [480, 640, 800])) ?>" sizes="380px" alt="<?= e($name) ?>" fetchpriority="high">
               <?php else: ?><span class="ph"><?= icon_photo() ?></span><?php endif; ?>
             </span>
             <span class="pcard__name"><b><?= e($last ?: $name) ?></b><span><?= e(mb_strtoupper((string) $cardRole)) ?></span></span>

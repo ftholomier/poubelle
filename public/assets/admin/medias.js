@@ -135,6 +135,7 @@
       + '<div class="stack" style="gap:10px">'
       + (it.pdf ? '<a class="btn" href="' + esc(it.full) + '" target="_blank" rel="noopener">Ouvrir le PDF ↗</a>' : '<a href="' + esc(it.full) + '" target="_blank" rel="noopener" title="Ouvrir l’original"><img src="' + esc(it.large) + '" alt="" style="width:100%;max-height:52vh;object-fit:contain;background:var(--sand);border:2px solid var(--navy)"></a>')
       + '<span class="xs muted">' + [it.width && it.height ? it.width + ' × ' + it.height + ' px' : '', it.size, it.added ? 'ajouté le ' + new Date(it.added).toLocaleDateString('fr-FR') : '', it.source].filter(Boolean).map(esc).join(' · ') + '</span>'
+      + (it.lowres ? '<div class="alert alert--info small">⚠ Basse définition : sur le site, cette photo est montrée à sa taille réelle sur un fond flou, jamais agrandie (elle serait pixellisée). Si une version plus grande existe, remplacez le fichier (mêmes adresses).</div>' : '')
       + (it.raw && it.raw !== it.caption ? '<div class="alert alert--info small">Légende d’origine (ancien site) : ' + esc(it.raw) + '</div>' : '')
       + '<div class="f"><span class="f__k">Adresse de l’image</span><div class="row"><code class="small" style="overflow-wrap:anywhere;flex:1">' + esc(it.file) + '</code><button type="button" class="btn btn--sm" data-copy="' + esc(location.origin + it.full) + '">Copier le lien</button></div></div>'
       + '<div class="f"><span class="f__k">Utilisé dans</span>' + used + '</div>'

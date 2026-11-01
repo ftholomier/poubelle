@@ -7,7 +7,8 @@ return [
         ['id' => 'tour', 'title' => 'Tour d’horizon', 'html' => <<<'HTML'
 <p>Contenus › <b>Médiathèque</b> : toutes les photos et tous les PDF du musée.</p>
 [[img:medias-grille.webp|La médiathèque : (1) envoyer des fichiers, (2) recherche, (3) filtres, (4) dossiers par mois, (5) sélection multiple]]
-<p><b>Filtres</b> utiles : sans crédit, sans légende, droits à préciser, doublons, inutilisées, PDF, issues des contributions, récentes.</p>
+<p><b>Filtres</b> utiles : sans crédit, sans légende, droits à préciser, doublons, basse définition, inutilisées, PDF, issues des contributions, récentes.</p>
+<p><b>Basse définition</b> : photos de moins de 400 pixels de large et de haut (repérées « ⚠ Basse définition » avec leurs dimensions). Sur le site, elles sont montrées à leur taille réelle sur un fond flou, jamais agrandies ni pixellisées. Si vous trouvez une version plus grande (scan, journal, archives), utilisez <b>Remplacer le fichier…</b> : toutes les fiches qui l’utilisent l’afficheront en grand.</p>
 HTML],
         ['id' => 'envoyer', 'title' => 'Envoyer des photos', 'html' => <<<'HTML'
 <ol>

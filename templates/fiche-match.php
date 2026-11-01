@@ -106,7 +106,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
 ?>
 <section class="mhero">
   <?php if (!empty($doc['featured_image'])): ?>
-  <div class="mhero__bg"><img src="<?= e(img($doc['featured_image'], 1600)) ?>" srcset="<?= e(srcset($doc['featured_image'], [800, 1200, 1600])) ?>" sizes="100vw" alt="" fetchpriority="high"></div>
+  <div class="mhero__bg<?= img_lowres($doc['featured_image'], 1200, 600) ? ' bg-soft' : '' ?>"><img src="<?= e(img($doc['featured_image'], 1600)) ?>" srcset="<?= e(srcset($doc['featured_image'], [800, 1200, 1600])) ?>" sizes="100vw" alt="" fetchpriority="high"></div>
   <?php endif; ?>
   <div class="mhero__shade">
     <div class="wrap mhero__inner">
@@ -257,7 +257,8 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
     <?= View::partial('partials/embeds', ['embeds' => $doc['embeds'] ?? []]) ?>
     <?php foreach ($doc['images'] ?? [] as $im): $cap = trim(($im['caption'] ?? '') . (!empty($im['credit']) ? ' – ' . $im['credit'] : ''), ' –'); ?>
       <figure class="fm-figure" data-gallery>
-        <a href="<?= e(img($im['image'], 1600)) ?>" data-lb data-caption="<?= e($cap) ?>"><img src="<?= e(img($im['image'], 800)) ?>" srcset="<?= e(srcset($im['image'], [480, 800, 1200])) ?>" sizes="(max-width: 700px) 100vw, 60vw" alt="<?= e($im['caption'] ?? '') ?>" loading="lazy" decoding="async"></a>
+        <?php $imLow = img_lowres($im['image'], 820); ?>
+        <a href="<?= e(img($im['image'], 1600)) ?>" data-lb data-caption="<?= e($cap) ?>"<?= $imLow ? ' class="is-lowres" style="' . $imLow['style'] . '"' : '' ?>><?= $imLow ? $imLow['blur'] : '' ?><img src="<?= e(img($im['image'], 800)) ?>" srcset="<?= e(srcset($im['image'], [480, 800, 1200])) ?>" sizes="(max-width: 700px) 100vw, 60vw" alt="<?= e($im['caption'] ?? '') ?>" loading="lazy" decoding="async"></a>
         <?php if ($cap !== ''): ?><figcaption><?= e($cap) ?></figcaption><?php endif; ?>
       </figure>
     <?php endforeach; ?>

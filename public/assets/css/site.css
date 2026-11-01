@@ -757,6 +757,16 @@ html { scroll-padding-top: var(--head-h, 0px); }
 @media (max-width: 560px) { .gallery__grid { grid-auto-rows: 240px; } .gallery__item { grid-column: span 1 !important; grid-row: span 1 !important; } }
 .gallery--light { background: var(--sand); color: var(--navy); }
 .gallery--light .gallery__item { border-color: var(--navy); }
+/* Photo en basse définition (img_lowres) : à sa taille réelle, nette, sur un fond flou tiré d'elle-même,
+   jamais étirée (pixellisée). Fond de bandeau trop petit : flouté exprès (bg-soft). */
+.is-lowres { position: relative; display: grid !important; place-items: center; overflow: hidden; }
+.lowres__blur { position: absolute; inset: -24px; background-size: cover; background-position: center; filter: blur(16px) brightness(.62); }
+.is-lowres > img { position: relative; width: auto !important; height: auto !important; max-width: min(100%, var(--w)) !important; max-height: min(100%, var(--h)) !important; object-fit: contain !important; box-shadow: 0 6px 22px rgb(0 0 0 / .45); }
+.gallery__grid--1 .is-lowres, .afeat .is-lowres, .rfig .is-lowres, .fm-figure .is-lowres { min-height: 260px; padding: 28px; }
+.gallery__grid--1 .is-lowres > img, .afeat .is-lowres > img, .rfig .is-lowres > img, .fm-figure .is-lowres > img { max-height: var(--h) !important; }
+.fm-figure .is-lowres { border: 2px solid var(--navy); background: var(--navy-2); }
+.fm-figure .is-lowres > img { border: 0; }
+.bg-soft img { filter: blur(10px); transform: scale(1.08); }
 .gallery--light .gallery__credit { color: var(--muted); }
 
 /* Vidéos */

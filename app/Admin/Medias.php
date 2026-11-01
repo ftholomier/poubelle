@@ -29,6 +29,7 @@ final class Medias extends Base
         'sans-legende' => 'Sans légende',
         'sans-droits' => 'Droits à préciser',
         'doublons' => 'Doublons possibles',
+        'basse-definition' => 'Basse définition (moins de 400 px)',
         'inutilise' => 'Inutilisés',
         'pdf' => 'Documents PDF',
         'contributions' => 'Issus des contributions',
@@ -132,6 +133,9 @@ final class Medias extends Base
         if (str_starts_with($rel, 'contributions/')) {
             $f[] = 'contributions';
         }
+        if (!$isPdf && self::lowres($m)) {
+            $f[] = 'basse-definition';
+        }
         if ((string) ($m['added'] ?? '') >= $recent) {
             $f[] = 'recents';
         }
@@ -161,6 +165,17 @@ final class Medias extends Base
             }
         }
         return $out;
+    }
+
+    /**
+     * Photo en basse définition : moins de 400 pixels de large et de haut. Sur le site, elle n'est
+     * jamais agrandie au point d'être pixellisée (img_lowres) : à remplacer par une version plus grande.
+     */
+    public static function lowres(array $m): bool
+    {
+        $w = (int) ($m['width'] ?? 0);
+        $h = (int) ($m['height'] ?? 0);
+        return $w > 0 && $h > 0 && max($w, $h) < 400 && !str_ends_with(strtolower((string) ($m['mime'] ?? '')), 'svg+xml');
     }
 
     /** Données d'une carte de la médiathèque (et de sa fenêtre d'édition). */
@@ -197,6 +212,7 @@ final class Medias extends Base
             'raw' => (string) ($m['caption_raw'] ?? ''),
             'width' => (int) ($m['width'] ?? 0),
             'height' => (int) ($m['height'] ?? 0),
+            'lowres' => !$isPdf && self::lowres($m),
             'size' => $file ? Base::size((int) filesize($file)) : '',
             'added' => (string) ($m['added'] ?? $m['date'] ?? ''),
             'edit' => $m['edit'] ?? null,

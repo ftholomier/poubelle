@@ -12,8 +12,9 @@ $figure = function (array $g, string $cls) use ($context): string {
     $cap = trim((string) ($g['caption'] ?? ''));
     $credit = trim((string) ($g['credit'] ?? ''));
     $lb = trim($cap . ($credit !== '' ? ' – ' . $credit : '') . ' · ' . $context, ' ·–');
-    return '<figure class="rfig ' . $cls . '"><a href="' . e(img($g['image'], 1600)) . '" data-lb data-caption="' . e($lb) . '">'
-        . '<img src="' . e(img($g['image'], 1200)) . '" srcset="' . e(srcset($g['image'], [480, 800, 1200, 1600])) . '" sizes="(max-width: 900px) 100vw, 900px" alt="' . e($cap ?: $context) . '" loading="lazy" decoding="async"></a>'
+    $low = img_lowres($g['image'], 900); // photo trop petite : taille réelle sur fond flou, jamais étirée
+    return '<figure class="rfig ' . $cls . '"><a href="' . e(img($g['image'], 1600)) . '" data-lb data-caption="' . e($lb) . '"' . ($low ? ' class="is-lowres" style="' . $low['style'] . '"' : '') . '>'
+        . ($low ? $low['blur'] : '') . '<img src="' . e(img($g['image'], 1200)) . '" srcset="' . e(srcset($g['image'], [480, 800, 1200, 1600])) . '" sizes="(max-width: 900px) 100vw, 900px" alt="' . e($cap ?: $context) . '" loading="lazy" decoding="async"></a>'
         . ($cap !== '' || $credit !== '' ? '<figcaption>' . e($cap) . ($credit !== '' ? ' <span>© ' . e($credit) . '</span>' : '') . '</figcaption>' : '') . '</figure>';
 };
 ?>
