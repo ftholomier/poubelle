@@ -198,7 +198,8 @@ dont le verrou est libre (processus arrêté). Tests : `tests/updater.php` (5 te
 trois « Appliquer » en 3 minutes, dont deux sans fichier à remplacer, avaient chacun vidé les
 caches et relancé le recalcul, puis `OpcacheGuard` avait redémarré PHP au milieu) :
 `Updater::refreshing()` donne depuis combien de secondes la marque `apres-mise-a-jour` (ou
-`.en-cours`, datée du début du recalcul) attend ou tourne, dans tous les dossiers de cache, null
+`.en-cours`, datée du début du recalcul) attend ou tourne, pour le musée affiché seulement (la
+marque d'un autre musée n'est prise qu'à la première visite de celui-ci), null
 au-delà de 15 min ; `apply()` refuse alors de démarrer (message « réessayez dans quelques
 minutes », bouton grisé et bandeau « Recalcul en cours, patientez » dans Système › Mises à jour ;
 le retour arrière reste permis). Rien à remplacer (`finish()` → `unchanged()`) : ni sauvegarde, ni

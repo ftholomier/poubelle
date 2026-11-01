@@ -930,13 +930,15 @@ final class Updater
     }
 
     /**
-     * Recalcul d'après mise à jour (index, données calculées, recherche) en attente ou en cours :
-     * depuis combien de secondes, sinon null. Au-delà de 15 minutes, il est tenu pour arrêté.
+     * Recalcul d'après mise à jour (index, données calculées, recherche) du musée affiché, en attente
+     * ou en cours : depuis combien de secondes, sinon null. Au-delà de 15 minutes, il est tenu pour arrêté.
      */
     public static function refreshing(): ?int
     {
         $at = null;
-        foreach (self::cacheDirs() as $dir) {
+        // Musée affiché seulement : la marque d'un autre musée (Paris pas encore ouvert) n'est prise
+        // qu'à la première visite de ce musée, et bloquait ici le bandeau et le bouton (01/11/2026).
+        foreach ([self::$cacheDir] as $dir) {
             foreach ([self::REFRESH, self::REFRESH . '.en-cours'] as $f) {
                 clearstatcache(true, $dir . '/' . $f); // état réel (marque posée ou prise entre-temps)
                 $t = @filemtime($dir . '/' . $f);
