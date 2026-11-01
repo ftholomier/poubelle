@@ -121,7 +121,8 @@ final class Cron
             }
             $t0 = microtime(true);
             try {
-                $res = self::$runner ? (self::$runner)($task) : self::task($task);
+                // Traitement automatique, même lancé d'un clic : aucune validation ne bouge.
+                $res = Validation::automatic(fn () => self::$runner ? (self::$runner)($task) : self::task($task));
                 $ok = true;
             } catch (\Throwable $e) {
                 $res = $e->getMessage();

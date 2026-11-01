@@ -83,6 +83,21 @@ ob_end_clean();
 $eq('lancement à la main : exécutée malgré l’intervalle', $calls, ['mises-a-jour']);
 $eq('lancement à la main : « rien à faire »', $r, []);
 
+// 5. Une tâche, même lancée d'un clic par un historien connecté, ne valide ni ne dévalide aucune fiche.
+$vid = 999999901;
+$log = ini_set('error_log', "$tmp/php.log");
+Cron::$runner = function (string $task) use ($vid) {
+    \App\Services\Validation::set($vid, ['id' => 'historien-essai', 'name' => 'Historien essai']);
+    return 'validée';
+};
+ob_start();
+$r = Cron::run('mises-a-jour');
+ob_end_clean();
+ini_set('error_log', (string) $log);
+$eq('tâche automatique : validation refusée', \App\Services\Validation::get($vid), null);
+$eq('tâche automatique : refus signalé dans le compte rendu', [$r['mises-a-jour']['ok'] ?? null, str_contains((string) ($r['mises-a-jour']['result'] ?? ''), 'seul un historien')], [false, true]);
+$eq('après la tâche : un historien peut de nouveau valider', \App\Services\Validation::human(['id' => 'historien-essai']), true);
+
 Cron::$runner = null;
 exec('rm -rf ' . escapeshellarg($tmp));
 echo $fail ? "\n$fail échec(s)\n" : "\nTout est bon.\n";

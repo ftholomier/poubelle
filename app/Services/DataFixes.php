@@ -52,7 +52,8 @@ final class DataFixes
             return null;
         }
         try {
-            return self::runLocked();
+            // Traitement automatique : aucune validation ne bouge (seul un historien valide ou dévalide).
+            return Validation::automatic(fn () => self::runLocked());
         } finally {
             flock($fp, LOCK_UN);
             fclose($fp);
@@ -339,18 +340,13 @@ final class DataFixes
 
     /**
      * Validations effacées par l'ancienne règle (toute modification retirait la validation, même une
-     * correction d'orthographe) : rétablies d'après le journal d'activité, avec leur auteur et leur date.
+     * correction d'orthographe). Une fiche n'est validée que par un historien : cette correction ne
+     * rétablit rien d'elle-même, elle compte seulement les fiches concernées (à revalider à la main).
      */
     private static function restoreValidations(): array
     {
         $lost = Validation::lostFromJournal();
-        Validation::restore($lost);
-        // Visible dans le Journal du back-office : quelles fiches ont retrouvé leur validation.
-        foreach (array_keys($lost) as $id) {
-            $s = \App\Data\Index::get((int) $id);
-            \App\Data\Activity::log(['name' => 'Rétablissement des validations'], 'a rétabli la validation (validée par ' . $lost[$id]['by'] . ') de la fiche', ['id' => (int) $id, 'title' => $s['title'] ?? '', 'type' => $s['type'] ?? null], ['force' => true]);
-        }
-        return ['message' => count($lost) . ' validation(s) rétablie(s) d’après le journal', 'ids' => array_map('intval', array_keys($lost))];
+        return ['message' => count($lost) . ' fiche(s) validée(s) d’après le journal mais plus validée(s) : à revalider par un historien (rien changé automatiquement)', 'ids' => array_map('intval', array_keys($lost))];
     }
 
     /**

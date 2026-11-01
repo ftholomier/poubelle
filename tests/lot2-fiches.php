@@ -94,16 +94,48 @@ try {
     $d['intro'] = 'Modifiée par un historien.';
     Fiches::save($d, $user, 'essai');
     $eq('modifiée par un historien (correction d’orthographe…) : toujours validée', Validation::get($id) !== null, true);
+
+    // 14. Seul un historien valide ou dévalide : jamais un traitement automatique ni l'IA.
+    $refused = function (callable $fn): bool {
+        try {
+            $fn();
+        } catch (\RuntimeException $e) {
+            return str_contains($e->getMessage(), 'seul un historien');
+        }
+        return false;
+    };
+    $robot = ['name' => 'Feuilles de match vérifiées'];
+    $eq('dévalidation sans compte : refusée', $refused(fn () => Validation::clear($id, null)), true);
+    $eq('dévalidation par un traitement : refusée', $refused(fn () => Validation::clear($id, $robot)), true);
+    $eq('dévalidation dans un traitement automatique, même lancé par un historien : refusée', $refused(fn () => Validation::automatic(fn () => Validation::clear($id, $user))), true);
+    $eq('après ces refus : toujours validée', Validation::get($id) !== null, true);
+    $eq('revalidation par un traitement : refusée', $refused(fn () => Validation::set($id, $robot)), true);
+    $eq('revalidation dans un traitement automatique : refusée', $refused(fn () => Validation::automatic(fn () => Validation::set($id, $user))), true);
+    $eq('validation d’origine gardée (qui, quand)', Validation::get($id)['by'] ?? null, $user['name']);
+    $d = Fiches::fresh($id);
+    $d['intro'] = 'Modifiée dans un traitement automatique.';
+    Validation::automatic(fn () => Fiches::save($d, $robot, 'tâche'));
+    $eq('modifiée dans un traitement automatique : toujours validée', Validation::get($id) !== null, true);
+    $eq('corbeille par un traitement : refusée', $refused(fn () => Fiches::trash($id, $robot)), true);
+    $d = Fiches::fresh($id);
+    $d['status'] = 'corbeille';
+    $eq('corbeille par un enregistrement automatique : refusée', $refused(fn () => Fiches::save($d, null, 'tâche')), true);
+    $eq('après ces refus : pas à la corbeille', Fiches::fresh($id)['status'] !== 'corbeille', true);
+    $eq('suppression définitive par un traitement : refusée', $refused(fn () => Fiches::destroy($id, $robot)), true);
+    $eq('après ces refus : fiche toujours là et validée', [Fiches::fresh($id) !== null, Validation::get($id) !== null], [true, true]);
+    Validation::clear($id, $user);
+    $eq('dévalidation par un historien : faite', Validation::get($id), null);
     Validation::set($id, $user);
-    Fiches::trash($id, null);
-    Fiches::destroy($id, null);
-    $eq('supprimée définitivement : validation retirée', Validation::get($id), null);
+    $eq('revalidation par un historien : faite', Validation::get($id) !== null, true);
+    Fiches::trash($id, $user);
+    Fiches::destroy($id, $user);
+    $eq('supprimée définitivement par un historien : validation retirée', Validation::get($id), null);
     \App\Core\JsonStore::forget();
     $eq('validation absente du fichier', isset(\App\Core\JsonStore::read(STORAGE_PATH . '/validations.json', [])[$id]), false);
 } finally {
     foreach ($ids as $i) {
-        Fiches::destroy($i, null);
-        Validation::clear($i);
+        Fiches::destroy($i, $user);
+        Validation::clear($i, $user);
         exec('rm -rf ' . escapeshellarg(Fiches::VERSIONS . "/$i"));
     }
 }

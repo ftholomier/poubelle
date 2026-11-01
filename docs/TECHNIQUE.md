@@ -1936,7 +1936,8 @@ déjà été enregistrés ; sitemap : la page et chaque album). Nom par club : `
   tailles vérifiées avant l'envoi, image trop lourde recompressée en JPEG).
 - **Validation des fiches** (`App\Services\Validation`, `POST /admin/fiche/{id}/valider`) :
   « Valider cette fiche » note qui et quand (`storage/validations.json`), pastille verte dans les listes, filtre
-  « Validées / À valider », entrée au journal d'activité.
+  « Validées / À valider », entrée au journal d'activité. Seul un historien connecté valide ou dévalide :
+  aucun traitement automatique ni l'IA (voir « Validation des fiches » plus bas).
 - **Statistiques de l'équipe** (`App\Services\Stats`, `StatsReport`,
   `templates/admin/_stats-equipe.php`) : vrais comptes seulement (sans traitements
   automatiques), en ligne à leur nom (back-office ou site), un pavé par historien (chiffres,
@@ -2558,7 +2559,9 @@ Profil du club (`config/clubs/<club>.php`), clé `club_display` : clé de rappro
 
 ## Validation des fiches
 
-`App\Services\Validation` (`storage/validations.json`). Une validation n'est retirée que par « Retirer la validation » ou la suppression définitive (`Fiches::save` ne l'efface plus). `Validation::lostFromJournal()` retrouve dans le journal d'activité les fiches validées (dernière action « a validé la fiche ») qui ne le sont plus ; la correction `2026-10-validations-retablies` les rétablit (auteur et date d'origine) et l'inscrit dans le Journal.
+`App\Services\Validation` (`storage/validations.json`). Une validation n'est retirée que par « Retirer la validation » ou la suppression définitive (`Fiches::save` ne l'efface plus).
+
+**Règle absolue : seul un historien valide ou dévalide.** `Validation::set()` et `clear(int $id, ?array $user)` passent par `guard()` : il faut un compte connecté (`$user['id']` non vide, `Auth::actor()`) **et** être hors de tout traitement automatique, sinon `RuntimeException` (« seul un historien peut … (jamais un traitement automatique ni l'IA) »), avant toute écriture. `Validation::automatic(callable)` marque un traitement automatique (compteur imbriqué) : `Cron::run()` y exécute chaque tâche (même lancée d'un clic par un administrateur dans Tâches planifiées) et `DataFixes::run()` toutes les corrections (donc aussi celles lancées par `Updater::refresh()` après une mise à jour). Les acteurs automatiques (`['name' => 'Feuilles de match vérifiées']`, `null`…) n'ont pas d'identifiant : refusés de toute façon. Fiche validée : `Fiches::save()` refuse son passage à la corbeille (donc `Fiches::trash()`) et `Fiches::destroy()` sa suppression (contrôle fait avant toute suppression) hors d'un historien. Les modifications automatiques du contenu restent permises et laissent la validation en place. `POST /admin/fiche/{id}/valider` vérifie `Validation::human(Auth::actor())`. `Validation::lostFromJournal()` retrouve dans le journal d'activité les fiches validées (dernière action « a validé la fiche ») qui ne le sont plus ; la correction `2026-10-validations-retablies` ne fait plus que les compter (à revalider à la main ; `Validation::restore()` supprimé). Tests : `tests/lot2-fiches.php` (section 14), `tests/lot1-cron.php` (section 5).
 
 
 ## Temps forts repris du récit

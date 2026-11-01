@@ -491,10 +491,15 @@ final class Fiches extends Base
             return self::back('/admin', null, 'Fiche introuvable.');
         }
         $on = (string) ($req->post['valider'] ?? '1') === '1';
+        // Un historien connecté seulement (jamais un traitement automatique ni l'IA).
+        $who = Auth::actor();
+        if (!\App\Services\Validation::human($who)) {
+            return self::back('/admin/fiche/' . $id, null, 'Seul un historien connecté peut valider une fiche ou retirer sa validation.');
+        }
         if ($on) {
-            \App\Services\Validation::set($id, (array) Auth::user());
+            \App\Services\Validation::set($id, $who);
         } else {
-            \App\Services\Validation::clear($id);
+            \App\Services\Validation::clear($id, $who);
         }
         \App\Data\Activity::log(self::actor(), $on ? 'a validé la fiche' : 'a retiré la validation de la fiche', $doc);
         return self::back('/admin/fiche/' . $id, $on ? 'Fiche validée : les autres historiens voient qu’elle a été relue et contrôlée.' : 'Validation retirée : la fiche est de nouveau à contrôler.');

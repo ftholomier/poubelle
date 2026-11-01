@@ -491,6 +491,10 @@ final class Fiches
             $before = self::fresh((int) $doc['id']);
         }
         $id = (int) $doc['id'];
+        // Fiche validée : seul un historien la met à la corbeille (un traitement automatique est arrêté net).
+        if ($before && ($doc['status'] ?? '') === 'corbeille' && ($before['status'] ?? '') !== 'corbeille' && \App\Services\Validation::get($id)) {
+            \App\Services\Validation::guard($user, $id, 'mettre à la corbeille une fiche validée');
+        }
         $doc['modified'] = date('c');
         $doc['modified_by'] = $user['name'] ?? ($doc['modified_by'] ?? null);
         if ($before === null && empty($doc['author'])) {
@@ -594,12 +598,13 @@ final class Fiches
         if (!$doc) {
             return;
         }
+        // Fiche validée : seul un historien la supprime (sinon arrêt net, avant toute suppression).
+        \App\Services\Validation::clear($id, $user);
         self::addVersion($id, $doc, $user, 'Suppression définitive', [['Fiche', 'existante', 'supprimée']]);
         JsonStore::delete(self::path($id));
         Index::remove($id);
         Derived::markDirty();
         \App\Services\Search::remove($id);
-        \App\Services\Validation::clear($id);
         Activity::log($user, 'a supprimé définitivement', $doc);
     }
 

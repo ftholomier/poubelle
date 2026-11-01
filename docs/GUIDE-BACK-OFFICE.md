@@ -102,7 +102,11 @@ brouillon, « à relire », traduire, mettre à la corbeille).
 ne contrôlent pas la même fiche. « Retirer la validation » la remet à contrôler ; la
 validation est notée dans le journal. **Une fiche validée le reste** : aucune modification
 (correction d'orthographe, traduction, retouche, tâche automatique) ne la remet « à valider »,
-seul « Retirer la validation » le fait. En tête de chaque liste (matchs, personnes, articles & pages, objets),
+seul « Retirer la validation » le fait. **Seul un historien valide ou dévalide** : aucun
+traitement automatique (tâches planifiées, corrections livrées avec une mise à jour, imports,
+IA) ne peut valider une fiche, retirer sa validation, la revalider, ni mettre à la corbeille ou
+supprimer une fiche validée ; le site l'en empêche. Il peut seulement compléter son contenu,
+et la fiche reste validée. En tête de chaque liste (matchs, personnes, articles & pages, objets),
 l'encart **« Validation des fiches »** donne le nombre de fiches validées et à valider, chacun avec
 son pourcentage (barre de progression ; un clic sur un chiffre filtre la liste). Le tableau de
 bord reprend ces chiffres en quatre cases, une par liste.
