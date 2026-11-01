@@ -310,6 +310,11 @@ par une autre graphie.
 - **Crédits écrits dans les légendes** (« … Photo Jean Dupont », « ©AGENCE ; texte ») :
   séparés en légende + crédit depuis un écran d'aperçu qui montre chaque séparation avant de
   l'appliquer (à l'enregistrement d'une photo, le crédit repéré est seulement signalé).
+- **Légende et crédit, médiathèque et fiches d'accord** : une photo de galerie garde sa légende
+  et son crédit dans la fiche. Modifiés dans la médiathèque, ils sont repris dans les fiches qui
+  avaient le même texte (ou l'ancienne légende avec le crédit dedans) ; saisis dans une fiche
+  (photo ajoutée, légende corrigée), ils sont repris dans la médiathèque si elle était vide ou
+  avait l'ancien texte de la fiche. Un texte propre à une fiche n'est jamais écrasé.
 - L'étiquette « Inutilisé » s'affiche à droite de la vignette, sans cacher la case à cocher.
 - **Murs de photos** : la fiche d'une photo dit si elle peut être tirée au hasard sur les
   murs de photos (Interactif) ou pourquoi elle ne l'est pas ; la case **Jamais sur les murs
@@ -640,14 +645,15 @@ l'équipe ».
 - **Coûts IA** : chaque musée a sa propre clé Gemini et ses propres dépenses ; sans clé pour le
   musée affiché, un avertissement le signale (IA coupée, aucune dépense).
 - **Mises à jour** (administrateur) : nouvelle version du site sur GitHub, liste des
-  changements, « Appliquer la mise à jour » en un clic (le code seulement, jamais les fiches,
+  changements, « Appliquer la mise à jour » en un clic, avec une jauge d'avancement (comparaison,
+  téléchargement, sauvegarde, copie, caches) (le code seulement, jamais les fiches,
   médias, réglages ni comptes), sauvegarde et « Revenir à cette version ». Vérification
   automatique toutes les 3 heures, signalée au tableau de bord. Chaque vérification compare
   aussi le code du serveur à GitHub, fichier par fichier : version reconnue après un envoi
   par FTP, fichier oublié ou retouché signalé (« Synchroniser avec GitHub »). Le code est
   commun à tous les musées : une mise à jour lancée depuis n'importe quel back-office vaut
   pour tous et refait les caches de chacun. Juste après, le site refait ses caches pendant
-  quelques minutes (bandeau « Recalcul en cours, patientez ») : le bouton est grisé jusqu'à la
+  quelques minutes (bandeau « Recalcul en cours, patientez », avec sa jauge) : le bouton est grisé jusqu'à la
   fin, car relancer viderait de nouveau les caches et ralentirait tout le site. Un clic quand le
   code est déjà identique ne fait rien (aucun cache vidé).
 - **Réglages** (administrateur) : identité du site, e-mail, **pied de page** (titre, phrase,

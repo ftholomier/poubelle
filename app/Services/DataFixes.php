@@ -39,6 +39,7 @@ final class DataFixes
         '2026-10-temps-forts-autres-formats' => 'recitHighlightsFormats',
         '2026-10-stade-rennais-fc' => 'clubDisplayAll',
         '2026-10-feuilles-1992-1993' => 'sheets9293',
+        '2026-11-legendes-des-photos' => 'photoCaptions',
     ];
 
     /**
@@ -101,6 +102,18 @@ final class DataFixes
         }
         $r = VerifiedSheets::import(APP_ROOT . '/app/Resources/import/feuilles-2022-2023.json');
         return ['message' => $r['message'], 'ids' => $r['ids'], 'created' => $r['created'], 'proposals' => $r['proposals']];
+    }
+
+    /**
+     * Légendes et crédits des photos remis d'accord entre la médiathèque et les galeries des fiches
+     * (ticket du 01/11/2026) : crédits séparés des légendes dans la médiathèque repris dans les fiches
+     * qui avaient encore l'ancienne légende, légendes et crédits saisis dans une fiche repris dans une
+     * médiathèque vide. Jamais un texte différent écrasé (CaptionSync::catchUp()).
+     */
+    private static function photoCaptions(): array
+    {
+        $r = CaptionSync::catchUp();
+        return ['message' => 'légendes et crédits des photos : ' . $r['media'] . ' média(s) complété(s) d’après les fiches, ' . count($r['fiches']) . ' fiche(s) mise(s) à jour d’après la médiathèque', 'ids' => $r['fiches']];
     }
 
     /**

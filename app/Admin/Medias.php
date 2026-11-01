@@ -296,11 +296,13 @@ final class Medias extends Base
             }
             $overwrite = !empty($d['overwrite']);
             $batch = [];
+            $olds = [];
             foreach (array_slice($d['files'], 0, 2000) as $rel) {
                 $m = Media::get((string) $rel);
                 if (!$m) {
                     continue;
                 }
+                $olds[(string) $rel] = $m;
                 // Par défaut, seuls les champs vides sont complétés.
                 $apply = $overwrite ? $changes : array_filter($changes, fn ($v, $k) => trim((string) ($m[$k] ?? '')) === '', ARRAY_FILTER_USE_BOTH);
                 if ($apply) {
@@ -310,7 +312,8 @@ final class Medias extends Base
             $n = $batch ? Media::putMany($batch) : 0;
             Activity::log($user, 'a complété ' . $n . ' média(s)', ['title' => implode(', ', array_keys($changes))]);
             \App\Data\Derived::markDirty();
-            return self::json(['ok' => true, 'message' => $n . ' média(s) mis à jour.', 'reload' => true]);
+            $synced = self::syncFiches(array_intersect_key($olds, $batch), $user);
+            return self::json(['ok' => true, 'message' => $n . ' média(s) mis à jour.' . ($synced ? ' Légende et crédit repris dans ' . $synced . ' fiche' . ($synced > 1 ? 's' : '') . '.' : ''), 'reload' => true]);
         }
         $rel = (string) ($d['file'] ?? '');
         if (!Media::get($rel)) {
@@ -355,16 +358,43 @@ final class Medias extends Base
         if ($wallOff) {
             $meta['nowall'] = true;
         }
+        $before = Media::get($rel) ?? [];
         if (!Media::put($rel, $meta, $user, $wallOff === false ? ['nowall'] : [])) {
             return self::json(['error' => 'Ce média vient d’être supprimé : rien n’a été enregistré.'], 404);
         }
         \App\Data\Derived::markDirty();
+        // Légende ou crédit modifiés : repris dans les fiches qui montrent la photo avec le même texte.
+        $synced = self::syncFiches([$rel => $before], $user);
         // Crédit écrit dans la légende (« … Photo Prénom Nom ») et champ crédit vide : signalé, jamais
         // découpé d'office (« la photo Officielle 1938 » n'est pas un crédit) ; l'historien valide le
         // découpage dans Médiathèque › Crédits dans les légendes.
         $hint = $meta['credit'] === '' && ($sp = \App\Services\CaptionCredit::split($meta['caption']))
             ? ' La légende semble contenir un crédit (« ' . $sp['credit'] . ' ») : à vérifier dans Médiathèque › Crédits dans les légendes.' : '';
-        return self::json(['ok' => true, 'message' => 'Média enregistré.' . $hint, 'item' => self::item($rel, Media::get($rel) ?? [], Media::usage())]);
+        return self::json(['ok' => true, 'message' => 'Média enregistré.' . ($synced ? ' Légende et crédit repris dans ' . $synced . ' fiche' . ($synced > 1 ? 's' : '') . '.' : '') . $hint, 'item' => self::item($rel, Media::get($rel) ?? [], Media::usage())]);
+    }
+
+    /**
+     * Médias dont la légende ou le crédit viennent de changer ($before : chemin => valeurs d'avant) :
+     * fiches qui les montrent avec le même texte (ou l'ancienne légende, crédit dedans) mises à jour.
+     * Nombre de fiches modifiées ; une erreur n'empêche jamais l'enregistrement du média.
+     */
+    private static function syncFiches(array $before, ?array $user): int
+    {
+        $changes = [];
+        foreach ($before as $rel => $old) {
+            $new = Media::get((string) $rel) ?? [];
+            $o = ['caption' => trim((string) ($old['caption'] ?? '')), 'credit' => trim((string) ($old['credit'] ?? ''))];
+            $n = ['caption' => trim((string) ($new['caption'] ?? '')), 'credit' => trim((string) ($new['credit'] ?? ''))];
+            if ($o !== $n) {
+                $changes[(string) $rel] = ['old' => $o, 'new' => $n];
+            }
+        }
+        try {
+            return $changes ? count(\App\Services\CaptionSync::toFiches($changes, $user)) : 0;
+        } catch (\Throwable $e) {
+            error_log('[légendes des photos] médiathèque : ' . $e->getMessage());
+            return 0;
+        }
     }
 
     /** Crédits écrits dans les légendes (« Gomel Photo Jean-Yves Caddedu ») : propositions de découpage. */
@@ -410,12 +440,15 @@ final class Medias extends Base
                 $changes[$rel] = ['caption' => $p['caption'], 'credit' => $p['credit']];
             }
         }
+        $olds = array_intersect_key(Media::all(), $changes);
         $n = $changes ? Media::putMany($changes) : 0;
+        $synced = 0;
         if ($n) {
             \App\Data\Derived::markDirty();
             Activity::log(self::actor(), 'a séparé le crédit de la légende de ' . $n . ' photo' . ($n > 1 ? 's' : ''), null);
+            $synced = self::syncFiches($olds, self::actor());
         }
-        return self::back('/admin/medias/credits', $n . ' photo' . ($n > 1 ? 's' : '') . ' mise' . ($n > 1 ? 's' : '') . ' à jour : le crédit est maintenant dans son champ.');
+        return self::back('/admin/medias/credits', $n . ' photo' . ($n > 1 ? 's' : '') . ' mise' . ($n > 1 ? 's' : '') . ' à jour : le crédit est maintenant dans son champ.' . ($synced ? ' Légende et crédit repris dans ' . $synced . ' fiche' . ($synced > 1 ? 's' : '') . ' qui montre' . ($synced > 1 ? 'nt' : '') . ' ces photos.' : ''));
     }
 
     public static function delete(Request $req): Response

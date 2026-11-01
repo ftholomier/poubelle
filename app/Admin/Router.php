@@ -275,6 +275,7 @@ final class Router
         $r->get('/admin/contenus-de-depart', fn ($q) => Starter::index($q));
         $r->post('/admin/contenus-de-depart', fn ($q) => Starter::action($q));
         $r->get('/admin/mises-a-jour', fn ($q) => Updates::index($q));
+        $r->get('/admin/mises-a-jour/progression', fn ($q) => Updates::progress($q));
         $r->post('/admin/mises-a-jour', fn ($q) => Updates::action($q));
         $r->get('/admin/audio', fn ($q) => Audio::index($q));
         $r->post('/admin/audio', fn ($q) => Audio::action($q));

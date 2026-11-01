@@ -193,7 +193,16 @@ le retour arrière reste permis). Rien à remplacer (`finish()` → `unchanged()
 pause, ni caches vidés, ni marque, ni OPcache touché ; seule la version installée est notée (ligne
 d'historique et journal si elle change). `OpcacheGuard::tick()` ne vide pas OPcache et ne
 redémarre pas PHP tant que `refreshing()` n'est pas null : le nettoyage se fait une fois le recalcul
-terminé. Ni pendant une mise à jour (`Updater::running()` : verrou `storage/update/verrou.lock`
+terminé. **Jauge d'avancement** : `Updater::step(phase, pct, libellé)` note chaque étape dans
+`storage/update/progression.json` (phases `maj` : comparaison 3 %, préparation 12 %,
+téléchargement 15-55 % par fichier reçu, sauvegarde 58 %, copie 62-86 % par fichier, caches 90 % ;
+`fini` 100 % ; `recalcul` : index 5 %, corrections 30 %, données calculées 50 %, recherche 75 %,
+100 chiffres 90 % ; `pret` ; `erreur` avec le message) ; `GET /admin/mises-a-jour/progression`
+(`Admin\Updates::progress()`, administrateurs) renvoie `{running, refreshing, step}`. `admin.js` :
+`form[data-progress]` ouvre une fenêtre avec la barre (interrogée chaque seconde pendant l'envoi ;
+réponse HTML pendant la copie = « site en pause »), `[data-progress-watch]` (bandeau du recalcul)
+avance toutes les 2 s et recharge la page à la fin ; l'événement `bo:submit` est émis juste avant
+l'envoi d'un formulaire confirmé. Ni pendant une mise à jour (`Updater::running()` : verrou `storage/update/verrou.lock`
 tenu, test `flock(LOCK_SH|LOCK_NB)`) : le 01/11/2026, un redémarrage de PHP en pleine copie avait
 laissé le site sur « Mise à jour en cours ». Pause « maintenance » présente mais verrou libre =
 copie interrompue : `public/index.php` et `Kernel::handle()` la retirent aussitôt (au lieu
@@ -1964,6 +1973,21 @@ déjà été enregistrés ; sitemap : la page et chaque album). Nom par club : `
   écrit dans la légende (« … Photo Prénom Nom », « Crédit Est Républicain », « ©AGENCE ;
   texte ») est séparé en légende + crédit (nom seul) : écran d'aperçu, application en lot et à
   chaque enregistrement.
+- **Légendes et crédits des photos, médiathèque ↔ fiches** (`App\Services\CaptionSync`) : la
+  galerie d'une fiche garde sa copie de la légende et du crédit (`gallery[].caption/credit`) ; ils
+  sont reportés dans les deux sens sans jamais écraser un texte différent. Médiathèque → fiches
+  (`toFiches()`, appelé par `Admin\Medias::save()`, l'édition groupée et `creditsApply()`, d'après
+  `Media::usage()`) : une fiche qui avait le même texte que la médiathèque suit, un champ vide est
+  complété, une ancienne légende avec le crédit dedans prend le découpage (`isSplitOf()` :
+  légende + mot « Photo/Crédit/©… » + crédit, en fin ou en tête, comparaison sans casse ni
+  ponctuation). Fiche → médiathèque (`fromFiche()`, appelé après `Admin\Fiches::save()`) : champ
+  vide complété, texte qui était celui de la fiche avant modification mis à jour, ancienne légende
+  avec crédit remplacée ; un champ vidé dans la fiche n'efface rien ; puis report vers les autres
+  fiches de la photo. Rattrapage une fois (`catchUp()`, correction `2026-11-legendes-des-photos`) :
+  médiathèque complétée d'après les fiches (ancien texte retrouvé dans l'historique de la fiche ;
+  rien si deux fiches proposent des textes différents), puis fiches d'après la médiathèque.
+  Les images insérées dans le texte (`images[]`, légende seule) ne sont pas concernées.
+  Test : `tests/legendes-photos.php`.
 - **Formulaires** (`App\Admin\Form`) : chaque champ = libellé `.f__k` puis bloc `.f__c` (champ,
   aide, compteur) ; dans une grille `.fgrid` (colonnes fixes `.fgrid--2c`, `--3`, `--4`, qui
   passent à 2 puis 1 colonne), chaque champ occupe deux rangées partagées (`grid-template-rows:

@@ -419,6 +419,13 @@ final class Fiches extends Base
             $message = Html::line('En-tête corrigé (même match) : ' . implode(', ', $switch['changes']), 160);
         }
         $saved = Store::save($doc, self::actor(), $message);
+        // Légendes et crédits de la galerie reportés dans la médiathèque (puis dans les autres fiches
+        // qui montrent la même photo avec la même légende).
+        try {
+            \App\Services\CaptionSync::fromFiche($isNew ? null : $before, $saved, self::actor());
+        } catch (\Throwable $e) {
+            error_log('[légendes des photos] fiche ' . ($saved['id'] ?? '?') . ' : ' . $e->getMessage());
+        }
         // Case « Joueurs › Match officiel » : liste livrée avec le code, ajustée ici (ajout ou retrait).
         if (array_key_exists('match_officiel__present', $in) && ($saved['type'] ?? '') === 'personne' && \App\Data\OfficialPlayers::enabled()) {
             $sid = (int) $saved['id'];

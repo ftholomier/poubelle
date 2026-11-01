@@ -27,6 +27,28 @@ final class Updates extends Base
         ], ['title' => 'Mises à jour', 'crumb' => 'Système', 'nav' => 'majs']);
     }
 
+    /**
+     * GET /admin/mises-a-jour/progression : avancement de la mise à jour (jauge), interrogé chaque
+     * seconde par la page pendant la mise à jour puis pendant le recalcul qui suit. Ces appels
+     * déclenchent aussi le recalcul (après la réponse, comme toute page).
+     */
+    public static function progress(Request $req): Response
+    {
+        if ($deny = self::denyUnlessAdmin()) {
+            return $deny;
+        }
+        \App\Core\Session::release();
+        $step = Updater::progress();
+        $since = Updater::refreshing();
+        if ($since !== null && ($step['phase'] ?? '') !== 'recalcul') {
+            // Marque posée, recalcul pas encore commencé (il démarre à la page suivante, 5 s après).
+            $step = ['phase' => 'recalcul', 'pct' => 2, 'label' => 'Recalcul : démarrage…', 'at' => time()];
+        }
+        $res = self::json(['running' => Updater::running(), 'refreshing' => $since, 'step' => $step]);
+        $res->headers['Cache-Control'] = 'no-store';
+        return $res;
+    }
+
     /** POST /admin/mises-a-jour : verifier, appliquer, restaurer. */
     public static function action(Request $req): Response
     {

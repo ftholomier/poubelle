@@ -594,7 +594,9 @@ final class Updater
         class_exists(Activity::class); // chargée avant la copie : la suite de la requête ne lit plus de nouveau code
         $lock = self::lock();
         try {
+            self::step('maj', 3, 'Comparaison du code du serveur avec GitHub…');
             $check = self::check(true);
+            self::step('maj', 12, 'Préparation de la mise à jour…');
             if (!empty($check['error']) && $sha === null) {
                 throw new \RuntimeException($check['error']);
             }
@@ -615,16 +617,21 @@ final class Updater
             }
             // L'archive téléchargée (même partielle : coupure, délai dépassé, refus) ne reste pas
             // dans storage/update/tmp.
+            self::step('maj', 15, 'Téléchargement de la version complète…');
             try {
                 $url = self::token() !== '' ? self::api('zipball/' . $target) : 'https://codeload.github.com/' . self::repo() . '/zip/' . $target;
                 [$code] = self::get($url, $zipPath, 300);
                 if ($code !== 200) {
                     throw new \RuntimeException('Téléchargement de la version refusé par GitHub (code ' . $code . ').');
                 }
+                self::step('maj', 45, 'Vérification de l’archive…');
                 return self::install($zipPath, $target, $check, $user);
             } finally {
                 @unlink($zipPath);
             }
+        } catch (\Throwable $e) {
+            self::step('erreur', 100, $e->getMessage());
+            throw $e;
         } finally {
             self::unlock($lock);
         }
@@ -698,7 +705,9 @@ final class Updater
         $stage = self::stage($target);
         try {
             $meta = [];
-            foreach ($plan['write'] as $rel) {
+            $n = count($plan['write']);
+            foreach ($plan['write'] as $i => $rel) {
+                self::step('maj', 45 + intdiv(10 * $i, max(1, $n)), 'Préparation des fichiers (' . ($i + 1) . ' / ' . $n . ')…');
                 self::writeFrom($zip, $entries[$rel]['name'], $stage . '/' . $rel);
                 $meta[$rel] = [$entries[$rel]['size'], $entries[$rel]['crc']];
             }
@@ -771,6 +780,7 @@ final class Updater
             $want[] = $plan['merge'];
         }
         $stage = self::stage($target);
+        self::step('maj', 15, 'Téléchargement de ' . count($want) . ' fichier' . (count($want) > 1 ? 's' : '') . ' changé' . (count($want) > 1 ? 's' : '') . '…');
         try {
             try {
                 self::fetchFiles($target, array_intersect_key($tree, array_flip($want)), $stage);
@@ -817,6 +827,7 @@ final class Updater
         if (!$plan['write'] && !$plan['delete'] && empty($merged['added'])) {
             return self::unchanged($target, $check, $user, $manifest, $plan['kept'], $via);
         }
+        self::step('maj', 58, 'Sauvegarde des fichiers remplacés…');
         $backup = self::backup($plan, $merged ? $plan['merge'] : null, $added, $target, $old, $user);
 
         // Copie : le site répond « Mise à jour en cours » le temps d'écrire les fichiers. Un
@@ -824,7 +835,9 @@ final class Updater
         // mi-ancien mi-nouveau.
         @file_put_contents(self::$dir . '/maintenance', (string) time());
         try {
-            foreach ($plan['write'] as $rel) {
+            $n = count($plan['write']);
+            foreach ($plan['write'] as $i => $rel) {
+                self::step('maj', 62 + intdiv(24 * $i, max(1, $n)), 'Copie des fichiers (' . ($i + 1) . ' / ' . $n . ')…');
                 self::place($stage . '/' . $rel, self::$root . '/' . $rel, $meta[$rel][0], $meta[$rel][1]);
             }
             if ($merged) {
@@ -848,7 +861,9 @@ final class Updater
         // Le code du serveur est maintenant celui de cette version : comparaison à jour sans appel.
         self::setSync(['sha' => $target, 'at' => time(), 'total' => count($manifest) + count($plan['kept']), 'count' => 0, 'differ' => [], 'eol' => 0, 'kept' => $plan['kept'], 'error' => null]);
         self::$lastSync = [];
+        self::step('maj', 90, 'Vidage des caches…');
         self::afterChange();
+        self::step('fini', 100, 'Mise à jour appliquée : ' . count($plan['write']) . ' fichier' . (count($plan['write']) > 1 ? 's' : '') . ' remplacé' . (count($plan['write']) > 1 ? 's' : '') . '. Le site refait maintenant ses caches.');
         if (self::$log) {
             Activity::log($user, 'a appliqué la mise à jour ' . substr($target, 0, 7) . ($latest['message'] !== '' ? ' (' . $latest['message'] . ')' : ''), null);
         }
@@ -877,8 +892,41 @@ final class Updater
         }
         self::setSync(['sha' => $target, 'at' => time(), 'total' => count($manifest) + count($kept), 'count' => 0, 'differ' => [], 'eol' => 0, 'kept' => $kept, 'error' => null]);
         self::$lastSync = [];
+        self::step('pret', 100, 'Rien à remplacer : le code était déjà à jour.');
         return ['sha' => $target, 'updated' => [], 'added' => [], 'deleted' => [], 'kept' => $kept, 'merged' => 0, 'backup' => null,
             'commits' => $check['commits'] ?? [], 'via' => $via, 'unchanged' => true];
+    }
+
+    /** Dernière étape notée (pour ne pas réécrire le fichier d'avancement plus de deux fois par seconde). */
+    private static array $lastStep = ['pct' => -1, 't' => 0.0];
+
+    /**
+     * Avancement de la mise à jour (jauge de Système › Mises à jour) : phase « maj » (téléchargement,
+     * copie…), « recalcul » (caches refaits ensuite), « fini », « pret » ou « erreur », pourcentage et
+     * libellé, dans storage/update/progression.json (commun à tous les musées).
+     */
+    public static function step(string $phase, int $pct, string $label): void
+    {
+        $now = microtime(true);
+        $pct = max(0, min(100, $pct));
+        if (in_array($phase, ['maj', 'recalcul'], true) && $pct === self::$lastStep['pct'] && $now - self::$lastStep['t'] < 0.5) {
+            return;
+        }
+        self::$lastStep = ['pct' => $pct, 't' => $now];
+        @mkdir(self::$dir, 0775, true);
+        $tmp = self::$dir . '/progression.json.' . getmypid();
+        if (@file_put_contents($tmp, json_encode(['phase' => $phase, 'pct' => $pct, 'label' => $label, 'at' => time()], JSON_UNESCAPED_UNICODE)) !== false) {
+            @rename($tmp, self::$dir . '/progression.json');
+        }
+    }
+
+    /** Avancement noté, ou null (rien depuis plus d'une heure). */
+    public static function progress(): ?array
+    {
+        $f = self::$dir . '/progression.json';
+        clearstatcache(true, $f);
+        $p = is_file($f) ? json_decode((string) @file_get_contents($f), true) : null;
+        return is_array($p) && (int) ($p['at'] ?? 0) > time() - 3600 ? $p : null;
     }
 
     /**
@@ -1028,6 +1076,8 @@ final class Updater
                     curl_multi_remove_handle($mh, $ch);
                     curl_close($ch);
                     unset($active[$id]);
+                    $got = count($jobs) - count($queue) - count($active);
+                    self::step('maj', 15 + intdiv(40 * $got, max(1, count($jobs))), 'Téléchargement des fichiers changés (' . $got . ' / ' . count($jobs) . ')…');
                 }
             } while (($queue || $active) && $error === null);
         } finally {
@@ -1124,6 +1174,7 @@ final class Updater
         class_exists(Activity::class);
         $lock = self::lock();
         try {
+            self::step('maj', 40, 'Retour arrière : remise en place des fichiers sauvegardés…');
             @file_put_contents(self::$dir . '/maintenance', (string) time());
             try {
                 [$restored, $meta] = self::restore($path);
@@ -1136,10 +1187,14 @@ final class Updater
             self::saveState(['installed' => $back, 'history' => $hist]);
             self::setSync(null); // à refaire : le code a changé
             self::afterChange();
+            self::step('fini', 100, 'Retour arrière effectué : ' . $restored . ' fichier(s) remis en place. Le site refait maintenant ses caches.');
             if (self::$log) {
                 Activity::log($user, 'a annulé une mise à jour (retour à ' . ($back ? substr($back['sha'], 0, 7) : 'la version mise en ligne par FTP') . ')', null);
             }
             return ['restored' => $restored, 'to' => $back];
+        } catch (\Throwable $e) {
+            self::step('erreur', 100, $e->getMessage());
+            throw $e;
         } finally {
             self::unlock($lock);
         }
@@ -1439,21 +1494,27 @@ final class Updater
             @ini_set('memory_limit', '512M');
         }
         try {
+            self::step('recalcul', 5, 'Recalcul 1 / 5 : index des fiches…');
             \App\Data\Index::rebuild();
             // Corrections de données livrées avec cette version : appliquées tout de suite, sans
             // attendre le passage de la tâche planifiée (elles ne s'appliquent qu'une fois).
+            self::step('recalcul', 30, 'Recalcul 2 / 5 : corrections de données livrées avec la version…');
             try {
                 \App\Services\DataFixes::run();
             } catch (\Throwable $e) {
                 error_log('[après mise à jour] corrections : ' . $e->getMessage());
             }
+            self::step('recalcul', 50, 'Recalcul 3 / 5 : données calculées (saisons, joueurs, records…)…');
             \App\Data\Derived::rebuild();
+            self::step('recalcul', 75, 'Recalcul 4 / 5 : index de recherche…');
             \App\Services\Search::rebuild();
+            self::step('recalcul', 90, 'Recalcul 5 / 5 : les 100 chiffres…');
             \App\Services\Chiffres::warm(); // les 100 chiffres prêts avant le prochain visiteur
         } catch (\Throwable $e) {
             error_log('[après mise à jour] ' . $e->getMessage());
         } finally {
             @unlink($flag . '.en-cours');
+            self::step('pret', 100, 'Site prêt : caches refaits.');
         }
         return true;
     }

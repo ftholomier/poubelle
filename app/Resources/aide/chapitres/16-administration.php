@@ -117,6 +117,7 @@ HTML],
 HTML],
         ['id' => 'majs', 'title' => 'Mises à jour du site', 'admin' => true, 'html' => <<<'HTML'
 <p>Système › <b>Mises à jour</b> (administrateurs) : la version installée, la dernière version publiée sur GitHub et la liste des changements. <b>Appliquer la mise à jour</b> remplace en quelques secondes les seuls fichiers du code qui ont changé : seuls ces fichiers sont téléchargés depuis GitHub (l’archive complète du dépôt ne sert qu’en secours, pour un très gros changement) ; le site affiche « Mise à jour en cours » pendant la copie.</p>
+<p>Une <b>jauge</b> montre l’avancement de la mise à jour (comparaison avec GitHub, téléchargement, sauvegarde, copie, caches), puis celle du recalcul dans le bandeau « Recalcul en cours » ; la page se recharge toute seule quand le site est prêt.</p>
 [[attention|<p><b>Après une mise à jour, patientez quelques minutes.</b> Le site refait alors ses caches (index des fiches, données calculées, recherche) : un bandeau « Recalcul en cours, patientez » s’affiche et le bouton de mise à jour est grisé jusqu’à la fin. Ne relancez pas la mise à jour : cela viderait de nouveau les caches et ralentirait tout le site. Un clic quand le code est déjà identique à GitHub ne fait rien (aucun cache vidé).</p>]]
 [[img:mises-a-jour.webp|Système › Mises à jour : version installée, version disponible, changements et historique]]
 <ul>

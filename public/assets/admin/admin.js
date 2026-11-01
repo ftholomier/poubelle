@@ -47,9 +47,67 @@
       // Bouton avec sa propre adresse (formaction) : f.submit() ne la reprend pas d'elle-même.
       if (e.submitter && e.submitter.hasAttribute('formaction')) f.action = e.submitter.formAction;
       e.submitter && e.submitter.name ? (() => { const h = document.createElement('input'); h.type = 'hidden'; h.name = e.submitter.name; h.value = e.submitter.value; f.appendChild(h); })() : null;
+      f.dispatchEvent(new CustomEvent('bo:submit', { bubbles: true }));
       f.submit();
     }
   }, true);
+
+  // Jauge d'avancement (mises à jour du site) : <form data-progress="/adresse" data-progress-title="…">
+  // ouvre une fenêtre avec une barre tenue à jour pendant l'envoi ; [data-progress-watch="/adresse"]
+  // (bandeau « Recalcul en cours ») suit le recalcul et recharge la page quand il est fini.
+  const pgFetch = async url => {
+    const r = await fetch(url, { credentials: 'same-origin', cache: 'no-store', headers: { Accept: 'application/json', 'X-BO-Background': '1' } });
+    return r.json(); // pendant la copie, le site répond « Mise à jour en cours » (HTML) : exception
+  };
+  const pgText = s => (s.label || '') + ' ' + (s.pct ?? 0) + ' %';
+  document.addEventListener('bo:submit', e => {
+    const f = e.target;
+    if (!f.matches('form[data-progress]')) return;
+    const m = document.createElement('div');
+    m.className = 'modal';
+    m.innerHTML = '<div class="modal__box" role="status" aria-live="polite"><p class="modal__t"></p><div class="bar bar--navy" style="height:16px"><i style="width:1%;transition:width .4s"></i></div><p style="margin:0" data-l>Démarrage…</p><p class="xs muted" style="margin:0">Ne fermez pas cette page et ne relancez rien : elle se met à jour toute seule.</p></div>';
+    $('.modal__t', m).textContent = f.dataset.progressTitle || 'Mise à jour';
+    document.body.appendChild(m);
+    const bar = $('.bar > i', m), lab = $('[data-l]', m);
+    let pct = 1;
+    const tick = async () => {
+      try {
+        const j = await pgFetch(f.dataset.progress);
+        const s = j.step || {};
+        if (s.phase === 'erreur') { lab.textContent = 'Erreur : ' + s.label; return; }
+        if (s.phase === 'maj' || s.phase === 'fini' || s.phase === 'recalcul') { pct = Math.max(pct, s.pct || 0); lab.textContent = pgText({ label: s.label, pct }); }
+      } catch (err) {
+        pct = Math.max(pct, 62);
+        lab.textContent = 'Copie des fichiers : le site est en pause quelques secondes… ' + pct + ' %';
+      }
+      bar.style.width = pct + '%';
+      setTimeout(tick, 1000);
+    };
+    setTimeout(tick, 400);
+  });
+  $$('[data-progress-watch]').forEach(box => {
+    const bar = $('.bar > i', box), lab = $('[data-progress-label]', box);
+    let pct = parseInt(bar?.style.width, 10) || 2, idle = 0;
+    const tick = async () => {
+      try {
+        const j = await pgFetch(box.dataset.progressWatch);
+        const s = j.step || {};
+        if (!j.running && j.refreshing === null) {
+          if (bar) bar.style.width = '100%';
+          if (lab) lab.textContent = 'Site prêt : caches refaits. 100 %';
+          setTimeout(() => location.reload(), 900);
+          return;
+        }
+        if (s.phase === 'recalcul') { pct = Math.max(pct, s.pct || 0); if (lab) lab.textContent = pgText({ label: s.label, pct }); }
+        idle = 0;
+      } catch (err) {
+        if (++idle > 30) return; // plus de réponse depuis une minute : la page reste telle quelle
+      }
+      if (bar) bar.style.width = pct + '%';
+      setTimeout(tick, 2000);
+    };
+    setTimeout(tick, 1500);
+  });
   // <form data-busy="Contrôle en cours…"> : traitement de quelques secondes, bouton grisé pendant l'envoi.
   document.addEventListener('submit', e => {
     const f = e.target;

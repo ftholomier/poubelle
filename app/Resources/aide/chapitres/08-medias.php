@@ -31,6 +31,7 @@ HTML],
 </ul>
 [[img:medias-detail.webp|La fiche d’une photo : description, droits, « utilisée dans », actions]]
 <p><b>Modification groupée</b> : cochez plusieurs photos pour leur donner le même crédit ou les mêmes droits en une fois (« Remplacer aussi les valeurs déjà saisies » si besoin).</p>
+<p><b>Médiathèque et fiches restent d’accord.</b> Une photo de galerie garde sa légende et son crédit dans la fiche. Quand vous les modifiez dans la médiathèque, ils sont repris dans les fiches qui montraient le même texte (ou encore l’ancienne légende avec le crédit dedans). Quand vous les saisissez dans une fiche (photo ajoutée, légende corrigée), ils sont repris dans la médiathèque si elle était vide ou avait l’ancien texte de la fiche. Une légende propre à une fiche n’est jamais écrasée ; un crédit effacé dans une fiche n’efface rien dans la médiathèque.</p>
 HTML],
         ['id' => 'retoucher', 'title' => 'Recadrer, pivoter, remplacer', 'html' => <<<'HTML'
 <ul>

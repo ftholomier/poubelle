@@ -59,12 +59,18 @@ $refreshing = Updater::refreshing(); // recalcul d'après mise à jour en cours 
       <?php endif; ?>
       <?php if (!empty($sync['kept'])): ?><p class="xs muted" style="margin:0">Réglé à la main sur le serveur et gardé par les mises à jour : <?= e(implode(', ', (array) $sync['kept'])) ?>.</p><?php endif; ?>
 
-      <?php if ($refreshing !== null): ?><p class="alert alert--info" role="status" style="margin:0">⏳ <b>Recalcul en cours, patientez.</b> Le site refait ses caches après la dernière mise à jour (commencé il y a <?= e(Updater::ago($refreshing)) ?> ; quelques minutes en tout). Les pages peuvent être un peu plus lentes pendant ce temps ; une nouvelle mise à jour n’est possible qu’ensuite (relancer viderait de nouveau les caches).</p><?php endif; ?>
+      <?php if ($refreshing !== null): $pg = Updater::progress(); $pgPct = ($pg['phase'] ?? '') === 'recalcul' ? (int) $pg['pct'] : 2; ?>
+      <div class="alert alert--info" role="status" style="margin:0;display:flex;flex-direction:column;gap:8px" data-progress-watch="/admin/mises-a-jour/progression">
+        <p style="margin:0">⏳ <b>Recalcul en cours, patientez.</b> Le site refait ses caches après la dernière mise à jour (commencé il y a <?= e(Updater::ago($refreshing)) ?> ; quelques minutes en tout). Les pages peuvent être un peu plus lentes pendant ce temps ; une nouvelle mise à jour n’est possible qu’ensuite (relancer viderait de nouveau les caches).</p>
+        <div class="bar bar--navy"><i style="width:<?= $pgPct ?>%"></i></div>
+        <p class="small" style="margin:0" data-progress-label><?= e(($pg['phase'] ?? '') === 'recalcul' ? (string) $pg['label'] : 'Recalcul : démarrage…') ?> <?= $pgPct ?> %</p>
+      </div>
+      <?php endif; ?>
       <div class="row" style="gap:10px">
         <?php if ($available && $refreshing !== null): ?>
           <button type="button" class="btn btn--navy" disabled title="Recalcul d’après mise à jour en cours : réessayez dans quelques minutes"><?= e($button) ?></button>
         <?php elseif ($available): ?>
-          <form method="post" action="/admin/mises-a-jour" data-confirm="<?= e($button) ?> ?|Le code est remplacé en quelques secondes (le site affiche « Mise à jour en cours » pendant la copie). Fiches, médias, réglages et comptes ne sont jamais touchés ; une sauvegarde permet de revenir en arrière.|<?= e($newVersion ? 'Appliquer' : 'Synchroniser') ?>">
+          <form method="post" action="/admin/mises-a-jour" data-progress="/admin/mises-a-jour/progression" data-progress-title="<?= e($newVersion ? 'Mise à jour du site' : 'Synchronisation avec GitHub') ?>" data-confirm="<?= e($button) ?> ?|Le code est remplacé en quelques secondes (le site affiche « Mise à jour en cours » pendant la copie). Fiches, médias, réglages et comptes ne sont jamais touchés ; une sauvegarde permet de revenir en arrière.|<?= e($newVersion ? 'Appliquer' : 'Synchroniser') ?>">
             <?= csrf_field() ?><input type="hidden" name="action" value="appliquer">
             <button type="submit" class="btn btn--navy"><?= e($button) ?></button>
           </form>
@@ -125,7 +131,7 @@ $refreshing = Updater::refreshing(); // recalcul d'après mise à jour en cours 
             <td class="nowrap"><?= e($sha($m['to'] ?? null)) ?> <span class="xs muted">(version d’avant : <?= e(isset($m['from']['sha']) ? $sha($m['from']['sha']) : 'FTP') ?>)</span></td>
             <td><?= (int) $b['files'] ?></td>
             <td>
-              <form method="post" action="/admin/mises-a-jour" data-confirm="Revenir à la version d’avant cette mise à jour ?|Les fichiers sauvegardés sont remis en place et ceux ajoutés par la mise à jour retirés.|Revenir en arrière">
+              <form method="post" action="/admin/mises-a-jour" data-progress="/admin/mises-a-jour/progression" data-progress-title="Retour arrière" data-confirm="Revenir à la version d’avant cette mise à jour ?|Les fichiers sauvegardés sont remis en place et ceux ajoutés par la mise à jour retirés.|Revenir en arrière">
                 <?= csrf_field() ?><input type="hidden" name="action" value="restaurer"><input type="hidden" name="sauvegarde" value="<?= e($b['name']) ?>">
                 <button type="submit" class="btn btn--sm btn--ghost">Revenir à cette version</button>
               </form>
