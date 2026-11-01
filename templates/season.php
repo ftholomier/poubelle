@@ -2,7 +2,8 @@
 /**
  * Page d'une saison (maquette « Saison ») : chiffres, fil de la saison, résultats, buteurs, effectif.
  * Variables : $season, $label, $matches, $sums, $comps, $scorers, $squad (matchs officiels), $friendly
- *             (joueurs des matchs amicaux, tableau à part), $friendlyCount, $coaches, $album, $bilan, $hero, $prev, $next, $current, $catPath,
+ *             (joueurs des matchs amicaux, tableau à part), $friendlyCount, $total (bilan amicaux compris, ou
+ *             null), $coaches, $album, $bilan, $hero, $prev, $next, $current, $catPath,
  * $audio (bouton « Écouter », App\Services\PageAudio)
  */
 
@@ -24,6 +25,9 @@ $lineLabels = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 
         <div<?= !empty($s['title']) ? ' title="' . e($s['title']) . '"' : '' ?>><b class="<?= !empty($s['yellow']) ? 'yellow' : '' ?><?= mb_strlen((string) $s['v']) > 6 ? ' is-long' : '' ?>"><?= e($s['v']) ?></b><span><?= e($s['k']) ?></span></div>
       <?php endforeach; ?>
     </div>
+    <?php if (!empty($total)): $tr = $total['res']; ?>
+    <p class="shero__total"><b><?= e(t('Bilan total, amicaux compris')) ?></b> : <?= (int) $total['n'] ?> <?= e(t('matchs')) ?> · <?= (int) $tr['V'] ?> <?= e($tr['V'] > 1 ? t('victoires') : t('victoire')) ?> · <?= (int) $tr['N'] ?> <?= e($tr['N'] > 1 ? t('nuls') : t('nul')) ?> · <?= (int) $tr['D'] ?> <?= e($tr['D'] > 1 ? t('défaites') : t('défaite')) ?> · <?= e($total['gf'] . '-' . $total['ga']) ?> <?= e(t('buts pour / contre')) ?></p>
+    <?php endif; ?>
     <?php if ($matches): ?><div class="hero-actions"><?= \App\Core\View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::seasonUrl($season), 'light' => true]) ?><?= !empty($audio) ? \App\Core\View::partial('partials/audio-button', ['audio' => $audio]) : '' ?></div><?php endif; ?>
   </div>
 </section>

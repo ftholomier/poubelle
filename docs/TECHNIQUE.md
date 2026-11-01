@@ -2636,7 +2636,11 @@ marquants tirés des officiels ; export PDF : tableau « Matchs amicaux » à pa
 (`Explore::seasonData()`) : effectif et buteurs des matchs officiels, `friendly` (joueur, matchs,
 buts) et `friendlyCount` dans la section « Matchs amicaux » (`#amicaux`). Tous les usages de
 `person_totals` (cartes, album, posters, recherche, anecdotes, audio…) comptent donc les matchs
-officiels. Le bilan de la saison (victoires, nuls, défaites, buts) garde tous les matchs fichés.
+officiels. Double bilan de saison (demande des historiens) : en tête, les matchs officiels
+(« N matchs officiels », V/N/D, buts pour/contre ; `Derived` `seasons[s]['res']` et `n_off`, cartes
+de la liste des saisons, assistant) ; dessous, « Bilan total, amicaux compris » (`total` de
+`Explore::seasonData()`, `seasons[s]['res_all']`), affiché seulement s'il y a des amicaux, aussi dans
+le PDF de la saison. `Derived::VERSION` 11.
 
 ## Systèmes tactiques (placement sur le terrain)
 

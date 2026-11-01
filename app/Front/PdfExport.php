@@ -941,6 +941,11 @@ final class PdfExport
         }
         self::titleBlock($l, \App\Core\Club::s('club'), t('Saison') . ' ' . $label, $division);
         self::bigNumbers($l, array_map(fn ($s) => [(string) $s['v'], (string) $s['k'], !empty($s['yellow'])], array_values(array_filter($v['sums'], fn ($s) => empty($s['title'])))));
+        if (!empty($v['total'])) {
+            $tr = $v['total']['res'];
+            $l->para([Layout::run(mb_strtoupper(t('Bilan total, amicaux compris')), 'display-b', 8.6, 'muted', null, 0.9, 8),
+                Layout::run($v['total']['n'] . ' ' . t('matchs') . ' · ' . $tr['V'] . ' V · ' . $tr['N'] . ' N · ' . $tr['D'] . ' D · ' . $v['total']['gf'] . '-' . $v['total']['ga'] . ' ' . t('buts pour / contre'), 'serif', 10, 'navy')]);
+        }
         if ($v['coaches']) {
             $runs = [Layout::run(mb_strtoupper(count($v['coaches']) > 1 ? t('Entraîneurs') : t('Entraîneur')), 'display-b', 8.6, 'muted', null, 0.9, 8)];
             foreach ($v['coaches'] as $i => $c) {

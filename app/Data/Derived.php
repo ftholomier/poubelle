@@ -27,7 +27,7 @@ final class Derived
     private const DIRTY = STORAGE_PATH . '/cache/derived.dirty';
     /** Marque « sale » prise en charge par le recalcul en cours (un enregistrement fait pendant le calcul recrée DIRTY). */
     private const CLAIM = STORAGE_PATH . '/cache/derived.building';
-    public const VERSION = 10;
+    public const VERSION = 11;
     /** Parties du calcul (clés de get() ; « version », « built », « duration », « no_credit » sont dans le résumé). */
     private const PARTS = ['matches', 'apps', 'scorers', 'person_totals', 'by_person', 'seasons', 'clubs', 'stades', 'comps', 'on_this_day', 'unlinked', 'quality', 'bilans'];
     /**
@@ -917,8 +917,14 @@ final class Derived
             if ($x['comp'] === 'Championnat' && $x['label']) {
                 $s['division'][$x['label']] = ($s['division'][$x['label']] ?? 0) + 1;
             }
+            // Bilan de la saison : matchs officiels (« res », « n_off ») ; total, amicaux compris (« res_all »).
+            $official = !in_array($x['comp'], self::OFFICIAL_EXCLUDED, true);
+            $s['n_off'] = ($s['n_off'] ?? 0) + ($official ? 1 : 0);
             if ($x['result']) {
-                $s['res'][$x['result']] = ($s['res'][$x['result']] ?? 0) + 1;
+                $s['res_all'][$x['result']] = ($s['res_all'][$x['result']] ?? 0) + 1;
+                if ($official) {
+                    $s['res'][$x['result']] = ($s['res'][$x['result']] ?? 0) + 1;
+                }
             }
             unset($s);
         }
@@ -928,6 +934,8 @@ final class Derived
             arsort($div);
             $s['division'] = $div ? array_key_first($div) : null;
             $s['res'] = ($s['res'] ?? []) + ['V' => 0, 'N' => 0, 'D' => 0];
+            $s['res_all'] = ($s['res_all'] ?? []) + ['V' => 0, 'N' => 0, 'D' => 0];
+            $s['n_off'] ??= 0;
             $s['comps'] ??= [];
         }
         unset($s);

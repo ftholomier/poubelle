@@ -65,16 +65,28 @@ final class Explore
         $matches = array_values(array_filter(array_map(fn ($id) => $M[$id] ?? null, $ids), fn ($x) => $x && $x['v']));
         usort($matches, fn ($x, $y) => strcmp((string) $x['date'], (string) $y['date']));
 
+        // Double bilan : matchs officiels (en tête) et total, amicaux compris (dessous).
         $res = ['V' => 0, 'N' => 0, 'D' => 0];
-        $gf = $ga = 0;
+        $resAll = $res;
+        $gf = $ga = $gfAll = $gaAll = 0;
+        $nOff = 0;
         $comps = [];
         foreach ($matches as $x) {
+            $official = !in_array($x['comp'], Derived::OFFICIAL_EXCLUDED, true);
+            $nOff += $official ? 1 : 0;
             if ($x['result']) {
-                $res[$x['result']]++;
+                $resAll[$x['result']]++;
+                if ($official) {
+                    $res[$x['result']]++;
+                }
             }
             if ($x['us'] !== null) {
-                $gf += (int) $x['us'];
-                $ga += (int) $x['them'];
+                $gfAll += (int) $x['us'];
+                $gaAll += (int) $x['them'];
+                if ($official) {
+                    $gf += (int) $x['us'];
+                    $ga += (int) $x['them'];
+                }
             }
             $comps[$x['comp']] = ($comps[$x['comp']] ?? 0) + 1;
         }
@@ -211,7 +223,9 @@ final class Explore
         $sums = array_values(array_filter([
             $division ? ['v' => self::shortDivision($division), 'k' => t('Division'), 'yellow' => true, 'title' => $division] : null,
             $place,
-            ['v' => count($matches), 'k' => count($matches) > 1 ? t('matchs fichés') : t('match fiché')],
+            $nOff < count($matches)
+                ? ['v' => $nOff, 'k' => $nOff > 1 ? t('matchs officiels') : t('match officiel')]
+                : ['v' => count($matches), 'k' => count($matches) > 1 ? t('matchs fichés') : t('match fiché')],
             ['v' => $res['V'], 'k' => $res['V'] > 1 ? t('victoires') : t('victoire'), 'yellow' => true],
             ['v' => $res['N'], 'k' => $res['N'] > 1 ? t('nuls') : t('nul')],
             ['v' => $res['D'], 'k' => $res['D'] > 1 ? t('défaites') : t('défaite')],
@@ -229,6 +243,8 @@ final class Explore
             'squad' => $squadList,
             'friendly' => $friendlyList,
             'friendlyCount' => $friendlyCount,
+            // Bilan total, amicaux compris (seulement s'il y a des amicaux cette saison).
+            'total' => $nOff < count($matches) ? ['n' => count($matches), 'res' => $resAll, 'gf' => $gfAll, 'ga' => $gaAll] : null,
             'coaches' => $coachList,
             'album' => SeasonAlbum::build($season),
             'bilan' => $bilan,
@@ -239,7 +255,7 @@ final class Explore
             'catPath' => $cat['path'] ?? null,
         ], [
             'title' => t('Saison {s} {club_de} : résultats, effectif, buteurs', ['s' => $season]),
-            'description' => t('La saison {s} {sigle_de} : {n} matchs fichés, {v} victoires, {nn} nuls, {d} défaites. Résultats, effectif et buteurs.', ['s' => $season, 'n' => count($matches), 'v' => $res['V'], 'nn' => $res['N'], 'd' => $res['D']]),
+            'description' => t('La saison {s} {sigle_de} : {n} matchs fichés, {v} victoires, {nn} nuls, {d} défaites. Résultats, effectif et buteurs.', ['s' => $season, 'n' => $nOff, 'v' => $res['V'], 'nn' => $res['N'], 'd' => $res['D']]),
             'image' => $hero ? img($hero, 1200) : null,
             'active' => 'matchs',
             'body_class' => 'page-season',

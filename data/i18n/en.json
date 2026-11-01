@@ -3196,5 +3196,6 @@
     "Matchs amicaux": "Friendlies",
     "matchs amicaux": "friendlies",
     "Statistiques des matchs officiels ; les matchs amicaux sont dans un tableau à part.": "Statistics cover competitive matches; friendlies are listed in a separate table.",
-    "{n} matchs amicaux, hors statistiques des joueurs (effectif et buteurs ci-dessus : matchs officiels).": "{n} friendlies, not counted in the player statistics (squad and scorers above: competitive matches only)."
+    "{n} matchs amicaux, hors statistiques des joueurs (effectif et buteurs ci-dessus : matchs officiels).": "{n} friendlies, not counted in the player statistics (squad and scorers above: competitive matches only).",
+    "Bilan total, amicaux compris": "Overall record, friendlies included"
 }
