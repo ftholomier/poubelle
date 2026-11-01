@@ -483,8 +483,9 @@ case (photo de 163 px en grande case de galerie : pixellisée). `img_lowres($rel
 $hauteur = 0)` compare les dimensions de la médiathèque à la case (remplie en `cover` ; hauteur
 0 = libre) : s'il faudrait agrandir de plus de 35 %, elle renvoie la classe `is-lowres` du
 conteneur, les variables `--w`/`--h` (taille réelle) et un calque `lowres__blur` (vignette 320
-floutée) ; la photo est alors centrée à sa taille réelle, jamais au-delà (`site.css`). Cases :
-carte du joueur 346 × 380, galerie seule 860, 2 ou 3 photos 358 × 320, mosaïque 358 × 240 (grande
+floutée) ; la photo est alors centrée à sa taille réelle, jamais au-delà (`site.css`). Pas sur
+la carte de la fiche joueur ni les vignettes Sochini et album (photo sur tout le cadre, choix
+des historiens). Cases : galerie seule 860, 2 ou 3 photos 358 × 320, mosaïque 358 × 240 (grande
 case 606 × 412 : une photo trop petite y est ramenée à une case simple), photo d'article et
 images de fiche 820, récit 900. Fonds de bandeau (match, Rétro-Direct, saison, récit) : classe
 `bg-soft` (flou volontaire) en dessous de 1200 × 600. Le slider de l'accueil et la photo du

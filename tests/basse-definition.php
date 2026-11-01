@@ -54,6 +54,18 @@ $eq('galerie : les grandes photos inchangées', [trim($m[1][1] ?? ''), $m[2][1] 
 $html1 = View::partial('partials/gallery', ['items' => [['image' => $big]]]);
 $eq('galerie d’une seule grande photo : rien de changé', str_contains($html1, 'is-lowres'), false);
 
+// Carte à collectionner de la fiche joueur : la photo garde tout le cadre, même petite (choix des historiens).
+$person = null;
+foreach (\App\Data\Fiches::all() as $d) {
+    if (($d['type'] ?? '') === 'personne' && ($d['status'] ?? '') === 'publie' && img_lowres($d['featured_image'] ?? null, 346, 380)) {
+        $person = $d;
+        break;
+    }
+}
+$req = new \App\Core\Request('GET', '/', [], [], [], ['HTTP_HOST' => 'localhost', 'REQUEST_URI' => '/', 'REMOTE_ADDR' => '127.0.0.1'], '');
+$page = $person ? \App\Front\Fiche::show($req, $person)->body : '';
+$eq('fiche joueur à petite photo : carte pleine, sans fond flou', [$person !== null, str_contains($page, '<span class="pcard__photo">'), str_contains($page, 'pcard__photo is-lowres')], [true, true, false]);
+
 // 3. Médiathèque : filtre « Basse définition » (moins de 400 px de large et de haut).
 $eq('médiathèque : petite photo signalée, grande non', [\App\Admin\Medias::lowres(Media::get($small) ?? []), \App\Admin\Medias::lowres(Media::get($big) ?? [])], [true, false]);
 $eq('médiathèque : 500 × 300 px n’est pas en basse définition', \App\Admin\Medias::lowres(['width' => 500, 'height' => 300]), false);
