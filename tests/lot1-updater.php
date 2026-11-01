@@ -121,8 +121,15 @@ foreach ([fn ($f) => [500, ''], fn ($f) => throw new \RuntimeException('GitHub i
 }
 U::$http = null;
 
-// 4. Pause : public/index.php répond 503 sans charger l'application.
+// 4. Pause : public/index.php répond 503 sans charger l'application, tant que la copie tourne
+// (verrou des mises à jour tenu) ; verrou libre = copie interrompue, pause levée.
 $flag = APP_ROOT . '/storage/update/maintenance';
+$lockFile = APP_ROOT . '/storage/update/verrou.lock';
+$hadLock = is_file($lockFile);
+$eq('verrou libre : pas de mise à jour en cours', U::running(APP_ROOT . '/storage/update'), false);
+$lk = fopen($lockFile, 'c');
+flock($lk, LOCK_EX);
+$eq('verrou tenu : mise à jour en cours', U::running(APP_ROOT . '/storage/update'), true);
 $had = is_file($flag);
 if (!$had) {
     file_put_contents($flag, (string) time());
@@ -130,6 +137,11 @@ if (!$had) {
 $out = shell_exec(escapeshellarg(PHP_BINARY) . ' -r ' . escapeshellarg('$_SERVER["REQUEST_URI"]="/"; $_SERVER["HTTP_HOST"]="localhost"; require "' . APP_ROOT . '/public/index.php"; echo "|", defined("APP_ROOT") ? "charge" : "non-charge";'));
 if (!$had) {
     @unlink($flag);
+}
+flock($lk, LOCK_UN);
+fclose($lk);
+if (!$hadLock) {
+    @unlink($lockFile);
 }
 $eq('pause : page « Mise à jour en cours » avant le démarrage', [str_contains((string) $out, 'Mise à jour en cours'), str_contains((string) $out, '|')], [true, false]);
 

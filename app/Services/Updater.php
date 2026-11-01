@@ -900,6 +900,25 @@ final class Updater
         return $at === null ? null : max(0, time() - $at);
     }
 
+    /**
+     * Une mise à jour ou un retour arrière tourne en ce moment : verrou des mises à jour tenu (par un
+     * autre processus, ou par celui-ci). Faux s'il est libre : une pause « Mise à jour en cours »
+     * restée en place vient alors d'une copie interrompue.
+     */
+    public static function running(?string $dir = null): bool
+    {
+        $fp = @fopen(($dir ?? self::$dir) . '/verrou.lock', 'c');
+        if (!$fp) {
+            return false;
+        }
+        $free = flock($fp, LOCK_SH | LOCK_NB);
+        if ($free) {
+            flock($fp, LOCK_UN);
+        }
+        fclose($fp);
+        return !$free;
+    }
+
     /** « 40 s », « 3 min ». */
     public static function ago(int $s): string
     {

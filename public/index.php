@@ -11,6 +11,22 @@ declare(strict_types=1);
 // propre vérification ; un drapeau de plus de 10 minutes est ignoré (copie interrompue).
 $maintenance = dirname(__DIR__) . '/storage/update/maintenance';
 if (is_file($maintenance) && (int) @filemtime($maintenance) > time() - 600) {
+    // Copie vraiment en cours seulement si le verrou des mises à jour est tenu. Sinon la copie a été
+    // interrompue (PHP redémarré, délai dépassé) : pause levée tout de suite, sans attendre 10 minutes.
+    $lk = @fopen(dirname($maintenance) . '/verrou.lock', 'c');
+    $busy = !$lk || !flock($lk, LOCK_SH | LOCK_NB);
+    if ($lk) {
+        if (!$busy) {
+            flock($lk, LOCK_UN);
+        }
+        fclose($lk);
+    }
+    unset($lk);
+    if (!$busy) {
+        @unlink($maintenance);
+    }
+}
+if (is_file($maintenance) && (int) @filemtime($maintenance) > time() - 600) {
     http_response_code(503);
     header('Content-Type: text/html; charset=utf-8');
     header('Retry-After: 30');
@@ -20,7 +36,7 @@ if (is_file($maintenance) && (int) @filemtime($maintenance) > time() - 600) {
         . '<div><h1 style="font-family:Arial,sans-serif;text-transform:uppercase">Mise à jour en cours</h1><p>Le musée revient dans quelques secondes.</p></div></body></html>';
     exit;
 }
-unset($maintenance);
+unset($maintenance, $busy);
 
 require dirname(__DIR__) . '/app/bootstrap.php';
 

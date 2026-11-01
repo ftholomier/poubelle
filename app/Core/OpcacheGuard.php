@@ -33,7 +33,9 @@ final class OpcacheGuard
         // Recalcul d'après mise à jour en cours : ni vidage ni redémarrage de PHP (qui coupait les
         // pages en cours et le recalcul lui-même, puis obligeait à tout recompiler : site très lent
         // le 1er novembre 2026). Le vidage se fait une fois le recalcul terminé.
-        if (\App\Services\Updater::refreshing() !== null) {
+        // Pareil pendant une mise à jour (téléchargement, copie) : un redémarrage de PHP la couperait au
+        // milieu et laisserait le site sur « Mise à jour en cours » (1er novembre 2026).
+        if (\App\Services\Updater::running() || \App\Services\Updater::refreshing() !== null) {
             return;
         }
         @touch(self::STATE);

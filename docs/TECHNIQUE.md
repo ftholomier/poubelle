@@ -193,7 +193,11 @@ le retour arrière reste permis). Rien à remplacer (`finish()` → `unchanged()
 pause, ni caches vidés, ni marque, ni OPcache touché ; seule la version installée est notée (ligne
 d'historique et journal si elle change). `OpcacheGuard::tick()` ne vide pas OPcache et ne
 redémarre pas PHP tant que `refreshing()` n'est pas null : le nettoyage se fait une fois le recalcul
-terminé. Tests : `tests/updater.php` (5 ter, 5 quater).
+terminé. Ni pendant une mise à jour (`Updater::running()` : verrou `storage/update/verrou.lock`
+tenu, test `flock(LOCK_SH|LOCK_NB)`) : le 01/11/2026, un redémarrage de PHP en pleine copie avait
+laissé le site sur « Mise à jour en cours ». Pause « maintenance » présente mais verrou libre =
+copie interrompue : `public/index.php` et `Kernel::handle()` la retirent aussitôt (au lieu
+d'attendre 10 minutes). Tests : `tests/updater.php` (5 ter, 5 quater, 6), `tests/lot1-updater.php` (4).
 Système › Tâches planifiées, carte Serveur : mémoire d'OPcache utilisée et alerte si elle est
 trop petite, ou si PHP ne sait pas terminer une page avant son travail d'après-page.
 

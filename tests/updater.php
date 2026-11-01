@@ -361,7 +361,16 @@ $hadDir = is_dir(dirname($flag));
 @mkdir(dirname($flag), 0775, true);
 $had = is_file($flag);
 file_put_contents($flag, (string) time());
+$lockFile = dirname($flag) . '/verrou.lock';
+$hadLock = is_file($lockFile);
+$lk = fopen($lockFile, 'c');
+flock($lk, LOCK_EX); // copie en cours : verrou tenu
 $res = Kernel::handle(new Request('GET', '/', [], [], [], ['HTTP_HOST' => 'localhost', 'REQUEST_URI' => '/', 'REMOTE_ADDR' => '127.0.0.1', 'HTTP_USER_AGENT' => 'test-maj'], ''));
+flock($lk, LOCK_UN);
+fclose($lk);
+if (!$hadLock) {
+    @unlink($lockFile);
+}
 if (!$had) {
     @unlink($flag);
 }
