@@ -20,14 +20,18 @@ final class Html
 
     public static function clean(?string $html): string
     {
-        $html = trim((string) $html);
+        $html = trim(entities_once((string) $html));
         if ($html === '') {
             return '';
         }
         if (!preg_match('#<(/?[a-z][a-z0-9]*)\b[^>]*>#i', $html)) {
-            // Texte brut : paragraphes et retours à la ligne.
+            // Texte sans balise : paragraphes et retours à la ligne. Ses entités sont décodées avant
+            // d'être échappées : l'éditeur du back-office envoie du HTML même sans mise en forme
+            // (espace insécable = « &nbsp; », « & » = « &amp; »), qui, échappé tel quel, s'affichait
+            // en toutes lettres (« &nbsp; » dans les brèves).
             $paras = preg_split('/\R{2,}/u', $html) ?: [];
-            return implode('', array_map(fn ($p) => '<p>' . nl2br(htmlspecialchars(trim($p), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8'), false) . '</p>', array_filter($paras, fn ($p) => trim($p) !== '')));
+            $esc = fn ($p) => nl2br(htmlspecialchars(html_entity_decode(trim($p), ENT_QUOTES | ENT_HTML5, 'UTF-8'), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8'), false);
+            return implode('', array_map(fn ($p) => '<p>' . $esc($p) . '</p>', array_filter($paras, fn ($p) => preg_replace('/[\s\x{00A0}\x{202F}]+/u', '', html_entity_decode($p, ENT_QUOTES | ENT_HTML5, 'UTF-8')) !== '')));
         }
         $doc = new \DOMDocument();
         $prev = libxml_use_internal_errors(true);

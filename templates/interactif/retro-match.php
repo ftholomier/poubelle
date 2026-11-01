@@ -108,7 +108,7 @@ $clean = fn (string $x): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
 
       <div class="rdpre">
         <?php if ($intro !== ''): ?><p class="rdpre__intro"><?= e($intro) ?></p><?php endif; ?>
-        <?php if (!empty($m['breves'])): ?>
+        <?php $m['breves'] = \App\Front\Fiche::breves($m['breves'] ?? []); if ($m['breves']): ?>
           <h3 class="h-3"><?= e(t('Avant le coup d’envoi')) ?></h3>
           <ul class="rdpre__breves">
             <?php foreach ($m['breves'] as $b): ?><li><?= rich_inline(is_array($b) ? ($b['text'] ?? '') : (string) $b) ?></li><?php endforeach; ?>

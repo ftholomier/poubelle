@@ -167,9 +167,19 @@ function slugify(string $s): string
 }
 
 /** Texte brut à partir de HTML (extraits, recherche, IA). */
+/**
+ * Entités HTML encodées plusieurs fois ramenées à une seule (« &amp;nbsp; » → « &nbsp; »,
+ * « &amp;amp; » → « &amp; ») : texte échappé deux fois (le HTML de l'éditeur du back-office repris
+ * comme du texte brut), qui affichait « &nbsp; » en toutes lettres, notamment dans les brèves.
+ */
+function entities_once(string $s): string
+{
+    return str_contains($s, '&amp;') ? (string) preg_replace('/&amp;(?:amp;)*(?=(?:nbsp|amp|lt|gt|quot|apos|#\d{1,6}|#x[0-9a-f]{1,6});)/i', '&', $s) : $s;
+}
+
 function plain(string $html): string
 {
-    $html = preg_replace('#<(br|/p|/li|/h\d|/tr)[^>]*>#i', "\n", $html);
+    $html = preg_replace('#<(br|/p|/li|/h\d|/tr)[^>]*>#i', "\n", entities_once($html));
     $t = html_entity_decode(strip_tags($html), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     return trim(preg_replace("/[ \t\x{00A0}]+/u", ' ', preg_replace("/\n\s*\n+/", "\n", $t)));
 }
@@ -243,12 +253,14 @@ function quote_text(?string $s): string
  */
 function rich_inline(?string $s): string
 {
-    $s = trim((string) $s);
-    if ($s === '') {
+    $s = trim(entities_once((string) $s));
+    // Rien à montrer (vide, ou seulement des espaces, « &nbsp; » ou paragraphes vides) : ''.
+    if (preg_replace('/[\s\x{00A0}\x{202F}]+/u', '', html_entity_decode(strip_tags($s), ENT_QUOTES | ENT_HTML5, 'UTF-8')) === '') {
         return '';
     }
     if (!preg_match('#<(p|br|strong|em|a|u|sup|sub|ul|ol|li|h\d|blockquote)\b#i', $s)) {
-        return nl2br(e($s), false);
+        // Texte sans balise : ses entités (« &nbsp; », « &amp; ») sont décodées, jamais montrées en toutes lettres.
+        return nl2br(e(html_entity_decode($s, ENT_QUOTES | ENT_HTML5, 'UTF-8')), false);
     }
     $h = preg_replace(['#</p>\s*<p>#i', '#</?(p|h\d|blockquote)>#i'], ['<br><br>', ''], safe_html($s));
     return trim((string) $h);

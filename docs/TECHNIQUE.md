@@ -2642,6 +2642,23 @@ compositions, buts, légendes, traductions ; jamais `path`, `slug`, `image`, `fi
 compositions Transfermarkt de référence (`app/Resources/compos/tm-1998/1999/2001.json`) sont écrites
 « Erwan Manac'h ». Test : `tests/manach.php`.
 
+## Brèves sans « &nbsp; » (correction `2026-11-breves-nbsp`)
+
+Ticket du 01/11/2026 : « &nbsp; » s'affichait en toutes lettres dans des brèves. Cause : l'éditeur
+du back-office (`wysiwyg.js`, mode « mini ») renvoie le HTML de la zone (`innerHTML`), où l'espace
+insécable s'écrit `&nbsp;` et « & » `&amp;`, même sans aucune balise ; `Html::clean()` prenait ce
+texte sans balise pour du texte brut et l'échappait de nouveau (`&amp;nbsp;`). Désormais
+`Html::clean()` ramène les entités encodées plusieurs fois à une seule (`entities_once()`,
+`app/helpers.php`) et décode celles d'un texte sans balise avant de l'échapper (une brève faite
+seulement d'espaces est vide). Affichage protégé : `rich_inline()` et `plain()` passent par
+`entities_once()`, `rich_inline()` décode les entités d'un texte sans balise et renvoie '' pour un
+texte vide ; `Fiche::breves()` retire les brèves vides (page match, Rétro-Direct, PDF ; numérotation
+sans trou) ; le PDF montre les brèves en texte brut (`plain()`). Correction ponctuelle
+`DataFixes::brevesNbsp()` (brèves en français et en anglais des fiches match qui contiennent
+`&nbsp;`, `&amp;nbsp;`, `&#160;`…) : chaque forme devient une vraie espace insécable, plusieurs
+espaces de suite une seule, sans espace au début ni à la fin, brève vide retirée
+(`DataFixes::breveNbsp()`) ; validation des fiches gardée. Test : `tests/breves-nbsp.php`.
+
 ## Matchs amicaux hors des statistiques des joueurs
 
 Ticket du 01/11/2026 : `Derived::OFFICIAL_EXCLUDED` (Amical, Coupe d'été, Coupes diverses) sort des

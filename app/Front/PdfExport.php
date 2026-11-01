@@ -473,7 +473,8 @@ final class PdfExport
                 }
                 $m['reactions'] = [];
             } elseif ($key === 'breves' && $struct) {
-                $l->bullets(array_map(fn ($b) => [Layout::run(trim(strip_tags(is_array($b) ? ($b['text'] ?? '') : (string) $b)))], $m['breves']), ['numbered' => true]);
+                // Texte brut (entités décodées : jamais « &nbsp; » en toutes lettres), sur une ligne.
+                $l->bullets(array_map(fn ($b) => [Layout::run(trim((string) preg_replace('/\s+/u', ' ', plain(is_array($b) ? (string) ($b['text'] ?? '') : (string) $b))))], $m['breves']), ['numbered' => true]);
                 $m['breves'] = [];
             } elseif (!($key === 'resume' && $struct)) {
                 self::flow($l)->render($html);

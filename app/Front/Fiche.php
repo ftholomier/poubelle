@@ -115,9 +115,16 @@ final class Fiche
     }
 
     /** Données de la fiche (page du site et export PDF). @return array{vars:array,page:array} */
+    /** Brèves à montrer : sans les vides (seulement des espaces ou « &nbsp; »), dans l'ordre. */
+    public static function breves(array $list): array
+    {
+        return array_values(array_filter($list, fn ($b) => rich_inline(is_array($b) ? (string) ($b['text'] ?? '') : (string) $b) !== ''));
+    }
+
     public static function matchData(array $doc): array
     {
         $m = $doc['match'];
+        $m['breves'] = self::breves($m['breves'] ?? []);
         $d = Derived::match((int) $doc['id']) ?? [];
         $links = [];
         foreach (Derived::lineupLinks((int) $doc['id']) as $a) {

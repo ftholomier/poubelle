@@ -41,6 +41,7 @@ final class DataFixes
         '2026-10-feuilles-1992-1993' => 'sheets9293',
         '2026-11-legendes-des-photos' => 'photoCaptions',
         '2026-11-manac-h' => 'manachSpelling',
+        '2026-11-breves-nbsp' => 'brevesNbsp',
     ];
 
     /**
@@ -138,6 +139,80 @@ final class DataFixes
             return $v;
         }
         return is_string($v) ? $fix($v) : $v;
+    }
+
+    /**
+     * Brève sans « &nbsp; » (ticket du 01/11/2026) : l'éditeur du back-office envoyait l'espace
+     * insécable sous la forme « &nbsp; », que l'enregistrement échappait de nouveau (« &amp;nbsp; »,
+     * affiché en toutes lettres). Chaque forme devient une vraie espace insécable (juste avant « : »,
+     * « ! », « ? »), plusieurs espaces de suite une seule espace, sans espace au début ni à la fin ;
+     * null : brève vide (seulement des espaces), à retirer. Le reste du texte n'est pas touché.
+     */
+    public static function breveNbsp(string $t): ?string
+    {
+        $t = (string) preg_replace('/&(?:amp;)*(?:nbsp|#160|#x0*a0);/i', "\u{00A0}", $t);
+        $t = (string) preg_replace('/[ \x{00A0}]{2,}/u', ' ', $t);
+        $t = (string) preg_replace(['/^[\s\x{00A0}]+|[\s\x{00A0}]+$/u', '#(<p>)[\s\x{00A0}]+#u', '#[\s\x{00A0}]+(</p>)#u'], ['', '$1', '$1'], $t);
+        $t = (string) preg_replace('#<p>(?:\s|\x{00A0}|<br\s*/?>)*</p>#u', '', $t);
+        return preg_replace('/[\s\x{00A0}\x{202F}]+/u', '', html_entity_decode(strip_tags($t), ENT_QUOTES | ENT_HTML5, 'UTF-8')) === '' ? null : $t;
+    }
+
+    /** Brèves de toutes les fiches match (et leur traduction anglaise) sans « &nbsp; » ni brève vide. */
+    private static function brevesNbsp(): array
+    {
+        $re = '/&(?:amp;)*(?:nbsp|#160|#x0*a0);/i';
+        $fixList = function (array $list) use ($re): array {
+            $out = [];
+            foreach ($list as $b) {
+                $text = is_array($b) ? (string) ($b['text'] ?? '') : (string) $b;
+                if (!preg_match($re, $text)) {
+                    $out[] = $b;
+                    continue;
+                }
+                $new = self::breveNbsp($text);
+                if ($new !== null) {
+                    $out[] = is_array($b) ? ['text' => $new] + $b : $new;
+                }
+            }
+            return $out;
+        };
+        $n = 0;
+        $ids = Fiches::batch(function () use ($fixList, $re, &$n) {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                $all = array_merge((array) ($doc['match']['breves'] ?? []), (array) ($doc['i18n']['en']['match']['breves'] ?? []));
+                if (($doc['type'] ?? '') !== 'match' || !preg_match($re, (string) json_encode($all, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))) {
+                    continue;
+                }
+                $doc = Fiches::fresh((int) $id);
+                if (!$doc) {
+                    continue;
+                }
+                $new = $doc;
+                foreach ([['match', 'breves'], ['i18n', 'en', 'match', 'breves']] as $path) {
+                    $ref = &$new;
+                    foreach ($path as $k) {
+                        if (!is_array($ref[$k] ?? null)) {
+                            unset($ref);
+                            continue 2;
+                        }
+                        $ref = &$ref[$k];
+                    }
+                    $fixed = $fixList($ref);
+                    if ($fixed !== $ref) {
+                        $n += count($ref) - count($fixed);
+                        $ref = $fixed;
+                    }
+                    unset($ref);
+                }
+                if ($new !== $doc) {
+                    Fiches::save($new, ['name' => 'Brèves sans « &nbsp; »'], 'Brèves : « &nbsp; » retirés');
+                    $ids[] = (int) $id;
+                }
+            }
+            return $ids;
+        });
+        return ['message' => 'Brèves sans « &nbsp; » : ' . count($ids) . ' match(s) corrigé(s), ' . $n . ' brève(s) vide(s) retirée(s)', 'ids' => $ids];
     }
 
     /**

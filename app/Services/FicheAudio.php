@@ -269,7 +269,7 @@ final class FicheAudio
         }
         $story[] = self::plainText(implode("\n", array_map(fn ($x) => (string) ($x['html'] ?? ''), $d['sections'] ?? [])));
         foreach ($d['match']['breves'] ?? [] as $b) {
-            $story[] = self::plainText((string) $b);
+            $story[] = self::plainText(is_array($b) ? (string) ($b['text'] ?? '') : (string) $b);
         }
         // Pas de récit en français dans le texte anglais ; aucun texte d'une fiche signalée (autre match).
         if ((!$en || !empty($doc['i18n']['en']['title'])) && !self::blocked($doc)) {
@@ -479,7 +479,7 @@ final class FicheAudio
                 'domicile' => $m['home']['name'] ?? '', 'extérieur' => $m['away']['name'] ?? '', 'score' => $m['score'] ?? null,
                 'stade' => $m['stadium'] ?? '', 'spectateurs' => $m['spectators'] ?? null, 'arbitre' => $m['referee'] ?? '', 'buteurs' => $m['goals'] ?? [],
                 'temps forts' => array_map(fn ($h) => trim(($h['minute'] ?? '') . "' " . self::plainText((string) ($h['text'] ?? ''))), array_slice($m['highlights'] ?? [], 0, 80)),
-                'brèves' => array_map(fn ($b) => self::plainText((string) $b), array_slice($m['breves'] ?? [], 0, 30)),
+                'brèves' => array_map(fn ($b) => self::plainText(is_array($b) ? (string) ($b['text'] ?? '') : (string) $b), array_slice($m['breves'] ?? [], 0, 30)),
             ];
         }
         if (isset($d['personne'])) {
