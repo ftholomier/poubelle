@@ -3192,5 +3192,9 @@
     "Avant de lancer, les batteurs choisissent le tir qui clignote ({c}, {b} ou l’accès du mini-terrain). Réussissez-le dans les 12 secondes qui suivent la sortie du souterrain : 500 000 points.": "Before launching, the flippers pick the flashing shot ({c}, {b} or the mini-pitch access). Make it within 12 seconds of the ball leaving the tunnel: 500,000 points.",
     "La roulette": "The spinner",
     "Dans le couloir {u} du milieu, la roulette tourne au passage de la bille : 2 000 points par tour. Plus la bille va vite, plus elle tourne.": "In the middle {u} lane, the spinner turns as the ball goes through: 2,000 points per turn. The faster the ball, the more it spins.",
-    "Pendant les 14 secondes qui suivent le lancer, une bille perdue est rendue (sans but encaissé).": "For 14 seconds after the launch, a lost ball is given back (no goal conceded)."
+    "Pendant les 14 secondes qui suivent le lancer, une bille perdue est rendue (sans but encaissé).": "For 14 seconds after the launch, a lost ball is given back (no goal conceded).",
+    "Matchs amicaux": "Friendlies",
+    "matchs amicaux": "friendlies",
+    "Statistiques des matchs officiels ; les matchs amicaux sont dans un tableau à part.": "Statistics cover competitive matches; friendlies are listed in a separate table.",
+    "{n} matchs amicaux, hors statistiques des joueurs (effectif et buteurs ci-dessus : matchs officiels).": "{n} friendlies, not counted in the player statistics (squad and scorers above: competitive matches only)."
 }

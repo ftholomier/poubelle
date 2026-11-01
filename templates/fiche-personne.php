@@ -1,7 +1,8 @@
 <?php
 /**
  * Fiche personne : joueur, entraîneur, dirigeant, personnage emblématique (maquette « Fiche Joueur »).
- * Variables : $doc, $p, $tot, $big, $statsLong, $matches, $playerMatches, $coachMatches, $highlights,
+ * Variables : $doc, $p, $tot, $big, $statsLong, $matches, $playerMatches, $coachMatches (matchs officiels),
+ *             $friendlyMatches (amicaux et tournois non officiels, tableau à part), $highlights,
  *             $crumbs, $prev, $next, $roleLabel, $years, $rubric, $related
  */
 
@@ -48,10 +49,18 @@ $lead = trim((string) ($doc['intro'] ?? ''));
 $idRows = Fiche::idRows($p, $name);
 
 $playerList = $playerMatches;
+$friendlyMatches ??= [];
 $tabs = array_filter([
     'joueur' => $playerMatches ? t('Comme joueur') : null,
     'entraineur' => $coachMatches ? t('Comme entraîneur') : null,
+    'amicaux' => $friendlyMatches ? t('Matchs amicaux') : null,
 ]);
+// Amicaux et tournois non officiels : hors des statistiques, dans leur propre tableau.
+$friendlyTotals = $tot && !empty($tot['friendly']) ? array_values(array_filter([
+    $tot['friendly']['matches'] ? ['v' => $tot['friendly']['matches'], 'k' => t('matchs amicaux')] : null,
+    $tot['friendly']['matches'] ? ['v' => $tot['friendly']['goals'], 'k' => t('buts')] : null,
+    $tot['friendly']['coached'] ? ['v' => $tot['friendly']['coached'], 'k' => t('matchs dirigés')] : null,
+])) : [];
 $careerTotals = $tot ? array_values(array_filter([
     $tot['matches'] ? ['v' => $tot['matches'], 'k' => t('matchs')] : null,
     $tot['matches'] ? ['v' => $tot['goals'], 'k' => t('buts')] : null,
@@ -296,7 +305,7 @@ $rowsHtml = function (array $list, bool $coach) {
   <div class="pmatches__head">
     <div class="stack" style="gap:6px">
       <h2 class="h-section"><?= e($isPlayer || !$coachMatches ? t('Tous ses matchs') : t('Ses matchs sur le banc')) ?></h2>
-      <span class="muted"><?= e(t('Reliés automatiquement depuis les compositions des fiches matchs.')) ?></span>
+      <span class="muted"><?= e(t('Reliés automatiquement depuis les compositions des fiches matchs.')) ?><?= $friendlyMatches ? ' ' . e(t('Statistiques des matchs officiels ; les matchs amicaux sont dans un tableau à part.')) : '' ?></span>
     </div>
     <?php if ($careerTotals): ?>
     <div class="pmatches__totals">
@@ -311,8 +320,15 @@ $rowsHtml = function (array $list, bool $coach) {
     <?php endforeach; ?>
   </div>
   <?php endif; ?>
-  <?php foreach (['joueur' => $playerMatches, 'entraineur' => $coachMatches] as $k => $list): if (!$list) continue; $coach = $k === 'entraineur'; ?>
-  <div class="dtable-wrap" data-mpanel="<?= e($k) ?>"<?= $k === 'entraineur' && $playerMatches ? ' hidden' : '' ?>>
+  <?php foreach (['joueur' => $playerMatches, 'entraineur' => $coachMatches, 'amicaux' => $friendlyMatches] as $k => $list): if (!$list) continue;
+      $coach = $k === 'entraineur' || ($k === 'amicaux' && !array_filter($list, fn ($x) => $x['role'] === 'player'));
+      $hide = ($k === 'entraineur' && $playerMatches) || ($k === 'amicaux' && ($playerMatches || $coachMatches)); ?>
+  <div class="dtable-wrap" data-mpanel="<?= e($k) ?>"<?= $hide ? ' hidden' : '' ?>>
+    <?php if ($k === 'amicaux' && $friendlyTotals): ?>
+    <div class="pmatches__totals" style="margin-bottom:12px">
+      <?php foreach ($friendlyTotals as $c): ?><div><b><?= e($c['v']) ?></b><span><?= e($c['k']) ?></span></div><?php endforeach; ?>
+    </div>
+    <?php endif; ?>
     <table class="dtable mtable">
       <thead><tr>
         <th scope="col"><?= e(t('Date')) ?></th><th scope="col"><?= e(t('Match')) ?></th><th scope="col"><?= e(t('Score')) ?></th>

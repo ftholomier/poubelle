@@ -79,11 +79,14 @@ final class Explore
             $comps[$x['comp']] = ($comps[$x['comp']] ?? 0) + 1;
         }
 
-        // Buteurs et effectif (compositions des fiches de la saison)
+        // Buteurs et effectif (compositions des fiches de la saison) : matchs officiels ; les amicaux
+        // (et tournois non officiels) dans un tableau à part.
         $scorers = [];
         $squad = [];
         $coaches = [];
+        $friendly = [];
         foreach ($matches as $x) {
+            $isFriendly = in_array($x['comp'], Derived::OFFICIAL_EXCLUDED, true);
             $doc = Fiches::get((int) $x['id']);
             $links = [];
             foreach (Derived::lineupLinks((int) $x['id']) as $ap) {
@@ -105,6 +108,14 @@ final class Explore
                     }
                 }
                 $key = $pid ? 'p' . $pid : 'n' . Names::personKey($name);
+                if ($isFriendly) {
+                    if ($r['position'] !== 'E') {
+                        $friendly[$key] ??= ['pid' => $pid, 'name' => Names::display($name), 'mj' => 0, 'goals' => 0];
+                        $friendly[$key]['mj'] += $r['position'] !== 'R' || (($r['sub_in'] ?? null) !== null && $r['sub_in'] !== '') ? 1 : 0;
+                        $friendly[$key]['goals'] += count($r['goals'] ?? []);
+                    }
+                    continue;
+                }
                 if ($r['position'] === 'E') {
                     $coaches[$key] = ($coaches[$key] ?? ['pid' => $pid, 'name' => Names::display($name), 'n' => 0]);
                     $coaches[$key]['n']++;
@@ -158,6 +169,16 @@ final class Explore
             return ['name' => $s['p']['name'] ?? $c['name'], 'n' => $c['n'], 'href' => $s && Index::visible($s) ? url($s['path']) : null, 'image' => $s['image'] ?? null];
         }, array_values($coaches));
         usort($coachList, fn ($x, $y) => $y['n'] <=> $x['n']);
+        $friendlyList = [];
+        foreach ($friendly as $p) {
+            if ($p['mj'] === 0 && $p['goals'] === 0) {
+                continue;
+            }
+            $s = $p['pid'] ? self::visiblePerson((int) $p['pid']) : null;
+            $friendlyList[] = ['name' => $s['p']['name'] ?? $p['name'], 'mj' => $p['mj'], 'goals' => $p['goals'], 'href' => $s && Index::visible($s) ? url($s['path']) : null];
+        }
+        usort($friendlyList, fn ($x, $y) => $y['mj'] <=> $x['mj'] ?: $y['goals'] <=> $x['goals'] ?: strcmp($x['name'], $y['name']));
+        $friendlyCount = count(array_filter($matches, fn ($x) => in_array($x['comp'], Derived::OFFICIAL_EXCLUDED, true)));
 
         // Bilan de la saison (article) et photo d'en-tête
         $bilan = null;
@@ -206,6 +227,8 @@ final class Explore
             'comps' => $comps,
             'scorers' => $topScorers,
             'squad' => $squadList,
+            'friendly' => $friendlyList,
+            'friendlyCount' => $friendlyCount,
             'coaches' => $coachList,
             'album' => SeasonAlbum::build($season),
             'bilan' => $bilan,

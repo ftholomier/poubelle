@@ -2611,6 +2611,20 @@ Profil du club (`config/clubs/<club>.php`), clé `club_display` : clé de rappro
 `FicheForm::syncPersonRubrics()` relie `personne.roles` (onglet Identité) et les rubriques Nos Lions cochées (Classement & SEO, `FicheForm::ROLE_RUBRICS` + sous-rubriques) : ce que l'historien vient de changer d'un côté est reporté de l'autre. `Fiche::personRubric()` donne la priorité à la rubrique du premier rôle. À l'enregistrement d'une fiche publiée, l'adresse suit le premier rôle (`/joueurs/x/` → `/dirigeants/x/`, redirection). Correction ponctuelle `2026-10-rubriques-des-personnes` pour les fiches déjà décalées. À l'affichage, `Fiches::effectiveRoles()` fait passer le classement coché avant un rôle resté ancien (index, fiche, carte, image de partage, album) ; le libellé d'un dirigeant vient de sa sous-rubrique (« Directeur sportif », « Président »…, `Fiche::LEADER_LABELS`), sinon du premier mot du sous-titre seulement si c'est une fonction, sinon « Dirigeant ».
 
 
+## Matchs amicaux hors des statistiques des joueurs
+
+Ticket du 01/11/2026 : `Derived::OFFICIAL_EXCLUDED` (Amical, Coupe d'été, Coupes diverses) sort des
+statistiques des personnes. `person_totals` (matchs, buts, minutes, cartons, saisons, premier et
+dernier match, matchs dirigés et V/N/D) ne compte que les matchs officiels ; les amicaux vont dans
+`person_totals[id]['friendly']` (`matches`, `goals`, `minutes`, `coached`). `Derived::VERSION` 10.
+Fiche personne (`Fiche::personData()`) : `playerMatches` / `coachMatches` officiels,
+`friendlyMatches` (joueur et banc) dans l'onglet « Matchs amicaux » avec ses totaux ; matchs
+marquants tirés des officiels ; export PDF : tableau « Matchs amicaux » à part. Page saison
+(`Explore::seasonData()`) : effectif et buteurs des matchs officiels, `friendly` (joueur, matchs,
+buts) et `friendlyCount` dans la section « Matchs amicaux » (`#amicaux`). Tous les usages de
+`person_totals` (cartes, album, posters, recherche, anecdotes, audio…) comptent donc les matchs
+officiels. Le bilan de la saison (victoires, nuls, défaites, buts) garde tous les matchs fichés.
+
 ## Systèmes tactiques (placement sur le terrain)
 
 `App\Services\Formations` (ticket n° 26) : 20 systèmes, clé => [libellé, lignes de défense, lignes de

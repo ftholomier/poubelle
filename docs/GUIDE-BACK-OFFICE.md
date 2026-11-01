@@ -213,6 +213,10 @@ la recherche (les recherches Google sont gratuites jusqu'à 5 000 par mois avec 
   droite à gauche, enfin remplaçants et entraîneur. Le terrain du site place ainsi chacun du
   bon côté ; il affiche le vrai numéro de maillot quand il est saisi, sinon le poste (G, D, M,
   A), jamais un numéro inventé (fiche, PDF, Rétro-Direct, poster).
+- **Matchs amicaux à part** : les statistiques des joueurs (grands chiffres, totaux, effectif et
+  buteurs d'une saison, cartes, posters) ne comptent que les matchs officiels ; les amicaux (et
+  Coupe d'été, coupes diverses) ont leur onglet « Matchs amicaux » sur la fiche joueur et leur
+  tableau sur la page saison. La compétition « Amical » de la fiche match décide de tout.
 - **Système tactique** (menu à côté du titre « Composition », ticket n° 26) : 20 systèmes
   (4-4-2, 4-4-2 en losange, 4-3-3, 4-2-3-1, 4-1-3-2, 4-1-4-1, 4-3-1-2, 4-3-2-1, 4-4-1-1, 4-5-1,
   4-2-2-2, 4-2-4, 3-5-2, 3-4-3, 3-4-1-2, 3-4-2-1, 5-3-2, 5-4-1, 2-3-5 « la pyramide », 3-2-2-3

@@ -27,7 +27,7 @@ final class Derived
     private const DIRTY = STORAGE_PATH . '/cache/derived.dirty';
     /** Marque « sale » prise en charge par le recalcul en cours (un enregistrement fait pendant le calcul recrée DIRTY). */
     private const CLAIM = STORAGE_PATH . '/cache/derived.building';
-    public const VERSION = 9;
+    public const VERSION = 10;
     /** Parties du calcul (clés de get() ; « version », « built », « duration », « no_credit » sont dans le résumé). */
     private const PARTS = ['matches', 'apps', 'scorers', 'person_totals', 'by_person', 'seasons', 'clubs', 'stades', 'comps', 'on_this_day', 'unlinked', 'quality', 'bilans'];
     /**
@@ -863,11 +863,24 @@ final class Derived
         }
         unset($list);
 
+        // Statistiques des personnes : matchs officiels seulement ; amicaux et tournois non officiels
+        // (OFFICIAL_EXCLUDED) comptés à part, dans « friendly » (tableau séparé de la fiche).
         $personTotals = [];
         foreach ($byPerson as $pid => $list) {
-            $t = ['matches' => 0, 'goals' => 0, 'yellow' => 0, 'red' => 0, 'minutes' => 0, 'coached' => 0, 'v' => 0, 'n' => 0, 'd' => 0, 'seasons' => [], 'first' => null, 'last' => null];
+            $t = ['matches' => 0, 'goals' => 0, 'yellow' => 0, 'red' => 0, 'minutes' => 0, 'coached' => 0, 'v' => 0, 'n' => 0, 'd' => 0, 'seasons' => [], 'first' => null, 'last' => null,
+                'friendly' => ['matches' => 0, 'goals' => 0, 'minutes' => 0, 'coached' => 0]];
             foreach ($list as [$p, $mid, $g, $min, $y, $r, $role]) {
                 if (!$M[$mid]['v']) {
+                    continue;
+                }
+                if (in_array($M[$mid]['comp'], self::OFFICIAL_EXCLUDED, true)) {
+                    if ($role === 'coach') {
+                        $t['friendly']['coached']++;
+                    } elseif ($role === 'player') {
+                        $t['friendly']['matches']++;
+                        $t['friendly']['goals'] += $g;
+                        $t['friendly']['minutes'] += $min;
+                    }
                     continue;
                 }
                 if ($role === 'coach') {

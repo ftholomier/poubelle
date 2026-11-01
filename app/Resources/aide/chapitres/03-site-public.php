@@ -30,7 +30,7 @@ HTML],
         ['id' => 'fiches', 'title' => 'Les fiches', 'html' => <<<'HTML'
 <p><b>Fiche match</b> : score, informations, terrain et tableau de composition, temps forts, réactions, vidéos, galerie, et un encadré face-à-face calculé automatiquement.</p>
 [[img:site-match.webp|Une fiche match : la composition sur le terrain et en tableau]]
-<p><b>Fiche personne</b> : carte à collectionner, identité, récit, statistiques et la liste de tous ses matchs, reliés automatiquement depuis les compositions.</p>
+<p><b>Fiche personne</b> : carte à collectionner, identité, récit, statistiques et la liste de tous ses matchs, reliés automatiquement depuis les compositions. <b>Les statistiques ne comptent que les matchs officiels</b> : les matchs amicaux (et les tournois non officiels : Coupe d’été, coupes diverses) sont dans un onglet à part, « Matchs amicaux », avec leurs propres totaux. Même règle sur la page d’une saison : l’effectif et les buteurs comptent les matchs officiels, les amicaux ont leur tableau à part.</p>
 [[img:site-joueur.webp|Une fiche joueur]]
 [[astuce|<p><b>Vos fiches font vivre la boutique.</b> Les anecdotes « pièce unique » (t-shirts, mugs…) et le poster souvenir d’un match sont rédigés à partir des fiches : chiffre clé, récit, coulisses d’avant-match, déclarations, réactions, composition et temps forts. Une fiche bien remplie donne des anecdotes et des posters plus riches ; une fiche corrigée corrige aussi les prochains.</p>]]
 HTML],

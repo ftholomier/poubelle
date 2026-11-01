@@ -446,8 +446,11 @@ final class Fiche
         $id = (int) $doc['id'];
         $tot = Derived::part('person_totals')[$id] ?? null;
         $matches = Derived::personMatches($id);
-        $playerMatches = array_values(array_filter($matches, fn ($x) => $x['role'] === 'player'));
-        $coachMatches = array_values(array_filter($matches, fn ($x) => $x['role'] === 'coach'));
+        // Statistiques et listes : matchs officiels ; les amicaux (et tournois non officiels) à part.
+        $friendlyMatches = array_values(array_filter($matches, fn ($x) => in_array($x['comp'], Derived::OFFICIAL_EXCLUDED, true) && in_array($x['role'], ['player', 'coach'], true)));
+        $official = array_values(array_filter($matches, fn ($x) => !in_array($x['comp'], Derived::OFFICIAL_EXCLUDED, true)));
+        $playerMatches = array_values(array_filter($official, fn ($x) => $x['role'] === 'player'));
+        $coachMatches = array_values(array_filter($official, fn ($x) => $x['role'] === 'coach'));
         $statsLong = self::statsLong($p['stats'] ?? null);
         $roles = $p['roles'] ?: ['joueur'];
         $mainRole = $roles[0];
@@ -482,7 +485,7 @@ final class Fiche
             }
         }
 
-        $highlights = self::personHighlights($doc, $matches);
+        $highlights = self::personHighlights($doc, $official);
         $rubric = self::personRubric($doc);
         $crumbs = [['label' => t('Accueil'), 'href' => url('/')], ['label' => t(club_text('nos_lions', 'Nos joueurs')), 'href' => url('/nos-lions/')]];
         if ($rubric) {
@@ -526,6 +529,7 @@ final class Fiche
             'matches' => $matches,
             'playerMatches' => $playerMatches,
             'coachMatches' => $coachMatches,
+            'friendlyMatches' => $friendlyMatches,
             'highlights' => $highlights,
             'crumbs' => $crumbs,
             'prev' => $prev,

@@ -798,13 +798,16 @@ final class PdfExport
             $l->bullets($items);
         }
         $tot = $v['tot'];
-        foreach (['joueur' => $v['playerMatches'], 'entraineur' => $v['coachMatches']] as $k => $list) {
+        // Matchs officiels, puis les amicaux à part (hors statistiques).
+        foreach (['joueur' => $v['playerMatches'], 'entraineur' => $v['coachMatches'], 'amicaux' => $v['friendlyMatches'] ?? []] as $k => $list) {
             if (!$list) {
                 continue;
             }
-            $coach = $k === 'entraineur';
-            $l->h2($coach ? t('Ses matchs sur le banc') : t('Tous ses matchs'));
-            if (!$coach && $tot) {
+            $coach = $k === 'entraineur' || ($k === 'amicaux' && !array_filter($list, fn ($x) => $x['role'] === 'player'));
+            $l->h2($k === 'amicaux' ? t('Matchs amicaux') : ($coach ? t('Ses matchs sur le banc') : t('Tous ses matchs')));
+            if ($k === 'amicaux' && !empty($tot['friendly']['matches'])) {
+                self::bigNumbers($l, [[(string) $tot['friendly']['matches'], t('matchs amicaux'), true], [(string) $tot['friendly']['goals'], t('buts')]]);
+            } elseif ($k !== 'amicaux' && !$coach && $tot) {
                 self::bigNumbers($l, array_values(array_filter([
                     $tot['matches'] ? [(string) $tot['matches'], t('matchs'), true] : null,
                     $tot['matches'] ? [(string) $tot['goals'], t('buts')] : null,

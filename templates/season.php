@@ -1,7 +1,8 @@
 <?php
 /**
  * Page d'une saison (maquette « Saison ») : chiffres, fil de la saison, résultats, buteurs, effectif.
- * Variables : $season, $label, $matches, $sums, $comps, $scorers, $squad, $coaches, $album, $bilan, $hero, $prev, $next, $current, $catPath,
+ * Variables : $season, $label, $matches, $sums, $comps, $scorers, $squad (matchs officiels), $friendly
+ *             (joueurs des matchs amicaux, tableau à part), $friendlyCount, $coaches, $album, $bilan, $hero, $prev, $next, $current, $catPath,
  * $audio (bouton « Écouter », App\Services\PageAudio)
  */
 
@@ -33,6 +34,7 @@ $lineLabels = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 
     <?php if (!empty($album)): ?><a href="#album"><?= e(t('Album')) ?></a><?php endif; ?>
     <?php if ($squad): ?><a href="#effectif"><?= e(t('Effectif')) ?></a><?php endif; ?>
     <?php if ($scorers): ?><a href="#buteurs"><?= e(t('Buteurs')) ?></a><?php endif; ?>
+    <?php if (!empty($friendly)): ?><a href="#amicaux"><?= e(t('Matchs amicaux')) ?></a><?php endif; ?>
     <?php if ($bilan): ?><a href="<?= e(url($bilan['path'])) ?>"><?= e(t('Le bilan de la saison')) ?> →</a><?php endif; ?>
   </div>
 </nav>
@@ -148,6 +150,25 @@ $lineLabels = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 
         </<?= $p['href'] ? 'a' : 'div' ?>>
       <?php endforeach; ?>
     </div>
+  </div>
+</section>
+<?php endif; ?>
+
+<?php if (!empty($friendly)): ?>
+<section id="amicaux" class="wrap section">
+  <div class="between" style="align-items:flex-end;gap:16px;flex-wrap:wrap">
+    <h2 class="h-section"><?= e(t('Matchs amicaux')) ?></h2>
+    <span class="muted"><?= e(t('{n} matchs amicaux, hors statistiques des joueurs (effectif et buteurs ci-dessus : matchs officiels).', ['n' => (int) ($friendlyCount ?? 0)])) ?></span>
+  </div>
+  <div class="dtable-wrap">
+    <table class="dtable stable">
+      <thead><tr><th scope="col"><?= e(t('Joueur')) ?></th><th scope="col" class="c"><?= e(t('Matchs')) ?></th><th scope="col" class="c"><?= e(t('Buts')) ?></th></tr></thead>
+      <tbody>
+      <?php foreach ($friendly as $p): ?>
+        <tr><td><?= $p['href'] ? '<a href="' . e($p['href']) . '">' . e($p['name']) . '</a>' : e($p['name']) ?></td><td class="c"><?= (int) $p['mj'] ?></td><td class="c"><?= $p['goals'] ? '<b>' . (int) $p['goals'] . '</b>' : '–' ?></td></tr>
+      <?php endforeach; ?>
+      </tbody>
+    </table>
   </div>
 </section>
 <?php endif; ?>
