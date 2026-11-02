@@ -205,8 +205,10 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
               <?php if ($goal): ?><span class="timeline__goal"><span class="ball" aria-hidden="true">⚽</span> <?= e(t('But !')) ?> <?= e($h['score']) ?></span><?php endif; ?>
               <?php // Pictos détectés dans le texte du fait de jeu.
               $tl = mb_strtolower($txt); $tags = [];
-              if (preg_match('/expuls|carton rouge|exclu|second (carton )?jaune|deuxi[eè]me (carton )?jaune/u', $tl)) { $tags[] = '<span class="tltag"><span class="cardmark cardmark--r" aria-hidden="true"></span>' . e(t('Carton rouge')) . '</span>'; }
-              elseif (preg_match('/averti|carton jaune/u', $tl)) { $tags[] = '<span class="tltag"><span class="cardmark cardmark--y" aria-hidden="true"></span>' . e(t('Carton jaune')) . '</span>'; }
+              // Carton seulement s'il a été donné (« aurait pu lui valoir une exclusion » : pas de picto).
+              $card = card_taken($tl);
+              if ($card === 'r') { $tags[] = '<span class="tltag"><span class="cardmark cardmark--r" aria-hidden="true"></span>' . e(t('Carton rouge')) . '</span>'; }
+              elseif ($card === 'y') { $tags[] = '<span class="tltag"><span class="cardmark cardmark--y" aria-hidden="true"></span>' . e(t('Carton jaune')) . '</span>'; }
               if (penalty_taken($tl, $goal)) { $tags[] = '<span class="tltag">⚽ ' . e(t('Penalty')) . '</span>'; }
               // « Changement » : un remplacement, pas un « échange », un « changement d'aile » ni « ne change rien ».
               if (preg_match('/(?<!pas )remplac|c[èe]de sa place|entre en jeu|fait son entr[ée]e|\bchangement\b(?!\s+(?:d[\'’]aile|de\s+jeu|de\s+c[ôo]t[ée]))/u', $tl)) { $tags[] = '<span class="tltag"><span class="subarrow subarrow--in" aria-hidden="true">▲</span><span class="subarrow subarrow--out" aria-hidden="true">▼</span> ' . e(t('Changement')) . '</span>'; }

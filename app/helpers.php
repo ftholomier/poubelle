@@ -589,6 +589,41 @@ function club_text(string $key, string $neutral, string $file = 'libelles'): str
  * « le pénalty de X est arrêté », « pénalty tiré par X »…). Au moindre doute (penalty réclamé, non
  * sifflé, issue non racontée) : pas de cadre.
  */
+/**
+ * Carton raconté dans un fait de jeu (texte en minuscules) : « r » (rouge : « est expulsé », « carton
+ * rouge », « exclusion », « second jaune »), « y » (jaune : « averti », « carton jaune »), ou null. Une
+ * sanction seulement évoquée ne compte pas (ticket Brest–Sochaux 2010 : « Son intervention aurait pu lui
+ * valoir une exclusion, mais l'arbitre laisse jouer ») : dans la même partie de phrase, conditionnel,
+ * sanction évitée, réclamée, méritée ou niée (« pas de carton rouge », « sans être expulsé »), ou
+ * question. Au moindre doute : pas de picto.
+ */
+function card_taken(string $tl): ?string
+{
+    $red = '/\bexpuls\w*|carton rouge|\brouge direct\b|\bexclu(?:e|s|es|sions?)?\b|\b(?:second|deuxi[eè]me|2e|2[eè]me) (?:carton )?jaune/u';
+    $yellow = '/\baverti\w*|carton jaune/u';
+    // Sanction évoquée sans être donnée, dans la même partie de phrase, avant le mot.
+    $maybe = '/\b(?:aur(?:ai[st]?|ait|ions|iez|aient)|pourr\w*|pouv\w*|m[ée]rit\w*|valoir|[ée]vit\w*|[ée]chapp\w*|fr[ôo]l\w*|r[ée]clam\w*|demand\w*|exig\w*|[ée]pargn\w*|risqu\w*|menac\w*|failli|oubli\w*|indulgen\w*|proche|doigts|si l[\'’]arbitre)\b/u';
+    $not = '/\b(?:pas|aucun|aucune|sans|ni|jamais)\s+(?:(?:de|du|des|d[\'’]|un|une|le|la|l[\'’]|[êe]tre|[ée]t[ée]|se|faire)\s*){0,3}$/u';
+    $found = static function (string $re) use ($tl, $maybe, $not): bool {
+        foreach (preg_split('/(?<=[.!?…])\s+/u', $tl) ?: [] as $sentence) {
+            if (str_contains($sentence, '?') || !preg_match_all($re, $sentence, $m, PREG_OFFSET_CAPTURE)) {
+                continue;
+            }
+            foreach ($m[0] as [$word, $at]) {
+                // Partie de phrase où le mot apparaît (après la dernière virgule, deux-points, « mais »…).
+                $parts = preg_split('/[,;:()—–]|\s-\s|\bmais\b/u', substr($sentence, 0, $at)) ?: [''];
+                $before = (string) end($parts);
+                $after = substr($sentence, $at + strlen($word), 40);
+                if (!preg_match($maybe, $before) && !preg_match($not, $before) && !preg_match('/^\w*\s+(?:est |a été |sera )?(?:[ée]vit|oubli|[ée]pargn)/u', $after)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+    return $found($red) ? 'r' : ($found($yellow) ? 'y' : null);
+}
+
 function penalty_taken(string $tl, bool $goal): bool
 {
     $p = 'p[ée]n[a-z]*lty';

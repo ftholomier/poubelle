@@ -2589,7 +2589,12 @@ Vidéos des fiches (onglet Médias) : YouTube, Dailymotion (lecture intégrée r
   minute, brassard, gant, débuts, dernier match, doublé / triplé, penalty, second jaune.
 - **Pictos du résumé** : détectés dans le texte des faits de jeu (cartons, penalty,
   changement, but refusé, montant, arrêt, contre son camp ; tournures sûres seulement : « sur / tape / heurte le poteau », pas « au second poteau ») ; ballon devant chaque « But ! », étiquette
-  « contre son camp » sur les buts.
+  « contre son camp » sur les buts. Cartons : `card_taken()` (« r », « y » ou null) ne garde
+  qu'un carton donné (« expulsé », « carton rouge », « rouge direct », « exclu », « 2e jaune »,
+  « averti ») ; une sanction seulement évoquée dans la même partie de phrase (conditionnel « aurait
+  pu lui valoir une exclusion », évitée, frôlée, réclamée, méritée, niée « n'est pas expulsé », « sans
+  être expulsé », question) ne donne pas de picto (ticket Brest–Sochaux 2010, Perquis). Test :
+  `tests/pictos-cartons.php`.
 - **Tweets** (`tweet_id()`, `tweet_embed()`, `tweets_by_minute()`) : les tweets cités
   s'affichent en vrai (vidéo, photos) et sont posés à leur minute dans le déroulé.
 
