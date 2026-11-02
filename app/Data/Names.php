@@ -197,6 +197,29 @@ final class Names
         return implode(' ', self::tokens($last));
     }
 
+    /**
+     * Nom court d'un joueur sur le terrain (« DRAMÉ », « MAÏGA », « MAURICE-BELAY », « MANAC'H ») :
+     * nom de famille de la composition en capitales, accents, traits d'union et apostrophes gardés
+     * (lineupLastName(), qui les retire, ne sert qu'aux rapprochements). Nom écrit sans accent dans
+     * la composition (« DRAME ») mais avec dans la fiche du joueur ($fiche : « Dramé ») : orthographe de
+     * la fiche, seulement si ce sont les mêmes lettres.
+     */
+    public static function lineupShort(string $name, ?string $fiche = null): string
+    {
+        $parts = preg_split('/\s+/u', trim($name)) ?: [];
+        $upper = array_filter($parts, fn ($p) => mb_strlen($p) > 1 && mb_strtoupper($p) === $p && preg_match('/\p{L}/u', $p));
+        $last = trim((string) preg_replace('/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/u', '', $upper ? implode(' ', $upper) : ($parts[0] ?? $name)));
+        $fiche = trim((string) $fiche);
+        if ($fiche !== '' && self::tokens($fiche) === self::tokens($last)) {
+            // Mêmes lettres : l'écriture la plus complète (accents, trait d'union, apostrophe) l'emporte.
+            $marks = fn (string $s) => (int) preg_match_all('/[^\x00-\x7F]|[\'’-]/u', $s);
+            if ($marks($fiche) > $marks($last)) {
+                $last = $fiche;
+            }
+        }
+        return mb_strtoupper($last);
+    }
+
     public static function display(string $s): string
     {
         // « WEISSBECK Gaëtan » → « Gaëtan Weissbeck »

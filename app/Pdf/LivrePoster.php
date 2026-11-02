@@ -40,7 +40,7 @@ class LivrePoster extends PosterLayout
             return null;
         }
         foreach ($pitch['players'] as &$p) {
-            $p['short'] = mb_strtoupper(Names::lineupLastName($p['name']) ?: $p['name']);
+            $p['short'] = Names::lineupShort($p['name']) ?: mb_strtoupper($p['name']);
             $p['display'] = $p['name'];
         }
         unset($p);

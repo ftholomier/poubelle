@@ -102,5 +102,28 @@ $eq('sans système : 4-4-2 déduit des postes', $p5['formation'], '4-4-2');
 $eq('sans système : milieux sur une seule ligne (50, les deux du centre un peu reculés)', [$at5['Anin'][1], $at5['Boudebouz'][1], $at5['Martin'][1], $at5['Maurice-Belay'][1]], [50, 53, 53, 50]);
 $eq('sans système : défense comme avant, deux attaquants resserrés vers l’axe', [$at5['Faty'], $at5['Ideye'], $at5['Maïga']], [[84.0, 72], [65.0, 23], [35.0, 23]]);
 
+// 6. Noms sur le terrain (ticket) : avec leurs accents, traits d'union et apostrophes ; écrits sans
+// accent dans la composition, orthographe de la fiche du joueur reliée (mêmes lettres seulement).
+$N = \App\Data\Names::class;
+$eq('accents de la composition gardés', [$N::lineupShort('DRAMÉ Boukary'), $N::lineupShort('MAÏGA Modibo'), $N::lineupShort('BRÉCHET Jérémie'), $N::lineupShort('MAïGA Modibo')], ['DRAMÉ', 'MAÏGA', 'BRÉCHET', 'MAÏGA']);
+$eq('trait d’union, apostrophe, nom en plusieurs mots', [$N::lineupShort('MAURICE-BELAY Nicolas'), $N::lineupShort("MANAC'H Erwan"), $N::lineupShort('VAN DER BIEST Pierre')], ['MAURICE-BELAY', "MANAC'H", 'VAN DER BIEST']);
+$eq('sans accent dans la composition : orthographe de la fiche', [$N::lineupShort('DRAME Boukary', 'Dramé'), $N::lineupShort('MAIGA Modibo', 'Maïga'), $N::lineupShort('BRECHET Jérémy', 'Bréchet')], ['DRAMÉ', 'MAÏGA', 'BRÉCHET']);
+$eq('fiche d’un autre nom ou sans accent : composition gardée', [$N::lineupShort('DUPONT Jean', 'Durand'), $N::lineupShort('DRAMÉ Boukary', 'Drame')], ['DUPONT', 'DRAMÉ']);
+$eq('rapprochement inchangé (sans accents)', $N::lineupLastName('DRAMÉ Boukary'), 'drame');
+$people = [];
+foreach (\App\Data\Index::all() as $pid => $x) {
+    if (in_array($x['p']['last'] ?? '', ['Dramé', 'Maïga', 'Bréchet'], true)) {
+        $people[$x['p']['last']] = (int) $pid;
+    }
+}
+if (count($people) === 3) {
+    $short = array_column(Fiche::lineupRows(['id' => 0], [
+        ['position' => 'D', 'name' => 'BRECHET Jérémy', 'person_id' => $people['Bréchet']],
+        ['position' => 'D', 'name' => 'DRAME Boukary', 'person_id' => $people['Dramé']],
+        ['position' => 'A', 'name' => 'MAÏGA Modibo', 'person_id' => null],
+    ]), 'short');
+    $eq('terrain de la fiche match : BRÉCHET, DRAMÉ, MAÏGA', $short, ['BRÉCHET', 'DRAMÉ', 'MAÏGA']);
+}
+
 echo $fail ? "\n$fail échec(s).\n" : "\nTout est bon.\n";
 exit($fail ? 1 : 0);

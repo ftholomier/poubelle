@@ -2692,6 +2692,10 @@ ligne de l'arrière vers l'avant, hauteurs régulières entre 72 % et
 au centre ; deux joueurs, attaquants en pointe ou milieux défensifs : resserrés à 65 % et 35 % ;
 trois et plus : de 84 % à 16 %), légère courbe
 (centre reculé, pointe avancée) ; sinon placement automatique d'avant (G 90, D 72, M 50, A 23).
+Noms des pastilles (`short`, `Fiche::lineupRows()`) : `Names::lineupShort()` garde accents, traits
+d'union et apostrophes du nom de famille de la composition (« DRAMÉ », « MAÏGA », « MAURICE-BELAY »,
+« MANAC'H ») ; `Names::lineupLastName()`, qui les retire, ne sert qu'aux rapprochements. Nom écrit sans
+accent dans la composition (« DRAME ») : orthographe de la fiche reliée si ce sont les mêmes lettres.
 Utilisé par la page du match, l'export PDF et Rétro-Direct ; `Formations::problem()` donne le
 message rouge de la fiche (texte non reconnu, postes qui ne collent pas). Test : `tests/formations.php`.
 

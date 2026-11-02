@@ -225,7 +225,7 @@ final class Fiche
                 'href' => $s && Index::visible($s) ? url($s['path']) : null,
                 'photo' => $s && Index::visible($s) ? self::portrait($s['image'] ?? null) : null,
                 'display' => Names::display((string) $r['name']),
-                'short' => mb_strtoupper(Names::lineupLastName((string) $r['name']) ?: (string) $r['name']),
+                'short' => Names::lineupShort((string) $r['name'], $s['p']['last'] ?? null) ?: mb_strtoupper((string) $r['name']),
                 'n' => $i + 1,
             ];
         }
