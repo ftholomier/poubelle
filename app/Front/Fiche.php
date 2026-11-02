@@ -251,7 +251,9 @@ final class Fiche
      * Placement des titulaires sur le terrain. Système choisi dans la fiche ($formation, voir
      * App\Services\Formations) et postes qui collent : une ligne par étage du système (4-1-3-2 : quatre
      * défenseurs, un milieu défensif, trois milieux offensifs, deux attaquants), remplies de l'arrière
-     * vers l'avant dans l'ordre de la composition. Sinon, formation déduite des postes G / D / M / A.
+     * vers l'avant dans l'ordre de la composition (défenseurs, puis milieux et attaquants mêlés, dans
+     * l'ordre où ils sont listés). Sinon, formation déduite des postes G / D / M / A (chacun sur la
+     * ligne de son poste).
      */
     public static function pitch(array $rows, ?string $formation = null): ?array
     {
@@ -271,7 +273,10 @@ final class Fiche
             foreach ($sys['d'] as $n) {
                 $layers[] = array_splice($pool, 0, $n);
             }
-            $pool = array_merge($lines['M'], $lines['A']);
+            // Milieux et attaquants dans l'ordre de la composition, postes mêlés : un attaquant listé
+            // avant un milieu (ailier placé dans la ligne des milieux offensifs, deux joueurs
+            // intervertis dans le back-office) prend sa place, au lieu de passer après tous les milieux.
+            $pool = array_values(array_filter($starters, fn ($r) => $r['position'] === 'M' || $r['position'] === 'A'));
             foreach ($sys['up'] as $n) {
                 $layers[] = array_splice($pool, 0, $n);
             }

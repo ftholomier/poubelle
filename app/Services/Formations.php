@@ -6,8 +6,9 @@ namespace App\Services;
 /**
  * Systèmes tactiques proposés dans la fiche match (ticket n° 26) : chacun dit combien de joueurs
  * placer sur chaque ligne du terrain, de l'arrière vers l'avant. Les défenseurs (D) remplissent la
- * ligne de défense ; les milieux puis les attaquants (M, puis A), dans l'ordre de la composition,
- * remplissent les lignes suivantes : les milieux défensifs se listent donc avant les offensifs.
+ * ligne de défense ; les milieux et les attaquants (M et A, postes mêlés), dans l'ordre de la
+ * composition, remplissent les lignes suivantes : les milieux défensifs se listent donc avant les
+ * offensifs, et un attaquant listé avant un milieu passe devant lui.
  * Dans chaque ligne, le premier joueur listé est à droite (Fiche::pitch()).
  */
 final class Formations

@@ -63,6 +63,25 @@ $eq('4-2-3-1 : deux milieux défensifs côte à côte, trois offensifs devant, u
     [$y3['Anin'] === $y3['Boudebouz'], $y3['Martin'] === $y3['Ideye'] && $y3['Martin'] < $y3['Anin'], $y3['Maïga'] < $y3['Martin']], [true, true, true]);
 $eq('losange : 5 lignes de champ', count(array_unique(array_map(fn ($pl) => (string) $pl['y'], array_filter(Fiche::pitch($rows, '4-1-2-1-2')['players'], fn ($pl) => $pl['name'] !== 'Richert')))) >= 4, true);
 
+// 3 bis. Ticket : Deedson (A) et Demoncy (M) intervertis dans la composition. Avec un système, milieux
+// et attaquants suivent l'ordre de la composition (postes mêlés) : les deux joueurs échangent leur place.
+$back = [$row('G', 'Gardien'), $row('D', 'D1'), $row('D', 'D2'), $row('D', 'D3'), $row('D', 'D4')];
+$at6 = function (array $list, ?string $f) {
+    $o = [];
+    foreach (Fiche::pitch($list, $f)['players'] as $pl) {
+        $o[$pl['name']] = [$pl['x'], $pl['y']];
+    }
+    return $o;
+};
+$before = array_merge($back, [$row('M', 'Demoncy'), $row('M', 'Milieu2'), $row('A', 'Deedson'), $row('M', 'Milieu3'), $row('M', 'Milieu4'), $row('A', 'Avant')]);
+$after = array_merge($back, [$row('A', 'Deedson'), $row('M', 'Milieu2'), $row('M', 'Demoncy'), $row('M', 'Milieu3'), $row('M', 'Milieu4'), $row('A', 'Avant')]);
+$p6 = $at6($before, '4-2-3-1');
+$eq('4-2-3-1 : un attaquant listé avant des milieux garde sa place (Deedson à droite des milieux offensifs)', [$p6['Deedson'][0], $p6['Deedson'][1] === $p6['Milieu4'][1], $p6['Avant'][0]], [84.0, true, 50.0]);
+$p7 = $at6($after, '4-2-3-1');
+$eq('Deedson et Demoncy intervertis : ils échangent leur place sur le terrain', [$p7['Deedson'], $p7['Demoncy']], [$p6['Demoncy'], $p6['Deedson']]);
+$eq('les autres joueurs ne bougent pas', [$p7['Milieu2'], $p7['Milieu3'], $p7['Milieu4'], $p7['Avant']], [$p6['Milieu2'], $p6['Milieu3'], $p6['Milieu4'], $p6['Avant']]);
+$eq('sans système : chacun reste sur la ligne de son poste (attaquant devant, milieu au milieu)', [$at6($after, null)['Deedson'][1], $at6($after, null)['Demoncy'][1] >= 50], [23, true]);
+
 // 4. Postes qui ne collent pas : placement automatique, message pour l'historien.
 $rows3 = $rows;
 $rows3[4]['position'] = 'M'; // Sauget milieu : 3 D, 5 M, 2 A

@@ -88,7 +88,7 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
               . $state . '</div>';
       }, ['compact' => true, 'rows' => true, 'add' => 'Ajouter un joueur', 'blank' => ['position' => 'R']]) ?>
       <?php if ($fp = \App\Services\Formations::problem($m['formation'] ?? '', $m['lineup']['rows'] ?? [])): ?><p class="alert alert--error" style="margin:0">⚠ <?= e($fp) ?></p><?php endif; ?>
-      <p class="xs muted" style="margin:0">Système : les lignes du terrain se remplissent de l’arrière vers l’avant dans l’ordre de la composition (défenseurs, puis milieux défensifs avant les offensifs, puis attaquants) ; dans chaque ligne, le premier listé est à droite.</p>
+      <p class="xs muted" style="margin:0">Système : les lignes du terrain se remplissent de l’arrière vers l’avant dans l’ordre de la composition (défenseurs, puis milieux et attaquants dans l’ordre où ils sont listés, milieux défensifs avant les offensifs) ; dans chaque ligne, le premier listé est à droite. Sans système, chacun est placé sur la ligne de son poste : pour échanger un milieu et un attaquant, échangez leurs postes.</p>
       <p class="xs muted" style="margin:0">Postes : G gardien, D défenseur, M milieu, A attaquant (titulaires), R remplaçant, E entraîneur. Buts : minutes séparées par des virgules. Remplacement : « Entrée 75’ » ou « Sortie 81’ ». Cartons : « J 50’ » (jaune), « R 80’ » (rouge). Fiche : ✓ reliée à la fiche du joueur, + fiche à créer.</p>
     </div>
   </div>

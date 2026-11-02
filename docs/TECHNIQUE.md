@@ -2684,8 +2684,10 @@ milieux et d'attaquants] (`ALL`), tous à dix joueurs de champ. Le champ `match.
 la fiche match, `templates/admin/fiches/_match.php`) garde la clé ; `Formations::key()` reconnaît
 aussi les anciens textes (« 442 », « 4.4.2 », « 4-4-2 losange », « WM », « pyramide »).
 `Fiche::pitch($rows, $formation)` : système reconnu et postes qui collent (D = somme des lignes de
-défense, M + A = somme des autres) → défenseurs puis milieux puis attaquants répartis ligne par
-ligne de l'arrière vers l'avant dans l'ordre de la composition, hauteurs régulières entre 72 % et
+défense, M + A = somme des autres) → défenseurs, puis milieux et attaquants mêlés dans l'ordre de
+la composition (un A listé avant un M passe devant lui : ticket « Deedson et Demoncy intervertis »,
+qui ne bougeaient pas sur le terrain quand tous les M passaient avant les A), répartis ligne par
+ligne de l'arrière vers l'avant, hauteurs régulières entre 72 % et
 23 % (trois lignes : 72, 50, 23 comme avant), le premier de chaque ligne à droite (un joueur seul :
 au centre ; deux joueurs, attaquants en pointe ou milieux défensifs : resserrés à 65 % et 35 % ;
 trois et plus : de 84 % à 16 %), légère courbe
