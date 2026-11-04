@@ -2652,6 +2652,20 @@ compositions, buts, légendes, traductions ; jamais `path`, `slug`, `image`, `fi
 compositions Transfermarkt de référence (`app/Resources/compos/tm-1998/1999/2001.json`) sont écrites
 « Erwan Manac'h ». Test : `tests/manach.php`.
 
+## Ordre dans la journée (`match.day_order`)
+
+Ticket : les amicaux du 7 juillet 2010 (Neuchâtel Xamax joué avant Deportivo Saprissa) s'affichaient
+à l'envers. À date égale, la mosaïque d'une saison départageait par l'adversaire (ordre
+alphabétique), les données calculées par numéro de fiche. Champ `match.day_order` (1 à 9, null par
+défaut ; « Ordre dans la journée » à côté de la date dans la fiche) ; résumé d'index `m.day`, données
+calculées `day` (`Derived::VERSION` 12). Tris : `Derived::chrono()` (date, puis ordre dans la
+journée ; égalité sinon, l'ordre d'origine est gardé par le tri stable) pour les saisons (page de la
+saison, match précédent / suivant), les matchs d'un joueur, les groupes de matchs, « Ce jour-là »,
+`Explore` (saison, bilans, séries) et `Chiffres` ; `Index::naturalCompare()` et la clé de date de
+`Mosaic::sort()` (« saison date ordre »). Correction ponctuelle `2026-11-ordre-xamax-saprissa`
+(fiches retrouvées par la date et l'adversaire, ordre déjà saisi jamais remplacé). Test :
+`tests/ordre-journee.php`.
+
 ## Orthographe « Jeannin » (correction `2026-11-jeannin`)
 
 Ticket du 04/11/2026 : `DataFixes::jeannin()` écrit « Jeannin » (« JEANNIN » en capitales) le nom

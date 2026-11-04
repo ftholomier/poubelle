@@ -377,7 +377,9 @@ final class Mosaic
     {
         // Matchs : saison puis date, pour suivre exactement l'ordre des pages de saison (un match sans date
         // ferme sa saison).
-        $date = fn ($s) => (string) ($kind === 'matchs' ? (($s['m']['season'] ?? '') !== '' ? $s['m']['season'] . ' ' . (($s['m']['date'] ?? '') ?: '9999') : ($s['m']['date'] ?? '')) : ($kind === 'lions' ? sprintf('%04d', $s['p']['arrival'] ?? $s['p']['birth_year'] ?? 0) : ($s['date'] ?? '')));
+        // Même jour (tournoi) : l'ordre dans la journée (« 2010-07-07 01 » avant « 2010-07-07 02 »), pas l'adversaire.
+        $day = fn ($s) => ($s['m']['date'] ?? '') !== '' ? ' ' . sprintf('%02d', (int) ($s['m']['day'] ?? 0)) : '';
+        $date = fn ($s) => (string) ($kind === 'matchs' ? (($s['m']['season'] ?? '') !== '' ? $s['m']['season'] . ' ' . (($s['m']['date'] ?? '') ?: '9999') . $day($s) : ($s['m']['date'] ?? '') . $day($s)) : ($kind === 'lions' ? sprintf('%04d', $s['p']['arrival'] ?? $s['p']['birth_year'] ?? 0) : ($s['date'] ?? '')));
         $name = fn ($s) => $kind === 'lions' ? Index::sortName($s) : ($kind === 'matchs' ? Names::ascii(($s['m']['sh'] ?? true) ? ($s['m']['away'] ?? '') : ($s['m']['home'] ?? '')) : Names::ascii($s['title']));
         if ($sort === 'selection') {
             return Index::ordered($items, $slug);

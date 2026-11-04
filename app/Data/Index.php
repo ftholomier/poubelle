@@ -42,6 +42,7 @@ final class Index
             $m = $d['match'];
             $s['m'] = [
                 'date' => $m['date'] ?? null,
+                'day' => (int) ($m['day_order'] ?? 0),
                 'season' => $m['season'] ?? null,
                 'competition' => $m['competition'] ?? null,
                 'label' => $m['competition_label'] ?? null,
@@ -345,7 +346,8 @@ final class Index
     public static function naturalCompare(array $a, array $b): int
     {
         if (isset($a['m'], $b['m'])) {
-            return strcmp((string) $b['m']['date'], (string) $a['m']['date']);
+            // Même jour (tournoi) : l'ordre dans la journée saisi dans la fiche.
+            return strcmp((string) $b['m']['date'], (string) $a['m']['date']) ?: ((int) ($b['m']['day'] ?? 0) <=> (int) ($a['m']['day'] ?? 0));
         }
         if (isset($a['p'], $b['p'])) {
             return strcoll(self::sortName($a), self::sortName($b));

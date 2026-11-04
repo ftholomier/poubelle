@@ -27,7 +27,7 @@ final class Derived
     private const DIRTY = STORAGE_PATH . '/cache/derived.dirty';
     /** Marque « sale » prise en charge par le recalcul en cours (un enregistrement fait pendant le calcul recrée DIRTY). */
     private const CLAIM = STORAGE_PATH . '/cache/derived.building';
-    public const VERSION = 11;
+    public const VERSION = 12;
     /** Parties du calcul (clés de get() ; « version », « built », « duration », « no_credit » sont dans le résumé). */
     private const PARTS = ['matches', 'apps', 'scorers', 'person_totals', 'by_person', 'seasons', 'clubs', 'stades', 'comps', 'on_this_day', 'unlinked', 'quality', 'bilans'];
     /**
@@ -547,6 +547,7 @@ final class Derived
                     'path' => $doc['path'],
                     'title' => $doc['title'],
                     'date' => $date,
+                    'day' => (int) ($m['day_order'] ?? 0),
                     'season' => $m['season'] ?? null,
                     'decade' => $decade,
                     'comp' => $m['competition'] ?? 'Championnat',
@@ -859,7 +860,7 @@ final class Derived
         }
         // Tri chronologique des matchs de chaque personne
         foreach ($byPerson as $pid => &$list) {
-            usort($list, fn ($x, $y) => strcmp((string) $M[$x[1]]['date'], (string) $M[$y[1]]['date']));
+            usort($list, fn ($x, $y) => self::chrono($M[$x[1]], $M[$y[1]]));
         }
         unset($list);
 
@@ -929,7 +930,7 @@ final class Derived
             unset($s);
         }
         foreach ($seasons as $sk => &$s) {
-            usort($s['matches'], fn ($a, $b) => strcmp((string) $M[$a]['date'], (string) $M[$b]['date']));
+            usort($s['matches'], fn ($a, $b) => self::chrono($M[$a], $M[$b]));
             $div = $s['division'] ?? [];
             arsort($div);
             $s['division'] = $div ? array_key_first($div) : null;
@@ -1130,7 +1131,7 @@ final class Derived
         }
         foreach ($out as &$g) {
             $g += ['v' => 0, 'n' => 0, 'd' => 0, 'gf' => 0, 'ga' => 0];
-            usort($g['matches'], fn ($a, $b) => strcmp((string) $M[$a]['date'], (string) $M[$b]['date']));
+            usort($g['matches'], fn ($a, $b) => self::chrono($M[$a], $M[$b]));
             $g['count'] = count($g['matches']);
         }
         unset($g);
@@ -1403,8 +1404,17 @@ final class Derived
                 $out[] = $x + ['goals' => $a[2], 'minutes' => $a[3], 'yellow' => $a[4], 'red' => $a[5], 'role' => $a[6], 'captain' => $a[7], 'pos' => $a[8]];
             }
         }
-        usort($out, fn ($x, $y) => strcmp((string) $x['date'], (string) $y['date']));
+        usort($out, fn ($x, $y) => self::chrono($x, $y));
         return $out;
+    }
+
+    /**
+     * Ordre chronologique de deux matchs (résumés de part('matches')) : date, puis ordre dans la journée
+     * quand deux matchs ont la même date (tournoi : « day », champ « Ordre dans la journée » de la fiche).
+     */
+    public static function chrono(array $x, array $y): int
+    {
+        return strcmp((string) ($x['date'] ?? ''), (string) ($y['date'] ?? '')) ?: ((int) ($x['day'] ?? 0) <=> (int) ($y['day'] ?? 0));
     }
 
     /** Identifiant de fiche relié à une ligne de composition (pour les liens). */
@@ -1445,7 +1455,7 @@ final class Derived
         $ids = self::part('on_this_day')[$mmdd ?? date('m-d')] ?? [];
         $M = self::part('matches');
         $list = array_values(array_filter(array_map(fn ($id) => $M[$id] ?? null, $ids)));
-        usort($list, fn ($a, $b) => strcmp((string) $b['date'], (string) $a['date']));
+        usort($list, fn ($a, $b) => self::chrono($b, $a));
         return $list;
     }
 }

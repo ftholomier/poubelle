@@ -63,7 +63,7 @@ final class Explore
         $M = Derived::part('matches');
         $ids = $S['matches'] ?? [];
         $matches = array_values(array_filter(array_map(fn ($id) => $M[$id] ?? null, $ids), fn ($x) => $x && $x['v']));
-        usort($matches, fn ($x, $y) => strcmp((string) $x['date'], (string) $y['date']));
+        usort($matches, fn ($x, $y) => Derived::chrono($x, $y));
 
         // Double bilan : matchs officiels (en tête) et total, amicaux compris (dessous).
         $res = ['V' => 0, 'N' => 0, 'D' => 0];
@@ -510,7 +510,7 @@ final class Explore
     {
         $M = Derived::part('matches');
         $list = array_values(array_filter(array_map(fn ($id) => $M[$id] ?? null, $ids), fn ($x) => $x && $x['v']));
-        usort($list, fn ($x, $y) => strcmp((string) $y['date'], (string) $x['date']));
+        usort($list, fn ($x, $y) => Derived::chrono($y, $x));
         $t = ['V' => 0, 'N' => 0, 'D' => 0, 'count' => count($list), 'gf' => 0, 'ga' => 0];
         $best = $worst = null;
         $first = null;
@@ -668,7 +668,7 @@ final class Explore
                 break;
             case 'series':
                 $list = array_values(array_filter($M, fn ($x) => $okMatch($x) && $x['result'] && $x['date']));
-                usort($list, fn ($x, $y) => strcmp((string) $x['date'], (string) $y['date']));
+                usort($list, fn ($x, $y) => Derived::chrono($x, $y));
                 $runs = [];
                 $cur = [];
                 foreach ($list as $x) {

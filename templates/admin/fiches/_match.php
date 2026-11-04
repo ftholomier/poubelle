@@ -22,6 +22,7 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
     <h3 class="fsec">La rencontre</h3>
     <div class="fgrid fgrid--4">
       <?= Form::text('match.date', 'Date', $m['date'] ?? '', ['type' => 'date', 'hint' => 'saison calculée']) ?>
+      <?= Form::number('match.day_order', 'Ordre dans la journée', $m['day_order'] ?? '', ['min' => 1, 'max' => 9, 'placeholder' => '—', 'hint' => 'si 2 matchs le même jour', 'title' => 'Plusieurs matchs le même jour (tournoi) : 1 pour le premier joué, 2 pour le suivant… Laissez vide s’il n’y a qu’un match ce jour-là. Fixe leur ordre dans les listes, la page de la saison et le match précédent / suivant.']) ?>
       <?= Form::select('match.competition', 'Compétition', $m['competition'] ?? 'Championnat', $comps) ?>
       <?= Form::text('match.competition_label', 'Libellé', $m['competition_label'] ?? '', ['placeholder' => 'Division 1, Ligue 2…', 'list' => 'dl-comp-labels']) ?>
       <?= Form::text('match.round', 'Journée / tour', $m['round'] ?? '', ['placeholder' => 'J15, 8e de finale…']) ?>

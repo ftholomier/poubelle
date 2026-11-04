@@ -138,7 +138,7 @@ final class Fiches
         if ($doc['type'] === 'match') {
             $m = &$doc['match'];
             $str($m, ['date', 'date_text', 'season', 'competition', 'competition_label', 'round', 'round_text', 'result', 'stadium', 'spectators_text', 'referee', 'goals_text', 'event', 'score_raw', 'score_line'], 'match.');
-            $int($m, ['spectators'], 'match.');
+            $int($m, ['spectators', 'day_order'], 'match.');
             foreach (['home', 'away'] as $side) {
                 if (array_key_exists($side, $m) && !is_array($m[$side])) {
                     $m[$side] = ['name' => is_scalar($m[$side]) ? (string) $m[$side] : '', 'level' => null];
@@ -326,7 +326,8 @@ final class Fiches
         ];
         $doc[$type === 'page' ? 'article' : $type] = match ($type) {
             'match' => [
-                'date' => null, 'date_text' => null, 'season' => null, 'competition' => 'Championnat',
+                // day_order : ordre dans la journée quand plusieurs matchs ont la même date (tournoi), 1 = le premier.
+                'date' => null, 'date_text' => null, 'day_order' => null, 'season' => null, 'competition' => 'Championnat',
                 'competition_label' => '', 'competition_code' => '', 'round' => '', 'round_text' => '',
                 'home' => ['name' => \App\Core\Club::team(), 'level' => null], 'away' => ['name' => '', 'level' => null],
                 'sochaux_home' => true, 'score' => null, 'score_raw' => '', 'score_line' => '', 'result' => null,

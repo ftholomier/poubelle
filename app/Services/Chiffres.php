@@ -324,7 +324,7 @@ final class Chiffres
                 $O[$mid] = $x;
             }
         }
-        uasort($O, fn ($a, $b) => strcmp($a['date'], $b['date']) ?: $a['id'] <=> $b['id']);
+        uasort($O, fn ($a, $b) => Derived::chrono($a, $b) ?: $a['id'] <=> $b['id']);
 
         // Saisons racontées en entier, regroupées en blocs de saisons qui se suivent.
         $league = [];

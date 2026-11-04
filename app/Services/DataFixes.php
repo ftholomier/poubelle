@@ -43,6 +43,7 @@ final class DataFixes
         '2026-11-manac-h' => 'manachSpelling',
         '2026-11-breves-nbsp' => 'brevesNbsp',
         '2026-11-jeannin' => 'jeanninSpelling',
+        '2026-11-ordre-xamax-saprissa' => 'dayOrderXamaxSaprissa',
     ];
 
     /**
@@ -177,6 +178,39 @@ final class DataFixes
             \App\Data\Derived::markDirty();
         }
         return ['message' => 'Jeannin : ' . count($ids) . ' fiche(s) et ' . count($media) . ' média(s) corrigé(s)', 'ids' => $ids];
+    }
+
+    /**
+     * Deux amicaux joués le même jour, le 7 juillet 2010 (ticket du 04/11/2026, ordre donné par
+     * l'historien) : Neuchâtel Xamax d'abord (ordre 1), Deportivo Saprissa ensuite (ordre 2). Fiches
+     * retrouvées par la date et l'adversaire ; un ordre déjà saisi n'est jamais remplacé.
+     */
+    private static function dayOrderXamaxSaprissa(): array
+    {
+        if (!Club::isDefault()) {
+            return ['message' => 'Ordre Xamax / Saprissa : sans objet pour ce musée', 'ids' => []];
+        }
+        $want = ['xamax' => 1, 'saprissa' => 2];
+        $ids = Fiches::batch(function () use ($want) {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                if (($doc['type'] ?? '') !== 'match' || ($doc['match']['date'] ?? '') !== '2010-07-07' || !empty($doc['match']['day_order'])) {
+                    continue;
+                }
+                $opp = mb_strtolower(($doc['match']['home']['name'] ?? '') . ' ' . ($doc['match']['away']['name'] ?? ''));
+                foreach ($want as $word => $order) {
+                    if (str_contains($opp, $word)) {
+                        $doc = Fiches::fresh((int) $id);
+                        $doc['match']['day_order'] = $order;
+                        Fiches::save($doc, self::AUTHOR, 'Ordre dans la journée : ' . $order . ($order === 1 ? 'er' : 'e') . ' match du 7 juillet 2010');
+                        $ids[] = (int) $id;
+                        break;
+                    }
+                }
+            }
+            return $ids;
+        });
+        return ['message' => 'Ordre des amicaux du 7 juillet 2010 (Neuchâtel Xamax puis Deportivo Saprissa) : ' . count($ids) . ' fiche(s)', 'ids' => $ids];
     }
 
     /** Applique $fix à toutes les chaînes d'un tableau, sauf sous les clés d'adresse, de fichier ou d'origine. */

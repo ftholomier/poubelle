@@ -8,6 +8,7 @@ return [
 <p><b>+ Nouveau › Fiche match</b>, puis l’onglet <b>Infos</b> :</p>
 <ul>
 <li><b>Date</b> (jj/mm/aaaa) : elle range le match dans sa saison et dans « Ce jour-là ».</li>
+<li><b>Ordre dans la journée</b> : seulement quand plusieurs matchs ont la même date (tournoi, deux amicaux le même jour) : 1 pour le premier joué, 2 pour le suivant… Il fixe leur ordre dans la liste des matchs, sur la page de la saison, dans « match précédent / suivant » et dans la liste des matchs d’un joueur. Sans lui, deux matchs du même jour sont rangés au hasard des fiches (par exemple par ordre alphabétique de l’adversaire). Laissez vide s’il n’y a qu’un match ce jour-là.</li>
 <li><b>Compétition</b> (famille : championnat, Coupe de France…) et son <b>libellé</b> exact (« Ligue 2 », « 32e de finale »…), <b>Journée / tour</b>.</li>
 <li><b>Sochaux joue à</b> (domicile ou extérieur) et <b>Adversaire</b> : choisissez l’adversaire dans la liste proposée pour que son logo et le face-à-face suivent.</li>
 <li><b>Stade</b>, <b>Spectateurs</b> (en chiffres), <b>Arbitre</b>.</li>

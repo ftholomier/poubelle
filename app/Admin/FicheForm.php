@@ -227,6 +227,11 @@ final class FicheForm
                 $cur['date'] = $d ?: null;
             }
         }
+        // Ordre dans la journée (plusieurs matchs le même jour, tournoi) : 1, 2… ; vide si un seul match.
+        if (array_key_exists('day_order', $m)) {
+            $o = trim((string) $m['day_order']);
+            $cur['day_order'] = ctype_digit($o) && (int) $o >= 1 && (int) $o <= 9 ? (int) $o : null;
+        }
         // Date inchangée : date en toutes lettres et saison gardées (les amicaux de fin juin
         // sont rangés par les historiens dans la saison qui commence).
         if ($cur['date'] !== $oldDate || array_key_exists('date_text', $m) || array_key_exists('season', $m)) {
