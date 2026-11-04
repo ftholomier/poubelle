@@ -19,6 +19,7 @@ HTML],
 HTML],
         ['id' => 'graphies', 'title' => 'Autres graphies dans les compositions', 'html' => <<<'HTML'
 <p>Dans les compositions anciennes, un même joueur peut être écrit de plusieurs façons (« N’DIAYE », « Ndiaye », « Rassoul Nidaye »…). Le site relie déjà automatiquement les variantes proches ; pour les autres, ajoutez la graphie dans <b>Autres graphies dans les compositions</b> : tous ces matchs rejoignent la fiche à l’enregistrement.</p>
+<p><b>Joueur connu sous un seul nom</b> (« CARLAO », « CARLÃO » pour Carlao Roberto Da Cruz) : ajoutez ce nom dans les autres graphies. Par prudence, un nom d’un seul mot n’est relié que pendant la période du joueur au club (dates d’arrivée et de départ de la fiche) : un autre « CARLAO » cité des années plus tôt reste sans fiche.</p>
 [[astuce|<p>Qualité › onglet <b>Liens joueurs</b> liste les noms sans fiche et les rapprochements automatiques à vérifier.</p>]]
 HTML],
         ['id' => 'carriere', 'title' => 'Carrière au club', 'html' => <<<'HTML'

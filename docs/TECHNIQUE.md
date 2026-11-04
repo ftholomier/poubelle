@@ -2467,7 +2467,13 @@ et arbitre (Claude Colombo) d'après deux-zero.com ; cartons et remplaçants res
 seul d'un joueur en âge de jouer (15-42 ans, 25-85 pour un entraîneur) départagé par la période au club,
 même nom écrit autrement (`letterKey`), puis rapprochements approchés (faute, nom incomplet). Un nom de
 famille seul relié alors que le prénom de la composition n'est pas celui de la fiche est signalé
-(« prénom différent », alerte `rapproche`, Qualité › Liens joueurs).
+(« prénom différent », alerte `rapproche`, Qualité › Liens joueurs). **Nom d'un seul mot** (joueur
+connu sous un seul nom, « CARLAO » dans les `aliases` de Carlao Roberto Da Cruz) : relié par le nom
+complet ou une autre graphie seulement à l'âge de jouer et pendant la période au club quand elle est
+connue (±1 an) ; sinon la suite des rapprochements est tentée (le « CARLAO » de la Coupe Intertoto
+2002 reste sans fiche). Mesuré sur les 26 446 lignes de composition : aucun rapprochement existant ne
+change. Correction ponctuelle `2026-11-carlao` (graphie « CARLAO » ajoutée à sa fiche, compositions
+reliées tout de suite par `LineupLinks::run()`). Test : `tests/surnom-compositions.php`.
 
 Tâche `liens-compositions` (toutes les heures, tâche longue, 90 s au plus par passage) : pour chaque
 ligne sans `person_id`, rapprochement **sûr** seulement (`resolve(..., sureOnly)`, puis

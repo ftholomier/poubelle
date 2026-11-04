@@ -288,7 +288,9 @@ et stade vides complétés, désaccords (score, date, domicile, arbitre, affluen
 La liste **Matchs reliés automatiquement** montre tous les matchs où la personne figure
 dans une composition. Si un nom est écrit autrement dans certaines compositions
 (« CAMARA Razza »), ajoutez cette graphie dans « Autres graphies » : ces matchs seront
-reliés à la fiche.
+reliés à la fiche. Un joueur connu sous un seul nom (« CARLAO ») s'y ajoute de même ; ce nom d'un
+seul mot n'est relié que pendant sa période au club (arrivée, départ), jamais à un homonyme d'une
+autre époque.
 
 Toutes les heures, la tâche **Liens des compositions** enregistre le lien (pastille ✓) de chaque
 joueur dont le nom désigne sûrement une fiche, et **ajoute le prénom quand il manque** (« BERNARDET »

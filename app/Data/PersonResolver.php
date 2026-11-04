@@ -110,8 +110,15 @@ final class PersonResolver
             return $pid;
         };
         $k = Names::personKey($name);
-        if ($k !== '' && isset($this->byKey[$k])) {
-            return $found($pick($this->byKey[$k]), 'exact');
+        // Nom d'un seul mot (surnom d'un joueur connu sous ce seul nom, « CARLAO » dans les « Autres
+        // graphies ») : relié par le nom complet ou une autre graphie seulement si le joueur avait l'âge
+        // de jouer et que la date tombe dans sa période au club (quand elle est connue). Un autre Carlão,
+        // six ans avant l'arrivée de Carlao Roberto Da Cruz, n'est pas lui.
+        $mono = fn (array $ids) => $year && $k !== '' && !str_contains($k, ' ')
+            ? array_values(array_filter($plausible($ids), fn ($id) => $periods[$id][0] === null || ($year >= $periods[$id][0] && $year <= $periods[$id][1])))
+            : $ids;
+        if ($k !== '' && isset($this->byKey[$k]) && ($ids = $mono($this->byKey[$k]))) {
+            return $found($pick($ids), 'exact');
         }
         // Nom de famille seul (« PIERRE », « Fofana »), avec contrôle de période.
         $last = Names::lineupLastName($name);
@@ -132,7 +139,7 @@ final class PersonResolver
         };
         // Même nom écrit autrement : apostrophe, trait d'union, espace (« N'Diaye » / « Ndiaye »).
         $lk = Names::letterKey($name);
-        if (isset($this->byLetters[$lk]) && ($ids = $plausible($this->byLetters[$lk])) && ($pid = $pick($ids))) {
+        if (isset($this->byLetters[$lk]) && ($ids = $mono($plausible($this->byLetters[$lk]))) && ($pid = $pick($ids))) {
             $this->approxUsed[$name] = [$pid, 'graphie', ($this->approxUsed[$name][2] ?? 0) + 1];
             return $found($pid, 'graphie');
         }

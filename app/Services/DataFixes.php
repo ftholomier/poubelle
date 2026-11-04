@@ -44,6 +44,7 @@ final class DataFixes
         '2026-11-breves-nbsp' => 'brevesNbsp',
         '2026-11-jeannin' => 'jeanninSpelling',
         '2026-11-ordre-xamax-saprissa' => 'dayOrderXamaxSaprissa',
+        '2026-11-carlao' => 'carlaoLinks',
     ];
 
     /**
@@ -211,6 +212,51 @@ final class DataFixes
             return $ids;
         });
         return ['message' => 'Ordre des amicaux du 7 juillet 2010 (Neuchâtel Xamax puis Deportivo Saprissa) : ' . count($ids) . ' fiche(s)', 'ids' => $ids];
+    }
+
+    /**
+     * « CARLAO » des compositions relié à la fiche de Carlao Roberto Da Cruz (ticket du 04/11/2026 : il
+     * était indiqué sans fiche) : « CARLAO » ajouté à ses « Autres graphies dans les compositions », puis
+     * ses compositions reliées tout de suite (LineupLinks), comme la tâche « Liens des compositions » le
+     * fait chaque heure. Un nom d'un seul mot n'est relié que pendant sa période au club (2008-2014) :
+     * le « CARLAO » de la Coupe Intertoto 2002, un autre joueur, reste sans fiche.
+     */
+    private static function carlaoLinks(): array
+    {
+        if (!Club::isDefault()) {
+            return ['message' => 'Carlao : sans objet pour ce musée', 'ids' => []];
+        }
+        $pid = null;
+        foreach (Fiches::all() as $id => $doc) {
+            $p = $doc['personne'] ?? null;
+            if (($doc['type'] ?? '') === 'personne' && ($doc['status'] ?? '') !== 'corbeille' && is_array($p)
+                && \App\Data\Names::personKey((string) ($p['last_name'] ?? '')) === \App\Data\Names::personKey('Da Cruz') && str_starts_with(\App\Data\Names::personKey((string) ($p['first_name'] ?? '')), 'carlao')) {
+                $pid = (int) $id;
+                break;
+            }
+        }
+        if (!$pid) {
+            return ['message' => 'Carlao : fiche de Carlao Roberto Da Cruz introuvable, rien de changé', 'ids' => []];
+        }
+        $doc = Fiches::fresh($pid);
+        $aliases = (array) ($doc['personne']['aliases'] ?? []);
+        $ids = [];
+        if (!in_array('carlao', array_map(fn ($a) => \App\Data\Names::personKey((string) $a), $aliases), true)) {
+            $doc['personne']['aliases'] = array_values(array_merge($aliases, ['CARLAO']));
+            Fiches::save($doc, self::AUTHOR, 'Autres graphies dans les compositions : CARLAO');
+            $ids[] = $pid;
+        }
+        $matches = [];
+        foreach (Fiches::all() as $id => $d) {
+            foreach ((array) ($d['match']['lineup']['rows'] ?? []) as $r) {
+                if (\App\Data\Names::personKey((string) ($r['name'] ?? '')) === 'carlao' && empty($r['person_id'])) {
+                    $matches[] = (int) $id;
+                    break;
+                }
+            }
+        }
+        $links = $matches ? \App\Services\LineupLinks::run(300, $matches) : 'rien à relier';
+        return ['message' => 'Carlao : graphie « CARLAO » ajoutée à sa fiche ; ' . $links, 'ids' => array_merge($ids, $matches)];
     }
 
     /** Applique $fix à toutes les chaînes d'un tableau, sauf sous les clés d'adresse, de fichier ou d'origine. */
