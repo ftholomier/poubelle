@@ -2652,6 +2652,16 @@ compositions, buts, légendes, traductions ; jamais `path`, `slug`, `image`, `fi
 compositions Transfermarkt de référence (`app/Resources/compos/tm-1998/1999/2001.json`) sont écrites
 « Erwan Manac'h ». Test : `tests/manach.php`.
 
+## Orthographe « Jeannin » (correction `2026-11-jeannin`)
+
+Ticket du 04/11/2026 : `DataFixes::jeannin()` écrit « Jeannin » (« JEANNIN » en capitales) le nom
+du gardien Medhi Jeannin là où il n'a qu'un n (« JEANIN Medhi » des compositions, temps forts,
+récits, légendes). Motif `DataFixes::JEANIN` : mot entier, toutes casses, jamais « Jeanine », jamais
+un mot collé à « / », « - », « . » ou « _ » (le fichier `2024/08/jeanin-23-24.jpeg` garde son nom).
+Passe une fois sur toutes les chaînes des fiches (comme `2026-11-manac-h` : jamais `path`, `slug`,
+`image`, `file`, `url`, `legacy`…) et sur les titres, légendes, crédits et textes alternatifs de la
+médiathèque. Le prénom n'est pas touché. Test : `tests/jeannin.php`.
+
 ## Brèves sans « &nbsp; » (correction `2026-11-breves-nbsp`)
 
 Ticket du 01/11/2026 : « &nbsp; » s'affichait en toutes lettres dans des brèves. Cause : l'éditeur

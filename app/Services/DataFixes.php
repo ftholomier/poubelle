@@ -42,6 +42,7 @@ final class DataFixes
         '2026-11-legendes-des-photos' => 'photoCaptions',
         '2026-11-manac-h' => 'manachSpelling',
         '2026-11-breves-nbsp' => 'brevesNbsp',
+        '2026-11-jeannin' => 'jeanninSpelling',
     ];
 
     /**
@@ -123,6 +124,59 @@ final class DataFixes
             $out = 'Manac' . ($curly ? '’' : "'") . 'h';
             return mb_strtoupper($m[0]) === $m[0] ? mb_strtoupper($out) : $out;
         }, $s);
+    }
+
+    /**
+     * « Jeanin » (un seul n) : nom du gardien Medhi Jeannin mal écrit (ticket du 04/11/2026). Mot
+     * entier, toutes casses ; jamais « Jeanine », ni un mot collé à « / », « - », « . » ou « _ »
+     * (adresses, noms de fichiers : « jeanin-23-24.jpeg » reste tel quel).
+     */
+    public const JEANIN = '/(?<![\p{L}\p{N}\/._-])Jeanin(?![\p{L}\p{N}\/_-]|\.[\p{L}\p{N}])/iu';
+
+    /** « Jeanin » écrit « Jeannin » (« JEANNIN » en capitales), le reste du texte inchangé. */
+    public static function jeannin(string $s): string
+    {
+        return (string) preg_replace_callback(self::JEANIN, fn ($m) => substr($m[0], 0, 4) . $m[0][3] . substr($m[0], 4), $s);
+    }
+
+    /**
+     * Medhi Jeannin écrit avec ses deux n partout (ticket du 04/11/2026) : compositions (« JEANIN
+     * Medhi »), temps forts, récits, légendes et traductions des fiches, légendes, titres et crédits
+     * de la médiathèque. Le prénom n'est pas touché.
+     */
+    private static function jeanninSpelling(): array
+    {
+        $fix = fn (string $s) => self::jeannin($s);
+        $ids = Fiches::batch(function () use ($fix) {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                $clean = $doc;
+                unset($clean['legacy']);
+                if (!preg_match(self::JEANIN, (string) json_encode($clean, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))) {
+                    continue;
+                }
+                $doc = Fiches::fresh((int) $id);
+                $new = self::mapText($doc, $fix);
+                if ($new !== $doc) {
+                    Fiches::save($new, self::AUTHOR, 'Orthographe : Jeannin');
+                    $ids[] = (int) $id;
+                }
+            }
+            return $ids;
+        });
+        $media = [];
+        foreach (\App\Data\Media::all() as $rel => $m) {
+            foreach (['title', 'caption', 'caption_en', 'caption_raw', 'credit', 'alt', 'alt_en', 'date_text'] as $k) {
+                if (is_string($m[$k] ?? null) && ($v = $fix($m[$k])) !== $m[$k]) {
+                    $media[$rel][$k] = $v;
+                }
+            }
+        }
+        if ($media) {
+            \App\Data\Media::putMany($media);
+            \App\Data\Derived::markDirty();
+        }
+        return ['message' => 'Jeannin : ' . count($ids) . ' fiche(s) et ' . count($media) . ' média(s) corrigé(s)', 'ids' => $ids];
     }
 
     /** Applique $fix à toutes les chaînes d'un tableau, sauf sous les clés d'adresse, de fichier ou d'origine. */
