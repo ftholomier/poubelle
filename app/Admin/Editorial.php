@@ -37,15 +37,20 @@ final class Editorial extends Base
             if ($s = Index::get((int) $id)) {
                 $m = $s['image'] ? \App\Data\Media::get($s['image']) : null;
                 $manual[] = ['id' => (int) $id, 'title' => $s['title'], 'image' => $s['image'], 'status' => $s['status'],
+                    // Pas encore validée par un historien : pas montrée en Une.
+                    'unvalidated' => !Pages::slideValidated($s),
                     // Photo trop petite pour le plein écran : bulle avec sa taille.
                     'small' => !$s['image'] || Pages::slideReady($s['image'], Pages::slideYear($s)) ? ''
                         : (empty($m['width']) ? 'Taille inconnue (photo absente de la médiathèque)' : 'Photo de ' . (int) $m['width'] . ' × ' . (int) ($m['height'] ?? 0) . ' pixels : floue en plein écran')];
             }
         }
-        // Tirage au hasard : fiches « À la une » dont la photo est assez grande ; les autres sont comptées à part.
-        $withPhoto = count(array_filter(Index::published(), fn ($s) => $s['image'] && !Index::isPlaceholderImage($s['image'])));
+        // Tirage au hasard : fiches validées dont la photo est assez grande ; les autres sont comptées à part
+        // (photo trop petite, pas encore validées).
+        $withPhoto = array_filter(Index::published(), fn ($s) => $s['image'] && !Index::isPlaceholderImage($s['image']));
+        $big = count(array_filter($withPhoto, fn ($s) => Pages::slideReady($s['image'], Pages::slideYear($s))));
         $pool = Pages::slidePool();
-        $poolSmall = max(0, $withPhoto - count($pool));
+        $poolSmall = count($withPhoto) - $big;
+        $poolUnvalidated = max(0, $big - count($pool));
         $poolNoImage = count(array_filter(Index::published(), fn ($s) => (!$s['image'] || Index::isPlaceholderImage($s['image']))));
         $ticker = Collections::get('ticker', ['auto' => ['jour' => true, 'centenaire' => true, 'dernier' => true], 'messages' => Site::defaultTickerMessages()]);
         $home = [];
@@ -53,7 +58,7 @@ final class Editorial extends Base
             $home[$k] = Settings::get("home.$k");
         }
         return self::html('admin/editorial/home', [
-            'slider' => $slider, 'manual' => $manual, 'pool' => count($pool), 'poolOld' => count(array_filter($pool, fn ($x) => $x['old'])), 'poolSmall' => $poolSmall, 'poolNoImage' => $poolNoImage, 'slideMin' => [Pages::slideOpts()['min_w'], Pages::slideOpts()['min_h']], 'slideOpts' => Pages::slideOpts(),
+            'slider' => $slider, 'manual' => $manual, 'pool' => count($pool), 'poolOld' => count(array_filter($pool, fn ($x) => $x['old'])), 'poolSmall' => $poolSmall, 'poolUnvalidated' => $poolUnvalidated, 'poolNoImage' => $poolNoImage, 'slideMin' => [Pages::slideOpts()['min_w'], Pages::slideOpts()['min_h']], 'slideOpts' => Pages::slideOpts(),
             'ticker' => $ticker, 'home' => $home, 'schema' => Settings::schema()['home']['fields'],
             'palmares' => Collections::get('palmares', Pages::defaultPalmares()),
             'palmaresTitres' => \App\Front\Palmares::titles(),

@@ -36,7 +36,7 @@ final class Tips
         'description' => 'Une ou deux phrases qui donnent envie de cliquer dans les résultats de Google (160 caractères environ). Vide : le début du texte est utilisé.',
         'adresse de la page' => 'L’adresse (URL) de la fiche, créée automatiquement avec des mots-clés. Si vous la changez après publication, l’ancienne adresse est redirigée vers la nouvelle.',
         'date de publication' => 'Date de mise en ligne de la fiche (ordre « plus récentes » des mosaïques). Pour publier plus tard, utilisez le statut « Planifié ».',
-        'à la une (slider de l’accueil, tirage aléatoire)' => 'Cochée, la fiche peut apparaître dans le grand slider de l’accueil : tirage au hasard parmi les fiches « À la une » dont l’image à la une fait au moins 1 200 × 600 pixels (nette en plein écran).',
+        'à la une (slider de l’accueil, tirage aléatoire)' => 'Cochée, la fiche peut apparaître dans le grand slider de l’accueil : tirage au hasard parmi les fiches « À la une » validées par un historien dont l’image à la une fait au moins 1 200 × 600 pixels (nette en plein écran). Une fiche pas encore validée n’apparaît jamais en Une.',
         'image à la une (mosaïques, partage, en-tête)' => 'La photo principale : vignette dans les mosaïques, image de partage sur les réseaux sociaux et en-tête de la fiche. Choisissez une photo de bonne taille, créditée.',
         'intertitre' => 'Titre d’une partie du texte (ex. « Avant-match », « Résumé »). Il structure la page et aide Google.',
         'lien de la vidéo' => 'Adresse de la vidéo copiée depuis YouTube, Dailymotion, Vimeo, Rutube ou X (barre d’adresse ou bouton « Partager »).',

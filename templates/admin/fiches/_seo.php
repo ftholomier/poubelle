@@ -82,6 +82,10 @@ $site = parse_url(base_url(), PHP_URL_HOST) ?: \App\Core\Club::s('domain');
         $uneMin = number_format($mw, 0, ',', ' ') . ' × ' . number_format($mh, 0, ',', ' ');
         $uneHelp = 'Image à la une trop petite pour le grand slider (' . (int) $uneM['width'] . ' × ' . (int) ($uneM['height'] ?? 0) . ' pixels ; il en faut au moins ' . $uneMin . ') : la fiche n’est pas tirée au hasard. Un plus grand scan (Médiathèque › « Remplacer le fichier… ») la fait entrer dans le tirage.';
     }
+    // La Une ne montre que des fiches validées par un historien.
+    if (!empty($doc['id']) && \App\Services\Validation::get((int) $doc['id']) === null) {
+        $uneHelp = trim('Pas encore validée : la fiche n’apparaît pas en Une tant qu’un historien ne l’a pas validée. ' . $uneHelp);
+    }
     ?>
     <?= Form::toggle('a_la_une', 'À la une (slider de l’accueil, tirage aléatoire)', !empty($doc['a_la_une']), ['help' => $uneHelp !== '' ? e($uneHelp) : null]) ?>
   </div>

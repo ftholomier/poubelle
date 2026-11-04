@@ -286,9 +286,14 @@ publiées « À la une » dont la vraie photo (silhouette « ? » écartée) fai
 occupe toute la largeur de l'écran (jusqu'à 840 pixels de haut, avec un léger zoom), une photo
 plus petite y paraît floue. La liste (`Pages::slidePool()`, 613 fiches sur 2 300 en
 octobre 2026 : 562 matchs, 36 personnes, 15 articles) est gardée par `Memo` et refaite quand
-l'index des fiches ou `data/media.json` change ; s'il n'en reste aucune, le tirage reprend
-toutes les fiches « À la une » qui ont une vraie photo. La sélection manuelle n'est pas
-filtrée : le back-office y signale les photos trop petites.
+l'index des fiches, `data/media.json` ou les validations changent ; s'il n'en reste aucune, le
+tirage reprend toutes les fiches validées qui ont une vraie photo. **Fiches validées seulement**
+(`Pages::slideValidated()`, ticket « en Une, que les contenus déjà validés ») : tirage, repli et
+sélection manuelle ; aucune fiche validée → pas de diapositive (visuels de départ du club s'il en
+a, `fillEmpty()` ; sinon pas de grand slider). Le back-office (Accueil & bandeau) compte les fiches
+à grande photo pas encore validées, alerte s'il y en a moins que de diapositives, et marque
+« pas encore validée » en sélection manuelle ; la case « À la une » de la fiche le dit aussi. Test :
+`tests/une-validees.php` (`tests/accueil.php` valide toutes les fiches le temps du test).
 
 ## 5. Données calculées (`App\Data\Derived`)
 

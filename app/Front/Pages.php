@@ -306,17 +306,26 @@ final class Pages
     }
 
     /**
-     * Fiches que le tirage au hasard peut montrer : vraie photo, assez grande (selon l'époque).
-     * Recalculé quand les fiches, la médiathèque ou les réglages changent.
+     * Fiche que la Une (grand slider de l'accueil) peut montrer : validée par un historien (ticket :
+     * « en Une, que les contenus déjà validés, comme ça on est sûr du contenu »).
+     */
+    public static function slideValidated(array $s): bool
+    {
+        return \App\Services\Validation::get((int) $s['id']) !== null;
+    }
+
+    /**
+     * Fiches que le tirage au hasard peut montrer : validées, vraie photo, assez grande (selon
+     * l'époque). Recalculé quand les fiches, les validations, la médiathèque ou les réglages changent.
      * @return list<array{id:int,k:string,old:bool}>
      */
     public static function slidePool(): array
     {
         $o = self::slideOpts();
-        return \App\Core\Memo::get('slider-tirage-v2', [Index::CACHE, Media::FILE, __FILE__, DATA_PATH . '/collections/slider.json'], json_encode($o), function () use ($o) {
+        return \App\Core\Memo::get('slider-tirage-v3', [Index::CACHE, Media::FILE, __FILE__, DATA_PATH . '/collections/slider.json', \App\Services\Validation::FILE], json_encode($o), function () use ($o) {
             $out = [];
             foreach (Index::published() as $s) {
-                if (!$s['image'] || Index::isPlaceholderImage($s['image'])) {
+                if (!$s['image'] || Index::isPlaceholderImage($s['image']) || !self::slideValidated($s)) {
                     continue;
                 }
                 $y = self::slideYear($s);
@@ -329,9 +338,10 @@ final class Pages
     }
 
     /**
-     * Slider : N fiches tirées au hasard parmi celles dont la photo est assez grande, avec au moins
-     * le nombre réglé de matchs, de lions, d'autres fiches et de fiches anciennes (s'il y en a) ;
-     * ou la sélection manuelle du back-office.
+     * Slider : N fiches validées tirées au hasard parmi celles dont la photo est assez grande, avec au
+     * moins le nombre réglé de matchs, de lions, d'autres fiches et de fiches anciennes (s'il y en a) ;
+     * ou la sélection manuelle du back-office (ses fiches validées seulement). Aucune fiche validée :
+     * les visuels de départ du club (fillEmpty()), s'il en a.
      */
     public static function slides(int $n): array
     {
@@ -341,7 +351,7 @@ final class Pages
         if (($conf['mode'] ?? 'random') === 'manual' && !empty($conf['ids'])) {
             foreach ($conf['ids'] as $id) {
                 $s = Index::get((int) $id);
-                if ($s && Index::visible($s)) {
+                if ($s && Index::visible($s) && self::slideValidated($s)) {
                     $pool[] = $s;
                 }
             }
@@ -385,7 +395,7 @@ final class Pages
             // Le cookie « sl » est posé par home.js (data-sl de l'accueil) : un Set-Cookie ici empêcherait
             // le cache des pages de garder l'accueil.
             if (!$pool) {
-                $pool = array_values(array_filter(Index::published(), fn ($s) => $s['image'] && !Index::isPlaceholderImage($s['image'])));
+                $pool = array_values(array_filter(Index::published(), fn ($s) => $s['image'] && !Index::isPlaceholderImage($s['image']) && self::slideValidated($s)));
                 shuffle($pool);
             }
         }

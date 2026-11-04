@@ -4,7 +4,7 @@
  * « À la une » dont la photo est assez grande pour le plein écran ; s'il n'y en a aucune, toutes
  * celles qui ont une vraie photo. Signalement des photos trop petites dans la fiche (onglet
  * « Classement & SEO »). Usage : php tests/accueil.php (code de sortie 1 en cas d'échec).
- * N'écrit que des fichiers de cache.
+ * N'écrit que des fichiers de cache (et le fichier des validations, remis en état à la fin).
  */
 declare(strict_types=1);
 
@@ -30,6 +30,16 @@ $size = function (?string $img): array {
     $m = Media::get($img);
     return [(int) ($m['width'] ?? 0), (int) ($m['height'] ?? 0)];
 };
+
+// La Une ne montre que des fiches validées (tests/une-validees.php) : ici, toutes les fiches publiées
+// sont validées le temps du test (fichier des validations remis en état à la fin).
+$validationsSaved = is_file(\App\Services\Validation::FILE) ? (string) file_get_contents(\App\Services\Validation::FILE) : null;
+register_shutdown_function(function () use ($validationsSaved) {
+    $validationsSaved === null ? @unlink(\App\Services\Validation::FILE) : file_put_contents(\App\Services\Validation::FILE, $validationsSaved);
+});
+\App\Core\JsonStore::write(\App\Services\Validation::FILE, array_fill_keys(array_map(fn ($s) => (int) $s['id'], Index::published()), ['by' => 'Essai', 'uid' => 'essai', 'at' => date('c')]));
+(new ReflectionProperty(\App\Services\Validation::class, 'memo'))->setValue(null, null);
+clearstatcache();
 
 // Fiches « À la une » publiées avec une vraie photo, dont trois à la photo trop petite.
 $une = array_values(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && $s['image'] && !Index::isPlaceholderImage($s['image'])));

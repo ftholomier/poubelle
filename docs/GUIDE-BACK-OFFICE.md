@@ -343,7 +343,8 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
 
 ## 5. Éditorial
 
-- **Accueil & bandeau** : slider « À la une » (tirage au hasard parmi les fiches cochées
+- **Accueil & bandeau** : slider « À la une » (**seulement des fiches validées par un
+  historien**, pour être sûr du contenu ; tirage au hasard parmi les fiches cochées
   « À la une » dont la vraie photo — la silhouette « ? » est écartée — fait au moins
   1 200 × 600 pixels, pour rester nette en plein écran, ou liste choisie à la main),
   messages du bandeau « En direct du musée » (4 messages automatiques : ce jour-là, compte à
@@ -356,8 +357,10 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   choisie au départ** dans la médiathèque, comme les dates de la frise et les époques du
   comparateur de maillots : bouton « Choisir… » pour la remplacer. **Photos trop petites
   pour le slider** : la carte du slider compte les fiches « À la une » écartées du tirage
-  pour cette raison ; en sélection manuelle, l'étiquette « photo trop petite » signale une
-  photo qui paraîtra floue ; dans la fiche, la case « À la une » le dit aussi. Un plus grand
+  pour cette raison et celles pas encore validées (alerte rouge s'il y a moins de fiches
+  validées que de diapositives : aucune, et la Une n'apparaît pas) ; en sélection manuelle,
+  les étiquettes « photo trop petite » et « pas encore validée » signalent une photo qui paraîtra
+  floue et une fiche qui ne sera pas montrée ; dans la fiche, la case « À la une » le dit aussi. Un plus grand
   scan (Médiathèque › la photo › « Remplacer le fichier… ») fait entrer la fiche dans le
   tirage.
 - **Rubriques & menus** : **ordre d'affichage sur le site** (manuel, chronologique ou A–Z),

@@ -17,7 +17,7 @@ use App\Core\JsonStore;
  */
 final class Validation
 {
-    private const FILE = STORAGE_PATH . '/validations.json';
+    public const FILE = STORAGE_PATH . '/validations.json';
 
     private static ?array $memo = null;
 
