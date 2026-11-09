@@ -93,5 +93,28 @@
     ],
     "step3_title": "Où vous envoyer le devis ?",
     "legal": "Sans engagement · Vos données ne sont jamais transmises à des tiers"
+  },
+  "voice": {
+    "enabled": true,
+    "label": "Laissez un vocal",
+    "max_seconds": 120,
+    "questions": [
+      "Quel est votre projet ?",
+      "Quels produits ? Fenêtres, porte, volets…",
+      "Où se trouve le chantier ?",
+      "Pour quand souhaitez-vous le réaliser ?",
+      "Comment vous joindre ?"
+    ],
+    "finish": "Terminer",
+    "title": "Votre message vocal",
+    "no_transcript": "Transcription indisponible sur ce navigateur : votre message sera quand même envoyé.",
+    "summary_label": "Résumé pour nos commerciaux",
+    "send": "Envoyer mon message",
+    "again": "Recommencer",
+    "sent_title": "Message reçu{name} !",
+    "sent_text": "Nos commerciaux écoutent votre message et vous rappellent dans les délais les plus rapides possible.",
+    "error_title": "Micro indisponible",
+    "error_text": "Impossible d'accéder au micro. Autorisez-le dans votre navigateur, ou utilisez le formulaire de devis.",
+    "summary_prompt": "Résume ce message vocal d'un client pour l'équipe commerciale de Renov'Est, en 3 lignes courtes commençant par « Projet : », « Produits : », « Lieu et délai : ». N'invente rien : écris « non précisé » si l'information manque. Message : « {transcript} »"
   }
 }

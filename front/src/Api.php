@@ -9,6 +9,8 @@ declare(strict_types=1);
  *  POST /api/contact     formulaire de contact
  *  POST /api/rappel      demande de rappel (popup de sortie)
  *  POST /api/bot         assistant du site
+ *  POST /api/vocal       message vocal (bouton rouge de la barre CTA)
+ *  POST /api/vocal/resume résumé IA (Gemini) d'un vocal avant envoi
  *  GET  /api/token       jeton de formulaire
  *  GET  /api/site        coordonnées publiques
  *  GET  /api/produits    produits
@@ -29,6 +31,8 @@ final class Api
                 '/contact' => self::contact(),
                 '/rappel' => self::rappel(),
                 '/bot' => self::bot(),
+                '/vocal' => self::vocal(),
+                '/vocal/resume' => self::vocalSummary(),
                 default => Http::error('Adresse inconnue', 404),
             };
             return;
@@ -201,6 +205,68 @@ final class Api
         }
         Leads::add(['type' => 'rappel', 'nom' => Http::str($in, 'nom', 120), 'tel' => $tel, 'page' => Http::str($in, 'page', 300)]);
         Http::json(['ok' => true]);
+    }
+
+    /** Message vocal : fichier audio + transcription du navigateur + coordonnées. */
+    private static function vocal(): void
+    {
+        if (!Voice::enabled()) {
+            Http::error('Messages vocaux désactivés', 404);
+        }
+        $in = $_POST;
+        if (Http::str($in, 'site') !== '') {
+            Http::json(['ok' => true]);
+        }
+        if (!Http::checkFormToken(Http::str($in, 'token', 80), 2)) {
+            Http::error('Session expirée : rechargez la page puis réessayez.', 422);
+        }
+        $tel = Http::str($in, 'tel', 30);
+        if (!self::phoneOk($tel)) {
+            Http::error('Laissez votre numéro de téléphone pour que nous puissions vous rappeler.', 422, ['fields' => ['tel' => 'Numéro invalide']]);
+        }
+        if (!Http::rateLimit('vocal', 4, 1800)) {
+            Http::error('Trop de messages en peu de temps : appelez-nous au ' . Content::site()['phone'] . '.', 429);
+        }
+        try {
+            [$file, $mime] = Voice::store($_FILES['audio'] ?? []);
+        } catch (RuntimeException $e) {
+            Http::error($e->getMessage(), 422);
+        }
+        $transcript = Sanitizer::text($in['transcript'] ?? '', 6000);
+        $summary = Sanitizer::text($in['summary'] ?? '', 1500);
+        if ($transcript === '') {
+            $transcript = Voice::transcribe($file);
+        }
+        if ($summary === '' && $transcript !== '') {
+            $summary = Voice::summary($transcript);
+        }
+        $duration = preg_match('/^\d{1,2}:\d{2}$/', Http::str($in, 'duration', 8)) ? Http::str($in, 'duration', 8) : '';
+        $path = (string) Voice::file($file);
+        $ext = pathinfo($file, PATHINFO_EXTENSION);
+        $nom = Http::str($in, 'nom', 120);
+        $att = filesize($path) < 6 * 1024 * 1024
+            ? [['name' => 'vocal-' . ($nom !== '' ? slugify($nom) : 'client') . '-' . date('Ymd-Hi') . '.' . $ext, 'type' => $mime, 'content' => (string) file_get_contents($path)]]
+            : [];
+        Leads::add([
+            'type' => 'vocal', 'nom' => $nom, 'tel' => $tel,
+            'audio' => $file, 'mime' => $mime, 'duration' => $duration,
+            'msg' => $transcript, 'summary' => $summary,
+            'page' => Http::str($in, 'page', 300),
+        ], $att);
+        Http::json(['ok' => true]);
+    }
+
+    /** Résumé IA affiché au visiteur avant l'envoi de son vocal. */
+    private static function vocalSummary(): void
+    {
+        $in = Http::input();
+        if (!Http::checkFormToken(Http::str($in, 'token', 80), 0)) {
+            Http::error('Session expirée : rechargez la page.', 422);
+        }
+        if (!Http::rateLimit('vocal-resume', 10, 600)) {
+            Http::json(['ok' => true, 'summary' => '']);
+        }
+        Http::json(['ok' => true, 'summary' => Voice::summary(Http::str($in, 'transcript', 6000))]);
     }
 
     private static function bot(): void

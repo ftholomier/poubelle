@@ -92,6 +92,7 @@ Redirections 301 : `/wp-content/uploads/…` → `/media/…`, `/category/actual
 | POST | `/api/contact` | formulaire de contact |
 | POST | `/api/rappel` | demande de rappel |
 | POST | `/api/bot` | assistant du site |
+| POST | `/api/vocal`, `/api/vocal/resume` | message vocal, résumé IA avant envoi |
 | GET | `/api/site`, `/api/produits`, `/api/actus`, `/api/actus/{id}`, `/api/realisations`, `/api/avis` | contenu en lecture |
 | GET | `/api/cron?key=…` | tâches planifiées |
 
@@ -101,7 +102,7 @@ limitation par IP. Chaque demande est enregistrée puis envoyée par e-mail.
 ## Back-office (`/admin`)
 
 - **Tableau de bord** : demandes non traitées, graphique 14 jours, liste de mise en service.
-- **Demandes** : devis, contacts, rappels ; recherche, filtres, statut, notes, export CSV.
+- **Demandes** : devis, contacts, rappels, messages vocaux (écoute) ; recherche, filtres, statut, notes, export CSV.
 - **Conversations du bot** : journal des échanges avec l'assistant.
 - **Page d'accueil** : héros (titre, vidéo), compteurs, sections, bloc final, SEO.
 - **Pages** : Présentation, Nos produits, Réalisations, Actu, Avis, Contact, Devis, Mentions.
@@ -159,6 +160,24 @@ le plus récent. La liste est gardée 24 h et peut être actualisée d'un clic.
 Les consignes envoyées sont construites à partir du contenu du site : l'assistant n'invente
 ni prix ni délai et propose toujours le devis, l'appel ou le contact. Si Gemini ne répond pas
 (quota, panne), le bot bascule sur les réponses automatiques.
+
+## Message vocal (bouton rouge de la barre CTA)
+
+Sur le modèle de le-digital.com, la barre CTA fixe propose, en plus de « Contactez-nous » et
+« Demandez un devis », un bouton à pastille rouge **« Laissez un vocal »** :
+
+1. clic : le navigateur demande l'accès au micro, la barre devient une barre
+   d'enregistrement (stop, chrono, ondes sonores, questions-guides toutes les 15 s,
+   « Terminer », annuler) ; arrêt automatique à la durée maximale réglée ;
+2. réécoute dans un panneau : lecteur audio, transcription faite en direct par le navigateur
+   (Chrome, Edge, Safari), résumé par Gemini si une clé est réglée, nom et téléphone
+   (obligatoire), « Recommencer » ou « Envoyer » ;
+3. le vocal (`POST /api/vocal`) est rangé hors du dossier public (`storage/voices/`), devient
+   une demande « Vocal » du back-office (lecteur audio, téléchargement, transcription,
+   résumé IA) et part par e-mail avec le fichier audio en pièce jointe (jusqu'à 6 Mo).
+   Sans transcription du navigateur, Gemini transcrit le fichier si une clé est réglée.
+
+Textes, questions, durée maximale et consigne de résumé : **Back-office › Conversion**.
 
 ## Actualités et Facebook
 

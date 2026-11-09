@@ -6,9 +6,54 @@ $exit = $ui['exit'] ?? [];
 $teaser = $ui['teaser'] ?? [];
 $devis = Content::path('devis');
 ?>
+<?php $voice = Voice::cfg(); $hasVoice = !empty($voice['enabled']); ?>
 <?php if (!empty($ui['cta_bar']['enabled'])): ?>
-<div class="rv-cta" id="rv-cta">
+<?php if ($hasVoice): ?>
+<section class="rv-vpanel" id="rv-vpanel" role="dialog" aria-labelledby="rv-v-title" hidden>
+  <div class="rv-vpanel__h">
+    <span class="rv-vpanel__dot" aria-hidden="true"></span>
+    <span class="rv-vpanel__t" id="rv-v-title"><?= e($voice['title']) ?></span>
+    <button class="rv-vpanel__x" type="button" data-voice-close aria-label="Fermer">×</button>
+  </div>
+  <div class="rv-vpanel__b">
+    <div id="rv-v-review" hidden>
+      <audio controls preload="metadata" id="rv-v-audio"></audio>
+      <div class="rv-vpanel__tr" id="rv-v-tr"></div>
+      <div class="rv-vpanel__sum" id="rv-v-sum" hidden><b><?= e($voice['summary_label']) ?></b><span id="rv-v-sumtxt"></span></div>
+      <div class="rv-vpanel__f">
+        <label class="sr-only" for="rv-v-nom">Nom et prénom</label>
+        <input id="rv-v-nom" maxlength="120" placeholder="Nom et prénom" autocomplete="name">
+        <label class="sr-only" for="rv-v-tel">Téléphone</label>
+        <input id="rv-v-tel" type="tel" maxlength="30" placeholder="Téléphone *" autocomplete="tel" required>
+      </div>
+      <p class="rv-vpanel__err" id="rv-v-err" hidden></p>
+      <div class="rv-vpanel__a">
+        <button class="btn btn-l" type="button" data-voice-start><span class="fx"></span><span><?= e($voice['again']) ?></span></button>
+        <button class="btn btn-y" type="button" id="rv-v-send"><span class="fx"></span><span><?= e($voice['send']) ?></span></button>
+      </div>
+      <p class="rv-vpanel__legal"><?= e($ui['devis_form']['legal'] ?? '') ?></p>
+    </div>
+    <div class="rv-vpanel__ok" id="rv-v-sent" hidden><div class="dv__okc">✓</div><p><?= e($voice['sent_text']) ?></p></div>
+    <p class="rv-vpanel__p" id="rv-v-error" hidden><?= e($voice['error_text']) ?></p>
+  </div>
+</section>
+<?php endif; ?>
+<div class="rv-cta<?= $hasVoice ? ' has-voice' : '' ?>" id="rv-cta">
   <div class="rv-cta__box">
+    <?php if ($hasVoice): ?>
+    <div class="rv-rec" id="rv-rec" hidden>
+      <button class="rv-rec__stop" type="button" data-voice-stop aria-label="Arrêter l'enregistrement"><span></span></button>
+      <span class="rv-rec__time" id="rv-v-time">0:00</span>
+      <div class="rv-rec__bars" id="rv-v-bars" aria-hidden="true"><?= str_repeat('<span></span>', 28) ?></div>
+      <span class="rv-rec__q" id="rv-v-q"><?= e($voice['questions'][0] ?? '') ?></span>
+      <button class="rv-rec__fin" type="button" data-voice-stop><?= e($voice['finish']) ?></button>
+      <button class="rv-rec__x" type="button" data-voice-cancel aria-label="Annuler l'enregistrement">×</button>
+    </div>
+    <button class="btn rv-cta__v" type="button" data-voice-start title="<?= e($voice['label']) ?>" aria-label="<?= e($voice['label']) ?>">
+      <span class="fx"></span>
+      <span class="rv-cta__vin"><span class="rv-cta__mic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></span><span class="rv-cta__vl"><?= e($voice['label']) ?></span></span>
+    </button>
+    <?php endif; ?>
     <a class="btn rv-cta__c" href="<?= e(Content::path('contact')) ?>"><span class="fx"></span><span><?= e($ui['cta_bar']['contact'] ?? 'Contactez-nous') ?></span></a>
     <div class="rv-cta__w">
       <div class="rv-cta__glow"></div>

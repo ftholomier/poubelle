@@ -144,6 +144,29 @@ final class Gemini
         return trim($text);
     }
 
+    /** Transcription d'un fichier audio (envoyé en ligne, 20 Mo au plus). */
+    public static function transcribe(string $key, string $model, string $file, string $mime): string
+    {
+        if (!self::validId($model) || !is_file($file) || filesize($file) > 18 * 1024 * 1024) {
+            return '';
+        }
+        $body = [
+            'contents' => [['role' => 'user', 'parts' => [
+                ['inline_data' => ['mime_type' => $mime, 'data' => base64_encode((string) file_get_contents($file))]],
+                ['text' => 'Transcris mot à mot ce message vocal en français. Réponds uniquement par la transcription, sans commentaire. Si rien n\'est audible, réponds par un texte vide.'],
+            ]]],
+            'generationConfig' => ['maxOutputTokens' => 4096, 'temperature' => 0],
+        ];
+        $j = self::call('POST', 'models/' . rawurlencode($model) . ':generateContent', $key, $body);
+        $text = '';
+        foreach ((array) ($j['candidates'][0]['content']['parts'] ?? []) as $p) {
+            if (empty($p['thought']) && isset($p['text'])) {
+                $text .= (string) $p['text'];
+            }
+        }
+        return trim($text);
+    }
+
     // ------------------------------------------------------------------ HTTP
 
     private static function call(string $method, string $path, string $key, ?array $body = null): array

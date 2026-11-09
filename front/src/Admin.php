@@ -79,6 +79,9 @@ final class Admin
             case 'demandes.csv':
                 self::leadsCsv();
                 return;
+            case 'vocal':
+                self::voiceFile((string) ($parts[1] ?? ''));
+                return;
             case 'accueil':
                 self::formPage('Page d\'accueil', 'home.save', AdminSchemas::home(), Content::page('home'), 'Textes, chiffres et sections de la page d\'accueil.', '/');
                 return;
@@ -138,7 +141,7 @@ final class Admin
                 self::formPage('Coordonnées', 'site.save', AdminSchemas::site(), Content::site(), 'Téléphones, agences, réseaux sociaux et zone d\'intervention (en-tête, pied de page, contact, assistant).', Content::path('contact'));
                 return;
             case 'conversion':
-                self::formPage('Conversion', 'ui.save', AdminSchemas::ui(), Content::ui(), 'Bandeau supérieur, barre CTA, bulle d\'accroche, assistant, popup de sortie, formulaire de devis, curseur.', '/');
+                self::formPage('Conversion', 'ui.save', AdminSchemas::ui(), ['voice' => Voice::cfg()] + Content::ui(), 'Bandeau supérieur, barre CTA, bulle d\'accroche, assistant, popup de sortie, formulaire de devis, curseur.', '/');
                 return;
             case 'assistant':
                 if (($parts[1] ?? '') === 'conversations') {
@@ -757,6 +760,48 @@ final class Admin
         Auth::updateUser($u['id'], ['password' => $pw]);
         Auth::login(Auth::find($u['id']));
         Http::json(['ok' => true, 'redirect' => '/admin']);
+    }
+
+    /** Écoute d'un message vocal (fichier hors du dossier public, réservé au back-office). */
+    private static function voiceFile(string $name): void
+    {
+        $f = Voice::file($name);
+        if ($f === null) {
+            http_response_code(404);
+            exit;
+        }
+        $size = (int) filesize($f);
+        $start = 0;
+        $end = $size - 1;
+        header('Content-Type: ' . Voice::mime($name));
+        header('Accept-Ranges: bytes');
+        header('Cache-Control: private, max-age=3600');
+        if (preg_match('/^bytes=(\d*)-(\d*)$/', (string) ($_SERVER['HTTP_RANGE'] ?? ''), $m) && ($m[1] !== '' || $m[2] !== '')) {
+            if ($m[1] === '') {
+                $start = max(0, $size - (int) $m[2]);
+            } else {
+                $start = (int) $m[1];
+                $end = $m[2] !== '' ? min((int) $m[2], $size - 1) : $size - 1;
+            }
+            if ($start > $end || $start >= $size) {
+                http_response_code(416);
+                header('Content-Range: bytes */' . $size);
+                exit;
+            }
+            http_response_code(206);
+            header("Content-Range: bytes $start-$end/$size");
+        }
+        header('Content-Length: ' . ($end - $start + 1));
+        $fp = fopen($f, 'rb');
+        fseek($fp, $start);
+        $left = $end - $start + 1;
+        while ($left > 0 && !feof($fp)) {
+            $chunk = fread($fp, min(65536, $left));
+            echo $chunk;
+            $left -= strlen((string) $chunk);
+        }
+        fclose($fp);
+        exit;
     }
 
     // ------------------------------------------------------------------ exports

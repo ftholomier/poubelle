@@ -29,7 +29,7 @@ $cur = $sel !== '' ? Leads::find($sel) : null;
         <tr class="<?= $l['status'] === 'nouveau' ? 'is-new' : '' ?><?= $sel === $l['id'] ? ' is-sel' : '' ?>" data-href="/admin/demandes?id=<?= e($l['id']) ?>&amp;type=<?= e($type) ?>&amp;statut=<?= e($status) ?>&amp;q=<?= e($q) ?>">
           <td><?= e(date('d/m/Y H:i', strtotime($l['at']))) ?></td>
           <td><span class="tag tag--<?= e($l['type']) ?>"><?= e(Leads::TYPES[$l['type']] ?? $l['type']) ?></span></td>
-          <td><b><?= e($l['nom'] ?: '—') ?></b><?php if (!empty($l['types'])): ?><br><small><?= e(implode(', ', $l['types'])) ?></small><?php endif; ?></td>
+          <td><b><?= e($l['nom'] ?: '—') ?></b><?php if (!empty($l['types'])): ?><br><small><?= e(implode(', ', $l['types'])) ?></small><?php endif; ?><?php if (($l['type'] ?? '') === 'vocal'): ?><br><small>🎙 Message vocal<?= !empty($l['duration']) ? ' · ' . e($l['duration']) : '' ?></small><?php endif; ?></td>
           <td><?= e($l['tel'] ?? '') ?></td>
           <td><span class="st st--<?= e($l['status']) ?>"><?= e(Leads::STATUS[$l['status']] ?? $l['status']) ?></span></td>
         </tr>
@@ -53,9 +53,19 @@ $cur = $sel !== '' ? Leads::find($sel) : null;
           <?php if (!empty($cur['qty'])): ?><dt>Éléments</dt><dd><?= e($cur['qty']) ?></dd><?php endif; ?>
           <?php if (!empty($cur['delai'])): ?><dt>Échéance</dt><dd><?= e($cur['delai']) ?></dd><?php endif; ?>
           <?php if (!empty($cur['cp'])): ?><dt>Code postal</dt><dd><?= e($cur['cp']) ?></dd><?php endif; ?>
+          <?php if (!empty($cur['duration'])): ?><dt>Durée</dt><dd><?= e($cur['duration']) ?></dd><?php endif; ?>
           <?php if (!empty($cur['page'])): ?><dt>Envoyée depuis</dt><dd><?= e($cur['page']) ?></dd><?php endif; ?>
         </dl>
-        <?php if (!empty($cur['msg'])): ?><div class="lead__msg"><?= nl2br(e($cur['msg'])) ?></div><?php endif; ?>
+        <?php if (!empty($cur['audio'])): ?>
+          <div class="lead__voice">
+            <?php if (Voice::file((string) $cur['audio'])): ?>
+              <audio controls preload="metadata" src="/admin/vocal/<?= e($cur['audio']) ?>"></audio>
+              <a class="b b--l" href="/admin/vocal/<?= e($cur['audio']) ?>" download="vocal-<?= e(slugify($cur['nom'] ?: 'client')) ?>.<?= e(pathinfo((string) $cur['audio'], PATHINFO_EXTENSION)) ?>">Télécharger</a>
+            <?php else: ?><p class="bo-muted">Fichier audio introuvable.</p><?php endif; ?>
+          </div>
+        <?php endif; ?>
+        <?php if (!empty($cur['summary'])): ?><div class="lead__sum"><b>Résumé IA</b><?= nl2br(e($cur['summary'])) ?></div><?php endif; ?>
+        <?php if (!empty($cur['msg'])): ?><div class="lead__msg"><?php if (($cur['type'] ?? '') === 'vocal'): ?><b class="lead__lbl">Transcription</b><?php endif; ?><?= nl2br(e($cur['msg'])) ?></div><?php elseif (($cur['type'] ?? '') === 'vocal'): ?><p class="bo-muted">Pas de transcription (navigateur sans reconnaissance vocale et pas de clé Gemini) : écoutez le message.</p><?php endif; ?>
         <?php if (!empty($cur['mail_error'])): ?><p class="bo-warn">E-mail de notification non envoyé : <?= e($cur['mail_error']) ?></p><?php endif; ?>
         <div class="quick" style="margin:16px 0">
           <?php foreach (Leads::STATUS as $k => $v): ?>

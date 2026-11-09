@@ -8,8 +8,11 @@ declare(strict_types=1);
  */
 final class Mailer
 {
-    /** @return true|string  true si envoyé, sinon le message d'erreur */
-    public static function send(string $to, string $subject, string $text, string $replyTo = '')
+    /**
+     * @param array $attachments [['name' => 'vocal.webm', 'type' => 'audio/webm', 'content' => '…'], …]
+     * @return true|string  true si envoyé, sinon le message d'erreur
+     */
+    public static function send(string $to, string $subject, string $text, string $replyTo = '', array $attachments = [])
     {
         $to = trim($to);
         if ($to === '') {
@@ -39,6 +42,20 @@ final class Mailer
             $headers[] = 'Reply-To: ' . $replyTo;
         }
         $body = str_replace(["\r\n", "\r"], "\n", $text);
+        if ($attachments) {
+            // Message en plusieurs parties : le texte puis les pièces jointes (base64)
+            $b = 'rv-' . bin2hex(random_bytes(12));
+            $headers = array_values(array_filter($headers, fn($h) => !str_starts_with($h, 'Content-Type:') && !str_starts_with($h, 'Content-Transfer-Encoding:')));
+            $headers[] = 'Content-Type: multipart/mixed; boundary="' . $b . '"';
+            $mixed = "--$b\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\n\n" . $body . "\n";
+            foreach ($attachments as $a) {
+                $fname = preg_replace('/[^\w.\-]/', '_', (string) ($a['name'] ?? 'piece-jointe'));
+                $type = preg_match('#^[\w.+-]+/[\w.+-]+$#', (string) ($a['type'] ?? '')) ? $a['type'] : 'application/octet-stream';
+                $mixed .= "--$b\nContent-Type: $type; name=\"$fname\"\nContent-Transfer-Encoding: base64\nContent-Disposition: attachment; filename=\"$fname\"\n\n"
+                    . rtrim(chunk_split(base64_encode((string) $a['content']), 76, "\n")) . "\n";
+            }
+            $body = $mixed . "--$b--\n";
+        }
 
         $host = trim((string) Settings::get('smtp_host', ''));
         if ($host !== '') {

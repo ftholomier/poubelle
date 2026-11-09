@@ -17,6 +17,11 @@ $jsCfg = [
         'quick' => array_values(array_map(fn($q) => ['q' => (string) $q['q'], 'a' => (string) $q['a']], $ui['bot']['quick'] ?? [])),
         'ask' => (string) ($ui['bot']['ask'] ?? ''), 'askAnswer' => (string) ($ui['bot']['ask_answer'] ?? '')],
     'token' => Http::formToken(),
+    'voice' => (function () {
+        $v = Voice::cfg();
+        return !empty($v['enabled']) ? ['max' => (int) $v['max_seconds'], 'questions' => array_values($v['questions']), 'title' => (string) $v['title'],
+            'noTranscript' => (string) $v['no_transcript'], 'sentTitle' => (string) $v['sent_title'], 'errorTitle' => (string) $v['error_title']] : null;
+    })(),
 ];
 ?><!doctype html>
 <html lang="fr">

@@ -505,6 +505,68 @@ a.philo__c:hover .philo__bar { width: 70px }
   .rv-cta .btn { font-size: 13px; padding: 15px 10px }
 }
 
+/* ------------------------------------------------------------------ Message vocal (bouton rouge, sur le modèle de le-digital.com) */
+@keyframes rvRec { 0% { box-shadow: 0 0 0 0 rgba(229,38,42,.6) } 70% { box-shadow: 0 0 0 10px rgba(229,38,42,0) } 100% { box-shadow: 0 0 0 0 rgba(229,38,42,0) } }
+.rv-cta .rv-cta__v { background: #fff; color: var(--k); padding: 8px 18px 8px 8px; display: flex; align-items: center }
+.rv-cta .rv-cta__v > .fx { background: #e5262a }
+.rv-cta .rv-cta__v:hover { color: #fff; transform: translateY(-3px) }
+.rv-cta__vin { position: relative; display: flex; align-items: center; gap: 10px }
+.rv-cta__mic { flex: none; width: 34px; height: 34px; border-radius: 50%; background: #e5262a; display: grid; place-items: center; animation: rvRec 2s infinite; box-shadow: inset 0 -2px 0 rgba(0,0,0,.12); transition: background .3s ease }
+.rv-cta .rv-cta__v:hover .rv-cta__mic { background: #1c1c1c }
+.rv-rec { display: flex; align-items: center; gap: 10px; width: 100% }
+.rv-rec__stop { flex: none; width: 46px; height: 46px; border-radius: 50%; background: #e5262a; display: grid; place-items: center; animation: rvRec 1.2s infinite; cursor: pointer }
+.rv-rec__stop span { width: 15px; height: 15px; border-radius: 3px; background: #fff }
+.rv-rec__time { flex: none; font-family: var(--arch); font-weight: 800; font-size: 15px; color: #fff; min-width: 44px; font-variant-numeric: tabular-nums }
+.rv-rec__bars { flex: 1; min-width: 60px; display: flex; align-items: center; gap: 3px; height: 36px }
+.rv-rec__bars span { flex: 1; border-radius: 3px; height: 4px; background: linear-gradient(var(--y), #e5262a); transition: height .08s linear }
+.rv-rec__q { flex: none; max-width: 300px; font-family: var(--arch); font-weight: 700; font-size: 14px; line-height: 1.3; color: var(--y); padding: 0 6px }
+.rv-rec__fin { flex: none; height: 46px; padding: 0 18px; border-radius: 10px; background: var(--y); color: var(--k); font-family: var(--arch); font-weight: 800; font-size: 14px; letter-spacing: .03em; text-transform: uppercase; cursor: pointer; transition: background .25s ease, color .25s ease }
+.rv-rec__fin:hover { background: #fff }
+.rv-rec__x { flex: none; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.1); color: #fff; font-size: 20px; cursor: pointer }
+.rv-rec__x:hover { background: rgba(255,255,255,.2) }
+.rv-cta.is-rec .rv-cta__box { width: min(860px,100%) }
+.rv-cta.is-rec .rv-cta__box > :not(.rv-rec) { display: none !important }
+.rv-vpanel { position: fixed; left: 50%; bottom: 100px; transform: translateX(-50%); z-index: 85; width: min(440px, calc(100vw - 20px)); max-height: calc(100vh - 130px); overflow-y: auto; background: #fff; border-radius: 18px; border: 1px solid #e4e4e4; box-shadow: 0 24px 60px rgba(0,0,0,.28); animation: rvPop .2s ease-out }
+.rv-vpanel__h { background: var(--k); color: #fff; padding: 15px 18px; display: flex; align-items: center; gap: 12px }
+.rv-vpanel__dot { width: 12px; height: 12px; border-radius: 50%; background: #e5262a; flex: none; animation: rvRec 2s infinite }
+.rv-vpanel__t { flex: 1; font-family: var(--arch); font-weight: 800; font-size: 16px }
+.rv-vpanel__x { color: #9a9a9a; font-size: 22px; cursor: pointer; padding: 0 4px }
+.rv-vpanel__x:hover { color: #fff }
+.rv-vpanel__b { padding: 18px; display: flex; flex-direction: column; gap: 12px }
+.rv-vpanel__b > div { display: flex; flex-direction: column; gap: 12px }
+.rv-vpanel audio { width: 100%; height: 40px }
+.rv-vpanel__tr { background: #fafafa; border: 1px solid #ececec; border-radius: 14px 14px 14px 4px; padding: 12px 14px; font-size: 14.5px; line-height: 1.55; color: #2c2c2c; max-height: 140px; overflow-y: auto }
+.rv-vpanel__tr.is-empty { color: #8c8c8c }
+.rv-vpanel__sum { background: var(--cream); border: 1px solid #f0e48a; border-radius: 12px; padding: 12px 14px; font-size: 14px; line-height: 1.5; white-space: pre-wrap }
+.rv-vpanel__sum b { display: block; font-family: var(--arch); font-weight: 800; font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: #6b6b6b; margin-bottom: 3px; white-space: normal }
+.rv-vpanel__f { display: grid; grid-template-columns: 1fr 1fr; gap: 8px }
+.rv-vpanel__f input { min-width: 0; padding: 13px; border: 1.5px solid #ddd; border-radius: 9px; background: #fff }
+.rv-vpanel__f input:focus { outline: none; border-color: var(--k) }
+.rv-vpanel__f input.is-err { border-color: #d04a3a }
+.rv-vpanel__a { display: flex; gap: 8px }
+.rv-vpanel__a .btn { font-size: 14px; padding: 14px 14px; border-radius: 9px }
+.rv-vpanel__a .btn-y { flex: 1 }
+.rv-vpanel__a .btn-y:hover { transform: none }
+.rv-vpanel__a .btn-y.is-loading { opacity: .7; pointer-events: none }
+.rv-vpanel__err { margin: 0; font-size: 14px; color: #b23b2e }
+.rv-vpanel__legal { margin: 0; font-size: 12px; color: #8c8c8c; text-align: center }
+.rv-vpanel__p { margin: 0; font-size: 15px; line-height: 1.6; color: #4a4a4a }
+.rv-vpanel__ok { text-align: center; padding: 6px 0 }
+.rv-vpanel__ok p { margin: 0; font-size: 15.5px; line-height: 1.6; color: #4a4a4a }
+@media (max-width: 1259.98px) {
+  .rv-cta.has-voice .rv-cta__v { flex: 0 0 auto; padding: 8px }
+  .rv-cta__vl { display: none }
+  .rv-rec__q { display: none }
+  .rv-rec__fin { padding: 0 14px; font-size: 13px }
+  .rv-vpanel { bottom: 90px }
+}
+@media (max-width: 480px) {
+  .rv-vpanel__f { grid-template-columns: 1fr }
+  .rv-cta.has-voice .btn:not(.rv-cta__v) { white-space: normal; line-height: 1.15; font-size: 12.5px; padding: 8px 6px; min-height: 50px; display: flex; align-items: center; justify-content: center; letter-spacing: .02em }
+  .rv-rec { gap: 6px }
+  .rv-rec__time { min-width: 38px; font-size: 14px }
+}
+
 /* ------------------------------------------------------------------ Bot IA (bas droite) */
 .rv-bot { position: fixed; right: 18px; bottom: 22px; z-index: 80; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; transition: bottom .5s var(--e) }
 @media (max-width: 1259.98px) { body.has-cta:not(.cta-hidden) .rv-bot { bottom: 112px } }

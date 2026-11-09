@@ -71,6 +71,9 @@
     var dy = y - lastY;
     if (Math.abs(dy) > 8) { ctaHidden = dy > 0 && y > 320; lastY = y; }
     if (y < 320 || y > h - 60) ctaHidden = false;
+    // Pendant un enregistrement ou la réécoute d'un vocal, la barre reste visible
+    var vpEl = document.getElementById('rv-vpanel');
+    if (cta && (cta.classList.contains('is-rec') || (vpEl && !vpEl.hidden))) ctaHidden = false;
     if (cta) cta.classList.toggle('is-hidden', ctaHidden);
     document.body.classList.toggle('cta-hidden', ctaHidden || !cta);
   }
@@ -373,6 +376,8 @@
   var exitBox = $('#rv-exit');
   function exitOpen() {
     if (!exitBox || !exitBox.hidden) return;
+    if (cta && cta.classList.contains('is-rec')) return;
+    var vp = document.getElementById('rv-vpanel'); if (vp && !vp.hidden) return;
     if (CFG.exit.mode !== 'always') { if (store.get('rv_exit_seen')) return; store.set('rv_exit_seen', '1'); }
     if (location.pathname === CFG.devis) return;
     exitBox.hidden = false;
@@ -395,6 +400,145 @@
       if (e.target === exitBox || (e.target.closest && e.target.closest('[data-act="exit-close"]'))) exitClose();
     });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') exitClose(); });
+  }
+
+  /* ---------------------------------------------------------------- Message vocal (bouton rouge de la barre CTA) */
+  var vp = $('#rv-vpanel');
+  if (vp && cta && CFG.voice) {
+    var V = CFG.voice;
+    var vTitle = $('#rv-v-title'), vReview = $('#rv-v-review'), vSent = $('#rv-v-sent'), vErrorP = $('#rv-v-error');
+    var vAudio = $('#rv-v-audio'), vTr = $('#rv-v-tr'), vSum = $('#rv-v-sum'), vSumTxt = $('#rv-v-sumtxt');
+    var vNom = $('#rv-v-nom'), vTel = $('#rv-v-tel'), vErr = $('#rv-v-err'), vSend = $('#rv-v-send');
+    var vTime = $('#rv-v-time'), vQ = $('#rv-v-q'), recBar = $('#rv-rec'), bars = $$('#rv-v-bars span');
+    var phase = 'idle', mr = null, chunks = [], stream = null, actx = null, raf = 0, ti = 0, sr = null, secs = 0, vtext = '', vsum = '', blob = null, canceled = false, blobUrl = '';
+    var fmtTime = function (n) { return Math.floor(n / 60) + ':' + String(n % 60).padStart(2, '0'); };
+    var updTime = function () { vTime.textContent = fmtTime(secs); var qs = V.questions || []; if (qs.length) vQ.textContent = qs[Math.min(qs.length - 1, Math.floor(secs / 15))]; };
+    var cleanup = function () {
+      clearInterval(ti); cancelAnimationFrame(raf);
+      try { if (sr) sr.stop(); } catch (e) {}
+      sr = null;
+      if (stream) stream.getTracks().forEach(function (t) { t.stop(); });
+      stream = null;
+      try { if (actx) actx.close(); } catch (e) {}
+      actx = null;
+      recBar.hidden = true; cta.classList.remove('is-rec');
+      bars.forEach(function (b) { b.style.height = '4px'; });
+    };
+    var showPanel = function (which) {
+      vp.hidden = false;
+      if (botP && !botP.hidden) botOpen(false);
+      vReview.hidden = which !== 'review'; vSent.hidden = which !== 'sent'; vErrorP.hidden = which !== 'error';
+    };
+    var closePanel = function () { vp.hidden = true; if (phase !== 'rec') phase = 'idle'; try { vAudio.pause(); } catch (e) {} };
+    var voiceError = function () { cleanup(); phase = 'error'; vTitle.textContent = V.errorTitle; showPanel('error'); };
+    var setErr = function (m) { vErr.textContent = m || ''; vErr.hidden = !m; };
+
+    var startVoice = function () {
+      if (phase === 'rec') return;
+      cleanup();
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) { voiceError(); return; }
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(function (s) {
+        stream = s;
+        vp.hidden = true;
+        if (exitBox) exitBox.hidden = true;
+        chunks = []; canceled = false; vtext = ''; vsum = ''; blob = null;
+        var types = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus'];
+        var type = types.filter(function (t) { return MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t); })[0];
+        try { mr = new MediaRecorder(stream, type ? { mimeType: type } : undefined); } catch (e) { voiceError(); return; }
+        mr.ondataavailable = function (ev) { if (ev.data && ev.data.size) chunks.push(ev.data); };
+        mr.onstop = function () { if (canceled) return; blob = new Blob(chunks, { type: (mr.mimeType || type || 'audio/webm').split(';')[0] }); review(); };
+        mr.start(250);
+        // Ondes : niveau du micro en direct
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (AC) {
+          try {
+            actx = new AC();
+            var an = actx.createAnalyser(); an.fftSize = 256;
+            actx.createMediaStreamSource(stream).connect(an);
+            var buf = new Uint8Array(an.frequencyBinCount), hist = [], lastT = 0;
+            for (var i = 0; i < bars.length; i++) hist.push(0);
+            var loop = function (t) {
+              an.getByteFrequencyData(buf);
+              if (t - lastT > 70) {
+                lastT = t;
+                var sum = 0; for (var k = 2; k < 60; k++) sum += buf[k];
+                hist.shift(); hist.push(Math.min(1, sum / 58 / 140));
+                bars.forEach(function (b, j) { b.style.height = Math.max(4, hist[j] * 34) + 'px'; });
+              }
+              raf = requestAnimationFrame(loop);
+            };
+            raf = requestAnimationFrame(loop);
+          } catch (e) {}
+        }
+        // Transcription en direct par le navigateur (Chrome, Edge, Safari)
+        var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SR) {
+          try {
+            sr = new SR(); sr.lang = 'fr-FR'; sr.continuous = true; sr.interimResults = true;
+            sr.onresult = function (ev) { var t = ''; for (var i = 0; i < ev.results.length; i++) t += ev.results[i][0].transcript + ' '; vtext = t.trim(); };
+            sr.onend = function () { if (phase === 'rec' && sr) { try { sr.start(); } catch (e) {} } };
+            sr.start();
+          } catch (e) { sr = null; }
+        }
+        phase = 'rec'; secs = 0; updTime();
+        recBar.hidden = false; cta.classList.add('is-rec'); cta.classList.remove('is-hidden');
+        ti = setInterval(function () { secs++; updTime(); if (secs >= (V.max || 120)) stopVoice(); }, 1000);
+      }, function () { voiceError(); });
+    };
+    var stopVoice = function () { if (phase !== 'rec') return; phase = 'stopping'; var r = mr; cleanup(); try { r.stop(); } catch (e) { voiceError(); } };
+    var cancelVoice = function () { canceled = true; var r = mr; cleanup(); try { if (r && r.state !== 'inactive') r.stop(); } catch (e) {} phase = 'idle'; };
+    var review = function () {
+      phase = 'review';
+      vTitle.textContent = V.title;
+      if (blobUrl) URL.revokeObjectURL(blobUrl);
+      blobUrl = URL.createObjectURL(blob); vAudio.src = blobUrl;
+      vTr.textContent = vtext || V.noTranscript; vTr.classList.toggle('is-empty', !vtext);
+      vSum.hidden = true; setErr('');
+      showPanel('review');
+      if (vtext && vtext.split(/\s+/).length >= 6) {
+        vSum.hidden = false; vSumTxt.textContent = 'Résumé en cours…';
+        post('/api/vocal/resume', { transcript: vtext, token: CFG.token }).then(function (r) {
+          vsum = (r && r.summary) || '';
+          if (vsum) vSumTxt.textContent = vsum; else vSum.hidden = true;
+        }, function () { vSum.hidden = true; });
+      }
+      setTimeout(function () { if (!isMobile()) vNom.focus({ preventScroll: true }); }, 60);
+    };
+    vSend.addEventListener('click', function () {
+      if (!blob || vSend.classList.contains('is-loading')) return;
+      var tel = vTel.value.trim();
+      vTel.classList.remove('is-err');
+      if (!/^\+?[0-9 .\-()]{8,22}$/.test(tel) || tel.replace(/\D/g, '').length < 9) { vTel.classList.add('is-err'); vTel.focus(); setErr('Laissez votre numéro de téléphone pour que nous puissions vous rappeler.'); return; }
+      setErr('');
+      var ext = /mp4|m4a/.test(blob.type) ? 'm4a' : (/ogg/.test(blob.type) ? 'ogg' : 'webm');
+      var fd = new FormData();
+      fd.append('audio', blob, 'vocal.' + ext);
+      fd.append('nom', vNom.value.trim()); fd.append('tel', tel);
+      fd.append('transcript', vtext); fd.append('summary', vsum); fd.append('duration', fmtTime(secs));
+      fd.append('token', CFG.token); fd.append('page', location.pathname);
+      vSend.classList.add('is-loading');
+      fetch('/api/vocal', { method: 'POST', body: fd, headers: { 'Accept': 'application/json' }, credentials: 'same-origin' })
+        .then(function (r) { return r.json().catch(function () { return { ok: false, error: 'Envoi impossible, réessayez.' }; }); })
+        .then(function (res) {
+          vSend.classList.remove('is-loading');
+          if (!res || !res.ok) { setErr((res && res.error) || 'Envoi impossible, réessayez.'); return; }
+          phase = 'sent';
+          var n = vNom.value.trim();
+          vTitle.textContent = (V.sentTitle || 'Message reçu{name} !').replace('{name}', n ? ', ' + n.split(' ')[0] : '');
+          showPanel('sent');
+          try { vAudio.pause(); } catch (e) {}
+        }, function () { vSend.classList.remove('is-loading'); setErr('Connexion impossible, réessayez.'); });
+    });
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest && e.target.closest('[data-voice-start],[data-voice-stop],[data-voice-cancel],[data-voice-close]');
+      if (!t) return;
+      e.preventDefault();
+      if (t.hasAttribute('data-voice-start')) startVoice();
+      else if (t.hasAttribute('data-voice-stop')) stopVoice();
+      else if (t.hasAttribute('data-voice-cancel')) cancelVoice();
+      else closePanel();
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { if (phase === 'rec') cancelVoice(); else if (!vp.hidden) closePanel(); } });
   }
 
   /* ---------------------------------------------------------------- Curseur personnalisé (souris uniquement) */

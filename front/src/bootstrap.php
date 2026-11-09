@@ -114,7 +114,7 @@ function security_headers(bool $admin = false): void
     header('X-Content-Type-Options: nosniff');
     header('X-Frame-Options: SAMEORIGIN');
     header('Referrer-Policy: strict-origin-when-cross-origin');
-    header('Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()');
+    header('Permissions-Policy: camera=(), microphone=(self), geolocation=(), payment=()'); // micro : messages vocaux
     if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
         header('Strict-Transport-Security: max-age=31536000');
     }
@@ -124,7 +124,7 @@ function security_headers(bool $admin = false): void
         . "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
         . "font-src 'self' https://fonts.gstatic.com; "
         . "img-src 'self' data: blob: https:; "
-        . "media-src 'self' https:; "
+        . "media-src 'self' https: blob:; "
         . "frame-src https://www.google.com https://maps.google.com https://www.facebook.com; "
         . "connect-src 'self'; "
         . "form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'";
