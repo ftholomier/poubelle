@@ -128,6 +128,22 @@
     avis.addEventListener('mouseenter', function () { avisHold = true; });
     avis.addEventListener('mouseleave', function () { avisHold = false; });
     avis.addEventListener('touchstart', function () { avisHold = true; }, { passive: true });
+    avis.addEventListener('focusin', function () { avisHold = true; });
+    avis.addEventListener('focusout', function (ev) { if (!avis.contains(ev.relatedTarget)) avisHold = false; });
+    // Témoignages longs : ascenseur dans la carte, fondu en bas tant qu'il reste du texte à lire
+    var avisTexts = $$('.acard__x', avis);
+    var avisFit = function () {
+      avisTexts.forEach(function (x) {
+        var over = x.scrollHeight > x.clientHeight + 2;
+        if (over) { x.setAttribute('tabindex', '0'); x.setAttribute('role', 'region'); x.setAttribute('aria-label', 'Texte de l\'avis'); }
+        else { x.removeAttribute('tabindex'); x.removeAttribute('role'); x.removeAttribute('aria-label'); }
+        x.toggleAttribute('data-more', over && x.scrollTop + x.clientHeight < x.scrollHeight - 4);
+      });
+    };
+    avisTexts.forEach(function (x) { x.addEventListener('scroll', avisFit, { passive: true }); });
+    avisFit();
+    window.addEventListener('resize', avisFit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(avisFit);
     $$('[data-avis]').forEach(function (b) { b.addEventListener('click', function () { avisStep(+b.getAttribute('data-avis')); }); });
     if (!reduced) setInterval(function () { if (!avisHold && !document.hidden) avisStep(1); }, 5000);
   }
