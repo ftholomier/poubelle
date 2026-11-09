@@ -146,7 +146,7 @@ final class Admin
                     return;
                 }
                 $vals = Settings::all();
-                self::formPage('Assistant IA', 'bot.save', AdminSchemas::bot(), $vals, 'Réponses du bot branchées sur Claude (Anthropic). Sans clé, le bot utilise les réponses rapides de la rubrique Conversion.', '', [], '', 'admin/bot_extra');
+                self::formPage('Assistant IA', 'bot.save', AdminSchemas::bot(), $vals, 'Réponses du bot branchées sur Gemini (Google). Sans clé, le bot utilise les réponses rapides de la rubrique Conversion.', '', [], '', 'admin/bot_extra');
                 return;
             case 'emails':
                 self::formPage('E-mails', 'mail.save', AdminSchemas::mail(), Settings::all(), 'Destinataires des demandes et envoi des e-mails.', '', [], '', 'admin/mail_extra');
@@ -379,11 +379,33 @@ final class Admin
             // ---------------------------------------------------------- réglages
             case 'bot.save':
                 Settings::set(Form::collect(AdminSchemas::bot(), $data, []));
-                self::secrets($data, ['anthropic_key']);
+                self::secrets($data, ['gemini_key']);
+                if (Settings::hasSecret('gemini_key')) {
+                    try {
+                        Gemini::models(Settings::secret('gemini_key'));
+                    } catch (Throwable $e) {
+                        Http::json(['ok' => true, 'message' => 'Assistant enregistré, mais la clé n\'a pas pu être vérifiée : ' . $e->getMessage(), 'reload' => true]);
+                    }
+                }
                 Http::json(['ok' => true, 'message' => 'Assistant enregistré.', 'reload' => true]);
+            case 'bot.models':
+                // Liste dynamique des modèles : clé en cours de saisie, sinon clé enregistrée
+                $key = trim((string) ($in['key'] ?? '')) ?: Settings::secret('gemini_key');
+                if ($key === '') {
+                    Http::error('Saisissez d\'abord la clé API Gemini.', 422);
+                }
+                try {
+                    $models = Gemini::models($key, !empty($in['force']));
+                } catch (Throwable $e) {
+                    Http::error($e->getMessage(), 422);
+                }
+                Http::json(['ok' => true, 'models' => $models, 'recommended' => Gemini::recommended($models), 'message' => count($models) . ' modèle(s) Gemini disponible(s) pour cette clé.']);
             case 'bot.test':
                 $r = Bot::reply([['role' => 'user', 'text' => (string) ($in['q'] ?? 'Bonjour, que proposez-vous ?')]], 'test' . bin2hex(random_bytes(4)));
-                Http::json(['ok' => true, 'message' => ($r['source'] === 'ia' ? 'Réponse de l\'IA : ' : 'Réponse sans IA (clé absente ou refusée) : ') . $r['text']]);
+                if ($r['source'] === 'ia') {
+                    Http::json(['ok' => true, 'message' => 'Réponse de Gemini (' . Bot::model() . ') : ' . $r['text']]);
+                }
+                Http::json(['ok' => true, 'message' => (Bot::aiReady() ? 'Gemini n\'a pas répondu' . (!empty($r['error']) ? ' (' . $r['error'] . ')' : '') . '. ' : 'Pas de clé Gemini : ') . 'réponse automatique : ' . $r['text']]);
             case 'botlog.clear':
                 Store::put('botlog', []);
                 Http::json(['ok' => true, 'message' => 'Journal vidé.', 'reload' => true]);

@@ -245,3 +245,4 @@ a.kpi:hover { border-color: var(--k) }
 
 /* Barre d'enregistrement toujours visible dans les longs formulaires */
 .bo-form.card > .bo-actions { position: sticky; bottom: 0; z-index: 5; background: #fff; margin: 18px -22px -22px; padding: 14px 22px; border-top: 1px solid var(--bd); border-radius: 0 0 14px 14px }
+.gm-status.is-err { color: var(--err) }

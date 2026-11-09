@@ -17,7 +17,7 @@ $posts = Content::posts(true);
 $botlog = Store::get('botlog', []);
 $checks = [
     ['Adresse de réception des demandes', Settings::get('notify_email') !== '', '/admin/emails'],
-    ['Assistant IA branché (clé Anthropic)', Settings::hasSecret('anthropic_key'), '/admin/assistant'],
+    ['Assistant IA branché (clé Gemini)', Settings::hasSecret('gemini_key'), '/admin/assistant'],
     ['Page Facebook synchronisée', Facebook::configured(), '/admin/facebook'],
     ['Tâche planifiée (synchronisation, vérification des mises à jour)', !empty(Store::get('fb_state', [])['at']) || !empty(Updater::state()['check']), '/admin/sauvegarde'],
 ];

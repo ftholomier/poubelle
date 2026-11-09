@@ -51,6 +51,9 @@ final class Form
         $help = !empty($f['help']) ? '<div class="f-help">' . e($f['help']) . '</div>' : '';
         $cls = 'f f--' . $type . (!empty($f['wide']) ? ' f--wide' : '') . (!empty($f['half']) ? ' f--half' : '');
         $req = !empty($f['required']) ? ' required' : '';
+        foreach ((array) ($f['attrs'] ?? []) as $ak => $av) {
+            $req .= ' ' . e($ak) . '="' . e((string) $av) . '"';
+        }
         $ph = isset($f['placeholder']) ? ' placeholder="' . e($f['placeholder']) . '"' : '';
         switch ($type) {
             case 'textarea':
@@ -94,9 +97,26 @@ final class Form
                 break;
             case 'select':
                 $in = '<select id="' . $id . '" name="' . e($name) . '"' . $req . '>';
-                foreach ($f['options'] as $ov => $ol) {
+                $found = false;
+                $opt = function ($ov, $ol) use ($v, $f, &$found): string {
                     $ov = is_int($ov) && !empty($f['list']) ? $ol : $ov;
-                    $in .= '<option value="' . e((string) $ov) . '"' . ((string) $v === (string) $ov ? ' selected' : '') . '>' . e($ol) . '</option>';
+                    $sel = (string) $v === (string) $ov;
+                    $found = $found || $sel;
+                    return '<option value="' . e((string) $ov) . '"' . ($sel ? ' selected' : '') . '>' . e($ol) . '</option>';
+                };
+                foreach ($f['options'] as $ov => $ol) {
+                    if (is_array($ol)) { // groupe d'options
+                        $in .= '<optgroup label="' . e((string) $ov) . '">';
+                        foreach ($ol as $gv => $gl) {
+                            $in .= $opt($gv, $gl);
+                        }
+                        $in .= '</optgroup>';
+                    } else {
+                        $in .= $opt($ov, $ol);
+                    }
+                }
+                if (!$found && !empty($f['free']) && (string) $v !== '') {
+                    $in .= '<option value="' . e((string) $v) . '" selected>' . e((string) $v) . '</option>';
                 }
                 $in .= '</select>';
                 break;
@@ -104,7 +124,7 @@ final class Form
                 return '<div class="' . $cls . '"><input type="hidden" name="' . e($name) . '" value="0"><label class="f-check"><input id="' . $id . '" type="checkbox" name="' . e($name) . '" value="1"' . (!empty($v) ? ' checked' : '') . '> <span>' . e($f['label']) . '</span></label>' . $help . '</div>';
             case 'secret':
                 $set = !empty($f['is_set']);
-                $in = '<input id="' . $id . '" type="password" name="' . e($name) . '" value="" autocomplete="new-password" placeholder="' . ($set ? '•••••••• (enregistré — laisser vide pour garder)' : 'Non réglé') . '">'
+                $in = '<input id="' . $id . '" type="password" name="' . e($name) . '" value="" autocomplete="new-password"' . $req . ' placeholder="' . ($set ? '•••••••• (enregistré — laisser vide pour garder)' : 'Non réglé') . '">'
                     . ($set ? '<label class="f-check" style="margin-top:6px"><input type="checkbox" name="' . e($prefix . '[_clear][' . $key . ']') . '" value="1"> <span>Effacer la valeur enregistrée</span></label>' : '');
                 break;
             case 'repeater':
@@ -176,6 +196,10 @@ final class Form
                 }
                 return $n;
             case 'select':
+                if (!empty($f['free'])) { // liste chargée dynamiquement : identifiant libre mais contrôlé
+                    $r = Sanitizer::line($raw, 100);
+                    return preg_match('/^[A-Za-z0-9._-]{0,100}$/', $r) ? $r : '';
+                }
                 $opts = !empty($f['list']) ? array_values($f['options']) : array_map('strval', array_keys($f['options']));
                 return in_array((string) $raw, $opts, true) ? (string) $raw : (string) ($f['default'] ?? reset($opts));
             case 'checkbox':

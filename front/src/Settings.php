@@ -12,7 +12,7 @@ final class Settings
     public const DEFAULTS = [
         'notify_email' => 'accueil@renovest.fr',
         'notify_cc' => '',
-        'bot_model' => 'claude-opus-5-5',
+        'bot_model' => '',
         'bot_extra' => '',
         'bot_log' => true,
         'fb_page_id' => '',
@@ -28,11 +28,6 @@ final class Settings
         'update_branch' => '',
     ];
 
-    public const BOT_MODELS = [
-        'claude-opus-5-5' => 'Claude Opus 5.5 (recommandé)',
-        'claude-sonnet-5-5' => 'Claude Sonnet 5.5 (plus économique)',
-        'claude-haiku-5-5' => 'Claude Haiku 5.5 (le plus économique)',
-    ];
 
     public static function all(): array
     {

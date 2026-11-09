@@ -313,9 +313,19 @@ final class AdminSchemas
 
     public static function bot(): array
     {
+        $models = Gemini::cachedModels();
+        $groups = ['' => 'Automatique (modèle recommandé' . (($r = Gemini::recommended($models)) !== '' ? ' : ' . $r : '') . ')'];
+        foreach ($models as $m) {
+            $g = $m['stable'] ? 'Modèles stables' : 'Préversions et modèles expérimentaux';
+            $groups[$g][$m['id']] = $m['name'] . ' — ' . $m['id'];
+        }
         return [
-            ['key' => 'anthropic_key', 'type' => 'secret', 'label' => 'Clé API Anthropic', 'is_set' => Settings::hasSecret('anthropic_key'), 'help' => 'Créée sur platform.claude.com. Stockée hors du dossier public, jamais affichée.', 'wide' => true],
-            ['key' => 'bot_model', 'type' => 'select', 'label' => 'Modèle', 'options' => Settings::BOT_MODELS, 'half' => true],
+            ['key' => 'gemini_key', 'type' => 'secret', 'label' => 'Clé API Gemini (Google)', 'is_set' => Settings::hasSecret('gemini_key'), 'wide' => true,
+                'attrs' => ['data-gemini-key' => '1'],
+                'help' => 'Créée gratuitement sur aistudio.google.com (Get API key). Dès qu\'elle est saisie, la liste des modèles disponibles se charge. Stockée hors du dossier public, jamais affichée.'],
+            ['key' => 'bot_model', 'type' => 'select', 'label' => 'Modèle Gemini', 'options' => $groups, 'free' => true, 'wide' => true,
+                'attrs' => ['data-gemini-models' => '1', 'data-has-key' => Settings::hasSecret('gemini_key') ? '1' : '0', 'data-count' => (string) count($models)],
+                'help' => 'Liste lue en direct chez Google pour votre clé (modèles capables de discuter). « Tester l\'assistant » ci-dessous confirme que le modèle choisi répond.'],
             ['key' => 'bot_log', 'type' => 'checkbox', 'label' => 'Garder un journal des conversations (rubrique « Conversations du bot »)'],
             ['key' => 'bot_extra', 'type' => 'textarea', 'label' => 'Informations complémentaires pour l\'assistant', 'rows' => 6, 'wide' => true, 'help' => 'Informations validées que l\'assistant peut donner en plus du contenu du site (prix indicatifs, délais, marques…). Il n\'invente rien d\'autre.'],
         ];

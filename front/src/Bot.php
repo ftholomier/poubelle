@@ -5,17 +5,14 @@ declare(strict_types=1);
 /**
  * Assistant du site (bot en bas à droite).
  *
- * Avec une clé API Anthropic réglée dans le back-office, les réponses viennent de Claude
- * (API Messages, appel HTTP natif en cURL) avec un prompt système construit à partir du
- * contenu du site : produits, agences, coordonnées, engagements. Sans clé, l'assistant
- * répond avec les réponses rapides réglées dans le back-office.
- * Il propose toujours de basculer vers le devis ou l'appel.
+ * Avec une clé API Gemini (Google) réglée dans le back-office, les réponses viennent du
+ * modèle Gemini choisi dans la liste dynamique des modèles, avec des consignes construites
+ * à partir du contenu du site : produits, agences, coordonnées, engagements. Sans clé, ou si
+ * Gemini ne répond pas, l'assistant répond avec les réponses rapides réglées dans le
+ * back-office. Il propose toujours de basculer vers le devis ou l'appel.
  */
 final class Bot
 {
-    private const API = 'https://api.anthropic.com/v1/messages';
-    private const VERSION = '2026-10-21';
-
     /** @param array $history [['role' => 'user'|'assistant', 'text' => '…'], …] */
     public static function reply(array $history, string $session = ''): array
     {
@@ -39,84 +36,47 @@ final class Bot
             return ['text' => (string) (Content::ui()['bot']['fallback'] ?? ''), 'source' => 'vide'];
         }
         $question = (string) end($msgs)['content'];
-        $key = Settings::secret('anthropic_key');
         $answer = null;
         $source = 'regles';
-        if ($key !== '') {
+        $error = null;
+        if (self::aiReady()) {
             try {
-                $answer = self::claude($key, $msgs);
+                $answer = Gemini::generate(Settings::secret('gemini_key'), self::model(), self::systemPrompt(), $msgs);
                 $source = 'ia';
             } catch (Throwable $e) {
-                error_log('[renovest] assistant IA : ' . $e->getMessage());
+                $error = $e->getMessage();
+                error_log('[renovest] assistant IA : ' . $error);
             }
         }
         if ($answer === null || trim($answer) === '') {
             $answer = self::rules($question);
-            $source = $source === 'ia' ? 'regles' : $source;
+            $source = 'regles';
         }
         self::log($session, $question, $answer, $source);
-        return ['text' => $answer, 'source' => $source];
+        return ['text' => $answer, 'source' => $source, 'error' => $error];
     }
 
-    /** Appel de l'API Messages de Claude. */
-    private static function claude(string $key, array $msgs): string
+    /** IA utilisable : clé Gemini enregistrée. */
+    public static function aiReady(): bool
     {
-        if (!function_exists('curl_init')) {
-            throw new RuntimeException('Extension PHP cURL absente');
+        return Settings::hasSecret('gemini_key');
+    }
+
+    /** Modèle choisi dans le back-office, sinon le modèle recommandé parmi ceux de la clé. */
+    public static function model(): string
+    {
+        $m = trim((string) Settings::get('bot_model', ''));
+        if ($m !== '' && Gemini::validId($m)) {
+            return $m;
         }
-        $model = (string) Settings::get('bot_model', 'claude-opus-5-5');
-        if (!isset(Settings::BOT_MODELS[$model])) {
-            $model = 'claude-opus-5-5';
-        }
-        $body = [
-            'model' => $model,
-            'max_tokens' => 4096,
-            'system' => self::systemPrompt(),
-            'messages' => $msgs,
-            // Réponses de discussion courtes : peu de réflexion suffit
-            'output_config' => ['effort' => 'low'],
-        ];
-        $headers = [
-            'content-type: application/json',
-            'x-api-key: ' . $key,
-            'anthropic-version: ' . self::VERSION,
-        ];
-        // Repli automatique côté serveur si un filtre de sécurité refuse la demande
-        if ($model !== 'claude-haiku-5-5') {
-            $body['fallbacks'] = 'default';
-            $headers[] = 'anthropic-beta: server-side-fallback-2026-07-01';
-        }
-        $ch = curl_init(self::API);
-        curl_setopt_array($ch, [
-            CURLOPT_POST => true,
-            CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_POSTFIELDS => json_encode($body, JSON_UNESCAPED_UNICODE),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CONNECTTIMEOUT => 8,
-            CURLOPT_TIMEOUT => 45,
-        ]);
-        $raw = curl_exec($ch);
-        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $err = curl_error($ch);
-        curl_close($ch);
-        if ($raw === false) {
-            throw new RuntimeException('API injoignable : ' . $err);
-        }
-        $j = json_decode((string) $raw, true);
-        if ($code !== 200 || !is_array($j)) {
-            $msg = is_array($j) ? (string) ($j['error']['message'] ?? '') : '';
-            throw new RuntimeException('API code ' . $code . ($msg !== '' ? ' : ' . $msg : ''));
-        }
-        if (($j['stop_reason'] ?? '') === 'refusal') {
-            return '';
-        }
-        $text = '';
-        foreach ((array) ($j['content'] ?? []) as $block) {
-            if (($block['type'] ?? '') === 'text') {
-                $text .= (string) $block['text'];
+        $rec = Gemini::recommended(Gemini::cachedModels());
+        if ($rec === '') {
+            try {
+                $rec = Gemini::recommended(Gemini::models(Settings::secret('gemini_key')));
+            } catch (Throwable) {
             }
         }
-        return trim($text);
+        return $rec !== '' ? $rec : 'gemini-2.5-flash';
     }
 
     /** Prompt système : uniquement des informations issues du site. */

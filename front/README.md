@@ -112,7 +112,7 @@ limitation par IP. Chaque demande est enregistrée puis envoyée par e-mail.
 - **Menu**, **Coordonnées** (agences, téléphones, zone d'intervention, réseaux).
 - **Conversion** : bandeau supérieur, barre CTA, bot, bulle d'accroche, popup de sortie,
   formulaire de devis, logos partenaires, curseur.
-- **Assistant IA** : clé API Anthropic, modèle Claude, informations complémentaires, test.
+- **Assistant IA** : clé API Gemini, liste dynamique des modèles Gemini, informations complémentaires, test.
 - **Facebook** : page, jeton, catégorie par défaut, règles par hashtag, synchronisation.
 - **E-mails** : destinataires, SMTP facultatif, test d'envoi.
 - **Utilisateurs** (administrateur / éditeur), **Mon compte**, mot de passe oublié.
@@ -143,13 +143,22 @@ Même mécanique qu'Intensiti (**Back-office › Mises à jour**, administrateur
 - « Revenir à cette version » annule une mise à jour (5 sauvegardes gardées) ;
 - vérification automatique toutes les 3 heures par la tâche planifiée : pastille dans le menu.
 
-## Assistant IA
+## Assistant IA (Gemini)
 
 Sans clé, le bot répond avec les réponses rapides réglées dans **Conversion** (et une
-recherche par mots-clés dans les produits). Avec une clé API Anthropic (**Assistant IA**),
-les questions libres sont envoyées à Claude (API Messages, appel cURL natif) avec des
-consignes construites à partir du contenu du site : il n'invente ni prix ni délai et
-propose toujours le devis, l'appel ou le contact.
+recherche par mots-clés dans les produits). Avec une clé API Gemini de Google
+(**Assistant IA**, clé créée sur aistudio.google.com), les questions libres sont envoyées au
+modèle Gemini choisi (API Generative Language, appel cURL natif, clé dans l'en-tête
+`x-goog-api-key`).
+
+Dès que la clé est saisie, la **liste des modèles** est lue en direct chez Google
+(`GET /v1beta/models`, modèles capables de discuter) : modèles stables d'abord, puis
+préversions, du plus récent au plus ancien. « Automatique » prend le modèle « flash » stable
+le plus récent. La liste est gardée 24 h et peut être actualisée d'un clic.
+
+Les consignes envoyées sont construites à partir du contenu du site : l'assistant n'invente
+ni prix ni délai et propose toujours le devis, l'appel ou le contact. Si Gemini ne répond pas
+(quota, panne), le bot bascule sur les réponses automatiques.
 
 ## Actualités et Facebook
 

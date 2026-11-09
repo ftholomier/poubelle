@@ -265,6 +265,68 @@
     });
   }
 
+  /* ------------------------------------------------------------ Modèles Gemini : liste dynamique */
+  var modelSel = $('select[data-gemini-models]');
+  if (modelSel) {
+    var keyIn = $('input[data-gemini-key]');
+    var status = document.createElement('div');
+    status.className = 'f-help gm-status';
+    var refresh = document.createElement('button');
+    refresh.type = 'button'; refresh.className = 'b b--l'; refresh.textContent = '⟳ Actualiser la liste des modèles';
+    refresh.style.marginTop = '8px';
+    modelSel.parentNode.insertBefore(refresh, modelSel.nextSibling);
+    modelSel.parentNode.insertBefore(status, refresh.nextSibling);
+    var fmt = function (n) { return n >= 1000000 ? (n / 1000000).toLocaleString('fr-FR') + ' M' : n >= 1000 ? Math.round(n / 1000) + ' k' : String(n); };
+    var fill = function (models, rec) {
+      var cur = modelSel.value, found = false;
+      modelSel.innerHTML = '';
+      var auto = document.createElement('option');
+      auto.value = ''; auto.textContent = 'Automatique (modèle recommandé' + (rec ? ' : ' + rec : '') + ')';
+      modelSel.appendChild(auto);
+      [['Modèles stables', true], ['Préversions et modèles expérimentaux', false]].forEach(function (g) {
+        var list = models.filter(function (m) { return !!m.stable === g[1]; });
+        if (!list.length) return;
+        var og = document.createElement('optgroup'); og.label = g[0] + ' (' + list.length + ')';
+        list.forEach(function (m) {
+          var o = document.createElement('option');
+          o.value = m.id; o.textContent = m.name + ' — ' + m.id;
+          o.title = (m.description || '') + (m.input ? ' · entrée ' + fmt(m.input) + ' jetons' : '') + (m.output ? ' · sortie ' + fmt(m.output) + ' jetons' : '');
+          if (m.id === cur) { o.selected = true; found = true; }
+          og.appendChild(o);
+        });
+        modelSel.appendChild(og);
+      });
+      if (cur && !found) {
+        var x = document.createElement('option');
+        x.value = cur; x.textContent = cur + ' (introuvable pour cette clé)'; x.selected = true;
+        modelSel.appendChild(x);
+      }
+    };
+    var loading = 0;
+    var load = function (key, force) {
+      var n = ++loading;
+      status.classList.remove('is-err');
+      status.textContent = 'Chargement de la liste des modèles chez Google…';
+      refresh.disabled = true;
+      api('bot.models', { key: key || '', force: force ? '1' : '' }).then(function (res) {
+        if (n !== loading) return;
+        refresh.disabled = false;
+        if (!res.ok) { status.textContent = res.error || 'Liste indisponible.'; status.classList.add('is-err'); return; }
+        fill(res.models || [], res.recommended || '');
+        status.textContent = res.message;
+      }, function () { refresh.disabled = false; });
+    };
+    var timer = null;
+    if (keyIn) keyIn.addEventListener('input', function () {
+      clearTimeout(timer);
+      var v = keyIn.value.trim();
+      if (v.length >= 30) timer = setTimeout(function () { load(v, true); }, 600);
+    });
+    refresh.addEventListener('click', function () { load(keyIn ? keyIn.value.trim() : '', true); });
+    // Clé déjà enregistrée mais liste pas encore chargée : chargement automatique
+    if (modelSel.getAttribute('data-has-key') === '1' && modelSel.getAttribute('data-count') === '0') load('', false);
+  }
+
   function initAll(root) { initRep(root); initImages(root); initRte(root); }
   initAll(document);
 })();
