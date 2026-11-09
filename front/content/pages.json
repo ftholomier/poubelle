@@ -1,0 +1,206 @@
+{
+  "home": {
+    "path": "/",
+    "title": "Accueil",
+    "seo": {
+      "title": "Menuiserie extérieure à Montbéliard – Fenêtres, portes, volets sur mesure | Renov’Est",
+      "description": "RENOV'EST, votre spécialiste dans la fourniture et la pose de fermetures de l'habitation et protections solaires."
+    },
+    "hero": {
+      "badge": "Montbéliard · Belfort · Besançon · Mulhouse",
+      "title": "Votre spécialiste en fermeture & protection solaire !",
+      "highlight": "fermeture",
+      "text": "RENOV’EST c’est plus de 30 ans d’expérience dans la fourniture et la pose de fermetures de l’habitation et protections solaires.",
+      "checks": [
+        "Devis détaillé et gratuit",
+        "Prise de mesures sur site",
+        "Pose soignée"
+      ],
+      "video": "/media/video/renovest-new.mp4",
+      "poster": "/media/video/renovest-new-poster.jpg"
+    },
+    "stats": [
+      {
+        "value": 30,
+        "suffix": " ans",
+        "prefix": "+",
+        "label": "d'expérience dans la fourniture et la pose de fermetures"
+      },
+      {
+        "value": 15,
+        "suffix": "",
+        "prefix": "+",
+        "label": "personnes à votre service"
+      },
+      {
+        "value": 8,
+        "suffix": "",
+        "prefix": "",
+        "label": "poseurs qualifiés"
+      },
+      {
+        "value": 4,
+        "suffix": "",
+        "prefix": "",
+        "label": "commerciaux"
+      }
+    ],
+    "intro": {
+      "html": "<p><span class=\"color-red\">RENOV&rsquo;EST</span> c&rsquo;est plus de <span class=\"color-red\">30 ans d&rsquo;expérience</span> dans la fourniture et la pose de fermetures de l&rsquo;habitation et protections solaires.<br />Ce sont plus de 15 personnes à votre service dont 8 poseurs qualifiés, 4 commerciaux maîtrisant parfaitement les techniques de pose et les réglages des produits.<br />Des produits suivis de grande qualité de fabrication Française et Allemande.</p>",
+      "image": "/media/2023/08/reno_accueil.jpg",
+      "button": "En savoir plus"
+    },
+    "philosophy": {
+      "title": "Notre philosophie",
+      "items": [
+        {
+          "icon": "/media/2022/05/conseil.svg",
+          "title": "Conseil",
+          "text": "Ecoute & conseil sont les bases de la philosophie Renovest"
+        },
+        {
+          "icon": "/media/2022/05/docs.svg",
+          "title": "Devis",
+          "text": "Des devis sur mesure et détaillés pour suivre votre projet"
+        },
+        {
+          "icon": "/media/2022/05/pose.svg",
+          "title": "Pose",
+          "text": "Des poseurs qualifiés pour des poses propres et soignées"
+        },
+        {
+          "icon": "/media/2022/05/sav.svg",
+          "title": "SAV",
+          "text": "Un service réactif et proche de ses clients"
+        }
+      ]
+    },
+    "products": {
+      "eyebrow": "Nos produits",
+      "title": "Nos produits de menuiserie extérieure à Montbéliard",
+      "link": "Voir nos produits"
+    },
+    "presentation": {
+      "eyebrow": "Présentation",
+      "title": "Depuis plus de 30 ans, nous nous engageons",
+      "text": "Ce sont plus de 15 personnes à votre service dont 8 poseurs qualifiés, 4 commerciaux maîtrisant parfaitement les techniques de pose et les réglages des produits. Des produits suivis de grande qualité de fabrication Française et Allemande.",
+      "button": "En savoir plus",
+      "image": "/media/2023/08/reno_accueil.jpg"
+    },
+    "reviews": {
+      "eyebrow": "Avis",
+      "title": "Nos derniers avis clients – Merci pour leur confiance."
+    },
+    "news": {
+      "eyebrow": "Actu",
+      "title": "L’actualité de Renov’Est"
+    },
+    "cta": {
+      "title": "Des questions, une réparation, un devis ?",
+      "text": "Nos commerciaux sont à votre disposition afin de pouvoir vous répondre dans les délais les plus rapides possible. Contactez-nous !",
+      "button": "Demander un devis",
+      "image": "/media/2022/07/devis_renovest.jpg"
+    }
+  },
+  "presentation": {
+    "title": "Présentation",
+    "path": "/entreprise-de-menuiserie-a-montbeliard-et-belfort-specialiste-fenetres-fermetures/",
+    "content": "<p><strong>Renov&rsquo;est, à Taillecourt</strong> dans le Doubs en France Comté, <strong>votre spécialiste Fenêtre</strong> / Porte d&rsquo;entrée / Clôture / Garde Corps / Porte de garage / Store / Pergola / Carport.</p>\n<p><strong>RENOV&rsquo;EST</strong> c&rsquo;est plus de <strong>30 ans d&rsquo;expérience</strong> dans la fourniture et la pose de fermetures de l&rsquo;habitation et protections solaires.<br>Ce sont plus de <strong>15 personnes à votre service</strong> dont <strong>8 poseurs qualifiés</strong>, <strong>4 commerciaux</strong> maîtrisant parfaitement les techniques de pose et les réglages des produits.<br>Des produits suivis de grande qualité de <strong>fabrication Française et Allemande</strong>.</p>\n<p><strong>Depuis plus de 30 ANS, nous nous engageons</strong> <strong>sur :</strong></p>\n<ul>\n<li>Produits de qualité</li>\n<li>Le respect des délais</li>\n<li>Pas d&rsquo;intermédiaire et pas de sous-traitance</li>\n<li>L&rsquo;accueil personnalisé de nos clients</li>\n<li>L&rsquo;expérience, le professionnalisme</li>\n<li>Le sérieux de son équipe de poseurs</li>\n<li><strong>Nos valeurs sont : proximité, compétence, qualité, sérieux.</strong></li>\n</ul>",
+    "seo": {
+      "title": "Entreprise de menuiserie à Montbéliard et Belfort – Spécialiste fenêtres & fermetures",
+      "description": "RENOV'EST c'est plus de 30 ans d'expérience dans la fourniture et la pose de fermetures de l'habitation et protections solaires."
+    },
+    "eyebrow": "Renov'Est",
+    "lead": ""
+  },
+  "produits": {
+    "path": "/menuiseries-exterieures-montbeliard-fenetres-portes-entree-garage-volets-pergolas/",
+    "title": "Nos produits",
+    "h1": "Nos produits de menuiserie extérieure à Montbéliard",
+    "lead": "<p><strong>Renov’Est</strong>, menuisier expérimenté à <strong>Montbéliard</strong>, vous propose une gamme complète de <strong>produits sur mesure</strong> pour équiper et valoriser votre habitat : fenêtres, portes, volets, portails, pergolas et clôtures. Tous nos produits sont fabriqués en France, personnalisables, et posés avec soin par notre équipe qualifiée.</p>\n<p>Que vous soyez en <strong>rénovation</strong> ou en <strong>construction neuve</strong>, nous vous accompagnons de la conception à la pose pour assurer des résultats durables, esthétiques et performants.</p>",
+    "offer_title": "Notre offre de menuiseries extérieures",
+    "why": "<h2>Pourquoi faire appel à Renov’Est ?</h2>\n<ul>\n<li><strong>30 ans d’expérience</strong> dans la menuiserie extérieure</li>\n<li><strong>Produits sur mesure</strong> et fabrication française</li>\n<li><strong>Intervention rapide</strong> à Montbéliard, Belfort, Héricourt et dans tout le Doubs</li>\n<li><strong>Pose soignée</strong> par nos propres équipes qualifiées</li>\n<li><strong>Entreprise certifiée RGE Qualibat</strong>, éligible aux aides à la rénovation énergétique</li>\n</ul>\n<p>Nos produits sont conçus pour allier <strong>durabilité, performance et esthétisme</strong>, tout en respectant votre budget et vos envies.</p>",
+    "seo": {
+      "title": "Nos menuiseries extérieures à Montbéliard – Fenêtres, portes, garage, volets, pergolas",
+      "description": "Renov’est, à Taillecourt dans le Doubs en France Comté, votre spécialiste Fenêtre / Porte d’entrée / Clôture / Garde Corps / Porte de garage"
+    },
+    "eyebrow": "Nos produits"
+  },
+  "realisations": {
+    "title": "Nos réalisations",
+    "path": "/vente-menuiserie-fenetre-porte-entree-garage-cloture-montbeliard-belfort-besancon-mulhouse/",
+    "seo": {
+      "title": "Vente menuiserie fenêtre porte entrée garage cloture - Montbéliard Belfort Besançon Mulhouse",
+      "description": "Découvrez toutes nos réalisations et installations portes, fenêtres, portails, clôtures, store, pergola, car port..."
+    },
+    "eyebrow": "Renov'Est",
+    "lead": "Découvrez toutes nos réalisations et installations portes, fenêtres, portails, clôtures, store, pergola, car port...",
+    "button": "Demander un devis"
+  },
+  "actu": {
+    "title": "L’actualité de Renov’Est",
+    "path": "/menuiserie-fenetre-store-pergola-montbeliard-belfort-mulhouse-besancon/",
+    "seo": {
+      "title": "Menuiserie Fenêtre Store Pergola - Montbéliard Belfort Mulhouse Besançon",
+      "description": "RENOV’EST c’est plus de 30 ans d’expérience dans la fourniture et la pose de fermetures de l’habitation et protections solaires."
+    },
+    "eyebrow": "Actu",
+    "lead": "",
+    "facebook_title": "Voir sur Facebook",
+    "facebook_text": "Suivez-nous sur Facebook"
+  },
+  "avis": {
+    "title": "Nos derniers avis clients – Merci pour leur confiance.",
+    "path": "/menuiserie-fenetre-porte-entree-garage-pergola-montbeliard-belfort/",
+    "seo": {
+      "title": "Menuiserie Fenêtre Porte Pergola - Montbéliard Belfort Mulhouse Besançon",
+      "description": "RENOV’EST c’est plus de 30 ans d’expérience dans la fourniture et la pose de fermetures de l’habitation et protections solaires."
+    },
+    "eyebrow": "Avis",
+    "lead": ""
+  },
+  "contact": {
+    "title": "Contact",
+    "path": "/specialise-devis-menuiserie-fenetre-porte-garage-entree-franche-comte/",
+    "content": "",
+    "seo": {
+      "title": "Spécialise devis Menuiserie Fenêtre porte garage entrée - Franche-Comté",
+      "description": "RENOV'EST, votre spécialiste dans la fourniture et la pose de fermetures de l'habitation et protections solaires."
+    },
+    "eyebrow": "Renov'Est",
+    "lead": "RENOV'EST, votre spécialiste dans la fourniture et la pose de fermetures de l'habitation et protections solaires.",
+    "form_title": "Formulaire de contact"
+  },
+  "devis": {
+    "path": "/devis/",
+    "title": "Demander un devis",
+    "eyebrow": "Devis gratuit",
+    "h1": "Demander un devis",
+    "lead": "Des devis sur mesure et détaillés pour suivre votre projet",
+    "includes_title": "Nous assurons :",
+    "includes": [
+      "La prise de mesures sur site",
+      "Un devis détaillé et gratuit",
+      "La pose soignée par nos menuisiers qualifiés",
+      "Le suivi personnalisé de votre chantier jusqu’à la réception"
+    ],
+    "talk_title": "Vous préférez parler ?",
+    "confirm_title": "Demande envoyée !",
+    "confirm_text": "Nos commerciaux sont à votre disposition afin de pouvoir vous répondre dans les délais les plus rapides possible.",
+    "seo": {
+      "title": "Demander un devis - Renovest",
+      "description": "RENOV'EST, votre spécialiste dans la fourniture et la pose de fermetures de l'habitation et protections solaires."
+    }
+  },
+  "mentions": {
+    "title": "Mentions légales",
+    "path": "/renovest-menuiserie-fenetre-porte-entree-garage-belfort-montbeliard-mulhouse/",
+    "content": "<p><strong>Directeur de la publication :</strong><br>Sylvain BRUNO</p>\n<p><strong>Dénomination :</strong><br>Renovest</p>\n<p><strong>Numéro Siret :<br></strong>341406148 00054</p>\n<p><strong>Hébergeur :</strong><br>NUXIT<br><br><strong>Loi du 6 janvier 1978 relative à l’informatique et aux libertés :</strong><br>&#8211; Conformément à la loi n° 78-17 du 6 janvier 1978, vous pouvez à tout moment accéder aux informations personnelles vous concernant et détenues, demander leur modification ou leur suppression.</p>\n<p><strong>Ce droit d’accès peut s’exercer selon les modalités suivantes :</strong><br>– En adressant un courrier électronique par l’intermédiaire du formulaire de contact du site en indiquant les champs et/ou informations dont la modification est souhaitée.</p>\n<p><strong>Recueil d’informations à caractère nominatif :</strong><br>&#8211; En vertu de la loi informatique et libertés du 6 janvier 1978, les données à caractère nominatif recueillies auprès des internautes par l’intermédiaire d’un formulaire ou autre ne sauraient, en aucun cas, être transmises, à titre gratuit ou onéreux, à des tierces personnes physiques ou morales.</p>\n<p><strong>Responsabilité des utilisateurs :</strong><br>&#8211; L’utilisateur s’engage à utiliser les services proposés sur le Site, de façon loyale et honnête, et conformément à leur destination.<br>&#8211; L’utilisateur s’engage à utiliser les services proposés sur le Site pour ses seuls besoins et s’interdit d’en faire commerce auprès de tiers.</p>\n<p><strong>Bases de Données :</strong><br>&#8211; Constitution : l’ensemble des informations relatives aux membres figurant sur le site, ainsi que leurs modalités de consultation, constituent les Bases de Données du Site.<br>&#8211; Ces Bases de données sont de la propriété exclusive du Directeur de la publication et sont protégées par les dispositions du Code de la Propriété Intellectuelle relatives au droit d’auteur et par les dispositions de la Directive Européenne du 11 mars 1996 sur la protection juridique des Bases de données.<br>&#8211; Dans ces conditions, l’Utilisateur s’engage à utiliser ces données dans le strict cadre des services proposés sur le Site et s’interdit notamment de reproduire, traduire, adapter, arranger, transformer, communiquer, représenter et distribuer, de façon permanente ou provisoire, par tout moyen et sous quelque forme que ce soit tout ou partie des données contenues dans ces bases.<br>&#8211; Ainsi, toute utilisation ou exploitation faite en violation des présentes conditions est constitutive d’une atteinte aux droits du Directeur de la publication, réprimée en application des conventions internationales et des règles relatives au droit d’auteur visées au présent paragraphe.<br>&#8211; Par ailleurs, le Directeur de la publication en qualité de producteur des Bases de données interdit l’extraction et la réutilisation de la totalité ou d’une partie quelle qu’elle soit, du contenu de celles-ci.<br>&#8211; Le Directeur de la publication met en œuvre tous les moyens nécessaires afin d’empêcher le vol, l’exploitation préjudiciable ou la destruction des Bases de données du Site. Cependant, le Directeur de la publication ne peut garantir les utilisateurs contre ces infractions dans l’hypothèse où elles seraient causées par un manquement de l’Hébergeur à ses obligations.</p>\n<p><strong>Liens vers le site :</strong><br>&#8211; Tout lien hypertexte de tout autre site avec ce site devra faire l’objet d’une autorisation expresse et préalable du Directeur de la publication.<br>&#8211; Toute demande de lien doit être effectuée en adressant un courrier électronique par l’intermédiaire du formulaire de contact du site.<br>&#8211; Les informations contenues dans ce site internet sont fournies par le Directeur de la publication et protégées.<br>&#8211; La distribution, la modification ou la reproduction partielle ou en totalité de ce site sont interdites sans accord préalable écrit auprès du Directeur de la publication.</p>",
+    "seo": {
+      "title": "Renovest - Menuiserie Fenêtre Porte entrée garage - Belfort Montbéliard Mulhouse",
+      "description": "RENOV’EST c’est plus de 30 ans d’expérience dans la fourniture et la pose de fermetures de l’habitation et protections solaires."
+    },
+    "eyebrow": "Renov'Est",
+    "lead": ""
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "topbar": {
+    "items": [
+      "Lun - Ven · 9:00 | 18:00",
+      "Taillecourt & Maîche"
+    ],
+    "right": [
+      "Devis gratuit",
+      "Plus de 30 ans d’expérience"
+    ],
+    "mobile": "Devis gratuit"
+  },
+  "header_button": "Devis gratuit →",
+  "header_button_mobile": "Devis",
+  "cta_bar": {
+    "enabled": true,
+    "contact": "Contactez-nous",
+    "devis": "Demandez un devis"
+  },
+  "teaser": {
+    "enabled": true,
+    "delay": 20,
+    "title": "Un projet en tête ?",
+    "text": "Nos commerciaux sont à votre disposition afin de pouvoir vous répondre dans les délais les plus rapides possible.",
+    "call": "Rappel gratuit",
+    "chat": "Discuter"
+  },
+  "bot": {
+    "enabled": true,
+    "name": "Assistant Renov'Est",
+    "status": "● En ligne · réponse immédiate",
+    "welcome": "Bonjour 👋 Je suis l'assistant Renov'Est. Dites-moi votre projet et je vous oriente — ou je fais rappeler un commercial.",
+    "placeholder": "Écrivez votre question…",
+    "devis": "Demander un devis →",
+    "quick": [
+      {
+        "q": "Combien coûte une fenêtre ?",
+        "a": "Chaque projet est sur mesure : après la prise de mesures sur site, nous vous remettons un devis détaillé et gratuit. Je vous mets en relation avec un commercial ?"
+      },
+      {
+        "q": "Où intervenez-vous ?",
+        "a": "Depuis nos agences de Taillecourt et de Maîche, nous intervenons à Montbéliard, Belfort, Héricourt et dans tout le Doubs."
+      },
+      {
+        "q": "Ai-je droit aux aides ?",
+        "a": "Renov’Est est une entreprise certifiée RGE Qualibat : nos menuiseries sont éligibles aux aides à la rénovation énergétique. Un commercial vous détaille les possibilités pour votre projet."
+      },
+      {
+        "q": "Prendre RDV",
+        "a": "Avec plaisir. Laissez-moi vos coordonnées via le devis (2 minutes) et un commercial vous rappelle."
+      }
+    ],
+    "ask": "Une question sur {produit}",
+    "ask_answer": "Bonne question ! Nos produits sont sur mesure. Le plus simple : une prise de mesures sur site et un devis détaillé et gratuit. Je vous mets en relation ?",
+    "fallback": "Je transmets votre question à nos commerciaux : ils sont à votre disposition afin de pouvoir vous répondre dans les délais les plus rapides possible. Vous pouvez aussi nous appeler au 03 81 95 22 17."
+  },
+  "exit": {
+    "enabled": true,
+    "mode": "session",
+    "eyebrow": "Avant de partir",
+    "title": "Votre devis est détaillé et gratuit.",
+    "text": "Laissez votre numéro : nos commerciaux vous rappellent dans les délais les plus rapides possible.",
+    "placeholder": "06 __ __ __ __",
+    "button": "Rappelez-moi",
+    "dismiss": "Non merci, je continue ma visite",
+    "image": "/media/2022/07/portes_entrees_renovest.jpg"
+  },
+  "cursor": true,
+  "partners": {
+    "title": "Nos fabricants partenaires",
+    "logos": []
+  },
+  "devis_form": {
+    "steps": [
+      "Projet",
+      "Détails",
+      "Coordonnées"
+    ],
+    "step1_title": "Quel est votre projet ?",
+    "step1_text": "Sélectionnez un ou plusieurs produits.",
+    "step2_title": "Quelques précisions",
+    "qty": [
+      "1 à 2",
+      "3 à 5",
+      "6 à 10",
+      "Plus de 10 / maison complète"
+    ],
+    "delai": [
+      "Au plus vite / urgence",
+      "Dans les 3 mois",
+      "Dans les 6 mois",
+      "Je m'informe"
+    ],
+    "step3_title": "Où vous envoyer le devis ?",
+    "legal": "Sans engagement · Vos données ne sont jamais transmises à des tiers"
+  }
+}

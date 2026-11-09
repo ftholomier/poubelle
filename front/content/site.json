@@ -1,0 +1,61 @@
+{
+  "name": "Renov'Est",
+  "legal_name": "RENOV'EST S.A.S.",
+  "tagline": "Votre spécialiste en fermeture & protection solaire !",
+  "phone": "03 81 95 22 17",
+  "fax": "03 81 95 18 72",
+  "sav_phone": "06 07 77 82 76",
+  "email": "accueil@renovest.fr",
+  "hours": "Lun - Ven · 9:00 | 18:00",
+  "facebook": "https://www.facebook.com/renovesttaillecourt/",
+  "instagram": "https://www.instagram.com/renov_est/",
+  "agencies": [
+    {
+      "name": "Agence de Taillecourt",
+      "city": "Taillecourt",
+      "street": "16, Rue de la Croisée",
+      "zip": "25400",
+      "town": "TAILLECOURT",
+      "country": "France"
+    },
+    {
+      "name": "Agence de Maîche",
+      "city": "Maîche",
+      "street": "18 rue du général de Gaulle",
+      "zip": "25120",
+      "town": "MAÎCHE",
+      "country": ""
+    }
+  ],
+  "map_embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.9641567512954!2d6.8382033124014105!3d47.49641087105986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4792175c662114b3%3A0x93aa73f943fc94e!2sRenov'Est!5e1!3m2!1sfr!2sfr!4v1750866297025!5m2!1sfr!2sfr",
+  "siret": "341406148 00054",
+  "publisher": "Sylvain BRUNO",
+  "credit": {
+    "label": "www.le-digital.fr",
+    "url": "https://www.le-digital.fr"
+  },
+  "zones": [
+    "Montbéliard",
+    "Belfort",
+    "Besançon",
+    "Mulhouse",
+    "Taillecourt",
+    "Audincourt",
+    "Héricourt",
+    "Étupes",
+    "Valentigney",
+    "Bavans",
+    "Grand-Charmont",
+    "Bethoncourt",
+    "Maîche"
+  ],
+  "news_categories": [
+    "Chantiers",
+    "Conseils",
+    "Agence"
+  ],
+  "rating_value": "",
+  "rating_count": "",
+  "rating_source": "avis Google",
+  "reviews_url": ""
+}

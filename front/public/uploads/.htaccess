@@ -1,0 +1,7 @@
+# Téléversements : aucun script exécutable
+<FilesMatch "\.(php|phtml|phar|pl|py|cgi|sh|html?|svg)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+Options -Indexes -ExecCGI

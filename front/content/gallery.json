@@ -1,0 +1,270 @@
+{
+  "filters": [
+    {
+      "id": "menuiserie-pvc-alu",
+      "label": "Menuiserie PVC / ALU"
+    },
+    {
+      "id": "portes-dentree",
+      "label": "Portes d'entrée"
+    },
+    {
+      "id": "volets",
+      "label": "Volets roulants / battants"
+    },
+    {
+      "id": "portes-de-garage",
+      "label": "Portes de garage"
+    },
+    {
+      "id": "pergola-store",
+      "label": "Pergola / Store"
+    },
+    {
+      "id": "portail-cloture",
+      "label": "Portail / Clôture"
+    }
+  ],
+  "items": [
+    {
+      "src": "/media/2022/07/neweierwiese_muenchen_ehret5_0.jpg",
+      "cat": "volets"
+    },
+    {
+      "src": "/media/2022/07/newrouzillier-objekt-ehret.jpg",
+      "cat": "volets"
+    },
+    {
+      "src": "/media/2022/07/new0237_wohnanlage_karlsruhe_sl_6_original_30748.jpg",
+      "cat": "volets"
+    },
+    {
+      "src": "/media/2022/07/newgenf300.jpg",
+      "cat": "volets"
+    },
+    {
+      "src": "/media/2022/07/newschaffhausen001.jpg",
+      "cat": "volets"
+    },
+    {
+      "src": "/media/2022/07/newwohnanlage_sion_ehret_1.jpg",
+      "cat": "volets"
+    },
+    {
+      "src": "/media/2022/07/newdsc_0869.jpg",
+      "cat": "volets"
+    },
+    {
+      "src": "/media/2022/07/newmain_0302_arthannes_kl_2_original_30673.jpg",
+      "cat": "volets"
+    },
+    {
+      "src": "/media/2022/07/CarTeck_Sektionaltor_Optik_Mittelsicke_in_Farbe_9016.jpg",
+      "cat": "portes-de-garage"
+    },
+    {
+      "src": "/media/2022/07/CarTeck_Sektionaltor_Optik_Sicke_Holzdekor_Mahagoni.jpg",
+      "cat": "portes-de-garage"
+    },
+    {
+      "src": "/media/2022/07/csm_CarTeck_Sektionaltor_in_Optik_ohne_Sicke_Farbe_7016_d572c21c01.jpg",
+      "cat": "portes-de-garage"
+    },
+    {
+      "src": "/media/2022/07/CarTeck_Sektionaltor_Optik_Sicke_Farbe_7040.jpg",
+      "cat": "portes-de-garage"
+    },
+    {
+      "src": "/media/2022/07/CarTeck_Sektionaltor_Optik_ohne_Sicke_RAL_7040_Rundverglasung.jpg",
+      "cat": "portes-de-garage"
+    },
+    {
+      "src": "/media/2022/07/CarTeck_Sektionaltor_Optik_Ohne_Sicke_in_Farbe_7016_mit_R3_Fenster.jpg",
+      "cat": "portes-de-garage"
+    },
+    {
+      "src": "/media/2022/07/CarTeck_Sektionaltor_Optik_ohne_Sicke_Holzdekor_Winchester.jpg",
+      "cat": "portes-de-garage"
+    },
+    {
+      "src": "/media/2022/07/CarTeck_Sektionaltor_ohne_Sicke_in_Farbe7016.jpg",
+      "cat": "portes-de-garage"
+    },
+    {
+      "src": "/media/2022/07/new91002793_1223820494623661_1520092984522047488_o.jpg",
+      "cat": "pergola-store"
+    },
+    {
+      "src": "/media/2022/07/new75258503_1072201686452210_75193568704069632_o.jpg",
+      "cat": "pergola-store"
+    },
+    {
+      "src": "/media/2022/07/new73495146_1072201639785548_6140916318238408704_o.jpg",
+      "cat": "pergola-store"
+    },
+    {
+      "src": "/media/2022/07/MG_7653-2.jpg",
+      "cat": "menuiserie-pvc-alu"
+    },
+    {
+      "src": "/media/2022/07/newnewHilzinger_196_4c.jpg",
+      "cat": "menuiserie-pvc-alu"
+    },
+    {
+      "src": "/media/2022/07/newnew_MG_7297.jpg",
+      "cat": "menuiserie-pvc-alu"
+    },
+    {
+      "src": "/media/2022/07/newIMG_20170503_110340_resized_20170510_035817702.jpg",
+      "cat": "menuiserie-pvc-alu"
+    },
+    {
+      "src": "/media/2022/07/newfenetre-pvc.jpg",
+      "cat": "menuiserie-pvc-alu"
+    },
+    {
+      "src": "/media/2022/07/newfenetre-bois-alu.jpg",
+      "cat": "menuiserie-pvc-alu"
+    },
+    {
+      "src": "/media/2022/07/newfenetre-bois.jpg",
+      "cat": "menuiserie-pvc-alu"
+    },
+    {
+      "src": "/media/2022/07/newfenetre-alu.jpg",
+      "cat": "menuiserie-pvc-alu"
+    },
+    {
+      "src": "/media/2022/07/pirnar-27.jpg",
+      "cat": "portes-dentree"
+    },
+    {
+      "src": "/media/2022/07/pirnar-4.jpg",
+      "cat": "portes-dentree"
+    },
+    {
+      "src": "/media/2022/07/newpirnar-7.jpg",
+      "cat": "portes-dentree"
+    },
+    {
+      "src": "/media/2022/07/newpirnar-5.jpg",
+      "cat": "portes-dentree"
+    },
+    {
+      "src": "/media/2022/07/newpirnar-3.jpg",
+      "cat": "portes-dentree"
+    },
+    {
+      "src": "/media/2022/07/csm_THP_Iris_U_02_9e36f67105.jpg",
+      "cat": "portes-dentree"
+    },
+    {
+      "src": "/media/2022/07/csm_THP_Glycine_U_01_86a6c902df.jpg",
+      "cat": "portes-dentree"
+    },
+    {
+      "src": "/media/2022/07/csm_THP_Fuchsia_U_03_24123078c7.jpg",
+      "cat": "portes-dentree"
+    },
+    {
+      "src": "/media/2022/07/csm_LL_Springtime_I_01_ae56f80d01.jpg",
+      "cat": "portes-dentree"
+    },
+    {
+      "src": "/media/2022/07/csm_BLRobin2_U_11_128076dbe3.jpg",
+      "cat": "portes-dentree"
+    },
+    {
+      "src": "/media/2022/07/newJade-Lux-Restaurant-2-e1671180257887.jpg",
+      "cat": "pergola-store"
+    },
+    {
+      "src": "/media/2022/07/newIMG_0212-e1671180288645.jpg",
+      "cat": "pergola-store"
+    },
+    {
+      "src": "/media/2022/07/newHD-pergolas16-e1671180314945.jpg",
+      "cat": "pergola-store"
+    },
+    {
+      "src": "/media/2022/07/newHD-pergolas6-e1671180337216.jpg",
+      "cat": "pergola-store"
+    },
+    {
+      "src": "/media/2022/07/newGRENAT_MARQUISES-e1671180364228.jpg",
+      "cat": "pergola-store"
+    },
+    {
+      "src": "/media/2022/07/new20160502-8590.jpg",
+      "cat": "portail-cloture"
+    },
+    {
+      "src": "/media/2022/07/new20160502-8497.jpg",
+      "cat": "portail-cloture"
+    },
+    {
+      "src": "/media/2022/07/new20160502-7727.jpg",
+      "cat": "portail-cloture"
+    },
+    {
+      "src": "/media/2022/07/new20160502-7590.jpg",
+      "cat": "portail-cloture"
+    },
+    {
+      "src": "/media/2022/07/new20151201_113216.jpg",
+      "cat": "portail-cloture"
+    },
+    {
+      "src": "/media/2022/07/new3.jpg",
+      "cat": "portail-cloture"
+    },
+    {
+      "src": "/media/2022/12/portail_02.jpg",
+      "cat": "portail-cloture"
+    },
+    {
+      "src": "/media/2022/12/portail_01.jpg",
+      "cat": "portail-cloture"
+    },
+    {
+      "src": "/media/2023/06/portail_04.jpg",
+      "cat": "portes-de-garage"
+    },
+    {
+      "src": "/media/2023/06/portail_03.jpg",
+      "cat": "portail-cloture"
+    },
+    {
+      "src": "/media/2023/06/portail_02.jpg",
+      "cat": "portail-cloture"
+    },
+    {
+      "src": "/media/2023/06/portail_01.jpg",
+      "cat": "portail-cloture"
+    },
+    {
+      "src": "/media/2023/06/garage_02.jpg",
+      "cat": "portes-de-garage"
+    },
+    {
+      "src": "/media/2023/06/garage_01.jpg",
+      "cat": "portes-de-garage"
+    },
+    {
+      "src": "/media/2023/08/01-1.jpg",
+      "cat": "pergola-store"
+    },
+    {
+      "src": "/media/2023/08/01-2.jpg",
+      "cat": "pergola-store"
+    },
+    {
+      "src": "/media/2023/08/01-3.jpg",
+      "cat": "pergola-store"
+    },
+    {
+      "src": "/media/2023/08/01-4.jpg",
+      "cat": "pergola-store"
+    }
+  ]
+}

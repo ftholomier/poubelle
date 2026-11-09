@@ -1,0 +1,8 @@
+# Racine du site = front/public. Si l'hébergement pointe sur front/,
+# toutes les requêtes sont redirigées en interne vers public/ et le reste est bloqué.
+Options -Indexes
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(src|views|config|content|storage|bin)(/|$) - [F,L]
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

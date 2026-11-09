@@ -1,0 +1,38 @@
+[
+  {
+    "key": "home",
+    "label": "Accueil",
+    "visible": true
+  },
+  {
+    "key": "presentation",
+    "label": "Présentation",
+    "visible": true
+  },
+  {
+    "key": "produits",
+    "label": "Nos produits",
+    "visible": true,
+    "children": "products"
+  },
+  {
+    "key": "realisations",
+    "label": "Nos réalisations",
+    "visible": true
+  },
+  {
+    "key": "actu",
+    "label": "Actu",
+    "visible": true
+  },
+  {
+    "key": "avis",
+    "label": "Avis",
+    "visible": true
+  },
+  {
+    "key": "contact",
+    "label": "Contact",
+    "visible": true
+  }
+]
