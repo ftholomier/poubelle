@@ -45,7 +45,13 @@ $n = function () use (&$num) { return sprintf('%02d', ++$num); };
   </section>
   <section class="rv-stats" aria-label="Chiffres clés">
     <div class="rv-stats__in">
-      <?php foreach ($h['stats'] as $s): ?>
+      <?php foreach ($h['stats'] as $s):
+          // « 30 ans » mais « 48h » : espace devant un suffixe d'au moins deux lettres
+          $suf = trim((string) ($s['suffix'] ?? ''));
+          if (mb_strlen($suf) > 1 && preg_match('/^\p{L}/u', $suf)) {
+              $suf = ' ' . $suf;
+          }
+          $s['suffix'] = $suf; ?>
         <div>
           <div class="rv-stats__n" data-reveal="zoom" data-count="<?= (int) $s['value'] ?>" data-prefix="<?= e($s['prefix'] ?? '') ?>" data-suffix="<?= e($s['suffix'] ?? '') ?>"><?= e(($s['prefix'] ?? '') . $s['value'] . ($s['suffix'] ?? '')) ?></div>
           <div class="rv-stats__l"><?= e($s['label']) ?></div>
