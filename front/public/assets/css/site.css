@@ -249,11 +249,14 @@ a.philo__c:hover .philo__bar { width: 70px }
 .grid-3 { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,300px),1fr)); gap: 18px; margin-top: 30px }
 .ncard { cursor: pointer; display: flex; flex-direction: column; border: 1px solid #e8e8e8; border-radius: 14px; overflow: hidden; background: #fff; transition: transform .3s var(--e), border-color .3s ease; --zoom: 0; color: var(--k) }
 .ncard:hover { transform: translateY(-6px); border-color: var(--k); --zoom: 1; color: var(--k) }
-.ncard__img { position: relative; height: 210px; overflow: hidden; background: #eee }
-.ncard__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(calc(1 + var(--zoom,0) * .07)); transition: transform .9s var(--e) }
+.ncard__img { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #eee }
+/* Image entière, sans recadrage : les bords libres montrent la même image floutée */
+.fit__bg { position: absolute; inset: -10%; width: 120%; height: 120%; object-fit: cover; filter: blur(22px) saturate(1.1) brightness(.92); transform: scale(calc(1 + var(--zoom,0) * .07)); transition: transform .9s var(--e); pointer-events: none }
+.fit__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: 1 }
+.ncard__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px }
 .ncard__img--empty { background: var(--g) url(/assets/img/logo.png) center/50% auto no-repeat }
 .pill { background: var(--y); color: var(--k); font-family: var(--arch); font-weight: 800; font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; padding: 6px 10px; border-radius: 6px }
-.ncard__img .pill { position: absolute; left: 14px; top: 14px }
+
 .ncard__b { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1 }
 .ncard__d { font-size: 13px; color: #8c8c8c; font-weight: 600 }
 .ncard__t { font-family: var(--arch); font-weight: 800; font-size: 20px; line-height: 1.2; letter-spacing: -.01em; text-wrap: balance }
@@ -369,11 +372,13 @@ a.philo__c:hover .philo__bar { width: 70px }
 .art h1 { font-family: var(--arch); font-weight: 900; font-size: clamp(30px,4.2vw,48px); letter-spacing: -.028em; line-height: 1.04; margin: 16px 0 0; text-wrap: balance }
 .art__lead { font-size: 19px; line-height: 1.6; color: #4a4a4a; margin: 18px 0 0; text-wrap: pretty }
 .art__hero { max-width: 1100px; margin: 30px auto 0; padding: 0 22px }
-.art__hero div { position: relative; border-radius: 16px; overflow: hidden; height: clamp(240px,46vw,520px); background: #eee; cursor: zoom-in }
-.art__hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover }
+.art__hero > div { position: relative; border-radius: 16px; overflow: hidden; background: #eee; cursor: zoom-in }
+.art__hero a { position: relative; z-index: 1; display: flex; justify-content: center }
+.art__hero .fit__img { position: relative; inset: auto; width: auto; max-width: 100%; height: auto; max-height: min(80vh, 860px); display: block }
 .art__body { max-width: 860px; margin: 0 auto; padding: 34px 22px 0 }
 .art__more { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,200px),1fr)); gap: 12px; margin-top: 26px }
-.art__more .gtile { min-height: 200px }
+.art__thumb { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 13px; overflow: hidden; background: #eee; cursor: zoom-in; --zoom: 0 }
+.art__thumb:hover { --zoom: 1 }
 .share { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 34px; padding-top: 24px; border-top: 1px solid #ececec }
 .share__l { font-size: 14px; font-weight: 700; color: #6b6b6b; margin-right: 4px }
 .share a, .share button { cursor: pointer; display: flex; align-items: center; gap: 8px; border: 1.5px solid #e0e0e0; border-radius: 999px; padding: 9px 15px; font-weight: 700; font-size: 14px; white-space: nowrap; flex: none; transition: border-color .3s ease; color: var(--k) }

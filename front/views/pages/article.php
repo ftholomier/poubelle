@@ -18,7 +18,7 @@ $url = Http::abs($post['path']);
 </div>
 <?php if ($first !== ''): ?>
 <div class="art__hero" data-lightbox>
-  <div><a href="<?= e($first) ?>"><img src="<?= e($first) ?>" alt="<?= e(plain((string) $post['title'])) ?>"></a></div>
+  <div><img class="fit__bg" src="<?= e($first) ?>" alt="" aria-hidden="true"><a href="<?= e($first) ?>"><img class="fit__img" src="<?= e($first) ?>" alt="<?= e(plain((string) $post['title'])) ?>"></a></div>
 </div>
 <?php endif; ?>
 <div class="art__body">
@@ -28,7 +28,7 @@ $url = Http::abs($post['path']);
   <?php if (count($imgs) > 1): ?>
     <div class="art__more" data-lightbox>
       <?php foreach (array_slice($imgs, 1) as $im): ?>
-        <a class="gtile" href="<?= e($im) ?>"><img src="<?= e($im) ?>" alt="" loading="lazy"><div class="gtile__shade"></div></a>
+        <a class="art__thumb" href="<?= e($im) ?>"><img class="fit__bg" src="<?= e($im) ?>" alt="" aria-hidden="true" loading="lazy"><img class="fit__img" src="<?= e($im) ?>" alt="" loading="lazy"></a>
       <?php endforeach; ?>
     </div>
   <?php endif; ?>

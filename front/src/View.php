@@ -51,9 +51,10 @@ final class View
         $delay = ($i % 3) * 90;
         return '<a class="ncard" href="' . e($n['path']) . '" data-reveal="up" data-reveal-delay="' . $delay . '" data-cat="' . e($n['cat'] ?? '') . '">'
             . '<div class="ncard__img' . ($img === '' ? ' ncard__img--empty' : '') . '">'
-            . ($img !== '' ? '<img src="' . e($img) . '" alt="' . e(plain((string) $n['title'])) . '" loading="lazy">' : '')
-            . '<div class="pill">' . e($n['cat'] ?? '') . '</div></div>'
-            . '<div class="ncard__b"><div class="ncard__d">' . e(date_fr((string) $n['date'])) . '</div>'
+            // Image entière (aucun recadrage) sur un fond flou tiré de la même image
+            . ($img !== '' ? '<img class="fit__bg" src="' . e($img) . '" alt="" aria-hidden="true" loading="lazy"><img class="fit__img" src="' . e($img) . '" alt="' . e(plain((string) $n['title'])) . '" loading="lazy">' : '')
+            . '</div>'
+            . '<div class="ncard__b"><div class="ncard__meta"><span class="pill">' . e($n['cat'] ?? '') . '</span><span class="ncard__d">' . e(date_fr((string) $n['date'])) . '</span></div>'
             . '<div class="ncard__t">' . e(plain((string) $n['title'])) . '</div>'
             . '<div class="ncard__x">' . e(Content::postExcerpt($n, 150)) . '</div>'
             . '<div class="ncard__m">Lire l\'actu <i></i></div></div></a>';
