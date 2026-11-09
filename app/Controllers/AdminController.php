@@ -17,6 +17,7 @@ use App\Domain\PageRepository;
 use App\Domain\TradeRepository;
 use App\Domain\UserRepository;
 use App\Services\Ads;
+use App\Services\HouseAd;
 use App\Services\AdSnippet;
 use App\Services\Aggregator;
 use App\Services\Auth;
@@ -701,7 +702,13 @@ final class AdminController extends Controller
         $parsed = null;
 
         if ($request->isPost() && Csrf::check($request)) {
-            if ((string) $request->input('action', '') === 'snippet') {
+            if ((string) $request->input('action', '') === 'house') {
+                $errors = HouseAd::save($request->input('house_on') === '1', (string) $request->input('house_url', ''),
+                    (string) $request->input('house_alt', ''),
+                    ['desktop' => $request->files['house_desktop'] ?? [], 'mobile' => $request->files['house_mobile'] ?? []],
+                    $request->input('house_drop_mobile') === '1', $this->userId());
+                $notice = $errors === [] ? I18n::t('admin.saved') : implode(' ', $errors);
+            } elseif ((string) $request->input('action', '') === 'snippet') {
                 $parsed = $this->applySnippet((string) $request->input('snippet', ''));
                 $notice = AdSnippet::summary($parsed);
             } else {
@@ -723,6 +730,7 @@ final class AdminController extends Controller
             'consent' => Ads::consentMode(),
             'parsed'  => $parsed,
             'notice'  => $notice,
+            'house'   => HouseAd::settings(),
         ], I18n::t('admin.ads'));
     }
 

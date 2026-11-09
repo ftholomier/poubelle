@@ -2,6 +2,7 @@
 /**
  * Emplacements publicitaires.
  * @var array $slots @var string $client @var string $mode
+ * @var array $house
  * @var string $snippet @var array|null $parsed @var string $consent @var string $notice
  */
 use App\Core\Csrf;
@@ -20,6 +21,44 @@ use App\Services\I18n;
 <?php if ($notice !== '' && $parsed === null): ?>
   <div class="notice notice-ok" role="status"><?= e($notice) ?></div>
 <?php endif; ?>
+
+<form method="post" enctype="multipart/form-data" class="admin-card">
+  <?= Csrf::field('admin-ads') ?>
+  <input type="hidden" name="action" value="house">
+  <h2 style="margin-top:0">Ma bannière</h2>
+  <p class="s">
+    Votre propre publicité, affichée sous l’en-tête de <strong>toutes les pages du site</strong>,
+    en plus d’AdSense. Image ordinateur : <strong>1200 × 150 px</strong>. Image mobile (facultative) :
+    <strong>640 × 160 px</strong>, sinon l’image ordinateur est réduite. JPG, PNG, WebP ou GIF, 1 Mo maximum.
+  </p>
+  <?php foreach (['desktop' => 'Image ordinateur (1200 × 150 px)', 'mobile' => 'Image mobile (640 × 160 px)'] as $k => $label): ?>
+    <div class="field" style="margin-top:12px">
+      <span class="label"><?= e($label) ?></span>
+      <?php if ($house[$k] !== ''): ?>
+        <?php [$w, $h] = App\Services\HouseAd::dims($house[$k]); ?>
+        <img src="<?= e(App\Services\HouseAd::src($house[$k])) ?>" alt=""
+             style="display:block;max-width:100%;max-height:120px;border-radius:8px;margin:6px 0">
+        <span class="s"><?= $w ?> × <?= $h ?> px<?php
+          $want = App\Services\HouseAd::SIZES[$k];
+          if ($w > 0 && abs($w / max(1, $h) - $want[0] / $want[1]) > 0.05): ?>
+            — proportions différentes du format conseillé : l’image sera affichée telle quelle.<?php endif; ?></span>
+        <?php if ($k === 'mobile'): ?>
+          <label style="display:block;margin-top:4px"><input type="checkbox" name="house_drop_mobile" value="1"> Retirer l’image mobile</label>
+        <?php endif; ?>
+      <?php endif; ?>
+      <input class="input" type="file" name="house_<?= $k ?>" accept="image/jpeg,image/png,image/webp,image/gif">
+    </div>
+  <?php endforeach; ?>
+  <label class="field" style="margin-top:12px"><span class="label">Lien (page de destination)</span>
+    <input class="input" type="url" name="house_url" value="<?= e($house['url']) ?>" placeholder="https://…"></label>
+  <label class="field" style="margin-top:12px"><span class="label">Texte alternatif (décrit l’image)</span>
+    <input class="input" type="text" name="house_alt" maxlength="120" value="<?= e($house['alt']) ?>"></label>
+  <label style="display:flex;gap:8px;margin-top:14px">
+    <input type="checkbox" name="house_on" value="1"<?= $house['enabled'] ? ' checked' : '' ?>>
+    <span>Afficher la bannière sur le site</span>
+  </label>
+  <button type="submit" class="btn btn-coral" style="margin-top:14px">Enregistrer</button>
+</form>
 
 <form method="post" class="admin-card">
   <?= Csrf::field('admin-ads') ?>

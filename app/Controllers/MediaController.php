@@ -19,7 +19,7 @@ use App\Storage\Audit;
  */
 final class MediaController extends Controller
 {
-    private const KINDS = ['cv', 'photo', 'logo'];
+    private const KINDS = ['cv', 'photo', 'logo', 'promo'];
 
     public function serve(Request $request, array $params): Response
     {
@@ -44,7 +44,7 @@ final class MediaController extends Controller
         }
 
         // Les listes demandent la vignette : 256 px au lieu de l'original.
-        if ($kind !== 'cv' && (string) $request->get('t', '') !== '') {
+        if ($kind !== 'cv' && $kind !== 'promo' && (string) $request->get('t', '') !== '') {
             $thumb = Image::thumbPath($relative);
             if (is_file(Config::path('data') . '/uploads/' . $thumb)) {
                 $relative = $thumb;
@@ -65,7 +65,7 @@ final class MediaController extends Controller
 
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
         $mime = (string) $finfo->file($real);
-        $allowed = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp',
+        $allowed = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/gif',
                     'application/msword',
                     'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
         if (!in_array($mime, $allowed, true)) {
@@ -81,6 +81,9 @@ final class MediaController extends Controller
     /** Chemin relatif du fichier, ou null si la fiche n'est pas publique. */
     private function resolve(string $kind, string $id): ?string
     {
+        if ($kind === 'promo') {
+            return \App\Services\HouseAd::path($id);
+        }
         if ($kind === 'logo') {
             $employer = EmployerRepository::find($id);
             $path = (string) ($employer['logo']['path'] ?? '');

@@ -105,6 +105,7 @@ $ogImage = Seo::ogImage($ogImage ?? '');
 <a class="skip-link" href="#main"><?= e(I18n::t('nav.skip')) ?></a>
 
 <?= App\Core\View::partial('partials/header', ['path' => $path]) ?>
+<?= App\Core\View::partial('partials/house-ad') ?>
 
 <?php if (!empty($translated)): ?>
 <div class="translated-banner" role="status">

@@ -1423,3 +1423,8 @@ ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }
 .hero-cvcount .n { font-family: var(--font-display); font-weight: 800; font-size: clamp(34px, 5vw, 48px); line-height: 1; color: #0FBFA4; }
 .hero-cvcount .l { font-size: 15px; font-weight: 700; line-height: 1.35; }
 .hero-cvcount .go { display: block; font-size: 13px; color: var(--coral-solid); text-decoration: underline; text-underline-offset: 2px; }
+
+/* Bannière maison, sous l'en-tête. */
+.house-ad { max-width: 1200px; margin: 14px auto 0; padding: 0 16px; }
+.house-ad a { display: block; border-radius: 12px; overflow: hidden; line-height: 0; }
+.house-ad img { display: block; width: 100%; height: auto; }
