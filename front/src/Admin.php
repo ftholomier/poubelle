@@ -746,9 +746,11 @@ final class Admin
         $out = fopen('php://output', 'w');
         fwrite($out, "\xEF\xBB\xBF");
         fputcsv($out, ['Date', 'Type', 'Statut', 'Nom', 'Téléphone', 'E-mail', 'Produits', 'Éléments', 'Échéance', 'Code postal', 'Message', 'Page'], ';');
+        // Pas de formule exécutée à l'ouverture dans un tableur (=, +, -, @)
+        $cell = fn($v) => preg_match('/^[=+\-@\t\r]/', (string) $v) ? "'" . $v : (string) $v;
         foreach (Leads::all() as $l) {
-            fputcsv($out, [date('d/m/Y H:i', strtotime($l['at'])), Leads::TYPES[$l['type']] ?? $l['type'], Leads::STATUS[$l['status']] ?? $l['status'],
-                $l['nom'] ?? '', $l['tel'] ?? '', $l['email'] ?? '', implode(', ', (array) ($l['types'] ?? [])), $l['qty'] ?? '', $l['delai'] ?? '', $l['cp'] ?? '', $l['msg'] ?? '', $l['page'] ?? ''], ';');
+            fputcsv($out, array_map($cell, [date('d/m/Y H:i', strtotime($l['at'])), Leads::TYPES[$l['type']] ?? $l['type'], Leads::STATUS[$l['status']] ?? $l['status'],
+                $l['nom'] ?? '', $l['tel'] ?? '', $l['email'] ?? '', implode(', ', (array) ($l['types'] ?? [])), $l['qty'] ?? '', $l['delai'] ?? '', $l['cp'] ?? '', $l['msg'] ?? '', $l['page'] ?? '']), ';');
         }
         exit;
     }

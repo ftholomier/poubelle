@@ -289,7 +289,7 @@
     b.className = role === 'user' ? 'msg-u' : 'msg-b';
     b.textContent = text;
     // Liens internes cliquables (adresses du site)
-    if (role !== 'user') b.innerHTML = b.innerHTML.replace(/(https?:\/\/[^\s<]+[^\s<.,;:!?)])/g, '<a href="$1">$1</a>');
+    if (role !== 'user') b.innerHTML = b.innerHTML.replace(/(https?:\/\/[^\s<"'&]+[^\s<"'&.,;:!?)])/g, '<a href="$1" rel="noopener">$1</a>');
     d.appendChild(b); msgsBox.appendChild(d);
     msgsBox.scrollTop = msgsBox.scrollHeight;
     return d;
