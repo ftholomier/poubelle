@@ -138,7 +138,7 @@ $n = function () use (&$num) { return sprintf('%02d', ++$num); };
         <div class="rating__n"><?= e($rating['label']) ?></div>
         <div>
           <div class="stars">★★★★★</div>
-          <div class="rating__c"><a href="<?= e(Content::path('avis')) ?>"><?= (int) $rating['count'] ?> <?= e($rating['source']) ?></a></div>
+          <div class="rating__c"><a href="<?= e($rating['url'] !== '' ? $rating['url'] : Content::path('avis')) ?>"<?= $rating['url'] !== '' ? ' target="_blank" rel="noopener"' : '' ?>><?= (int) $rating['count'] ?> <?= e($rating['source']) ?></a></div>
         </div>
       </div>
       <div class="arrows">

@@ -107,7 +107,7 @@ limitation par IP. Chaque demande est enregistrée puis envoyée par e-mail.
 - **Page d'accueil** : héros (titre, vidéo), compteurs, sections, bloc final, SEO.
 - **Pages** : Présentation, Nos produits, Réalisations, Actu, Avis, Contact, Devis, Mentions.
 - **Produits** : ajout, modification (éditeur de texte), ordre, visibilité, SEO.
-- **Photos produits**, **Réalisations**, **Avis clients** (note affichée réglable).
+- **Photos produits**, **Réalisations**, **Avis clients** : fiche Google connectée (recherche par nom, adresse ou lien), avis saisis à la main, note affichée.
 - **Actualités** : création, programmation, catégories ; import et publication Facebook.
 - **Médiathèque** : téléversement (glisser-déposer), réduction automatique des photos.
 - **Menu**, **Coordonnées** (agences, téléphones, zone d'intervention, réseaux).
@@ -178,6 +178,21 @@ Sur le modèle de le-digital.com, la barre CTA fixe propose, en plus de « Conta
    Sans transcription du navigateur, Gemini transcrit le fichier si une clé est réglée.
 
 Textes, questions, durée maximale et consigne de résumé : **Back-office › Conversion**.
+
+## Avis Google
+
+**Back-office › Avis clients** : saisir une clé API Google (Google Cloud, « Places API (New) »
+activée), puis chercher la fiche par le **nom de l'entreprise**, son **adresse**, ou en collant
+un **lien Google Maps** ou un **lien de recherche Google** ; « C'est ma fiche » la connecte.
+
+- note et nombre d'avis affichés : ceux de la fiche Google (accueil, page Avis, données
+  structurées pour les moteurs de recherche) ;
+- avis : lus chez Google une fois par jour (tâche planifiée, ou juste après l'envoi d'une page
+  si l'hébergement le permet) ; Google n'en donne que 5 par lecture, tous ceux déjà vus sont
+  gardés (60 au plus) ; en cas de panne, la dernière version reste affichée ;
+- modes : avis Google complétés par les avis saisis (sans doublon), avis Google seuls, ou avis
+  saisis seuls ; note minimale des avis Google affichés (4 étoiles par défaut) ;
+- page Avis : boutons « Laisser un avis Google » et « Voir tous les avis sur Google ».
 
 ## Actualités et Facebook
 

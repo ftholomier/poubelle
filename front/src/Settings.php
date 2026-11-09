@@ -24,6 +24,9 @@ final class Settings
         'smtp_port' => 587,
         'smtp_user' => '',
         'smtp_secure' => 'tls',
+        'google_place_id' => '',
+        'google_reviews_mode' => 'mix',
+        'google_min_rating' => 4,
         'update_repo' => '',
         'update_branch' => '',
     ];

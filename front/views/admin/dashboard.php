@@ -18,6 +18,7 @@ $botlog = Store::get('botlog', []);
 $checks = [
     ['Adresse de réception des demandes', Settings::get('notify_email') !== '', '/admin/emails'],
     ['Assistant IA branché (clé Gemini)', Settings::hasSecret('gemini_key'), '/admin/assistant'],
+    ['Fiche Google connectée (avis Google)', GoogleReviews::connected(), '/admin/avis'],
     ['Page Facebook synchronisée', Facebook::configured(), '/admin/facebook'],
     ['Tâche planifiée (synchronisation, vérification des mises à jour)', !empty(Store::get('fb_state', [])['at']) || !empty(Updater::state()['check']), '/admin/sauvegarde'],
 ];

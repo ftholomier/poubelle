@@ -65,6 +65,7 @@ final class Site
     public static function render(string $type, string $key): void
     {
         security_headers();
+        GoogleReviews::refreshAfterResponse();
         header('Content-Type: text/html; charset=utf-8');
         $site = Content::site();
         if ($type === 'product') {

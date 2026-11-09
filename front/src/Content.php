@@ -86,21 +86,49 @@ final class Content
         return $c ?: ['Chantiers', 'Conseils', 'Agence'];
     }
 
+    /**
+     * Avis affichés sur le site. Fiche Google connectée : avis Google (mode « google »), ou avis
+     * Google puis avis saisis dans le back-office sans doublon (mode « mix », par défaut).
+     * Sinon, ou en mode « manual » : avis saisis dans le back-office.
+     */
     public static function reviews(bool $all = false): array
     {
         $r = Store::get('reviews');
-        return array_values($all ? $r : array_filter($r, fn($x) => !empty($x['visible']) && trim((string) ($x['text'] ?? '')) !== ''));
+        if ($all) {
+            return array_values($r);
+        }
+        $manual = array_values(array_filter($r, fn($x) => !empty($x['visible']) && trim((string) ($x['text'] ?? '')) !== ''));
+        $mode = (string) Settings::get('google_reviews_mode', 'mix');
+        if ($mode === 'manual' || !GoogleReviews::connected()) {
+            return $manual;
+        }
+        $google = GoogleReviews::reviews();
+        if (!$google) {
+            return $manual;
+        }
+        if ($mode === 'google') {
+            return $google;
+        }
+        $key = fn($x) => mb_strtolower(trim((string) $x['name'])) . '|' . mb_strtolower(mb_substr(preg_replace('/\s+/u', ' ', trim((string) $x['text'])) ?? '', 0, 40));
+        $seen = array_flip(array_map($key, $google));
+        return array_merge($google, array_values(array_filter($manual, fn($x) => !isset($seen[$key($x)]))));
     }
 
-    /** Note moyenne et nombre d'avis affichés (réglables dans le back-office). */
+    /** Note moyenne et nombre d'avis affichés : fiche Google si connectée, sinon calculés (réglables). */
     public static function rating(): array
     {
         $s = self::site();
+        $g = Settings::get('google_reviews_mode', 'mix') !== 'manual' && GoogleReviews::connected() ? GoogleReviews::data() : [];
         $all = array_filter(Store::get('reviews'), fn($x) => !empty($x['visible']));
         $avg = $all ? array_sum(array_map(fn($x) => (float) ($x['rating'] ?? 5), $all)) / count($all) : 5.0;
+        if (isset($g['rating']) && $g['rating'] !== null) {
+            $avg = (float) $g['rating'];
+        }
+        $cnt = !empty($g['count']) ? (int) $g['count'] : count($all);
         $note = trim((string) ($s['rating_value'] ?? '')) !== '' ? (float) str_replace(',', '.', (string) $s['rating_value']) : round($avg, 1);
-        $count = trim((string) ($s['rating_count'] ?? '')) !== '' ? (int) $s['rating_count'] : count($all);
-        return ['value' => $note, 'label' => number_format($note, 1, ',', ''), 'count' => $count, 'source' => (string) ($s['rating_source'] ?? 'avis Google')];
+        $count = trim((string) ($s['rating_count'] ?? '')) !== '' ? (int) $s['rating_count'] : $cnt;
+        return ['value' => $note, 'label' => number_format($note, 1, ',', ''), 'count' => $count, 'source' => (string) ($s['rating_source'] ?? 'avis Google'),
+            'url' => trim((string) ($s['reviews_url'] ?? '')) ?: (string) ($g['maps_url'] ?? ''), 'review_url' => (string) ($g['review_url'] ?? '')];
     }
 
     public static function realisations(): array

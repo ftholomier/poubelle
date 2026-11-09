@@ -327,6 +327,41 @@
     if (modelSel.getAttribute('data-has-key') === '1' && modelSel.getAttribute('data-count') === '0') load('', false);
   }
 
+  /* ------------------------------------------------------------ Avis Google : recherche de la fiche */
+  var gs = $('form[data-google-search]');
+  if (gs) {
+    var gres = $('[data-google-results]', gs);
+    gs.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var keyIn = $('[data-google-key]', gs), key = keyIn ? keyIn.value.trim() : '';
+      var btn = $('button[type="submit"]', gs);
+      gres.innerHTML = '<p class="bo-muted">Recherche chez Google…</p>';
+      btn.disabled = true;
+      api('google.search', { q: gs.elements.q.value, key: key }).then(function (r) {
+        btn.disabled = false;
+        gres.innerHTML = '';
+        if (!r.ok) { toast(r.error, true); return; }
+        if (!r.results.length) {
+          var p = document.createElement('p'); p.className = 'bo-muted';
+          p.textContent = 'Aucune fiche trouvée pour « ' + r.query + ' ». Essayez avec l\'adresse complète ou collez le lien Google Maps de la fiche.';
+          gres.appendChild(p); return;
+        }
+        r.results.forEach(function (pl) {
+          var d = document.createElement('div'); d.className = 'gr__item';
+          d.innerHTML = '<div><b></b><br><span class="bo-muted"></span></div><div class="gr__item-r"><span class="gr__stars"></span><button class="b b--y" type="button">C\'est ma fiche</button></div>';
+          $('b', d).textContent = pl.name;
+          $('.bo-muted', d).textContent = pl.address;
+          $('.gr__stars', d).textContent = pl.rating ? '★ ' + String(pl.rating).replace('.', ',') + ' · ' + pl.count + ' avis' : 'Pas encore d\'avis';
+          $('button', d).addEventListener('click', function () {
+            this.disabled = true; this.textContent = 'Connexion…';
+            api('google.select', { place_id: pl.place_id, key: key }).then(done, function () {});
+          });
+          gres.appendChild(d);
+        });
+      }, function () { btn.disabled = false; });
+    });
+  }
+
   function initAll(root) { initRep(root); initImages(root); initRte(root); }
   initAll(document);
 })();

@@ -1,6 +1,7 @@
 <?php
 /** Formulaire générique décrit par un schéma. */
 ?>
+<?php if (!empty($before)): ?><?php View::render($before) ?><?php endif; ?>
 <form class="bo-form card" data-api="<?= e($action) ?>" data-dirty>
   <?php foreach ($hidden as $k => $v): ?><input type="hidden" name="<?= e($k) ?>" value="<?= e((string) $v) ?>"><?php endforeach; ?>
   <?php if ($intro !== ''): ?><p class="bo-intro"><?= e($intro) ?></p><?php endif; ?>

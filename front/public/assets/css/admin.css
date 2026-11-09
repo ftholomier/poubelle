@@ -253,3 +253,23 @@ a.kpi:hover { border-color: var(--k) }
 .lead__voice audio { flex: 1; min-width: 220px; height: 40px }
 .lead__sum { margin-top: 14px; background: #fffce0; border: 1px solid #f0e48a; border-radius: 10px; padding: 12px 14px; font-size: 14px; line-height: 1.55 }
 .lead__sum b, .lead__lbl { display: block; font-family: var(--arch); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: #6b6b6b; margin-bottom: 4px }
+
+/* Avis Google */
+.gr__h { display: flex; gap: 14px; align-items: center; margin-bottom: 16px }
+.gr__g { width: 44px; height: 44px; border-radius: 12px; background: #fff; border: 1px solid var(--bd); display: grid; place-items: center; font-family: var(--arch); font-weight: 900; font-size: 22px; color: #4285F4; flex: none }
+.gr__on { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; background: #f8f8f5; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px }
+.gr__note { display: flex; align-items: baseline; gap: 8px }
+.gr__note b { font-family: var(--arch); font-weight: 900; font-size: 30px }
+.gr__note span { color: #f5b400; letter-spacing: 1px }
+.gr__note small { color: var(--mut) }
+.gr__list summary { cursor: pointer; font-weight: 700; font-size: 14px; margin: 8px 0 }
+.gr__r { border-top: 1px solid #f0f0f0; padding: 10px 0; font-size: 14px; line-height: 1.5 }
+.gr__r.is-off { opacity: .45 }
+.gr__search { border-top: 1px solid var(--bd); margin-top: 14px; padding-top: 16px }
+.gr__row { display: flex; gap: 8px; flex-wrap: wrap }
+.gr__row input { flex: 1 1 320px; min-width: 0 }
+.gr__res { display: grid; gap: 8px; margin-top: 12px }
+.gr__item { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; border: 1px solid var(--bd); border-radius: 12px; padding: 12px 14px }
+.gr__item-r { display: flex; align-items: center; gap: 12px }
+.gr__stars { color: #6b6b6b; font-size: 13.5px; white-space: nowrap }
+.gr__set { border-top: 1px solid var(--bd); margin-top: 16px; padding-top: 16px }

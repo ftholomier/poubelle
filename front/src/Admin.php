@@ -129,7 +129,7 @@ final class Admin
                 self::formPage('Facebook', 'facebook.save', AdminSchemas::facebook(), Settings::all(), 'Synchronisation de la page Facebook avec les actualités du site.', '', [], '', 'admin/facebook_extra');
                 return;
             case 'avis':
-                self::formPage('Avis clients', 'reviews.save', AdminSchemas::reviews(), ['items' => Store::get('reviews'), 'rating_value' => Content::site()['rating_value'] ?? '', 'rating_count' => Content::site()['rating_count'] ?? '', 'rating_source' => Content::site()['rating_source'] ?? 'avis Google', 'reviews_url' => Content::site()['reviews_url'] ?? ''], 'Avis affichés dans le carrousel de l\'accueil et sur la page « Avis ».', Content::path('avis'));
+                self::formPage('Avis clients', 'reviews.save', AdminSchemas::reviews(), ['items' => Store::get('reviews'), 'rating_value' => Content::site()['rating_value'] ?? '', 'rating_count' => Content::site()['rating_count'] ?? '', 'rating_source' => Content::site()['rating_source'] ?? 'avis Google', 'reviews_url' => Content::site()['reviews_url'] ?? ''], 'Avis saisis à la main (repris de renovest.fr). Avec la fiche Google connectée ci-dessus, ils complètent les avis Google ou sont remplacés par eux, selon le mode choisi.', Content::path('avis'), [], '', '', 'admin/google_reviews');
                 return;
             case 'medias':
                 self::page('admin/media', 'Médiathèque');
@@ -191,9 +191,9 @@ final class Admin
         View::render('admin/bare', ['content' => $content, 'title' => $title]);
     }
 
-    private static function formPage(string $title, string $action, array $schema, array $values, string $intro = '', string $view = '', array $hidden = [], string $deleteAction = '', string $extra = ''): void
+    private static function formPage(string $title, string $action, array $schema, array $values, string $intro = '', string $view = '', array $hidden = [], string $deleteAction = '', string $extra = '', string $before = ''): void
     {
-        self::page('admin/form', $title, compact('action', 'schema', 'values', 'intro', 'view', 'hidden', 'deleteAction', 'extra'));
+        self::page('admin/form', $title, compact('action', 'schema', 'values', 'intro', 'view', 'hidden', 'deleteAction', 'extra', 'before'));
     }
 
     public static function navActive(string $slug): bool
@@ -423,6 +423,45 @@ final class Admin
                     Http::error($e->getMessage(), 422);
                 }
                 Http::json(['ok' => true, 'message' => $r['added'] . ' publication(s) importée(s), ' . $r['updated'] . ' mise(s) à jour.', 'reload' => true]);
+            case 'google.save':
+                self::secrets($data, ['google_places_key']);
+                $mode = in_array($data['google_reviews_mode'] ?? '', ['mix', 'google', 'manual'], true) ? $data['google_reviews_mode'] : 'mix';
+                Settings::set(['google_reviews_mode' => $mode, 'google_min_rating' => max(1, min(5, (int) ($data['google_min_rating'] ?? 4)))]);
+                Http::json(['ok' => true, 'message' => 'Réglages des avis Google enregistrés.', 'reload' => true]);
+            case 'google.search':
+                $key = trim((string) ($in['key'] ?? '')) ?: GoogleReviews::key();
+                if ($key === '') {
+                    Http::error('Saisissez d\'abord la clé API Google.', 422);
+                }
+                $r = GoogleReviews::search((string) ($in['q'] ?? ''), $key);
+                if (isset($r['error'])) {
+                    Http::error($r['error'], 422);
+                }
+                Http::json(['ok' => true, 'query' => $r['query'] ?? '', 'results' => $r['results']]);
+            case 'google.select':
+                $pid = (string) ($in['place_id'] ?? '');
+                if (!preg_match('/^[A-Za-z0-9_-]{10,300}$/', $pid)) {
+                    Http::error('Fiche Google invalide.', 422);
+                }
+                if (trim((string) ($in['key'] ?? '')) !== '') {
+                    Settings::setSecret('google_places_key', trim((string) $in['key']));
+                }
+                Settings::set(['google_place_id' => $pid]);
+                $d = GoogleReviews::refresh(true);
+                if (empty($d['place_id'])) {
+                    Http::error($d['error'] ?? 'Lecture de la fiche impossible.', 422);
+                }
+                Http::json(['ok' => true, 'message' => 'Fiche « ' . $d['name'] . ' » connectée : ' . ($d['rating'] !== null ? number_format((float) $d['rating'], 1, ',', '') . '/5, ' : '') . $d['count'] . ' avis sur Google, ' . count($d['reviews']) . ' récupéré(s).', 'reload' => true]);
+            case 'google.refresh':
+                $d = GoogleReviews::refresh(true);
+                if (!empty($d['error'])) {
+                    Http::error($d['error'], 422);
+                }
+                Http::json(['ok' => true, 'message' => 'Avis Google mis à jour : ' . count($d['reviews'] ?? []) . ' avis gardés, ' . (int) ($d['count'] ?? 0) . ' sur Google.', 'reload' => true]);
+            case 'google.disconnect':
+                Settings::set(['google_place_id' => '']);
+                Store::put('google_reviews', []);
+                Http::json(['ok' => true, 'message' => 'Fiche Google déconnectée : les avis saisis à la main sont affichés.', 'reload' => true]);
             case 'mail.save':
                 Settings::set(Form::collect(AdminSchemas::mail(), $data, []));
                 self::secrets($data, ['smtp_pass']);

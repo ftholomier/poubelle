@@ -300,6 +300,11 @@ final class Api
             $out['facebook'] = 'erreur : ' . $e->getMessage();
         }
         try {
+            $out['google'] = GoogleReviews::refreshIfDue();
+        } catch (Throwable $e) {
+            $out['google'] = 'erreur : ' . $e->getMessage();
+        }
+        try {
             Updater::checkIfDue();
             $out['updates'] = Updater::available() !== null ? 'mise à jour disponible' : 'à jour';
         } catch (Throwable $e) {
