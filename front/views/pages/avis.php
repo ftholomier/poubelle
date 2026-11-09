@@ -6,7 +6,7 @@ $side = '<div class="fbcard" style="cursor:default"><span style="font-family:var
 View::render('partials/band', ['eyebrow' => $pg['eyebrow'] ?? '', 'h1' => $pg['title'], 'lead' => $pg['lead'] ?? '', 'side' => $side]);
 ?>
 <div class="wrap" style="padding-top:34px">
-  <div class="grid-avis">
+  <div class="grid-avis" data-masonry>
     <?php foreach ($reviews as $i => $a): ?><?= View::reviewCard($a, ($i % 3) * 90) ?><?php endforeach; ?>
   </div>
   <?php if ($rating['url'] !== '' || $rating['review_url'] !== ''): ?>

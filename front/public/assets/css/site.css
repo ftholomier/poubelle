@@ -242,8 +242,12 @@ a.philo__c:hover .philo__bar { width: 70px }
 .acard__x { font-size: 16px; line-height: 1.64; color: #2c2c2c; margin-top: 14px; text-wrap: pretty }
 .acard__w { font-size: 14px; font-weight: 700; margin-top: 16px }
 .acard__s { font-size: 13px; color: #8c8c8c }
-.grid-avis { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,330px),1fr)); gap: 18px; align-items: start }
+.grid-avis { display: grid; grid-template-columns: repeat(auto-fill,minmax(min(100%,330px),1fr)); gap: 18px; align-items: start }
 .grid-avis .acard { flex: none }
+/* Mosaïque (masonry) : chaque carte occupe exactement sa hauteur, les cartes s'emboîtent
+   colonne par colonne en gardant l'ordre de lecture de gauche à droite (calcul en JS). */
+.js .grid-avis[data-masonry] { grid-auto-rows: 1px; row-gap: 0 }
+.js .grid-avis[data-masonry] > .acard { margin-bottom: 18px }
 
 /* ------------------------------------------------------------------ Cartes actus */
 .grid-3 { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,300px),1fr)); gap: 18px; margin-top: 30px }

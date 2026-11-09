@@ -562,6 +562,25 @@
     })();
   } else if (cur) { cur.remove(); }
 
+  /* ---------------------------------------------------------------- Mosaïque (masonry) : page Avis */
+  function masonry(g) {
+    var items = Array.prototype.slice.call(g.children);
+    // Hauteur réelle de chaque carte (la transformation d'apparition ne compte pas) → lignes de 1 px
+    items.forEach(function (it) { it.style.gridRowEnd = 'auto'; });
+    var hs = items.map(function (it) { return it.offsetHeight + (parseFloat(getComputedStyle(it).marginBottom) || 0); });
+    items.forEach(function (it, i) { it.style.gridRowEnd = 'span ' + Math.max(1, Math.ceil(hs[i])); });
+  }
+  function masonryAll() {
+    var grids = $$('[data-masonry]');
+    if (!grids.length) return;
+    var run = function () { grids.forEach(masonry); };
+    run();
+    var t = null;
+    window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(run, 120); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
+    window.addEventListener('load', run);
+  }
+
   /* ---------------------------------------------------------------- Démarrage */
   window.__rvT0 = Date.now();
   window.addEventListener('resize', measureHero);
@@ -571,5 +590,6 @@
   silence();
   onScroll();
   wireReveal(document);
+  masonryAll();
   
 })();
