@@ -17,6 +17,7 @@ final class Admin
         'Suivi' => [['', 'Tableau de bord'], ['demandes', 'Demandes'], ['assistant/conversations', 'Conversations du bot']],
         'Contenus' => [['accueil', 'Page d\'accueil'], ['pages', 'Pages'], ['produits', 'Produits'], ['photos', 'Photos produits'], ['realisations', 'Réalisations'], ['actus', 'Actualités'], ['avis', 'Avis clients', 'admin'], ['medias', 'Médiathèque']],
         'Site' => [['menu', 'Menu'], ['coordonnees', 'Coordonnées'], ['conversion', 'Conversion', 'admin']],
+        'Aide' => [['guide', 'Guide et formation']],
         'Réglages' => [['assistant', 'Assistant IA', 'admin'], ['facebook', 'Facebook', 'admin'], ['emails', 'E-mails', 'admin'], ['utilisateurs', 'Utilisateurs', 'admin'], ['mises-a-jour', 'Mises à jour', 'admin'], ['sauvegarde', 'Sauvegarde', 'admin']],
     ];
 
@@ -177,6 +178,9 @@ final class Admin
             case 'compte':
                 self::page('admin/account', 'Mon compte');
                 return;
+            case 'guide':
+                self::page('admin/guide', 'Guide et formation');
+                return;
         }
         http_response_code(404);
         self::page('admin/notice', 'Page introuvable', ['message' => 'Cette page du back-office n\'existe pas.']);
@@ -201,6 +205,23 @@ final class Admin
     private static function formPage(string $title, string $action, array $schema, array $values, string $intro = '', string $view = '', array $hidden = [], string $deleteAction = '', string $extra = '', string $before = ''): void
     {
         self::page('admin/form', $title, compact('action', 'schema', 'values', 'intro', 'view', 'hidden', 'deleteAction', 'extra', 'before'));
+    }
+
+    /** Chapitre du guide correspondant à la page affichée (bouton « Aide » de la barre du haut). */
+    public static function helpAnchor(): string
+    {
+        $cur = trim(substr(rawurldecode((string) parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH)), 6), '/');
+        $map = [
+            '' => 'prise-en-main', 'compte' => 'compte', 'demandes' => 'demandes', 'assistant/conversations' => 'conversations',
+            'accueil' => 'accueil', 'pages' => 'pages', 'produits' => 'produits', 'photos' => 'photos', 'realisations' => 'realisations',
+            'actus' => 'actus', 'medias' => 'medias', 'menu' => 'menu', 'coordonnees' => 'coordonnees',
+        ];
+        foreach ([$cur, explode('/', $cur)[0]] as $k) {
+            if (isset($map[$k])) {
+                return $map[$k];
+            }
+        }
+        return '';
     }
 
     public static function navActive(string $slug): bool

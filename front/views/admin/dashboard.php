@@ -52,6 +52,11 @@ $checks = [
     </table>
   </div>
   <div>
+    <a class="card guide-card" href="/admin/guide" data-guide-card data-user="<?= e((string) (Auth::user()['id'] ?? '')) ?>">
+      <span class="guide-card__i" aria-hidden="true">?</span>
+      <span class="guide-card__t"><b>Guide et formation</b>Tout pour bien utiliser le back-office, pas à pas, avec des captures d'écran.<small data-guide-progress></small></span>
+      <span class="guide-card__go" aria-hidden="true">→</span>
+    </a>
     <div class="card">
       <h2>Raccourcis</h2>
       <div class="quick">

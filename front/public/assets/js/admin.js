@@ -364,4 +364,92 @@
 
   function initAll(root) { initRep(root); initImages(root); initRte(root); }
   initAll(document);
+
+  /* ------------------------------------------------------------ Guide et formation */
+  // Progression gardée dans le navigateur, par compte : { done: [chapitres lus], total: n }
+  function guideKey(user) { return 'rv-guide:' + (user || ''); }
+  function guideLoad(user) {
+    try { var v = JSON.parse(localStorage.getItem(guideKey(user)) || '{}'); return { done: Array.isArray(v.done) ? v.done : [], total: +v.total || 0 }; }
+    catch (e) { return { done: [], total: 0 }; }
+  }
+  function guideSave(user, st) { try { localStorage.setItem(guideKey(user), JSON.stringify(st)); } catch (e) { /* navigation privée */ } }
+
+  var card = $('[data-guide-card]');
+  if (card) {
+    var cs = guideLoad(card.getAttribute('data-user')), cp = $('[data-guide-progress]', card);
+    if (cp) cp.textContent = cs.total ? (cs.done.length >= cs.total ? 'Formation terminée ✓' : 'Formation : ' + cs.done.length + ' / ' + cs.total + ' chapitres lus') : 'Commencer la formation →';
+  }
+
+  var guide = $('[data-guide]');
+  if (guide) {
+    var user = guide.getAttribute('data-user'), total = +guide.getAttribute('data-total') || 0;
+    var st = guideLoad(user); st.total = total;
+    st.done = st.done.filter(function (id) { return !!$('[data-gch="' + id + '"]', guide); });
+    var paintGuide = function () {
+      $$('[data-guide-done]', guide).forEach(function (b) {
+        var on = st.done.indexOf(b.getAttribute('data-guide-done')) > -1;
+        b.classList.toggle('is-on', on); b.textContent = on ? 'Compris ✓' : 'J\'ai compris ✓';
+      });
+      $$('[data-toc]', guide).forEach(function (a) { a.classList.toggle('is-done', st.done.indexOf(a.getAttribute('data-toc')) > -1); });
+      $$('[data-toc] i', guide).forEach(function (i, k) { i.textContent = i.parentNode.classList.contains('is-done') ? '✓' : String(k + 1); });
+      var pct = total ? Math.round(st.done.length / total * 100) : 0;
+      $('[data-guide-bar]', guide).style.width = pct + '%';
+      $('[data-guide-count]', guide).textContent = st.done.length + ' / ' + total + ' chapitres' + (st.done.length >= total ? ' — formation terminée, bravo !' : '');
+      guideSave(user, st);
+    };
+    guide.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-guide-done]');
+      if (b) {
+        var id = b.getAttribute('data-guide-done'), i = st.done.indexOf(id);
+        if (i > -1) st.done.splice(i, 1);
+        else {
+          st.done.push(id);
+          // Enchaîne sur le chapitre suivant
+          var next = b.closest('.gch').nextElementSibling;
+          while (next && (!next.classList.contains('gch') || next.classList.contains('is-hidden'))) next = next.nextElementSibling;
+          if (next) setTimeout(function () { next.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 250);
+        }
+        paintGuide();
+        return;
+      }
+      var z = e.target.closest('[data-zoom]');
+      if (z) {
+        e.preventDefault();
+        var o = document.createElement('div'); o.className = 'gzoom'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-label', 'Capture agrandie (cliquez pour fermer)');
+        var im = document.createElement('img'); im.src = z.getAttribute('href'); im.alt = ($('img', z) || {}).alt || '';
+        o.appendChild(im); document.body.appendChild(o);
+        var shut = function () { o.remove(); document.removeEventListener('keydown', esc); };
+        var esc = function (ev) { if (ev.key === 'Escape') shut(); };
+        o.addEventListener('click', shut); document.addEventListener('keydown', esc);
+      }
+    });
+    var pb = $('[data-guide-print]', guide);
+    if (pb) pb.addEventListener('click', function () { $$('img[loading="lazy"]', guide).forEach(function (i) { i.loading = 'eager'; }); setTimeout(function () { window.print(); }, 400); });
+
+    // Recherche : n'affiche que les chapitres qui contiennent tous les mots tapés (accents ignorés)
+    var norm = function (s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); };
+    var gq = $('[data-guide-search]', guide), empty = $('[data-guide-empty]', guide);
+    if (gq) gq.addEventListener('input', function () {
+      var words = norm(gq.value).split(/\s+/).filter(Boolean), shown = 0;
+      $$('.gch', guide).forEach(function (sec) {
+        var txt = sec._txt || (sec._txt = norm(sec.textContent));
+        var ok = words.every(function (w) { return txt.indexOf(w) > -1; });
+        sec.classList.toggle('is-hidden', !ok); if (ok) shown++;
+        var t = $('[data-toc="' + sec.id + '"]', guide); if (t) t.hidden = !ok;
+      });
+      empty.hidden = shown > 0;
+    });
+
+    // Sommaire : chapitre en cours de lecture
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (ents) {
+        ents.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          $$('[data-toc]', guide).forEach(function (a) { a.classList.toggle('is-on', a.getAttribute('data-toc') === en.target.id); });
+        });
+      }, { rootMargin: '-90px 0px -65% 0px' });
+      $$('.gch', guide).forEach(function (s) { io.observe(s); });
+    }
+    paintGuide();
+  }
 })();

@@ -40,6 +40,7 @@ $upd = Auth::isAdmin($user) && Updater::available() !== null;
     <button class="bo-burger" type="button" id="bo-burger" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="bo-top__t"><?= e($title) ?></div>
     <div class="bo-top__r">
+      <?php if (!Admin::navActive('guide')): $help = Admin::helpAnchor(); ?><a class="b b--l bo-help" href="/admin/guide<?= $help !== '' ? '#' . e($help) : '' ?>" title="Aide sur cette page"><span aria-hidden="true">?</span> Aide</a><?php endif; ?>
       <a class="b b--l" href="/" target="_blank" rel="noopener">Voir le site ↗</a>
       <a class="bo-me" href="/admin/compte" title="Mon compte"><?= e(mb_strtoupper(mb_substr($user['name'] ?: $user['email'], 0, 1))) ?></a>
       <a class="bo-out" href="/admin/deconnexion">Déconnexion</a>
