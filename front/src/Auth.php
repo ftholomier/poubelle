@@ -193,9 +193,10 @@ final class Auth
     }
 
     /** Jeton de réinitialisation du mot de passe (valable 1 heure). */
-    public static function resetToken(array $u): string
+    /** Lien de réinitialisation : valable $ttl secondes et une seule fois (il expire dès que le mot de passe change). */
+    public static function resetToken(array $u, int $ttl = 3600): string
     {
-        $exp = time() + 3600;
+        $exp = time() + $ttl;
         $sig = hash_hmac('sha256', $u['id'] . '|' . $exp . '|' . ($u['pw_at'] ?? ''), app_secret());
         return $u['id'] . '.' . $exp . '.' . substr($sig, 0, 40);
     }

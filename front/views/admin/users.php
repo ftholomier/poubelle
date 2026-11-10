@@ -5,12 +5,12 @@
       <thead><tr><th>Nom</th><th>E-mail</th><th>Rôle</th><th>Dernière connexion</th><th></th></tr></thead>
       <tbody>
       <?php foreach (Auth::users() as $u): ?>
-        <tr>
+        <tr data-href="/admin/utilisateurs/<?= e($u['id']) ?>" style="cursor:pointer">
           <td><b><?= e($u['name'] ?: '—') ?></b><?= $u['id'] === $me['id'] ? ' <small>(vous)</small>' : '' ?></td>
           <td><?= e($u['email']) ?></td>
           <td><?= e(Auth::ROLES[$u['role']] ?? $u['role']) ?></td>
           <td><?= !empty($u['last_login']) ? e(date('d/m/Y H:i', strtotime($u['last_login']))) : '—' ?></td>
-          <td class="r"><?php if ($u['id'] !== $me['id']): ?><button class="b b--danger" type="button" data-action="user.delete" data-id="<?= e($u['id']) ?>" data-confirm="Supprimer ce compte ?">Supprimer</button><?php endif; ?></td>
+          <td class="r"><a class="b b--l" href="/admin/utilisateurs/<?= e($u['id']) ?>">Modifier</a><?php if ($u['id'] !== $me['id']): ?> <button class="b b--danger" type="button" data-action="user.delete" data-id="<?= e($u['id']) ?>" data-confirm="Supprimer ce compte ?">Supprimer</button><?php endif; ?></td>
         </tr>
       <?php endforeach; ?>
       </tbody>
@@ -20,7 +20,7 @@
     <h2>Nouveau compte</h2>
     <div class="f"><label class="f-label" for="u-n">Nom</label><input id="u-n" name="name"></div>
     <div class="f"><label class="f-label" for="u-e">E-mail</label><input id="u-e" type="email" name="email" required></div>
-    <div class="f"><label class="f-label" for="u-r">Rôle</label><select id="u-r" name="role"><option value="editeur">Éditeur (contenus et demandes, sans les réglages, les avis clients ni la conversion)</option><option value="admin">Administrateur (tout)</option></select></div>
+    <div class="f"><label class="f-label" for="u-r">Rôle</label><select id="u-r" name="role"><option value="editeur">Éditeur (contenus et demandes)</option><option value="admin">Administrateur (tout)</option></select><div class="f-help">L'éditeur ne voit ni les réglages, ni les avis clients, ni la page Conversion.</div></div>
     <div class="f"><label class="f-label" for="u-p">Mot de passe provisoire</label><input id="u-p" type="text" name="password" autocomplete="off" required></div>
     <button class="b b--y" type="submit">Créer le compte</button>
   </form>

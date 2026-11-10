@@ -366,3 +366,9 @@ a.kpi:hover { border-color: var(--k) }
   .gfig { break-inside: avoid }
   .gfig a { box-shadow: none }
 }
+
+/* Fiche d'un compte : champ mot de passe */
+.pw { display: flex; gap: 6px; flex-wrap: wrap }
+.pw input { flex: 1 1 220px; min-width: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .02em }
+.pw-note { background: #f6f6f3; border: 1px solid var(--bd); border-radius: 10px; padding: 12px 14px; font-size: 13.5px; line-height: 1.6; color: #3c3c3c; margin: 4px 0 6px }
+.pw-note b { display: block; margin-bottom: 2px; color: var(--k) }

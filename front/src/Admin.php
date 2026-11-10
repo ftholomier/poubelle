@@ -163,6 +163,14 @@ final class Admin
                 self::formPage('E-mails', 'mail.save', AdminSchemas::mail(), Settings::all(), 'Destinataires des demandes et envoi des e-mails.', '', [], '', 'admin/mail_extra');
                 return;
             case 'utilisateurs':
+                if (isset($parts[1])) {
+                    $edit = Auth::find($parts[1]);
+                    if (!$edit) {
+                        Http::redirect('/admin/utilisateurs');
+                    }
+                    self::page('admin/user_edit', 'Compte « ' . ($edit['name'] ?: $edit['email']) . ' »', ['edit' => $edit]);
+                    return;
+                }
                 self::page('admin/users', 'Utilisateurs');
                 return;
             case 'mises-a-jour':
@@ -269,7 +277,7 @@ final class Admin
         if (maintenance() && !str_starts_with($action, 'update.')) {
             Http::error('Mise à jour en cours : réessayez dans une minute.', 503);
         }
-        $adminOnly = ['user.save', 'user.delete', 'update.check', 'update.apply', 'update.rollback', 'update.settings', 'backup.restore', 'content.reset',
+        $adminOnly = ['user.save', 'user.delete', 'user.reset', 'update.check', 'update.apply', 'update.rollback', 'update.settings', 'backup.restore', 'content.reset',
             'bot.save', 'bot.models', 'bot.test', 'facebook.save', 'mail.save', 'mail.test',
             'ui.save', 'reviews.save', 'google.save', 'google.search', 'google.select', 'google.refresh', 'google.disconnect'];
         if (in_array($action, $adminOnly, true) && !Auth::isAdmin($u)) {
@@ -510,7 +518,16 @@ final class Admin
                     Http::error('Vous ne pouvez pas supprimer votre propre compte.', 422);
                 }
                 Auth::deleteUser($id);
-                Http::json(['ok' => true, 'message' => 'Compte supprimé.', 'reload' => true]);
+                Http::json(['ok' => true, 'message' => 'Compte supprimé.', 'redirect' => '/admin/utilisateurs']);
+            case 'user.reset':
+                $target = Auth::find((string) ($in['id'] ?? ''));
+                if (!$target) {
+                    Http::error('Compte introuvable.', 404);
+                }
+                $sent = self::mailResetLink($target, 48 * 3600, true);
+                $sent === true
+                    ? Http::json(['ok' => true, 'message' => 'Lien envoyé à ' . $target['email'] . ' (valable 48 heures).'])
+                    : Http::error('E-mail non envoyé : ' . $sent, 422);
             case 'account.save':
                 self::saveAccount($in, $u);
                 return;
@@ -716,18 +733,28 @@ final class Admin
             Auth::create($email, $name, $pw, $role);
             Http::json(['ok' => true, 'message' => 'Compte créé.', 'reload' => true]);
         }
+        $target = Auth::find($id);
+        if (!$target) {
+            Http::error('Compte introuvable.', 404);
+        }
         $changes = ['email' => $email, 'name' => $name];
         if ($id !== $me['id']) {
             $changes['role'] = $role;
         }
         if ($pw !== '') {
+            if ($id === $me['id']) {
+                Http::error('Pour changer votre propre mot de passe, passez par « Mon compte » (votre mot de passe actuel vous sera demandé).', 422);
+            }
             if (($err = Auth::passwordError($pw)) !== null) {
                 Http::error($err, 422);
             }
             $changes['password'] = $pw;
         }
         Auth::updateUser($id, $changes);
-        Http::json(['ok' => true, 'message' => 'Compte mis à jour.', 'reload' => true]);
+        // Pas de rechargement : le nouveau mot de passe reste affiché pour pouvoir le copier et le transmettre
+        Http::json(['ok' => true, 'message' => $pw !== ''
+            ? 'Nouveau mot de passe enregistré. Transmettez-le à la personne : ses sessions ouvertes ont été fermées.'
+            : 'Compte mis à jour.']);
     }
 
     private static function saveAccount(array $in, array $u): void
@@ -803,6 +830,29 @@ final class Admin
         Http::json(['ok' => true, 'redirect' => '/admin']);
     }
 
+    /**
+     * E-mail avec un lien pour choisir un nouveau mot de passe (« mot de passe oublié », ou envoyé par un administrateur).
+     * @return true|string
+     */
+    private static function mailResetLink(array $u, int $ttl, bool $byAdmin = false)
+    {
+        $link = Http::abs('/admin/nouveau-mot-de-passe') . '?t=' . Auth::resetToken($u, $ttl);
+        $h = max(1, (int) round($ttl / 3600));
+        $valid = $h > 1 ? $h . ' heures' : '1 heure';
+        $site = Content::site()['name'] ?? 'Site';
+        return Mailer::send($u['email'], 'Nouveau mot de passe — back-office ' . $site,
+            "Bonjour" . (trim((string) ($u['name'] ?? '')) !== '' ? ' ' . trim((string) $u['name']) : '') . ",\n\n"
+            . ($byAdmin
+                ? "L'administrateur du site " . $site . " vous invite à choisir un nouveau mot de passe pour le back-office. Ouvrez ce lien"
+                : "Pour choisir un nouveau mot de passe pour le back-office du site " . $site . ", ouvrez ce lien")
+            . " (valable $valid, utilisable une seule fois) :\n$link\n\n"
+            . "Votre identifiant de connexion est votre adresse e-mail : " . $u['email'] . "\n"
+            . "Le back-office se trouve à l'adresse " . Http::abs('/admin') . "\n\n"
+            . ($byAdmin
+                ? "Tant que vous n'avez pas utilisé ce lien, votre mot de passe actuel reste valable.\n"
+                : "Si vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail : votre mot de passe actuel reste valable.\n"));
+    }
+
     private static function apiForgot(array $in): void
     {
         if (!Http::rateLimit('forgot', 4, 3600)) {
@@ -810,8 +860,7 @@ final class Admin
         }
         $u = Auth::findByEmail((string) ($in['email'] ?? ''));
         if ($u) {
-            $link = Http::abs('/admin/nouveau-mot-de-passe') . '?t=' . Auth::resetToken($u);
-            Mailer::send($u['email'], 'Nouveau mot de passe — back-office ' . Content::site()['name'], "Bonjour,\n\nPour choisir un nouveau mot de passe, ouvrez ce lien (valable 1 heure) :\n$link\n\nSi vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail.\n");
+            self::mailResetLink($u, 3600);
         }
         Http::json(['ok' => true, 'message' => 'Si un compte existe pour cette adresse, un e-mail vient d\'être envoyé.']);
     }

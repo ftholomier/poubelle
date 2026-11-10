@@ -365,6 +365,30 @@
   function initAll(root) { initRep(root); initImages(root); initRte(root); }
   initAll(document);
 
+  /* ------------------------------------------------------------ Mot de passe d'un compte : afficher, générer, copier */
+  // Mot de passe facile à dicter : syllabes prononçables + chiffres, ex. « Bolatu-Rimeso-38 »
+  function genPassword() {
+    var c = 'bcdfgjklmnprstvz', v = 'aeiou', r = new Uint32Array(16), i = 0;
+    (window.crypto || window.msCrypto).getRandomValues(r);
+    var pick = function (s) { return s.charAt(r[i++] % s.length); };
+    var word = function () { var w = ''; for (var k = 0; k < 3; k++) w += pick(c) + pick(v); return w.charAt(0).toUpperCase() + w.slice(1); };
+    return word() + '-' + word() + '-' + (10 + r[i++] % 90);
+  }
+  $$('[data-pw]').forEach(function (w) {
+    var inp = $('input', w), tg = $('[data-pw-toggle]', w);
+    var show = function (on) { inp.type = on ? 'text' : 'password'; if (tg) tg.textContent = on ? 'Masquer' : 'Afficher'; };
+    if (tg) tg.addEventListener('click', function () { show(inp.type === 'password'); });
+    var gb = $('[data-pw-gen]', w);
+    if (gb) gb.addEventListener('click', function () { inp.value = genPassword(); show(true); inp.focus(); inp.select(); });
+    var cb = $('[data-pw-copy]', w);
+    if (cb) cb.addEventListener('click', function () {
+      if (!inp.value) { toast('Le champ est vide : tapez ou générez d\'abord un mot de passe.', true); return; }
+      var ok = function () { toast('Mot de passe copié.'); };
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(inp.value).then(ok, function () { show(true); inp.select(); document.execCommand('copy'); ok(); });
+      else { show(true); inp.select(); document.execCommand('copy'); ok(); }
+    });
+  });
+
   /* ------------------------------------------------------------ Guide et formation */
   // Progression gardée dans le navigateur, par compte : { done: [chapitres lus], total: n }
   function guideKey(user) { return 'rv-guide:' + (user || ''); }
