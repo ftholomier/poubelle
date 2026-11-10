@@ -9,10 +9,11 @@ declare(strict_types=1);
 final class Mailer
 {
     /**
-     * @param array $attachments [['name' => 'vocal.webm', 'type' => 'audio/webm', 'content' => '…'], …]
+     * @param array  $attachments [['name' => 'vocal.webm', 'type' => 'audio/webm', 'content' => '…'], …]
+     * @param string $html        version HTML facultative (envoyée avec le texte en « multipart/alternative »)
      * @return true|string  true si envoyé, sinon le message d'erreur
      */
-    public static function send(string $to, string $subject, string $text, string $replyTo = '', array $attachments = [])
+    public static function send(string $to, string $subject, string $text, string $replyTo = '', array $attachments = [], string $html = '')
     {
         $to = trim($to);
         if ($to === '') {
@@ -34,20 +35,33 @@ final class Mailer
         $headers = [
             'From: ' . $fromHdr,
             'MIME-Version: 1.0',
-            'Content-Type: text/plain; charset=UTF-8',
-            'Content-Transfer-Encoding: 8bit',
             'X-Mailer: Renovest-PHP',
         ];
         if ($replyTo !== '') {
             $headers[] = 'Reply-To: ' . $replyTo;
         }
-        $body = str_replace(["\r\n", "\r"], "\n", $text);
+        // Texte encodé en quoted-printable : aucune ligne ne dépasse 76 caractères, un long message
+        // client (sans retour à la ligne) n'est donc jamais coupé ni refusé par un serveur de messagerie.
+        // (l'encodeur attend des fins de ligne CRLF ; le corps est ensuite ramené en LF comme le reste du message)
+        $qp = fn(string $s): string => str_replace("\r\n", "\n", quoted_printable_encode(str_replace("\n", "\r\n", str_replace(["\r\n", "\r"], "\n", $s))));
+        $part = fn(string $type, string $s): array => ["Content-Type: $type; charset=UTF-8\nContent-Transfer-Encoding: quoted-printable", $qp($s)];
+
+        // Corps principal : texte seul, ou texte + HTML (le logiciel de messagerie affiche le HTML)
+        if ($html !== '') {
+            $alt = 'rv-alt-' . bin2hex(random_bytes(10));
+            [$th, $tb] = $part('text/plain', $text);
+            [$hh, $hb] = $part('text/html', $html);
+            $main = ["Content-Type: multipart/alternative; boundary=\"$alt\"",
+                "--$alt\n$th\n\n$tb\n--$alt\n$hh\n\n$hb\n--$alt--\n"];
+        } else {
+            $main = $part('text/plain', $text);
+        }
+
         if ($attachments) {
-            // Message en plusieurs parties : le texte puis les pièces jointes (base64)
+            // Message en plusieurs parties : le corps puis les pièces jointes (base64)
             $b = 'rv-' . bin2hex(random_bytes(12));
-            $headers = array_values(array_filter($headers, fn($h) => !str_starts_with($h, 'Content-Type:') && !str_starts_with($h, 'Content-Transfer-Encoding:')));
             $headers[] = 'Content-Type: multipart/mixed; boundary="' . $b . '"';
-            $mixed = "--$b\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\n\n" . $body . "\n";
+            $mixed = "--$b\n" . $main[0] . "\n\n" . $main[1] . "\n";
             foreach ($attachments as $a) {
                 $fname = preg_replace('/[^\w.\-]/', '_', (string) ($a['name'] ?? 'piece-jointe'));
                 $type = preg_match('#^[\w.+-]+/[\w.+-]+$#', (string) ($a['type'] ?? '')) ? $a['type'] : 'application/octet-stream';
@@ -55,6 +69,11 @@ final class Mailer
                     . rtrim(chunk_split(base64_encode((string) $a['content']), 76, "\n")) . "\n";
             }
             $body = $mixed . "--$b--\n";
+        } else {
+            foreach (explode("\n", $main[0]) as $hl) {
+                $headers[] = $hl;
+            }
+            $body = $main[1];
         }
 
         $host = trim((string) Settings::get('smtp_host', ''));
