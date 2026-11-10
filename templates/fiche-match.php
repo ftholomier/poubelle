@@ -461,8 +461,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
 </section>
 <?php endif; ?>
 
-<?= View::partial('partials/related', ['related' => $related]) ?>
-
+<?php // Match précédent / suivant : sous la galerie, au-dessus de « Ce contenu peut vous intéresser ». ?>
 <?php [$prevM, $nextM] = $adjacent; if ($prevM || $nextM): ?>
 <nav class="prevnext" aria-label="<?= e(t('Matchs de la saison')) ?>">
   <div class="wrap prevnext__inner">
@@ -475,3 +474,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
   </div>
 </nav>
 <?php endif; ?>
+
+<?= View::partial('partials/related', ['related' => $related]) ?>
+
+
