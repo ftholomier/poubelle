@@ -466,9 +466,12 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
 <?php [$prevM, $nextM] = $adjacent; if ($prevM || $nextM): ?>
 <nav class="prevnext" aria-label="<?= e(t('Matchs de la saison')) ?>">
   <div class="wrap prevnext__inner">
-    <?php if ($prevM): ?><a href="<?= e(url($prevM['path'])) ?>" rel="prev"><span>← <?= e(t('Match précédent')) ?></span><b><?= e(\App\Front\Site::matchLabel($prevM)) ?></b></a><?php else: ?><span></span><?php endif; ?>
+    <?php // Date et compétition du match voisin, sous son affiche.
+    $pnMeta = fn (array $x) => implode(' · ', array_filter([$x['date'] ? date_num($x['date']) : '', trim(($x['label'] ?: $x['comp']) . ' ' . ($x['round'] ?? '')), ($x['season'] ?? '') !== $m['season'] ? t('Saison') . ' ' . $x['season'] : '']));
+    ?>
+    <?php if ($prevM): ?><a href="<?= e(url($prevM['path'])) ?>" rel="prev" class="prevnext__btn"><span>← <?= e(t('Match précédent')) ?></span><b><?= e(\App\Front\Site::matchLabel($prevM)) ?></b><small><?= e($pnMeta($prevM)) ?></small></a><?php else: ?><span></span><?php endif; ?>
     <a class="prevnext__mid" href="<?= e(url('/matchs/' . $m['season'] . '/')) ?>"><?= e(t('Saison')) ?> <?= e($m['season']) ?></a>
-    <?php if ($nextM): ?><a href="<?= e(url($nextM['path'])) ?>" rel="next" class="prevnext__next"><span><?= e(t('Match suivant')) ?> →</span><b><?= e(\App\Front\Site::matchLabel($nextM)) ?></b></a><?php else: ?><span></span><?php endif; ?>
+    <?php if ($nextM): ?><a href="<?= e(url($nextM['path'])) ?>" rel="next" class="prevnext__btn prevnext__next"><span><?= e(t('Match suivant')) ?> →</span><b><?= e(\App\Front\Site::matchLabel($nextM)) ?></b><small><?= e($pnMeta($nextM)) ?></small></a><?php else: ?><span></span><?php endif; ?>
   </div>
 </nav>
 <?php endif; ?>

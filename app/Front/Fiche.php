@@ -405,19 +405,38 @@ final class Fiche
         return ucwords(str_replace('-', ' ', $club));
     }
 
-    private static function adjacentMatches(array $doc): array
+    /**
+     * Match précédent et match suivant (barre du bas de la fiche, « matchs liés ») : dans l'ordre
+     * chronologique de la saison ; au premier ou au dernier match d'une saison, le dernier match de la
+     * saison d'avant ou le premier de la saison d'après. Matchs masqués sautés.
+     */
+    public static function adjacentMatches(array $doc): array
     {
         $season = $doc['match']['season'] ?? null;
         if (!$season) {
             return [null, null];
         }
-        $list = Derived::part('seasons')[$season]['matches'] ?? [];
+        $seasons = Derived::part('seasons');
+        $dd = Derived::part('matches');
+        $visible = fn (string $s) => array_values(array_filter($seasons[$s]['matches'] ?? [], fn ($id) => !empty($dd[$id]['v'])));
+        $list = $visible($season);
         $i = array_search((int) $doc['id'], $list, true);
         if ($i === false) {
             return [null, null];
         }
-        $dd = Derived::part('matches');
-        return [isset($list[$i - 1]) ? $dd[$list[$i - 1]] : null, isset($list[$i + 1]) ? $dd[$list[$i + 1]] : null];
+        $keys = array_keys($seasons);
+        sort($keys, SORT_STRING);
+        $k = array_search($season, $keys, true);
+        $prev = $list[$i - 1] ?? null;
+        for ($j = $k - 1; $prev === null && $j >= 0; $j--) {
+            $l = $visible($keys[$j]);
+            $prev = $l ? end($l) : null;
+        }
+        $next = $list[$i + 1] ?? null;
+        for ($j = $k + 1; $next === null && $j < count($keys); $j++) {
+            $next = $visible($keys[$j])[0] ?? null;
+        }
+        return [$prev ? $dd[$prev] : null, $next ? $dd[$next] : null];
     }
 
     private static function relatedForMatch(array $doc, array $d, array $rows): array
