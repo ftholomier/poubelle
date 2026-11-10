@@ -19,8 +19,28 @@ final class Gemini
     private const MODELS_CACHE = STORAGE_PATH . '/cache/gemini-models.json';
     public const FALLBACK_MODEL = 'gemini-2.5-flash';
 
+    /**
+     * IA coupée pour ce musée (Réglages › Coûts IA, « Couper toute l'IA ») : projet en pause, aucune
+     * dépense. Tout s'arrête ici, au seul point de passage vers Google : tâches, assistant, boutons.
+     */
+    public static function off(): bool
+    {
+        return (bool) Settings::get('couts.ia_off', false);
+    }
+
+    /** Refuse tout appel quand l'IA du musée est coupée. */
+    private static function guardOff(): void
+    {
+        if (self::off()) {
+            throw new \RuntimeException('IA coupée pour ce musée (Réglages › Coûts IA) : aucun appel à Gemini.');
+        }
+    }
+
     public static function key(): string
     {
+        if (self::off()) {
+            return '';
+        }
         $key = trim((string) Settings::get('ai.gemini_api_key', ''));
         return $key === '' && self::mock() ? 'essai' : $key;
     }
@@ -397,6 +417,7 @@ final class Gemini
     public static function uploadFile(string $path, string $mime, string $display): string
     {
         $size = (int) filesize($path);
+        self::guardOff();
         $ch = curl_init((self::mock() ?? self::HOST) . 'upload/v1beta/files');
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true, CURLOPT_HEADER => true, CURLOPT_POST => true, CURLOPT_TIMEOUT => 60, CURLOPT_CONNECTTIMEOUT => 10,
@@ -471,6 +492,7 @@ final class Gemini
      */
     public static function download(string $file, string $dest): int
     {
+        self::guardOff();
         $url = (self::mock() ?? self::HOST) . 'download/v1beta/' . $file . ':download?alt=media';
         $host = strtolower((string) parse_url($url, PHP_URL_HOST));
         for ($hop = 0; ; $hop++) {
@@ -541,6 +563,7 @@ final class Gemini
     /** @return \CurlHandle */
     private static function handle(string $method, string $path, ?array $body, int $timeout)
     {
+        self::guardOff();
         $ch = curl_init((self::mock() ?? self::BASE) . $path);
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,

@@ -173,6 +173,7 @@ return [
     'couts' => [
         'label' => 'Coûts IA',
         'fields' => [
+            'ia_off' => ['label' => 'Couper toute l’IA de ce musée (projet en pause : aucune dépense)', 'type' => 'bool', 'default' => false, 'help' => 'Plus aucun appel à Gemini depuis ce musée : traductions, correcteur, fiches audio, assistant, photos du terrain, index, boutons du back-office. Les autres musées ne sont pas touchés. Décochez pour tout relancer.'],
             'payer' => ['label' => 'Qui règle la facture Google (avance de frais)', 'type' => 'text', 'default' => '', 'help' => 'Nom imprimé sur le relevé mensuel que l’association rembourse (écran Système › Coûts IA).'],
             'eur_rate' => ['label' => 'Taux de change : 1 dollar = … euro', 'type' => 'number', 'default' => 0.86, 'step' => 0.0001, 'min' => 0.5, 'max' => 2, 'help' => 'Google fixe ses tarifs en dollars : reprenez le taux de votre facture pour que les euros correspondent.'],
             'monthly_budget' => ['label' => 'Budget mensuel en euros (0 = sans limite)', 'type' => 'number', 'default' => 0, 'step' => 0.01, 'min' => 0],

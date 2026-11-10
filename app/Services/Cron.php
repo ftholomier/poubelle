@@ -71,6 +71,9 @@ final class Cron
      */
     public const LONG = ['traductions', 'correcteur', 'audio', 'reprise', 'feuilles', 'compositions', 'liens-compositions', 'trouvailles', 'radio', 'geolocalisation', 'medias', 'murs-photos', 'pastilles', 'videos', 'assistant'];
 
+    /** Tâches qui reposent sur Gemini : arrêtées quand l'IA du musée est coupée (Réglages › Coûts IA). */
+    public const AI_TASKS = ['traductions', 'audio', 'reprise', 'trouvailles', 'radio', 'assistant', 'pastilles'];
+
     /** Durée d'un passage (secondes, temps réel) : moins que l'intervalle de 5 minutes du cron. */
     public const BUDGET = 270;
 
@@ -110,6 +113,10 @@ final class Cron
         foreach (self::order($turn) as $task) {
             [$every] = self::TASKS[$task];
             if ($only && $only !== $task) {
+                continue;
+            }
+            // IA du musée coupée (projet en pause) : les tâches qui reposent sur Gemini ne tournent pas.
+            if (in_array($task, self::AI_TASKS, true) && Gemini::off()) {
                 continue;
             }
             // Dernier passage, même sans rien à faire (« tried ») : l'intervalle s'applique aussi.

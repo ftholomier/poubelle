@@ -609,6 +609,11 @@ souvenirs) pour refaire les PDF en cache.
 
 ## 7 quater. Coûts de l'IA (`App\Services\AiCosts`)
 
+**IA coupée pour un musée** (réglage `couts.ia_off`, propre à chaque musée, « Couper toute l'IA de ce
+musée ») : projet en pause, aucune dépense. `Gemini::off()` : `key()` vide, `ready()` faux, et tout
+appel sortant (`handle()`, envoi et téléchargement de fichiers) refusé avant de partir ; `Cron`
+saute les tâches de `Cron::AI_TASKS`. Test : `tests/ia-coupee.php`.
+
 - **Comptage** : chaque réponse de Gemini (`Gemini::generate`, `generateMany`, `embed`) est
   enregistrée par `AiCosts::record()` avec son usage (`assistant`, `traduction`,
   `correcteur`, `index`, `autre` : option `for` des appels), le demandeur (membre connecté,
