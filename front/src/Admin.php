@@ -10,12 +10,13 @@ final class Admin
 {
     /**
      * Menu latéral : [slug, libellé, rôle requis] groupés par rubrique. Réservés aux administrateurs :
-     * toute la rubrique « Réglages » et « Avis clients » (avis Google automatiques, clé API).
+     * toute la rubrique « Réglages », « Avis clients » (avis Google automatiques, clé API) et « Conversion »
+     * (barre CTA, bot, popup de sortie, vocal, consignes Gemini).
      */
     public const NAV = [
         'Suivi' => [['', 'Tableau de bord'], ['demandes', 'Demandes'], ['assistant/conversations', 'Conversations du bot']],
         'Contenus' => [['accueil', 'Page d\'accueil'], ['pages', 'Pages'], ['produits', 'Produits'], ['photos', 'Photos produits'], ['realisations', 'Réalisations'], ['actus', 'Actualités'], ['avis', 'Avis clients', 'admin'], ['medias', 'Médiathèque']],
-        'Site' => [['menu', 'Menu'], ['coordonnees', 'Coordonnées'], ['conversion', 'Conversion']],
+        'Site' => [['menu', 'Menu'], ['coordonnees', 'Coordonnées'], ['conversion', 'Conversion', 'admin']],
         'Réglages' => [['assistant', 'Assistant IA', 'admin'], ['facebook', 'Facebook', 'admin'], ['emails', 'E-mails', 'admin'], ['utilisateurs', 'Utilisateurs', 'admin'], ['mises-a-jour', 'Mises à jour', 'admin'], ['sauvegarde', 'Sauvegarde', 'admin']],
     ];
 
@@ -67,9 +68,9 @@ final class Admin
             return;
         }
         $parts = explode('/', $sub);
-        // Rubrique « Réglages » (assistant IA, Facebook, e-mails, comptes, mises à jour, sauvegarde) et « Avis clients »
-        // (avis Google, clé API) : administrateurs uniquement. Les conversations du bot (Suivi) restent ouvertes aux éditeurs.
-        $adminOnly = ['avis', 'assistant', 'facebook', 'emails', 'utilisateurs', 'mises-a-jour', 'sauvegarde', 'sauvegarde.json'];
+        // Rubrique « Réglages » (assistant IA, Facebook, e-mails, comptes, mises à jour, sauvegarde), « Avis clients »
+        // (avis Google, clé API) et « Conversion » : administrateurs uniquement. Les conversations du bot (Suivi) restent ouvertes aux éditeurs.
+        $adminOnly = ['avis', 'conversion', 'assistant', 'facebook', 'emails', 'utilisateurs', 'mises-a-jour', 'sauvegarde', 'sauvegarde.json'];
         $isSettings = in_array($parts[0], $adminOnly, true) && !($parts[0] === 'assistant' && ($parts[1] ?? '') === 'conversations');
         if ($isSettings && !Auth::isAdmin($u)) {
             self::page('admin/notice', 'Accès réservé', ['message' => 'Cette rubrique est réservée aux administrateurs.']);
@@ -249,7 +250,7 @@ final class Admin
         }
         $adminOnly = ['user.save', 'user.delete', 'update.check', 'update.apply', 'update.rollback', 'update.settings', 'backup.restore', 'content.reset',
             'bot.save', 'bot.models', 'bot.test', 'facebook.save', 'mail.save', 'mail.test',
-            'reviews.save', 'google.save', 'google.search', 'google.select', 'google.refresh', 'google.disconnect'];
+            'ui.save', 'reviews.save', 'google.save', 'google.search', 'google.select', 'google.refresh', 'google.disconnect'];
         if (in_array($action, $adminOnly, true) && !Auth::isAdmin($u)) {
             Http::error('Action réservée aux administrateurs.', 403);
         }
