@@ -45,6 +45,8 @@ final class DataFixes
         '2026-11-jeannin' => 'jeanninSpelling',
         '2026-11-ordre-xamax-saprissa' => 'dayOrderXamaxSaprissa',
         '2026-11-carlao' => 'carlaoLinks',
+        // Nancy : « AS Nancy-Lorraine » pour les matchs à partir de 1964 (noms imposés, selon la date).
+        '2026-11-as-nancy-lorraine' => 'clubDisplayAll',
     ];
 
     /**
@@ -840,6 +842,11 @@ final class DataFixes
         Collections::update('clubs', function ($items) use ($map, &$clubs) {
             foreach ((array) $items as $i => $c) {
                 $want = $map[(string) ($c['id'] ?? '')] ?? null;
+                // Nom qui dépend de l'époque : le référentiel (titre des face-à-face) prend le plus récent.
+                if (is_array($want)) {
+                    ksort($want, SORT_STRING);
+                    $want = $want ? (string) end($want) : null;
+                }
                 if (is_string($want) && $want !== '' && ($c['name'] ?? '') !== $want) {
                     $items[$i]['name'] = $want;
                     $clubs++;

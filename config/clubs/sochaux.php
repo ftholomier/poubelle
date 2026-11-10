@@ -26,8 +26,10 @@ return [
     'club_le' => 'le FC Sochaux-Montbéliard',
     'club_au' => 'au FC Sochaux-Montbéliard',
     // Nom imposé à certains adversaires, quelle que soit la façon de l'écrire (clé de rapprochement => nom) :
-    // appliqué à chaque enregistrement d'une fiche de match (équipes et titre).
-    'club_display' => ['marseille' => 'Olympique de Marseille', 'rennes' => 'Stade Rennais FC'],
+    // appliqué à chaque enregistrement d'une fiche de match (équipes et titre). Nom qui dépend de l'époque :
+    // [date de début => nom], le dernier dont la date est atteinte s'applique ; avant la première, rien ne
+    // change (Nancy : « FC Nancy » laissé tel quel jusqu'en 1963, « AS Nancy-Lorraine » à partir de 1964).
+    'club_display' => ['marseille' => 'Olympique de Marseille', 'rennes' => 'Stade Rennais FC', 'nancy' => ['1964-01-01' => 'AS Nancy-Lorraine']],
     'sigle' => 'FCSM',
     'sigle_de' => 'du FCSM',
     'sigle_le' => 'le FCSM',

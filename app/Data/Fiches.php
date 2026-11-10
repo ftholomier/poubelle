@@ -363,7 +363,9 @@ final class Fiches
      * Adversaires au nom imposé (profil du club, « club_display » : « Marseille », « Ol. Marseille »,
      * « OM » → « Olympique de Marseille » ; « Rennes », « Stade Rennes UC » → « Stade Rennais FC ») :
      * équipes du match et titre de la fiche. Une précision entre parenthèses est gardée (« Rennes (B) »
-     * → « Stade Rennais FC (B) »).
+     * → « Stade Rennais FC (B) »). Nom qui dépend de l'époque ([date de début => nom] : « Nancy » →
+     * « AS Nancy-Lorraine » à partir du 1er janvier 1964) : selon la date du match ; avant la première date,
+     * ou sans date, le nom saisi est gardé (« FC Nancy »).
      */
     public static function clubDisplayNames(array $doc): array
     {
@@ -376,7 +378,7 @@ final class Fiches
             if ($name === '' || \App\Core\Club::isUs($name)) {
                 continue;
             }
-            $want = $map[Names::clubKey($name)] ?? null;
+            $want = self::clubDisplayFor($map[Names::clubKey($name)] ?? null, (string) ($doc['match']['date'] ?? ''));
             if (!is_string($want) || $want === '') {
                 continue;
             }
@@ -393,6 +395,28 @@ final class Fiches
             }
         }
         return $doc;
+    }
+
+    /**
+     * Nom imposé d'une entrée de « club_display » pour un match à cette date : le nom tel quel, ou pour
+     * [date de début => nom] celui de la dernière date atteinte ; null avant la première date ou sans date.
+     */
+    public static function clubDisplayFor(mixed $want, string $date): ?string
+    {
+        if (!is_array($want)) {
+            return is_string($want) && $want !== '' ? $want : null;
+        }
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}/', $date)) {
+            return null;
+        }
+        ksort($want, SORT_STRING);
+        $out = null;
+        foreach ($want as $from => $name) {
+            if (substr($date, 0, 10) >= (string) $from) {
+                $out = (string) $name;
+            }
+        }
+        return $out;
     }
 
     /** Rubrique de « Nos Lions » de chaque rôle (joueur → Joueurs…). */

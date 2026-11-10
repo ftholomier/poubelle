@@ -39,5 +39,19 @@ $t('titre déjà au bon nom : pas de « FC FC »', Fiches::clubDisplayNames($mat
 $t('Sochaux et autres clubs inchangés', array_column(array_column([Fiches::clubDisplayNames($match('Nantes'))['match']], 'home'), 'name'), ['Nantes']);
 $t('autre type de fiche inchangé', Fiches::clubDisplayNames(['type' => 'personne', 'title' => 'Rennes']), ['type' => 'personne', 'title' => 'Rennes']);
 
+// Nancy (ticket) : « FC Nancy » laissé tel quel jusqu'en 1963, « AS Nancy-Lorraine » à partir de 1964.
+$nancy = function (string $name, string $date) use ($match) {
+    $d = $match($name, "J5 – $name / Sochaux – D1 – $date – 2-1");
+    $d['match']['date'] = $date;
+    $d = Fiches::clubDisplayNames($d);
+    return [$d['match']['home']['name'], $d['title']];
+};
+$t('Nancy, 1970 : AS Nancy-Lorraine (équipe et titre)', $nancy('Nancy', '1970-08-29'), ['AS Nancy-Lorraine', 'J5 – AS Nancy-Lorraine / Sochaux – D1 – 1970-08-29 – 2-1']);
+$t('Nancy, 1er janvier 1964 : AS Nancy-Lorraine', $nancy('Nancy', '1964-01-01')[0], 'AS Nancy-Lorraine');
+$t('FC Nancy, 1960 : laissé tel quel', $nancy('FC Nancy', '1960-03-13'), ['FC Nancy', 'J5 – FC Nancy / Sochaux – D1 – 1960-03-13 – 2-1']);
+$t('Nancy, 1963 : laissé tel quel', $nancy('Nancy', '1963-12-31')[0], 'Nancy');
+$t('Nancy sans date : laissé tel quel', Fiches::clubDisplayNames($match('Nancy'))['match']['home']['name'], 'Nancy');
+$t('même club pour les statistiques', [Names::clubKey('FC Nancy'), Names::clubKey('AS Nancy-Lorraine')], ['nancy', 'nancy']);
+
 echo "$ok réussis, $ko échecs\n";
 exit($ko ? 1 : 0);
