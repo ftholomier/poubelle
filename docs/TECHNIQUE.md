@@ -2667,8 +2667,9 @@ terrain (`Derived::lineupLinks`), fiche visible, photo principale qui n'est pas 
 local), les plus présents d'abord : photo principale puis galerie (5 au plus), déclinaison 800 px
 envoyée à Gemini (`Gemini::generate` accepte des images : `contents[].images`, parties `inline_data`
 avant le texte ; usage `pastilles` dans `AiCosts`, en pause si le budget du mois est atteint) avec un
-schéma JSON `{faces, box_2d [ymin, xmin, ymax, xmax] sur 1000, sure}`. Retenu seulement si
-`faces === 1` et `sure` (`PitchPhotos::accept()`), cadre valable ; carré de 1,9 × le visage, centré un
+schéma JSON `{faces, box_2d [ymin, xmin, ymax, xmax] sur 1000, main, sure}`. Retenu si `sure` et un seul
+visage net, ou plusieurs avec `main` (visage sujet principal de la photo, les autres à l'arrière-plan)
+(`PitchPhotos::accept()`), cadre valable ; carré de 1,9 × le visage, centré un
 peu dessous (tête et épaules), gardé dans la photo, au moins 48 px (`square()`), découpé dans
 l'original retouché (`Images::open`) en WebP 200 × 200 dans `public/media/pastilles/{id}-{empreinte}.webp`.
 Résultats dans `storage/pastilles.json` (photo, carré, empreinte des photos du joueur : il est repris si

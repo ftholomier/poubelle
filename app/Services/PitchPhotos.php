@@ -12,10 +12,11 @@ use App\Data\Media;
 /**
  * Photos du terrain (tâche planifiée « pastilles ») : visage recadré pour la pastille ronde des
  * joueurs dont la photo principale n'est pas un portrait (photo d'action ou d'équipe, en largeur),
- * sans rien demander aux historiens. Les photos du joueur (photo principale, puis galerie) sont
- * montrées une à une à Gemini, qui compte les visages nets et situe le visage. Retenue seulement une
- * photo où un seul visage est net, bien visible et assez grand ; au moindre doute (plusieurs visages,
- * flou, de dos, trop petit), rien n'est mis et la photo suivante est essayée. Le visage est recadré en
+ * sans rien demander aux historiens, quelle que soit la forme de la photo. Les photos du joueur (photo
+ * principale, puis galerie) sont montrées une à une à Gemini, qui situe le visage du joueur : le seul
+ * visage net, ou le sujet principal de la photo (les autres visages à l'arrière-plan). Au moindre doute
+ * (photo d'équipe où tous les visages se valent, flou, de dos, trop petit), rien n'est mis et la photo
+ * suivante est essayée. Le visage est recadré en
  * carré (tête et haut des épaules) dans public/media/pastilles/. Aucune fiche ni aucun média n'est
  * modifié ; si les photos du joueur changent, il est repris.
  */
@@ -199,13 +200,15 @@ final class PitchPhotos
         $name = trim((string) ($doc['title'] ?? ''));
         $prompt = 'Photo de la fiche du joueur « ' . $name . ' » dans un musée de football.' . ($caption !== '' ? ' Légende : « ' . $caption . ' ».' : '')
             . "\nCompte les visages humains nets et bien visibles : de face ou de trois quarts, ni flous, ni de dos, ni cachés, ni coupés par le bord de la photo, ni minuscules dans une foule ou une photo d'équipe."
-            . "\nS'il y a exactement un tel visage, donne son cadre box_2d [ymin, xmin, ymax, xmax] sur 1000 (le visage seul, du haut du front au menton)."
-            . "\nMets sure à true seulement si ce visage est net, assez grand pour être reconnu dans une petite vignette ronde, et le seul visage net de la photo. Au moindre doute, sure à false.";
+ . "\nDonne le cadre box_2d [ymin, xmin, ymax, xmax] sur 1000 (le visage seul, du haut du front au menton) du visage du joueur : le seul visage net, ou, s'il y en a plusieurs, celui du sujet principal de la photo (net, nettement plus grand et mieux placé que les autres, qui ne sont qu'à l'arrière-plan), ou celui que la légende désigne sans ambiguïté."
+            . "\nmain : true si ce visage est clairement le sujet principal de la photo (ou le seul visage net)."
+            . "\nMets sure à true seulement si ce visage est net, assez grand pour être reconnu dans une petite vignette ronde, et qu'il n'y a aucun doute sur la personne à cadrer (une photo d'équipe où tous les visages se valent : false). Au moindre doute, sure à false.";
         $schema = ['type' => 'OBJECT', 'properties' => [
             'faces' => ['type' => 'INTEGER'],
             'box_2d' => ['type' => 'ARRAY', 'items' => ['type' => 'INTEGER'], 'nullable' => true],
+            'main' => ['type' => 'BOOLEAN'],
             'sure' => ['type' => 'BOOLEAN'],
-        ], 'required' => ['faces', 'sure']];
+        ], 'required' => ['faces', 'main', 'sure']];
         try {
             $r = Gemini::generate([['role' => 'user', 'text' => $prompt, 'images' => [['mime' => 'image/webp', 'data' => base64_encode((string) file_get_contents($file))]]]],
                 'Tu analyses des photos d’archives pour recadrer le visage d’un joueur. Réponds seulement en JSON.',
@@ -216,10 +219,14 @@ final class PitchPhotos
         return self::accept(json_decode($r['text'], true));
     }
 
-    /** Réponse du détecteur retenue : un seul visage, sûr, cadre valable ; fractions [haut, gauche, bas, droite]. */
+    /**
+     * Réponse du détecteur retenue : déclarée sûre, et un seul visage net, ou un visage sujet principal
+     * de la photo (les autres à l'arrière-plan) ; cadre valable. Fractions [haut, gauche, bas, droite].
+     */
     public static function accept(mixed $j): ?array
     {
-        if (!is_array($j) || ($j['sure'] ?? false) !== true || (int) ($j['faces'] ?? 0) !== 1) {
+        $faces = is_array($j) ? (int) ($j['faces'] ?? 0) : 0;
+        if (!is_array($j) || ($j['sure'] ?? false) !== true || $faces < 1 || ($faces > 1 && ($j['main'] ?? false) !== true)) {
             return null;
         }
         $b = $j['box_2d'] ?? null;

@@ -24,7 +24,8 @@ $eq = function (string $label, $got, $exp) use (&$fail) {
 
 // 1. Réponse du détecteur : un seul visage, déclaré sûr, cadre valable.
 $eq('un seul visage sûr : retenu', P::accept(['faces' => 1, 'sure' => true, 'box_2d' => [100, 400, 300, 550]]), [0.1, 0.4, 0.3, 0.55]);
-$eq('deux visages : jamais', P::accept(['faces' => 2, 'sure' => true, 'box_2d' => [100, 400, 300, 550]]), null);
+$eq('deux visages, aucun sujet principal (photo d’équipe) : jamais', P::accept(['faces' => 2, 'main' => false, 'sure' => true, 'box_2d' => [100, 400, 300, 550]]), null);
+$eq('photo d’action : sujet principal, adversaire à l’arrière-plan : retenu', P::accept(['faces' => 3, 'main' => true, 'sure' => true, 'box_2d' => [100, 400, 300, 550]]), [0.1, 0.4, 0.3, 0.55]);
 $eq('pas sûr : jamais', P::accept(['faces' => 1, 'sure' => false, 'box_2d' => [100, 400, 300, 550]]), null);
 $eq('sans cadre, cadre inversé ou démesuré : jamais', [P::accept(['faces' => 1, 'sure' => true]), P::accept(['faces' => 1, 'sure' => true, 'box_2d' => [300, 550, 100, 400]]), P::accept(['faces' => 1, 'sure' => true, 'box_2d' => [0, 0, 1000, 1000]])], [null, null, null]);
 $eq('réponse illisible : jamais', [P::accept(null), P::accept('oui')], [null, null]);
@@ -60,7 +61,7 @@ try {
     // Photo principale : deux visages (pas sûr) ; galerie : un seul visage net.
     P::$detect = function (string $file, array $d, string $caption) use (&$seen, $rel) {
         $seen[] = $file;
-        return count($seen) === 1 ? P::accept(['faces' => 2, 'sure' => true, 'box_2d' => [160, 440, 410, 560]]) : P::accept(['faces' => 1, 'sure' => true, 'box_2d' => [160, 440, 410, 560]]);
+        return count($seen) === 1 ? P::accept(['faces' => 2, 'main' => false, 'sure' => true, 'box_2d' => [160, 440, 410, 560]]) : P::accept(['faces' => 1, 'sure' => true, 'box_2d' => [160, 440, 410, 560]]);
     };
     $r = P::forPerson($doc);
     $eq('photo principale douteuse écartée, photo de la galerie retenue', [count($seen), $r['img'] ?? null], [2, $rel2]);
