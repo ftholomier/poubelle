@@ -8,12 +8,15 @@ declare(strict_types=1);
  */
 final class Admin
 {
-    /** Menu latéral : [slug, libellé, rôle requis] groupés par rubrique. */
+    /**
+     * Menu latéral : [slug, libellé, rôle requis] groupés par rubrique. Réservés aux administrateurs :
+     * toute la rubrique « Réglages » et « Avis clients » (avis Google automatiques, clé API).
+     */
     public const NAV = [
         'Suivi' => [['', 'Tableau de bord'], ['demandes', 'Demandes'], ['assistant/conversations', 'Conversations du bot']],
-        'Contenus' => [['accueil', 'Page d\'accueil'], ['pages', 'Pages'], ['produits', 'Produits'], ['photos', 'Photos produits'], ['realisations', 'Réalisations'], ['actus', 'Actualités'], ['avis', 'Avis clients'], ['medias', 'Médiathèque']],
+        'Contenus' => [['accueil', 'Page d\'accueil'], ['pages', 'Pages'], ['produits', 'Produits'], ['photos', 'Photos produits'], ['realisations', 'Réalisations'], ['actus', 'Actualités'], ['avis', 'Avis clients', 'admin'], ['medias', 'Médiathèque']],
         'Site' => [['menu', 'Menu'], ['coordonnees', 'Coordonnées'], ['conversion', 'Conversion']],
-        'Réglages' => [['assistant', 'Assistant IA'], ['facebook', 'Facebook'], ['emails', 'E-mails'], ['utilisateurs', 'Utilisateurs', 'admin'], ['mises-a-jour', 'Mises à jour', 'admin'], ['sauvegarde', 'Sauvegarde', 'admin']],
+        'Réglages' => [['assistant', 'Assistant IA', 'admin'], ['facebook', 'Facebook', 'admin'], ['emails', 'E-mails', 'admin'], ['utilisateurs', 'Utilisateurs', 'admin'], ['mises-a-jour', 'Mises à jour', 'admin'], ['sauvegarde', 'Sauvegarde', 'admin']],
     ];
 
     public static function route(string $path, string $method): void
@@ -64,8 +67,11 @@ final class Admin
             return;
         }
         $parts = explode('/', $sub);
-        $adminOnly = ['utilisateurs', 'mises-a-jour', 'sauvegarde', 'sauvegarde.json'];
-        if (in_array($parts[0], $adminOnly, true) && !Auth::isAdmin($u)) {
+        // Rubrique « Réglages » (assistant IA, Facebook, e-mails, comptes, mises à jour, sauvegarde) et « Avis clients »
+        // (avis Google, clé API) : administrateurs uniquement. Les conversations du bot (Suivi) restent ouvertes aux éditeurs.
+        $adminOnly = ['avis', 'assistant', 'facebook', 'emails', 'utilisateurs', 'mises-a-jour', 'sauvegarde', 'sauvegarde.json'];
+        $isSettings = in_array($parts[0], $adminOnly, true) && !($parts[0] === 'assistant' && ($parts[1] ?? '') === 'conversations');
+        if ($isSettings && !Auth::isAdmin($u)) {
             self::page('admin/notice', 'Accès réservé', ['message' => 'Cette rubrique est réservée aux administrateurs.']);
             return;
         }
@@ -241,7 +247,9 @@ final class Admin
         if (maintenance() && !str_starts_with($action, 'update.')) {
             Http::error('Mise à jour en cours : réessayez dans une minute.', 503);
         }
-        $adminOnly = ['user.save', 'user.delete', 'update.check', 'update.apply', 'update.rollback', 'update.settings', 'backup.restore', 'content.reset'];
+        $adminOnly = ['user.save', 'user.delete', 'update.check', 'update.apply', 'update.rollback', 'update.settings', 'backup.restore', 'content.reset',
+            'bot.save', 'bot.models', 'bot.test', 'facebook.save', 'mail.save', 'mail.test',
+            'reviews.save', 'google.save', 'google.search', 'google.select', 'google.refresh', 'google.disconnect'];
         if (in_array($action, $adminOnly, true) && !Auth::isAdmin($u)) {
             Http::error('Action réservée aux administrateurs.', 403);
         }

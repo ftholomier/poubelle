@@ -62,6 +62,7 @@ $checks = [
         <a class="b b--l" href="/admin/medias">Médiathèque</a>
       </div>
     </div>
+    <?php if (Auth::isAdmin()): ?>
     <div class="card">
       <h2>Mise en service</h2>
       <ul class="checklist">
@@ -70,6 +71,7 @@ $checks = [
         <?php endforeach; ?>
       </ul>
     </div>
+    <?php endif; ?>
     <?php if (Auth::isAdmin() && ($c = Updater::available())): ?>
       <div class="card card--y">
         <h2>Mise à jour disponible</h2>

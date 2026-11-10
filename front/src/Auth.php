@@ -5,7 +5,8 @@ declare(strict_types=1);
 /**
  * Comptes du back-office : sessions sécurisées (cookie limité à /admin, HttpOnly, SameSite=Strict),
  * jeton CSRF, limitation des tentatives de connexion, mots de passe hachés.
- * Rôles : « admin » (tout, dont comptes et mises à jour) et « editeur » (contenus et demandes).
+ * Rôles : « admin » (tout) et « editeur » (contenus, demandes, conversations du bot :
+ * aucun accès aux rubriques Réglages et Avis clients, ni dans le menu ni par l'adresse ou l'API).
  */
 final class Auth
 {

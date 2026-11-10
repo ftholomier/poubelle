@@ -1,6 +1,6 @@
 <?php $log = Store::get('botlog', []); ?>
 <div class="bo-actions" style="margin-bottom:16px">
-  <a class="b b--l" href="/admin/assistant">Réglages de l'assistant</a>
+  <?php if (Auth::isAdmin()): ?><a class="b b--l" href="/admin/assistant">Réglages de l'assistant</a><?php endif; ?>
   <?php if ($log): ?><button class="b b--danger" type="button" data-action="botlog.clear" data-confirm="Vider le journal des conversations ?">Vider le journal</button><?php endif; ?>
 </div>
 <?php if (!$log): ?><div class="card bo-muted">Aucune conversation enregistrée.</div><?php endif; ?>

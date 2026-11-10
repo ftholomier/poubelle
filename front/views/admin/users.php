@@ -20,7 +20,7 @@
     <h2>Nouveau compte</h2>
     <div class="f"><label class="f-label" for="u-n">Nom</label><input id="u-n" name="name"></div>
     <div class="f"><label class="f-label" for="u-e">E-mail</label><input id="u-e" type="email" name="email" required></div>
-    <div class="f"><label class="f-label" for="u-r">Rôle</label><select id="u-r" name="role"><option value="editeur">Éditeur (contenus et demandes)</option><option value="admin">Administrateur (tout)</option></select></div>
+    <div class="f"><label class="f-label" for="u-r">Rôle</label><select id="u-r" name="role"><option value="editeur">Éditeur (contenus et demandes, sans les réglages ni les avis clients)</option><option value="admin">Administrateur (tout)</option></select></div>
     <div class="f"><label class="f-label" for="u-p">Mot de passe provisoire</label><input id="u-p" type="text" name="password" autocomplete="off" required></div>
     <button class="b b--y" type="submit">Créer le compte</button>
   </form>

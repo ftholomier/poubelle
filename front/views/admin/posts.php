@@ -5,7 +5,7 @@ if ($src !== '') { $posts = array_values(array_filter($posts, fn($p) => ($p['sou
 ?>
 <div class="bo-actions" style="margin-bottom:16px">
   <a class="b b--y" href="/admin/actus/nouveau">+ Nouvelle actualité</a>
-  <?php if (Facebook::configured()): ?><button class="b b--l" type="button" data-action="facebook.sync">Importer depuis Facebook</button><?php else: ?><a class="b b--l" href="/admin/facebook">Brancher Facebook</a><?php endif; ?>
+  <?php if (Facebook::configured()): ?><button class="b b--l" type="button" data-action="facebook.sync">Importer depuis Facebook</button><?php elseif (Auth::isAdmin()): ?><a class="b b--l" href="/admin/facebook">Brancher Facebook</a><?php endif; ?>
   <a class="b b--l<?= $src === '' ? ' is-on' : '' ?>" href="/admin/actus">Toutes</a>
   <a class="b b--l<?= $src === 'site' ? ' is-on' : '' ?>" href="/admin/actus?source=site">Site</a>
   <a class="b b--l<?= $src === 'facebook' ? ' is-on' : '' ?>" href="/admin/actus?source=facebook">Facebook</a>

@@ -21,9 +21,11 @@ $upd = Auth::isAdmin($user) && Updater::available() !== null;
 <aside class="bo-side" id="bo-side">
   <a class="bo-logo" href="/admin"><img src="/assets/img/logo.png" alt="<?= e($site['name']) ?>"><span>Back-office</span></a>
   <nav>
-    <?php foreach (Admin::NAV as $group => $items): ?>
+    <?php foreach (Admin::NAV as $group => $items):
+      $items = array_values(array_filter($items, fn($it) => ($it[2] ?? '') !== 'admin' || Auth::isAdmin($user)));
+      if (!$items) { continue; } // rubrique entièrement réservée (Réglages pour un éditeur) : titre masqué aussi ?>
       <div class="bo-nav__g"><?= e($group) ?></div>
-      <?php foreach ($items as $it): if (($it[2] ?? '') === 'admin' && !Auth::isAdmin($user)) { continue; } ?>
+      <?php foreach ($items as $it): ?>
         <a class="bo-nav__a<?= Admin::navActive($it[0]) ? ' is-on' : '' ?>" href="/admin<?= $it[0] !== '' ? '/' . e($it[0]) : '' ?>">
           <span><?= e($it[1]) ?></span>
           <?php if ($it[0] === 'demandes' && $unread): ?><b class="bo-badge"><?= $unread ?></b><?php endif; ?>
