@@ -317,6 +317,9 @@ par une autre graphie.
   demandé** à l'envoi, avec la légende et les droits.
 - **Retouche** : rotation et recadrage sans abîmer l'original (toujours récupérable).
 - **Remplacer le fichier** en gardant la même photo partout où elle est utilisée.
+- **Supprimer** (toute l'équipe, historiens compris) : seulement une photo qui n'est plus utilisée
+  nulle part. Tant qu'elle sert, le bouton est grisé et un encadré explique pourquoi, avec la liste
+  des contenus d'où la retirer ; le serveur refuse aussi toute suppression d'une photo utilisée.
 - **« Utilisée dans »** : liste des fiches où la photo apparaît.
 - **Filtres** : sans crédit, sans légende, droits à préciser, doublons, basse définition,
   inutilisées, PDF, issues des contributions, récentes.

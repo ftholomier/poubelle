@@ -106,7 +106,8 @@ final class Medias extends Base
             'items' => $items, 'total' => $total, 'page' => $page, 'pages' => $pages, 'counts' => $counts,
             'folders' => $folders, 'filter' => $filter, 'folder' => $folder, 'sort' => $sort, 'q' => $req->str('q'), 'wall' => $wall,
             'query' => array_filter(['q' => $req->str('q'), 'filtre' => $filter, 'dossier' => $folder, 'tri' => $sort === 'recent' ? '' : $sort, 'murs' => $wall]),
-            'canDelete' => Auth::can('destroy'),
+            // Toute l'équipe peut supprimer une photo, seulement quand elle n'est plus utilisée (delete()).
+            'canDelete' => Auth::user() !== null,
         ], ['title' => 'Médiathèque', 'crumb' => 'Contenus', 'nav' => 'medias', 'scripts' => ['admin/medias.js']]);
     }
 
@@ -467,10 +468,15 @@ final class Medias extends Base
         return self::back('/admin/medias/credits', $n . ' photo' . ($n > 1 ? 's' : '') . ' mise' . ($n > 1 ? 's' : '') . ' à jour : le crédit est maintenant dans son champ.' . ($synced ? ' Légende et crédit repris dans ' . $synced . ' fiche' . ($synced > 1 ? 's' : '') . ' qui montre' . ($synced > 1 ? 'nt' : '') . ' ces photos.' : ''));
     }
 
+    /**
+     * Suppression d'un média, par toute l'équipe (historiens compris), avec un garde-fou absolu : jamais
+     * tant qu'il est utilisé quelque part (fiche, galerie, accueil, rubrique…). Il faut d'abord l'en
+     * retirer : aucune page ne peut ainsi se retrouver avec une image manquante.
+     */
     public static function delete(Request $req): Response
     {
-        if (!Auth::can('destroy')) {
-            return self::json(['error' => 'Suppression réservée aux administrateurs.'], 403);
+        if (!Auth::user()) {
+            return self::json(['error' => 'Connexion nécessaire.'], 403);
         }
         $d = $req->json() ?: $req->post;
         $rel = (string) ($d['file'] ?? '');
@@ -478,8 +484,8 @@ final class Medias extends Base
             return self::json(['error' => 'Média introuvable.'], 404);
         }
         $used = array_unique(Media::usage()[$rel] ?? []);
-        if ($used && empty($d['force'])) {
-            return self::json(['error' => 'Ce média est utilisé dans ' . count($used) . ' contenu(s) : retirez-le d’abord, ou confirmez la suppression.', 'used' => count($used)], 409);
+        if ($used) {
+            return self::json(['error' => 'Impossible de supprimer : ce média est encore utilisé dans ' . count($used) . ' contenu(s). Retirez-le d’abord de ces contenus (liste « Utilisé dans »), puis supprimez-le.', 'used' => count($used)], 409);
         }
         $file = Media::file($rel);
         if ($file) {

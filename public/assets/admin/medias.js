@@ -153,11 +153,16 @@
       + field('date_text', 'Date ou époque', it.date_text, { max: 120, ph: 'Mai 1988' })
       + '</div>'
       + (it.pdf ? '' : '<label class="toggle"><input type="checkbox" name="nowall"' + (it.nowall ? ' checked' : '') + '><span class="toggle__box"></span><span>Jamais sur les murs de photos <span class="xs muted">(photo à ne pas montrer au hasard, même bien créditée)</span></span></label>')
+      // Photo encore utilisée : le bouton « Supprimer » est grisé, et l'on explique pourquoi et quoi faire.
+      + (conf.canDelete && it.used_count ? '<div class="alert alert--info small" style="margin:0"><b>Pourquoi « Supprimer » est grisé ?</b> Cette photo est encore utilisée dans <b>' + it.used_count + ' contenu' + (it.used_count > 1 ? 's' : '') + '</b>'
+        + (it.used.length ? ' : ' + it.used.map(u => '<a href="' + esc(u.url) + '" target="_blank" rel="noopener">' + esc(u.label) + '</a>').join(', ') + (it.used_count > it.used.length ? '…' : '') : '')
+        + '. La supprimer laisserait ces pages avec une image manquante. Pour pouvoir la supprimer, retirez-la d’abord de chacun de ces contenus (ou mettez-y une autre photo) : le bouton se débloque dès qu’elle n’est plus utilisée nulle part. Pour simplement mettre une meilleure version partout, utilisez plutôt « Remplacer le fichier… ».</div>' : '')
       + '<div class="row"><button type="submit" class="btn btn--navy">Enregistrer</button>'
       + (it.pdf ? '' : '<button type="button" class="btn" data-retouch>Recadrer · pivoter' + (it.edit ? ' ✓' : '') + '</button>')
       + '<label class="btn">Remplacer le fichier…<input type="file" hidden data-replace accept="' + (it.pdf ? 'application/pdf' : 'image/jpeg,image/png,image/gif,image/webp') + '"></label>'
-      + (conf.canDelete ? '<span class="grow"></span><button type="button" class="btn btn--danger" data-del>Supprimer</button>' : '')
-      + '</div><span class="f__help">« Remplacer » garde la même adresse : toutes les fiches qui utilisent l’image afficheront le nouveau fichier.</span></form>'
+      + (conf.canDelete ? '<span class="grow"></span><button type="button" class="btn btn--danger" data-del' + (it.used_count ? ' disabled title="Grisé : cette photo est encore utilisée dans ' + it.used_count + ' contenu(s). Retirez-la d’abord de ces contenus pour pouvoir la supprimer."' : '') + '>Supprimer</button>' : '')
+      + '</div><span class="f__help">« Remplacer » garde la même adresse : toutes les fiches qui utilisent l’image afficheront le nouveau fichier.'
+      + '</span></form>'
       + '</div></div>', true);
     const form = $('form', m);
     form.addEventListener('submit', async ev => {
@@ -180,8 +185,9 @@
     $('[data-replace]', m)?.addEventListener('change', e => { if (e.target.files[0]) upload(e.target.files, it.file); });
     $('[data-retouch]', m)?.addEventListener('click', () => retouch(it, card, close));
     $('[data-del]', m)?.addEventListener('click', async () => {
-      if (!(await BO.confirm('Supprimer ce média ?', it.used_count ? 'Il est utilisé dans ' + it.used_count + ' contenu(s) : ces pages afficheront une image manquante.' : 'Le fichier sera effacé définitivement.', 'Supprimer', true))) return;
-      const r = await BO.post('/admin/medias/supprimer', { file: it.file, force: true });
+      if (it.used_count) return;
+      if (!(await BO.confirm('Supprimer ce média ?', 'Il n’est utilisé nulle part. Le fichier et ses vignettes seront effacés définitivement (l’action est notée dans le Journal).', 'Supprimer', true))) return;
+      const r = await BO.post('/admin/medias/supprimer', { file: it.file });
       if (!r.ok) { BO.toast(r.error || 'Suppression impossible', true); return; }
       close();
       card.remove();

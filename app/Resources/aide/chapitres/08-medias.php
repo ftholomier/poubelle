@@ -40,7 +40,7 @@ HTML],
 <li><b>Remplacer le fichier…</b> : un meilleur scan, par exemple. La photo garde la même adresse : toutes les fiches qui l’utilisent affichent le nouveau fichier.</li>
 </ul>
 [[img:medias-retouche.webp|Le recadrage et la rotation, sans toucher à l’original]]
-[[attention|<p>La suppression d’un fichier est réservée aux administrateurs ; vérifiez d’abord « Utilisée dans ».</p>]]
+[[attention|<p><b>Supprimer une photo</b> (tout le monde, historiens compris) : bouton rouge « Supprimer » en bas de la fenêtre de la photo. Une photo ne peut être supprimée <b>que si elle n’est plus utilisée nulle part</b> : tant qu’elle sert dans une fiche, une galerie ou l’accueil, le bouton est grisé et un encadré liste les contenus concernés. Retirez-la d’abord de chacun d’eux (ou mettez-y une autre photo) ; le bouton se débloque alors. Pour mettre une meilleure version partout, utilisez plutôt « Remplacer le fichier… ». La suppression est définitive et notée dans le Journal.</p>]]
 HTML],
         ['id' => 'fiches', 'title' => 'Utiliser les photos dans les fiches', 'html' => <<<'HTML'
 <p>Onglet <b>Médias</b> d’une fiche : <b>Image à la une</b> (bouton de choix), <b>Galerie</b> (ajout depuis la médiathèque ou envoi direct), vidéos. La légende et le crédit saisis dans la galerie priment pour cette fiche ; vides, ceux de la médiathèque s’appliquent.</p>
