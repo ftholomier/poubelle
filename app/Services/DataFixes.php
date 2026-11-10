@@ -49,6 +49,7 @@ final class DataFixes
         '2026-11-as-nancy-lorraine' => 'clubDisplayAll',
         '2026-11-bandes-des-bandeaux' => 'bannerBands',
         '2026-11-pastilles-reprise' => 'pitchPhotosRetry',
+        '2026-11-avant-resume-inverses' => 'recitSwapped',
     ];
 
     /**
@@ -293,6 +294,62 @@ final class DataFixes
         });
         \App\Services\PitchPhotos::forget();
         return ['message' => 'Photos du terrain : ' . $n . ' joueur(s) à reprendre', 'ids' => []];
+    }
+
+    /** Lignes « minute : » d'un texte du récit (« 14' : », « <strong>36' :</strong> »). */
+    public const MINUTE_LINE = '/(?:^|<li>|<p>|<br\s*\/?>)\s*(?:<strong>)?\s*\d{1,3}\s*(?:\'|’)?\s*(?:\+\s*\d+\s*(?:\'|’)?)?\s*(?:<\/strong>)?\s*(?:<strong>)?\s*[:\-–]/iu';
+
+    /**
+     * Récits importés de l'ancien site où « Résumé de la rencontre » et « Avant match et enjeux » sont
+     * inversés (ticket : Evian–Sochaux 2013, minute par minute vide alors que le résumé est rempli) :
+     * l'avant-match contient au moins 3 lignes « minute : », le résumé aucune. Les deux textes sont remis
+     * sous leur bon titre, puis les temps forts sont repris du résumé (comme à l'enregistrement).
+     * @return array{message:string,ids:list<int>}
+     */
+    private static function recitSwapped(): array
+    {
+        $ids = Fiches::batch(function () {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                if (($doc['type'] ?? '') !== 'match' || !($new = self::unswapRecit($doc))) {
+                    continue;
+                }
+                $doc = Fiches::fresh((int) $id);
+                $new = self::unswapRecit($doc);
+                if ($new) {
+                    \App\Services\RecitHighlights::apply($new);
+                    Fiches::save($new, self::AUTHOR, 'Récit : résumé et avant-match remis sous leur titre, temps forts repris');
+                    $ids[] = (int) $id;
+                }
+            }
+            return $ids;
+        });
+        return ['message' => 'Avant-match et résumé inversés remis en place : ' . count($ids) . ' match(s)', 'ids' => $ids];
+    }
+
+    /** La fiche avec avant-match et résumé remis à leur place, ou null s'ils ne sont pas (sûrement) inversés. */
+    public static function unswapRecit(array $doc): ?array
+    {
+        $ia = $ir = null;
+        foreach ((array) ($doc['sections'] ?? []) as $i => $s) {
+            $t = mb_strtolower((string) ($s['title'] ?? ''));
+            if ($ia === null && str_contains($t, 'avant')) {
+                $ia = $i;
+            } elseif ($ir === null && preg_match('/r[ée]sum[ée]/u', $t)) {
+                $ir = $i;
+            }
+        }
+        if ($ia === null || $ir === null) {
+            return null;
+        }
+        $a = (string) ($doc['sections'][$ia]['html'] ?? '');
+        $r = (string) ($doc['sections'][$ir]['html'] ?? '');
+        if (preg_match_all(self::MINUTE_LINE, $a) < 3 || preg_match_all(self::MINUTE_LINE, $r) > 0) {
+            return null;
+        }
+        $doc['sections'][$ia]['html'] = $r;
+        $doc['sections'][$ir]['html'] = $a;
+        return $doc;
     }
 
     /** Applique $fix à toutes les chaînes d'un tableau, sauf sous les clés d'adresse, de fichier ou d'origine. */
