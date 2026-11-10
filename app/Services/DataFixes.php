@@ -48,6 +48,7 @@ final class DataFixes
         // Nancy : « AS Nancy-Lorraine » pour les matchs à partir de 1964 (noms imposés, selon la date).
         '2026-11-as-nancy-lorraine' => 'clubDisplayAll',
         '2026-11-bandes-des-bandeaux' => 'bannerBands',
+        '2026-11-pastilles-reprise' => 'pitchPhotosRetry',
     ];
 
     /**
@@ -271,6 +272,27 @@ final class DataFixes
     {
         $r = \App\Services\Images::scanBands(60, true);
         return ['message' => 'Bandes des photos de bandeau : ' . ($r ?? 'rien à examiner'), 'ids' => []];
+    }
+
+    /**
+     * Photos du terrain : joueurs notés « sans photo sûre » par la première version de la tâche
+     * (une erreur de Gemini y était prise pour un « non ») repris au prochain passage.
+     */
+    private static function pitchPhotosRetry(): array
+    {
+        $n = 0;
+        \App\Core\JsonStore::update(\App\Services\PitchPhotos::FILE, function ($d) use (&$n) {
+            $d = is_array($d) ? $d : [];
+            foreach ($d as $pid => $r) {
+                if (empty($r['file'])) {
+                    unset($d[$pid]);
+                    $n++;
+                }
+            }
+            return $d;
+        });
+        \App\Services\PitchPhotos::forget();
+        return ['message' => 'Photos du terrain : ' . $n . ' joueur(s) à reprendre', 'ids' => []];
     }
 
     /** Applique $fix à toutes les chaînes d'un tableau, sauf sous les clés d'adresse, de fichier ou d'origine. */

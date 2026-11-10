@@ -34,6 +34,8 @@ final class PitchPhotos
     public static $detect = null;
 
     private static ?array $memo = null;
+    /** Raison du dernier refus du détecteur (compte rendu, diagnostic). */
+    public static string $why = '';
 
     public static function all(): array
     {
@@ -118,9 +120,13 @@ final class PitchPhotos
     {
         $end = microtime(true) + $budget;
         $done = self::all();
-        $found = $none = 0;
+        $found = $none = $errors = 0;
+        $lastError = '';
+        $seen = 0;
         foreach (self::needed() as $pid) {
-            if (microtime(true) > $end - 15) {
+            // Au moins un joueur par passage, même en fin de passage ; Gemini en panne (trois erreurs de
+            // suite) : on s'arrête, on reprendra au prochain passage.
+            if (($seen > 0 && microtime(true) > $end - 15) || $errors >= 3) {
                 break;
             }
             $doc = Fiches::fresh($pid);
@@ -131,7 +137,15 @@ final class PitchPhotos
             if (($done[$pid]['sig'] ?? null) === $sig) {
                 continue;
             }
+            $seen++;
             $r = self::forPerson($doc) + ['sig' => $sig, 'at' => date('c')];
+            // Erreur de Gemini (pas une réponse) : rien n'est noté, le joueur sera repris.
+            if (isset($r['error'])) {
+                $errors++;
+                $lastError = (string) $r['error'];
+                continue;
+            }
+            $errors = 0;
             // Ancienne vignette du joueur remplacée.
             $old = (string) ($done[$pid]['file'] ?? '');
             if ($old !== '' && $old !== ($r['file'] ?? '')) {
@@ -146,22 +160,31 @@ final class PitchPhotos
             $r['file'] ? $found++ : $none++;
         }
         self::forget();
-        return $found + $none ? $found . ' visage(s) recadré(s) pour le terrain' . ($none ? ', ' . $none . ' joueur(s) sans photo sûre' : '') : null;
+        $out = $found + $none ? $found . ' visage(s) recadré(s) pour le terrain' . ($none ? ', ' . $none . ' joueur(s) sans photo sûre' : '') : '';
+        if ($lastError !== '') {
+            $out .= ($out !== '' ? ' ; ' : '') . 'erreur de Gemini, joueurs repris au prochain passage : ' . mb_substr($lastError, 0, 200);
+        }
+        return $out !== '' ? $out : null;
     }
 
     /** Visage d'une personne : ['file' => vignette, 'img' => photo, 'box' => carré] ou ['file' => null, 'tried' => n]. */
     public static function forPerson(array $doc): array
     {
-        $person = $doc['personne'] ?? [];
-        $tried = 0;
+        $tried = [];
         foreach (self::candidates($doc) as $rel) {
             $file = \App\Services\Images::derivative($rel, 800);
             if (!$file) {
+                $tried[] = [$rel, 'vignette impossible à fabriquer'];
                 continue;
             }
-            $tried++;
-            $face = self::detect($file, $doc, (string) (Media::get($rel)['caption'] ?? ''));
+            self::$why = '';
+            try {
+                $face = self::detect($file, $doc, (string) (Media::get($rel)['caption'] ?? ''));
+            } catch (\Throwable $e) {
+                return ['error' => $e->getMessage()];
+            }
             if (!$face) {
+                $tried[] = [$rel, self::$why ?: 'pas de visage sûr'];
                 continue;
             }
             $src = Media::file($rel);
@@ -172,6 +195,7 @@ final class PitchPhotos
             $box = self::square($face, imagesx($im), imagesy($im));
             if (!$box) {
                 imagedestroy($im);
+                $tried[] = [$rel, 'visage trop petit'];
                 continue;
             }
             $name = (int) $doc['id'] . '-' . substr(md5($rel . json_encode($box)), 0, 8) . '.webp';
@@ -184,6 +208,12 @@ final class PitchPhotos
         return ['file' => null, 'tried' => $tried];
     }
 
+    /** Réponse illisible ou refusée par Gemini : erreur (le joueur sera repris), pas un « non ». */
+    private static function fail(string $msg): never
+    {
+        throw new \RuntimeException($msg);
+    }
+
     /**
      * Visage du joueur sur une photo (fractions [haut, gauche, bas, droite] de 0 à 1), ou null si ce
      * n'est pas sûr : un seul visage net, déclaré sûr, cadre cohérent.
@@ -194,9 +224,8 @@ final class PitchPhotos
             return (self::$detect)($file, $doc, $caption);
         }
         if (!Gemini::ready()) {
-            return null;
+            self::fail('clé Gemini absente');
         }
-        $p = $doc['personne'] ?? [];
         $name = trim((string) ($doc['title'] ?? ''));
         $prompt = 'Photo de la fiche du joueur « ' . $name . ' » dans un musée de football.' . ($caption !== '' ? ' Légende : « ' . $caption . ' ».' : '')
             . "\nCompte les visages humains nets et bien visibles : de face ou de trois quarts, ni flous, ni de dos, ni cachés, ni coupés par le bord de la photo, ni minuscules dans une foule ou une photo d'équipe."
@@ -209,14 +238,14 @@ final class PitchPhotos
             'main' => ['type' => 'BOOLEAN'],
             'sure' => ['type' => 'BOOLEAN'],
         ], 'required' => ['faces', 'main', 'sure']];
-        try {
-            $r = Gemini::generate([['role' => 'user', 'text' => $prompt, 'images' => [['mime' => 'image/webp', 'data' => base64_encode((string) file_get_contents($file))]]]],
+        $r = Gemini::generate([['role' => 'user', 'text' => $prompt, 'images' => [['mime' => 'image/webp', 'data' => base64_encode((string) file_get_contents($file))]]]],
                 'Tu analyses des photos d’archives pour recadrer le visage d’un joueur. Réponds seulement en JSON.',
-                ['json' => true, 'schema' => $schema, 'temperature' => 0, 'max_tokens' => 200, 'for' => 'pastilles', 'ref' => (string) ($doc['id'] ?? '')]);
-        } catch (\Throwable $e) {
-            return null;
+                ['json' => true, 'schema' => $schema, 'temperature' => 0, 'max_tokens' => 300, 'for' => 'pastilles', 'ref' => (string) ($doc['id'] ?? '')]);
+        $j = json_decode((string) preg_replace('/^```(?:json)?\s*|\s*```$/', '', trim($r['text'])), true);
+        if (!is_array($j)) {
+            self::fail('réponse illisible (' . ($r['finish'] ?: 'vide') . ') : ' . mb_substr($r['text'], 0, 120));
         }
-        return self::accept(json_decode($r['text'], true));
+        return self::accept($j);
     }
 
     /**
@@ -226,16 +255,19 @@ final class PitchPhotos
     public static function accept(mixed $j): ?array
     {
         $faces = is_array($j) ? (int) ($j['faces'] ?? 0) : 0;
-        if (!is_array($j) || ($j['sure'] ?? false) !== true || $faces < 1 || ($faces > 1 && ($j['main'] ?? false) !== true)) {
+        self::$why = !is_array($j) ? 'réponse illisible' : ($faces < 1 ? 'aucun visage net' : (($j['sure'] ?? false) !== true ? 'visage pas sûr' : ($faces > 1 && ($j['main'] ?? false) !== true ? $faces . ' visages, aucun sujet principal' : '')));
+        if (self::$why !== '') {
             return null;
         }
         $b = $j['box_2d'] ?? null;
         if (!is_array($b) || count($b) !== 4) {
+            self::$why = 'cadre du visage absent';
             return null;
         }
         [$y0, $x0, $y1, $x1] = array_map(fn ($v) => max(0, min(1000, (int) $v)) / 1000, array_values($b));
         // Cadre absurde (vide, inversé) ou visage qui occupe presque toute la photo : pas sûr.
         if ($y1 - $y0 < 0.02 || $x1 - $x0 < 0.02 || ($y1 - $y0) * ($x1 - $x0) > 0.8) {
+            self::$why = 'cadre du visage invalide';
             return null;
         }
         return [$y0, $x0, $y1, $x1];

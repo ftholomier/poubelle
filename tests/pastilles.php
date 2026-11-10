@@ -74,6 +74,10 @@ try {
     $eq('adresse de la pastille', P::url(999999), MEDIA_URL . '/pastilles/' . $r['file']);
     $eq('aucun visage sûr : rien', [P::url(123456789), (function () use ($doc) { P::$detect = fn () => null; return P::forPerson($doc)['file']; })()], [null, null]);
     $eq('photo principale en largeur : pas un portrait', P::isPortrait($rel), false);
+    P::$detect = function () { throw new \RuntimeException('quota dépassé'); };
+    $eq('erreur de Gemini : pas un « non », le joueur sera repris', P::forPerson($doc), ['error' => 'quota dépassé']);
+    P::$detect = fn () => P::accept(['faces' => 4, 'main' => false, 'sure' => true, 'box_2d' => [1, 1, 100, 100]]);
+    $eq('refus expliqué pour chaque photo', P::forPerson($doc)['tried'] ?? null, [[$rel, '4 visages, aucun sujet principal'], [$rel2, '4 visages, aucun sujet principal']]);
 } finally {
     P::$detect = null;
     foreach ($made as $f) {
