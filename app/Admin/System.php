@@ -692,6 +692,23 @@ final class System extends Base
 
     public static function tasksRun(Request $req): Response
     {
+        // Passage complet tout de suite (celui qui aurait eu lieu dans les 5 minutes, intervalles de chaque
+        // tâche respectés, rien de forcé) : ouvert à toute l'équipe.
+        if (($req->post['task'] ?? '') === 'passage') {
+            @set_time_limit(150);
+            ob_start();
+            $r = Cron::run(null, 120);
+            ob_end_clean();
+            if (!empty($r['_busy'])) {
+                return self::back('/admin/taches', null, 'Un passage est déjà en train de tourner : réessayez dans une minute.');
+            }
+            Activity::log(self::actor(), 'a lancé un passage des tâches planifiées', null);
+            $names = Cron::tasks();
+            $done = array_filter($r, fn ($x, $k) => is_array($x) && isset($names[$k]), ARRAY_FILTER_USE_BOTH);
+            $failed = array_keys(array_filter($done, fn ($x) => empty($x['ok'])));
+            $msg = $done ? count($done) . ' tâche(s) avaient du travail : ' . implode(', ', array_map(fn ($k) => $names[$k][1], array_keys($done))) . '.' : 'Passage fait : aucune tâche n’avait de travail pour le moment.';
+            return self::back('/admin/taches', $failed ? null : $msg, $failed ? $msg . ' En échec : ' . implode(', ', array_map(fn ($k) => $names[$k][1], $failed)) . '.' : null);
+        }
         // Certaines tâches envoient des e-mails ou purgent des données : administrateurs seulement.
         if ($deny = self::denyUnlessAdmin()) {
             return $deny;

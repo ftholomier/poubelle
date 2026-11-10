@@ -131,17 +131,17 @@ $level = fn (float $r) => $r >= 0.9 ? ['ko', 'Presque plein'] : ($r >= 0.7 ? ['w
   <?= $last ? 'Dernier passage de la tâche planifiée : ' . e(Base::ago(date('c', (int) $last))) . '.' : 'La tâche planifiée n’est jamais passée.' ?>
   <?php if ($late): ?> Vérifiez la ligne cron chez l’hébergeur (toutes les 5 minutes) : <code><?= e($cli) ?> <?= e(APP_ROOT) ?>/bin/console.php cron &gt;/dev/null 2&gt;&amp;1</code><?php endif; ?>
 </p>
+<form method="post" action="/admin/taches" class="row" style="gap:12px;align-items:center" data-confirm="Lancer un passage maintenant ?|Les tâches qui ont du travail tournent tout de suite, au plus 2 minutes, sans attendre le prochain passage automatique. La page attend la fin.|Lancer"><?= csrf_field() ?><input type="hidden" name="task" value="passage"><button type="submit" class="btn btn--navy">Lancer un passage maintenant</button><span class="small muted">Sans attendre les 5 minutes : les tâches qui ont du travail tournent tout de suite (2 minutes au plus).</span></form>
 <div class="table">
   <table>
-    <thead><tr><th>Tâche</th><th>Fréquence</th><th>Dernière exécution</th><th>Résultat</th><th></th></tr></thead>
+    <thead><tr><th>Tâche</th><th>Fréquence</th><th>Dernière exécution</th><th>Résultat</th></tr></thead>
     <tbody>
-    <?php foreach ($tasks as $k => [$s, $label]): $st = $state[$k] ?? null; ?>
+    <?php foreach ($tasks as $k => [$s, $label]): $st = isset($state[$k]['at']) && array_key_exists('result', $state[$k]) ? $state[$k] + ['ok' => true, 'ms' => 0] : null; ?>
       <tr>
-        <td class="t-strong"><?= e($label) ?></td>
+        <td class="t-strong"><?= e($label) ?><?php if (Auth::isAdmin()): ?><form method="post" action="/admin/taches" style="margin-top:6px"><?= csrf_field() ?><input type="hidden" name="task" value="<?= e($k) ?>"><button type="submit" class="btn btn--sm">Lancer</button></form><?php endif; ?></td>
         <td class="small"><?= e($every((int) $s)) ?></td>
         <td class="small nowrap"><?= $st ? e(Base::ago(date('c', (int) $st['at']))) : '<span class="muted">jamais</span>' ?></td>
-        <td class="small"><?php if ($st): ?><?= $st['ok'] ? '<span class="ok">✓</span>' : '<span class="ko">✕</span>' ?> <?= e(is_string($st['result']) ? $st['result'] : json_encode($st['result'], JSON_UNESCAPED_UNICODE)) ?> <span class="xs muted">(<?= number_format($st['ms'] / 1000, 1, ',', ' ') ?> s)</span><?php endif; ?></td>
-        <td><?php if (Auth::isAdmin()): ?><form method="post" action="/admin/taches"><?= csrf_field() ?><input type="hidden" name="task" value="<?= e($k) ?>"><button type="submit" class="btn btn--sm">Lancer</button></form><?php endif; ?></td>
+        <td class="small" style="overflow-wrap:anywhere;max-width:60ch"><?php if ($st): ?><?= $st['ok'] ? '<span class="ok">✓</span>' : '<span class="ko">✕</span>' ?> <?= e(is_string($st['result']) ? $st['result'] : json_encode($st['result'], JSON_UNESCAPED_UNICODE)) ?> <span class="xs muted">(<?= number_format($st['ms'] / 1000, 1, ',', ' ') ?> s)</span><?php endif; ?></td>
       </tr>
     <?php endforeach; ?>
     </tbody>
