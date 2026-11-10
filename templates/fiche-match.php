@@ -324,7 +324,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
         <span class="pitch__line pitch__line--area-t"></span>
         <?php foreach ($pitch['players'] as $p): ?>
           <<?= $p['href'] ? 'a href="' . e($p['href']) . '"' : 'span' ?> class="pitch__p" style="left:<?= $p['x'] ?>%;top:<?= $p['y'] ?>%">
-            <span class="pitch__num<?= !empty($p['photo']) ? ' has-photo' : '' ?>"><?php $num = ($p['num'] ?? null) !== null ? (string) (int) $p['num'] : (string) ($p['position'] ?? ''); ?><?php if (!empty($p['photo'])): ?><img src="<?= e(img($p['photo'], 160)) ?>" alt="" loading="lazy" decoding="async"><span class="pitch__badge"><?= e($num) ?></span><?php else: ?><?= e($num) ?><?php endif; ?></span>
+            <span class="pitch__num<?= !empty($p['photo']) || !empty($p['face']) ? ' has-photo' : '' ?>"><?php $num = ($p['num'] ?? null) !== null ? (string) (int) $p['num'] : (string) ($p['position'] ?? ''); ?><?php if (!empty($p['photo']) || !empty($p['face'])): ?><img src="<?= e(!empty($p['photo']) ? img($p['photo'], 160) : $p['face']) ?>" alt="" loading="lazy" decoding="async"<?= empty($p['photo']) ? ' style="object-position:50% 50%"' : '' ?>><span class="pitch__badge"><?= e($num) ?></span><?php else: ?><?= e($num) ?><?php endif; ?></span>
             <span class="pitch__name"><?= e($p['short']) ?><?= !empty($p['captain']) ? ' (c)' : '' ?></span>
           </<?= $p['href'] ? 'a' : 'span' ?>>
         <?php endforeach; ?>

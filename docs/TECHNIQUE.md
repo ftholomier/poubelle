@@ -2658,6 +2658,24 @@ compositions, buts, légendes, traductions ; jamais `path`, `slug`, `image`, `fi
 compositions Transfermarkt de référence (`app/Resources/compos/tm-1998/1999/2001.json`) sont écrites
 « Erwan Manac'h ». Test : `tests/manach.php`.
 
+## Photos du terrain (`App\Services\PitchPhotos`, tâche `pastilles`)
+
+Ticket : Perquis, Richert, Sauget, Peybernes sans photo sur le terrain (photo principale en largeur,
+écartée par `Fiche::portrait()` : une photo d'action réduite dans un rond ne montre pas le joueur).
+Sans rien demander aux historiens, la tâche longue `pastilles` traite les joueurs sur au moins un
+terrain (`Derived::lineupLinks`), fiche visible, photo principale qui n'est pas un portrait (47 en
+local), les plus présents d'abord : photo principale puis galerie (5 au plus), déclinaison 800 px
+envoyée à Gemini (`Gemini::generate` accepte des images : `contents[].images`, parties `inline_data`
+avant le texte ; usage `pastilles` dans `AiCosts`, en pause si le budget du mois est atteint) avec un
+schéma JSON `{faces, box_2d [ymin, xmin, ymax, xmax] sur 1000, sure}`. Retenu seulement si
+`faces === 1` et `sure` (`PitchPhotos::accept()`), cadre valable ; carré de 1,9 × le visage, centré un
+peu dessous (tête et épaules), gardé dans la photo, au moins 48 px (`square()`), découpé dans
+l'original retouché (`Images::open`) en WebP 200 × 200 dans `public/media/pastilles/{id}-{empreinte}.webp`.
+Résultats dans `storage/pastilles.json` (photo, carré, empreinte des photos du joueur : il est repris si
+elles changent). `Fiche::lineupRows()` : `face` = `PitchPhotos::url()` quand il n'y a pas de portrait ;
+pastilles de la page du match et du Rétro-Direct. Aucune fiche ni aucun média modifié. Test :
+`tests/pastilles.php` (détecteur simulé, `PitchPhotos::$detect`).
+
 ## Ordre dans la journée (`match.day_order`)
 
 Ticket : les amicaux du 7 juillet 2010 (Neuchâtel Xamax joué avant Deportivo Saprissa) s'affichaient

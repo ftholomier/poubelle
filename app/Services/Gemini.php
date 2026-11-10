@@ -237,7 +237,11 @@ final class Gemini
     private static function body(array $contents, ?string $system, array $opt, string $model): array
     {
         $body = [
-            'contents' => array_map(fn ($c) => ['role' => $c['role'] === 'model' ? 'model' : 'user', 'parts' => [['text' => (string) $c['text']]]], $contents),
+            // Images jointes à un message (« images » : [['mime' => 'image/webp', 'data' => base64]]) : avant le texte.
+            'contents' => array_map(fn ($c) => ['role' => $c['role'] === 'model' ? 'model' : 'user', 'parts' => array_merge(
+                array_map(fn ($i) => ['inline_data' => ['mime_type' => (string) $i['mime'], 'data' => (string) $i['data']]], (array) ($c['images'] ?? [])),
+                [['text' => (string) $c['text']]]
+            )], $contents),
             'generationConfig' => ['temperature' => (float) ($opt['temperature'] ?? 0.3), 'maxOutputTokens' => (int) ($opt['max_tokens'] ?? 800)],
             'safetySettings' => array_map(fn ($c) => ['category' => $c, 'threshold' => 'BLOCK_MEDIUM_AND_ABOVE'], ['HARM_CATEGORY_HARASSMENT', 'HARM_CATEGORY_HATE_SPEECH', 'HARM_CATEGORY_SEXUALLY_EXPLICIT', 'HARM_CATEGORY_DANGEROUS_CONTENT']),
         ];

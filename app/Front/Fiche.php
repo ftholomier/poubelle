@@ -224,6 +224,8 @@ final class Fiche
                 'pid' => $s ? (int) $pid : null,
                 'href' => $s && Index::visible($s) ? url($s['path']) : null,
                 'photo' => $s && Index::visible($s) ? self::portrait($s['image'] ?? null) : null,
+                // Sans portrait : visage recadré automatiquement dans ses photos (tâche « pastilles »), s'il est sûr.
+                'face' => $s && Index::visible($s) && !self::portrait($s['image'] ?? null) ? \App\Services\PitchPhotos::url((int) $pid) : null,
                 'display' => Names::display((string) $r['name']),
                 'short' => Names::lineupShort((string) $r['name'], $s['p']['last'] ?? null) ?: mb_strtoupper((string) $r['name']),
                 'n' => $i + 1,

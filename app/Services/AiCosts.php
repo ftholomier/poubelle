@@ -35,6 +35,7 @@ final class AiCosts
         'radio' => 'Rétro-Direct commenté (radio)',
         'import' => 'Reprise des années 1928-1969 (FCSM Story)',
         'trouvailles' => 'Trouvailles (archives et presse)',
+        'pastilles' => 'Photos du terrain (visages des pastilles)',
         'autre' => 'Autre',
     ];
 

@@ -50,6 +50,7 @@ final class Cron
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
         'medias' => [0, 'Médiathèque : dimensions, poids et empreintes des fichiers (doublons)'],
         'murs-photos' => [0, 'Murs de photos : vignettes préparées d’avance'],
+        'pastilles' => [0, 'Photos du terrain : visage recadré pour la pastille des joueurs sans portrait (Gemini)'],
         'videos' => [3600, 'Vignettes des vidéos et vidéos Dailymotion retirées'],
         'assistant' => [3600, 'Index sémantique de l’assistant IA'],
         'dons' => [3600, 'Synchronisation des dons (Stripe, PayPal)'],
@@ -68,7 +69,7 @@ final class Cron
      * Tâches longues (appels à l'IA, archives, fabrication de sons et d'images) : après les autres,
      * à tour de rôle, avec le temps qui reste au passage.
      */
-    public const LONG = ['traductions', 'correcteur', 'audio', 'reprise', 'feuilles', 'compositions', 'liens-compositions', 'trouvailles', 'radio', 'geolocalisation', 'medias', 'murs-photos', 'videos', 'assistant'];
+    public const LONG = ['traductions', 'correcteur', 'audio', 'reprise', 'feuilles', 'compositions', 'liens-compositions', 'trouvailles', 'radio', 'geolocalisation', 'medias', 'murs-photos', 'pastilles', 'videos', 'assistant'];
 
     /** Durée d'un passage (secondes, temps réel) : moins que l'intervalle de 5 minutes du cron. */
     public const BUDGET = 270;
@@ -280,6 +281,15 @@ final class Cron
 
             case 'medias':
                 return self::mediaFacts(400);
+
+            case 'pastilles':
+                if (!Gemini::ready() && !is_callable(PitchPhotos::$detect)) {
+                    return null;
+                }
+                if (AiCosts::paused('pastilles')) {
+                    return 'en pause : budget IA du mois atteint';
+                }
+                return PitchPhotos::run((float) self::left(60));
 
             case 'murs-photos':
                 $r = PhotoWall::prepare((float) self::left(40));
