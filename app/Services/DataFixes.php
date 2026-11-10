@@ -47,6 +47,7 @@ final class DataFixes
         '2026-11-carlao' => 'carlaoLinks',
         // Nancy : « AS Nancy-Lorraine » pour les matchs à partir de 1964 (noms imposés, selon la date).
         '2026-11-as-nancy-lorraine' => 'clubDisplayAll',
+        '2026-11-bandes-des-bandeaux' => 'bannerBands',
     ];
 
     /**
@@ -259,6 +260,17 @@ final class DataFixes
         }
         $links = $matches ? \App\Services\LineupLinks::run(300, $matches) : 'rien à relier';
         return ['message' => 'Carlao : graphie « CARLAO » ajoutée à sa fiche ; ' . $links, 'ids' => array_merge($ids, $matches)];
+    }
+
+    /**
+     * Bandes unies incrustées des photos de bandeau (photo principale des fiches, ticket Sochaux–Stade
+     * Rennais FC) repérées et rognées tout de suite après la mise à jour, sans attendre la tâche
+     * « medias » (analyse sur les déclinaisons existantes : quelques millisecondes par photo).
+     */
+    private static function bannerBands(): array
+    {
+        $r = \App\Services\Images::scanBands(60, true);
+        return ['message' => 'Bandes des photos de bandeau : ' . ($r ?? 'rien à examiner'), 'ids' => []];
     }
 
     /** Applique $fix à toutes les chaînes d'un tableau, sauf sous les clés d'adresse, de fichier ou d'origine. */

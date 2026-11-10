@@ -504,7 +504,7 @@ Bandes unies incrustées (ticket : bandeau de Sochaux–Stade Rennais FC 2011 av
 sur les côtés malgré `object-fit: cover`, photo de 1 000 × 500 « encadrée » de blanc) :
 `Images::bands()` repère, du bord vers le centre, les colonnes et lignes dont 98 % des points ont la
 couleur du bord (blanc, noir ou autre teinte unie ; au plus 35 % par côté, liseré de moins de 1 %
-ignoré, image presque unie jamais rognée). La tâche `medias` (`Images::scanBands()`, 40 s par passage,
+ignoré, image presque unie jamais rognée). La tâche `medias` (`Images::scanBands()`, 40 s par passage, analyse sur une déclinaison existante — 5 ms par photo — sinon sur l'original ; correction `2026-11-bandes-des-bandeaux` pour les photos de bandeau juste après la mise à jour,
 photos principales des fiches d'abord) les note une fois par média (`trim` : [gauche, haut, droite,
 bas], `[]` si rien) et supprime les anciennes déclinaisons. `Media::edit()` / `editOf()` ajoutent
 `trim` aux retouches (sauf recadrage choisi par l'historien) ; `Images::open()` rogne avant la

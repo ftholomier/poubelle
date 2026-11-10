@@ -330,7 +330,7 @@ final class Images
      * trouvées : notées dans le média (« trim »), anciennes déclinaisons supprimées pour être refaites.
      * L'original n'est jamais modifié ; un recadrage choisi par l'historien l'emporte (Media::editOf).
      */
-    public static function scanBands(float $budget): ?string
+    public static function scanBands(float $budget, bool $featuredOnly = false): ?string
     {
         $end = microtime(true) + $budget;
         $all = Media::all();
@@ -341,7 +341,7 @@ final class Images
             }
         }
         $todo = array_keys($first);
-        foreach ($all as $rel => $m) {
+        foreach ($featuredOnly ? [] : $all as $rel => $m) {
             if (!isset($m['trim']) && !isset($first[$rel])) {
                 $todo[] = (string) $rel;
             }
@@ -349,7 +349,7 @@ final class Images
         $changes = [];
         $found = 0;
         foreach ($todo as $rel) {
-            if (microtime(true) > $end || count($changes) >= 300) {
+            if (microtime(true) > $end || count($changes) >= 5000) {
                 break;
             }
             $lower = strtolower($rel);
@@ -358,7 +358,19 @@ final class Images
                 $changes[$rel] = ['trim' => []];
                 continue;
             }
-            $im = self::open($file);
+            // Analyse sur une déclinaison déjà faite (5 ms au lieu d'ouvrir l'original en grand) : les
+            // bandes ont la même proportion à toutes les tailles. Original seulement s'il n'y en a pas,
+            // ou si la photo est retouchée (rotation : les bandes se mesurent sur l'image d'origine).
+            $small = null;
+            if (empty($all[$rel]['edit'])) {
+                foreach ([480, 640, 800, 320, 1200, 1600] as $w) {
+                    if (is_file($f = MEDIA_PATH . "/$w/$rel.webp") && filemtime($f) >= filemtime($file)) {
+                        $small = $f;
+                        break;
+                    }
+                }
+            }
+            $im = $small ? @imagecreatefromwebp($small) : self::open($file);
             $b = $im ? self::bands($im) : null;
             if ($im) {
                 imagedestroy($im);
