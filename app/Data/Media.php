@@ -223,6 +223,26 @@ final class Media
     }
 
     /**
+     * Retouches à appliquer aux déclinaisons d'un média : celles de la médiathèque (rotation,
+     * recadrage), plus les bandes unies incrustées dans le fichier à rogner (« trim », repérées par la
+     * tâche « medias ») quand l'historien n'a pas recadré lui-même.
+     */
+    public static function edit(?string $rel): ?array
+    {
+        return self::editOf($rel ? self::get($rel) : null);
+    }
+
+    /** @see edit() */
+    public static function editOf(?array $m): ?array
+    {
+        $edit = is_array($m['edit'] ?? null) ? $m['edit'] : [];
+        if (!empty($m['trim']) && empty($edit['crop'])) {
+            $edit['trim'] = $m['trim'];
+        }
+        return $edit ?: null;
+    }
+
+    /**
      * Version d'un média modifié après coup (retouche, fichier remplacé) : ajoutée à
      * l'adresse des vignettes pour que les navigateurs ne gardent pas l'ancienne image.
      */
@@ -261,8 +281,8 @@ final class Media
         }
         $versions = [];
         foreach ($items as $rel => $m) {
-            if (!empty($m['edit']) || !empty($m['replaced'])) {
-                $versions[(string) $rel] = substr(md5(json_encode($m['edit'] ?? null) . '|' . ($m['replaced'] ?? '')), 0, 8);
+            if (!empty($m['edit']) || !empty($m['replaced']) || !empty($m['trim'])) {
+                $versions[(string) $rel] = substr(md5(json_encode(self::editOf($m)) . '|' . ($m['replaced'] ?? '')), 0, 8);
             }
         }
         $parts = array_fill(0, self::BUCKETS, []);

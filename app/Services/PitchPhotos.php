@@ -83,7 +83,7 @@ final class PitchPhotos
     /** Empreinte des photos d'une personne (et de leurs retouches) : le joueur est repris si elle change. */
     public static function sig(array $doc): string
     {
-        return substr(md5(json_encode(array_map(fn ($r) => [$r, Media::get($r)['edit'] ?? null, Media::get($r)['sha1'] ?? null], self::candidates($doc)))), 0, 12);
+        return substr(md5(json_encode(array_map(fn ($r) => [$r, Media::edit($r), Media::get($r)['sha1'] ?? null], self::candidates($doc)))), 0, 12);
     }
 
     /**
@@ -165,7 +165,7 @@ final class PitchPhotos
                 continue;
             }
             $src = Media::file($rel);
-            $im = $src ? \App\Services\Images::open($src, Media::get($rel)['edit'] ?? null) : null;
+            $im = $src ? \App\Services\Images::open($src, Media::edit($rel)) : null;
             if (!$im) {
                 continue;
             }

@@ -58,7 +58,7 @@ final class Images
         }
         $dest = MEDIA_PATH . "/$width/$srcRel.webp";
         if (!is_file($dest) || filemtime($dest) < filemtime($src)) {
-            $made = self::make($src, $dest, $width, Media::get($srcRel)['edit'] ?? null, true);
+            $made = self::make($src, $dest, $width, Media::edit($srcRel), true);
             if ($made === null) {
                 // Déjà deux images en préparation : la taille existante la plus proche, pour cette fois.
                 return self::nearest($srcRel, $src, $width);
@@ -90,7 +90,7 @@ final class Images
         }
         $dest = MEDIA_PATH . "/$width/$rel.webp";
         if (!is_file($dest) || filemtime($dest) < filemtime($src)) {
-            if (!self::make($src, $dest, $width, Media::get($rel)['edit'] ?? null, false)) {
+            if (!self::make($src, $dest, $width, Media::edit($rel), false)) {
                 return null;
             }
         }
@@ -237,6 +237,19 @@ final class Images
         if (!imageistruecolor($im)) {
             imagepalettetotruecolor($im);
         }
+        // Bandes unies incrustées dans le fichier (photo « encadrée » de blanc ou de noir) : rognées
+        // avant toute autre retouche, pour que la photo remplisse vraiment son cadre (bandeau en cover).
+        $t = $edit['trim'] ?? null;
+        if (is_array($t) && count($t) === 4) {
+            [$l, $tp, $r, $b] = array_map(fn ($v) => max(0.0, min(0.45, (float) $v)), array_values($t));
+            $W = imagesx($im);
+            $H = imagesy($im);
+            $rect = ['x' => (int) round($l * $W), 'y' => (int) round($tp * $H), 'width' => (int) round((1 - $l - $r) * $W), 'height' => (int) round((1 - $tp - $b) * $H)];
+            if ($rect['width'] > 10 && $rect['height'] > 10 && ($rect['width'] < $W || $rect['height'] < $H) && ($c = imagecrop($im, $rect))) {
+                imagedestroy($im);
+                $im = $c;
+            }
+        }
         $rot = (int) ($edit['rotate'] ?? 0);
         if (in_array($rot, [90, 180, 270], true)) {
             $r = imagerotate($im, -$rot, 0);
@@ -260,6 +273,109 @@ final class Images
             }
         }
         return $im;
+    }
+
+    /**
+     * Bandes unies incrustées sur les bords d'une image (fractions [gauche, haut, droite, bas]), ou
+     * null s'il n'y en a pas : colonnes (ou lignes) du bord vers le centre dont presque tous les points
+     * ont la couleur du bord (blanc, noir ou autre teinte unie). Au plus 35 % par côté ; une bande de
+     * moins de 1 % (liseré) est ignorée ; une image presque unie n'est jamais rognée.
+     * @return array{0:float,1:float,2:float,3:float}|null
+     */
+    public static function bands(\GdImage $im): ?array
+    {
+        $W = imagesx($im);
+        $H = imagesy($im);
+        if ($W < 40 || $H < 40) {
+            return null;
+        }
+        $rgb = function (int $x, int $y) use ($im): array {
+            $c = imagecolorat($im, $x, $y);
+            return [($c >> 16) & 255, ($c >> 8) & 255, $c & 255];
+        };
+        $near = fn (array $a, array $b) => abs($a[0] - $b[0]) + abs($a[1] - $b[1]) + abs($a[2] - $b[2]) <= 36;
+        // Une ligne (verticale ou horizontale) est « unie » si 98 % de ses points ont la couleur de référence.
+        $uniform = function (bool $col, int $i, array $ref) use ($W, $H, $rgb, $near): bool {
+            $len = $col ? $H : $W;
+            $step = max(1, intdiv($len, 120));
+            $n = $ok = 0;
+            for ($k = 0; $k < $len; $k += $step) {
+                $n++;
+                $ok += $near($col ? $rgb($i, $k) : $rgb($k, $i), $ref) ? 1 : 0;
+            }
+            return $ok >= 0.98 * $n;
+        };
+        $side = function (bool $col, bool $fromStart) use ($W, $H, $rgb, $uniform): int {
+            $len = $col ? $W : $H;
+            $edge = $fromStart ? 0 : $len - 1;
+            $ref = $col ? $rgb($edge, intdiv($H, 2)) : $rgb(intdiv($W, 2), $edge);
+            $max = (int) floor($len * 0.35);
+            $n = 0;
+            while ($n < $max && $uniform($col, $fromStart ? $n : $len - 1 - $n, $ref)) {
+                $n++;
+            }
+            return $n >= max(3, $len * 0.01) ? $n : 0;
+        };
+        [$l, $r, $t, $b] = [$side(true, true), $side(true, false), $side(false, true), $side(false, false)];
+        // Image presque unie (ciel, fond de scan vide) : rien.
+        if (!$l && !$r && !$t && !$b || ($W - $l - $r) < $W * 0.4 || ($H - $t - $b) < $H * 0.4) {
+            return null;
+        }
+        return [round($l / $W, 4), round($t / $H, 4), round($r / $W, 4), round($b / $H, 4)];
+    }
+
+    /**
+     * Repère, une fois par photo, les bandes unies incrustées (Images::bands) : photos principales des
+     * fiches d'abord (bandeaux), puis le reste de la médiathèque, dans le temps donné (secondes). Bandes
+     * trouvées : notées dans le média (« trim »), anciennes déclinaisons supprimées pour être refaites.
+     * L'original n'est jamais modifié ; un recadrage choisi par l'historien l'emporte (Media::editOf).
+     */
+    public static function scanBands(float $budget): ?string
+    {
+        $end = microtime(true) + $budget;
+        $all = Media::all();
+        $first = [];
+        foreach (\App\Data\Index::all() as $s) {
+            if (!empty($s['image']) && isset($all[$s['image']]) && !isset($all[$s['image']]['trim'])) {
+                $first[$s['image']] = true;
+            }
+        }
+        $todo = array_keys($first);
+        foreach ($all as $rel => $m) {
+            if (!isset($m['trim']) && !isset($first[$rel])) {
+                $todo[] = (string) $rel;
+            }
+        }
+        $changes = [];
+        $found = 0;
+        foreach ($todo as $rel) {
+            if (microtime(true) > $end || count($changes) >= 300) {
+                break;
+            }
+            $lower = strtolower($rel);
+            $file = Media::file($rel);
+            if (!$file || !preg_match('/\.(jpe?g|png|webp|gif|bmp|avif)$/', $lower)) {
+                $changes[$rel] = ['trim' => []];
+                continue;
+            }
+            $im = self::open($file);
+            $b = $im ? self::bands($im) : null;
+            if ($im) {
+                imagedestroy($im);
+            }
+            $changes[$rel] = ['trim' => $b ?? []];
+            if ($b) {
+                $found++;
+                foreach (glob(MEDIA_PATH . '/*/' . $rel . '.webp') ?: [] as $f) {
+                    @unlink($f);
+                }
+            }
+        }
+        if (!$changes) {
+            return null;
+        }
+        Media::putMany($changes);
+        return count($changes) . ' photo(s) examinée(s), ' . $found . ' avec des bandes unies rognées';
     }
 
     /** Fichier AVIF, reconnu à sa signature (boîte « ftyp » d'un fichier ISO-BMFF). */
@@ -297,7 +413,7 @@ final class Images
             }
             $src = Media::file($rel);
             $dest = MEDIA_PATH . "/$width/$rel.webp";
-            if ($src && !is_file($dest) && self::make($src, $dest, $width, $m['edit'] ?? null, false)) {
+            if ($src && !is_file($dest) && self::make($src, $dest, $width, Media::editOf($m), false)) {
                 $n++;
                 if ($log && $n % 200 === 0) {
                     $log("{$n}…");

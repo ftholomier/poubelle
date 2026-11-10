@@ -48,7 +48,7 @@ final class Cron
         'trouvailles' => [0, 'Trouvailles : recherche dans les archives (Gallica, web) des matchs de la file, quelques-uns à chaque passage'],
         'radio' => [0, 'Rétro-Direct commenté : fabrication des commentaires radio demandés (texte puis voix, réplique par réplique)'],
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
-        'medias' => [0, 'Médiathèque : dimensions, poids et empreintes des fichiers (doublons)'],
+        'medias' => [0, 'Médiathèque : dimensions, poids et empreintes des fichiers (doublons), bandes unies incrustées à rogner'],
         'murs-photos' => [0, 'Murs de photos : vignettes préparées d’avance'],
         'pastilles' => [0, 'Photos du terrain : visage recadré pour la pastille des joueurs sans portrait (Gemini)'],
         'videos' => [3600, 'Vignettes des vidéos et vidéos Dailymotion retirées'],
@@ -280,7 +280,9 @@ final class Cron
                 return $r['stades'] + $r['lieux'] > 0 ? $r : null;
 
             case 'medias':
-                return self::mediaFacts(400);
+                $facts = self::mediaFacts(400);
+                $bands = \App\Services\Images::scanBands((float) self::left(40));
+                return $facts || $bands ? trim(($facts ?? '') . ($facts && $bands ? ' ; ' : '') . ($bands ?? '')) : null;
 
             case 'pastilles':
                 if (!Gemini::ready() && !is_callable(PitchPhotos::$detect)) {

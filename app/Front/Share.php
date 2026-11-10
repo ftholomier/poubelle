@@ -32,7 +32,7 @@ final class Share
         if (!$s || !Index::visible($s)) {
             return self::fallback();
         }
-        $key = $id . '-' . substr(md5(($s['modified'] ?? '') . '|' . self::VERSION . '|' . ($s['image'] ?? '') . '|' . json_encode(Media::get($s['image'] ?? null)['edit'] ?? null)), 0, 10);
+        $key = $id . '-' . substr(md5(($s['modified'] ?? '') . '|' . self::VERSION . '|' . ($s['image'] ?? '') . '|' . json_encode(Media::edit($s['image'] ?? null))), 0, 10);
         return self::cached($key, function () use ($id, $s) {
             $doc = Fiches::get($id);
             if (!$doc) {
@@ -346,7 +346,7 @@ final class Share
         if (!$file || !is_file($file)) {
             return;
         }
-        $src = Images::open($file, Media::get($rel)['edit'] ?? null);
+        $src = Images::open($file, Media::edit($rel));
         if (!$src) {
             return;
         }

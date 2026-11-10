@@ -500,6 +500,17 @@ jamais une photo à plus d'un point par pixel (72 ppp), la légende garde sa lar
 (`Medias::lowres()`, moins de 400 px de large et de haut) et avertissement dans la fenêtre de
 la photo.
 
+Bandes unies incrustées (ticket : bandeau de Sochaux–Stade Rennais FC 2011 avec des bandes blanches
+sur les côtés malgré `object-fit: cover`, photo de 1 000 × 500 « encadrée » de blanc) :
+`Images::bands()` repère, du bord vers le centre, les colonnes et lignes dont 98 % des points ont la
+couleur du bord (blanc, noir ou autre teinte unie ; au plus 35 % par côté, liseré de moins de 1 %
+ignoré, image presque unie jamais rognée). La tâche `medias` (`Images::scanBands()`, 40 s par passage,
+photos principales des fiches d'abord) les note une fois par média (`trim` : [gauche, haut, droite,
+bas], `[]` si rien) et supprime les anciennes déclinaisons. `Media::edit()` / `editOf()` ajoutent
+`trim` aux retouches (sauf recadrage choisi par l'historien) ; `Images::open()` rogne avant la
+rotation et le recadrage : vignettes du site, PDF, livre, images de partage, pastilles. L'original
+n'est jamais modifié ; `Media::version()` en tient compte (`?v=` des vignettes). Test : `tests/bandes.php`.
+
 Images de partage 1200 × 630 (`App\Front\Share`, GD, `/partage/{id}.png`) : fiche lue sans
 ses « xx » (`Unknown::doc()`) ; emoji retirés et lettres stylisées ramenées aux lettres
 simples (`printable()`), sinon GD dessine un carré vide. Cache `storage/cache/share/`,

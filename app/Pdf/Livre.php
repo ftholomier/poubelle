@@ -2443,7 +2443,7 @@ final class Livre
         if (!$src) {
             return null;
         }
-        $key = $rel . '|' . (int) @filemtime($src) . '|' . md5(json_encode(Media::get($rel)['edit'] ?? null));
+        $key = $rel . '|' . (int) @filemtime($src) . '|' . md5(json_encode(Media::edit($rel)));
         if (isset($this->dims[$key])) {
             return $this->dims[$key] ?: null;
         }
@@ -2453,7 +2453,7 @@ final class Livre
             $d = $i ? [(int) $i[0], (int) $i[1]] : null;
         }
         if (!$d) {
-            $im = Images::open($src, Media::get($rel)['edit'] ?? null);
+            $im = Images::open($src, Media::edit($rel));
             $d = $im ? [imagesx($im), imagesy($im)] : null;
         }
         $this->dims[$key] = $d ?: false;
@@ -2495,7 +2495,7 @@ final class Livre
         $file = $this->cache . '/' . md5($rel . '|' . json_encode($d) . "|$tw|$th") . '.jpg';
         if (!is_file($file)) {
             $src = Media::file($rel);
-            $im = $src ? Images::open($src, Media::get($rel)['edit'] ?? null) : null;
+            $im = $src ? Images::open($src, Media::edit($rel)) : null;
             if (!$im) {
                 return null;
             }
