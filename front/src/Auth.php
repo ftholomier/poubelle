@@ -126,7 +126,8 @@ final class Auth
         }
     }
 
-    public static function create(string $email, string $name, string $password, string $role = 'editeur'): array
+    /** $temp : mot de passe provisoire donné par un administrateur, gardé lisible sur la fiche du compte. */
+    public static function create(string $email, string $name, string $password, string $role = 'editeur', bool $temp = false): array
     {
         $u = [
             'id' => bin2hex(random_bytes(6)),
@@ -137,6 +138,10 @@ final class Auth
             'pw_at' => date('c'),
             'created' => date('c'),
         ];
+        if ($temp) {
+            $u['pw_temp'] = self::sealTemp($password);
+            $u['pw_temp_at'] = date('c');
+        }
         Store::update('users', function (array $all) use ($u) {
             $all[] = $u;
             return $all;
@@ -149,12 +154,22 @@ final class Auth
         if (isset($changes['password'])) {
             $changes['hash'] = password_hash((string) $changes['password'], PASSWORD_DEFAULT);
             $changes['pw_at'] = date('c');
-            unset($changes['password']);
+            // Donné par un administrateur ('_temp') : gardé lisible (chiffré) sur la fiche du compte.
+            // Choisi par la personne elle-même : plus aucune copie lisible n'est gardée.
+            $temp = !empty($changes['_temp']);
+            $changes['pw_temp'] = $temp ? self::sealTemp((string) $changes['password']) : null;
+            $changes['pw_temp_at'] = $temp ? date('c') : null;
+            unset($changes['password'], $changes['_temp']);
         }
         Store::update('users', function (array $all) use ($id, $changes) {
             foreach ($all as &$u) {
                 if ($u['id'] === $id) {
                     $u = array_replace($u, $changes);
+                    foreach (['pw_temp', 'pw_temp_at'] as $k) {
+                        if (array_key_exists($k, $u) && $u[$k] === null) {
+                            unset($u[$k]);
+                        }
+                    }
                 }
             }
             return $all;
@@ -164,6 +179,34 @@ final class Auth
     public static function deleteUser(string $id): void
     {
         Store::update('users', fn(array $all) => array_values(array_filter($all, fn($u) => $u['id'] !== $id)));
+    }
+
+    /**
+     * Mot de passe provisoire : chiffré (AES-256-GCM, clé dérivée du secret du site) pour que l'administrateur
+     * puisse le relire et le transmettre, jusqu'à ce que la personne choisisse le sien (la copie est alors effacée).
+     */
+    private static function tempKey(): string
+    {
+        return hash('sha256', 'pw-temp|' . app_secret(), true);
+    }
+
+    private static function sealTemp(string $pw): string
+    {
+        $iv = random_bytes(12);
+        $tag = '';
+        $c = openssl_encrypt($pw, 'aes-256-gcm', self::tempKey(), OPENSSL_RAW_DATA, $iv, $tag);
+        return base64_encode($iv . $tag . $c);
+    }
+
+    /** Mot de passe provisoire en clair ('' s'il n'y en a pas ou s'il a été remplacé par la personne). */
+    public static function tempPassword(array $u): string
+    {
+        $raw = base64_decode((string) ($u['pw_temp'] ?? ''), true);
+        if ($raw === false || strlen($raw) < 29) {
+            return '';
+        }
+        $p = openssl_decrypt(substr($raw, 28), 'aes-256-gcm', self::tempKey(), OPENSSL_RAW_DATA, substr($raw, 0, 12), substr($raw, 12, 16));
+        return $p === false ? '' : $p;
     }
 
     public static function passwordError(string $pw): ?string

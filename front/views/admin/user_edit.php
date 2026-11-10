@@ -31,20 +31,33 @@ $who = $edit['name'] ?: $edit['email'];
     <h2 style="margin-top:24px">Mot de passe</h2>
     <?php if ($self): ?>
       <p class="bo-muted">Pour changer votre propre mot de passe, passez par <a href="/admin/compte">Mon compte</a> : votre mot de passe actuel vous sera demandé.</p>
-    <?php else: ?>
+    <?php else: $temp = Auth::tempPassword($edit); ?>
+      <?php if ($temp !== ''): ?>
+        <div class="f pw-cur">
+          <label class="f-label" for="ue-t">Mot de passe actuel (provisoire)</label>
+          <div class="pw" data-pw>
+            <input id="ue-t" type="password" value="<?= e($temp) ?>" readonly spellcheck="false" aria-describedby="ue-t-h">
+            <button class="b b--l" type="button" data-pw-toggle>Afficher</button>
+            <button class="b b--l" type="button" data-pw-copy>Copier</button>
+          </div>
+          <div class="f-help" id="ue-t-h">Défini par un administrateur le <?= e($when($edit['pw_temp_at'] ?? '')) ?>. Il reste visible ici tant que la personne ne l'a pas changé : dès qu'elle choisit son propre mot de passe, il disparaît de cette fiche.
+            <button class="pw-forget" type="button" data-action="user.forget_temp" data-id="<?= e($edit['id']) ?>" data-confirm="Ne plus afficher ce mot de passe sur la fiche ? Il restera valable, mais personne ne pourra plus le relire.">Ne plus l'afficher</button></div>
+        </div>
+      <?php else: ?>
+        <div class="pw-note">
+          <b>Le mot de passe actuel n'est pas lisible</b>
+          Un mot de passe choisi par la personne elle-même est chiffré de façon irréversible : personne ne peut le relire, ni un administrateur, ni l'hébergeur, ni le développeur. Pour lui en donner un, tapez-le ou générez-le ci-dessous : il restera alors visible ici jusqu'à ce que la personne le change. Vous pouvez aussi lui envoyer un lien pour qu'elle le choisisse elle-même.
+        </div>
+      <?php endif; ?>
       <div class="f">
-        <label class="f-label" for="ue-p">Nouveau mot de passe</label>
+        <label class="f-label" for="ue-p">Donner un nouveau mot de passe</label>
         <div class="pw" data-pw>
-          <input id="ue-p" type="password" name="password" autocomplete="new-password" placeholder="Laisser vide pour ne pas le changer" spellcheck="false">
+          <input id="ue-p" type="password" name="password" autocomplete="new-password" placeholder="Tapez-le, ou cliquez sur « Générer »" spellcheck="false">
           <button class="b b--l" type="button" data-pw-toggle>Afficher</button>
           <button class="b b--l" type="button" data-pw-gen>Générer</button>
           <button class="b b--l" type="button" data-pw-copy>Copier</button>
         </div>
-        <div class="f-help">Au moins 10 caractères, avec des lettres et des chiffres. « Générer » en propose un, facile à dicter au téléphone. Laissez vide pour garder le mot de passe actuel.</div>
-      </div>
-      <div class="pw-note">
-        <b>Pourquoi le mot de passe actuel n'est-il pas affiché ?</b>
-        Les mots de passe sont chiffrés de façon irréversible dès leur enregistrement : personne ne peut les relire, ni un administrateur, ni l'hébergeur, ni le développeur. C'est ce qui protège les comptes si le serveur était un jour piraté. Vous pouvez en revanche en définir un nouveau ici, ou envoyer à la personne un lien pour qu'elle le choisisse elle-même.
+        <div class="f-help">Au moins 10 caractères, avec des lettres et des chiffres. « Générer » en propose un, facile à dicter au téléphone. Laissez vide pour garder le mot de passe actuel. Après « Enregistrer », il s'affiche plus haut comme mot de passe actuel.</div>
       </div>
     <?php endif; ?>
     <div class="bo-actions"><button class="b b--y" type="submit">Enregistrer</button></div>

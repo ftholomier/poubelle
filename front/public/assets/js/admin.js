@@ -377,7 +377,10 @@
   $$('[data-pw]').forEach(function (w) {
     var inp = $('input', w), tg = $('[data-pw-toggle]', w);
     var show = function (on) { inp.type = on ? 'text' : 'password'; if (tg) tg.textContent = on ? 'Masquer' : 'Afficher'; };
-    if (tg) tg.addEventListener('click', function () { show(inp.type === 'password'); });
+    if (tg) tg.addEventListener('click', function () {
+      if (!inp.value && !inp.readOnly) { toast('Ce champ sert à donner un nouveau mot de passe : il est vide. Tapez-en un ou cliquez sur « Générer ».', true); inp.focus(); return; }
+      show(inp.type === 'password');
+    });
     var gb = $('[data-pw-gen]', w);
     if (gb) gb.addEventListener('click', function () { inp.value = genPassword(); show(true); inp.focus(); inp.select(); });
     var cb = $('[data-pw-copy]', w);

@@ -277,7 +277,7 @@ final class Admin
         if (maintenance() && !str_starts_with($action, 'update.')) {
             Http::error('Mise à jour en cours : réessayez dans une minute.', 503);
         }
-        $adminOnly = ['user.save', 'user.delete', 'user.reset', 'update.check', 'update.apply', 'update.rollback', 'update.settings', 'backup.restore', 'content.reset',
+        $adminOnly = ['user.save', 'user.delete', 'user.reset', 'user.forget_temp', 'update.check', 'update.apply', 'update.rollback', 'update.settings', 'backup.restore', 'content.reset',
             'bot.save', 'bot.models', 'bot.test', 'facebook.save', 'mail.save', 'mail.test',
             'ui.save', 'reviews.save', 'google.save', 'google.search', 'google.select', 'google.refresh', 'google.disconnect'];
         if (in_array($action, $adminOnly, true) && !Auth::isAdmin($u)) {
@@ -519,6 +519,12 @@ final class Admin
                 }
                 Auth::deleteUser($id);
                 Http::json(['ok' => true, 'message' => 'Compte supprimé.', 'redirect' => '/admin/utilisateurs']);
+            case 'user.forget_temp':
+                if (!Auth::find((string) ($in['id'] ?? ''))) {
+                    Http::error('Compte introuvable.', 404);
+                }
+                Auth::updateUser((string) $in['id'], ['pw_temp' => null, 'pw_temp_at' => null]);
+                Http::json(['ok' => true, 'message' => 'Le mot de passe n\'est plus visible sur la fiche (il reste valable).', 'reload' => true]);
             case 'user.reset':
                 $target = Auth::find((string) ($in['id'] ?? ''));
                 if (!$target) {
@@ -730,8 +736,8 @@ final class Admin
             if (($err = Auth::passwordError($pw)) !== null) {
                 Http::error($err, 422);
             }
-            Auth::create($email, $name, $pw, $role);
-            Http::json(['ok' => true, 'message' => 'Compte créé.', 'reload' => true]);
+            $new = Auth::create($email, $name, $pw, $role, true);
+            Http::json(['ok' => true, 'message' => 'Compte créé.', 'redirect' => '/admin/utilisateurs/' . $new['id']]);
         }
         $target = Auth::find($id);
         if (!$target) {
@@ -749,12 +755,12 @@ final class Admin
                 Http::error($err, 422);
             }
             $changes['password'] = $pw;
+            $changes['_temp'] = true; // donné par un administrateur : reste visible sur la fiche
         }
         Auth::updateUser($id, $changes);
-        // Pas de rechargement : le nouveau mot de passe reste affiché pour pouvoir le copier et le transmettre
-        Http::json(['ok' => true, 'message' => $pw !== ''
-            ? 'Nouveau mot de passe enregistré. Transmettez-le à la personne : ses sessions ouvertes ont été fermées.'
-            : 'Compte mis à jour.']);
+        Http::json($pw !== ''
+            ? ['ok' => true, 'message' => 'Nouveau mot de passe enregistré : il reste visible sur cette fiche. Les sessions ouvertes de la personne ont été fermées.', 'reload' => true]
+            : ['ok' => true, 'message' => 'Compte mis à jour.']);
     }
 
     private static function saveAccount(array $in, array $u): void
