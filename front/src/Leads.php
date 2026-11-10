@@ -7,6 +7,8 @@ final class Leads
 {
     public const TYPES = ['devis' => 'Devis', 'contact' => 'Contact', 'rappel' => 'Rappel', 'vocal' => 'Vocal'];
     public const STATUS = ['nouveau' => 'Nouveau', 'encours' => 'En cours', 'traite' => 'Traité', 'archive' => 'Archivé'];
+    /** Au-delà, le fichier audio d'un vocal n'est pas joint à l'e-mail (il reste dans le back-office). */
+    public const VOICE_ATTACH_MAX = 6 * 1024 * 1024;
 
     public static function all(): array
     {
@@ -153,14 +155,44 @@ final class Leads
         return $days[(int) date('w', $t)] . ' ' . date_fr(date('Y-m-d', $t)) . ' à ' . date('G\hi', $t);
     }
 
+    /**
+     * Où trouver l'audio d'un vocal : [joint à l'e-mail ?, phrase à afficher]. [false, ''] hors vocal.
+     * @return array{0:bool,1:string}
+     */
+    private static function audioNote(array $l, bool $attached): array
+    {
+        if (($l['type'] ?? '') !== 'vocal' || empty($l['audio'])) {
+            return [false, ''];
+        }
+        if ($attached) {
+            return [true, 'Le fichier audio du message est en pièce jointe de cet e-mail.'];
+        }
+        $why = Settings::get('voice_attach', true)
+            ? 'il est trop lourd pour être envoyé par e-mail'
+            : 'l\'envoi de l\'audio par e-mail est désactivé dans les réglages';
+        $then = trim((string) ($l['msg'] ?? '')) !== ''
+            ? 'la transcription ci-dessous reprend le message, et l\'enregistrement s\'écoute dans le back-office, rubrique Demandes.'
+            : 'il n\'y a pas de transcription, écoutez l\'enregistrement dans le back-office, rubrique Demandes.';
+        return [false, 'Le fichier audio n\'est pas joint à cet e-mail (' . $why . ') : ' . $then];
+    }
+
+    /** Texte affiché à la place d'un message vide. */
+    private static function emptyMessage(array $l): string
+    {
+        return ($l['type'] ?? '') === 'vocal'
+            ? 'Pas de transcription : le navigateur du client ne la fait pas et aucune clé Gemini n\'est réglée.'
+            : 'Aucun message : le champ a été laissé vide.';
+    }
+
     /** Version texte complète de la demande (e-mail sans HTML, copie). */
     public static function summary(array $l, bool $audioAttached = false): string
     {
         $d = self::details($l);
         $out = mb_strtoupper($d['title']) . "\n"
             . 'Le ' . self::when($l) . ', via ' . $d['origin'] . ".\n";
-        if ($audioAttached) {
-            $out .= "Le fichier audio est en pièce jointe.\n";
+        [, $note] = self::audioNote($l, $audioAttached);
+        if ($note !== '') {
+            $out .= $note . "\n";
         }
         foreach ($d['sections'] as $title => $rows) {
             $out .= "\n" . mb_strtoupper($title) . "\n";
@@ -172,7 +204,7 @@ final class Leads
             $out .= "\nRÉSUMÉ\n" . $d['summary'] . "\n";
         }
         if ($d['message']) {
-            $out .= "\n" . mb_strtoupper($d['message'][0]) . "\n" . ($d['message'][1] !== '' ? $d['message'][1] : '(aucun message, champ laissé vide)') . "\n";
+            $out .= "\n" . mb_strtoupper($d['message'][0]) . "\n" . ($d['message'][1] !== '' ? $d['message'][1] : '(' . self::emptyMessage($l) . ')') . "\n";
         }
         $page = self::pageUrl($l);
         $out .= "\n—\n" . ($page !== '' ? 'Page d\'origine : ' . rawurldecode($page) . "\n" : '')
@@ -216,7 +248,7 @@ final class Leads
             . '<tr><td style="padding:24px 28px 4px">'
             . ($nom !== '' ? '<div style="' . $f . 'font-size:21px;line-height:27px;font-weight:bold;color:#1c1c1c;margin-bottom:14px">' . e($nom) . '</div>' : '')
             . $btns
-            . ($audioAttached ? '<div style="' . $f . 'font-size:14px;color:#434343;margin-top:6px">Le fichier audio du message est en pièce jointe de cet e-mail.</div>' : '')
+            . self::audioNoteHtml($l, $audioAttached, $f)
             . '</td></tr>';
 
         foreach ($d['sections'] as $title => $rows) {
@@ -249,7 +281,7 @@ final class Leads
             $h .= '<tr><td style="padding:22px 28px 0">'
                 . '<div style="' . $f . 'font-size:12px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:#8c8c8c;padding-bottom:10px">' . e($mt) . '</div>'
                 . '<div style="' . $f . 'font-size:15px;line-height:24px;color:#1c1c1c;background:#f7f7f4;border-left:4px solid #FFF200;border-radius:4px;padding:16px 18px">'
-                . ($mv !== '' ? nl2br(e($mv)) : '<span style="color:#9a9a9a;font-style:italic">Aucun message : le champ a été laissé vide.</span>')
+                . ($mv !== '' ? nl2br(e($mv)) : '<span style="color:#9a9a9a;font-style:italic">' . e(self::emptyMessage($l)) . '</span>')
                 . '</div></td></tr>';
         }
 
@@ -262,6 +294,21 @@ final class Leads
             . '</div></td></tr>'
             . '</table></td></tr></table></body></html>';
         return $h;
+    }
+
+    /** Mention de l'audio d'un vocal dans l'e-mail HTML (encadré avec lien quand il n'est pas joint). */
+    private static function audioNoteHtml(array $l, bool $attached, string $f): string
+    {
+        [$joined, $note] = self::audioNote($l, $attached);
+        if ($note === '') {
+            return '';
+        }
+        if ($joined) {
+            return '<div style="' . $f . 'font-size:14px;line-height:20px;color:#434343;margin-top:6px">' . e($note) . '</div>';
+        }
+        $link = Http::abs('/admin/demandes') . '?id=' . rawurlencode((string) $l['id']);
+        return '<div style="' . $f . 'font-size:14px;line-height:21px;color:#1c1c1c;background:#fffbcc;border:1px solid #f0e400;border-radius:8px;padding:12px 14px;margin-top:8px">'
+            . e($note) . '<br><a href="' . e($link) . '" style="color:#1c1c1c;font-weight:bold">Écouter le message dans le back-office →</a></div>';
     }
 
     /** Objet de l'e-mail : l'essentiel lisible dès la boîte de réception. */

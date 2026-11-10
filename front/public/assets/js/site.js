@@ -453,14 +453,20 @@
       if (phase === 'rec') return;
       cleanup();
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) { voiceError(); return; }
-      navigator.mediaDevices.getUserMedia({ audio: true }).then(function (s) {
+      navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true } }).then(function (s) {
         stream = s;
         vp.hidden = true;
         if (exitBox) exitBox.hidden = true;
         chunks = []; canceled = false; vtext = ''; vsum = ''; blob = null;
         var types = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus'];
         var type = types.filter(function (t) { return MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t); })[0];
-        try { mr = new MediaRecorder(stream, type ? { mimeType: type } : undefined); } catch (e) { voiceError(); return; }
+        // Qualité « voix » (32 kbit/s, comme un vocal de messagerie) : ~240 Ko par minute au lieu de ~900 Ko,
+        // la parole reste parfaitement nette et le fichier tient sans peine en pièce jointe.
+        var opts = { audioBitsPerSecond: 32000 };
+        if (type) opts.mimeType = type;
+        try { mr = new MediaRecorder(stream, opts); } catch (e) {
+          try { mr = new MediaRecorder(stream, type ? { mimeType: type } : undefined); } catch (e2) { voiceError(); return; }
+        }
         mr.ondataavailable = function (ev) { if (ev.data && ev.data.size) chunks.push(ev.data); };
         mr.onstop = function () { if (canceled) return; blob = new Blob(chunks, { type: (mr.mimeType || type || 'audio/webm').split(';')[0] }); review(); };
         mr.start(250);

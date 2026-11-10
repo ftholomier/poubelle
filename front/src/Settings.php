@@ -12,6 +12,7 @@ final class Settings
     public const DEFAULTS = [
         'notify_email' => 'accueil@renovest.fr',
         'notify_cc' => '',
+        'voice_attach' => true,
         'bot_model' => '',
         'bot_extra' => '',
         'bot_log' => true,

@@ -259,7 +259,7 @@ final class AdminSchemas
             ['key' => 'cta_bar.enabled', 'type' => 'checkbox', 'label' => 'Afficher la barre CTA'],
             ['key' => 'cta_bar.contact', 'label' => 'Bouton contact', 'half' => true],
             ['key' => 'cta_bar.devis', 'label' => 'Bouton devis', 'half' => true],
-            ['type' => 'heading', 'label' => 'Message vocal (bouton rouge de la barre CTA)', 'help' => 'Le visiteur enregistre un message au micro ; il arrive dans Demandes et par e-mail (fichier audio joint). Avec une clé Gemini, l\'IA le résume.'],
+            ['type' => 'heading', 'label' => 'Message vocal (bouton rouge de la barre CTA)', 'help' => 'Le visiteur enregistre un message au micro ; il arrive dans Demandes et par e-mail (transcription, résumé et fichier audio joint selon le réglage de la page E-mails). Avec une clé Gemini, l\'IA le résume.'],
             ['key' => 'voice.enabled', 'type' => 'checkbox', 'label' => 'Afficher le bouton « vocal »'],
             ['key' => 'voice.label', 'label' => 'Libellé du bouton', 'half' => true],
             ['key' => 'voice.max_seconds', 'type' => 'number', 'label' => 'Durée maximale (secondes)', 'min' => 15, 'max' => 300, 'half' => true],
@@ -365,6 +365,8 @@ final class AdminSchemas
         return [
             ['key' => 'notify_email', 'type' => 'email', 'label' => 'Recevoir les demandes à', 'half' => true],
             ['key' => 'notify_cc', 'label' => 'Copie à (facultatif, séparées par des virgules)', 'half' => true],
+            ['type' => 'heading', 'label' => 'Messages vocaux', 'help' => 'Les vocaux arrivent dans Demandes et par e-mail, aux mêmes adresses que les autres demandes, avec la transcription et le résumé IA.'],
+            ['key' => 'voice_attach', 'type' => 'checkbox', 'label' => 'Joindre le fichier audio aux e-mails des vocaux', 'help' => 'Environ 250 Ko par minute de message (5 minutes au maximum). Décochée : l\'e-mail ne contient que la transcription et le résumé, et l\'audio s\'écoute dans le back-office (Demandes).'],
             ['type' => 'heading', 'label' => 'Serveur SMTP (facultatif)', 'help' => 'Laisser vide pour utiliser l\'envoi du serveur (fonction mail de PHP).'],
             ['key' => 'smtp_host', 'label' => 'Serveur', 'half' => true],
             ['key' => 'smtp_port', 'type' => 'number', 'label' => 'Port', 'min' => 1, 'max' => 65535, 'half' => true],

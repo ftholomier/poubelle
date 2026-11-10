@@ -244,7 +244,9 @@ final class Api
         $path = (string) Voice::file($file);
         $ext = pathinfo($file, PATHINFO_EXTENSION);
         $nom = Http::str($in, 'nom', 120);
-        $att = filesize($path) < 6 * 1024 * 1024
+        // Fichier joint à l'e-mail si l'option est cochée (page E-mails) et qu'il reste léger ;
+        // sinon l'e-mail part quand même, avec la transcription, et dit où écouter le message.
+        $att = Settings::get('voice_attach', true) && filesize($path) < Leads::VOICE_ATTACH_MAX
             ? [['name' => 'vocal-' . ($nom !== '' ? slugify($nom) : 'client') . '-' . date('Ymd-Hi') . '.' . $ext, 'type' => $mime, 'content' => (string) file_get_contents($path)]]
             : [];
         Leads::add([

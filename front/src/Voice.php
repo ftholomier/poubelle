@@ -9,8 +9,9 @@ declare(strict_types=1);
  * Le navigateur enregistre au micro (MediaRecorder), transcrit en direct quand il le sait
  * (reconnaissance vocale du navigateur), puis envoie le fichier audio. Le vocal est rangé
  * hors du dossier public (storage/voices), devient une demande du back-office et part par
- * e-mail en pièce jointe. Avec une clé Gemini, l'IA résume le message (et le transcrit si le
- * navigateur ne l'a pas fait).
+ * e-mail avec sa transcription (fichier audio joint si l'option de la page E-mails est cochée).
+ * Enregistré en qualité « voix » (32 kbit/s), il pèse environ 240 Ko par minute.
+ * Avec une clé Gemini, l'IA résume le message (et le transcrit si le navigateur ne l'a pas fait).
  */
 final class Voice
 {
