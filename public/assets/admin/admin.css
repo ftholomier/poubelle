@@ -981,3 +981,17 @@ a.vbox__tile:hover { transform: translateY(-2px); color: var(--navy); }
 .vdash__card small { font-size: 13px; color: var(--muted); }
 .vbox__tile em, .vdash__nums em { font-style: normal; font-weight: 900; white-space: nowrap; }
 .vdash__nums em { display: block; font-size: 13px; }
+
+/* Menu contextuel (clic droit, public/assets/admin/ctxmenu.js) */
+.ctxm { position: fixed; z-index: 9999; min-width: 250px; max-width: 360px; max-height: calc(100vh - 12px); overflow-y: auto; background: var(--paper); border: 2px solid var(--navy); box-shadow: 6px 6px 0 var(--navy); padding: 6px 0; font-size: 15px; }
+.ctxm__head { padding: 6px 14px 4px; font-family: var(--display); font-weight: 800; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--blue); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ctxm__loading { color: var(--muted); font-weight: 600; text-transform: none; letter-spacing: 0; }
+.ctxm__it { all: unset; box-sizing: border-box; display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 14px; cursor: pointer; color: var(--navy); line-height: 1.25; }
+.ctxm__it span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ctxm__it:hover, .ctxm__it:focus { background: var(--yellow); outline: none; }
+.ctxm__it.is-danger { color: var(--red); }
+.ctxm__it.is-danger:hover, .ctxm__it.is-danger:focus { background: var(--red); color: #fff; }
+.ctxm__it.is-off { cursor: default; color: var(--muted); }
+.ctxm__it.is-off:hover, .ctxm__it.is-off:focus { background: none; }
+.ctxm__ic { width: 18px; text-align: center; flex: none; }
+.ctxm__sep { height: 1px; margin: 5px 0; background: var(--mist); }

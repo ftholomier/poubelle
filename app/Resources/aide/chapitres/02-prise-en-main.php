@@ -44,6 +44,17 @@ HTML],
 [[img:recherche-globale.webp|La recherche globale : fiches, médias et écrans en une seule liste]]
 <p>Flèches <kbd>↑</kbd> <kbd>↓</kbd> pour choisir, <kbd>Entrée</kbd> pour ouvrir, <kbd>Échap</kbd> pour fermer.</p>
 HTML],
+        ['id' => 'clic-droit', 'title' => 'Le clic droit : les raccourcis sous la main', 'html' => <<<'HTML'
+<p>Partout dans le back-office, un <b>clic droit</b> ouvre un menu de raccourcis adapté à ce qui est sous la souris (sur tablette : appui long) :</p>
+<ul>
+<li><b>Sur une fiche</b> (ligne d’une liste, lien vers une fiche, ou dans la fiche ouverte) : ouvrir (ou dans un nouvel onglet), aperçu, voir sur le site, copier le lien du site ou du back-office, copier le numéro, <b>valider la fiche</b>, la mettre à la corbeille (avec confirmation).</li>
+<li><b>Sur une photo</b> (médiathèque, images des pages) : l’ouvrir dans la médiathèque, voir l’original, copier son lien ou son nom, voir <b>où elle est utilisée</b> (liens vers les fiches) et la supprimer si elle n’est utilisée nulle part.</li>
+<li><b>Sur un lien</b> : l’ouvrir dans un nouvel onglet, copier l’adresse.</li>
+<li><b>Sur un texte sélectionné</b> : le copier, le chercher dans le back-office ou sur le site.</li>
+<li><b>Partout</b> : recherche (Ctrl+K), nouvelle fiche match, personne ou article, médiathèque, qualité, haut de page.</li>
+</ul>
+<p>Au clavier : flèches pour choisir, Entrée pour lancer, Échap pour fermer. Le menu habituel du navigateur reste accessible avec <b>Ctrl + clic droit</b>, et dans les zones de saisie (pour le correcteur et le collage).</p>
+HTML],
         ['id' => 'aide-rapide', 'title' => 'Les bulles d’aide « ? »', 'html' => <<<'HTML'
 <p>À côté du titre de chaque écran et de nombreux blocs et champs, une petite icône <b>?</b> affiche une explication courte quand on la survole (ou quand on la touche sur tablette). Celle du titre de l’écran propose aussi un lien vers le guide complet.</p>
 [[img:bulle-aide.webp|Une bulle d’aide ouverte sur la composition d’un match]]

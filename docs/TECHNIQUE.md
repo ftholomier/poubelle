@@ -607,6 +607,18 @@ souvenirs) pour refaire les PDF en cache.
   variable d'environnement `GEMINI_MOCK_URL=http://127.0.0.1:port/` dirige les appels vers
   un faux Gemini local ; impossible sur l'hébergement.
 
+## Menu contextuel du back-office (`public/assets/admin/ctxmenu.js`)
+
+Clic droit partout dans le back-office (touche Menu, Maj+F10 ; appui long sur tablette) : menu adapté à
+l'élément visé, détecté côté navigateur (`[data-ctx-fiche]`, lien ou ligne `data-href` vers
+`/admin/fiche/{id}`, vignette `[data-media]` ou image `/media/…`, lien, texte sélectionné, fiche ouverte)
+puis complété par `GET /admin/api/menu?fiche=…|media=…` (`Api::contextMenu()` : titre, type, état,
+adresse publique si visible, validation ; photo : utilisations, suppression possible seulement si
+elle n'est utilisée nulle part). Actions : liens, copies (presse-papiers), recherche globale
+(`BO.quickSearch`), validation et corbeille par formulaire POST avec jeton (mêmes contrôles que les
+boutons de la fiche), suppression d'une photo par `/admin/medias/supprimer`. Ouverture directe d'une
+photo : `/admin/medias?q=…&ouvrir=fichier`. Ctrl + clic droit et zones de saisie : menu du navigateur.
+
 ## 7 quater. Coûts de l'IA (`App\Services\AiCosts`)
 
 **IA coupée pour un musée** (réglage `couts.ia_off`, propre à chaque musée, « Couper toute l'IA de ce

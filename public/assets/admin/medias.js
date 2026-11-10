@@ -155,8 +155,8 @@
       + (it.pdf ? '' : '<label class="toggle"><input type="checkbox" name="nowall"' + (it.nowall ? ' checked' : '') + '><span class="toggle__box"></span><span>Jamais sur les murs de photos <span class="xs muted">(photo à ne pas montrer au hasard, même bien créditée)</span></span></label>')
       // Photo encore utilisée : le bouton « Supprimer » est grisé, et l'on explique pourquoi et quoi faire.
       + (conf.canDelete && it.used_count ? '<div class="alert alert--info small" style="margin:0"><b>Pourquoi « Supprimer » est grisé ?</b> Cette photo est encore utilisée dans <b>' + it.used_count + ' contenu' + (it.used_count > 1 ? 's' : '') + '</b>'
-        + (it.used.length ? ' : ' + it.used.map(u => '<a href="' + esc(u.url) + '" target="_blank" rel="noopener">' + esc(u.label) + '</a>').join(', ') + (it.used_count > it.used.length ? '…' : '') : '')
-        + '. La supprimer laisserait ces pages avec une image manquante. Pour pouvoir la supprimer, retirez-la d’abord de chacun de ces contenus (ou mettez-y une autre photo) : le bouton se débloque dès qu’elle n’est plus utilisée nulle part. Pour simplement mettre une meilleure version partout, utilisez plutôt « Remplacer le fichier… ».</div>' : '')
+        + (it.used.length ? ' :<ul style="margin:6px 0;padding-left:20px">' + it.used.map(u => '<li><a href="' + esc(u.url) + '" target="_blank" rel="noopener" style="text-decoration:underline;font-weight:700">' + esc(u.label) + ' ↗</a> <span class="xs muted">(ouvrir la fiche pour en retirer la photo)</span></li>').join('') + '</ul>' + (it.used_count > it.used.length ? '<span class="xs">… et ' + (it.used_count - it.used.length) + ' autre(s), dans « Utilisé dans ».</span><br>' : '') : '')
+        + (it.used.length ? '' : '.') + ' La supprimer laisserait ces pages avec une image manquante. Pour pouvoir la supprimer, retirez-la d’abord de chacun de ces contenus (ou mettez-y une autre photo) : le bouton se débloque dès qu’elle n’est plus utilisée nulle part. Pour simplement mettre une meilleure version partout, utilisez plutôt « Remplacer le fichier… ».</div>' : '')
       + '<div class="row"><button type="submit" class="btn btn--navy">Enregistrer</button>'
       + (it.pdf ? '' : '<button type="button" class="btn" data-retouch>Recadrer · pivoter' + (it.edit ? ' ✓' : '') + '</button>')
       + '<label class="btn">Remplacer le fichier…<input type="file" hidden data-replace accept="' + (it.pdf ? 'application/pdf' : 'image/jpeg,image/png,image/gif,image/webp') + '"></label>'
@@ -262,5 +262,13 @@
     $('[data-reset]', m).addEventListener('click', () => send(null));
     load();
     draw();
+  }
+
+  // Lien direct vers une photo (menu contextuel, « Ouvrir dans la médiathèque ») : /admin/medias?q=…&ouvrir=fichier
+  const want = new URLSearchParams(location.search).get('ouvrir');
+  if (want) {
+    const card = $$('[data-media]').find(c => { try { return JSON.parse(c.dataset.media).file === want; } catch (e) { return false; } });
+    const btn = card && $('[data-medit]', card);
+    if (btn) setTimeout(() => btn.click(), 50);
   }
 })();

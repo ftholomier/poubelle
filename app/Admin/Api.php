@@ -24,6 +24,50 @@ use App\Services\WebCheck;
 final class Api extends Base
 {
     /** Recherche globale (Ctrl+K) : fiches, médias, rubriques, écrans. */
+    /**
+     * Menu contextuel du back-office (clic droit, public/assets/admin/ctxmenu.js) : ce qu'il faut savoir
+     * d'une fiche (?fiche=12) ou d'une photo (?media=2024/03/x.jpg) pour proposer les bons raccourcis,
+     * avec les droits de la personne connectée.
+     */
+    public static function contextMenu(Request $req): Response
+    {
+        $id = (int) $req->str('fiche');
+        if ($id > 0) {
+            $s = Index::get($id);
+            if (!$s) {
+                return self::json(['error' => 'Fiche introuvable.'], 404);
+            }
+            $v = \App\Services\Validation::get($id);
+            $out = [
+                'kind' => 'fiche', 'id' => $id, 'title' => (string) $s['title'], 'type' => (string) $s['type'],
+                'status' => (string) $s['status'], 'trashed' => $s['status'] === 'corbeille',
+                'public' => Index::visible($s) ? url((string) $s['path']) : null,
+                'validated' => $v !== null, 'validated_by' => $v['by'] ?? null,
+                'season' => $s['m']['season'] ?? null,
+                'image' => $s['image'] ?? null,
+            ];
+            return self::json($out);
+        }
+        $rel = Media::safeRel($req->str('media'));
+        $m = $rel !== '' ? Media::get($rel) : null;
+        if ($m) {
+            $used = [];
+            foreach (array_slice(array_values(array_unique(Media::usage()[$rel] ?? [])), 0, 8) as $u) {
+                if (is_int($u) && ($x = Index::get($u))) {
+                    $used[] = ['label' => (string) $x['title'], 'url' => '/admin/fiche/' . $u];
+                }
+            }
+            return self::json([
+                'kind' => 'media', 'file' => $rel, 'name' => basename($rel), 'full' => MEDIA_URL . '/full/' . $rel,
+                'caption' => (string) ($m['caption'] ?? ''), 'credit' => (string) ($m['credit'] ?? ''),
+                'used' => $used, 'used_count' => count(array_unique(Media::usage()[$rel] ?? [])),
+                // Suppression possible seulement quand la photo n'est plus utilisée nulle part (Medias::delete()).
+                'can_delete' => Auth::user() !== null && !(Media::usage()[$rel] ?? []),
+            ]);
+        }
+        return self::json(['error' => 'Rien à proposer.'], 404);
+    }
+
     public static function search(Request $req): Response
     {
         $q = Search::norm($req->str('q'));

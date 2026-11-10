@@ -301,6 +301,7 @@ final class Router
 
         // API internes (sélecteurs, recherche globale)
         $r->get('/admin/api/recherche', fn ($q) => Api::search($q));
+        $r->get('/admin/api/menu', fn ($q) => Api::contextMenu($q));
         $r->get('/admin/api/ac', fn ($q) => Api::autocomplete($q));
         $r->get('/admin/api/medias', fn ($q) => Api::media($q));
         $r->post('/admin/api/modeles', fn ($q) => Api::models($q));

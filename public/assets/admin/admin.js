@@ -311,6 +311,8 @@
     qkRes.innerHTML = (r.items || []).map((it, i) => '<a href="' + esc(it.url) + '" class="' + (i === 0 ? 'is-on' : '') + '"><span class="pill">' + esc(it.kind) + '</span><span>' + esc(it.title) + (it.meta ? ' <small>' + esc(it.meta) + '</small>' : '') + '</span><small>' + esc(it.status || '') + '</small></a>').join('') || '<p class="muted" style="padding:14px 18px;margin:0">' + (q ? 'Aucun résultat.' : 'Tapez quelques lettres…') + '</p>';
   }
   $$('[data-qk-open]').forEach(b => b.addEventListener('click', qkOpen));
+  // Recherche globale ouverte sur un texte (menu contextuel : « Rechercher dans le back-office »).
+  BO.quickSearch = q => { qkOpen(); if (qkIn) { qkIn.value = q || ''; qkSearch(); } };
   qkIn?.addEventListener('input', () => { clearTimeout(qkTimer); qkTimer = setTimeout(qkSearch, 160); });
   qkIn?.addEventListener('keydown', e => {
     const items = $$('a', qkRes);

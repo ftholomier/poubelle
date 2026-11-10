@@ -147,6 +147,7 @@ $here = \App\Admin\Favorites::here($meta);
 <script src="<?= asset('admin/correcteur.js') ?>" defer></script>
 <script src="<?= asset('admin/verrou.js') ?>" defer></script>
 <script src="<?= asset('admin/session.js') ?>" defer></script>
+<script src="<?= asset('admin/ctxmenu.js') ?>" defer></script>
 <?php foreach ($meta['scripts'] ?? [] as $js): ?><script src="<?= asset($js) ?>" defer></script><?php endforeach; ?>
 </body>
 </html>
