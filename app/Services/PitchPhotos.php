@@ -123,6 +123,7 @@ final class PitchPhotos
         $found = $none = $errors = 0;
         $lastError = '';
         $seen = 0;
+        $whys = [];
         foreach (self::needed() as $pid) {
             // Au moins un joueur par passage, même en fin de passage ; Gemini en panne (trois erreurs de
             // suite) : on s'arrête, on reprendra au prochain passage.
@@ -158,9 +159,14 @@ final class PitchPhotos
             });
             $done[$pid] = $r;
             $r['file'] ? $found++ : $none++;
+            foreach ((array) ($r['tried'] ?? []) as [, $why]) {
+                $whys[$why] = ($whys[$why] ?? 0) + 1;
+            }
         }
         self::forget();
-        $out = $found + $none ? $found . ' visage(s) recadré(s) pour le terrain' . ($none ? ', ' . $none . ' joueur(s) sans photo sûre' : '') : '';
+        arsort($whys);
+        $out = $found + $none ? $found . ' visage(s) recadré(s) pour le terrain' . ($none ? ', ' . $none . ' joueur(s) sans photo sûre' : '')
+            . ($whys ? ' (photos écartées : ' . implode(', ', array_map(fn ($w, $n) => $w . ' × ' . $n, array_keys($whys), $whys)) . ')' : '') : '';
         if ($lastError !== '') {
             $out .= ($out !== '' ? ' ; ' : '') . 'erreur de Gemini, joueurs repris au prochain passage : ' . mb_substr($lastError, 0, 200);
         }
