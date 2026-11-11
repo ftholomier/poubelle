@@ -18,7 +18,7 @@ final class Admin
         'Contenus' => [['accueil', 'Page d\'accueil'], ['pages', 'Pages'], ['produits', 'Produits'], ['photos', 'Photos produits'], ['realisations', 'Réalisations'], ['actus', 'Actualités'], ['avis', 'Avis clients', 'admin'], ['medias', 'Médiathèque']],
         'Site' => [['menu', 'Menu'], ['coordonnees', 'Coordonnées'], ['conversion', 'Conversion', 'admin']],
         'Aide' => [['guide', 'Guide et formation']],
-        'Réglages' => [['assistant', 'Assistant IA', 'admin'], ['facebook', 'Facebook', 'admin'], ['emails', 'E-mails', 'admin'], ['utilisateurs', 'Utilisateurs', 'admin'], ['mises-a-jour', 'Mises à jour', 'admin'], ['sauvegarde', 'Sauvegarde', 'admin']],
+        'Réglages' => [['assistant', 'Assistant IA', 'admin'], ['facebook', 'Facebook', 'admin'], ['emails', 'E-mails', 'admin'], ['antispam', 'Anti-spam', 'admin'], ['utilisateurs', 'Utilisateurs', 'admin'], ['mises-a-jour', 'Mises à jour', 'admin'], ['sauvegarde', 'Sauvegarde', 'admin']],
     ];
 
     public static function route(string $path, string $method): void
@@ -71,7 +71,7 @@ final class Admin
         $parts = explode('/', $sub);
         // Rubrique « Réglages » (assistant IA, Facebook, e-mails, comptes, mises à jour, sauvegarde), « Avis clients »
         // (avis Google, clé API) et « Conversion » : administrateurs uniquement. Les conversations du bot (Suivi) restent ouvertes aux éditeurs.
-        $adminOnly = ['avis', 'conversion', 'assistant', 'facebook', 'emails', 'utilisateurs', 'mises-a-jour', 'sauvegarde', 'sauvegarde.json'];
+        $adminOnly = ['avis', 'conversion', 'antispam', 'assistant', 'facebook', 'emails', 'utilisateurs', 'mises-a-jour', 'sauvegarde', 'sauvegarde.json'];
         $isSettings = in_array($parts[0], $adminOnly, true) && !($parts[0] === 'assistant' && ($parts[1] ?? '') === 'conversations');
         if ($isSettings && !Auth::isAdmin($u)) {
             self::page('admin/notice', 'Accès réservé', ['message' => 'Cette rubrique est réservée aux administrateurs.']);
@@ -158,6 +158,9 @@ final class Admin
                 }
                 $vals = Settings::all();
                 self::formPage('Assistant IA', 'bot.save', AdminSchemas::bot(), $vals, 'Réponses du bot branchées sur Gemini (Google). Sans clé, le bot utilise les réponses rapides de la rubrique Conversion.', '', [], '', 'admin/bot_extra');
+                return;
+            case 'antispam':
+                self::formPage('Anti-spam', 'antispam.save', AdminSchemas::antispam(), Settings::all(), 'Protection invisible de tous les formulaires du site (devis, contact, rappel, message vocal, assistant). Aucune case « je ne suis pas un robot » pour les visiteurs.', '', [], '', 'admin/antispam_extra');
                 return;
             case 'emails':
                 self::formPage('E-mails', 'mail.save', AdminSchemas::mail(), Settings::all(), 'Destinataires des demandes et envoi des e-mails.', '', [], '', 'admin/mail_extra');
@@ -279,7 +282,7 @@ final class Admin
         }
         $adminOnly = ['user.save', 'user.delete', 'user.reset', 'user.forget_temp', 'update.check', 'update.apply', 'update.rollback', 'update.settings', 'backup.restore', 'content.reset',
             'bot.save', 'bot.models', 'bot.test', 'facebook.save', 'mail.save', 'mail.test',
-            'ui.save', 'reviews.save', 'google.save', 'google.search', 'google.select', 'google.refresh', 'google.disconnect'];
+            'ui.save', 'antispam.save', 'antispam.test', 'reviews.save', 'google.save', 'google.search', 'google.select', 'google.refresh', 'google.disconnect'];
         if (in_array($action, $adminOnly, true) && !Auth::isAdmin($u)) {
             Http::error('Action réservée aux administrateurs.', 403);
         }
@@ -500,6 +503,20 @@ final class Admin
                 Settings::set(['google_place_id' => '']);
                 Store::put('google_reviews', []);
                 Http::json(['ok' => true, 'message' => 'Fiche Google déconnectée : les avis saisis à la main sont affichés.', 'reload' => true]);
+            case 'antispam.save':
+                Settings::set(Form::collect(AdminSchemas::antispam(), $data, []));
+                Http::json(['ok' => true, 'message' => 'Réglages anti-spam enregistrés.']);
+            case 'antispam.test':
+                $r = Antispam::check([], 'test', ['nom' => Http::str($in, 'nom', 120), 'email' => Http::str($in, 'email', 160), 'tel' => Http::str($in, 'tel', 30), 'msg' => Http::str($in, 'msg', 4000)], 0, true);
+                Http::json(['ok' => true, 'result' => $r]);
+            case 'lead.notspam':
+                $rel = Leads::release((string) ($in['id'] ?? ''));
+                if ($rel === false) {
+                    Http::error('Demande introuvable ou déjà récupérée.', 404);
+                }
+                Http::json(['ok' => true, 'reload' => true, 'message' => $rel === 'sent'
+                    ? 'Demande récupérée : elle est repassée en « Nouveau » et l\'e-mail de notification vient de partir.'
+                    : 'Demande récupérée : elle est repassée en « Nouveau ».']);
             case 'mail.save':
                 Settings::set(Form::collect(AdminSchemas::mail(), $data, []));
                 self::secrets($data, ['smtp_pass']);
@@ -939,7 +956,7 @@ final class Admin
         fputcsv($out, ['Date', 'Type', 'Statut', 'Nom', 'Téléphone', 'E-mail', 'Produits', 'Éléments', 'Échéance', 'Code postal', 'Message', 'Page'], ';');
         // Pas de formule exécutée à l'ouverture dans un tableur (=, +, -, @)
         $cell = fn($v) => preg_match('/^[=+\-@\t\r]/', (string) $v) ? "'" . $v : (string) $v;
-        foreach (Leads::all() as $l) {
+        foreach (Leads::real() as $l) {
             fputcsv($out, array_map($cell, [date('d/m/Y H:i', strtotime($l['at'])), Leads::TYPES[$l['type']] ?? $l['type'], Leads::STATUS[$l['status']] ?? $l['status'],
                 $l['nom'] ?? '', $l['tel'] ?? '', $l['email'] ?? '', implode(', ', (array) ($l['types'] ?? [])), $l['qty'] ?? '', $l['delai'] ?? '', $l['cp'] ?? '', $l['msg'] ?? '', $l['page'] ?? '']), ';');
         }

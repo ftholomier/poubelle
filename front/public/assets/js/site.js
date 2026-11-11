@@ -18,6 +18,14 @@
     set: function (k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} }
   };
 
+  /* Anti-spam : preuve qu'un humain a utilisé la page (gestes réels : clic, touche, toucher).
+     Le serveur l'attend avec chaque envoi ; un robot qui poste sans ouvrir la page ne l'a pas. */
+  var gestures = 0;
+  ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) {
+    document.addEventListener(ev, function (e) { if (e.isTrusted) gestures++; }, { capture: true, passive: true });
+  });
+  function proof(token) { return String(token || '').slice(0, 10).split('').reverse().join('') + '.' + Math.min(gestures, 999); }
+
   /* ---------------------------------------------------------------- Apparitions au scroll (une seule fois) */
   var io = null;
   function revealAll() {
@@ -230,6 +238,7 @@
       else d[el.name] = el.value;
     });
     d.page = location.pathname;
+    d.pf = proof(d.token);
     return d;
   }
   function showErr(form, res) {
@@ -335,7 +344,7 @@
     if (preset) { setTimeout(function () { addMsg('assistant', preset); chatLog.push({ role: 'assistant', text: preset }); saveHist(); }, 280); return; }
     var typing = addMsg('assistant', '');
     typing.firstChild.innerHTML = '<span class="msg-typing"><i></i><i></i><i></i></span>';
-    post('/api/bot', { messages: chatLog, session: session, token: CFG.token }).then(function (res) {
+    post('/api/bot', { messages: chatLog, session: session, token: CFG.token, pf: proof(CFG.token) }).then(function (res) {
       typing.remove();
       var t = (res && (res.text || res.error)) || 'Je n\'ai pas pu répondre. Appelez-nous, nous vous répondrons avec plaisir.';
       addMsg('assistant', t);
@@ -519,7 +528,7 @@
       showPanel('review');
       if (vtext && vtext.split(/\s+/).length >= 6) {
         vSum.hidden = false; vSumTxt.textContent = 'Résumé en cours…';
-        post('/api/vocal/resume', { transcript: vtext, token: CFG.token }).then(function (r) {
+        post('/api/vocal/resume', { transcript: vtext, token: CFG.token, pf: proof(CFG.token) }).then(function (r) {
           vsum = (r && r.summary) || '';
           if (vsum) vSumTxt.textContent = vsum; else vSum.hidden = true;
         }, function () { vSum.hidden = true; });
@@ -537,7 +546,7 @@
       fd.append('audio', blob, 'vocal.' + ext);
       fd.append('nom', vNom.value.trim()); fd.append('tel', tel);
       fd.append('transcript', vtext); fd.append('summary', vsum); fd.append('duration', fmtTime(secs));
-      fd.append('token', CFG.token); fd.append('page', location.pathname);
+      fd.append('token', CFG.token); fd.append('pf', proof(CFG.token)); fd.append('page', location.pathname);
       vSend.classList.add('is-loading');
       fetch('/api/vocal', { method: 'POST', body: fd, headers: { 'Accept': 'application/json' }, credentials: 'same-origin' })
         .then(function (r) { return r.json().catch(function () { return { ok: false, error: 'Envoi impossible, réessayez.' }; }); })

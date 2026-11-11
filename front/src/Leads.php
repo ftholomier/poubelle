@@ -6,7 +6,10 @@ declare(strict_types=1);
 final class Leads
 {
     public const TYPES = ['devis' => 'Devis', 'contact' => 'Contact', 'rappel' => 'Rappel', 'vocal' => 'Vocal'];
-    public const STATUS = ['nouveau' => 'Nouveau', 'encours' => 'En cours', 'traite' => 'Traité', 'archive' => 'Archivé'];
+    public const STATUS = ['nouveau' => 'Nouveau', 'encours' => 'En cours', 'traite' => 'Traité', 'archive' => 'Archivé', 'spam' => 'Spam'];
+    /** Les spams sont effacés au bout de ce nombre de jours, et on n'en garde pas plus que SPAM_MAX. */
+    public const SPAM_DAYS = 30;
+    public const SPAM_MAX = 500;
     /** Au-delà, le fichier audio d'un vocal n'est pas joint à l'e-mail (il reste dans le back-office). */
     public const VOICE_ATTACH_MAX = 6 * 1024 * 1024;
 
@@ -27,13 +30,47 @@ final class Leads
         return null;
     }
 
-    public static function add(array $lead, array $attachments = []): array
+    /** Hors spams : ce que l'équipe doit traiter (listes, compteurs, export). */
+    public static function real(): array
     {
-        $lead = ['id' => date('ymd') . '-' . bin2hex(random_bytes(4)), 'at' => date('c'), 'status' => 'nouveau', 'notes' => []] + $lead;
-        Store::update('leads', function (array $all) use ($lead) {
+        return array_values(array_filter(self::all(), fn($l) => ($l['status'] ?? '') !== 'spam'));
+    }
+
+    /**
+     * @param array|null $spam résultat d'Antispam::check() : s'il dit « spam », la demande est gardée dans
+     *                         le statut Spam, sans e-mail de notification (l'équipe peut la récupérer).
+     */
+    public static function add(array $lead, array $attachments = [], ?array $spam = null): array
+    {
+        $isSpam = !empty($spam['spam']);
+        $lead = ['id' => date('ymd') . '-' . bin2hex(random_bytes(4)), 'at' => date('c'), 'status' => $isSpam ? 'spam' : 'nouveau', 'notes' => []] + $lead;
+        if ($isSpam) {
+            $lead['spam'] = ['score' => (int) $spam['score'], 'reasons' => array_values((array) $spam['reasons'])];
+        }
+        $dropped = [];
+        Store::update('leads', function (array $all) use ($lead, &$dropped) {
             array_unshift($all, $lead);
-            return array_slice($all, 0, 5000);
+            // Ménage des spams : plus vieux que SPAM_DAYS jours, ou au-delà des SPAM_MAX plus récents
+            $limit = date('c', time() - self::SPAM_DAYS * 86400);
+            $n = 0;
+            $keep = [];
+            foreach ($all as $l) {
+                if (($l['status'] ?? '') === 'spam' && (($l['at'] ?? '') < $limit || ++$n > self::SPAM_MAX)) {
+                    $dropped[] = $l;
+                    continue;
+                }
+                $keep[] = $l;
+            }
+            return array_slice($keep, 0, 5000);
         });
+        foreach ($dropped as $l) {
+            if (!empty($l['audio'])) {
+                Voice::delete((string) $l['audio']);
+            }
+        }
+        if ($isSpam) {
+            return $lead;
+        }
         $sent = self::notify($lead, $attachments);
         if ($sent !== true) {
             error_log('[renovest] notification e-mail : ' . $sent);
@@ -61,6 +98,36 @@ final class Leads
             Voice::delete((string) $l['audio']);
         }
         Store::update('leads', fn(array $all) => array_values(array_filter($all, fn($l) => $l['id'] !== $id)));
+    }
+
+    /**
+     * « Ce n'est pas un spam » : la demande redevient nouvelle. Si elle avait été écartée automatiquement
+     * (donc jamais notifiée), l'e-mail de notification part maintenant.
+     * @return string|false 'sent' (e-mail envoyé), 'restored' (marquée à la main : déjà notifiée), false
+     */
+    public static function release(string $id)
+    {
+        $l = self::find($id);
+        if (!$l || ($l['status'] ?? '') !== 'spam') {
+            return false;
+        }
+        $auto = !empty($l['spam']['reasons']) || isset($l['spam']['score']);
+        self::update($id, ['status' => 'nouveau', 'spam_was' => $l['spam'] ?? ['manual' => true]]);
+        if (!$auto) {
+            return 'restored';
+        }
+        $l = self::find($id);
+        unset($l['spam']);
+        $att = [];
+        $path = !empty($l['audio']) ? Voice::file((string) $l['audio']) : null;
+        if ($path && Settings::get('voice_attach', true) && filesize($path) < self::VOICE_ATTACH_MAX) {
+            $att[] = ['name' => 'vocal-' . (($l['nom'] ?? '') !== '' ? slugify((string) $l['nom']) : 'client') . '.' . pathinfo($path, PATHINFO_EXTENSION), 'type' => Voice::mime((string) $l['audio']), 'content' => (string) file_get_contents($path)];
+        }
+        $sent = self::notify($l, $att);
+        if ($sent !== true) {
+            self::update($id, ['mail_error' => (string) $sent]);
+        }
+        return 'sent';
     }
 
     public static function unread(): int

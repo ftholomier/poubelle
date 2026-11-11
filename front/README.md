@@ -96,8 +96,16 @@ Redirections 301 : `/wp-content/uploads/…` → `/media/…`, `/category/actual
 | GET | `/api/site`, `/api/produits`, `/api/actus`, `/api/actus/{id}`, `/api/realisations`, `/api/avis` | contenu en lecture |
 | GET | `/api/cron?key=…` | tâches planifiées |
 
-Formulaires protégés par un jeton signé (HMAC) avec délai minimal, un pot de miel et une
-limitation par IP. Chaque demande est enregistrée puis envoyée par e-mail.
+Anti-spam invisible sur tous les formulaires (`src/Antispam.php`, réglages dans Réglages › Anti-spam) :
+- barrages (robot certain, faux « merci », rien d'enregistré) : pot de miel, envoi depuis un autre site
+  (en-tête `Origin`), assistant et résumé du vocal appelés sans la preuve JavaScript de la page ;
+- score de suspicion : jeton signé (HMAC) trop récent, aucun geste humain sur la page (preuve `pf`),
+  logiciel automatique, liens, mots de spam (liste modifiable), anglais, alphabet étranger, e-mail jetable,
+  numéro fantaisiste, doublon. Au-delà du seuil (souple 8 / normal 5 / strict 3), la demande va dans le
+  statut « Spam » sans e-mail ; « Ce n'est pas un spam » la récupère et envoie l'e-mail. Spams effacés après 30 jours ;
+- limitation par IP, plafond quotidien de questions à l'assistant (coût Gemini).
+
+Chaque demande légitime est enregistrée puis envoyée par e-mail.
 
 ## Back-office (`/admin`)
 

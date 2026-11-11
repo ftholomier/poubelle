@@ -4,9 +4,11 @@ $sel = (string) ($_GET['id'] ?? '');
 $type = (string) ($_GET['type'] ?? '');
 $status = (string) ($_GET['statut'] ?? '');
 $q = mb_strtolower(trim((string) ($_GET['q'] ?? '')));
+$spamCount = count(array_filter($leads, fn($l) => ($l['status'] ?? '') === 'spam'));
 $list = array_values(array_filter($leads, function ($l) use ($type, $status, $q) {
     if ($type !== '' && $l['type'] !== $type) return false;
     if ($status !== '' && $l['status'] !== $status) return false;
+    if ($status === '' && $l['status'] === 'spam') return false; // les spams ont leur propre dossier
     if ($q !== '' && !str_contains(mb_strtolower(implode(' ', [$l['nom'] ?? '', $l['tel'] ?? '', $l['email'] ?? '', $l['msg'] ?? '', $l['cp'] ?? ''])), $q)) return false;
     return true;
 }));
@@ -18,7 +20,12 @@ $cur = $sel !== '' ? Leads::find($sel) : null;
   <select name="statut"><option value="">Tous les statuts</option><?php foreach (Leads::STATUS as $k => $v): ?><option value="<?= e($k) ?>"<?= $status === $k ? ' selected' : '' ?>><?= e($v) ?></option><?php endforeach; ?></select>
   <button class="b b--l" type="submit">Filtrer</button>
   <a class="b b--l" href="/admin/demandes.csv">Exporter (CSV)</a>
+  <?php if ($status === 'spam'): ?><a class="b b--l spam-link" href="/admin/demandes">← Retour aux demandes</a>
+  <?php elseif ($spamCount): ?><a class="b b--l spam-link" href="/admin/demandes?statut=spam" title="Demandes écartées automatiquement par l'anti-spam">Spam (<?= $spamCount ?>)</a><?php endif; ?>
 </form>
+<?php if ($status === 'spam'): ?>
+  <p class="bo-muted" style="margin:-6px 0 14px">Demandes écartées automatiquement par l'anti-spam (aucun e-mail n'a été envoyé). Elles sont effacées au bout de <?= Leads::SPAM_DAYS ?> jours. Si une vraie demande s'est glissée ici, ouvrez-la et cliquez sur « Ce n'est pas un spam ».</p>
+<?php endif; ?>
 
 <div class="cols cols--leads">
   <div class="card card--flush">
@@ -46,6 +53,15 @@ $cur = $sel !== '' ? Leads::find($sel) : null;
           <span class="bo-muted"><?= e(date('d/m/Y à H:i', strtotime($cur['at']))) ?></span>
         </div>
         <h2><?= e($cur['nom'] ?: 'Sans nom') ?></h2>
+        <?php if (($cur['status'] ?? '') === 'spam'): ?>
+          <div class="lead__spam">
+            <b><?= !empty($cur['spam']['reasons']) ? 'Mise en spam automatiquement (score ' . (int) $cur['spam']['score'] . ')' : 'Marquée comme spam' ?></b> : aucun e-mail n'a été envoyé pour cette demande.
+            <?php if (!empty($cur['spam']['reasons'])): ?><ul><?php foreach ($cur['spam']['reasons'] as $r): ?><li><?= e($r) ?></li><?php endforeach; ?></ul><?php endif; ?>
+            <button class="b b--k" type="button" data-action="lead.notspam" data-id="<?= e($cur['id']) ?>" data-busy="Récupération…">Ce n'est pas un spam</button>
+          </div>
+        <?php elseif (!empty($cur['spam_was'])): ?>
+          <p class="bo-muted">Récupérée du dossier Spam.</p>
+        <?php endif; ?>
         <dl class="dl">
           <?php if (!empty($cur['tel'])): ?><dt>Téléphone</dt><dd><a href="tel:<?= e(tel($cur['tel'])) ?>"><?= e($cur['tel']) ?></a></dd><?php endif; ?>
           <?php if (!empty($cur['email'])): ?><dt>E-mail</dt><dd><a href="mailto:<?= e($cur['email']) ?>"><?= e($cur['email']) ?></a></dd><?php endif; ?>

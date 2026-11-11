@@ -376,3 +376,16 @@ a.kpi:hover { border-color: var(--k) }
 .pw-forget { border: 0; background: none; padding: 0; margin-left: 4px; color: var(--mut); text-decoration: underline; cursor: pointer; font: inherit }
 .pw-forget:hover { color: var(--err) }
 .pw input::placeholder { font-family: 'Manrope', system-ui, sans-serif; letter-spacing: 0 }
+
+/* Anti-spam */
+.st--spam { background: #fde2e1; color: #9f1d17 }
+.kpis--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 0 }
+.as-res { margin-top: 14px; border-radius: 10px; padding: 12px 14px; font-size: 14px; line-height: 1.55 }
+.as-res.is-spam { background: #fdf0ee; border: 1px solid #f3c7c0 }
+.as-res.is-ok { background: #ecf8ef; border: 1px solid #b9e3c4 }
+.as-res ul { margin: 6px 0 0; padding-left: 18px }
+.as-res p { margin: 6px 0 0 }
+.lead__spam { background: #fdf0ee; border: 1px solid #f3c7c0; border-radius: 10px; padding: 12px 14px; margin: 14px 0 4px; font-size: 14px; line-height: 1.55 }
+.lead__spam ul { margin: 6px 0 10px; padding-left: 18px }
+.lead__spam .b { margin-top: 2px }
+.spam-link { margin-left: auto }

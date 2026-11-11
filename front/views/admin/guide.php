@@ -163,9 +163,20 @@ $close = fn(string $id): string => '<div class="gch__done"><a class="b b--l" hre
         <tr><td><span class="st st--nouveau">Nouveau</span></td><td>Personne ne s'en est encore occupé. Compté dans le badge jaune du menu.</td></tr>
         <tr><td><span class="st st--encours">En cours</span></td><td>Le client a été contacté, l'affaire est en route (visite, métré, devis à faire).</td></tr>
         <tr><td><span class="st st--traite">Traité</span></td><td>Devis envoyé, rendez-vous fixé ou réponse donnée : plus rien à faire pour l'instant.</td></tr>
-        <tr><td><span class="st st--archive">Archivé</span></td><td>Sans suite : doublon, erreur, client injoignable après plusieurs essais, démarchage.</td></tr>
+        <tr><td><span class="st st--archive">Archivé</span></td><td>Sans suite : doublon, erreur, client injoignable après plusieurs essais.</td></tr>
+        <tr><td><span class="st st--spam">Spam</span></td><td>Publicité ou envoi de robot. Le site y range tout seul les demandes suspectes (voir ci-dessous) ; vous pouvez aussi y mettre un démarchage passé entre les mailles.</td></tr>
       </table>
       <div class="gtip gtip--ok"><b>Le bon réflexe</b>Rappelez chaque nouvelle demande dans la journée, même pour dire « je reviens vers vous demain ». Le client a souvent demandé plusieurs devis : le premier qui rappelle prend une longueur d'avance.</div>
+
+      <h3>Le dossier Spam</h3>
+      <p>Le site trie automatiquement les envois suspects : publicités en anglais pour du référencement, messages pleins de liens, robots qui remplissent les formulaires en une seconde… Ces demandes ne déclenchent <b>pas d'e-mail</b> et n'apparaissent pas dans la liste habituelle : elles sont rangées à part, dans le statut « Spam ».</p>
+      <ul>
+        <li>Un bouton <span class="btn-like">Spam (3)</span> apparaît à droite des filtres quand il y en a : il ouvre ce dossier.</li>
+        <li>Chaque spam indique pourquoi il a été écarté (« Message rédigé en anglais », « 2 liens dans le message »…).</li>
+        <li>Si une vraie demande s'y est glissée, ouvrez-la et cliquez sur <span class="btn-like">Ce n'est pas un spam</span> : elle repasse en « Nouveau » et l'e-mail habituel part aussitôt.</li>
+        <li>Les spams s'effacent tout seuls au bout de 30 jours : pas besoin de les supprimer.</li>
+      </ul>
+      <div class="gtip"><b>Un coup d'œil par semaine</b>Le tri se trompe très rarement, mais un client qui écrit en anglais, colle plusieurs liens ou laisse un numéro étranger peut s'y retrouver. Jetez un œil au dossier Spam de temps en temps.</div>
 
       <h3>Les messages vocaux</h3>
       <?= $fig('demande-vocal', 'Le détail d\'un message vocal.', 'gfig--narrow') ?>
@@ -450,7 +461,7 @@ $close = fn(string $id): string => '<div class="gch__done"><a class="b b--l" hre
       <h3>J'ai effacé ou cassé quelque chose par erreur</h3>
       <p>Si vous n'avez pas encore enregistré, quittez simplement l'écran sans enregistrer. Sinon, prévenez l'administrateur tout de suite, en précisant la page et l'heure : il peut remettre le contenu en place à partir d'une sauvegarde, à condition d'en avoir une assez récente.</p>
       <h3>Un client dit avoir écrit, mais je ne trouve pas sa demande</h3>
-      <p>Cherchez son nom, son téléphone ou son e-mail dans la recherche des Demandes, avec « Tous les types » et « Tous les statuts ». Les e-mails de notification peuvent aussi arriver dans les courriers indésirables (spams) : vérifiez-les. Si la demande n'est nulle part, prévenez l'administrateur.</p>
+      <p>Cherchez son nom, son téléphone ou son e-mail dans la recherche des Demandes, avec « Tous les types » et « Tous les statuts », puis regardez dans le dossier Spam. Les e-mails de notification peuvent aussi arriver dans les courriers indésirables (spams) : vérifiez-les. Si la demande n'est nulle part, prévenez l'administrateur.</p>
       <h3>Nous sommes deux à modifier le site</h3>
       <p>Évitez de modifier la même page en même temps : c'est le dernier qui enregistre qui gagne, et les changements de l'autre sont écrasés. Pour les demandes, les notes indiquent qui a fait quoi.</p>
       <h3>Je ne trouve pas les avis clients, la barre d'actions du site ou les réglages de l'assistant</h3>

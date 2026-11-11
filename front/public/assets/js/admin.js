@@ -365,6 +365,30 @@
   function initAll(root) { initRep(root); initImages(root); initRte(root); }
   initAll(document);
 
+  /* ------------------------------------------------------------ Anti-spam : tester un message */
+  var ast = $('[data-antispam-test]');
+  if (ast) ast.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var out = $('[data-antispam-result]', ast), btn = $('button[type=submit]', ast);
+    btn.classList.add('is-busy');
+    api('antispam.test', new FormData(ast)).then(function (res) {
+      btn.classList.remove('is-busy');
+      if (!res.ok) { toast(res.error || 'Erreur', true); return; }
+      var r = res.result;
+      out.className = 'as-res ' + (r.spam ? 'is-spam' : 'is-ok');
+      out.innerHTML = '';
+      var h = document.createElement('b');
+      h.textContent = (r.spam ? 'Serait mis en spam' : 'Passerait normalement') + ' — score ' + r.score + ' (seuil ' + r.limit + ')';
+      out.appendChild(h);
+      if (r.reasons.length) {
+        var ul = document.createElement('ul');
+        r.reasons.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; ul.appendChild(li); });
+        out.appendChild(ul);
+      } else { var p = document.createElement('p'); p.textContent = 'Aucun indice de spam dans ce contenu.'; out.appendChild(p); }
+      out.hidden = false;
+    }, function () { btn.classList.remove('is-busy'); });
+  });
+
   /* ------------------------------------------------------------ Mot de passe d'un compte : afficher, générer, copier */
   // Mot de passe facile à dicter : syllabes prononçables + chiffres, ex. « Bolatu-Rimeso-38 »
   function genPassword() {

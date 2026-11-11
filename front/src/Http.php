@@ -63,6 +63,12 @@ final class Http
         return $t . '.' . substr(hash_hmac('sha256', 'form|' . $t, app_secret()), 0, 32);
     }
 
+    /** Âge en secondes d'un jeton de formulaire (null s'il est mal formé). */
+    public static function tokenAge(string $token): ?int
+    {
+        return preg_match('/^(\d{10})\./', $token, $m) ? max(0, time() - (int) $m[1]) : null;
+    }
+
     public static function checkFormToken(string $token, int $minSeconds = 2): bool
     {
         if (!preg_match('/^(\d{10})\.([0-9a-f]{32})$/', $token, $m)) {

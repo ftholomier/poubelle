@@ -1,5 +1,5 @@
 <?php
-$leads = Leads::all();
+$leads = Leads::real(); // sans les spams
 $unread = array_filter($leads, fn($l) => $l['status'] === 'nouveau');
 $days = [];
 for ($i = 13; $i >= 0; $i--) {

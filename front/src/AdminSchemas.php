@@ -360,6 +360,25 @@ final class AdminSchemas
         ];
     }
 
+    public static function antispam(): array
+    {
+        return [
+            ['key' => 'antispam_enabled', 'type' => 'checkbox', 'label' => 'Activer l\'anti-spam (recommandé)', 'help' => 'Décoché, seuls le champ piège et la limite d\'envois par visiteur restent actifs.'],
+            ['key' => 'antispam_level', 'type' => 'select', 'label' => 'Sévérité', 'options' => [
+                'souple' => 'Souple : ne met de côté que les spams évidents',
+                'normal' => 'Normal (recommandé)',
+                'strict' => 'Strict : écarte davantage, au risque de mettre de vraies demandes en spam',
+            ], 'help' => 'Une demande jugée suspecte n\'est pas perdue : elle est rangée dans le statut « Spam » des Demandes, sans e-mail.'],
+            ['type' => 'heading', 'label' => 'Ce qui rend un message suspect', 'help' => 'Chaque indice ajoute des points ; au-delà du seuil de la sévérité choisie, la demande est mise en spam.'],
+            ['key' => 'antispam_english', 'type' => 'checkbox', 'label' => 'Message rédigé en anglais', 'half' => true],
+            ['key' => 'antispam_scripts', 'type' => 'checkbox', 'label' => 'Alphabet étranger (cyrillique, chinois, arabe…)', 'half' => true],
+            ['key' => 'antispam_disposable', 'type' => 'checkbox', 'label' => 'Adresse e-mail jetable (yopmail, mailinator…)', 'half' => true],
+            ['key' => 'antispam_words', 'type' => 'textarea', 'label' => 'Mots et expressions de spam', 'rows' => 10, 'wide' => true, 'help' => 'Un mot ou une expression par ligne. Majuscules, accents et pluriels sont ignorés : « guest post » repère aussi « Guest Posts ». Toujours suspects aussi : les liens, un nom contenant un lien, un numéro fantaisiste, un message envoyé deux fois, un formulaire rempli en quelques secondes ou par un logiciel automatique.'],
+            ['type' => 'heading', 'label' => 'Assistant du site'],
+            ['key' => 'bot_daily_max', 'type' => 'number', 'label' => 'Questions maximum à l\'assistant par jour (tous visiteurs confondus)', 'min' => 0, 'max' => 100000, 'help' => 'Protège la facture Gemini contre les abus. 0 = pas de limite. Chaque visiteur est aussi limité à 30 questions en 10 minutes.'],
+        ];
+    }
+
     public static function mail(): array
     {
         return [

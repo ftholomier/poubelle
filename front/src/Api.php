@@ -86,17 +86,45 @@ final class Api
         return $o;
     }
 
-    /** Contrôles anti-robot communs : jeton signé + délai minimal, pot de miel, débit par IP. */
-    private static function guard(array $in, string $bucket, int $max = 5): void
+    /**
+     * Barrages anti-robot communs. Robot certain (champ piège rempli, envoi depuis un autre site) :
+     * faux « merci », rien n'est enregistré. Puis jeton signé et débit par IP.
+     * Le reste (rapidité, contenu…) est noté par Antispam::check() : au-delà du seuil, la demande va dans « Spam ».
+     */
+    private static function guard(array $in, string $bucket, string $back, int $max = 5): void
     {
         if (Http::str($in, 'site') !== '') {
-            Http::json(['ok' => true]); // pot de miel rempli : on fait semblant
+            Antispam::log($bucket, 'honeypot');
+            self::done($back); // on fait semblant
         }
-        if (!Http::checkFormToken(Http::str($in, 'token', 80))) {
+        if (Antispam::enabled() && !Antispam::originOk()) {
+            Antispam::log($bucket, 'origin');
+            self::done($back);
+        }
+        if (!Http::checkFormToken(Http::str($in, 'token', 80), 0)) {
             Http::error('Le formulaire a expiré : rechargez la page puis réessayez.', 422);
         }
         if (!Http::rateLimit($bucket, $max, 900)) {
             Http::error('Trop d\'envois en peu de temps : réessayez dans quelques minutes ou appelez-nous.', 429);
+        }
+    }
+
+    /**
+     * Assistant et résumé du vocal : ils n'existent qu'en JavaScript, donc un appel sans la preuve
+     * de la page (ou venu d'un autre site) est forcément un robot.
+     */
+    private static function jsOnlyGuard(array $in, string $bucket): void
+    {
+        if (!Antispam::enabled()) {
+            return;
+        }
+        if (!Antispam::originOk()) {
+            Antispam::log($bucket, 'origin');
+            Http::error('Requête refusée.', 403);
+        }
+        if (!Antispam::proofOk(Http::str($in, 'pf', 20), Http::str($in, 'token', 80))) {
+            Antispam::log($bucket, 'proof');
+            Http::error('Rechargez la page puis réessayez.', 403);
         }
     }
 
@@ -129,7 +157,7 @@ final class Api
     private static function devis(): void
     {
         $in = Http::input();
-        self::guard($in, 'devis');
+        self::guard($in, 'devis', Content::path('devis'));
         $nom = Http::str($in, 'nom', 120);
         $tel = Http::str($in, 'tel', 30);
         $email = Http::str($in, 'email', 160);
@@ -153,6 +181,7 @@ final class Api
         $f = Content::ui()['devis_form'] ?? [];
         $qty = Http::str($in, 'qty', 60);
         $delai = Http::str($in, 'delai', 60);
+        $spam = Antispam::check($in, 'devis', ['nom' => $nom, 'email' => $email, 'tel' => $tel, 'msg' => Http::str($in, 'msg', 2000)], 6);
         Leads::add([
             'type' => 'devis', 'nom' => $nom, 'tel' => $tel, 'email' => $email, 'cp' => $cp,
             'types' => self::types($in),
@@ -160,14 +189,14 @@ final class Api
             'delai' => in_array($delai, $f['delai'] ?? [], true) ? $delai : '',
             'msg' => Http::str($in, 'msg', 2000),
             'page' => Http::str($in, 'page', 300),
-        ]);
+        ], [], $spam);
         self::done(Content::path('devis'));
     }
 
     private static function contact(): void
     {
         $in = Http::input();
-        self::guard($in, 'contact');
+        self::guard($in, 'contact', Content::path('contact'));
         $nom = Http::str($in, 'nom', 120);
         $email = Http::str($in, 'email', 160);
         $tel = Http::str($in, 'tel', 30);
@@ -185,25 +214,27 @@ final class Api
             Http::error(reset($errors), 422, ['fields' => $errors]);
         }
         $objet = Http::str($in, 'objet', 20) === 'Devis' ? 'Devis' : 'Message';
+        $spam = Antispam::check($in, 'contact', ['nom' => $nom, 'email' => $email, 'tel' => $tel, 'msg' => Http::str($in, 'msg', 2000)], 5);
         Leads::add([
             'type' => $objet === 'Devis' ? 'devis' : 'contact', 'objet' => $objet,
             'nom' => $nom, 'tel' => $tel, 'email' => $email,
             'types' => $objet === 'Devis' ? self::types($in) : [],
             'msg' => Http::str($in, 'msg', 2000),
             'page' => Http::str($in, 'page', 300),
-        ]);
+        ], [], $spam);
         self::done(Content::path('contact'));
     }
 
     private static function rappel(): void
     {
         $in = Http::input();
-        self::guard($in, 'rappel', 3);
+        self::guard($in, 'rappel', '/', 3);
         $tel = Http::str($in, 'tel', 30);
         if (!self::phoneOk($tel)) {
             Http::error('Indiquez un numéro de téléphone valide.', 422, ['fields' => ['tel' => 'Numéro invalide']]);
         }
-        Leads::add(['type' => 'rappel', 'nom' => Http::str($in, 'nom', 120), 'tel' => $tel, 'page' => Http::str($in, 'page', 300)]);
+        $spam = Antispam::check($in, 'rappel', ['nom' => Http::str($in, 'nom', 120), 'tel' => $tel], 2);
+        Leads::add(['type' => 'rappel', 'nom' => Http::str($in, 'nom', 120), 'tel' => $tel, 'page' => Http::str($in, 'page', 300)], [], $spam);
         Http::json(['ok' => true]);
     }
 
@@ -215,9 +246,14 @@ final class Api
         }
         $in = $_POST;
         if (Http::str($in, 'site') !== '') {
+            Antispam::log('vocal', 'honeypot');
             Http::json(['ok' => true]);
         }
-        if (!Http::checkFormToken(Http::str($in, 'token', 80), 2)) {
+        if (Antispam::enabled() && !Antispam::originOk()) {
+            Antispam::log('vocal', 'origin');
+            Http::json(['ok' => true]);
+        }
+        if (!Http::checkFormToken(Http::str($in, 'token', 80), 0)) {
             Http::error('Session expirée : rechargez la page puis réessayez.', 422);
         }
         $tel = Http::str($in, 'tel', 30);
@@ -234,10 +270,12 @@ final class Api
         }
         $transcript = Sanitizer::text($in['transcript'] ?? '', 6000);
         $summary = Sanitizer::text($in['summary'] ?? '', 1500);
-        if ($transcript === '') {
+        $spam = Antispam::check($in, 'vocal', ['nom' => Http::str($in, 'nom', 120), 'tel' => $tel, 'msg' => $transcript], 3);
+        // Pas d'appel à l'IA (payant) pour un envoi classé en spam
+        if ($transcript === '' && !$spam['spam']) {
             $transcript = Voice::transcribe($file);
         }
-        if ($summary === '' && $transcript !== '') {
+        if ($summary === '' && $transcript !== '' && !$spam['spam']) {
             $summary = Voice::summary($transcript);
         }
         $duration = preg_match('/^\d{1,2}:\d{2}$/', Http::str($in, 'duration', 8)) ? Http::str($in, 'duration', 8) : '';
@@ -254,7 +292,7 @@ final class Api
             'audio' => $file, 'mime' => $mime, 'duration' => $duration,
             'msg' => $transcript, 'summary' => $summary,
             'page' => Http::str($in, 'page', 300),
-        ], $att);
+        ], $spam['spam'] ? [] : $att, $spam);
         Http::json(['ok' => true]);
     }
 
@@ -262,6 +300,7 @@ final class Api
     private static function vocalSummary(): void
     {
         $in = Http::input();
+        self::jsOnlyGuard($in, 'vocal-resume');
         if (!Http::checkFormToken(Http::str($in, 'token', 80), 0)) {
             Http::error('Session expirée : rechargez la page.', 422);
         }
@@ -277,11 +316,16 @@ final class Api
             Http::error('Assistant désactivé', 404);
         }
         $in = Http::input();
+        self::jsOnlyGuard($in, 'bot');
         if (!Http::checkFormToken(Http::str($in, 'token', 80), 0)) {
             Http::error('Session expirée : rechargez la page.', 422);
         }
         if (!Http::rateLimit('bot', 30, 600)) {
             Http::error('Vous avez posé beaucoup de questions : appelez-nous au ' . Content::site()['phone'] . ' pour aller plus vite.', 429);
+        }
+        if (!Antispam::botQuotaOk()) {
+            Antispam::log('bot', 'quota');
+            Http::error('L\'assistant est très sollicité aujourd\'hui : appelez-nous au ' . Content::site()['phone'] . ' ou demandez votre devis en ligne.', 429);
         }
         $history = is_array($in['messages'] ?? null) ? $in['messages'] : [];
         $r = Bot::reply($history, Http::str($in, 'session', 40));
