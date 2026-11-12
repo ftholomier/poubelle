@@ -5,6 +5,8 @@
  */
 // Vidéos retirées chez l'hébergeur (supprimées, privées) : masquées plutôt qu'un lecteur en erreur.
 $goneV = \App\Services\VideoThumbs::gone();
+// Vidéos YouTube dont la chaîne interdit la lecture hors YouTube (LFP…) : image et lien, comme Dailymotion.
+$blockedV = \App\Services\VideoThumbs::blocked();
 $list = array_values(array_filter(array_map('video_embed', $videos ?? []), fn ($v) => $v && !isset($goneV[$v['provider'] . '-' . $v['id']])));
 if (!$list) {
     return;
@@ -15,11 +17,11 @@ $names = ['youtube' => 'YouTube', 'dailymotion' => 'Dailymotion', 'vimeo' => 'Vi
   <h2 class="h-section"><?= e($title ?? (count($list) > 1 ? t('Vidéos') : t('Vidéo'))) ?></h2>
   <div class="videos__grid<?= count($list) > 1 ? ' videos__grid--multi' : '' ?>">
     <?php foreach ($list as $v): ?>
-      <?php if ($v['provider'] === 'dailymotion'): // Dailymotion refuse désormais la lecture intégrée (« Forbidden ») : image et lien vers la vidéo. ?>
+      <?php if ($v['provider'] === 'dailymotion' || isset($blockedV[$v['provider'] . '-' . $v['id']])): // Lecture refusée hors de l'hébergeur (Dailymotion, chaînes YouTube comme la LFP) : image et lien vers la vidéo. ?>
         <?php $bg = $v['thumb'] ?: (!empty($poster) && is_string($poster) ? $poster : null); ?>
         <a class="video video--out" href="<?= e($v['link']) ?>" target="_blank" rel="noopener"<?= $bg ? ' style="background-image:url(' . e(img($bg, 800)) . ')"' : '' ?>>
           <span class="play" aria-hidden="true">▶</span>
-          <span class="video__out"><?= e(t('Regarder sur {site}', ['site' => 'Dailymotion'])) ?> ↗<?= $v['title'] ? '<small>' . e($v['title']) . '</small>' : '' ?></span>
+          <span class="video__out"><?= e(t('Regarder sur {site}', ['site' => $names[$v['provider']] ?? 'Dailymotion'])) ?> ↗<?= $v['title'] ? '<small>' . e($v['title']) . '</small>' : '' ?></span>
         </a>
       <?php elseif ($v['provider'] === 'file'): ?>
         <div class="video"><video controls preload="none" src="<?= e($v['embed']) ?>"></video></div>

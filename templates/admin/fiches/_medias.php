@@ -21,7 +21,11 @@ $gal = array_map(function ($g) {
   <div class="card">
     <div class="card__head"><h2 class="card__t">Vidéos</h2><span class="card__note">YouTube, Dailymotion, Vimeo ou X (Twitter) : collez simplement le lien</span></div>
     <div class="card__body">
-      <?= Form::repeater('videos', '', $doc['videos'] ?? [], fn ($v) => '<div class="fgrid">' . Form::text('@url', 'Lien de la vidéo', $v ? (video_embed($v)['link'] ?? ($v['url'] ?? '')) : '', ['class' => 'f--2', 'type' => 'url', 'placeholder' => 'https://www.youtube.com/watch?v=…', 'help' => 'YouTube, Dailymotion, Vimeo, Rutube, X (x.com/…/status/…) ou fichier vidéo']) . Form::text('@title', 'Titre', $v['title'] ?? '') . '</div>', ['compact' => true, 'add' => 'Ajouter une vidéo']) ?>
+      <?= Form::repeater('videos', '', $doc['videos'] ?? [], fn ($v) => '<div class="fgrid">' . Form::text('@url', 'Lien de la vidéo', $v ? (video_embed($v)['link'] ?? ($v['url'] ?? '')) : '', ['class' => 'f--2', 'type' => 'url', 'placeholder' => 'https://www.youtube.com/watch?v=…', 'help' => 'YouTube, Dailymotion, Vimeo, Rutube, X (x.com/…/status/…) ou fichier vidéo']) . Form::text('@title', 'Titre', $v['title'] ?? '') . '</div>'
+          // État vérifié par la tâche « Vidéos » : lecture réservée à YouTube (LFP…), ou vidéo supprimée.
+          . (($k = ($e = $v ? video_embed($v) : null) ? $e['provider'] . '-' . $e['id'] : '') !== '' && isset(\App\Services\VideoThumbs::blocked()[$k])
+              ? '<p class="xs muted" style="margin:4px 0 0">ⓘ La chaîne de cette vidéo interdit sa lecture hors de ' . ($e['provider'] === 'youtube' ? 'YouTube' : 'son site') . ' : sur le site du musée, elle est montrée en image avec un lien « Regarder sur YouTube ». Rien à faire, sauf si vous trouvez la même vidéo sur une autre chaîne.</p>'
+              : ($k !== '' && isset(\App\Services\VideoThumbs::gone()[$k]) ? '<p class="xs ko" style="margin:4px 0 0">⚠ Vidéo ' . e(\App\Services\VideoThumbs::gone()[$k]) . ' chez l’hébergeur : masquée sur le site. À remplacer ou retirer.</p>' : '')), ['compact' => true, 'add' => 'Ajouter une vidéo']) ?>
     </div>
   </div>
   <div class="card">

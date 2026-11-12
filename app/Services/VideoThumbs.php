@@ -18,6 +18,8 @@ final class VideoThumbs
     private const STATE = STORAGE_PATH . '/cache/video-thumbs.json';
     private const RETRY = 7 * 86400;
     public const GONE = STORAGE_PATH . '/videos-indisponibles.json';
+    /** Vidéos lisibles seulement chez l'hébergeur (YouTube : lecture hors YouTube interdite par la chaîne, LFP…). */
+    public const BLOCKED = STORAGE_PATH . '/videos-bloquees.json';
     private const CHECKED = STORAGE_PATH . '/cache/videos-verifiees.json';
 
     /** Adresse de l'image d'une vidéo chez son hébergeur (ou de la page qui la donne). */
@@ -93,62 +95,118 @@ final class VideoThumbs
         return $gone ??= array_map(fn ($x) => (string) ($x['why'] ?? ''), (array) (JsonStore::read(self::GONE, []) ?: []));
     }
 
+    /** Vidéos YouTube lisibles seulement sur YouTube : clé « youtube-id » => motif. */
+    public static function blocked(): array
+    {
+        static $b = null;
+        return $b ??= array_map(fn ($x) => (string) ($x['why'] ?? ''), (array) (JsonStore::read(self::BLOCKED, []) ?: []));
+    }
+
     /**
-     * Disponibilité des vidéos Dailymotion (API publique) : une vidéo supprimée, privée ou dont
-     * (vidéo regardée chez Dailymotion, l'intégration étant refusée) est notée (masquée sur le site, signalée dans Qualité) ; revue
-     * chaque semaine, une vidéo revenue est retirée de la liste. Une erreur réseau ne change rien.
+     * Disponibilité des vidéos, revue chaque semaine (une vidéo revenue est retirée des listes ; une
+     * erreur réseau ne change rien) :
+     * - Dailymotion (API publique) : supprimée, privée ou non publiée → masquée (« gone »).
+     * - YouTube (oEmbed, puis le lecteur intégré lui-même, comme le site l'affiche) : supprimée →
+     *   masquée ; lecture interdite hors YouTube par la chaîne (vidéos de la LFP : le lecteur affiche
+     *   un écran noir) → montrée en image avec un lien « Regarder sur YouTube » (« blocked »).
      * @param ?callable(string):array{0:int,1:?string} $get requête (remplaçable pour les essais)
-     * @return array{verifiees:int, indisponibles:int}
+     * @return array{verifiees:int, indisponibles:int, bloquees:int}
      */
-    public static function check(int $max = 60, ?callable $get = null): array
+    public static function check(int $max = 60, ?callable $get = null, float $budget = 60): array
     {
         $get ??= [self::class, 'request'];
+        $end = microtime(true) + $budget;
         $gone = JsonStore::read(self::GONE, []) ?: [];
+        $blocked = JsonStore::read(self::BLOCKED, []) ?: [];
         $seen = JsonStore::read(self::CHECKED, []) ?: [];
         $n = 0;
         $keys = [];
         foreach (Fiches::all() as $doc) {
             foreach ($doc['videos'] ?? [] as $v) {
                 $e = video_embed($v);
-                if (($e['provider'] ?? '') === 'dailymotion' && $e['id']) {
-                    $keys['dailymotion-' . $e['id']] = (string) $e['id'];
+                if (in_array($e['provider'] ?? '', ['dailymotion', 'youtube'], true) && $e['id']) {
+                    $keys[$e['provider'] . '-' . $e['id']] = [$e['provider'], (string) $e['id']];
                 }
             }
         }
-        foreach ($keys as $key => $id) {
-            if ($n >= $max || time() - (int) ($seen[$key] ?? 0) < self::RETRY) {
+        foreach ($keys as $key => [$provider, $id]) {
+            if ($n >= $max || microtime(true) > $end || time() - (int) ($seen[$key] ?? 0) < self::RETRY) {
                 continue;
             }
-            [$code, $body] = $get('https://api.dailymotion.com/video/' . rawurlencode($id) . '?fields=id,private,status,allow_embed');
-            if ($code === 0 || $code >= 500 || $code === 429) {
-                continue; // réseau ou hébergeur en panne : on réessaiera
+            $r = $provider === 'youtube' ? self::youtubeState($id, $get) : self::dailymotionState($id, $get);
+            if ($r === null) {
+                continue; // réseau ou hébergeur en panne, réponse illisible : on réessaiera
             }
             $n++;
             $seen[$key] = time();
-            $j = json_decode((string) $body, true) ?: [];
-            $why = match (true) {
-                $code === 404 || $code === 410 => 'supprimée',
-                $code === 403 || !empty($j['private']) => 'privée',
-                isset($j['status']) && $j['status'] !== 'published' => 'indisponible (' . $j['status'] . ')',
-                default => null,
-            };
-            if ($why) {
-                $gone[$key] = ['why' => $why, 'at' => date('c')];
-            } else {
-                unset($gone[$key]);
+            unset($gone[$key], $blocked[$key]);
+            if ($r[0] === 'gone') {
+                $gone[$key] = ['why' => $r[1], 'at' => date('c')];
+            } elseif ($r[0] === 'blocked') {
+                $blocked[$key] = ['why' => $r[1], 'at' => date('c')];
             }
         }
         $gone = array_intersect_key($gone, $keys);
+        $blocked = array_intersect_key($blocked, $keys);
         JsonStore::write(self::GONE, $gone);
+        JsonStore::write(self::BLOCKED, $blocked);
         JsonStore::write(self::CHECKED, array_intersect_key($seen, $keys));
-        return ['verifiees' => $n, 'indisponibles' => count($gone)];
+        return ['verifiees' => $n, 'indisponibles' => count($gone), 'bloquees' => count($blocked)];
+    }
+
+    /** Dailymotion : ['ok'], ['gone', motif] ou null (réessayer). */
+    private static function dailymotionState(string $id, callable $get): ?array
+    {
+        [$code, $body] = $get('https://api.dailymotion.com/video/' . rawurlencode($id) . '?fields=id,private,status,allow_embed');
+        if ($code === 0 || $code >= 500 || $code === 429) {
+            return null;
+        }
+        $j = json_decode((string) $body, true) ?: [];
+        $why = match (true) {
+            $code === 404 || $code === 410 => 'supprimée',
+            $code === 403 || !empty($j['private']) => 'privée',
+            isset($j['status']) && $j['status'] !== 'published' => 'indisponible (' . $j['status'] . ')',
+            default => null,
+        };
+        return $why ? ['gone', $why] : ['ok'];
+    }
+
+    /**
+     * YouTube : ['ok'], ['gone', motif], ['blocked', motif] ou null (réessayer). oEmbed dit si la vidéo
+     * existe ; le lecteur intégré (youtube-nocookie, celui du site) dit si elle s'y lit : « OK », ou
+     * « UNPLAYABLE » / « LOGIN_REQUIRED » quand la chaîne réserve la lecture à YouTube (oEmbed répond
+     * pourtant « intégrable » pour les vidéos de la LFP).
+     */
+    private static function youtubeState(string $id, callable $get): ?array
+    {
+        [$code] = $get('https://www.youtube.com/oembed?format=json&url=' . rawurlencode('https://www.youtube.com/watch?v=' . $id));
+        if ($code === 0 || $code >= 500 || $code === 429) {
+            return null;
+        }
+        if ($code === 400 || $code === 404) {
+            return ['gone', 'supprimée'];
+        }
+        if ($code === 401 || $code === 403) {
+            return ['blocked', 'lecture réservée à YouTube'];
+        }
+        [$c2, $page] = $get('https://www.youtube-nocookie.com/embed/' . rawurlencode($id));
+        if ($c2 !== 200 || !is_string($page) || !preg_match('/[Pp]layabilityStatus\\\\?"\s*:\s*\{\s*\\\\?"status\\\\?"\s*:\s*\\\\?"([A-Z_]+)/', $page, $m)) {
+            return null;
+        }
+        return match ($m[1]) {
+            'OK' => ['ok'],
+            'ERROR' => ['gone', 'supprimée'],
+            'UNPLAYABLE', 'LOGIN_REQUIRED', 'AGE_CHECK_REQUIRED', 'CONTENT_CHECK_REQUIRED' => ['blocked', 'lecture réservée à YouTube'],
+            default => null,
+        };
     }
 
     /** @return array{0:int,1:?string} code HTTP (0 = pas de réponse) et contenu */
     private static function request(string $url): array
     {
         $ch = curl_init($url);
-        curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_CONNECTTIMEOUT => 10, CURLOPT_TIMEOUT => 20, CURLOPT_USERAGENT => 'SochauxRetro/1.0 (' . base_url() . ')']);
+        // Référent du site : le lecteur intégré de YouTube répond comme il le ferait pour nos visiteurs.
+        curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_CONNECTTIMEOUT => 10, CURLOPT_TIMEOUT => 20, CURLOPT_USERAGENT => 'SochauxRetro/1.0 (' . base_url() . ')', CURLOPT_REFERER => base_url() . '/']);
         $body = curl_exec($ch);
         $code = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
         curl_close($ch);
