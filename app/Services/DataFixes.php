@@ -50,6 +50,7 @@ final class DataFixes
         '2026-11-bandes-des-bandeaux' => 'bannerBands',
         '2026-11-pastilles-reprise' => 'pitchPhotosRetry',
         '2026-11-avant-resume-inverses' => 'recitSwapped',
+        '2026-11-gunnlaugsson' => 'gunnlaugssonSpelling',
     ];
 
     /**
@@ -350,6 +351,63 @@ final class DataFixes
         $doc['sections'][$ia]['html'] = $r;
         $doc['sections'][$ir]['html'] = $a;
         return $doc;
+    }
+
+    /**
+     * « Gunnlaugsson » (Arnar et Bjarki) : graphies fautives des fiches et de la médiathèque (ticket du
+     * 12/11/2026). Mots entiers seulement ; jamais une adresse ni un nom de fichier (« gunnlaugson.jpg »).
+     */
+    public const GUNNLAUGSSON = '/(?<![\p{L}\p{N}\/._-])(?:Gunlaugsson|Gunnlaugasson|Gunnlagsson|Gunnlaugson|Gunlaugson)(?![\p{L}\p{N}\/_-]|\.[\p{L}\p{N}])/iu';
+
+    /** Mot fautif remplacé par la bonne graphie, dans la casse d'origine (« GUNNLAUGSSON », « gunnlaugsson »). */
+    public static function respell(string $s, string $re, string $right): string
+    {
+        return (string) preg_replace_callback($re, fn ($m) => mb_strtoupper($m[0]) === $m[0] ? mb_strtoupper($right) : (mb_strtolower($m[0]) === $m[0] ? mb_strtolower($right) : $right), $s);
+    }
+
+    private static function gunnlaugssonSpelling(): array
+    {
+        return self::spellingEverywhere(self::GUNNLAUGSSON, 'Gunnlaugsson');
+    }
+
+    /**
+     * Orthographe d'un nom corrigée partout (comme « Manac'h » et « Jeannin ») : toutes les chaînes des
+     * fiches (titres, récits, compositions, temps forts, légendes, traductions ; jamais adresses,
+     * fichiers ni ancien contenu) et titres, légendes et crédits de la médiathèque. Validations gardées.
+     */
+    private static function spellingEverywhere(string $re, string $right): array
+    {
+        $fix = fn (string $s) => self::respell($s, $re, $right);
+        $ids = Fiches::batch(function () use ($fix, $re, $right) {
+            $ids = [];
+            foreach (Fiches::all() as $id => $doc) {
+                $clean = $doc;
+                unset($clean['legacy']);
+                if (!preg_match($re, (string) json_encode($clean, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))) {
+                    continue;
+                }
+                $doc = Fiches::fresh((int) $id);
+                $new = self::mapText($doc, $fix);
+                if ($new !== $doc) {
+                    Fiches::save($new, self::AUTHOR, 'Orthographe : ' . $right);
+                    $ids[] = (int) $id;
+                }
+            }
+            return $ids;
+        });
+        $media = [];
+        foreach (\App\Data\Media::all() as $rel => $m) {
+            foreach (['title', 'caption', 'caption_en', 'caption_raw', 'credit', 'alt', 'alt_en', 'date_text'] as $k) {
+                if (is_string($m[$k] ?? null) && ($v = $fix($m[$k])) !== $m[$k]) {
+                    $media[$rel][$k] = $v;
+                }
+            }
+        }
+        if ($media) {
+            \App\Data\Media::putMany($media);
+            \App\Data\Derived::markDirty();
+        }
+        return ['message' => $right . ' : ' . count($ids) . ' fiche(s) et ' . count($media) . ' média(s) corrigé(s)', 'ids' => $ids];
     }
 
     /** Applique $fix à toutes les chaînes d'un tableau, sauf sous les clés d'adresse, de fichier ou d'origine. */

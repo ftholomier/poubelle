@@ -2719,6 +2719,15 @@ saison, match précédent / suivant), les matchs d'un joueur, les groupes de mat
 (fiches retrouvées par la date et l'adversaire, ordre déjà saisi jamais remplacé). Test :
 `tests/ordre-journee.php`.
 
+## Orthographe « Gunnlaugsson » (correction `2026-11-gunnlaugsson`)
+
+Ticket du 12/11/2026 : `DataFixes::GUNNLAUGSSON` (« Gunlaugsson », « Gunnlaugasson », « Gunnlagsson »,
+« Gunnlaugson », mots entiers, jamais une adresse ni un nom de fichier) remplacé par « Gunnlaugsson »
+dans la casse d'origine (`DataFixes::respell()`), partout par `DataFixes::spellingEverywhere()` :
+version générique des corrections d'orthographe d'un nom (chaînes des fiches sauf adresses, fichiers et
+ancien contenu ; titres, légendes, crédits et textes alternatifs de la médiathèque). Test :
+`tests/gunnlaugsson.php`.
+
 ## Orthographe « Jeannin » (correction `2026-11-jeannin`)
 
 Ticket du 04/11/2026 : `DataFixes::jeannin()` écrit « Jeannin » (« JEANNIN » en capitales) le nom
