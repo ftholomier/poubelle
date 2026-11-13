@@ -27,6 +27,8 @@ final class Shield
     /** Robots acceptés en robots.txt et ici (référencement, aperçus de partage). */
     public const VERIFIED = ['Googlebot' => ['.googlebot.com', '.google.com'], 'Google-InspectionTool' => ['.googlebot.com', '.google.com'], 'bingbot' => ['.search.msn.com']];
 
+    /** Lien piège (invisible, interdit dans robots.txt) : seuls les aspirateurs le suivent. */
+    public const TRAP = '/archives-reservees/';
     /** Pages : par minute et par heure. Images fabriquées à la volée : par minute. */
     public const PAGES_MIN = 180;
     public const PAGES_HOUR = 2000;
@@ -69,6 +71,23 @@ final class Shield
         }
         if (isset($req->server['HTTP_COOKIE']) && str_contains((string) $req->server['HTTP_COOKIE'], 'sr_session') && Auth::user()) {
             return null;
+        }
+        // Piège à robots : lien invisible pour les humains (layout), interdit dans robots.txt (les
+        // vrais moteurs, passés plus haut, ne le suivent pas). Qui le suit est un aspirateur : bloqué
+        // une journée. Jamais l'adresse partagée d'une salle en mode soirée.
+        $trap = STORAGE_PATH . '/ratelimit/piege-' . md5($ip);
+        if ($path === self::TRAP && !Venue::covers($ip)) {
+            @mkdir(dirname($trap), 0775, true);
+            @touch($trap);
+            self::log('piege');
+            return self::deny(403);
+        }
+        if (is_file($trap)) {
+            if (@filemtime($trap) > time() - 86400) {
+                self::log('piege');
+                return self::deny(403);
+            }
+            @unlink($trap);
         }
         $media = str_starts_with($path, '/media/');
         if (str_starts_with($path, '/media/full/')) {

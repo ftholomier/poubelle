@@ -836,7 +836,16 @@ dupliqué : un match à une date déjà au musée et un joueur déjà présent s
 Le site refuse les robots d'intelligence artificielle (ChatGPT, Claude, Perplexity…) et les logiciels d'aspiration,
 freine les visiteurs qui demandent trop de pages trop vite, démasque les faux Google, et interdit l'affichage des photos
 en grand format sur d'autres sites. Google et Bing continuent d'indexer le musée normalement. Les tentatives bloquées
-sont comptées dans **Statistiques** (carte « Anti-aspiration »).
+sont comptées dans **Statistiques** (carte « Anti-aspiration »). Un **lien piège**, invisible pour les visiteurs et
+interdit aux moteurs dans robots.txt, repère les aspirateurs qui suivent tous les liens : l'adresse qui le suit est
+bloquée 24 heures (jamais l'équipe connectée, ni le wifi d'une salle en mode soirée).
+
+**Photos et textes du site public** : clic droit « Enregistrer l'image » et glisser-déposer désactivés sur les photos
+(le clic droit reste normal sur le texte et les liens) ; le public ne reçoit jamais l'original d'une photo mais une
+version de 1 600 pixels au plus (l'équipe connectée garde l'original) ; un texte copié de plus d'une ligne est collé
+suivi de « Source : nom du musée – lien de la page ». Réserve contre la réutilisation par les IA déclarée aux robots
+(balises « noai, noimageai », `/.well-known/tdmrep.json`, en-tête `tdm-reservation`) et rappelée dans les mentions
+légales. Une capture d'écran reste possible : ces protections découragent la copie facile.
 
 **Soirée avec un wifi partagé** (lancement, projection, stand) : tous les téléphones branchés sur le wifi de la salle
 sortent par la même adresse internet, que l'anti-aspiration freinerait au bout d'une ou deux minutes (180 pages par

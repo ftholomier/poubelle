@@ -73,6 +73,7 @@ final class Images
         return new Response((string) file_get_contents($dest), 200, [
             'Content-Type' => 'image/webp',
             'Cache-Control' => 'public, max-age=31536000, immutable',
+            'X-Robots-Tag' => 'noai, noimageai',
         ]);
     }
 

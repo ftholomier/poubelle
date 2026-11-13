@@ -173,7 +173,7 @@ $tips = StatsReport::tips($r);
   <div class="card card--pad"><h2 class="card__t card__t--sm">Ce que les visiteurs cherchent</h2><?= $bar($r['searches'], 'text') ?></div>
 </div>
 
-<?php $blk = ['robot' => 0, 'faux-moteur' => 0, 'trop-rapide' => 0, 'photo-ailleurs' => 0];
+<?php $blk = ['robot' => 0, 'faux-moteur' => 0, 'trop-rapide' => 0, 'photo-ailleurs' => 0, 'piege' => 0];
 foreach (\App\Core\Shield::stats() as $d => $row) { if ($d >= $r['from'] && $d <= $r['to']) { foreach ($row as $k => $n) { $blk[$k] = ($blk[$k] ?? 0) + (int) $n; } } } ?>
 <section class="card card--pad" style="margin-top:20px">
   <h2 class="card__t card__t--sm">Anti-aspiration · tentatives bloquées sur la période (<?= array_sum($blk) ?>)</h2>
@@ -182,6 +182,7 @@ foreach (\App\Core\Shield::stats() as $d => $row) { if ($d >= $r['from'] && $d <
     <div class="kpi"><b><?= (int) $blk['faux-moteur'] ?></b><span>faux Google / Bing</span><small>adresse non vérifiée</small></div>
     <div class="kpi"><b><?= (int) $blk['trop-rapide'] ?></b><span>visiteurs trop rapides</span><small>plus de <?= \App\Core\Shield::PAGES_MIN ?> pages/min</small></div>
     <div class="kpi"><b><?= (int) $blk['photo-ailleurs'] ?></b><span>photos affichées ailleurs</span><small>grand format sur un autre site</small></div>
+    <div class="kpi"><b><?= (int) $blk['piege'] ?></b><span>aspirateurs piégés</span><small>lien caché suivi : bloqués 24 h</small></div>
   </div>
   <p class="xs muted" style="margin:8px 0 0">Compté par le site (PHP). Les refus faits directement par le serveur web pour les fichiers déjà prêts (photos) ne sont pas comptés ici.</p>
 </section>

@@ -32,6 +32,24 @@ for ($i = 0; $i < Shield::PAGES_MIN + 5; $i++) {
 $ok($blocked === 5, 'débit : freiné au-delà de ' . Shield::PAGES_MIN . ' pages par minute (' . $blocked . ' refus)');
 $robots = \App\Front\Seo::robots()->body;
 $ok(str_contains($robots, "User-agent: GPTBot") && str_contains($robots, "User-agent: Google-Extended"), 'robots.txt interdit les robots d’IA');
+$ok(str_contains($robots, 'Disallow: ' . Shield::TRAP) || preg_match('#^Disallow: /$#m', $robots) === 1, 'robots.txt interdit le lien piège (ou tout le site avant ouverture)');
+// Piège à robots : l'adresse qui suit le lien caché est bloquée une journée, les autres non.
+$pip = '192.0.2.' . random_int(1, 250);
+$r = Shield::check($req(Shield::TRAP, $chrome, $pip));
+$ok($r !== null && $r->status === 403, 'lien piège suivi : refusé');
+$r = Shield::check($req('/joueurs/', $chrome, $pip));
+$ok($r !== null && $r->status === 403, 'aspirateur piégé : bloqué ensuite sur tout le site');
+$ok(Shield::check($req('/joueurs/', $chrome, '203.0.113.77')) === null, 'autre visiteur : accepté');
+touch(STORAGE_PATH . '/ratelimit/piege-' . md5($pip), time() - 90000);
+$ok(Shield::check($req('/joueurs/', $chrome, $pip)) === null, 'blocage levé après 24 h');
+$ok(!is_file(STORAGE_PATH . '/ratelimit/piege-' . md5($pip)), 'trace du piège effacée');
+// Réserve légale anti-IA (TDMRep) et originaux réservés à l'équipe.
+$k = null;
+$res = (new \ReflectionMethod(\App\Kernel::class, 'dispatch'))->invoke(null, $req('/.well-known/tdmrep.json', $chrome, '203.0.113.78'));
+$j = json_decode((string) $res->body, true);
+$ok(($j[0]['tdm-reservation'] ?? null) === 1, 'tdmrep.json : réserve déclarée');
+$res = (new \ReflectionMethod(\App\Kernel::class, 'dispatch'))->invoke(null, $req('/media/full/2024/x.jpg', $chrome, '203.0.113.79', ['HTTP_REFERER' => 'https://musee.fcsochauxretro.com/']));
+$ok($res->status === 302 && str_contains((string) ($res->headers['Location'] ?? ''), '/media/1600/'), 'photo originale demandée par le public : version 1600 px');
 $ok(array_sum(array_map('array_sum', Shield::stats())) > 0, 'blocages comptés pour les Statistiques');
 echo $fail ? "\n$fail échec(s)\n" : "\nTout est bon.\n";
 exit($fail ? 1 : 0);

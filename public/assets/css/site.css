@@ -1078,3 +1078,9 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
 .tweet iframe { display: block; width: 100%; height: 560px; border: 0; border-radius: 12px; background: #fff; }
 .tweet__link { display: inline-block; margin-top: 6px; font-size: 13px; }
 .timeline__body .tweet { margin: 12px 0 4px; }
+
+/* Photos : pas de glisser-déposer ni de menu « Enregistrer » au toucher prolongé (site.js gère le clic droit). */
+img, .gallery__item, .lightbox img { -webkit-user-drag: none; user-drag: none; -webkit-touch-callout: none; }
+img { user-select: none; -webkit-user-select: none; }
+.sr-trap { display: none !important; }
+

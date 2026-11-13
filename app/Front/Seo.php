@@ -45,7 +45,7 @@ final class Seo
             // Site pas encore ouvert : rien ne doit être indexé.
             $lines[] = 'Disallow: /';
         } else {
-            foreach (['/admin', '/api/', '/recherche/', '/partage/', '/pdf/', '/en/pdf/', '/*?q=', '/*&q=', '/*?tri=', '/*&tri=', '/*?vue=', '/*&vue=', '/*?fragment=', '/*?apercu'] as $d) {
+            foreach (['/admin', \App\Core\Shield::TRAP, '/api/', '/recherche/', '/partage/', '/pdf/', '/en/pdf/', '/*?q=', '/*&q=', '/*?tri=', '/*&tri=', '/*?vue=', '/*&vue=', '/*?fragment=', '/*?apercu'] as $d) {
                 $lines[] = 'Disallow: ' . $d;
             }
             $lines[] = 'Allow: ' . MEDIA_URL . '/';

@@ -60,6 +60,12 @@ final class Kernel
         return $res;
     }
 
+    /** Membre de l'équipe connecté (cookie de session présent : la session n'est ouverte que dans ce cas). */
+    private static function team(Request $req): bool
+    {
+        return isset($req->server['HTTP_COOKIE']) && str_contains((string) $req->server['HTTP_COOKIE'], 'sr_session') && Auth::user() !== null;
+    }
+
     /**
      * Pour un administrateur connecté (jamais pour le public) : l'erreur et les réglages du serveur
      * à revoir, sur la page « Arrêt de jeu », pour corriger sans chercher dans le journal.
@@ -138,7 +144,17 @@ final class Kernel
 
         // Images à la volée
         if (preg_match('#^/media/(\d+|full)/(.+)$#', $path, $m)) {
+            // Photo en taille originale (scan d'origine) : réservée à l'équipe connectée ; le public
+            // reçoit la version 1600 px (assez grande à l'écran, peu exploitable pour une réimpression).
+            // Documents PDF et dessins SVG restent servis tels quels.
+            if ($m[1] === 'full' && preg_match('/\.(jpe?g|png|webp|gif|bmp|tiff?|avif)$/i', $m[2]) && !self::team($req)) {
+                return Response::redirect(img(Data\Media::safeRel($m[2]), 1600), 302);
+            }
             return Images::serve($m[1], $m[2]);
+        }
+        // Réserve de fouille de textes et de données (protocole TDMRep, directive européenne 2019/790).
+        if ($path === '/.well-known/tdmrep.json') {
+            return new Response(json_encode([['location' => '/*', 'tdm-reservation' => 1, 'tdm-policy' => base_url() . '/mentions-legales/']], JSON_UNESCAPED_SLASHES), 200, ['Content-Type' => 'application/json', 'Cache-Control' => 'public, max-age=86400']);
         }
         // Anciennes images WordPress (liens externes, moteurs) → médiathèque
         if (preg_match('#^/wp-content/uploads/(.+?)(-\d+x\d+)?(\.\w+)$#', $path, $m)) {

@@ -2521,7 +2521,12 @@ Appelé en tête de `Kernel::dispatch` (musée et site de l'association) :
   scripts Python/Go/Node, navigateurs sans écran…) et agent vide : 403 ; `robots.txt` reste lisible ;
 - Googlebot et bingbot vérifiés par DNS inverse (cache d'un jour, `storage/ratelimit/robots-verifies.json`) : faux = 403 ;
 - débit par adresse : 180 pages/min et 2 000/h, 400 images fabriquées/min, 60 grands formats/min : 429 (Retry-After 300) ;
-- `/media/full/` : refusé si le référent est un autre site ;
+- `/media/full/` : refusé si le référent est un autre site ; pour le public (pas de session d'équipe), une photo
+  (jpg, png, webp, gif, bmp, tiff, avif) y est redirigée (302) vers `img($rel, 1600)` dans `Kernel::dispatch`
+  (PDF et SVG servis tels quels) ;
+- piège (`Shield::TRAP`, `/archives-reservees/`) : lien caché dans `layout.php` (`hidden`, `.sr-trap`), interdit dans
+  robots.txt ; l'adresse qui le suit (moteurs vérifiés, équipe et mode soirée exclus) est marquée
+  `storage/ratelimit/piege-<md5 ip>` et reçoit 403 sur tout le site pendant 24 h (motif `piege` dans les stats) ;
 - jamais filtrés : back-office, équipe connectée, webhooks de paiement, notifications, 127.0.0.1 et le serveur lui-même.
 - mode soirée (`App\Core\Venue`, réglages `soiree.enabled`, `soiree.ips`, `soiree.until`) : jusqu'à l'heure de fin
   (3 jours au plus, contrôlé dans `System::checkVenue`), les adresses du wifi d'une salle (IPv6 : bloc /64) échappent
@@ -2531,7 +2536,13 @@ Appelé en tête de `Kernel::dispatch` (musée et site de l'association) :
 Compteurs par jour et par motif dans `storage/stats/blocages.json` (carte dans Statistiques). Le `.htaccess` refuse aussi
 les mêmes robots et le grand format affiché ailleurs pour les fichiers servis sans PHP, et envoie `tdm-reservation: 1`.
 `robots.txt` interdit nommément les robots d'IA (dont Google-Extended et Applebot-Extended). Mentions légales :
-opposition à la fouille de textes et de données (art. L. 122-5-3 CPI). Test : `tests/shield.php`.
+opposition à la fouille de textes et de données (art. L. 122-5-3 CPI). Réserve aussi déclarée par
+`/.well-known/tdmrep.json` (route du Kernel), `<meta name="tdm-reservation" content="1">`, `<meta name="robots"
+content="noai, noimageai">` et l'en-tête `X-Robots-Tag: noai, noimageai` des images (`.htaccess` et `Images::serve`).
+Site public (`site.js`, fin de fichier) : `contextmenu` et `dragstart` annulés sur les photos (img, galerie, visionneuse),
+pas sur le texte ni les liens ; `copy` d'au moins 80 caractères hors champs de saisie : `text/plain` et `text/html`
+suivis de « Source : og:site_name – adresse ». CSS : `-webkit-user-drag` et `-webkit-touch-callout` coupés sur `img`.
+Test : `tests/shield.php`.
 
 ### Couverture du livre : recherche par mots-clés
 `GET /boutique/livre/couvertures/?q=` → `Livre::searchCovers()` : photos des fiches trouvées par la recherche du musée

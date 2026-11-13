@@ -66,6 +66,10 @@ AddDefaultCharset UTF-8
     <FilesMatch "\.(woff2|webp|avif|jpg|jpeg|png|gif|svg|css|js|ico|mp3|wav|mp4)$">
         Header set Cache-Control "public, max-age=31536000, immutable"
     </FilesMatch>
+    # Photos : pas d'entraînement d'IA ni de réutilisation par les moteurs d'images génératifs.
+    <FilesMatch "\.(webp|avif|jpg|jpeg|png|gif)$">
+        Header set X-Robots-Tag "noai, noimageai"
+    </FilesMatch>
     # Application du musée : service worker, manifeste et page hors connexion toujours revérifiés
     # (adresses fixes, sans version).
     <FilesMatch "^(sw\.js|manifest\.webmanifest|hors-ligne\.html)$">

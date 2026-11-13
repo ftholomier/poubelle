@@ -26,6 +26,8 @@ $chat = empty($page['no_chat']) && \App\Services\Rag::enabled();
 <link rel="alternate" hreflang="<?= e($alt['lang']) ?>" href="<?= e($alt['href']) ?>">
 <?php endforeach; ?>
 <?php if ($meta['noindex']): ?><meta name="robots" content="noindex, follow"><?php endif; ?>
+<meta name="robots" content="noai, noimageai">
+<meta name="tdm-reservation" content="1">
 <?php if (!empty($page['prev'])): ?><link rel="prev" href="<?= e($page['prev']) ?>"><?php endif; ?>
 <?php if (!empty($page['next'])): ?><link rel="next" href="<?= e($page['next']) ?>"><?php endif; ?>
 <meta property="og:site_name" content="<?= e($meta['site']) ?>">
@@ -81,6 +83,7 @@ $chat = empty($page['no_chat']) && \App\Services\Rag::enabled();
 <?php if ($chat): ?>
 <?= \App\Core\View::partial('partials/chat') ?>
 <?php endif; ?>
+<a href="<?= e(\App\Core\Shield::TRAP) ?>" class="sr-trap" rel="nofollow" tabindex="-1" aria-hidden="true" hidden>Archives</a>
 <script src="<?= asset('js/site.js') ?>" defer></script>
 <?php if ($chat): ?><script src="<?= asset('js/chat.js') ?>" defer></script><?php endif; ?>
 <?php foreach ($page['scripts'] ?? [] as $js): ?>

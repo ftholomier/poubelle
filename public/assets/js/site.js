@@ -570,3 +570,25 @@ window.addEventListener('message', (ev) => {
   if (!h) return;
   document.querySelectorAll('.tweet iframe, .video--x iframe').forEach((f) => { if (f.contentWindow === ev.source) f.style.height = Math.ceil(h) + 'px'; });
 });
+
+(() => {
+  /* ---------------------------------------------------------- protection des photos et des textes */
+  // Photos : pas de menu « Enregistrer l'image » ni de glisser-déposer (le clic droit reste normal
+  // sur le texte et les liens). Ne peut empêcher une capture d'écran : décourage la copie facile.
+  const isPhoto = el => el instanceof Element && !!el.closest('img, picture, .lightbox, .gallery__item, .video--out, .ytconsent, [data-lb]');
+  document.addEventListener('contextmenu', e => { if (isPhoto(e.target) && !e.target.closest('a[href]:not([data-lb])')) e.preventDefault(); });
+  document.addEventListener('dragstart', e => { if (isPhoto(e.target)) e.preventDefault(); });
+  // Copier-coller signé : au-delà de quelques mots, le texte collé se termine par la source.
+  document.addEventListener('copy', e => {
+    const sel = window.getSelection ? window.getSelection() : null;
+    const text = sel ? String(sel) : '';
+    if (!e.clipboardData || text.trim().length < 80 || (document.activeElement && document.activeElement.closest('input, textarea, [contenteditable]'))) return;
+    const url = location.href.split('#')[0];
+    const site = (document.querySelector('meta[property="og:site_name"]') || {}).content || document.title;
+    const div = document.createElement('div');
+    for (let i = 0; i < sel.rangeCount; i++) div.appendChild(sel.getRangeAt(i).cloneContents());
+    e.clipboardData.setData('text/plain', text + '\n\nSource : ' + site + ' – ' + url);
+    e.clipboardData.setData('text/html', div.innerHTML + '<p>Source : <a href="' + url.replace(/"/g, '&quot;') + '">' + site.replace(/</g, '&lt;') + '</a></p>');
+    e.preventDefault();
+  });
+})();
