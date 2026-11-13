@@ -15,6 +15,7 @@
     const list = [...files];
     if (!list.length) return;
     const done = [];
+    const info = { warnings: [], credits: [] };
     for (let i = 0; i < list.length; i++) {
       const f = list[i];
       if (progress) { progress.hidden = false; progress.textContent = 'Envoi ' + (i + 1) + ' / ' + list.length + ' : ' + f.name + '…'; }
@@ -22,26 +23,32 @@
       fd.append('file', f);
       if (replace) fd.append('replace', replace);
       const r = await BO.post('/admin/medias/envoi', fd, false);
-      if (r.ok) done.push(r.file); else BO.toast(r.error || ('Échec : ' + f.name), true);
+      if (r.ok) { done.push(r.file); if (r.warning) info.warnings.push(r.warning); info.credits.push(r.credit || ''); } else BO.toast(r.error || ('Échec : ' + f.name), true);
     }
     if (progress) progress.textContent = done.length + ' fichier(s) envoyé(s).';
     if (!done.length) return;
     if (replace) {
-      try { sessionStorage.setItem('bo-toast', 'Fichier remplacé : les vignettes sont régénérées.'); } catch (e) { /* */ }
+      try { sessionStorage.setItem('bo-toast', info.warnings[0] || 'Fichier remplacé : les vignettes sont régénérées.'); } catch (e) { /* */ }
       location.reload();
       return;
     }
-    describe(done);
+    describe(done, info);
   }
 
   /** Après un envoi : légende et crédit des nouveaux fichiers (le crédit est demandé d'emblée). */
-  function describe(rels) {
+  function describe(rels, info = { warnings: [], credits: [] }) {
+    // Crédit lu dans les fichiers (copyright, auteur) : proposé s'il est le même pour tous ; s'ils
+    // diffèrent, chaque photo garde le sien et le crédit saisi ne complète que celles qui n'en ont pas.
+    const read = [...new Set(info.credits.filter(Boolean))];
+    const keepOwn = read.length > 1 || (read.length === 1 && info.credits.some(c => !c));
+    const need = !info.credits.length || info.credits.some(c => !c);
     const { m } = modal(
       '<h2 class="modal__t">' + rels.length + ' fichier' + (rels.length > 1 ? 's' : '') + ' ajouté' + (rels.length > 1 ? 's' : '') + '</h2>'
       + '<div class="thumbs" style="grid-template-columns:repeat(auto-fill,minmax(90px,1fr))">' + rels.slice(0, 12).map(r => '<img src="' + esc(BO.thumb(r, 160)) + '" alt="" style="aspect-ratio:1;object-fit:cover;border:2px solid var(--navy)">').join('') + '</div>'
-      + '<p class="small muted" style="margin:0">Indiquez d’où viennent ces documents : le crédit est affiché sous chaque image sur le site.</p>'
+      + (info.warnings.length ? '<div class="alert alert--error small"><b>⚠ Droits à vérifier</b><ul style="margin:6px 0 0;padding-left:20px">' + info.warnings.map(w => '<li>' + esc(w) + '</li>').join('') + '</ul></div>' : '')
+      + '<p class="small muted" style="margin:0">Indiquez d’où viennent ces documents : le crédit est affiché sous chaque image sur le site.' + (read.length ? ' ' + (keepOwn ? 'Crédits lus dans les fichiers (' + read.map(esc).join(', ') + ') : chaque photo garde le sien, le crédit saisi complète les autres.' : 'Crédit prérempli à partir des informations de la photo.') : '') + '</p>'
       + '<form class="stack" style="gap:12px">'
-      + '<div class="f"><span class="f__k">Crédit <b>*</b></span><input type="text" name="credit" maxlength="250" required placeholder="Photographe, journal, collection…"></div>'
+      + '<div class="f"><span class="f__k">Crédit' + (need ? ' <b>*</b>' : '') + '</span><input type="text" name="credit" maxlength="250"' + (need ? ' required' : '') + ' placeholder="Photographe, journal, collection…" value="' + (read.length === 1 && !keepOwn ? esc(read[0]) : '') + '"></div>'
       + '<div class="f"><span class="f__k">Légende</span><input type="text" name="caption" maxlength="500" placeholder="Qui, quoi, où, quand…"></div>'
       + '<div class="f"><span class="f__k">Droits / licence</span><input type="text" name="rights" maxlength="250" placeholder="Tous droits réservés, cession du donateur…"></div>'
       + '<div class="row row--end"><button type="button" class="btn" data-later>Compléter plus tard</button><button type="submit" class="btn btn--navy">Enregistrer</button></div></form>');
@@ -50,8 +57,9 @@
     $('form', m).addEventListener('submit', async e => {
       e.preventDefault();
       const f = e.target;
-      if (!f.credit.value.trim()) { f.credit.focus(); return; }
-      const r = await BO.post('/admin/medias/enregistrer', { files: rels, credit: f.credit.value, caption: f.caption.value, rights: f.rights.value, overwrite: true });
+      if (need && !f.credit.value.trim()) { f.credit.focus(); return; }
+      if (![f.credit, f.caption, f.rights].some(x => x.value.trim())) { go(); return; }
+      const r = await BO.post('/admin/medias/enregistrer', { files: rels, credit: f.credit.value, caption: f.caption.value, rights: f.rights.value, overwrite: !keepOwn });
       if (!r.ok) { BO.toast(r.error || 'Enregistrement impossible', true); return; }
       try { sessionStorage.setItem('bo-toast', rels.length + ' fichier(s) ajouté(s) et décrit(s).'); } catch (er) { /* */ }
       go();
@@ -135,6 +143,7 @@
       + '<div class="stack" style="gap:10px">'
       + (it.pdf ? '<a class="btn" href="' + esc(it.full) + '" target="_blank" rel="noopener">Ouvrir le PDF ↗</a>' : '<a href="' + esc(it.full) + '" target="_blank" rel="noopener" title="Ouvrir l’original"><img src="' + esc(it.large) + '" alt="" style="width:100%;max-height:52vh;object-fit:contain;background:var(--sand);border:2px solid var(--navy)"></a>')
       + '<span class="xs muted">' + [it.width && it.height ? it.width + ' × ' + it.height + ' px' : '', it.size, it.added ? 'ajouté le ' + new Date(it.added).toLocaleDateString('fr-FR') : '', it.source].filter(Boolean).map(esc).join(' · ') + '</span>'
+      + rightsBox(it)
       + (it.lowres ? '<div class="alert alert--info small">⚠ Basse définition : sur le site, cette photo est montrée à sa taille réelle sur un fond flou, jamais agrandie (elle serait pixellisée). Si une version plus grande existe, remplacez le fichier (mêmes adresses).</div>' : '')
       + (it.raw && it.raw !== it.caption ? '<div class="alert alert--info small">Légende d’origine (ancien site) : ' + esc(it.raw) + '</div>' : '')
       + '<div class="f"><span class="f__k">Adresse de l’image</span><div class="row"><code class="small" style="overflow-wrap:anywhere;flex:1">' + esc(it.file) + '</code><button type="button" class="btn btn--sm" data-copy="' + esc(location.origin + it.full) + '">Copier le lien</button></div></div>'
@@ -183,6 +192,21 @@
       close();
     });
     $('[data-replace]', m)?.addEventListener('change', e => { if (e.target.files[0]) upload(e.target.files, it.file); });
+    $('[data-use-credit]', m)?.addEventListener('click', () => { form.credit.value = it.file_credit; form.credit.focus(); BO.toast('Crédit repris : pensez à enregistrer.'); });
+    const rightsSend = async body => {
+      const r = await BO.post('/admin/medias/droits', Object.assign({ file: it.file }, body));
+      if (!r.ok) { BO.toast(r.error || 'Enregistrement impossible', true); return; }
+      card.dataset.media = JSON.stringify(r.item);
+      paintRights(card, r.item);
+      BO.toast(r.message);
+      close();
+    };
+    $('[data-rights-ok]', m)?.addEventListener('click', () => {
+      const note = $('[name=rights_note]', m);
+      if (!note.value.trim()) { note.focus(); BO.toast('Indiquez pourquoi le musée peut garder cette photo.', true); return; }
+      rightsSend({ note: note.value });
+    });
+    $('[data-rights-reset]', m)?.addEventListener('click', () => rightsSend({ reset: 1 }));
     $('[data-retouch]', m)?.addEventListener('click', () => retouch(it, card, close));
     $('[data-del]', m)?.addEventListener('click', async () => {
       if (it.used_count) return;
@@ -195,6 +219,31 @@
     });
     setTimeout(() => form.caption.focus(), 30);
   });
+
+  /* ------------------------------------------------------------ droits des photos */
+  /** Encadré « Droits » de la fiche d'un média : agence repérée, décision de l'équipe, informations du fichier. */
+  function rightsBox(it) {
+    if (it.pdf) return '';
+    const meta = Object.entries(it.file_meta || {});
+    const metaHtml = meta.length ? '<details class="small"><summary>Informations cachées dans le fichier (' + meta.length + ')</summary><ul style="margin:4px 0 0;padding-left:18px">' + meta.map(([k, v]) => '<li><b>' + esc(k) + '</b> : ' + esc(v) + '</li>').join('') + '</ul></details>' : '';
+    const useCredit = it.file_credit && it.file_credit !== it.credit ? '<button type="button" class="btn btn--sm" data-use-credit>Utiliser « ' + esc(it.file_credit) + ' » comme crédit</button>' : '';
+    if (!it.rights_alert) return metaHtml || useCredit ? '<div class="stack" style="gap:6px">' + metaHtml + useCredit + '</div>' : '';
+    if (it.rights_ok) {
+      return '<div class="alert alert--info small"><b>✓ Droits vérifiés</b> par ' + esc(it.rights_ok.by) + ' le ' + esc(new Date(it.rights_ok.at).toLocaleDateString('fr-FR')) + ' : ' + esc(it.rights_ok.note)
+        + '<br><span class="xs muted">Repéré : ' + esc(it.rights_alert.text) + '.</span> <button type="button" class="btn btn--sm btn--ghost" data-rights-reset>Remettre à vérifier</button>' + metaHtml + '</div>';
+    }
+    return '<div class="alert alert--error small"><b>⚠ Droits à vérifier : ' + esc(it.rights_alert.short) + '</b> (' + esc(it.rights_alert.kind) + ')'
+      + '<ul style="margin:6px 0;padding-left:20px">' + it.rights_alert.found.map(f => '<li>' + esc(f.who) + ', trouvé dans ' + esc(f.where) + ' : « ' + esc(f.text) + ' »</li>').join('') + '</ul>'
+      + 'Ces photos sont souvent surveillées par des sociétés qui envoient des factures. Si le musée n’a pas le droit de l’utiliser, retirez-la des contenus puis supprimez-la. Sinon, dites pourquoi on peut la garder :'
+      + '<div class="row" style="margin-top:6px"><input type="text" name="rights_note" maxlength="250" list="rights-notes" placeholder="Ex. : autorisation écrite reçue le…" style="flex:1;min-width:200px"><button type="button" class="btn btn--sm btn--navy" data-rights-ok>Droits vérifiés : on la garde</button></div>'
+      + '<datalist id="rights-notes"><option value="Autorisation écrite de l’agence ou du photographe"><option value="Photo de la collection du club"><option value="Photo d’un collectionneur, publiée avec son accord"><option value="Licence achetée"><option value="Œuvre du domaine public"></datalist>'
+      + metaHtml + (useCredit ? '<div style="margin-top:6px">' + useCredit + '</div>' : '') + '</div>';
+  }
+  /** Pastille de la vignette (après une décision). */
+  function paintRights(card, it) {
+    const b = $('[data-rights-badge]', card);
+    if (b) b.hidden = !(it.rights_alert && !it.rights_ok);
+  }
 
   /* ------------------------------------------------------------ recadrer / pivoter (non destructif) */
   function retouch(it, card, closeParent) {

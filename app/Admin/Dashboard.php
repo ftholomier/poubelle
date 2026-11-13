@@ -85,7 +85,7 @@ final class Dashboard extends Base
         $other = 0;
         $otherTab = null;
         foreach ($quality as $tab => $list) {
-            $n = in_array($tab, ['stats', 'site', 'orthographe'], true) ? 0 : count(array_filter($list, fn ($q) => $q['sev'] === 'haute'));
+            $n = in_array($tab, ['stats', 'site', 'orthographe', 'droits'], true) ? 0 : count(array_filter($list, fn ($q) => $q['sev'] === 'haute'));
             $other += $n;
             $otherTab ??= $n ? $tab : null;
         }
@@ -104,6 +104,10 @@ final class Dashboard extends Base
         }
         if ($toReview) {
             $todos[] = [\App\Core\Club::color('blue'), "Relire $toReview fiche" . ($toReview > 1 ? 's' : '') . ' « à relire »', 'Fiches', '/admin/matchs?statut=relire'];
+        }
+        $rights = count(array_filter($quality['droits'], fn ($q) => $q['sev'] !== 'basse'));
+        if ($rights) {
+            $todos[] = [\App\Core\Club::color('red'), 'Vérifier les droits de ' . number_format($rights, 0, ',', ' ') . ' photo' . ($rights > 1 ? 's' : '') . ' d’agences ou de journaux', 'Médias', '/admin/medias?filtre=droits'];
         }
         if (count($quality['credits'])) {
             $todos[] = [\App\Core\Club::color('yellow'), 'Créditer ' . number_format(count($quality['credits']), 0, ',', ' ') . ' photo' . (count($quality['credits']) > 1 ? 's' : ''), 'Médias', '/admin/medias?filtre=sans-credit'];

@@ -49,6 +49,7 @@ final class Cron
         'radio' => [0, 'Rétro-Direct commenté : fabrication des commentaires radio demandés (texte puis voix, réplique par réplique)'],
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
         'medias' => [0, 'Médiathèque : dimensions, poids et empreintes des fichiers (doublons), bandes unies incrustées à rogner'],
+        'droits-photos' => [3600, 'Droits des photos : lecture des informations cachées des fichiers (copyright, crédit, auteur) pour repérer les photos d’agences, de banques d’images et de journaux'],
         'murs-photos' => [0, 'Murs de photos : vignettes préparées d’avance'],
         'pastilles' => [0, 'Photos du terrain : visage recadré pour la pastille des joueurs sans portrait (Gemini)'],
         'videos' => [3600, 'Vignettes des vidéos et vidéos Dailymotion retirées'],
@@ -69,7 +70,7 @@ final class Cron
      * Tâches longues (appels à l'IA, archives, fabrication de sons et d'images) : après les autres,
      * à tour de rôle, avec le temps qui reste au passage.
      */
-    public const LONG = ['traductions', 'correcteur', 'audio', 'reprise', 'feuilles', 'compositions', 'liens-compositions', 'trouvailles', 'radio', 'geolocalisation', 'medias', 'murs-photos', 'pastilles', 'videos', 'assistant'];
+    public const LONG = ['traductions', 'correcteur', 'audio', 'reprise', 'feuilles', 'compositions', 'liens-compositions', 'trouvailles', 'radio', 'geolocalisation', 'medias', 'droits-photos', 'murs-photos', 'pastilles', 'videos', 'assistant'];
 
     /** Tâches qui reposent sur Gemini : arrêtées quand l'IA du musée est coupée (Réglages › Coûts IA). */
     public const AI_TASKS = ['traductions', 'audio', 'reprise', 'trouvailles', 'radio', 'assistant', 'pastilles'];
@@ -290,6 +291,9 @@ final class Cron
                 $facts = self::mediaFacts(400);
                 $bands = \App\Services\Images::scanBands((float) self::left(40));
                 return $facts || $bands ? trim(($facts ?? '') . ($facts && $bands ? ' ; ' : '') . ($bands ?? '')) : null;
+
+            case 'droits-photos':
+                return \App\Services\PhotoRights::scan((float) self::left(30));
 
             case 'pastilles':
                 if (!Gemini::ready() && !is_callable(PitchPhotos::$detect)) {

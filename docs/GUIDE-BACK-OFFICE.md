@@ -329,6 +329,18 @@ par une autre graphie.
   fond de bandeau flouté). Une version plus grande remplace le fichier sans rien changer aux fiches.
 - Modification groupée : cocher plusieurs photos pour leur donner le même crédit ou les
   mêmes droits.
+- **Droits des photos** (agences, banques d'images, journaux) : un nom d'agence (AFP, Icon Sport,
+  Maxppp, Presse Sports, Reuters, Getty, Adobe Stock, Shutterstock…) ou de journal (L'Équipe, L'Est
+  Républicain, France Football…) trouvé dans le crédit, les droits, le nom du fichier, la légende
+  (après « photo », « crédit », « © ») ou les informations cachées du fichier (IPTC, EXIF, XMP :
+  copyright, crédit, auteur, conditions d'utilisation) signale la photo : filtre « Droits à
+  vérifier », mention sur la vignette, détail dans la fenêtre de la photo, onglet Qualité › Droits
+  des photos, tâche du tableau de bord. À l'envoi, avertissement (confirmation demandée avant de
+  l'utiliser dans une fiche) et crédit / droits préremplis depuis le fichier. L'équipe décide :
+  retirer puis supprimer la photo, ou « Droits vérifiés : on la garde » avec la raison (qui, quand,
+  pourquoi gardés ; « Remettre à vérifier » possible). Les informations des fichiers ne sont jamais
+  effacées ni modifiées (interdit par la loi, et inutile : les sociétés de recouvrement comparent
+  les images elles-mêmes).
 - **Crédits écrits dans les légendes** (« … Photo Jean Dupont », « ©AGENCE ; texte ») :
   séparés en légende + crédit depuis un écran d'aperçu qui montre chaque séparation avant de
   l'appliquer (à l'enregistrement d'une photo, le crédit repéré est seulement signalé).

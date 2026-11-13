@@ -138,6 +138,7 @@ final class Router
         $r->post('/admin/medias/envoi', fn ($q) => Medias::upload($q));
         $r->post('/admin/medias/enregistrer', fn ($q) => Medias::save($q));
         $r->post('/admin/medias/supprimer', fn ($q) => Medias::delete($q));
+        $r->post('/admin/medias/droits', fn ($q) => Medias::rights($q));
         $r->get('/admin/medias/apercu', fn ($q) => Medias::source($q));
 
         // Référentiels, éditorial, rubriques

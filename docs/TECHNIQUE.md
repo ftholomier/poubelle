@@ -2828,3 +2828,27 @@ message rouge de la fiche (texte non reconnu, postes qui ne collent pas). Test :
 Appliqué à chaque enregistrement d'un match (`FicheForm::apply`) et une fois à tous les matchs sans `$orig` (`2026-10-reactions-du-recit`), qui ne remplit que les listes vides ou d'attente. Test : `tests/reactions-recit.php`.
 
 Affichage des citations (`quote_text()`, `app/helpers.php`) : sur la fiche, le Rétro-Direct et le PDF, les retours à la ligne d'un texte collé (journal, PDF) ou du code de l'ancien site ne coupent plus les phrases (une ligne vide sépare deux paragraphes), comme dans l'éditeur du back-office. La reprise du récit enregistre la citation sur une seule ligne.
+
+## Droits des photos (`App\Services\PhotoRights`)
+
+Repère les photos d'agences, de banques d'images et de journaux (`PhotoRights::SOURCES` : nom, sorte
+`banque` / `agence` / `presse`, motif ; les noms courants, « L'Équipe », « Le Pays », « ER »…, ne
+comptent dans une légende ou un titre qu'après « photo », « crédit », « © », « via », « / »…).
+- Sources : champs du média (`credit`, `rights`, nom du fichier, `title`, `caption`, `caption_raw`,
+  `alt`), noms de fichiers des banques (`AdobeStock_123…`), et informations du fichier lues par
+  `PhotoRights::read()` : IPTC (2#116 copyright, 2#110 crédit, 2#080 auteur, 2#115 source, 2#040
+  conditions, 2#120 description), EXIF IFD0 (Copyright, Artist, ImageDescription), XMP du premier Mo
+  (dc:rights, photoshop:Credit, dc:creator, photoshop:Source, xmpRights:UsageTerms / WebStatement,
+  plus:LicensorName / LicensorURL, dc:description). Rien n'est jamais écrit dans les fichiers.
+- `storage/droits-photos.json` : chemin => `sig` (taille-date) et `meta`, rempli par la tâche
+  `droits-photos` (`PhotoRights::scan()`, toutes les heures, fichiers nouveaux ou changés, dans le
+  temps restant du passage) et à l'envoi (`PhotoRights::remember()` dans `Medias::upload`, qui
+  préremplit `credit` via `suggestedCredit()` et `rights` d'une nouvelle photo et renvoie `warning`).
+- `PhotoRights::pending()` : photos signalées sans décision, en cache dans
+  `storage/cache/droits-a-verifier.php` (signature : taille et date de `media.json` et du relevé).
+- Décision : `POST /admin/medias/droits` (`Medias::rights`, toute l'équipe) : `note` obligatoire →
+  champ du média `rights_ok` {by, at, note} ; `reset` le retire. Un fichier remplacé perd la décision.
+- Affichage : filtre `droits` de la médiathèque, `rights_alert` / `rights_ok` / `file_meta` /
+  `file_credit` dans l'élément JSON du média, onglet Qualité `droits` (haute : agence ou banque
+  utilisée ; moyenne : journal utilisé ; basse : photo inutilisée), tâche du tableau de bord.
+Test : `tests/droits-photos.php`.

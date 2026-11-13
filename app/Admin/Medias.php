@@ -12,6 +12,7 @@ use App\Data\Index;
 use App\Data\Media;
 use App\Data\Paths;
 use App\Services\Images;
+use App\Services\PhotoRights;
 use App\Services\PhotoWall;
 use App\Services\Search;
 
@@ -28,6 +29,7 @@ final class Medias extends Base
         'sans-credit' => 'Sans crédit',
         'sans-legende' => 'Sans légende',
         'sans-droits' => 'Droits à préciser',
+        'droits' => 'Droits à vérifier (agences, banques d’images, journaux)',
         'doublons' => 'Doublons possibles',
         'basse-definition' => 'Basse définition (moins de 400 px)',
         'inutilise' => 'Inutilisés',
@@ -128,6 +130,9 @@ final class Medias extends Base
         if (empty($usage[$rel])) {
             $f[] = 'inutilise';
         }
+        if (isset(PhotoRights::pending()[$rel])) {
+            $f[] = 'droits';
+        }
         if ($isPdf) {
             $f[] = 'pdf';
         }
@@ -222,6 +227,11 @@ final class Medias extends Base
             // Murs de photos (Interactif) : null si la photo y va, sinon pourquoi elle n'y va pas.
             'wall' => $isPdf ? null : PhotoWall::reason($rel, $m, $usage),
             'nowall' => !empty($m['nowall']),
+            // Droits : agence, banque d'images ou journal repérés ; décision de l'équipe ; crédit lu dans le fichier.
+            'rights_alert' => $isPdf ? null : (($f = PhotoRights::findings($rel, $m)) ? ['short' => $f[0]['who'], 'text' => PhotoRights::summary($f), 'found' => $f, 'kind' => PhotoRights::KINDS[$f[0]['kind']]] : null),
+            'rights_ok' => $m['rights_ok'] ?? null,
+            'file_meta' => $isPdf ? [] : array_combine(array_map(fn ($k) => PhotoRights::META_LABELS[$k] ?? $k, array_keys($fm = PhotoRights::stored($rel))), array_values($fm)),
+            'file_credit' => $isPdf ? '' : PhotoRights::suggestedCredit(PhotoRights::stored($rel)),
         ];
     }
 
@@ -287,13 +297,50 @@ final class Medias extends Base
         self::purgeDerivatives($rel);
         [$w, $h] = @getimagesize($dest) ?: [null, null];
         $meta = ['file' => $rel, 'mime' => $mime, 'width' => $w, 'height' => $h, 'size' => filesize($dest)];
+        // Informations de droits cachées dans le fichier (copyright, crédit, auteur) : gardées telles
+        // quelles, elles préremplissent le crédit et les droits d'une nouvelle photo.
+        $fileMeta = str_starts_with($mime, 'image/') ? PhotoRights::remember($rel, $dest) : [];
         if ($replace === '') {
-            $meta += ['title' => pathinfo($name, PATHINFO_FILENAME), 'caption' => '', 'credit' => '', 'alt' => '', 'rights' => '', 'added' => date('c'), 'source' => 'back-office (' . $user['name'] . ')'];
+            $meta += ['title' => pathinfo($name, PATHINFO_FILENAME), 'caption' => '', 'credit' => PhotoRights::suggestedCredit($fileMeta), 'alt' => '',
+                'rights' => mb_substr(trim((string) ($fileMeta['copyright'] ?? $fileMeta['usage'] ?? '')), 0, 250), 'added' => date('c'), 'source' => 'back-office (' . $user['name'] . ')'];
         } else {
             $meta['replaced'] = date('c');
         }
-        Media::put($rel, $meta, $user);
-        return self::json(['ok' => true, 'file' => $rel, 'thumb' => img($rel, 320), 'replaced' => $replace !== '']);
+        // Nouveau fichier : la décision prise sur l'ancien ne vaut plus.
+        Media::put($rel, $meta, $user, $replace !== '' ? ['rights_ok'] : []);
+        $found = str_starts_with($mime, 'image/') ? PhotoRights::findings($rel, Media::get($rel) ?? [] , $fileMeta) : [];
+        $warning = $found ? '« ' . $name . ' » : ' . PhotoRights::summary($found) . '. Cette photo appartient sans doute à ' . $found[0]['who'] . ' : ne la publiez que si le musée a le droit de l’utiliser (sinon, des factures peuvent arriver). Elle est signalée dans Qualité › Droits des photos.' : '';
+        if ($found) {
+            Activity::log($user, 'a envoyé une photo à droits à vérifier', ['title' => $rel . ' (' . $found[0]['who'] . ')']);
+        }
+        return self::json(['ok' => true, 'file' => $rel, 'thumb' => img($rel, 320), 'replaced' => $replace !== '', 'warning' => $warning, 'credit' => $meta['credit'] ?? '']);
+    }
+
+    /**
+     * POST /admin/medias/droits : décision d'un membre de l'équipe sur une photo signalée (agence,
+     * banque d'images, journal) : on la garde, avec la raison ; ou « à revérifier ». Jamais automatique.
+     */
+    public static function rights(Request $req): Response
+    {
+        $d = $req->json() ?: $req->post;
+        $user = self::actor();
+        $rel = (string) ($d['file'] ?? '');
+        if (!Media::get($rel)) {
+            return self::json(['error' => 'Média introuvable.'], 404);
+        }
+        if (!empty($d['reset'])) {
+            Media::put($rel, [], $user, ['rights_ok']);
+            Activity::log($user, 'a remis à vérifier les droits de la photo', ['title' => $rel]);
+            return self::json(['ok' => true, 'message' => 'Photo remise dans les droits à vérifier.', 'item' => self::item($rel, Media::get($rel) ?? [], Media::usage())]);
+        }
+        $note = Html::line($d['note'] ?? '', 250);
+        if ($note === '') {
+            return self::json(['error' => 'Indiquez pourquoi le musée peut garder cette photo (autorisation, photo du club, collection privée…).', 'field' => 'note'], 422);
+        }
+        Media::put($rel, ['rights_ok' => ['by' => (string) $user['name'], 'at' => date('c'), 'note' => $note]], $user);
+        Activity::log($user, 'a vérifié les droits de la photo', ['title' => $rel . ' : ' . $note]);
+        \App\Data\Derived::markDirty();
+        return self::json(['ok' => true, 'message' => 'Droits vérifiés : la photo n’est plus signalée.', 'item' => self::item($rel, Media::get($rel) ?? [], Media::usage())]);
     }
 
     /** Légende, crédit, droits… d'un média, ou crédit / droits appliqués à une sélection. */

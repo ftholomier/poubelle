@@ -7,7 +7,7 @@ return [
         ['id' => 'tour', 'title' => 'Tour d’horizon', 'html' => <<<'HTML'
 <p>Contenus › <b>Médiathèque</b> : toutes les photos et tous les PDF du musée.</p>
 [[img:medias-grille.webp|La médiathèque : (1) envoyer des fichiers, (2) recherche, (3) filtres, (4) dossiers par mois, (5) sélection multiple]]
-<p><b>Filtres</b> utiles : sans crédit, sans légende, droits à préciser, doublons, basse définition, inutilisées, PDF, issues des contributions, récentes.</p>
+<p><b>Filtres</b> utiles : sans crédit, sans légende, droits à préciser, [[aide:medias#droits|droits à vérifier]] (agences, banques d’images, journaux), doublons, basse définition, inutilisées, PDF, issues des contributions, récentes.</p>
 <p><b>Basse définition</b> : photos de moins de 400 pixels de large et de haut (repérées « ⚠ Basse définition » avec leurs dimensions). Sur le site, elles sont montrées à leur taille réelle sur un fond flou, jamais agrandies ni pixellisées. Si vous trouvez une version plus grande (scan, journal, archives), utilisez <b>Remplacer le fichier…</b> : toutes les fiches qui l’utilisent l’afficheront en grand.</p>
 HTML],
         ['id' => 'envoyer', 'title' => 'Envoyer des photos', 'html' => <<<'HTML'
@@ -41,6 +41,17 @@ HTML],
 </ul>
 [[img:medias-retouche.webp|Le recadrage et la rotation, sans toucher à l’original]]
 [[attention|<p><b>Supprimer une photo</b> (tout le monde, historiens compris) : bouton rouge « Supprimer » en bas de la fenêtre de la photo. Une photo ne peut être supprimée <b>que si elle n’est plus utilisée nulle part</b> : tant qu’elle sert dans une fiche, une galerie ou l’accueil, le bouton est grisé et un encadré liste les contenus concernés. Retirez-la d’abord de chacun d’eux (ou mettez-y une autre photo) ; le bouton se débloque alors. Pour mettre une meilleure version partout, utilisez plutôt « Remplacer le fichier… ». La suppression est définitive et notée dans le Journal.</p>]]
+HTML],
+        ['id' => 'droits', 'title' => 'Droits des photos : agences, banques d’images, journaux', 'html' => <<<'HTML'
+<p>Des sociétés (Copytrack, Pixsy, PicRights pour l’AFP…) parcourent le web pour retrouver les photos d’agences et de banques d’images, et envoient des factures aux sites qui les publient sans licence. Elles comparent l’image elle-même : effacer ou modifier les informations d’une photo n’y change rien, et c’est interdit par la loi. Le musée fait donc l’inverse : il repère ces photos lui-même, pour que l’équipe décide.</p>
+<p><b>Ce qui est repéré</b> : un nom d’agence ou de banque d’images (AFP, Reuters, Icon Sport, Maxppp, Presse Sports, Panoramic, Getty Images, Adobe Stock, Shutterstock, iStock…) ou de journal (L’Équipe, L’Est Républicain, France Football, Le Pays…) dans le crédit, les droits, le nom du fichier, la légende (après « photo », « crédit », « © »…), ou dans les <b>informations cachées du fichier</b> (copyright, crédit, auteur, source, conditions d’utilisation). Ces informations sont lues par la tâche planifiée « Droits des photos » et à chaque envoi ; elles ne sont jamais modifiées.</p>
+<ul>
+<li><b>À l’envoi</b> : un encadré rouge prévient si la photo appartient sans doute à une agence ; depuis une fiche, le musée demande confirmation avant de l’utiliser. Le crédit et les droits sont préremplis avec les informations de la photo.</li>
+<li><b>Dans la médiathèque</b> : filtre « Droits à vérifier », mention « ⚠ Droits à vérifier : AFP » sur la vignette, et dans la fenêtre de la photo le détail de ce qui a été trouvé et où.</li>
+<li><b>Dans Qualité</b> : onglet « Droits des photos » (grave pour une agence ou une banque d’images utilisée sur le site, moyen pour un journal, faible pour une photo utilisée nulle part).</li>
+</ul>
+<p><b>Décider</b> : si le musée n’a pas le droit d’utiliser la photo, retirez-la des contenus puis supprimez-la. Sinon, écrivez pourquoi on la garde (autorisation écrite, licence achetée, collection du club, domaine public…) et cliquez <b>Droits vérifiés : on la garde</b> : la photo n’est plus signalée, la décision (qui, quand, pourquoi) reste visible et peut être annulée (« Remettre à vérifier »). Seul un membre de l’équipe décide, jamais le musée tout seul.</p>
+[[attention|<p>Une photo d’agence dont toutes les informations ont été effacées avant d’arriver chez nous (copiée d’un autre site) ne peut pas être repérée : en cas de doute sur l’origine d’une photo, demandez à qui l’a fournie.</p>]]
 HTML],
         ['id' => 'fiches', 'title' => 'Utiliser les photos dans les fiches', 'html' => <<<'HTML'
 <p>Onglet <b>Médias</b> d’une fiche : <b>Image à la une</b> (bouton de choix), <b>Galerie</b> (ajout depuis la médiathèque ou envoi direct), vidéos. La légende et le crédit saisis dans la galerie priment pour cette fiche ; vides, ceux de la médiathèque s’appliquent.</p>

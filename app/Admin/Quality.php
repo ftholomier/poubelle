@@ -99,6 +99,7 @@ final class Quality
         'site' => ['Adresses et médias', 'Adresses, rubriques, images, redirections'],
         'orthographe' => ['Orthographe & syntaxe', 'Corrections proposées par le correcteur'],
         'credits' => ['Photos sans crédit', 'Médiathèque'],
+        'droits' => ['Droits des photos', 'Agences, banques d’images, journaux : droits à vérifier'],
         'carto' => ['Lieux de naissance inconnus', 'Carto des origines'],
         'traductions' => ['Traductions à revoir', 'Version anglaise'],
     ];
@@ -174,6 +175,15 @@ final class Quality
             if (trim((string) ($m['credit'] ?? '')) === '' && preg_match('/\.(jpe?g|png|gif|webp)$/i', (string) $rel)) {
                 $add('credits', ['sev' => 'moyenne', 'code' => 'credit', 'msg' => 'Photo sans crédit', 'title' => (string) $rel, 'url' => '/admin/medias?f=' . rawurlencode((string) $rel)]);
             }
+        }
+        // Photos d'agences, de banques d'images ou de journaux (crédit, légende, nom du fichier,
+        // informations cachées du fichier) : à vérifier par l'équipe, qui garde ou retire la photo.
+        $usage = Media::usage();
+        foreach (\App\Services\PhotoRights::pending() as $rel => $f) {
+            $n = count(array_unique($usage[$rel] ?? []));
+            $add('droits', ['sev' => !$n ? 'basse' : ($f[0]['kind'] === 'presse' ? 'moyenne' : 'haute'), 'code' => 'droits', 'ref' => $rel,
+                'msg' => \App\Services\PhotoRights::summary($f) . ' · ' . ($n ? 'utilisée dans ' . $n . ' contenu' . ($n > 1 ? 's' : '') : 'utilisée nulle part : la supprimer suffit'),
+                'title' => basename($rel), 'url' => '/admin/medias?filtre=droits&q=' . rawurlencode(pathinfo($rel, PATHINFO_FILENAME)) . '&ouvrir=' . rawurlencode($rel)]);
         }
         foreach (Index::all() as $s) {
             if ($s['type'] === 'personne' && Index::visible($s) && empty($s['p']['birth_place']) && in_array('joueur', $s['p']['roles'] ?? [], true)) {

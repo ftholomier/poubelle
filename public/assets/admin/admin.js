@@ -752,6 +752,7 @@
         fd.append('file', f);
         BO.toast('Envoi de ' + f.name + '…');
         const r = await BO.post('/admin/medias/envoi', fd, false);
+        if (r.ok && r.warning && !(await BO.confirm('Droits de cette photo à vérifier', r.warning, 'L’utiliser quand même'))) { BO.toast('Photo gardée dans la médiathèque, non utilisée (signalée dans Qualité › Droits des photos).'); continue; }
         if (r.ok) { chosen.set(r.file, 1); if (!opts.multiple) return close([r.file]); } else BO.toast(r.error || 'Envoi impossible', true);
       }
       load(true);
